@@ -1,0 +1,3 @@
+[submodule "mindbody-api"]
+	path = mindbody-api
+	url = https://github.com/devincrossman/mindbody-php-api.git

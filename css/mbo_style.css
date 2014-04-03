@@ -1,0 +1,21 @@
+/*
+ * 
+ * 
+ * 
+
+#mz_mbo_schedule tbody tr:nth-child(even) td {
+    background: rgb(252, 242, 118) none repeat scroll 0% 0% / auto padding-box border-box;
+    }
+#mz_mbo_schedule tbody tr:nth-child(odd) td { 
+    background: rgb(219, 199, 172) none repeat scroll 0% 0% / auto padding-box border-box;   
+}
+
+#mz_mbo_schedule thead tr th {
+        background: rgb(255, 255, 255) none repeat scroll 0% 0% / auto padding-box border-box;   
+}
+
+.mz_mbo_schedule  {
+    margin-left:0px;
+    margin-right:0px;
+}
+*/
