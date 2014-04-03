@@ -3,9 +3,9 @@
 Plugin Name: mZoo Mindbody Schedule Display
 Description: Interface Wordpress with MindbodyOnline data
 Version: 1.0
-Author: Mike iLL
-Author URI: http://mZoo.org/
-Plugin URI: 
+Author: mZoo.org
+Author URI: http://www.mZoo.org/
+Plugin URI: http://www.mzoo.org/mz-mindbody-wp
 
 Based on code written by Devin Crossman.
 */	
@@ -97,6 +97,14 @@ function mz_mindbody_admin_init(){
 		'mz_mindbody',
 		'mz_mindbody_main'
 	);
+	
+		add_settings_section(
+		'mz_mindbody_secondary',
+		'MZ Mindbody Contact',
+		'mz_mindbody_section2_text',
+		'mz_mindbody'
+	);
+
 }
 
 
@@ -108,7 +116,10 @@ function mz_mindbody_section_text() {
 <?php
 }
 
-
+function mz_mindbody_section2_text() {
+?><p><?php _e('Contact')?>: <a href="http://www.mzoo.org"> www.mzoo.org</a></p>
+<?php
+}
 
 // Display and fill the form field
 function mz_mindbody_source_name() {

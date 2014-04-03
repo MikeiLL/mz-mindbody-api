@@ -68,7 +68,7 @@ $mb->sourceCredentials = array(
 		if(!empty($data['GetClassesResult']['Message'])) {
 			echo $data['GetClassesResult']['Message'];
 		} else {
-			echo "Error getting classes. Try re-loading the page.<br />";
+			echo "__(Error getting classes. Try re-loading the page.)<br />";
 			echo '<pre>'.print_r($data,1).'</pre>';
 		}
 	}//EOF If Result / Else

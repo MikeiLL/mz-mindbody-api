@@ -14,7 +14,7 @@ $mb->sourceCredentials = array(
 	if ($monthnumber != date('m')) 
 	{
 	$mz_months_previous = add_query_arg(array('mz_month' => ($monthnumber - 2)));
-	echo ' <a href='.$mz_months_previous.'>Previous</a>'; 
+	echo ' <a href='.$mz_months_previous.'>__(Previous)</a>'; 
 	}
 	//echo ' <a href='.$mz_schedule_page.'>Current Events</a> ';
 	$start_end_date = getNextSixty($monthnumber,date("Y"));
@@ -69,7 +69,7 @@ $mb->sourceCredentials = array(
 			echo "<h3>No events published beyond ".$start_end_date[0]."</h3>";
 		else {
 			$mz_months_future = add_query_arg(array('mz_month' => ($monthnumber + 2)));
-			echo '<hr><h3><a href='.$mz_months_future.'>Future Events</a></h3>';
+			echo '<hr><h3><a href='.$mz_months_future.'>__(Future Events)</a></h3>';
 			}	
 	?>
 	</table>
