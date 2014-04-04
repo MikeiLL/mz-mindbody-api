@@ -22,8 +22,7 @@ register_deactivation_hook(__FILE__, 'mZ_mindbody_schedule_deactivation');
 load_plugin_textdomain('mz-mindbody-scudule',false,'mz-mindbody-scudule/languages');
 
 function mZ_mindbody_schedule_activation() {
-	
-		//actions to perform once on plugin activation go here   
+	//Don't know if there's anything we need to do here.
 	}
 
 function mZ_mindbody_schedule_deactivation() {    
@@ -64,10 +63,18 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 	// Register and define the settings
 add_action('admin_init', 'mz_mindbody_admin_init');
 function mz_mindbody_admin_init(){
+		
 	register_setting(
 		'mz_mindbody_options',
 		'mz_mindbody_options',
 		'mz_mindbody_validate_options'
+	);
+	
+	add_settings_section(
+		'mz_mindbody_server',
+		'MZ Mindbody Server',
+		'mz_mindbody_server_check',
+		'mz_mindbody'
 	);
    
 	add_settings_section(
@@ -76,6 +83,7 @@ function mz_mindbody_admin_init(){
 		'mz_mindbody_section_text',
 		'mz_mindbody'
 	);
+	
 	add_settings_field(
 		'mz_mindbody_source_name',
 		'Source Name: ',
@@ -109,6 +117,28 @@ function mz_mindbody_admin_init(){
 
 
 // Draw the section header
+
+function mz_mindbody_server_check() {
+	$mz_requirements = 0;
+	if (extension_loaded('soap')) {
+	 _e( 'SOAP installed! ');
+	} else {
+	   _e('SOAP is not installed. ');
+	   $mz_requirements = 1;
+	}
+	require_once 'System.php';
+	if(class_exists('System')===true) {
+	   _e('PEAR installed! ');
+	} else {
+	   _e('PEAR is not installed. ');
+	   $mz_requirements = 1;
+	}
+	if ($mz_requirements == 1)
+	echo "<p>MZ Mindbody API requires SOAP and PEAR. Please contact your hosting provider or enable via your CPANEL of php.ini file.</p>";
+	else
+	_e('Congratulations. Your server appears to be configured to integrate with mindbodyonline.');
+}
+
 function mz_mindbody_section_text() {
 ?><p><?php _e('Enter your mindbody credentials below.') ?></p>
 <p><?php _e('If you do not have them yet, visit the') ?> <a href="https://api.mindbodyonline.com/Home/LogIn"><?php _e('MindBodyOnline developers website') ?></a> <?php _e('and register for developer credentials.')?></p>
