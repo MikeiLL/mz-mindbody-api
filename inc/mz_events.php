@@ -1,6 +1,6 @@
 <?php
  function mZ_mindbody_show_events (){
-$plugins_url = plugins_url('', __FILE__ );
+ require_once MZ_MINDBODY_SCHEDULE_DIR .'/mindbody-api/MB_API.php';
 $mb = new MB_API();
 $options = get_option( 'mz_mindbody_options','Error: Mindbody Credentials Not Set' );
 
@@ -14,7 +14,7 @@ $mb->sourceCredentials = array(
 	if ($monthnumber != date('m')) 
 	{
 	$mz_months_previous = add_query_arg(array('mz_month' => ($monthnumber - 2)));
-	echo ' <a href='.$mz_months_previous.'>__(Previous)</a>'; 
+	echo ' <a href='.$mz_months_previous.'>Previous</a>'; 
 	}
 	//echo ' <a href='.$mz_schedule_page.'>Current Events</a> ';
 	$start_end_date = getNextSixty($monthnumber,date("Y"));
@@ -57,9 +57,9 @@ $mb->sourceCredentials = array(
 			<p>with <?php echo $staffName ?></p>
 			<p><?php echo "$day_and_date" ?> 
 			<?php echo date('g:i a', strtotime($startDateTime))." - ".date('g:i a', strtotime($endDateTime));?></p>
-			<img src="<?php echo $image ?>" class="mz_mindbody_events">
+			<div class="mz_mindbody_events_img pull-left"><img src="<?php echo $image ?>"></div>
 			<p><?php echo $classDescription ?></p>
-			<a class='btn' href='<?php echo $eventLinkURL ?>'>Sign-Up</a>
+			<a class='btn pull-right' href='<?php echo $eventLinkURL ?>'>Sign-Up</a>
 
 </td></tr>
 <?php
@@ -69,7 +69,7 @@ $mb->sourceCredentials = array(
 			echo "<h3>No events published beyond ".$start_end_date[0]."</h3>";
 		else {
 			$mz_months_future = add_query_arg(array('mz_month' => ($monthnumber + 2)));
-			echo '<hr><h3><a href='.$mz_months_future.'>__(Future Events)</a></h3>';
+			echo '<hr><h3><a href='.$mz_months_future.'>Future Events</a></h3>';
 			}	
 	?>
 	</table>

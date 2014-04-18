@@ -1,6 +1,6 @@
 <?php
 function mZ_mindbody_show_schedule() {
-$plugins_url = plugins_url('', __FILE__ );
+require_once MZ_MINDBODY_SCHEDULE_DIR .'/mindbody-api/MB_API.php';
 $mb = new MB_API();
 $options = get_option( 'mz_mindbody_options','Error: Mindbody Credentials Not Set' );
 
@@ -44,7 +44,7 @@ $mb->sourceCredentials = array(
 			$sessionType = $class['ClassDescription']['SessionType']['Name'];
 			echo "<td>".date('g:i a', strtotime($startDateTime))." - ".date('g:i a', strtotime($endDateTime))."<a class='btn' href='{$linkURL}' target='_newbrowser'>Sign-Up</a></td><td>";?>
 <!-- Link trigger modal -->				
-<a data-toggle="modal" data-target="#myModal" href="<?php echo $plugins_url ?>/inc/modal_descriptions.php?classDescription=<?php echo urlencode(substr($classDescription, 0, 1000)) ?>"> <?php echo $className ?></a>
+<a data-toggle="modal" data-target="#myModal" href="<?php echo MZ_MINDBODY_SCHEDULE_URL ?>inc/modal_descriptions.php?classDescription=<?php echo urlencode(substr($classDescription, 0, 1000)) ?>"> <?php echo $className ?></a>
 
 <!-- Small modal -->
 

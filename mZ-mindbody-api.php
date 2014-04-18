@@ -1,19 +1,19 @@
 <?php
 /**
-Plugin Name: mZoo Mindbody Schedule Display
-Description: Interface Wordpress with MindbodyOnline data
+Plugin Name: mZoo Mindbody Interface - Schedule, Events, Staff Display
+Description: Interface Wordpress with MindbodyOnline data with Bootstrap Responsive Layout
 Version: 1.0
 Author: mZoo.org
 Author URI: http://www.mZoo.org/
 Plugin URI: http://www.mzoo.org/mz-mindbody-wp
 
-Based on code written by Devin Crossman.
+Based on API written by Devin Crossman.
 */	
 
 
 //define plugin path and directory
-define( 'MZ-MINDBODY-SCHEDULE_DIR', plugin_dir_path( __FILE__ ) );
-define( 'MZ-MINDBODY-SCHEDULE_URL', plugin_dir_url( __FILE__ ) );
+define( 'MZ_MINDBODY_SCHEDULE_DIR', plugin_dir_path( __FILE__ ) );
+define( 'MZ_MINDBODY_SCHEDULE_URL', plugin_dir_url( __FILE__ ) );
 
 //register activation and deactivation hooks
 register_activation_hook(__FILE__, 'mZ_mindbody_schedule_activation');
@@ -93,7 +93,7 @@ function mz_mindbody_admin_init(){
 	);
 		add_settings_field(
 		'mz_mindbody_password',
-		'Password: ',
+		'Key: ',
 		'mz_mindbody_password',
 		'mz_mindbody',
 		'mz_mindbody_main'
@@ -142,7 +142,7 @@ function mz_mindbody_server_check() {
 function mz_mindbody_section_text() {
 ?><p><?php _e('Enter your mindbody credentials below.') ?></p>
 <p><?php _e('If you do not have them yet, visit the') ?> <a href="https://api.mindbodyonline.com/Home/LogIn"><?php _e('MindBodyOnline developers website') ?></a> <?php _e('and register for developer credentials.')?></p>
-<p><?php _e('Add to page or post with shortcode')?>: [mz-mindbody-show-schedule], [mz-mindbody-show-events]</p>
+<p><?php _e('Add to page or post with shortcode')?>: [mz-mindbody-show-schedule], [mz-mindbody-show-events], [mz-mindbody-staff-list]</p>
 <?php
 }
 
@@ -206,17 +206,15 @@ function load_jquery() {
 function mZ_mindbody_schedule_init() {
 	wp_register_style('mZ_mindbody_schedule_bs', plugins_url('/bootstrap/css/bootstrap.min.css',__FILE__ ));
 	wp_enqueue_style('mZ_mindbody_schedule_bs');
-	wp_register_style( 'mZ_mindbody_schedule_self', plugins_url('/css/mbo_style.css',__FILE__ ));
-	wp_enqueue_style('mZ_mindbody_schedule_self');
 	}
 add_action( 'init','mZ_mindbody_schedule_init');
 
 
 add_action('init', 'enqueue_mz_mbo_scripts');
 function enqueue_mz_mbo_scripts() {
-	wp_register_script( 'mz_mbo_bootstrap_script', plugins_url('mz-mindbody-schedule/bootstrap/js/bootstrap.min.js'), array( 'jquery' ),'3.1.1', true );
+	wp_register_script( 'mz_mbo_bootstrap_script', plugins_url('mz-mindbody-api/bootstrap/js/bootstrap.min.js'), array( 'jquery' ),'3.1.1', true );
 	wp_enqueue_script( 'mz_mbo_bootstrap_script' );
-	wp_register_script( 'mz_mbo_modal_script', plugins_url('mz-mindbody-schedule/js/mz_mbo_modal.js'), array( 'jquery' ),'1', true );
+	wp_register_script( 'mz_mbo_modal_script', plugins_url('mz-mindbody-api/js/mz_mbo_modal.js'), array( 'jquery' ),'1', true );
 	wp_enqueue_script( 'mz_mbo_modal_script' );
 	}
 	
@@ -227,6 +225,7 @@ foreach ( glob( plugin_dir_path( __FILE__ )."inc/*.php" ) as $file )
     
 add_shortcode('mz-mindbody-show-schedule', 'mZ_mindbody_show_schedule' );
 add_shortcode('mz-mindbody-show-events', 'mZ_mindbody_show_events' );
+add_shortcode('mz-mindbody-staff-list', 'mZ_mindbody_staff_listing' );
 
 }//EOF Not Admin
 
