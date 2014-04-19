@@ -8,7 +8,7 @@ Author URI: http://www.mZoo.org/
 Plugin URI: http://www.mzoo.org/mz-mindbody-wp
 
 Based on API written by Devin Crossman.
-*/	
+*/
 
 
 //define plugin path and directory
@@ -25,18 +25,18 @@ function mZ_mindbody_schedule_activation() {
 	//Don't know if there's anything we need to do here.
 	}
 
-function mZ_mindbody_schedule_deactivation() {    
+function mZ_mindbody_schedule_deactivation() {
 
-		// actions to perform once on plugin deactivation go here	    
+		// actions to perform once on plugin deactivation go here
 	}
-   	
+
     //register uninstaller
     register_uninstall_hook(__FILE__, 'mZ_mindbody_schedule_uninstall');
 
 function mZ_mindbody_schedule_uninstall(){
-    
-		//actions to perform once on plugin uninstall go here	
-		delete_option('mz_mindbody_options');    
+
+		//actions to perform once on plugin uninstall go here
+		delete_option('mz_mindbody_options');
 	}
 
 if ( is_admin() ){ // admin actions
@@ -46,7 +46,7 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 		add_options_page ('MZ Mindbody Settings','MZ Mindbody',
 		'manage_options', __FILE__, 'mz_mindbody_settings_page');
 	}
-	
+
 	function mz_mindbody_settings_page() {
 		?>
 	<div class="wrap">
@@ -59,31 +59,31 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 	</div>
 	<?php
 	}
-	
+
 	// Register and define the settings
 add_action('admin_init', 'mz_mindbody_admin_init');
 function mz_mindbody_admin_init(){
-		
+
 	register_setting(
 		'mz_mindbody_options',
 		'mz_mindbody_options',
 		'mz_mindbody_validate_options'
 	);
-	
+
 	add_settings_section(
 		'mz_mindbody_server',
 		'MZ Mindbody Server',
 		'mz_mindbody_server_check',
 		'mz_mindbody'
 	);
-   
+
 	add_settings_section(
 		'mz_mindbody_main',
 		'MZ Mindbody Credentials',
 		'mz_mindbody_section_text',
 		'mz_mindbody'
 	);
-	
+
 	add_settings_field(
 		'mz_mindbody_source_name',
 		'Source Name: ',
@@ -105,7 +105,7 @@ function mz_mindbody_admin_init(){
 		'mz_mindbody',
 		'mz_mindbody_main'
 	);
-	
+
 		add_settings_section(
 		'mz_mindbody_secondary',
 		'MZ Mindbody Contact',
@@ -181,23 +181,23 @@ function mz_mindbody_siteID() {
 function mz_mindbody_validate_options( $input ) {
     foreach ($input as $key => $value)
     {
-	$valid[$key] = wp_strip_all_tags(preg_replace( '/[^a-zA-Z0-9_=!@#$%^&*-]/', '', $input[$key] ));
-	
+	$valid[$key] = wp_strip_all_tags(preg_replace( ' ', '', $input[$key] ));
+
 	if( $valid[$key] != $input[$key] ) {
 			add_settings_error(
 				'mz_mindbody_text_string',
 				'mz_mindbody_texterror',
 				'Does not appear to be valid ',
 				'error'
-			);			
+			);
 		 }
 	}
-	
+
 	return $valid;
 }
 
 } else {// non-admin enqueues, actions, and filters
-  
+
   add_action( 'wp_enqueue_script', 'load_jquery' );
 function load_jquery() {
 		wp_enqueue_script( 'jquery' );
@@ -217,12 +217,12 @@ function enqueue_mz_mbo_scripts() {
 	wp_register_script( 'mz_mbo_modal_script', plugins_url('mz-mindbody-api/js/mz_mbo_modal.js'), array( 'jquery' ),'1', true );
 	wp_enqueue_script( 'mz_mbo_modal_script' );
 	}
-	
+
 	include_once(dirname( __FILE__ ) . '/mindbody-api/MB_API.php');
-	
+
 foreach ( glob( plugin_dir_path( __FILE__ )."inc/*.php" ) as $file )
     include_once $file;
-    
+
 add_shortcode('mz-mindbody-show-schedule', 'mZ_mindbody_show_schedule' );
 add_shortcode('mz-mindbody-show-events', 'mZ_mindbody_show_events' );
 add_shortcode('mz-mindbody-staff-list', 'mZ_mindbody_staff_listing' );
@@ -279,12 +279,12 @@ function weeknumber ($y, $m, $d) {
     if ($firstdayofyear["wday"] != 1)    # if 1/1 is not a Monday, add 1
         $wn += 1;
     return ($wn);
-}    //EOF function weeknumber 
+}    //EOF function weeknumber
 	function mz_validate_weeknum( $string )
 		{
 			if (preg_match('/^[0-9][0-9]?$|^53$/',$string));
 			return $string;
-		}		
+		}
 	function mz_validate_year( $string )
 		{
 		 	if (preg_match('/^\d{4}$/',$string));
