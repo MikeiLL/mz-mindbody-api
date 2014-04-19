@@ -1,15 +1,14 @@
 <?php
 function mZ_mindbody_show_schedule() {
 $plugins_url = plugins_url('', __FILE__ );
-$mb = new MB_API();
+
 $options = get_option( 'mz_mindbody_options','Error: Mindbody Credentials Not Set' );
 
-$mb->sourceCredentials = array(
-		"SourceName"=>$options['mz_source_name'], 
-		"Password"=>$options['mz_mindbody_password'], 
-		"SiteIDs"=>array($options['mz_mindbody_siteID'])
-	);
-
+$mb = new MB_API(array(
+    "SourceName" => $options['mz_source_name'],
+    'Password' => $options['mz_mindbody_password'],
+    'SiteIDs' => array($options['mz_mindbody_siteID'])
+));
 
 	$mz_timeframe = mz_mbo_schedule_nav($_GET);
 	//Send the timeframe to the GetClasses class
@@ -27,7 +26,7 @@ $mb->sourceCredentials = array(
 		if (($class['IsCanceled'] == 'TRUE') && ($class['HideCancel'] == 'TRUE'))
 		{
 			continue; //skip this and move to next iteration
-		}  
+		}
 		?><tr><?php
 			$sDate = date('m/d/Y', strtotime($class['StartDateTime']));
 			$sLoc = $class['Location']['ID'];
@@ -43,7 +42,7 @@ $mb->sourceCredentials = array(
 			$staffName = $class['Staff']['Name'];
 			$sessionType = $class['ClassDescription']['SessionType']['Name'];
 			echo "<td>".date('g:i a', strtotime($startDateTime))." - ".date('g:i a', strtotime($endDateTime))."<a class='btn' href='{$linkURL}' target='_newbrowser'>Sign-Up</a></td><td>";?>
-<!-- Link trigger modal -->				
+<!-- Link trigger modal -->
 <a data-toggle="modal" data-target="#myModal" href="<?php echo $plugins_url ?>/inc/modal_descriptions.php?classDescription=<?php echo urlencode(substr($classDescription, 0, 1000)) ?>"> <?php echo $className ?></a>
 
 <!-- Small modal -->
@@ -57,8 +56,8 @@ $mb->sourceCredentials = array(
 			<?php
 					}
 				}
-				?>		
-	</table>    
+				?>
+	</table>
 	<?php mz_mbo_schedule_nav($_GET); ?>
 	</div>
 
@@ -77,8 +76,8 @@ $mb->sourceCredentials = array(
 
 function mz_mbo_schedule_nav($mz_get_variables)
 {
-	$mz_schedule_page = get_permalink();	
-	//sanitize input	
+	$mz_schedule_page = get_permalink();
+	//sanitize input
 	//set week number based on php date or passed parameter from $_GET
 	$mz_weeknumber = empty($mz_get_variables['mz_week']) ? date("W", strtotime(date('Y-m-d'))) : mz_validate_weeknum($mz_get_variables['mz_week']);
 	//Navigate through the weeks
@@ -91,14 +90,14 @@ function mz_mbo_schedule_nav($mz_get_variables)
 		{
 			$mz_num_weeks_back = add_query_arg(array('mz_week' => ($mz_weeknumber - 1)));
 			$mz_num_weeks_forward = add_query_arg(array('mz_week' => ($mz_weeknumber + 1)));
-			echo ' <a href='.$mz_num_weeks_back.'>'.$mz_nav_weeks_text_prev.'</a>'; 
+			echo ' <a href='.$mz_num_weeks_back.'>'.$mz_nav_weeks_text_prev.'</a>';
 			echo ' - <a href='.$mz_schedule_page.'>'.$mz_nav_weeks_text_current.'</a> - ';
 			echo '<a href='.$mz_num_weeks_forward.'>'.$mz_nav_weeks_text_following.'</a>';
 			$mz_start_end_date = getStartandEndDate($mz_weeknumber,$mz_current_year);
 		}
 	else
 		{   //BOF following year
-			$mz_next_year = isset($mz_get_variables['mz_next_yr']) ? mz_validate_year($mz_get_variables['mz_next_yr']) : "1";	
+			$mz_next_year = isset($mz_get_variables['mz_next_yr']) ? mz_validate_year($mz_get_variables['mz_next_yr']) : "1";
 			$mz_weeknumber = ($mz_weeknumber > 40) ? $mz_weeknumber - ($num_weeks_in_year - 1) : $mz_weeknumber;
 			$from_the_future_backwards = ($mz_weeknumber == 2) ? $num_weeks_in_year : ($mz_weeknumber - 1);
 			$mz_num_weeks_forward = add_query_arg(array('mz_week' => ($mz_weeknumber + 1), 'mz_next_yr' => ($mz_current_year + 1)));
@@ -107,16 +106,16 @@ function mz_mbo_schedule_nav($mz_get_variables)
 				$mz_num_weeks_back = add_query_arg(array('mz_week' => ($num_weeks_in_year - 1)));
 				echo ' <a href='.$mz_num_weeks_back.'>'.$mz_nav_weeks_text_prev.'</a>';
 			}
-			else 
+			else
 			{
 				$mz_num_weeks_back = add_query_arg(array('mz_week' => ($mz_weeknumber - 1), 'mz_next_yr' => ($mz_current_year + 1)));
 				echo ' <a href='.$mz_num_weeks_back.'>'.$mz_nav_weeks_text_prev.'</a>';
-			} 
+			}
 			echo ' - <a href='.$mz_schedule_page.'>'.$mz_nav_weeks_text_current.'</a> - ';
-			echo '<a href='.$mz_num_weeks_forward.'>'.$mz_nav_weeks_text_following.'</a> ';	
+			echo '<a href='.$mz_num_weeks_forward.'>'.$mz_nav_weeks_text_following.'</a> ';
 		$mz_start_end_date = getStartandEndDate($mz_weeknumber,($mz_current_year +1));
 		}//EOF Following Year
 		$mz_timeframe = array('StartDateTime'=>$mz_start_end_date[0], 'EndDateTime'=>$mz_start_end_date[1]);
 		return $mz_timeframe;
-}		
+}
 ?>
