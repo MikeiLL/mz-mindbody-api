@@ -2,13 +2,15 @@
  function mZ_mindbody_show_events (){
  require_once MZ_MINDBODY_SCHEDULE_DIR .'/mindbody-api/MB_API.php';
 $mb = new my_MB_API();
+$mb = new my_MB_API();
 $options = get_option( 'mz_mindbody_options','Error: Mindbody Credentials Not Set' );
-
-$mb->sourceCredentials = array(
+$sourceCredentials = array(
 		"SourceName"=>$options['mz_source_name'], 
 		"Password"=>$options['mz_mindbody_password'], 
 		"SiteIDs"=>array($options['mz_mindbody_siteID'])
 	);
+$mb->setCreds($sourceCredentials);
+
 		$monthnumber = empty($_GET['mz_month']) ? date("m", strtotime(date('Y-m-d'))) : $_GET['mz_month'];
 		$mz_schedule_page = get_permalink();
 	if ($monthnumber != date('m')) 

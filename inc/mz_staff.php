@@ -3,12 +3,12 @@ function mZ_mindbody_staff_listing() {
 require_once MZ_MINDBODY_SCHEDULE_DIR .'/mindbody-api/MB_API.php';
 $mb = new my_MB_API();
 $options = get_option( 'mz_mindbody_options','Error: Mindbody Credentials Not Set' );
-
-$mb->sourceCredentials = array(
+$sourceCredentials = array(
 		"SourceName"=>$options['mz_source_name'], 
 		"Password"=>$options['mz_mindbody_password'], 
 		"SiteIDs"=>array($options['mz_mindbody_siteID'])
 	);
+$mb->setCreds($sourceCredentials);
 $staff = $mb->GetStaff();
 $mz_staff_list = $staff['GetStaffResult']['StaffMembers']['Staff'];
 
