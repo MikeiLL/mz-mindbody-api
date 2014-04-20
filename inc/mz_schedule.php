@@ -1,15 +1,14 @@
 <?php
 function mZ_mindbody_show_schedule() {
 require_once MZ_MINDBODY_SCHEDULE_DIR .'/mindbody-api/MB_API.php';
-$mb = new MB_API();
+$mb = new my_MB_API();
 $options = get_option( 'mz_mindbody_options','Error: Mindbody Credentials Not Set' );
-
-$mb->sourceCredentials = array(
+$sourceCredentials = array(
 		"SourceName"=>$options['mz_source_name'], 
 		"Password"=>$options['mz_mindbody_password'], 
 		"SiteIDs"=>array($options['mz_mindbody_siteID'])
 	);
-
+$mb->setCreds($sourceCredentials);
 
 	$mz_timeframe = mz_mbo_schedule_nav($_GET);
 	//Send the timeframe to the GetClasses class

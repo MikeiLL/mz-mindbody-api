@@ -1,7 +1,7 @@
 <?php
  function mZ_mindbody_show_events (){
  require_once MZ_MINDBODY_SCHEDULE_DIR .'/mindbody-api/MB_API.php';
-$mb = new MB_API();
+$mb = new my_MB_API();
 $options = get_option( 'mz_mindbody_options','Error: Mindbody Credentials Not Set' );
 
 $mb->sourceCredentials = array(
