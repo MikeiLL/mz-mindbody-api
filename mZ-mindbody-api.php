@@ -19,7 +19,7 @@ define( 'MZ_MINDBODY_SCHEDULE_URL', plugin_dir_url( __FILE__ ) );
 register_activation_hook(__FILE__, 'mZ_mindbody_schedule_activation');
 register_deactivation_hook(__FILE__, 'mZ_mindbody_schedule_deactivation');
 
-load_plugin_textdomain('mz-mindbody-scudule',false,'mz-mindbody-scudule/languages');
+load_plugin_textdomain('mz-mindbody-api',false,'mz-mindbody-scudule/languages');
 
 function mZ_mindbody_schedule_activation() {
 	//Don't know if there's anything we need to do here.

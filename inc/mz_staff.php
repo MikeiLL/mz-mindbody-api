@@ -1,20 +1,9 @@
 <?php
 function mZ_mindbody_staff_listing() {
-require_once MZ_MINDBODY_SCHEDULE_DIR .'/mindbody-api/MB_API.php';
-$mb = new MB_API();
-$options = get_option( 'mz_mindbody_options','Error: Mindbody Credentials Not Set' );
+	require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
 
-$mb->sourceCredentials = array(
-"SourceName"=>$options['mz_source_name'],
-"Password"=>$options['mz_mindbody_password'],
-"SiteIDs"=>array($options['mz_mindbody_siteID'])
-);
 $staff = $mb->GetStaff();
 $mz_staff_list = $staff['GetStaffResult']['StaffMembers']['Staff'];
-
-//var_dump($mz_staff_list);
-
-//$mZ_plugin_url = plugin_dir_url(__FILE__);
 $mz_empty_tags_pattern = "/<[^\/>]*>(\s|xC2xA0|&nbsp;)*<\/[^>]*>/";
 
 foreach ($mz_staff_list as $staff_member) {
