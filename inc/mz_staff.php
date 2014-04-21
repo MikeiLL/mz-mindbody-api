@@ -4,8 +4,8 @@ require_once MZ_MINDBODY_SCHEDULE_DIR .'/mindbody-api/MB_API.php';
 $mb = new my_MB_API();
 $options = get_option( 'mz_mindbody_options','Error: Mindbody Credentials Not Set' );
 $sourceCredentials = array(
-		"SourceName"=>$options['mz_source_name'], 
-		"Password"=>$options['mz_mindbody_password'], 
+		"SourceName"=>$options['mz_source_name'],
+		"Password"=>$options['mz_mindbody_password'],
 		"SiteIDs"=>array($options['mz_mindbody_siteID'])
 	);
 $mb->setCreds($sourceCredentials);
@@ -33,7 +33,7 @@ $mz_staff_id = $staff_member['ID'];
     echo "<img src=\"".MZ_MINDBODY_SCHEDULE_URL."timthumb/timthumb.php?src=$mz_staff_image&h=200&a=t&w=220\" alt=\"\"></div>";
     echo "<div class='mz_mbo_staff_bio'>";
     echo "<p>$mz_staff_bio</p>";
-    echo "<p class='pull-right'><a href=\"http://clients.mindbodyonline.com/ws.asp?studioid=43474&stype=-7&sView=week&sTrn=$mz_staff_id\" class=\"btn btn-primary\">See Schedule</a></p>";
+    echo "<p class='pull-right'><a href=\"http://clients.mindbodyonline.com/ws.asp?studioid=" . $options['mz_mindbody_siteID'] . "&stype=-7&sView=week&sTrn=$mz_staff_id\" class=\"btn btn-primary\">See Schedule</a></p>";
     echo "</div><hr/>";
   }
 }
