@@ -142,7 +142,7 @@ function mz_mindbody_server_check() {
 function mz_mindbody_section_text() {
 ?><p><?php _e('Enter your mindbody credentials below.') ?></p>
 <p><?php _e('If you do not have them yet, visit the') ?> <a href="https://api.mindbodyonline.com/Home/LogIn"><?php _e('MindBodyOnline developers website') ?></a> <?php _e('and register for developer credentials.')?></p>
-<p><?php _e('Add to page or post with shortcode')?>: [mz-mindbody-show-schedule], [mz-mindbody-show-events], [mz-mindbody-staff-list]</p>
+<p><?php _e('Add to page or post with shortcode')?>: [mz-mindbody-show-schedule], [mz-mindbody-show-events], [mz-mindbody-staff-list], [mz-mindbody-login], [mz-mindbody-logout], [mz-mindbody-signup]</p>
 <?php
 }
 
@@ -226,6 +226,9 @@ foreach ( glob( plugin_dir_path( __FILE__ )."inc/*.php" ) as $file )
 add_shortcode('mz-mindbody-show-schedule', 'mZ_mindbody_show_schedule' );
 add_shortcode('mz-mindbody-show-events', 'mZ_mindbody_show_events' );
 add_shortcode('mz-mindbody-staff-list', 'mZ_mindbody_staff_listing' );
+add_shortcode('mz-mindbody-login', 'mZ_mindbody_login' );
+add_shortcode('mz-mindbody-logout', 'mZ_mindbody_logout' );
+add_shortcode('mz-mindbody-signup', 'mZ_mindbody_signup' );
 
 }//EOF Not Admin
 
