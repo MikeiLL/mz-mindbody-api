@@ -12,7 +12,9 @@ function mZ_mindbody_show_events (){
 	}
 	//echo ' <a href='.$mz_schedule_page.'>Current Events</a> ';
 	$start_end_date = getNextSixty($monthnumber,date("Y"));
-	$timeframe = array('StartDateTime'=>$start_end_date[0], 'EndDateTime'=>$start_end_date[1]);
+	$mz_time_now = current_time( 'Y-m-d', $gmt = 0 );
+	$timeframe = array('StartDateTime'=>$mz_time_now, 'EndDateTime'=>$start_end_date[1]);
+	//$timeframe = array('StartDateTime'=>$start_end_date[0], 'EndDateTime'=>$start_end_date[1]);
 	$data = $mb->GetClasses($timeframe);
 	if(!empty($data['GetClassesResult']['Classes']['Class'])) {
 	$classes = $mb->makeNumericArray($data['GetClassesResult']['Classes']['Class']);
