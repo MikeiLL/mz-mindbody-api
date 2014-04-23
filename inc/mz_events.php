@@ -5,16 +5,19 @@ function mZ_mindbody_show_events (){
 
 	$monthnumber = empty($_GET['mz_month']) ? date("m", strtotime(date('Y-m-d'))) : $_GET['mz_month'];
 	$mz_schedule_page = get_permalink();
+	$start_end_date = getNextSixty($monthnumber,date("Y"));
 	if ($monthnumber != date('m'))
 	{
 	$mz_months_previous = add_query_arg(array('mz_month' => ($monthnumber - 2)));
 	echo ' <a href='.$mz_months_previous.'>Previous</a>';
+	$timeframe = array('StartDateTime'=>$start_end_date[0], 'EndDateTime'=>$start_end_date[1]);
 	}
-	//echo ' <a href='.$mz_schedule_page.'>Current Events</a> ';
-	$start_end_date = getNextSixty($monthnumber,date("Y"));
+	else
+	{
 	$mz_time_now = current_time( 'Y-m-d', $gmt = 0 );
 	$timeframe = array('StartDateTime'=>$mz_time_now, 'EndDateTime'=>$start_end_date[1]);
-	//$timeframe = array('StartDateTime'=>$start_end_date[0], 'EndDateTime'=>$start_end_date[1]);
+	}
+	//echo ' <a href='.$mz_schedule_page.'>Current Events</a> ';
 	$data = $mb->GetClasses($timeframe);
 	if(!empty($data['GetClassesResult']['Classes']['Class'])) {
 	$classes = $mb->makeNumericArray($data['GetClassesResult']['Classes']['Class']);
