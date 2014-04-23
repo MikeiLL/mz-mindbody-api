@@ -112,6 +112,13 @@ function mz_mindbody_admin_init(){
 		'mz_mindbody_section2_text',
 		'mz_mindbody'
 	);
+	
+		add_settings_section(
+		'mz_mindbody_secondary',
+		'Debug',
+		'mz_mindbody_debug_text',
+		'mz_mindbody'
+	);
 
 }
 
@@ -151,6 +158,12 @@ function mz_mindbody_section2_text() {
 <?php
 }
 
+//require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
+add_action( 'admin_init', 'mz_mindbody_debug_text' );
+function mz_mindbody_debug_text() {
+//$mb->debug();
+}
+
 // Display and fill the form field
 function mz_mindbody_source_name() {
 	// get option 'mz_source_name' value from the database
@@ -181,8 +194,7 @@ function mz_mindbody_siteID() {
 function mz_mindbody_validate_options( $input ) {
     foreach ($input as $key => $value)
     {
-	$valid[$key] = wp_strip_all_tags(preg_replace( ' ', '', $input[$key] ));
-
+	$valid[$key] = wp_strip_all_tags(preg_replace( '/[^a-zA-Z0-9_=!@#$%^&*-]/', '', $input[$key] ));
 	if( $valid[$key] != $input[$key] ) {
 			add_settings_error(
 				'mz_mindbody_text_string',
