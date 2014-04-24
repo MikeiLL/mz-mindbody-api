@@ -7,7 +7,7 @@ function mZ_mindbody_show_schedule() {
 	//Send the timeframe to the GetClasses class
 	$data = $mb->GetClasses($mz_timeframe);
 	echo "<br/>";
-	$mb->debug();
+	//$mb->debug();
 	if(!empty($data['GetClassesResult']['Classes']['Class'])) {
 	$mz_days = $mb->makeNumericArray($data['GetClassesResult']['Classes']['Class']);
 	$mz_days = sortClassesByDate($mz_days);

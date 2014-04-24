@@ -194,7 +194,7 @@ function mz_mindbody_siteID() {
 function mz_mindbody_validate_options( $input ) {
     foreach ($input as $key => $value)
     {
-	$valid[$key] = wp_strip_all_tags(preg_replace( '/[^a-zA-Z0-9_=!@#$%^&*-]/', '', $input[$key] ));
+	$valid[$key] = wp_strip_all_tags(preg_replace( '/\s/', '', $input[$key] ));
 	if( $valid[$key] != $input[$key] ) {
 			add_settings_error(
 				'mz_mindbody_text_string',
