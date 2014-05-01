@@ -112,7 +112,7 @@ function mz_mindbody_admin_init(){
 		'mz_mindbody_section2_text',
 		'mz_mindbody'
 	);
-	
+
 		add_settings_section(
 		'mz_mindbody_secondary',
 		'Debug',
@@ -211,41 +211,38 @@ function mz_mindbody_validate_options( $input ) {
 } else {// non-admin enqueues, actions, and filters
 
   add_action( 'wp_enqueue_script', 'load_jquery' );
-function load_jquery() {
-		wp_enqueue_script( 'jquery' );
-	}
+	function load_jquery() {
+			wp_enqueue_script( 'jquery' );
+		}
 
-function mZ_mindbody_schedule_init() {
-	wp_register_style('mZ_mindbody_schedule_bs', plugins_url('/bootstrap/css/bootstrap.min.css',__FILE__ ));
-	wp_enqueue_style('mZ_mindbody_schedule_bs');
-	}
-add_action( 'init','mZ_mindbody_schedule_init');
+	function mZ_mindbody_schedule_init() {
+		wp_register_style('mZ_mindbody_schedule_bs', plugins_url('/bootstrap/css/bootstrap.min.css',__FILE__ ));
+		wp_enqueue_style('mZ_mindbody_schedule_bs');
+		}
+	add_action( 'init','mZ_mindbody_schedule_init');
 
 
-add_action('init', 'enqueue_mz_mbo_scripts');
-function enqueue_mz_mbo_scripts() {
-	wp_register_script( 'mz_mbo_bootstrap_script', plugins_url('mz-mindbody-api/bootstrap/js/bootstrap.min.js'), array( 'jquery' ),'3.1.1', true );
-	wp_enqueue_script( 'mz_mbo_bootstrap_script' );
-	wp_register_script( 'mz_mbo_modal_script', plugins_url('mz-mindbody-api/js/mz_mbo_modal.js'), array( 'jquery' ),'1', true );
-	wp_enqueue_script( 'mz_mbo_modal_script' );
-	}
+	add_action('init', 'enqueue_mz_mbo_scripts');
+	function enqueue_mz_mbo_scripts() {
+		wp_register_script( 'mz_mbo_bootstrap_script', plugins_url('/bootstrap/js/bootstrap.min.js', __FILE__), array( 'jquery' ),'3.1.1', true );
+		wp_enqueue_script( 'mz_mbo_bootstrap_script' );
+		wp_register_script( 'mz_mbo_modal_script', plugins_url('/js/mz_mbo_modal.js', __FILE__), array( 'jquery' ),'1', true );
+		wp_enqueue_script( 'mz_mbo_modal_script' );
+		}
 
 	include_once(dirname( __FILE__ ) . '/mindbody-api/MB_API.php');
 
-foreach ( glob( plugin_dir_path( __FILE__ )."inc/*.php" ) as $file )
-    include_once $file;
+	foreach ( glob( plugin_dir_path( __FILE__ )."inc/*.php" ) as $file )
+	    include_once $file;
 
-add_shortcode('mz-mindbody-show-schedule', 'mZ_mindbody_show_schedule' );
-add_shortcode('mz-mindbody-show-events', 'mZ_mindbody_show_events' );
-add_shortcode('mz-mindbody-staff-list', 'mZ_mindbody_staff_listing' );
-add_shortcode('mz-mindbody-login', 'mZ_mindbody_login' );
-add_shortcode('mz-mindbody-logout', 'mZ_mindbody_logout' );
-add_shortcode('mz-mindbody-signup', 'mZ_mindbody_signup' );
+	add_shortcode('mz-mindbody-show-schedule', 'mZ_mindbody_show_schedule' );
+	add_shortcode('mz-mindbody-show-events', 'mZ_mindbody_show_events' );
+	add_shortcode('mz-mindbody-staff-list', 'mZ_mindbody_staff_listing' );
+	add_shortcode('mz-mindbody-login', 'mZ_mindbody_login' );
+	add_shortcode('mz-mindbody-logout', 'mZ_mindbody_logout' );
+	add_shortcode('mz-mindbody-signup', 'mZ_mindbody_signup' );
 
-}//EOF Not Admin
-
-
-
+	}//EOF Not Admin
 
 function sortClassesByDate($mz_classes = array()) {
 	$mz_classesByDate = array();
