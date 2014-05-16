@@ -18,9 +18,11 @@ function mZ_mindbody_show_schedule( $atts )
 	}
 
 	$options = get_option( 'mz_mindbody_options','Option Not Set' );
-	$mz_schedule_cache = isset($options['mz_mindbody_clear_cache']) ? "on" : "off";
-
-	if ( $mz_schedule_cache == "on" ){
+	$mz_cache_reset = isset($options['mz_mindbody_clear_cache']) ? "on" : "off";
+	
+	$mz_schedule_cache = "mz_schedule_cache";
+	
+	if ( $mz_cache_reset == "on" ){
 	delete_transient( $mz_schedule_cache );
 	}
 if ( false === ( $data = get_transient( $mz_schedule_cache ) ) ) {
@@ -29,7 +31,7 @@ if ( false === ( $data = get_transient( $mz_schedule_cache ) ) ) {
 	$data = $mb->GetClasses($mz_timeframe);
 	}
 	$return = '';
-	
+
 	//Cache the mindbody call for 24 hours
 	set_transient($mz_schedule_cache, $data, 60 * 60 * 24);
 	

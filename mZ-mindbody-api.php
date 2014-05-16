@@ -112,9 +112,6 @@ function mz_mindbody_admin_init(){
 		'mz_mindbody_section2_text',
 		'mz_mindbody'
 	);
-<<<<<<< HEAD
-
-=======
 	
 			add_settings_field(
 		'mz_mindbody_clear_cache',
@@ -124,7 +121,6 @@ function mz_mindbody_admin_init(){
 		'mz_mindbody_main'
 	);
 	
->>>>>>> master
 		add_settings_section(
 		'mz_mindbody_secondary',
 		'Debug',
