@@ -113,12 +113,21 @@ function mz_mindbody_admin_init(){
 		'mz_mindbody'
 	);
 	
+			add_settings_field(
+		'mz_mindbody_clear_cache',
+		'Force Cache Reset ',
+		'mz_mindbody_clear_cache',
+		'mz_mindbody',
+		'mz_mindbody_main'
+	);
+	
 		add_settings_section(
 		'mz_mindbody_secondary',
 		'Debug',
 		'mz_mindbody_debug_text',
 		'mz_mindbody'
 	);
+	
 
 }
 
@@ -188,6 +197,16 @@ function mz_mindbody_siteID() {
 	$mz_mindbody_siteID = (isset($options['mz_mindbody_siteID'])) ? $options['mz_mindbody_siteID'] : _e('YOUR SITE ID');
 	// echo the field
 	echo "<input id='mz_mindbody_siteID' name='mz_mindbody_options[mz_mindbody_siteID]' type='text' value='$mz_mindbody_siteID' />";
+}
+
+// Display and fill the form field
+function mz_mindbody_clear_cache() {
+	$options = get_option( 'mz_mindbody_options','Option Not Set' );
+	printf(
+    '<input id="%1$s" name="mz_mindbody_options[%1$s]" type="checkbox" %2$s />',
+    'mz_mindbody_clear_cache',
+    checked( isset($options['mz_mindbody_clear_cache']) , true, false )
+	);
 }
 
 // Validate user input (we want text only)
