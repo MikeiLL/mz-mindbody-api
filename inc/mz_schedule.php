@@ -3,6 +3,7 @@ function mZ_mindbody_show_schedule( $atts )
 {
 	require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
 
+
 	// optionally pass in a type parameter. Defaults to week.
 	extract( shortcode_atts( array(
 		'type' => 'week'
