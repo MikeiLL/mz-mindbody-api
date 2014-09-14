@@ -10,22 +10,42 @@ function mZ_mindbody_show_events (){
 	{
 	$mz_months_previous = add_query_arg(array('mz_month' => ($monthnumber - 2)));
 	echo ' <a href='.$mz_months_previous.'>Previous</a>';
-	$timeframe = array('StartDateTime'=>$start_end_date[0], 'EndDateTime'=>$start_end_date[1]);
+	$mz_timeframe = array('StartDateTime'=>$start_end_date[0], 'EndDateTime'=>$start_end_date[1]);
 	}
 	else
 	{
 	$mz_time_now = current_time( 'Y-m-d', $gmt = 0 );
-	$timeframe = array('StartDateTime'=>$mz_time_now, 'EndDateTime'=>$start_end_date[1]);
+	$mz_timeframe = array('StartDateTime'=>$mz_time_now, 'EndDateTime'=>$start_end_date[1]);
 	}
-	//echo ' <a href='.$mz_schedule_page.'>Current Events</a> ';
-	$data = $mb->GetClasses($timeframe);
+	$options = get_option( 'mz_mindbody_options','Option Not Set' );
+	$mz_cache_reset = isset($options['mz_mindbody_clear_cache']) ? "on" : "off";
+	
+	$mz_events_cache = "mz_events_cache";
+	
+	if ( $mz_cache_reset == "on" ){
+	delete_transient( $mz_events_cache );
+	}
+	
+
+if ( false === ( $data = get_transient( $mz_events_cache ) ) ) {
+	//Send the timeframe to the GetClasses class, unless already cached
+	$data = $mb->GetClasses($mz_timeframe);
+	}
+	$return = '';
+	pr(get_option( 'date_format' ));
+	//Cache the mindbody call for 24 hours
+	//set_transient($mz_events_cache, $data, 60 * 60 * 24);
+	
 	if(!empty($data['GetClassesResult']['Classes']['Class'])) {
+	
 	$classes = $mb->makeNumericArray($data['GetClassesResult']['Classes']['Class']);
 	$classes = sortClassesByDate($classes);?>
-<div id="mz_mindbody_events" class="mz_mindbody_events"><table class="table mz_mindbody_events"><?php
+	<div id="mz_mindbody_events" class="mz_mindbody_events">
+	<table class="table mz_mindbody_events"><tr><?php
 	$number_of_events = 0;
 	foreach($classes as $classDate => $classes) {
 
+			
 		foreach($classes as $class) {
 		//if (($class['IsCanceled'] == 'TRUE') && ($class['HideCancel'] == 'TRUE'))
 		//{
@@ -35,7 +55,7 @@ function mZ_mindbody_show_events (){
 		}
 
 		?><tr><?php
-			$number_of_events++;
+		    $number_of_events++;
 			$sDate = date('m/d/Y', strtotime($class['StartDateTime']));
 			$sLoc = $class['Location']['ID'];
 			$studioid = $class['Location']['SiteID'];
@@ -52,38 +72,43 @@ function mZ_mindbody_show_events (){
 			$ItemType = $class['ClassDescription']['Program']['Name'];
 			$enrolmentType = $class['ClassDescription']['Program']['ScheduleType'];
 			$day_and_date =  date("D F d", strtotime($classDate));
-			?><h3><?php echo $className ?></h3>
-			<p>with <?php echo $staffName ?></p>
-			<p><?php echo "$day_and_date" ?>
-			<?php echo date('g:i a', strtotime($startDateTime))." - ".date('g:i a', strtotime($endDateTime));?></p>
-			<div class="mz_mindbody_events_img pull-left"><img src="<?php echo $image ?>"></div>
-			<p><?php echo $classDescription ?></p>
-			<a class='btn pull-right' href='<?php echo $eventLinkURL ?>'>Sign-Up</a>
-
-</td></tr>
-<?php
+			$return .= "<h3>$className</h3>";
+			$return .= "<p>with $staffName</p>";
+			$return .= "<p>$day_and_date";
+			$return .= " ".date('g:i a', strtotime($startDateTime))." - ".date('g:i a', strtotime($endDateTime))."</p>";
+			$return .= "<div class='mz_mindbody_events_img pull-left'><img src='$image'></div>";
+			$return .= "<p>$classDescription</p>";
+			$return .= "<a class='btn pull-right' href='$eventLinkURL'>Sign-Up</a>";
+			$return .= "</td>";
 		}
 	}
 		if ($number_of_events < 1)
-			echo "<h3>No events published beyond ".$start_end_date[0]."</h3>";
+			$return .= "<h3>No events published beyond ".$start_end_date[0]."</h3>";
 		else {
 			$mz_months_future = add_query_arg(array('mz_month' => ($monthnumber + 2)));
-			echo '<hr><h3><a href='.$mz_months_future.'>Future Events</a></h3>';
+			$return .= "<hr><h3><a href='.$mz_months_future.'>Future Events</a></h3>";
 			}
+		$return .= "</tr></table></div>";
 	?>
-	</table>
-	</div>
+	
+
 
 
 	<?php
+		
+	
 } else {
 			if(!empty($data['GetClassesResult']['Message'])) {
 				echo $data['GetClassesResult']['Message'];
+				$return .= "</tr></table></div>";
 			} else {
 				echo "Error getting classes<br />";
 				echo '<pre>'.print_r($data,1).'</pre>';
+				$return .= "</tr></table></div>";
 			}
 		}//EOF If Results/Else
+		
+		return $return;
 	}//EOF mZ_mindbody_show_events
 
 
@@ -97,4 +122,5 @@ function mZ_mindbody_show_events (){
 		  $return[1] = date('Y-m-d', strtotime($date_string . '+2 month'));
 		  return $return;
 		}
+		
 ?>
