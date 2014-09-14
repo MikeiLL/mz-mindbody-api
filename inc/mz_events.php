@@ -3,8 +3,14 @@ function mZ_mindbody_show_events ()
 {
  	require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
     
- 	// grab session type IDs for events
- 	$sessions = array($options['mz_mindbody_eventID']);
+ 	if ($options['mz_mindbody_eventID'] != '') {
+ 	 	// grab session type IDs for events
+ 	    $sessions = array($options['mz_mindbody_eventID']);
+ 	    }
+ 	    else
+ 	    {
+ 	    return "<h2>Error: MBO Event Type IDs must be set in Admin Panel</h2>";
+ 	    }
 
 	$monthnumber = empty($_GET['mz_month']) ? date_i18n("m", strtotime(date_i18n('Y-m-d'))) : $_GET['mz_month'];
 	$start_end_date = getNextSixty($monthnumber,date_i18n("Y"));
