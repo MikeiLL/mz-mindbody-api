@@ -85,7 +85,7 @@ function mZ_mindbody_show_schedule( $atts )
 					$return .= '</td><td>';
 
 					// trigger link modal
-					$return .= '<a data-toggle="modal" data-target="#mzModal" href="' . MZ_MINDBODY_SCHEDULE_URL . 'inc/modal_descriptions.php?classDescription=' . urlencode(substr($classDescription, 0, 1000)) . '">' . $className . '</a>';
+					$return .= '<a data-toggle="modal" data-target="#mzModal" href="' . MZ_MINDBODY_SCHEDULE_URL . 'inc/modal_descriptions.php?classDescription=' . urlencode(substr($classDescription, 0, 1000)) . '&className='. urlencode(substr($className, 0, 1000)) .'">' . $className . '</a>';
 
 					$return .= '</td><td>';
 					$return .= $staffName;
@@ -108,11 +108,9 @@ function mZ_mindbody_show_schedule( $atts )
 		// this still doesn't work because content is only loaded on
 		// the first click.  Not sure how to force content reload each click
 		$return .= '<div id="mzModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mzModalLabel" aria-hidden="true">
-			<div class="modal-dialog modal-sm">
-        <div class="modal-content">
+                 <div class="modal-content">
 
 				</div>
-			</div>
 		</div>';
 
 		$return .= '</div>';

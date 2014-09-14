@@ -10,6 +10,10 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 MZ Mindbody API uses the Devin Crossman API to interface with MindBodyOnline and display Staff, Schedule and Workshops.
 
+.modal-sm {
+    background-color: #fff;
+}
+
 == Description ==
 
 This is the long description.  No limit, and you can use Markdown (as well as in the following sections).
