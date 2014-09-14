@@ -1,5 +1,5 @@
 <?php
-if (isset($_GET["classDescription"])) 
+if (isset($_GET["classDescription"]))
 	{
 		$modal_description = $_GET["classDescription"];
 		?>
@@ -8,8 +8,8 @@ if (isset($_GET["classDescription"]))
     		  <div class='modal-dialog modal-sm'>
 				<?php echo stripslashes($modal_description)?>
   				</div>
-    <button type="button" class="btn btn-xs" data-dismiss="modal">Close</button>  
-	</div>  
-		<?php	
+    <button type="button" class="btn btn-xs" data-dismiss="modal">Close</button>
+	</div>
+		<?php
 	}
 ?>

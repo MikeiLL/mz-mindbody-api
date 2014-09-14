@@ -8,33 +8,37 @@ function mZ_mindbody_show_schedule( $atts )
 		'type' => 'week'
 			), $atts ) );
 
+
 	if ($type=='day')
 	{
-		$mz_timeframe = array('StartDateTime'=>date('Y-m-d'), 'EndDateTime'=>date('Y-m-d'), 'SchedNav'=>'');
+		$mz_timeframe = array('StartDateTime'=>date_i18n('Y-m-d'), 'EndDateTime'=>date_i18n('Y-m-d'), 'SchedNav'=>'');
+		$mz_schedule_cache = "mz_schedule_day_cache";
 	}
 	else
 	{
 		$mz_timeframe = mz_mbo_schedule_nav($_GET);
+		$mz_schedule_cache = "mz_schedule_week_cache";
 	}
 
-	$options = get_option( 'mz_mindbody_options','Option Not Set' );
+  // START caching
 	$mz_cache_reset = isset($options['mz_mindbody_clear_cache']) ? "on" : "off";
-	
-	$mz_schedule_cache = "mz_schedule_cache";
-	
-	if ( $mz_cache_reset == "on" ){
-	delete_transient( $mz_schedule_cache );
-	}
-if ( false === ( $data = get_transient( $mz_schedule_cache ) ) ) {
 
+	if ( $mz_cache_reset == "on" ){
+		delete_transient( $mz_schedule_cache );
+	}
+
+	if ( false === ( $data = get_transient( $mz_schedule_cache ) ) ) {
 	//Send the timeframe to the GetClasses class, unless already cached
 	$data = $mb->GetClasses($mz_timeframe);
 	}
-	$return = '';
 
 	//Cache the mindbody call for 24 hours
+	// TODO make cache timeout configurable.
 	set_transient($mz_schedule_cache, $data, 60 * 60 * 24);
-	
+	// END caching
+
+	$return = '';
+
 	if(!empty($data['GetClassesResult']['Classes']['Class']))
 	{
 		//$return .= $mb->debug();
@@ -50,14 +54,14 @@ if ( false === ( $data = get_transient( $mz_schedule_cache ) ) ) {
 		foreach($mz_days as $classDate => $mz_classes)
 		{
 			$return .= '<tr><th>';
-			$return .= date($mz_date_display, strtotime($classDate));
-			$return .= '</th><th>Class Name</th><th>Instructor</th><th>Class Type</th></tr>';
+			$return .= date_i18n($mz_date_display, strtotime($classDate));
+			$return .= '</th><th>' . __('Class Name') . '</th><th>' . __('Instructor') . '</th><th>' . __('Class Type') . '</th></tr>';
 
 			foreach($mz_classes as $class)
 			{
 				if (!(($class['IsCanceled'] == 'TRUE') && ($class['HideCancel'] == 'TRUE')))
 				{
-					$sDate = date('m/d/Y', strtotime($class['StartDateTime']));
+					$sDate = date_i18n('m/d/Y', strtotime($class['StartDateTime']));
 					$sLoc = $class['Location']['ID'];
 					$sTG = $class['ClassDescription']['Program']['ID'];
 					$studioid = $class['Location']['SiteID'];
@@ -66,22 +70,22 @@ if ( false === ( $data = get_transient( $mz_schedule_cache ) ) ) {
 					$sType = -7;
 					$linkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&sLoc={$sLoc}&sTG={$sTG}&sType={$sType}&sclassid={$sclassid}&studioid={$studioid}";
 					$className = $class['ClassDescription']['Name'];
-					$startDateTime = date('Y-m-d H:i:s', strtotime($class['StartDateTime']));
-					$endDateTime = date('Y-m-d H:i:s', strtotime($class['EndDateTime']));
+					$startDateTime = date_i18n('Y-m-d H:i:s', strtotime($class['StartDateTime']));
+					$endDateTime = date_i18n('Y-m-d H:i:s', strtotime($class['EndDateTime']));
 					$staffName = $class['Staff']['Name'];
 					$sessionType = $class['ClassDescription']['SessionType']['Name'];
 					$isAvailable = $class['IsAvailable'];
 
 					// start building table rows
 					$return .= '<tr><td>';
-					$return .= date('g:i a', strtotime($startDateTime)) . ' - ' . date('g:i a', strtotime($endDateTime));
+					$return .= date_i18n('g:i a', strtotime($startDateTime)) . ' - ' . date_i18n('g:i a', strtotime($endDateTime));
 					// only show the schedule button if enabled in MBO
-					$return .= $isAvailable ? '<br><a class="btn" href="' . $linkURL . '" target="_newbrowser">Sign-Up</a>' : '';
+					$return .= $isAvailable ? '<br><a class="btn" href="' . $linkURL . '" target="_newbrowser">' . __('Sign-Up') . '</a>' : '';
 
 					$return .= '</td><td>';
 
 					// trigger link modal
-					$return .= '<a data-toggle="modal" data-target="#mySmallModal" href="' . MZ_MINDBODY_SCHEDULE_URL . 'inc/modal_descriptions.php?classDescription=' . urlencode(substr($classDescription, 0, 1000)) . '">' . $className . '</a>';
+					$return .= '<a data-toggle="modal" data-target="#mzModal" href="' . MZ_MINDBODY_SCHEDULE_URL . 'inc/modal_descriptions.php?classDescription=' . urlencode(substr($classDescription, 0, 1000)) . '">' . $className . '</a>';
 
 					$return .= '</td><td>';
 					$return .= $staffName;
@@ -103,11 +107,12 @@ if ( false === ( $data = get_transient( $mz_schedule_cache ) ) ) {
 		// modal-content needs to live here for dynamic loading to work
 		// this still doesn't work because content is only loaded on
 		// the first click.  Not sure how to force content reload each click
-		$return .= '<div id="mySmallModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+		$return .= '<div id="mzModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mzModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-sm">
         <div class="modal-content">
 
 				</div>
+			</div>
 		</div>';
 
 		$return .= '</div>';
@@ -121,7 +126,7 @@ if ( false === ( $data = get_transient( $mz_schedule_cache ) ) ) {
 		}
 		else
 		{
-			$return = "__(Error getting classes. Try re-loading the page.)<br />";
+			$return = __('Error getting classes. Try re-loading the page.') . '<br />';
 			$return .= '<pre>'.print_r($data,1).'</pre>';
 		}
 	}//EOF If Result / Else
@@ -136,12 +141,12 @@ function mz_mbo_schedule_nav($mz_get_variables)
 	$mz_schedule_page = get_permalink();
 	//sanitize input
 	//set week number based on php date or passed parameter from $_GET
-	$mz_weeknumber = empty($mz_get_variables['mz_week']) ? date("W", strtotime(date('Y-m-d'))) : mz_validate_weeknum($mz_get_variables['mz_week']);
+	$mz_weeknumber = empty($mz_get_variables['mz_week']) ? date_i18n("W", strtotime(date_i18n('Y-m-d'))) : mz_validate_weeknum($mz_get_variables['mz_week']);
 	//Navigate through the weeks
 	$mz_nav_weeks_text_prev = __('Previous Week');
 	$mz_nav_weeks_text_current = __('Current Week');
 	$mz_nav_weeks_text_following = __('Following Week');
-	$mz_current_year = date("Y");
+	$mz_current_year = date_i18n("Y");
 	$num_weeks_in_year =  weeknumber($mz_current_year, 12, 31);
 	if (($mz_weeknumber < $num_weeks_in_year) && empty($mz_get_variables['mz_next_yr']))
 	{
