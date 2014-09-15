@@ -7,13 +7,17 @@ $(document).ready(function($) {
 			$("#mzModal").load(target, function() { 
 				 $("#mzModal").modal({show:true});  
 			});
-			// kill modal contents on hide
-            $('body').on('hidden.bs.modal', '#mzModal', function () {
-             $(this).removeData('bs.modal');
-           });	
+				
 		});
 		
 	});	
 
 })(jQuery);
  
+    // kill modal contents on hide
+    $('body').on('hidden.bs.modal', '#mzModal', function () {
+      $(this).removeData('bs.modal');
+    });
+
+})(jQuery);
+

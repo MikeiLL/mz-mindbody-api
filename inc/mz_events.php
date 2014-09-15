@@ -5,29 +5,43 @@ function mZ_mindbody_show_events ()
     
  	if ($options['mz_mindbody_eventID'] != '') {
  	 	// grab session type IDs for events
- 	    $sessions = array($options['mz_mindbody_eventID']);
+ 	    $mz_sessions = array($options['mz_mindbody_eventID']);
  	    }
  	    else
  	    {
  	    return "<h2>Error: MBO Event Type IDs must be set in Admin Panel</h2>";
  	    }
 
+ 	// grab session type IDs for events
+ 	$mz_sessions = array($options['mz_mindbody_eventID']);
+
 	$monthnumber = empty($_GET['mz_month']) ? date_i18n("m", strtotime(date_i18n('Y-m-d'))) : $_GET['mz_month'];
 	$start_end_date = getNextSixty($monthnumber,date_i18n("Y"));
 	$mz_months_future = add_query_arg(array('mz_month' => ($monthnumber + 2)));
 
-	$return='';
+	$return = '';
 
+	// set time parameters and optionally add link to previous month.
 	if ($monthnumber != date_i18n('m'))
 	{
 		$mz_months_previous = add_query_arg(array('mz_month' => ($monthnumber - 2)));
 		$return .='<p><a href="'.$mz_months_previous.'">__(Previous)</a></p>';
-		$mz_timeframe = array('StartDateTime'=>$start_end_date[0], 'EndDateTime'=>$start_end_date[1], 'SessionTypeIDs'=>$sessions);
+		$mz_start_date_time = $start_end_date[0];
 	}
 	else
 	{
-		$mz_time_now = current_time( 'Y-m-d', $gmt = 0 );
-		$mz_timeframe = array('StartDateTime'=>$mz_time_now, 'EndDateTime'=>$start_end_date[1], 'SessionTypeIDs'=>$sessions);
+		$mz_start_date_time = current_time( 'Y-m-d', $gmt = 0 );
+	}
+
+	// limit to specific session ID's if any are set.
+	// or we can use this conditional to block output entirely
+	if (!empty($mz_sessions) || ($mz_sessions[0] != 0))
+	{
+		$mz_query_param = array('StartDateTime'=>$mz_start_date_time, 'EndDateTime'=>$start_end_date[1], 'SessionTypeIDs'=>$mz_sessions);
+	}
+	else
+	{
+		$mz_query_param = array('StartDateTime'=>$mz_start_date_time, 'EndDateTime'=>$start_end_date[1]);
 	}
 
 	// START caching configuration
@@ -41,7 +55,7 @@ function mZ_mindbody_show_events ()
 
 	if ( false === ( $data = get_transient( $mz_events_cache ) ) )
 	{
-		$data = $mb->GetClasses($mz_timeframe);
+		$data = $mb->GetClasses($mz_query_param);
 	}
 
 	//Cache the mindbody call for 24 hours
@@ -49,9 +63,8 @@ function mZ_mindbody_show_events ()
 	set_transient($mz_events_cache, $data, 60 * 60);
 	// END caching configuration
 
+	// keep this here
 	//$return .= $mb->debug();
-
- 	$return = '';
 
 	if(!empty($data['GetClassesResult']['Classes']['Class']))
 	{
@@ -76,8 +89,9 @@ function mZ_mindbody_show_events ()
 						$sLoc = $class['Location']['ID'];
 						$studioid = $class['Location']['SiteID'];
 						$sclassid = $class['ClassScheduleID'];
+						// why is this hardcoded?
 						$sType = -7;
-						$image = $class['ClassDescription']['ImageURL'];
+						$image = empty($class['ClassDescription']['ImageURL']) ? '' : $class['ClassDescription']['ImageURL'];
 						$sTG = $class['ClassDescription']['Program']['ID'];
 						$eventLinkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&sLoc={$sLoc}&sTG={$sTG}&sType={$sType}&sclassid={$sclassid}&studioid={$studioid}";
 						$className = $class['ClassDescription']['Name'];
