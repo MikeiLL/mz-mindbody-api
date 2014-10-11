@@ -278,10 +278,10 @@ else
 		wp_enqueue_script( 'mz_mbo_modal_script' );
 	}
 
-	include_once(dirname( __FILE__ ) . '/mindbody-api/MB_API.php');
+	include_once(dirname( __FILE__ ) . '/mindbody-php-api/MB_API.php');
 
 	foreach ( glob( plugin_dir_path( __FILE__ )."inc/*.php" ) as $file )
-  include_once $file;
+        include_once $file;
 
 	add_shortcode('mz-mindbody-show-schedule', 'mZ_mindbody_show_schedule' );
 	add_shortcode('mz-mindbody-show-events', 'mZ_mindbody_show_events' );
@@ -292,29 +292,11 @@ else
 	add_shortcode('mz-mindbody-activation', 'mZ_mindbody_activation' );
 }//EOF Not Admin
 
-function sortClassesByDate($mz_classes = array()) {
-	$mz_classesByDate = array();
-	foreach($mz_classes as $class)
-	{
-		$classDate = date("Y-m-d", strtotime($class['StartDateTime']));
-		if(!empty($mz_classesByDate[$classDate])) {
-			$mz_classesByDate[$classDate] = array_merge($mz_classesByDate[$classDate], array($class));
-		} else {
-			$mz_classesByDate[$classDate] = array($class);
-		}
-	}
-	ksort($mz_classesByDate);
-	foreach($mz_classesByDate as $classDate => &$mz_classes)
-	{
-		usort($mz_classes, function($a, $b) {
-			if(strtotime($a['StartDateTime']) == strtotime($b['StartDateTime'])) {
-				return 0;
-			}
-			return $a['StartDateTime'] < $b['StartDateTime'] ? -1 : 1;
-		});
-	}
-	return $mz_classesByDate;
-}
+if (phpversion() >= 5.3) {
+    include_once('php_variants/sort_newer.php');
+    }else{
+    include_once('php_variants/sort_older.php');
+    }
 
 function getStartAndEndDate($week, $year) {
   // Adding leading zeros for weeks 1 - 9.
@@ -365,6 +347,33 @@ function mz_validate_year( $string ) {
  	{
  		return "mz_validate_year error";
  	}
+}
+
+function mZ_encrypt($input_string, $key){
+    if (($input_string == '') || ($input_string == 'MBO DEVELOPER KEY')) {
+        echo "Nada.";
+        return 'MBO DEVELOPER KEY';
+    }
+    $iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB);
+    $iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
+    $h_key = hash('sha256', $key, TRUE);
+    echo "<br/>encrypted: ".base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, $h_key, $input_string, MCRYPT_MODE_ECB, $iv))." <br/>";
+    return base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, $h_key, $input_string, MCRYPT_MODE_ECB, $iv));
+}
+
+function mZ_decrypt($options, $encrypted_input_string, $key){
+    if ($encrypted_input_string == '') {
+        echo "Nothing.";
+        return '';
+    } elseif ($encrypted_input_string == $options['mz_mindbody_password']) {
+        $iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB);
+        $iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
+        $h_key = hash('sha256', $key, TRUE);
+        echo "<br/>decrypted: ".trim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $h_key, base64_decode($encrypted_input_string), MCRYPT_MODE_ECB, $iv))."<br/>";
+        return trim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $h_key, base64_decode($options['mz_mindbody_password']), MCRYPT_MODE_ECB, $iv));
+    }
+    
+    return "nothing";
 }
 
 //Format arrays for display in development

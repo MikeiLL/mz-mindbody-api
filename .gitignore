@@ -2,5 +2,3 @@
 *.png
 *.gif
 *.ini
-timthumb/cache/*
-!timthumb/cache/index.html

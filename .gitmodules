@@ -1,3 +1,6 @@
-[submodule "mindbody-api"]
-	path = mindbody-api
-	url = https://github.com/devincrossman/mindbody-php-api.git
+#[submodule "mindbody-api"]
+#	path = mindbody-api
+#	url = https://github.com/devincrossman/mindbody-php-api.git
+[submodule "mindbody-php-api"]
+	path = mindbody-php-api
+	url = git@github.com:MikeiLL/mindbody-php-api.git
