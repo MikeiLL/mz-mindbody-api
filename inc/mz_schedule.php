@@ -28,7 +28,7 @@ function mZ_mindbody_show_schedule( $atts )
 		delete_transient( $mz_schedule_cache );
 	}
 
-	if ( false === ( $data = get_transient( $mz_schedule_cache ) ) ) {
+	if (isset($_GET) || ( false === ( $data = get_transient( $mz_schedule_cache ) ) ) ) {
 	//Send the timeframe to the GetClasses class, unless already cached
 	$data = $mb->GetClasses($mz_timeframe);
 	}
