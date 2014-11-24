@@ -2,3 +2,4 @@
 *.png
 *.gif
 *.ini
+.DS_Store
