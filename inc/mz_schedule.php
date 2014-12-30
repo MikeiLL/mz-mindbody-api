@@ -8,8 +8,7 @@ function mZ_mindbody_show_schedule( $atts )
 	extract( shortcode_atts( array(
 		'type' => 'week'
 			), $atts ) );
-
-
+    
 	if ($type=='day')
 	{
 		$mz_timeframe = array('StartDateTime'=>date_i18n('Y-m-d'), 'EndDateTime'=>date_i18n('Y-m-d'), 'SchedNav'=>'');
@@ -140,42 +139,15 @@ function mz_mbo_schedule_nav($mz_get_variables)
 	$mz_schedule_page = get_permalink();
 	//sanitize input
 	//set week number based on php date or passed parameter from $_GET
-	$mz_weeknumber = empty($mz_get_variables['mz_week']) ? date_i18n("W", strtotime(date_i18n('Y-m-d'))) : mz_validate_weeknum($mz_get_variables['mz_week']);
+	$mz_date = empty($mz_get_variables['mz_date']) ? date_i18n('Y-m-d') : mz_validate_date($mz_get_variables['mz_date']);
 	//Navigate through the weeks
+	$mz_start_end_date = mz_getNavDates($mz_date);
 	$mz_nav_weeks_text_prev = __('Previous Week');
 	$mz_nav_weeks_text_current = __('Current Week');
 	$mz_nav_weeks_text_following = __('Following Week');
-	$mz_current_year = date_i18n("Y");
-	$num_weeks_in_year =  weeknumber($mz_current_year, 12, 31);
-	if (($mz_weeknumber < $num_weeks_in_year) && empty($mz_get_variables['mz_next_yr']))
-	{
-		$mz_num_weeks_back = add_query_arg(array('mz_week' => ($mz_weeknumber - 1)));
-		$mz_num_weeks_forward = add_query_arg(array('mz_week' => ($mz_weeknumber + 1)));
-		$sched_nav .= ' <a href='.$mz_num_weeks_back.'>'.$mz_nav_weeks_text_prev.'</a>';
+		$sched_nav .= ' <a href='.add_query_arg(array('mz_date' => ($mz_start_end_date[3]))).'>'.$mz_nav_weeks_text_prev.'</a>';
 		$sched_nav .= ' - <a href='.$mz_schedule_page.'>'.$mz_nav_weeks_text_current.'</a> - ';
-		$sched_nav .= '<a href='.$mz_num_weeks_forward.'>'.$mz_nav_weeks_text_following.'</a>';
-		$mz_start_end_date = getStartandEndDate($mz_weeknumber,$mz_current_year);
-	}
-	else
-	{   //BOF following year
-		$mz_next_year = isset($mz_get_variables['mz_next_yr']) ? mz_validate_year($mz_get_variables['mz_next_yr']) : "1";
-		$mz_weeknumber = ($mz_weeknumber > 40) ? $mz_weeknumber - ($num_weeks_in_year - 1) : $mz_weeknumber;
-		$from_the_future_backwards = ($mz_weeknumber == 2) ? $num_weeks_in_year : ($mz_weeknumber - 1);
-		$mz_num_weeks_forward = add_query_arg(array('mz_week' => ($mz_weeknumber + 1), 'mz_next_yr' => ($mz_current_year + 1)));
-		if ($mz_weeknumber == 1)
-		{//if we are in first week of year
-			$mz_num_weeks_back = add_query_arg(array('mz_week' => ($num_weeks_in_year - 1)));
-			$sched_nav .= ' <a href='.$mz_num_weeks_back.'>'.$mz_nav_weeks_text_prev.'</a>';
-		}
-		else
-		{
-			$mz_num_weeks_back = add_query_arg(array('mz_week' => ($mz_weeknumber - 1), 'mz_next_yr' => ($mz_current_year + 1)));
-			$sched_nav .= ' <a href='.$mz_num_weeks_back.'>'.$mz_nav_weeks_text_prev.'</a>';
-		}
-		$sched_nav .= ' - <a href='.$mz_schedule_page.'>'.$mz_nav_weeks_text_current.'</a> - ';
-		$sched_nav .= '<a href='.$mz_num_weeks_forward.'>'.$mz_nav_weeks_text_following.'</a> ';
-		$mz_start_end_date = getStartandEndDate($mz_weeknumber,($mz_current_year +1));
-	}//EOF Following Year
+		$sched_nav .= '<a href='.add_query_arg(array('mz_date' => ($mz_start_end_date[2]))).'>'.$mz_nav_weeks_text_following.'</a>';
 
 	$mz_timeframe = array('StartDateTime'=>$mz_start_end_date[0], 'EndDateTime'=>$mz_start_end_date[1], 'SchedNav'=>$sched_nav);
 
