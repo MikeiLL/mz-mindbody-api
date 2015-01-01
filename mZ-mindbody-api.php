@@ -301,7 +301,7 @@ if (phpversion() >= 5.3) {
     include_once('php_variants/sort_older.php');
     }
 
-function mz_getNavDates($date) {
+function mz_getDateRange($date, $duration=7) {
     /*Gets a YYYY-mm-dd date and returns an array of four dates:
         start of requested week
         end of requested week 
@@ -309,6 +309,7 @@ function mz_getNavDates($date) {
         previous week start date
     adapted from http://stackoverflow.com/questions/186431/calculating-days-of-week-given-a-week-number
     */
+
     list($year, $month, $day) = explode("-", $date);
 
     // Get the weekday of the given date
@@ -329,15 +330,33 @@ function mz_getNavDates($date) {
     
     $monday = mktime('0','0','0', $month, $day-$numDaysFromMon, $year);
     $today = mktime('0','0','0', $month, $day, $year);
-    $weeksEnd = $today+($seconds_in_a_day*(7 - $numDaysFromMon));
-    $previousWeek = $monday+($seconds_in_a_day*($numDaysFromMon - ($numDaysFromMon+7)));
+    $rangeEnd = $today+($seconds_in_a_day*($duration - $numDaysFromMon));
+    $previousRangeStart = $monday+($seconds_in_a_day*($numDaysFromMon - ($numDaysFromMon+$duration)));
     
-    $return[0] = date('Y-m-d',$today);
-    $return[1] = date('Y-m-d',$weeksEnd-1);
-    $return[2] = date('Y-m-d',$weeksEnd+1); 
-    $return[3] = date('Y-m-d',$previousWeek); 
+    $return[0] = array('StartDateTime'=>date('Y-m-d',$today), 'EndDateTime'=>date('Y-m-d',$rangeEnd-1));
+    //$return[1] = date('Y-m-d',$rangeEnd-1);
+    $return[1] = date('Y-m-d',$rangeEnd+1); 
+    $return[2] = date('Y-m-d',$previousRangeStart); 
     return $return;
 }
+
+function mz_mbo_schedule_nav($date, $period="Week", $duration=7)
+{
+	$sched_nav = '';
+	$mz_schedule_page = get_permalink();
+	//Navigate through the weeks
+	$mz_start_end_date = mz_getDateRange($date, $duration);
+	$mz_nav_weeks_text_prev = __('Previous')." ".$period;
+	$mz_nav_weeks_text_current = __('Current')." ".$period;
+	$mz_nav_weeks_text_following = __('Following')." ".$period;
+	$sched_nav .= ' <a href='.add_query_arg(array('mz_date' => ($mz_start_end_date[2]))).'>'.$mz_nav_weeks_text_prev.'</a> - ';
+	if (isset($_GET['mz_date']))
+	    $sched_nav .= ' <a href='.$mz_schedule_page.'>'.$mz_nav_weeks_text_current.'</a>  - ';
+	$sched_nav .= '<a href='.add_query_arg(array('mz_date' => ($mz_start_end_date[1]))).'>'.$mz_nav_weeks_text_following.'</a>';
+
+	return $sched_nav;
+}
+
 
 function mz_validate_date( $string ) {
 	if (preg_match('/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/',$string))

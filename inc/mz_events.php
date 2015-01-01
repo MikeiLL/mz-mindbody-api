@@ -7,29 +7,15 @@ function mZ_mindbody_show_events ()
  	$mz_sessions = array($options['mz_mindbody_eventID']);
 
 	$return = '';
-
+	
+    $mz_date = empty($_GET['mz_date']) ? date_i18n('Y-m-d') : mz_validate_date($_GET['mz_date']);
+    
 	// only make API call if we have sessions set
 	if (!empty($mz_sessions) && ($mz_sessions[0] != 0))
 	{
-		$monthnumber = empty($_GET['mz_month']) ? date_i18n("m", strtotime(date_i18n('Y-m-d'))) : $_GET['mz_month'];
-		$start_end_date = getNextSixty($monthnumber,date_i18n("Y"));
-		$mz_months_future = add_query_arg(array('mz_month' => ($monthnumber + 2)));
-
-		// set time parameters and optionally add link to previous month.
-		if ($monthnumber != date_i18n('m'))
-		{
-			$mz_months_previous = add_query_arg(array('mz_month' => ($monthnumber - 2)));
-			$return .='<p><a href="'.$mz_months_previous.'">__(Previous)</a></p>';
-			$mz_start_date_time = $start_end_date[0];
-		}
-		else
-		{
-			$mz_start_date_time = current_time( 'Y-m-d', $gmt = 0 );
-		}
-
-
-		$mz_query_param = array('StartDateTime'=>$mz_start_date_time, 'EndDateTime'=>$start_end_date[1], 'SessionTypeIDs'=>$mz_sessions);
-
+	    $mz_timeframe = array_slice(mz_getDateRange($mz_date, $mz_event_calendar_duration), 0, 1);
+	    
+        $mz_timeframe = array_merge($mz_timeframe, array('SessionTypeIDs'=>$mz_sessions));
 
 		// START caching configuration
 		$mz_events_cache = "mz_events_cache";
@@ -40,29 +26,33 @@ function mZ_mindbody_show_events ()
 			delete_transient( $mz_events_cache );
 		}
 
-		if ( false === ( $data = get_transient( $mz_events_cache ) ) )
+		if ( false === ( $mz_event_data = get_transient( $mz_events_cache ) ) )
 		{
-			$data = $mb->GetClasses($mz_query_param);
+			$mz_event_data = $mb->GetClasses($mz_timeframe);
 		}
 
 		//Cache the mindbody call for 24 hours
 		// TODO make cache timeout configurable.
-		set_transient($mz_events_cache, $data, 60 * 60 * 24);
+		set_transient($mz_events_cache, $mz_event_data, 60 * 60 * 24);
 		// END caching configuration
 
 		// keep this here
 		//$return .= $mb->debug();
-
-		if(!empty($data['GetClassesResult']['Classes']['Class']))
+        
+		if(!empty($mz_event_data['GetClassesResult']['Classes']['Class']))
 		{
-			$number_of_events = count($data['GetClassesResult']['Classes']['Class']);
+			$number_of_events = count($mz_event_data['GetClassesResult']['Classes']['Class']);
 			if ($number_of_events >= 1)
 			{
-				$return .= '<p>' . __('There are') . ' ' . count($data['GetClassesResult']['Classes']['Class']) . ' ' . __('upcoming events.') . '</p>';
+				$return .= '<p>' .$mz_event_calendar_duration .' '. __('Day Event Calendar');
+				$return .= ': ' . count($mz_event_data['GetClassesResult']['Classes']['Class']) . ' '.__('events');
+				$return .=  ' '. date_i18n($mz_date_display, strtotime($mz_timeframe['StartDateTime']));
+				$return .= ' - ';
+				$return .= date_i18n($mz_date_display, strtotime($mz_timeframe['EndDateTime'])).'</p>';
 
-				$classes = $mb->makeNumericArray($data['GetClassesResult']['Classes']['Class']);
+				$classes = $mb->makeNumericArray($mz_event_data['GetClassesResult']['Classes']['Class']);
 				$classes = sortClassesByDate($classes);
-
+                $return .= mz_mbo_schedule_nav($mz_date, "Events", $mz_event_calendar_duration);
 				$return .= '<div class="mz_mindbody_events">';
 				$return .= '<table class="table mz_mindbody_events">';
 
@@ -78,7 +68,10 @@ function mZ_mindbody_show_events ()
 							$sclassid = $class['ClassScheduleID'];
 							// why is this hardcoded?
 							$sType = -7;
-							$image = empty($class['ClassDescription']['ImageURL']) ? '' : $class['ClassDescription']['ImageURL'];
+							if (empty($class['ClassDescription']['ImageURL']))
+							    $image = '';
+							    else
+							    $image = '<img class="mz_mindbody_events_img" src="' .$class['ClassDescription']['ImageURL'] . '">';
 							$sTG = $class['ClassDescription']['Program']['ID'];
 							$eventLinkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&sLoc={$sLoc}&sTG={$sTG}&sType={$sType}&sclassid={$sclassid}&studioid={$studioid}";
 							$className = $class['ClassDescription']['Name'];
@@ -92,19 +85,20 @@ function mZ_mindbody_show_events ()
 
 							$return .= '<tr><td>';
 							$return .= '<div class="mz_mindbody_events_header clearfix">';
-
-							$return .= '<div class="mz_mindbody_events_img"><img src="' . $image . '"></div>';
-
-							$return .= '<div class="mz_mindbody_events_details">';
+							$return .= '<div id="mz_mindbody_events_details">';
 							$return .= "<h3>$className</h3>";
-							$return .= "<p>with $staffName</p>";
-							$return .= "<p>$day_and_date, " . date_i18n('g:i a', strtotime($startDateTime))." - ".date_i18n('g:i a', strtotime($endDateTime)) . "</p>";
 							$return .= '<a class="btn btn-success" href="' . $eventLinkURL . '">' . __('Sign-Up') . '</a>';
+							$return .= '<p class="mz_event_staff">with '. $staffName.'</p>';							
+
+							$return .= '<h4 class="mz_event_staff">'.$day_and_date.', ' . date_i18n('g:i a', strtotime($startDateTime)).' - ';
+							$return .= date_i18n('g:i a', strtotime($endDateTime)) . '</h4>';
+							
 							$return .= '</div>';
 
 							$return .= '</div>';
 
 							$return .= '<div class="mz_mindbody_event_description">';
+							$return .=  $image;
 							$return .= "<p>$classDescription</p>";
 							$return .= "</div>";
 							$return .= '</td></tr>';
@@ -117,19 +111,18 @@ function mZ_mindbody_show_events ()
 			{
 				$return .= '<h3>' . __('No events published beyond') . ' ' . $start_end_date[0] . '.</h3>';
 			}
-			$return .= '<p><a href="' . $mz_months_future . '">' . __('Future Events') . '</a></p>';
 		}
 		else
 		{
 
-			if(!empty($data['GetClassesResult']['Message']))
+			if(!empty($mz_event_data['GetClassesResult']['Message']))
 			{
-				$return .= $data['GetClassesResult']['Message'];
+				$return .= $mz_event_data['GetClassesResult']['Message'];
 			}
 			else
 			{
 				$return .= __('Error getting classes') . '<br />';
-				//$return .= '<pre>'.print_r($data,1).'</pre>';
+				//$return .= '<pre>'.print_r($mz_event_data,1).'</pre>';
 			}
 
 		}//EOF If Results/Else
@@ -144,13 +137,4 @@ function mZ_mindbody_show_events ()
 
 }//EOF mZ_mindbody_show_events
 
-function getNextSixty($month, $year) {
-  // Adding leading zeros for weeks 1 - 9.
-  $date_string = $year. "/".sprintf('%02d', $month) . "/01";
-	//$date_string = "now";
-
-  $return[0] = date_i18n('Y-m-d', strtotime($date_string));//not date('Y-n-j
-  $return[1] = date_i18n('Y-m-d', strtotime($date_string . '+2 month'));
-  return $return;
-}
 ?>
