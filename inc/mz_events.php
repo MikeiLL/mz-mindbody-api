@@ -33,7 +33,6 @@ function mZ_mindbody_show_events ()
 		{
 			$mz_event_data = $mb->GetClasses($mz_timeframe);
 		}
-		mz_pr($mz_event_data);
 
 		//Cache the mindbody call for 24 hours
 		// TODO make cache timeout configurable.
@@ -46,13 +45,15 @@ function mZ_mindbody_show_events ()
 		if(!empty($mz_event_data['GetClassesResult']['Classes']['Class']))
 		{
 			$number_of_events = count($mz_event_data['GetClassesResult']['Classes']['Class']);
+			
 			if ($number_of_events >= 1)
 			{
 				$return .= '<p>' .$mz_event_calendar_duration .' '. __('Day Event Calendar');
-				$return .= ': ' . count($mz_event_data['GetClassesResult']['Classes']['Class']) . ' '.__('events');
 				$return .=  ' '. date_i18n($mz_date_display, strtotime($mz_timeframe['StartDateTime']));
 				$return .= ' - ';
 				$return .= date_i18n($mz_date_display, strtotime($mz_timeframe['EndDateTime'])).'</p>';
+				//TODO Make this work - displaying number 20 with one event (correct on first page with 5 events).
+				//$return .= ': ' . $number_of_events . ' '.__('event(s)').'</p>';
 
 				$classes = $mb->makeNumericArray($mz_event_data['GetClassesResult']['Classes']['Class']);
 				$classes = sortClassesByDate($classes);
@@ -113,7 +114,7 @@ function mZ_mindbody_show_events ()
 			}
 			else
 			{
-				$return .= '<h3>' . __('No events published beyond') . ' ' . $start_end_date[0] . '.</h3>';
+				$return .= '<h3>' . __('No events published this period.'). '</h3>';
 			}
 		}
 		else
@@ -125,7 +126,12 @@ function mZ_mindbody_show_events ()
 			}
 			else
 			{
-				$return .= __('Error getting classes') . '<br />';
+				$return .= '<p>' .$mz_event_calendar_duration .' '. __('Day Event Calendar');
+				$return .=  ' '. date_i18n($mz_date_display, strtotime($mz_timeframe['StartDateTime']));
+				$return .= ' - ';
+				$return .= date_i18n($mz_date_display, strtotime($mz_timeframe['EndDateTime']));
+				$return .= '<h3>' . __('No events published') . '. </h3>';
+				$return .= mz_mbo_schedule_nav($mz_date, "Events", $mz_event_calendar_duration);
 				//$return .= '<pre>'.print_r($mz_event_data,1).'</pre>';
 			}
 
@@ -136,7 +142,7 @@ function mZ_mindbody_show_events ()
 	{
 		$return .= '<h2>Error: MBO Event Type IDs must be set in Admin Panel</h2>';
 	}
-
+    $return .= mz_mbo_schedule_nav($mz_date, "Events", $mz_event_calendar_duration);
 	return $return;
 
 }//EOF mZ_mindbody_show_events
