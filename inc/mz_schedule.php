@@ -18,10 +18,13 @@ function mZ_mindbody_show_schedule( $atts )
 	}
 	else
 	{   
-	    $mz_timeframe = array_slice(mz_getDateRange($mz_date), 0, 1);
+	    $mz_timeframe = array_slice(mz_getDateRange($mz_date, 7), 0, 1);
 		$mz_schedule_cache = "mz_schedule_week_cache";
 	}
-    
+	
+	//While we still eed to support php 5.2 and can't use [0] on above
+	$mz_timeframe = array_pop($mz_timeframe);
+	
   // START caching
 	$mz_cache_reset = isset($options['mz_mindbody_clear_cache']) ? "on" : "off";
 

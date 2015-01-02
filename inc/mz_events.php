@@ -15,6 +15,9 @@ function mZ_mindbody_show_events ()
 	{
 	    $mz_timeframe = array_slice(mz_getDateRange($mz_date, $mz_event_calendar_duration), 0, 1);
 	    
+	    //While we still eed to support php 5.2 and can't use [0] on above
+	    $mz_timeframe = array_pop($mz_timeframe);
+	    
         $mz_timeframe = array_merge($mz_timeframe, array('SessionTypeIDs'=>$mz_sessions));
 
 		// START caching configuration
@@ -30,6 +33,7 @@ function mZ_mindbody_show_events ()
 		{
 			$mz_event_data = $mb->GetClasses($mz_timeframe);
 		}
+		mz_pr($mz_event_data);
 
 		//Cache the mindbody call for 24 hours
 		// TODO make cache timeout configurable.
