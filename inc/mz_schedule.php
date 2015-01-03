@@ -50,8 +50,8 @@ function mZ_mindbody_show_schedule( $atts )
 
 		$mz_days = $mb->makeNumericArray($mz_schedule_data['GetClassesResult']['Classes']['Class']);
 		$mz_days = sortClassesByDate($mz_days);
-		if ($type=='week'){
 		    $return .= '<div id="mz_mbo_schedule" class="mz_mbo_schedule">';
+		if ($type=='week'){
 		    $return .= mz_mbo_schedule_nav($mz_date);
 		}
 		
