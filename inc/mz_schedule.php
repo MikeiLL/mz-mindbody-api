@@ -50,9 +50,11 @@ function mZ_mindbody_show_schedule( $atts )
 
 		$mz_days = $mb->makeNumericArray($mz_schedule_data['GetClassesResult']['Classes']['Class']);
 		$mz_days = sortClassesByDate($mz_days);
-
-		$return .= '<div id="mz_mbo_schedule" class="mz_mbo_schedule">';
-		$return .= mz_mbo_schedule_nav($mz_date);
+		if ($type=='week'){
+		    $return .= '<div id="mz_mbo_schedule" class="mz_mbo_schedule">';
+		    $return .= mz_mbo_schedule_nav($mz_date);
+		}
+		
 		$return .= '<table class="table table-striped">';
 
 		foreach($mz_days as $classDate => $mz_classes)
@@ -104,9 +106,9 @@ function mZ_mindbody_show_schedule( $atts )
 		}// EOF foreach day
 
 		$return .= '</table>';
-
-		// schedule navigation
-		$return .= mz_mbo_schedule_nav($mz_date);
+		if ($type=='week')
+		    // schedule navigation
+		    $return .= mz_mbo_schedule_nav($mz_date);
 
 		// modal-content needs to live here for dynamic loading to work
 		// this still doesn't work because content is only loaded on
