@@ -2,7 +2,7 @@
 /**
 Plugin Name: mZoo Mindbody Interface - Schedule, Events, Staff Display
 Description: Interface Wordpress with MindbodyOnline data with Bootstrap Responsive Layout
-Version: 1.4
+Version: 1.5
 Author: mZoo.org
 Author URI: http://www.mZoo.org/
 Plugin URI: http://www.mzoo.org/mz-mindbody-wp
@@ -261,6 +261,20 @@ if ( is_admin() )
 }
 else
 {// non-admin enqueues, actions, and filters
+
+    add_action('init', 'myStartSession', 1);
+    add_action('wp_logout', 'myEndSession');
+    add_action('wp_login', 'myEndSession');
+
+    function myStartSession() {
+        if(!session_id()) {
+            session_start();
+        }
+    }
+
+    function myEndSession() {
+        session_destroy ();
+    }
 
   add_action( 'wp_enqueue_script', 'load_jquery' );
 	function load_jquery() {
