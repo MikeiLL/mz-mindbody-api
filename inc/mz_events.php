@@ -78,7 +78,7 @@ function mZ_mindbody_show_events ()
 							    else
 							    $image = '<img class="mz_mindbody_events_img" src="' .$class['ClassDescription']['ImageURL'] . '">';
 							$sTG = $class['ClassDescription']['Program']['ID'];
-							$eventLinkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&sLoc={$sLoc}&sTG={$sTG}&sType={$sType}&sclassid={$sclassid}&studioid={$studioid}";
+							$eventLinkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$sclassid}&amp;studioid={$studioid}";
 							$className = $class['ClassDescription']['Name'];
 							$startDateTime = date_i18n('Y-m-d H:i:s', strtotime($class['StartDateTime']));
 							$classDescription = $class['ClassDescription']['Description'];

@@ -73,7 +73,7 @@ function mZ_mindbody_show_schedule( $atts )
 					$sclassid = $class['ClassScheduleID'];
 					$classDescription = $class['ClassDescription']['Description'];
 					$sType = -7;
-					$linkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&sLoc={$sLoc}&sTG={$sTG}&sType={$sType}&sclassid={$sclassid}&studioid={$studioid}";
+					$linkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$sclassid}&amp;studioid={$studioid}";
 					$className = $class['ClassDescription']['Name'];
 					$startDateTime = date_i18n('Y-m-d H:i:s', strtotime($class['StartDateTime']));
 					$endDateTime = date_i18n('Y-m-d H:i:s', strtotime($class['EndDateTime']));
