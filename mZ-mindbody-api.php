@@ -36,6 +36,7 @@ function mZ_mindbody_schedule_uninstall(){
 	delete_option('mz_mindbody_options');
 }
 
+//TODO Deal with conflict when $mb class get's called twice
 add_action('widgets_init', 'mZ_mindbody_schedule_register_widget');
 
 function mZ_mindbody_schedule_register_widget() {
