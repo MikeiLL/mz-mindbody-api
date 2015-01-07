@@ -36,6 +36,53 @@ function mZ_mindbody_schedule_uninstall(){
 	delete_option('mz_mindbody_options');
 }
 
+add_action('widgets_init', 'mZ_mindbody_schedule_register_widget');
+
+function mZ_mindbody_schedule_register_widget() {
+    register_widget( 'mZ_Mindbody_day_schedule');
+}
+
+class mZ_Mindbody_day_schedule extends WP_Widget {
+
+    function mZ_Mindbody_day_schedule() {
+        $widget_ops = array(
+            'classname' => 'mZ_Mindbody_day_schedule_class',
+            'description' => 'Display class schedule for current day.'
+            );
+        $this->WP_Widget('mZ_Mindbody_day_schedule', 'Today\'s MindBody Schedule',
+                            $widget_ops );
+    } 
+    
+    function form($instance){
+        $defaults = array('title' => 'Today\'s Classes');
+        $instance = wp_parse_args( (array) $instance, $defaults);
+        $title = $instance['title'];
+        ?>
+           <p>Title: <input class="widefat" name="<?php echo $this->get_field_name( 'title' ); ?>"  
+           type="text" value="<?php echo esc_attr( $title ); ?>" /></p>
+        <?php
+    }
+    
+    //save the widget settings
+    function update($new_instance, $old_instance) {
+        $instance = $old_instance;
+        $instance['title'] = strip_tags( $new_instance['title'] );
+        return $instance;
+    }
+    
+    function widget($args, $instance){
+        extract($args);
+        echo $before_widget;
+        $title = apply_filters( 'widget_title', $instance['title'] );
+        $arguments['type'] = 'day';
+        if (!empty($title) ) 
+            { echo $before_title . $title . $after_title; };
+            echo(mZ_mindbody_show_schedule($arguments));
+        echo $after_widget;
+    }
+}
+
+
 if ( is_admin() )
 { // admin actions
 	add_action ('admin_menu', 'mz_mindbody_settings_menu');

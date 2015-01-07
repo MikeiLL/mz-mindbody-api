@@ -3,12 +3,10 @@ function mZ_mindbody_show_schedule( $atts )
 {
 	require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
 
-
 	// optionally pass in a type parameter. Defaults to week.
 	extract( shortcode_atts( array(
 		'type' => 'week'
 			), $atts ) );
-			
     $mz_date = empty($_GET['mz_date']) ? date_i18n('Y-m-d') : mz_validate_date($_GET['mz_date']);
 
 	if ($type=='day')
@@ -21,7 +19,7 @@ function mZ_mindbody_show_schedule( $atts )
 	    $mz_timeframe = array_slice(mz_getDateRange($mz_date, 7), 0, 1);
 		$mz_schedule_cache = "mz_schedule_week_cache";
 	}
-	
+
 	//While we still eed to support php 5.2 and can't use [0] on above
 	$mz_timeframe = array_pop($mz_timeframe);
 	
@@ -36,7 +34,7 @@ function mZ_mindbody_show_schedule( $atts )
 	//Send the timeframe to the GetClasses class, unless already cached
 	$mz_schedule_data = $mb->GetClasses($mz_timeframe);
 	}
-
+    //mz_pr($mz_schedule_data);
 	//Cache the mindbody call for 24 hours
 	// TODO make cache timeout configurable.
 	set_transient($mz_schedule_cache, $mz_schedule_data, 60 * 60 * 24);
@@ -50,6 +48,7 @@ function mZ_mindbody_show_schedule( $atts )
 
 		$mz_days = $mb->makeNumericArray($mz_schedule_data['GetClassesResult']['Classes']['Class']);
 		$mz_days = sortClassesByDate($mz_days);
+
 		    $return .= '<div id="mz_mbo_schedule" class="mz_mbo_schedule">';
 		if ($type=='week'){
 		    $return .= mz_mbo_schedule_nav($mz_date);
