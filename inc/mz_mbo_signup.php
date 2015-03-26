@@ -12,6 +12,11 @@ if(!empty($_POST['data']['Client'])) {
 		)
 	);
 	$signupData = $mb->AddOrUpdateClients($options);
+	
+	$mb->getXMLRequest();
+	$mb->getXMLResponse();
+	$mb->debug();
+	
 	if($signupData['AddOrUpdateClientsResult']['Clients']['Client']['Action'] == 'Added') {
 		$validateLogin = $mb->ValidateLogin(array(
 			'Username' => $_POST['data']['Client']['Username'],
