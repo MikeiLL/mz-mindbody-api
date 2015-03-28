@@ -1,11 +1,10 @@
 <?php
 function mZ_mindbody_signup() {
 
-mz_pr($_SESSION);
-mz_pr($_POST);
 	require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
 
 if(!empty($_POST['data']['Client'])) {
+	
 	$options = array(
 		'Clients'=>array(
 			'Client'=>$_POST['data']['Client']

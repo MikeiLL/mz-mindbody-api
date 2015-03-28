@@ -73,7 +73,10 @@ function mZ_mindbody_show_schedule( $atts )
 					$sclassid = $class['ClassScheduleID'];
 					$classDescription = $class['ClassDescription']['Description'];
 					$sType = -7;
-					$linkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$sclassid}&amp;studioid={$studioid}";
+					//$linkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$sclassid}&amp;studioid={$studioid}";
+					//$linkURL = '../register/'.$_SESSION['client']['ID'].'/'.$sclassid;
+					$add_to_class_nonce = wp_create_nonce( 'mz_MBO_add-to-class' . $sclassid );
+					$linkURL = MZ_MINDBODY_SCHEDULE_URL . 'inc/modal_registration.php?classID=' . urlencode(substr($sclassid, 0, 1000)) . '&amp;clientID='. urlencode(substr($_SESSION['client']['ID'], 0, 1000)) . '&nonce=' .$add_to_class_nonce;
 					$className = $class['ClassDescription']['Name'];
 					$startDateTime = date_i18n('Y-m-d H:i:s', strtotime($class['StartDateTime']));
 					$endDateTime = date_i18n('Y-m-d H:i:s', strtotime($class['EndDateTime']));
@@ -85,12 +88,34 @@ function mZ_mindbody_show_schedule( $atts )
 					$return .= '<tr><td>';
 					$return .= date_i18n('g:i a', strtotime($startDateTime)) . ' - ' . date_i18n('g:i a', strtotime($endDateTime));
 					// only show the schedule button if enabled in MBO
-					$return .= $isAvailable ? '<br><a class="btn" href="' . $linkURL . '" target="_blank">' . __('Sign-Up') . '</a>' : '';
-
+					$clientID = $_SESSION['GUID'];
+					/*$return .= $isAvailable ? '<br/><a class="btn mz_add_to_class" href="' 
+					. $linkURL . 
+					'" data-nonce="'. $add_to_class_nonce .
+					'" data-id="'.$sclassid.' data-clientID="' .
+					 $clientID .'">' .
+					  __('Sign-Up') . '</a>' : '';
+					  
+					  echo '<p class="faves-action"><a class="faves-link"' 
+					    . ' data-post-id="' . $postID 
+					    . '" data-user-id="' . $user_ID  
+					    . '" data-toggle="' . $toggle 
+					    . '" data-nonce="' . $ajaxNonce 
+					    . '" href="#">' . $linkText . '</a></p>' . "\n";*/
+					    
+					    
+					  $return .= $isAvailable ? '<br/><a class="btn mz_add_to_class"' 
+					    . ' data-nonce="' . $add_to_class_nonce 
+					    . '" data-id="' . $sclassid  
+					    . '" data-clientID="' . $clientID 
+					    . '" href="' . $linkURL .'">' .
+					  __('Sign-Up') . '</a>': '';
+					//data-toggle="modal" data-target="#mzModal_registration" removed from URL
 					$return .= '</td><td>';
 
 					// trigger link modal
 					$return .= '<a data-toggle="modal" data-target="#mzModal" href="' . MZ_MINDBODY_SCHEDULE_URL . 'inc/modal_descriptions.php?classDescription=' . urlencode(substr($classDescription, 0, 1000)) . '&amp;className='. urlencode(substr($className, 0, 1000)) .'">' . $className . '</a>';
+					
 
 					$return .= '</td><td>';
 					$return .= $staffName;
@@ -117,6 +142,11 @@ function mZ_mindbody_show_schedule( $atts )
 
 				</div>
 		</div>';
+		/*$return .= '<div id="mzModal_registration" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mzSmallModalLabel" aria-hidden="true">
+                 <div class="modal-content">
+
+				</div>
+		</div>';*/
 
 		$return .= '</div>';
 	}
