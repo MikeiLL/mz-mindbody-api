@@ -20,93 +20,6 @@ register_deactivation_hook(__FILE__, 'mZ_mindbody_schedule_deactivation');
 
 load_plugin_textdomain('mz-mindbody-api',false,'mz-mindbody-schedule/languages');
 
-//Ajax initializations
-add_action( 'wp_ajax_spyr_plugin_do_ajax_request', 'spyr_plugin_do_ajax_request' );
-add_action( 'wp_ajax_nopriv_spyr_plugin_do_ajax_request', 'spyr_plugin_do_ajax_request' );
-add_action( 'template_redirect', 'mz_mbo_add_to_clients_classes' );
-
-function mz_mbo_add_to_clients_classes() {
- 
-        // Get the Path to this plugin's folder
-        $path = plugin_dir_url( __FILE__ );
- 
-        // Enqueue our script
-        wp_enqueue_script( 'mz_mbo_add_to_classes',
-                            $path. 'js/ajax-mbo-add-to-classes.js',
-                            array( 'jquery' ),
-                            '1.0.0', true );
- 
-        // Get the protocol of the current page
-        $protocol = isset( $_SERVER['HTTPS'] ) ? 'https://' : 'http://';
- 
-        // Set the ajaxurl Parameter which will be output right before
-        // our ajax-delete-posts.js file so we can use ajaxurl
-        $params = array(
-            // Get the url to the admin-ajax.php file using admin_url()
-            'ajaxurl' => admin_url( 'admin-ajax.php', $protocol ),
-        );
-        // Print the script to our page
-        wp_localize_script( 'mz_mbo_add_to_classes', 'mz_mbo_params', $params );
-}
-?>
-<?php
-
-// Ajax Handler
-function mz_client_api_call($classID,$clientID){
-	require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
-	
-	$signupData = $mb->AddClientsToClasses(array($classID), array($clientID));
-	$mb->getXMLRequest();
-	$mb->getXMLResponse();
-	$mb->debug();
-	return 1==1;
-}
-add_action( 'wp_ajax_mz_mindbody_ajax_add_to_class', 'mz_mindbody_ajax_add_to_class' );
-function mz_mindbody_ajax_add_to_class($classID,$clientID) {
-    // Get the Post ID from the URL
-    $classID = $_REQUEST['classID'];
-    $clientID = $_REQUEST['clientID'];
- 
-    // Instantiate WP_Ajax_Response
-    //$response = new WP_Ajax_Response;
- 
-    if( wp_verify_nonce( $_REQUEST['nonce'], 'mz_MBO_add-to-class' . $classID ) &&
-    		 1==1//mz_client_api_call($classID, $clientID)//Do something here
-    		){
-	
-        $response = ( array(
-            'data'  => 'success',
-            'supplemental' => array(
-                'classID' => 'did it yo!' . $classID,
-                'message' => 'Registered',
-            ),
-	 ) );
-    } else {
-        // Build the response if an error occurred
-        $response = ( array(
-            'data'  => 'error',
-            'supplemental' => array(
-                'classID' => $classID,
-                'message' => 'Error in add to class ' . $classID,
-            ),
-        ) );
-    }
-    // Whatever the outcome, send the Response back
-    $xmlResponse = new WP_Ajax_Response($response);
-    $xmlResponse->send();
- 
-    // Always exit when doing Ajax
-    exit();
-}
-?>
-<script type='text/javascript'>
-/* <![CDATA[ */
-var mz_mbo_params = {"ajaxurl":"http:\/\/localhost:8888\/wp-admin\/admin-ajax.php"};
-/* ]]> */
-</script>
-<?php
-//End Ajax
-
 function mZ_mindbody_schedule_activation() {
 	//Don't know if there's anything we need to do here.
 }
@@ -170,6 +83,56 @@ class mZ_Mindbody_day_schedule extends WP_Widget {
     }
 }
 
+// Ajax Handler
+
+function mz_client_api_call($classID,$clientID){
+	require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
+	
+	$signupData = $mb->AddClientsToClasses(array($classID), array($clientID));
+	$mb->getXMLRequest();
+	$mb->getXMLResponse();
+	$mb->debug();
+	return 1==1;
+}
+add_action( 'wp_ajax_mz_mindbody_ajax_add_to_class', 'mz_mindbody_ajax_add_to_class' );
+function mz_mindbody_ajax_add_to_class($classID,$clientID) {
+    // Get the Post ID from the URL
+    $classID = $_REQUEST['classID'];
+    $clientID = $_REQUEST['clientID'];
+ 
+    // Instantiate WP_Ajax_Response
+    //$response = new WP_Ajax_Response;
+ 
+    if( wp_verify_nonce( $_REQUEST['nonce'], 'mz_MBO_add-to-class' . $classID ) &&
+    		 1==1//mz_client_api_call($classID, $clientID)//Do something here
+    		){
+	
+        $response = ( array(
+            'data'  => 'success',
+            'supplemental' => array(
+                'classID' => 'did it yo!' . $classID,
+                'message' => 'Registered',
+            ),
+	 ) );
+    } else {
+        // Build the response if an error occurred
+        $response = ( array(
+            'data'  => 'error',
+            'supplemental' => array(
+                'classID' => $classID,
+                'message' => 'Error in add to class ' . $classID,
+            ),
+        ) );
+    }
+    // Whatever the outcome, send the Response back
+    $xmlResponse = new WP_Ajax_Response($response);
+    $xmlResponse->send();
+ 
+    // Always exit when doing Ajax
+    exit();
+}
+
+//End Ajax
 
 if ( is_admin() )
 { // admin actions
@@ -442,7 +405,7 @@ else
 	add_shortcode('mz-mindbody-logout', 'mZ_mindbody_logout' );
 	add_shortcode('mz-mindbody-signup', 'mZ_mindbody_signup' );
 	add_shortcode('mz-mindbody-activation', 'mZ_mindbody_activation' );
-	//add_shortcode('mz-mindbody-add-to-classes', 'mz_mindbody_add_to_classes' );
+	add_shortcode('mz-mindbody-add-to-classes', 'mz_mindbody_add_to_classes' );
 }//EOF Not Admin
 
 if (phpversion() >= 5.3) {
@@ -523,7 +486,13 @@ function mz_validate_date( $string ) {
 	}
 }
 
-
+?>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var mz_mbo_params = {"ajaxurl":"http:\/\/localhost:8888\/wp-admin\/admin-ajax.php"};
+/* ]]> */
+</script>
+<?php
 //Format arrays for display in development
 function mz_pr($data)
 {
