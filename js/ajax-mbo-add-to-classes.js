@@ -1,6 +1,7 @@
 (function($){
 $(document).ready(function($) {
 		$( '.mz_add_to_class' ).click( function( e ) {
+			var mz_mbo_params = {"ajaxurl":"http:\/\/localhost:8888\/wp-admin\/admin-ajax.php"};
 			var link = this;
 			var id   = $( link ).attr( 'data-id' );
 			var nonce = $( link ).attr( 'data-nonce' );

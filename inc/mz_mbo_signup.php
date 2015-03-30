@@ -4,6 +4,12 @@ function mZ_mindbody_signup() {
 	require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
 
 if(!empty($_POST['data']['Client'])) {
+mz_pr($_POST['data']['Client']);
+
+//mz_pr($_POST['data']['Client']['MobilePhone']);
+$_POST['data']['Client']['BirthDate'] = date('c', strtotime($_POST['data']['Client']['BirthDate']));;
+//mz_pr($_POST['data']['Client']['ReferredBy']);
+mz_pr($_POST['data']['Client']);
 	
 	$options = array(
 		'Clients'=>array(

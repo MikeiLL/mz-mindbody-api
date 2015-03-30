@@ -486,13 +486,7 @@ function mz_validate_date( $string ) {
 	}
 }
 
-?>
-<script type='text/javascript'>
-/* <![CDATA[ */
-var mz_mbo_params = {"ajaxurl":"http:\/\/localhost:8888\/wp-admin\/admin-ajax.php"};
-/* ]]> */
-</script>
-<?php
+
 //Format arrays for display in development
 function mz_pr($data)
 {
