@@ -5,7 +5,8 @@ function mZ_mindbody_show_schedule( $atts )
 
 	// optionally pass in a type parameter. Defaults to week.
 	extract( shortcode_atts( array(
-		'type' => 'week'
+		'type' => 'week',
+		'location' => '1'
 			), $atts ) );
     $mz_date = empty($_GET['mz_date']) ? date_i18n('Y-m-d') : mz_validate_date($_GET['mz_date']);
 
@@ -64,7 +65,7 @@ function mZ_mindbody_show_schedule( $atts )
 
 			foreach($mz_classes as $class)
 			{
-				if (!(($class['IsCanceled'] == 'TRUE') && ($class['HideCancel'] == 'TRUE')))
+				if (!(($class['IsCanceled'] == 'TRUE') && ($class['HideCancel'] == 'TRUE')) && ($class['Location']['ID'] == $location))
 				{
 					$sDate = date_i18n('m/d/Y', strtotime($class['StartDateTime']));
 					$sLoc = $class['Location']['ID'];
