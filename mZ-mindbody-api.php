@@ -224,7 +224,7 @@ if ( is_admin() )
 	function mz_mindbody_section_text() { ?>
 		<p><?php _e('Enter your mindbody credentials below.') ?></p>
 		<p><?php _e('If you do not have them yet, visit the') ?> <a href="https://api.mindbodyonline.com/Home/LogIn"><?php _e('MindBodyOnline developers website') ?></a> <?php _e('and register for developer credentials.')?></p>
-		<p><?php _e('Add to page or post with shortcode')?>: [mz-mindbody-show-schedule], [mz-mindbody-show-events], [mz-mindbody-staff-list], [mz-mindbody-show-schedule type=day]</p>
+		<p><?php _e('Add to page or post with shortcode')?>: [mz-mindbody-show-schedule], [mz-mindbody-show-events], [mz-mindbody-staff-list], [mz-mindbody-show-schedule type=day location=1]</p>
 	<?php
 	/*
 	TODO:[mz-mindbody-show-schedule (type=day)],
