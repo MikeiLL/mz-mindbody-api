@@ -315,9 +315,15 @@ else
     add_action('wp_login', 'myEndSession');
 
     function myStartSession() {
-        if(!session_id()) {
-            session_start();
-        }
+    	if (phpversion() >= 5.4.0) {
+			if (session_status() == PHP_SESSION_NONE) {
+				session_start();
+				}
+			}else{
+			if(!session_id()) {
+				session_start();
+				}
+			}
     }
 
     function myEndSession() {
