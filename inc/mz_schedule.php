@@ -56,6 +56,7 @@ function mZ_mindbody_show_schedule( $atts )
 		}
 		
 		$return .= '<table class="table table-striped">';
+		$client_link = isset($_SESSION['client']['ID']) ? '&amp;clientID='. urlencode(substr($_SESSION['client']['ID'], 0, 1000)) : '';
 
 		foreach($mz_days as $classDate => $mz_classes)
 		{   
@@ -77,7 +78,7 @@ function mZ_mindbody_show_schedule( $atts )
 					//$linkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$sclassid}&amp;studioid={$studioid}";
 					//$linkURL = '../register/'.$_SESSION['client']['ID'].'/'.$sclassid;
 					$add_to_class_nonce = wp_create_nonce( 'mz_MBO_add-to-class' . $sclassid );
-					$linkURL = MZ_MINDBODY_SCHEDULE_URL . 'inc/modal_registration.php?classID=' . urlencode(substr($sclassid, 0, 1000)) . '&amp;clientID='. urlencode(substr($_SESSION['client']['ID'], 0, 1000)) . '&nonce=' .$add_to_class_nonce;
+					$linkURL = MZ_MINDBODY_SCHEDULE_URL . 'inc/modal_registration.php?classID=' . urlencode(substr($sclassid, 0, 1000)) . $client_link . '&nonce=' .$add_to_class_nonce;
 					$className = $class['ClassDescription']['Name'];
 					$startDateTime = date_i18n('Y-m-d H:i:s', strtotime($class['StartDateTime']));
 					$endDateTime = date_i18n('Y-m-d H:i:s', strtotime($class['EndDateTime']));
@@ -89,7 +90,7 @@ function mZ_mindbody_show_schedule( $atts )
 					$return .= '<tr><td>';
 					$return .= date_i18n('g:i a', strtotime($startDateTime)) . ' - ' . date_i18n('g:i a', strtotime($endDateTime));
 					// only show the schedule button if enabled in MBO
-					$clientID = $_SESSION['GUID'];
+					$clientID = isset($_SESSION['GUID']) ? $_SESSION['GUID'] : '';
 					/*$return .= $isAvailable ? '<br/><a class="btn mz_add_to_class" href="' 
 					. $linkURL . 
 					'" data-nonce="'. $add_to_class_nonce .

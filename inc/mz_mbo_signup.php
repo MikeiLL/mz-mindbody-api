@@ -7,7 +7,9 @@ if(!empty($_POST['data']['Client'])) {
 mz_pr($_POST['data']['Client']);
 
 //mz_pr($_POST['data']['Client']['MobilePhone']);
-$_POST['data']['Client']['BirthDate'] = date('c', strtotime($_POST['data']['Client']['BirthDate']));;
+if (isset($_POST['data']['Client']['BirthDate'])){
+	$_POST['data']['Client']['BirthDate'] = date('c', strtotime($_POST['data']['Client']['BirthDate']));
+	}
 //mz_pr($_POST['data']['Client']['ReferredBy']);
 mz_pr($_POST['data']['Client']);
 	
@@ -31,6 +33,7 @@ mz_pr($_POST['data']['Client']);
 			$_SESSION['GUID'] = $validateLogin['ValidateLoginResult']['GUID'];
 			$_SESSION['client'] = $validateLogin['ValidateLoginResult']['Client'];
 		}
+		echo "<h3>Congratulations. You are now logged in with your new Mindbody account.</h3><h2>Sign-up for some classes.</h2>";
 		//header('location:index.php');
 	}
 }
