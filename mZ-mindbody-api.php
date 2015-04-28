@@ -315,7 +315,7 @@ else
     add_action('wp_login', 'myEndSession');
 
     function myStartSession() {
-    	if (phpversion() >= 5.4.0) {
+    	if (phpversion() >= 5.4) {
 			if (session_status() == PHP_SESSION_NONE) {
 				session_start();
 				}
