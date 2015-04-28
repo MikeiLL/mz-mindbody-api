@@ -15,5 +15,8 @@ $mb = new MB_API(array(
                         'SiteIDs' => array($options['mz_mindbody_siteID'])
 ));
                         
+/* $mb->getXMLRequest();
+$mb->getXMLResponse();
+$mb->debug(); */
 
 ?>
