@@ -2,6 +2,9 @@
 function mZ_mindbody_show_schedule( $atts )
 {
 	require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
+	
+	global $add_mz_ajax_script;
+	$add_mz_ajax_script = true;
 
 	// optionally pass in a type parameter. Defaults to week.
 	extract( shortcode_atts( array(
@@ -56,7 +59,6 @@ function mZ_mindbody_show_schedule( $atts )
 		}
 		
 		$return .= '<table class="table table-striped">';
-		$client_link = isset($_SESSION['client']['ID']) ? '&amp;clientID='. urlencode(substr($_SESSION['client']['ID'], 0, 1000)) : '';
 
 		foreach($mz_days as $classDate => $mz_classes)
 		{   
@@ -76,10 +78,6 @@ function mZ_mindbody_show_schedule( $atts )
 					$sclassid = $class['ID'];
 					$classDescription = $class['ClassDescription']['Description'];
 					$sType = -7;
-					//$linkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$sclassid}&amp;studioid={$studioid}";
-					//$linkURL = '../register/'.$_SESSION['client']['ID'].'/'.$sclassid;
-					$add_to_class_nonce = wp_create_nonce( 'mz_MBO_add-to-class' . $sclassid );
-					$linkURL = MZ_MINDBODY_SCHEDULE_URL . 'inc/modal_registration.php?classID=' . urlencode(substr($sclassid, 0, 1000)) . $client_link . '&nonce=' .$add_to_class_nonce;
 					$className = $class['ClassDescription']['Name'];
 					$startDateTime = date_i18n('Y-m-d H:i:s', strtotime($class['StartDateTime']));
 					$endDateTime = date_i18n('Y-m-d H:i:s', strtotime($class['EndDateTime']));
@@ -91,27 +89,14 @@ function mZ_mindbody_show_schedule( $atts )
 					$return .= '<tr><td>';
 					$return .= date_i18n('g:i a', strtotime($startDateTime)) . ' - ' . date_i18n('g:i a', strtotime($endDateTime));
 					// only show the schedule button if enabled in MBO
-					$clientID = isset($_SESSION['GUID']) ? $_SESSION['GUID'] : '';
-					/*$return .= $isAvailable ? '<br/><a class="btn mz_add_to_class" href="' 
-					. $linkURL . 
-					'" data-nonce="'. $add_to_class_nonce .
-					'" data-id="'.$sclassid.' data-clientID="' .
-					 $clientID .'">' .
-					  __('Sign-Up') . '</a>' : '';
-					  
-					  echo '<p class="faves-action"><a class="faves-link"' 
-					    . ' data-post-id="' . $postID 
-					    . '" data-user-id="' . $user_ID  
-					    . '" data-toggle="' . $toggle 
-					    . '" data-nonce="' . $ajaxNonce 
-					    . '" href="#">' . $linkText . '</a></p>' . "\n";*/
-					    
-					    
-					  $return .= $isAvailable ? '<br/><a class="btn mz_add_to_class"' 
+					$clientID = isset($_SESSION['GUID']) ? $_SESSION['client']['ID'] : '';
+					$add_to_class_nonce = wp_create_nonce( 'mz_MBO_add_to_class_nonce');
+
+					  $return .= $isAvailable ? '<br/><a id=mz_add_to_class class="btn mz_add_to_class"' 
 					    . ' data-nonce="' . $add_to_class_nonce 
-					    . '" data-id="' . $sclassid  
+					    . '" data-classID="' . $sclassid  
 					    . '" data-clientID="' . $clientID 
-					    . '" href="' . $linkURL .'">' .
+					    . '">' .
 					  __('Sign-Up') . '</a>': '';
 					//data-toggle="modal" data-target="#mzModal_registration" removed from URL
 					$return .= '</td><td>';

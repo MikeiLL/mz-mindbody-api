@@ -43,6 +43,19 @@ function mZ_mindbody_schedule_register_widget() {
     register_widget( 'mZ_Mindbody_day_schedule');
 }
 
+add_action( 'init', 'mZ_latest_jquery' );
+
+if (!function_exists( 'mZ_latest_jquery' )){
+	function mZ_latest_jquery(){
+		//	Use latest jQuery release
+		if( !is_admin() ){
+			wp_deregister_script('jquery');
+			wp_register_script('jquery', ("http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"), false, '');
+			wp_enqueue_script('jquery');
+		}
+	}
+}
+
 class mZ_Mindbody_day_schedule extends WP_Widget {
 
     function mZ_Mindbody_day_schedule() {
@@ -83,55 +96,89 @@ class mZ_Mindbody_day_schedule extends WP_Widget {
     }
 }
 
-// Ajax Handler
 
-function mz_client_api_call($classID,$clientID){
-	require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
+
+// Ajax
+define('MZ_MBO_JS_VERSION', '1.0');
+
+//Enqueue script in footer
+add_action('init', 'register_ajax_mbo_add_to_classes_js');
+add_action('wp_footer', 'ajax_mbo_add_to_classes_js');
+
+function register_ajax_mbo_add_to_classes_js() {
+		wp_register_script('mZ_add_to_classes', 
+		plugin_dir_url(__FILE__).'js/ajax-mbo-add-to-classes.js',
+		array('jquery'), MZ_MBO_JS_VERSION, true
+		);
+	}
 	
-	$signupData = $mb->AddClientsToClasses(array($classID), array($clientID));
-	$mb->getXMLRequest();
-	$mb->getXMLResponse();
-	$mb->debug();
-	return 1==1;
-}
-add_action( 'wp_ajax_mz_mindbody_ajax_add_to_class', 'mz_mindbody_ajax_add_to_class' );
-function mz_mindbody_ajax_add_to_class($classID,$clientID) {
-    // Get the Post ID from the URL
-    $classID = $_REQUEST['classID'];
-    $clientID = $_REQUEST['clientID'];
- 
-    // Instantiate WP_Ajax_Response
-    //$response = new WP_Ajax_Response;
- 
-    if( wp_verify_nonce( $_REQUEST['nonce'], 'mz_MBO_add-to-class' . $classID ) &&
-    		 1==1//mz_client_api_call($classID, $clientID)//Do something here
-    		){
+function ajax_mbo_add_to_classes_js() {
+	global $add_mz_ajax_script;
+	if ( ! $add_mz_ajax_script )
+		return;
+
+	wp_enqueue_script('mZ_add_to_classes');
+//Force page protocol to match current
+$protocol = isset( $_SERVER["HTTPS"]) ? 'https://' : 'http://';
+
+$params = array(
+	'ajaxurl' => admin_url( 'admin-ajax.php', $protocol )
+	);
 	
-        $response = ( array(
-            'data'  => 'success',
-            'supplemental' => array(
-                'classID' => 'did it yo!' . $classID,
-                'message' => 'Registered',
-            ),
-	 ) );
-    } else {
-        // Build the response if an error occurred
-        $response = ( array(
-            'data'  => 'error',
-            'supplemental' => array(
-                'classID' => $classID,
-                'message' => 'Error in add to class ' . $classID,
-            ),
-        ) );
+	wp_localize_script( 'mZ_add_to_classes', 'mZ_add_to_classes', $params);
+	
+	}
+	
+//For Testing
+function write_to_file($message){
+        $handle = fopen("/Applications/MAMP/logs/mZ_mbo_reader.php", "a+");
+        fwrite($handle, "\nMessage:\t " . $message);
+        fclose($handle);
     }
-    // Whatever the outcome, send the Response back
-    $xmlResponse = new WP_Ajax_Response($response);
-    $xmlResponse->send();
- 
-    // Always exit when doing Ajax
-    exit();
-}
+    
+//Ajax Handler
+add_action('wp_ajax_nopriv_mz_mbo_add_client_ajax', 'mz_mbo_add_client_ajax');
+add_action('wp_ajax_mz_mbo_add_client_ajax', 'mz_mbo_add_client_ajax');	
+    
+function mz_mbo_add_client_ajax() {
 
+ 	check_ajax_referer( $_REQUEST['nonce'], "mz_MBO_add_to_class_nonce", false);
+ 	
+	require_once MZ_MINDBODY_SCHEDULE_DIR .'mindbody-php-api/MB_API.php';
+	require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
+
+	$additions['ClassIDs'] = array($_REQUEST['classID']);
+	$additions['ClientIDs'] = array($_REQUEST['clientID']);
+	$signupData = $mb->AddClientsToClasses($additions);
+	//$mb->debug();
+    
+	if ( $signupData['AddClientsToClassesResult']['ErrorCode'] != 200){
+			$result['type'] = "failure";
+			$result['message'] = '';
+		foreach ($signupData['AddClientsToClassesResult']['Classes']['Class']['Clients']['Client']['Messages'] as $message){
+					$result['message'] .= '\n'.$message;
+			}
+			
+		}else{
+			$classDetails = $signupData['AddClientsToClassesResult']['Classes']['Class'];
+			
+			$result['type'] = "success";
+			$result['message'] = "Registered for ".$classDetails['ClassDescription']['Name']." via MBO";
+			/*$classDetails['Staff']['Name'];
+			$classDetails['Location']['Name'];
+			$classDetails['Location']['Address'];*/
+		}
+		
+	if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+      $result = json_encode($result);
+      echo $result;
+   }
+   else {
+      header("Location: ".$_SERVER["HTTP_REFERER"]);
+   }
+
+   die();
+}
 //End Ajax
 
 if ( is_admin() )
@@ -374,10 +421,10 @@ else
         session_destroy ();
     }
   // Ajax Handler
-add_action( 'wp_ajax_my_ajax_handler', 'my_ajax_handler' );
-function my_ajax_handler() {
+add_action( 'mz_ajax_my_ajax_handler', 'mz_ajax_handler' );
+function mz_ajax_handler() {
     // Get the Post ID from the URL
-    $classID = $_REQUEST['classID'];
+    $classID = $_REQUEST['mz_add_to_class'];
 
     // Instantiate WP_Ajax_Response
     $response = new WP_Ajax_Response;
