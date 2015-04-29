@@ -365,20 +365,50 @@ else
     add_action('wp_login', 'myEndSession');
 
     function myStartSession() {
-    	if (phpversion() >= 5.4) {
-			if (session_status() == PHP_SESSION_NONE) {
-				session_start();
-				}
-			}else{
-			if(!session_id()) {
-				session_start();
-				}
+    	if ((function_exists('session_status') && session_status() !== PHP_SESSION_ACTIVE) || !session_id()) {
+			  session_start();
 			}
     }
 
     function myEndSession() {
         session_destroy ();
     }
+  // Ajax Handler
+add_action( 'wp_ajax_my_ajax_handler', 'my_ajax_handler' );
+function my_ajax_handler() {
+    // Get the Post ID from the URL
+    $classID = $_REQUEST['classID'];
+
+    // Instantiate WP_Ajax_Response
+    $response = new WP_Ajax_Response;
+
+    if( wp_verify_nonce( $_REQUEST['nonce'], 'nonce-name' . $classID )){
+    //Do something here
+
+    $response->add( array(
+        'data'  => 'success',
+        'supplemental' => array(
+        'classID' => 'did it',
+        'message' => 'Class ID goes here', // ideally want to show $classID
+        ),
+     ) );
+    } else {
+    // Build the response if an error occurred
+    $response->add( array(
+        'data'  => 'error',
+        'supplemental' => array(
+        'classID' => 'nothing to see here',
+        'message' => 'Error in add to class',
+        ),
+    ) );
+    }
+    // Whatever the outcome, send the Response back
+    $response->send();
+
+    // Always exit when doing Ajax
+    exit();
+}
+//End Ajax
 
   add_action( 'wp_enqueue_script', 'load_jquery' );
 	function load_jquery() {

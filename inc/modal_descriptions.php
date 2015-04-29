@@ -3,7 +3,6 @@ if (isset($_GET["classDescription"]))
   {
     $modal_description = $_GET["classDescription"];
     $modal_name = $_GET["className"];
-    print_r($_GET);
 ?>
 <div class="modal-dialog modal-sm">
     <div class="modal-header">

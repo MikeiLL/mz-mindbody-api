@@ -5,12 +5,7 @@ if (isset($_GET["clientID"]))
     $classID = $_GET["classID"];
     print_r($_GET);
     function mz_client_api_call($classID,$clientID){
-	require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
 	
-	$signupData = $mb->AddClientsToClasses(array($classID), array($clientID));
-	$mb->getXMLRequest();
-	$mb->getXMLResponse();
-	$mb->debug();
 	return 1==1;
 }
 mz_client_api_call($classID,$clientID);

@@ -72,7 +72,8 @@ function mZ_mindbody_show_schedule( $atts )
 					$sLoc = $class['Location']['ID'];
 					$sTG = $class['ClassDescription']['Program']['ID'];
 					$studioid = $class['Location']['SiteID'];
-					$sclassid = $class['ClassScheduleID'];
+					//$sclassid = $class['ClassScheduleID'];
+					$sclassid = $class['ID'];
 					$classDescription = $class['ClassDescription']['Description'];
 					$sType = -7;
 					//$linkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$sclassid}&amp;studioid={$studioid}";
