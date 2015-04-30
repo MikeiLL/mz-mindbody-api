@@ -34,9 +34,9 @@ function mZ_mindbody_show_events ()
 			$mz_event_data = $mb->GetClasses($mz_timeframe);
 		}
 
-		//Cache the mindbody call for 24 hours
+		//Cache the mindbody call for 1 hour
 		// TODO make cache timeout configurable.
-		set_transient($mz_events_cache, $mz_event_data, 60 * 60 * 24);
+		set_transient($mz_events_cache, $mz_event_data, 60 * 60);
 		// END caching configuration
 
 		// keep this here
