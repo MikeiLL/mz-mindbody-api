@@ -1,10 +1,15 @@
 (function($){
 $(document).ready(function($) {
-	console.log($(this).closest(".mz_add_to_class").find(".count"));
+	var mZ_row_count = 1;
 		$('.mz_add_to_class').click(function(){
+				if ($(this).attr("data-login") == not_logged_in ){
+						$(".mz_add_to_class").find(".signup").text("Login to Sign-Up");
+						return;
+					}
 				var countSpan = $(this).closest(".mz_add_to_class").find(".count");
 				var countVal = countSpan.text();
-				var nuVal = parseInt(countVal) + 1;
+				var nuVal = parseInt(countVal) + mZ_row_count;
+				mZ_row_count++;
 				countSpan.text(nuVal);
 				console.log(countSpan.text());
 				nonce = $(this).attr("data-nonce");

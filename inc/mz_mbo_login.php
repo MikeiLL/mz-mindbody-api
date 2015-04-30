@@ -8,10 +8,6 @@ require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
             'Username' => $_POST['username'],
             'Password' => $_POST['password']
         ));
-        
-	$mb->getXMLRequest();
-	$mb->getXMLResponse();
-	$mb->debug();
 	
         if(!empty($validateLogin['ValidateLoginResult']['GUID'])) {
             $_SESSION['GUID'] = $validateLogin['ValidateLoginResult']['GUID'];
@@ -38,7 +34,7 @@ function displayLoginForm() {
 <form method="POST">
 	<input type="text" name="username" placeholder="username" />
 	<input type="password" name="password" placeholder="password" />
-	<button type="submit">Log in</button> <a href="signup">Sign up</a>
+	<button type="submit">Log in</button> or <a href="create_account">Register with MindBodyOnline</a>
 </form>	
 EOD;
 }
@@ -47,6 +43,5 @@ function displayWelcome() {
 	echo "Welcome ".$_SESSION['client']['FirstName'].' '.$_SESSION['client']['LastName'];
 	echo "<br />";
 	echo "<a href='logout'>Log out</a>";
-	echo "<pre>".print_r($_SESSION,1)."</pre>";
 	}
 ?>

@@ -91,6 +91,12 @@ function mZ_mindbody_show_schedule( $atts )
 					// only show the schedule button if enabled in MBO
 					$clientID = isset($_SESSION['GUID']) ? $_SESSION['client']['ID'] : '';
 					$add_to_class_nonce = wp_create_nonce( 'mz_MBO_add_to_class_nonce');
+					if ($clientID == ''){
+						 $return .= $isAvailable ? '<br/><a id="mz_add_to_class" class="btn mz_add_to_class"' 
+							. ' data-login="not_logged_in">' .
+						  '<span class="signup">'.__('Sign-Up') . '</span><span class="count" style="display:none">0</span></a>': '';
+						  }else{
+
 
 					  $return .= $isAvailable ? '<br/><a id="mz_add_to_class" class="btn mz_add_to_class"' 
 					    . ' data-nonce="' . $add_to_class_nonce 
@@ -98,6 +104,7 @@ function mZ_mindbody_show_schedule( $atts )
 					    . '" data-clientID="' . $clientID 
 					    . '">' .
 					  '<span class="signup">'.__('Sign-Up') . '</span><span class="count" style="display:none">0</span></a>': '';
+					  }
 
 					$return .= '</td><td>';
 

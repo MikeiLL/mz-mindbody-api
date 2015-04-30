@@ -149,22 +149,29 @@ function mz_mbo_add_client_ajax() {
 
 	$additions['ClassIDs'] = array($_REQUEST['classID']);
 	$additions['ClientIDs'] = array($_REQUEST['clientID']);
+	//$additions['Test'] = true;
+	$additions['SendEmail'] = true;
 	$signupData = $mb->AddClientsToClasses($additions);
 	//$mb->debug();
-    
-	if ( $signupData['AddClientsToClassesResult']['ErrorCode'] != 200){
+    $rand_number = rand(1, 10);
+	if ($rand_number > 5){ //( $signupData['AddClientsToClassesResult']['ErrorCode'] != 200){
 			$result['type'] = "failure";
-			$result['message'] = '';
-		foreach ($signupData['AddClientsToClassesResult']['Classes']['Class']['Clients']['Client']['Messages'] as $message){
-					$result['message'] .= '\n'.$message;
-			}
+			$result['message'] = 'negative';
+		/*foreach ($signupData['AddClientsToClassesResult']['Classes']['Class']['Clients']['Client']['Messages'] as $message){
+				if (strpos($message, 'already booked') != false){
+					$result['message'] .= "You are already registered.";
+					}else{
+					$result['message'] .= $message;
+					}
+			}*/
 			
 		}else{
-			$classDetails = $signupData['AddClientsToClassesResult']['Classes']['Class'];
+			//$classDetails = $signupData['AddClientsToClassesResult']['Classes']['Class'];
 			
 			$result['type'] = "success";
 			$result['message'] = "Registered via MindBody";
-			/*$classDetails['Staff']['Name'];
+			/*$classDetails['ClassDescription']['Name']
+			$classDetails['Staff']['Name'];
 			$classDetails['Location']['Name'];
 			$classDetails['Location']['Address'];*/
 		}

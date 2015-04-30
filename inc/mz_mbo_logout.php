@@ -12,6 +12,11 @@ function mZ_mindbody_logout() {
 	foreach($_SESSION as $key => $value) {
 		unset($_SESSION[$key]);
 	}
-	header('location:index.php');
 }
+
+function displayConfirmation() {
+	echo "User Logged Out."
+	echo "<br />";
+	echo "<a href='login'>Log in</a>";
+	}
 ?>
