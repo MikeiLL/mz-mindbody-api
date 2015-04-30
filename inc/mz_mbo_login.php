@@ -34,14 +34,14 @@ function displayLoginForm() {
 <form method="POST">
 	<input type="text" name="username" placeholder="username" />
 	<input type="password" name="password" placeholder="password" />
-	<button type="submit">Log in</button> or <a href="create_account">Register with MindBodyOnline</a>
+	<button type="submit">Log in</button> or <a href="create_account" class="btn mz_add_to_class">Register with MindBodyOnline</a>
 </form>	
 EOD;
 }
 
 function displayWelcome() {
-	echo "Welcome ".$_SESSION['client']['FirstName'].' '.$_SESSION['client']['LastName'];
+	echo "<h3>Welcome ".$_SESSION['client']['FirstName'].' '.$_SESSION['client']['LastName']."<h3>";
 	echo "<br />";
-	echo "<a href='logout'>Log out</a>";
+	echo "<a href='logout' class='btn mz_add_to_class'>Log out</a>";
 	}
 ?>

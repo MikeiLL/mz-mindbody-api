@@ -3,6 +3,9 @@ function mZ_mindbody_show_events ()
 {
  	require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
 
+	global $add_mz_ajax_script;
+	$add_mz_ajax_script = true;
+	
  	// grab session type IDs for events
  	$mz_sessions = array($options['mz_mindbody_eventID']);
 
@@ -36,7 +39,7 @@ function mZ_mindbody_show_events ()
 
 		//Cache the mindbody call for 24 hours
 		// TODO make cache timeout configurable.
-		set_transient($mz_events_cache, $mz_event_data, 60 * 60 * 24);
+		set_transient($mz_events_cache, $mz_event_data, 60 * 60);
 		// END caching configuration
 
 		// keep this here
@@ -73,6 +76,7 @@ function mZ_mindbody_show_events ()
 							$sclassid = $class['ClassScheduleID'];
 							// why is this hardcoded?
 							$sType = -7;
+							$isAvailable = $class['IsAvailable'];
 							if (empty($class['ClassDescription']['ImageURL']))
 							    $image = '';
 							    else
@@ -88,16 +92,28 @@ function mZ_mindbody_show_events ()
 							$enrolmentType = $class['ClassDescription']['Program']['ScheduleType'];
 							$day_and_date =  date_i18n("D F d", strtotime($classDate));
 
-							$return .= '<tr><td>';
+							$return .= '<tr class="mz_description_holder"><td>';
 							$return .= '<div class="mz_mindbody_events_header clearfix">';
 							$return .= '<div id="mz_mindbody_events_details">';
 							$return .= "<h3>$className</h3>";
-							$return .= '<a class="btn btn-success" href="' . $eventLinkURL . '">' . __('Sign-Up') . '</a>';
+							//$return .= '<a class="btn btn-success" href="' . $eventLinkURL . '">' . __('Sign-Up') . '</a>';
+							$clientID = isset($_SESSION['GUID']) ? $_SESSION['client']['ID'] : '';
+							$add_to_class_nonce = wp_create_nonce( 'mz_MBO_add_to_class_nonce');
+							if ($clientID == ''){
+								 $return .= $isAvailable ? '<br/><a class="btn mz_add_to_class" href="login">Login to Sign-up</a>': '';
+								  }else{
+							  $return .= $isAvailable ? '<br/><a id="mz_add_to_class" class="btn mz_add_to_class"' 
+								. ' data-nonce="' . $add_to_class_nonce 
+								. '" data-classID="' . $sclassid  
+								. '" data-clientID="' . $clientID 
+								. '">' .
+							  '<span class="signup">'.__('Sign-Up') . '</span><span class="count" style="display:none">0</span></a>': '';
+							  }
+							$return .= '<br/><div id="visitMBO" class="btn visitMBO" style="display:none"><a href="'.$eventLinkURL.'" target="_blank">Manage on MindBody Site<a/></div>';
 							$return .= '<p class="mz_event_staff">with '. $staffName.'</p>';							
 
 							$return .= '<h4 class="mz_event_staff">'.$day_and_date.', ' . date_i18n('g:i a', strtotime($startDateTime)).' - ';
 							$return .= date_i18n('g:i a', strtotime($endDateTime)) . '</h4>';
-							
 							$return .= '</div>';
 
 							$return .= '</div>';

@@ -12,11 +12,12 @@ function mZ_mindbody_logout() {
 	foreach($_SESSION as $key => $value) {
 		unset($_SESSION[$key]);
 	}
+	displayConfirmation();
 }
 
 function displayConfirmation() {
-	echo "User Logged Out."
-	echo "<br />";
-	echo "<a href='login'>Log in</a>";
+	echo "<h3>User Logged Out.</h3>";
+	echo "<br/>";
+	echo "<a href='login' class='btn mz_add_to_class'>Log in</a>";
 	}
 ?>

@@ -153,17 +153,17 @@ function mz_mbo_add_client_ajax() {
 	$additions['SendEmail'] = true;
 	$signupData = $mb->AddClientsToClasses($additions);
 	//$mb->debug();
-    $rand_number = rand(1, 10);
-	if ($rand_number > 5){ //( $signupData['AddClientsToClassesResult']['ErrorCode'] != 200){
+    //$rand_number = rand(1, 10); # for testing
+	if ( $signupData['AddClientsToClassesResult']['ErrorCode'] != 200){
 			$result['type'] = "failure";
 			$result['message'] = 'negative';
-		/*foreach ($signupData['AddClientsToClassesResult']['Classes']['Class']['Clients']['Client']['Messages'] as $message){
+		foreach ($signupData['AddClientsToClassesResult']['Classes']['Class']['Clients']['Client']['Messages'] as $message){
 				if (strpos($message, 'already booked') != false){
 					$result['message'] .= "You are already registered.";
 					}else{
 					$result['message'] .= $message;
 					}
-			}*/
+			}
 			
 		}else{
 			//$classDetails = $signupData['AddClientsToClassesResult']['Classes']['Class'];
