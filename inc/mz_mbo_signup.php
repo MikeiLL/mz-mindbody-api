@@ -4,14 +4,11 @@ function mZ_mindbody_signup() {
 	require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
 
 if(!empty($_POST['data']['Client'])) {
-mz_pr($_POST['data']['Client']);
 
 //mz_pr($_POST['data']['Client']['MobilePhone']);
 if (isset($_POST['data']['Client']['BirthDate'])){
 	$_POST['data']['Client']['BirthDate'] = date('c', strtotime($_POST['data']['Client']['BirthDate']));
 	}
-//mz_pr($_POST['data']['Client']['ReferredBy']);
-mz_pr($_POST['data']['Client']);
 	
 	$options = array(
 		'Clients'=>array(
@@ -19,10 +16,6 @@ mz_pr($_POST['data']['Client']);
 		)
 	);
 	$signupData = $mb->AddOrUpdateClients($options);
-	
-	$mb->getXMLRequest();
-	$mb->getXMLResponse();
-	$mb->debug();
 	
 	if($signupData['AddOrUpdateClientsResult']['Clients']['Client']['Action'] == 'Added') {
 		$validateLogin = $mb->ValidateLogin(array(
@@ -38,6 +31,7 @@ mz_pr($_POST['data']['Client']);
 	}
 }
 $requiredFields = $mb->GetRequiredClientFields();
+
 if(!empty($requiredFields['GetRequiredClientFieldsResult']['RequiredClientFields']['string'])) {
 	$requiredFields = $mb->makeNumericArray($requiredFields['GetRequiredClientFieldsResult']['RequiredClientFields']['string']);
 } else {
@@ -45,10 +39,15 @@ if(!empty($requiredFields['GetRequiredClientFieldsResult']['RequiredClientFields
 }
 $requiredFieldsInputs = '';
 if(!empty($requiredFields)) {
+	// Force single element $requiredFields into array form
+	if (!is_array($requiredFields)){
+		$requiredFields = array($requiredFields);
+	}
 	foreach($requiredFields as $field) {
 		$requiredFieldsInputs .= "<label for='$field'>{$field}: </label><input type='text' name='data[Client][$field]' id='$field' placeholder='$field' required /><br />";
 	}
 }
+
 echo "<h3>Sign Up</h3>";
 if(!empty($signupData['AddOrUpdateClientsResult']['Clients']['Client']['Action']) && $signupData['AddOrUpdateClientsResult']['Clients']['Client']['Action'] == 'Failed' && !empty($signupData['AddOrUpdateClientsResult']['Clients']['Client']['Messages'])) {
 	foreach($signupData['AddOrUpdateClientsResult']['Clients']['Client']['Messages'] as $message) {

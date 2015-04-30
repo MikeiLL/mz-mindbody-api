@@ -30,7 +30,7 @@ require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
 }
 
 function displayLoginForm() {
-$create_account_url = home_url()."/create_account";
+$create_account_url = home_url()."/create-account";
 	echo <<<EOD
 <form method="POST">
 	<input type="text" name="username" placeholder="username" />
