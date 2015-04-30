@@ -18,6 +18,6 @@ function mZ_mindbody_logout() {
 function displayConfirmation() {
 	echo "<h3>User Logged Out.</h3>";
 	echo "<br/>";
-	echo "<a href='login' class='btn mz_add_to_class'>Log in</a>";
+	echo "<a href='".home_url()."/login' class='btn mz_add_to_class'>Log in</a>";
 	}
 ?>

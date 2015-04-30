@@ -30,11 +30,12 @@ require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
 }
 
 function displayLoginForm() {
+$create_account_url = home_url()."/create_account";
 	echo <<<EOD
 <form method="POST">
 	<input type="text" name="username" placeholder="username" />
 	<input type="password" name="password" placeholder="password" />
-	<button type="submit">Log in</button> or <a href="create_account" class="btn mz_add_to_class">Register with MindBodyOnline</a>
+	<button type="submit">Log in</button> or <a href="$create_account_url" class="btn mz_add_to_class">Register with MindBodyOnline</a>
 </form>	
 EOD;
 }
@@ -42,6 +43,6 @@ EOD;
 function displayWelcome() {
 	echo "<h3>Welcome ".$_SESSION['client']['FirstName'].' '.$_SESSION['client']['LastName']."<h3>";
 	echo "<br />";
-	echo "<a href='logout' class='btn mz_add_to_class'>Log out</a>";
+	echo "<a href='".home_url()."/logout' class='btn mz_add_to_class'>Log out</a>";
 	}
 ?>

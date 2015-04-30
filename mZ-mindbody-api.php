@@ -154,9 +154,9 @@ function mz_mbo_add_client_ajax() {
 	$signupData = $mb->AddClientsToClasses($additions);
 	//$mb->debug();
     //$rand_number = rand(1, 10); # for testing
-	if ( $signupData['AddClientsToClassesResult']['ErrorCode'] != 200){
+	if ( $signupData['AddClientsToClassesResult']['ErrorCode'] != 200 ){
 			$result['type'] = "failure";
-			$result['message'] = 'negative';
+			$result['message'] = '';
 		foreach ($signupData['AddClientsToClassesResult']['Classes']['Class']['Clients']['Client']['Messages'] as $message){
 				if (strpos($message, 'already booked') != false){
 					$result['message'] .= "You are already registered.";
@@ -329,6 +329,8 @@ if ( is_admin() )
 		<p><?php _e('Enter your mindbody credentials below.') ?></p>
 		<p><?php _e('If you do not have them yet, visit the') ?> <a href="https://api.mindbodyonline.com/Home/LogIn"><?php _e('MindBodyOnline developers website') ?></a> <?php _e('and register for developer credentials.')?></p>
 		<p><?php _e('Add to page or post with shortcode')?>: [mz-mindbody-show-schedule], [mz-mindbody-show-events], [mz-mindbody-staff-list], [mz-mindbody-show-schedule type=day location=1]</p>
+		<p><?php _e('Pro version offers some new shortcodes')?>: [mz-mindbody-login], [mz-mindbody-logout], [mz-mindbody-signup]</p>
+		<p><?php _e('In order for these to work correctly, the permalinks for those pages need to be')?><em>login</em>, <em>logout</em> and <em>create_account</em>
 	<?php
 	/*
 	TODO:[mz-mindbody-show-schedule (type=day)],
