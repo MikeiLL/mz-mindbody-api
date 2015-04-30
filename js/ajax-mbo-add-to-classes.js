@@ -10,6 +10,8 @@ $(document).ready(function($) {
 				nonce = $(this).attr("data-nonce");
 				clientID = $(this).attr("data-clientID");
 				classID = $(this).attr("data-classID");
+				console.log(clientID);
+				console.log(classID);
 				$(this).closest(".mz_add_to_class").removeClass('mz_add_to_class');
 				$(this).closest("#mz_add_to_class").addClass('mz_add_to_class'+nuVal);
 				$(this).closest(".mz_description_holder").find('.visitMBO').removeClass('visitMBO');

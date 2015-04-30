@@ -154,6 +154,7 @@ function mz_mbo_add_client_ajax() {
 	$signupData = $mb->AddClientsToClasses($additions);
 	//$mb->debug();
     //$rand_number = rand(1, 10); # for testing
+
 	if ( $signupData['AddClientsToClassesResult']['ErrorCode'] != 200 ){
 			$result['type'] = "failure";
 			$result['message'] = '';

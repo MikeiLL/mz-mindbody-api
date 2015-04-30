@@ -2,7 +2,7 @@
 function mz_mindbody_add_to_classes() {
 	require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
 	$clientIDs = array(100004590);
-    $classIDs = array(14891);
+    $classIDs = array(20106);
     
 	$additions['ClassIDs'] = $classIDs;
 	$additions['ClientIDs'] = $clientIDs;
