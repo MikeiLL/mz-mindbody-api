@@ -163,7 +163,7 @@ function mz_mbo_add_client_ajax() {
 			$classDetails = $signupData['AddClientsToClassesResult']['Classes']['Class'];
 			
 			$result['type'] = "success";
-			$result['message'] = "Registered for ".$classDetails['ClassDescription']['Name']." via MBO";
+			$result['message'] = "Registered via MindBody";
 			/*$classDetails['Staff']['Name'];
 			$classDetails['Location']['Name'];
 			$classDetails['Location']['Address'];*/

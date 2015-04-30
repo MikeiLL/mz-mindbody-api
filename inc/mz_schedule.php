@@ -92,13 +92,13 @@ function mZ_mindbody_show_schedule( $atts )
 					$clientID = isset($_SESSION['GUID']) ? $_SESSION['client']['ID'] : '';
 					$add_to_class_nonce = wp_create_nonce( 'mz_MBO_add_to_class_nonce');
 
-					  $return .= $isAvailable ? '<br/><a id=mz_add_to_class class="btn mz_add_to_class"' 
+					  $return .= $isAvailable ? '<br/><a id="mz_add_to_class" class="btn mz_add_to_class"' 
 					    . ' data-nonce="' . $add_to_class_nonce 
 					    . '" data-classID="' . $sclassid  
 					    . '" data-clientID="' . $clientID 
 					    . '">' .
-					  __('Sign-Up') . '</a>': '';
-					//data-toggle="modal" data-target="#mzModal_registration" removed from URL
+					  '<span class="signup">'.__('Sign-Up') . '</span><span class="count" style="display:none">0</span></a>': '';
+
 					$return .= '</td><td>';
 
 					// trigger link modal
@@ -110,7 +110,6 @@ function mZ_mindbody_show_schedule( $atts )
 					$return .= '</td><td>';
 					$return .= $sessionType;
 
-					//$return .= $classDescription;
 					$return .= '</td></tr>';
 
 				} // EOF if
@@ -121,20 +120,11 @@ function mZ_mindbody_show_schedule( $atts )
 		if ($type=='week')
 		    // schedule navigation
 		    $return .= mz_mbo_schedule_nav($mz_date);
-
-		// modal-content needs to live here for dynamic loading to work
-		// this still doesn't work because content is only loaded on
-		// the first click.  Not sure how to force content reload each click
 		$return .= '<div id="mzModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mzSmallModalLabel" aria-hidden="true">
                  <div class="modal-content">
 
 				</div>
 		</div>';
-		/*$return .= '<div id="mzModal_registration" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mzSmallModalLabel" aria-hidden="true">
-                 <div class="modal-content">
-
-				</div>
-		</div>';*/
 
 		$return .= '</div>';
 	}
