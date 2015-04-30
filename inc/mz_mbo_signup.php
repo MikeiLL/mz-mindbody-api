@@ -2,7 +2,11 @@
 function mZ_mindbody_signup() {
 
 	require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
-
+mz_pr($_POST);
+if(!empty($_POST['website_url'])){
+	echo "<h1>Die Robot Spam!</h1>";
+	die();
+	}
 if(!empty($_POST['data']['Client'])) {
 
 //mz_pr($_POST['data']['Client']['MobilePhone']);
@@ -56,6 +60,7 @@ if(!empty($signupData['AddOrUpdateClientsResult']['Clients']['Client']['Action']
 }
 echo <<<EOD
 <form method="POST" style="line-height:2">
+    <p class="website_url" style="display:none">Leave this empty-slash-blank: <input type="text" name="website_url" /></p>
 	<label for="Username">Username: </label><input type="text" name="data[Client][Username]" id="Username" placeholder="Username" required /><br />
 	<label for="Password">Password: </label><input type="password" name="data[Client][Password]" id="Password" placeholder="Password" required /><br />
 	<label for="FirstName">First Name: </label><input type="text" name="data[Client][FirstName]" id="FirstName" placeholder="First Name" required /><br />
