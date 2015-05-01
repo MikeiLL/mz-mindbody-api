@@ -111,7 +111,7 @@ if ( is_admin() )
 			<form action="options.php" method="post">
 				<?php settings_fields('mz_mindbody_options'); ?>
 				<?php do_settings_sections('mz_mindbody'); ?>
-				<input name="Submit" type="submit" value="<?php esc_attr_e('Save Changes'); ?>" />
+				<input name="Submit" type="submit" class="button button-primary" value="<?php esc_attr_e('Save Changes'); ?>" />
 			</form>
 		</div>
 		<?php
@@ -248,7 +248,8 @@ if ( is_admin() )
 
 	function mz_mindbody_section_text() { ?>
 		<p><?php _e('Enter your mindbody credentials below.') ?></p>
-		<p><?php _e('If you do not have them yet, visit the') ?> <a href="https://api.mindbodyonline.com/Home/LogIn"><?php _e('MindBodyOnline developers website') ?></a> <?php _e('and register for developer credentials.')?></p>
+		<p><?php _e('If you do not have them yet, visit the') ?> <a href="https://api.mindbodyonline.com/Home/LogIn"><?php _e('MindBodyOnline developers website') ?></a> <?php _e('and register for developer credentials.')?>
+		(<a href="http://www.mzoo.org/creating-your-mindbody-credentials/"><?php _e('Detailed instructions here') ?></a>.)</p>
 		<p><?php _e('Add to page or post with shortcode')?>: [mz-mindbody-show-schedule], [mz-mindbody-show-events], [mz-mindbody-staff-list], [mz-mindbody-show-schedule type=day location=1]</p>
 	<?php
 	/*
@@ -257,12 +258,12 @@ if ( is_admin() )
 	}
 
 	function mz_mindbody_section2_text() {
-	?><div style="float:right;width:150px;background:#CCCCFF;padding:5px 20px 20px 20px;margin-left:20px;"><h4><?php _e('Contact')?></h4>
+	?><div style="float:right;width:150px;background:#CCCCFF;padding:5px 20px 20px 20px;margin-left:20px;margin-bottom:8px;"><h4><?php _e('Contact')?></h4>
 	<p><a href="http://www.mzoo.org">www.mzoo.org</a></p>
 	<p><div class="dashicons dashicons-email-alt" alt="f466"></div> welcome, but please also post in the <a href="https://wordpress.org/support/plugin/mz-mindbody-api">support forum</a> for the benefit of others.</p>
 	<p><div class="dashicons dashicons-heart" alt="f487" style="color:red;"></div><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A95ZEELLHGECE" target="_blank">Small donations</a> and <a href="https://wordpress.org/support/view/plugin-reviews/mz-mindbody-api">reviews</a> welcome.</p>
 	</div>
-	<br/>
+	<br style='clear:right;'/>
 	<?php
 	}
 	
@@ -281,6 +282,7 @@ if ( is_admin() )
 	  require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
 	  $mz_timeframe = array_slice(mz_getDateRange(date_i18n('Y-m-d'), 1), 0, 1);
 	  $test = $mb->GetClasses($mz_timeframe);
+	  echo "<p>Once credentials have been set and activated, look for &lt;ErrorCode&gt;200&lt;/ErrorCode&gt; in the GetClassesResponse box below to confirm settings are correct.</p>";
 	  $mb->debug();
 	  echo "<br/>";
 	}

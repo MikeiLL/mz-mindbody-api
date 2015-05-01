@@ -1,4 +1,4 @@
 /* 
 We want to do as little as possible here so CSS can be defined in theme.
 */
-.form-table, .form-table td, .h3, .p {border:1px solid red;max-width:60%;margin-right:20px;}
+.form-table, .form-table td, .h3, .p {max-width:60%;margin-right:20px;}
