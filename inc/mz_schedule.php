@@ -48,7 +48,6 @@ function mZ_mindbody_show_schedule( $atts )
 
 	if(!empty($mz_schedule_data['GetClassesResult']['Classes']['Class']))
 	{
-		//$return .= $mb->debug();
 
 		$mz_days = $mb->makeNumericArray($mz_schedule_data['GetClassesResult']['Classes']['Class']);
 		$mz_days = sortClassesByDate($mz_days);

@@ -136,8 +136,11 @@ protected $userCredentials = array(
 	}
 
 	public function debug() {
-		echo "<textarea rows='8' cols='250'>".print_r($this->getXMLRequest(),1)."</textarea>";
-		echo "<textarea rows='8' cols='250'>".print_r($this->getXMLResponse(),1)."</textarea>";
+
+		echo "<textarea rows='6' cols='90'>".print_r($this->getXMLRequest(),1)."</textarea>";
+		echo "<br/>";
+		echo "<textarea rows='6' cols='90'>".print_r($this->getXMLResponse(),1)."</textarea>";
+
 	}
 
 	public function makeNumericArray($data) {
