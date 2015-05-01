@@ -353,7 +353,8 @@ if ( is_admin() )
 
 	function mz_mindbody_section_text() { ?>
 		<p><?php _e('Enter your mindbody credentials below.') ?></p>
-		<p><?php _e('If you do not have them yet, visit the') ?> <a href="https://api.mindbodyonline.com/Home/LogIn"><?php _e('MindBodyOnline developers website') ?></a> <?php _e('and register for developer credentials.')?></p>
+		<p><?php _e('If you do not have them yet, visit the') ?> <a href="https://api.mindbodyonline.com/Home/LogIn"><?php _e('MindBodyOnline developers website') ?></a> <?php _e('and register for developer credentials.')?>
+		(<a href="http://www.mzoo.org/creating-your-mindbody-credentials/"><?php _e('Detailed instructions here') ?></a>.)</p>
 		<p><?php _e('Add to page or post with shortcode')?>: [mz-mindbody-show-schedule], [mz-mindbody-show-events], [mz-mindbody-staff-list], [mz-mindbody-show-schedule type=day location=1]</p>
 		<p><?php _e('Pro version offers some new shortcodes')?>: [mz-mindbody-login], [mz-mindbody-logout], [mz-mindbody-signup]</p>
 		<p><?php _e('In order for these to work correctly, the permalinks for those pages need to be')?><em>login</em>, <em>logout</em> and <em>create_account</em>
@@ -364,11 +365,11 @@ if ( is_admin() )
 	}
 
 	function mz_mindbody_section2_text() {
-	?><div style="float:right;width:150px;background:#CCCCFF;padding:5px 20px 20px 20px;margin-left:20px;"><h4><?php _e('Contact')?></h4>
+	?><div style="float:right;width:150px;background:#CCCCFF;padding:5px 20px 20px 20px;margin-left:20px;margin-bottom:8px"><h4><?php _e('Contact')?></h4>
 	<p><a href="http://www.mzoo.org">www.mzoo.org</a></p>
 	<p><a href="mailto:mike@mzoo.org"><div class="dashicons dashicons-email-alt" alt="f466"></a></div> <a href="mailto:mike@mzoo.org">emails welcome</a>.</p>
 	</div>
-	<br/>
+	<br style='clear:right;'/>
 	<?php
 	}
 	
@@ -385,10 +386,10 @@ if ( is_admin() )
 	function mz_mindbody_debug_text() {
 	  require_once MZ_MINDBODY_SCHEDULE_DIR .'mindbody-php-api/MB_API.php';
 	  require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
+	  echo "<p>Once credentials have been set and activated, look for &lt;ErrorCode&gt;200&lt;/ErrorCode&gt; in the GetClassesResponse box below to confirm settings are correct.</p>";
 	  $mz_timeframe = array_slice(mz_getDateRange(date_i18n('Y-m-d'), 1), 0, 1);
 	  $test = $mb->GetClasses($mz_timeframe);
 	  $mb->debug();
-	  echo "<br/>";
 	}
 
 	// Display and fill the form field
