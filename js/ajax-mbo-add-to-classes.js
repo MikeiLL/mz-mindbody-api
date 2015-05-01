@@ -29,6 +29,7 @@ $(document).ready(function($) {
 						}
 						else {
 						   $(".mz_add_to_class"+nuVal).find(".signup").text(json.message);
+						   $(".mz_description_holder").find(".visitMBO"+nuVal).removeAttr("style");
 						}
 					 }
 				  });  
