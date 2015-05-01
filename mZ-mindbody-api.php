@@ -36,6 +36,16 @@ function mZ_mindbody_schedule_uninstall(){
 	delete_option('mz_mindbody_options');
 }
 
+function mz_mbo_enqueue($hook) {
+    if ( 'settings_page_mz-mindbody-api/mZ-mindbody-api' != $hook ) {
+        return;
+    }
+    wp_register_style( 'mz_mbo_admin_css', plugin_dir_url( __FILE__ ) . 'css/mbo_style_admin.css', false, '1.0.0' );
+        wp_enqueue_style( 'mz_mbo_admin_css' );
+
+}
+add_action( 'admin_enqueue_scripts', 'mz_mbo_enqueue' );
+
 //TODO Deal with conflict when $mb class get's called twice
 add_action('widgets_init', 'mZ_mindbody_schedule_register_widget');
 
@@ -123,7 +133,21 @@ if ( is_admin() )
 			'mz_mindbody_server_check',
 			'mz_mindbody'
 		);
-
+		
+		add_settings_section(
+			'mz_mindbody_section2_text',
+			'',
+			'mz_mindbody_section2_text',
+			'mz_mindbody'
+		);
+		
+		add_settings_section(
+			'mz_mindbody_section4_text',
+			'',
+			'mz_mindbody_section4_text',
+			'mz_mindbody'
+		);
+		
 		add_settings_section(
 			'mz_mindbody_main',
 			'MZ Mindbody Credentials',
@@ -131,6 +155,7 @@ if ( is_admin() )
 			'mz_mindbody'
 		);
 
+		
 		add_settings_field(
 			'mz_mindbody_source_name',
 			'Source Name: ',
@@ -162,11 +187,11 @@ if ( is_admin() )
 			'mz_mindbody',
 			'mz_mindbody_main'
 		);
-
+		
 		add_settings_section(
-			'mz_mindbody_secondary',
-			'MZ Mindbody Contact',
-			'mz_mindbody_section2_text',
+			'mz_mindbody_section3_text',
+			'',
+			'mz_mindbody_section3_text',
 			'mz_mindbody'
 		);
 
@@ -232,14 +257,32 @@ if ( is_admin() )
 	}
 
 	function mz_mindbody_section2_text() {
-	?><p><?php _e('Contact')?>: <a href="http://www.mzoo.org"> www.mzoo.org</a></p>
+	?><div style="float:right;width:150px;background:#CCCCFF;padding:5px 20px 20px 20px;margin-left:20px;"><h4><?php _e('Contact')?></h4>
+	<p><a href="http://www.mzoo.org">www.mzoo.org</a></p>
+	<p><div class="dashicons dashicons-email-alt" alt="f466"></div> welcome, but please also post in the <a href="https://wordpress.org/support/plugin/mz-mindbody-api">support forum</a> for the benefit of others.</p>
+	<p><div class="dashicons dashicons-heart" alt="f487" style="color:red;"></div><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A95ZEELLHGECE" target="_blank">Small donations</a> and <a href="https://wordpress.org/support/view/plugin-reviews/mz-mindbody-api">reviews</a> welcome.</p>
+	</div>
+	<br/>
+	<?php
+	}
+	
+	function mz_mindbody_section4_text() {
+	?><div style="float:right;width:150px;background:#CCCCFF;padding:5px 20px 20px 20px;margin-left:20px;">
+	<h4>Newsflash</h4>
+	<p><div class="dashicons dashicons-megaphone" alt="f488"></div>Ask about the new version that allows users to create MBO accounts and register for classes and events without leaving the Wordpress site.</p>
+	</div>
 	<?php
 	}
 
 	//require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
-	add_action( 'admin_init', 'mz_mindbody_debug_text' );
+	add_action( 'wp_footer', 'mz_mindbody_debug_text' );
 	function mz_mindbody_debug_text() {
-	//$mb->debug();
+	  require_once MZ_MINDBODY_SCHEDULE_DIR .'mindbody-php-api/MB_API.php';
+	  require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
+	  $mz_timeframe = array_slice(mz_getDateRange(date_i18n('Y-m-d'), 1), 0, 1);
+	  $test = $mb->GetClasses($mz_timeframe);
+	  $mb->debug();
+	  echo "<br/>";
 	}
 
 	// Display and fill the form field
@@ -277,7 +320,15 @@ if ( is_admin() )
 		echo "<input id='mz_mindbody_eventID' name='mz_mindbody_options[mz_mindbody_eventID]' type='text' value='$mz_mindbody_eventID' />  eg: 25,17";
 	}
 
-	// Display and fill the form field
+	function mz_mindbody_section3_text() {
+		echo "Having this checked will allow you to see immediate changes in MBO, ";
+		echo "<br/>";
+		echo "but may end up costing more in API transfer fees.";
+		echo "<br/>";
+		echo "Class calendar cache is held for 1 day. Event calendar for 1 hour.";
+		}
+		
+	// Display and fill the cache reset form field
 	function mz_mindbody_clear_cache() {
 		$options = get_option( 'mz_mindbody_options','Option Not Set' );
 		printf(
