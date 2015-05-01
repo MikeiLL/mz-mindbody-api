@@ -216,7 +216,7 @@ if ( is_admin() )
 			<form action="options.php" method="post">
 				<?php settings_fields('mz_mindbody_options'); ?>
 				<?php do_settings_sections('mz_mindbody'); ?>
-				<input name="Submit" type="submit" value="<?php esc_attr_e('Save Changes'); ?>" />
+				<input name="Submit" type="submit" class="button button-primary" value="<?php esc_attr_e('Save Changes'); ?>" />
 			</form>
 		</div>
 		<?php
@@ -390,6 +390,7 @@ if ( is_admin() )
 	  $mz_timeframe = array_slice(mz_getDateRange(date_i18n('Y-m-d'), 1), 0, 1);
 	  $test = $mb->GetClasses($mz_timeframe);
 	  $mb->debug();
+	  echo "<br/>";
 	}
 
 	// Display and fill the form field
