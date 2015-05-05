@@ -2,7 +2,7 @@
 function mZ_mindbody_signup() {
 
 	require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
-mz_pr($_POST);
+
 if(!empty($_POST['website_url'])){
 	echo "<h1>Die Robot Spam!</h1>";
 	die();
