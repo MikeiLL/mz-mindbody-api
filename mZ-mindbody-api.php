@@ -46,6 +46,18 @@ function mz_mbo_enqueue($hook) {
 }
 add_action( 'admin_enqueue_scripts', 'mz_mbo_enqueue' );
 
+if (!function_exists( 'mZ_latest_jquery' )){
+	function mZ_latest_jquery(){
+		//	Use latest jQuery release
+		if( !is_admin() ){
+			wp_deregister_script('jquery');
+			wp_register_script('jquery', ("http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"), false, '');
+			wp_enqueue_script('jquery');
+		}
+	}
+	add_action('wp_enqueue_scripts', 'mZ_latest_jquery');
+}
+
 //TODO Deal with conflict when $mb class get's called twice
 add_action('widgets_init', 'mZ_mindbody_schedule_register_widget');
 
