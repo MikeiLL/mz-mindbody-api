@@ -22,20 +22,21 @@ require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
             displayLoginForm();
         }
     } else if(empty($_SESSION['GUID'])) {
-        displayLoginForm();
+        return displayLoginForm();
     } else {
-        displayWelcome();
+        return displayWelcome();
     }
 
 }
 
 function displayLoginForm() {
 $create_account_url = home_url()."/create-account";
-	echo <<<EOD
-<form method="POST">
-	<input type="text" name="username" placeholder="username" />
-	<input type="password" name="password" placeholder="password" />
-	<button type="submit">Log in</button> or <a href="$create_account_url" class="btn mz_add_to_class">Register with MindBodyOnline</a>
+	return <<<EOD
+<form class="mz_mbo_login" method="POST">
+	<input type="text" name="username" placeholder="username" /><br class="btwn_mz_mbo_inputs"/>
+	<input type="password" name="password" placeholder="password" /><br class="btwn_mz_mbo_input_btns"/>
+	<button type="submit">Log in</button><br class="btwn_mz_mbo_buttons" /> 
+	or <a href="$create_account_url" class="btn mz_add_to_class">Register with MindBodyOnline</a>
 </form>	
 EOD;
 }
