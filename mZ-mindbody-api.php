@@ -357,7 +357,7 @@ if ( is_admin() )
 		(<a href="http://www.mzoo.org/creating-your-mindbody-credentials/"><?php _e('Detailed instructions here') ?></a>.)</p>
 		<p><?php _e('Add to page or post with shortcode')?>: [mz-mindbody-show-schedule], [mz-mindbody-show-events], [mz-mindbody-staff-list], [mz-mindbody-show-schedule type=day location=1]</p>
 		<p><?php _e('Pro version offers some new shortcodes')?>: [mz-mindbody-login], [mz-mindbody-logout], [mz-mindbody-signup]</p>
-		<p><?php _e('In order for these to work correctly, the permalinks for those pages need to be')?><em>login</em>, <em>logout</em> and <em>create_account</em>
+		<p><?php _e('In order for these to work correctly, the permalinks for those pages need to be')?><em>login</em>, <em>logout</em> and <em>create-account</em>
 	<?php
 	/*
 	TODO:[mz-mindbody-show-schedule (type=day)],
