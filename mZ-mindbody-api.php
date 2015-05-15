@@ -53,7 +53,7 @@ function mZ_mindbody_schedule_register_widget() {
     register_widget( 'mZ_Mindbody_day_schedule');
 }
 
-add_action( 'init', 'mZ_latest_jquery' );
+//add_action( 'init', 'mZ_latest_jquery' );
 
 if (!function_exists( 'mZ_latest_jquery' )){
 	function mZ_latest_jquery(){
@@ -64,6 +64,7 @@ if (!function_exists( 'mZ_latest_jquery' )){
 			wp_enqueue_script('jquery');
 		}
 	}
+	add_action('wp_enqueue_scripts', 'mZ_latest_jquery');
 }
 
 class mZ_Mindbody_day_schedule extends WP_Widget {
