@@ -102,7 +102,7 @@ class mZ_Mindbody_day_schedule extends WP_Widget {
         $arguments['type'] = 'day';
         if (!empty($title) ) 
             { echo $before_title . $title . $after_title; };
-            echo(mZ_mindbody_show_schedule($arguments));
+            echo(mZ_mindbody_show_schedule($arguments, $account=0));
         echo $after_widget;
     }
 }

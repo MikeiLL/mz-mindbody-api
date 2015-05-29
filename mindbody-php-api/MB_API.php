@@ -1,14 +1,7 @@
 <?php
 class MB_API {
 	protected $client;
-	/*
-** Uncomment if you need user credentials
-protected $userCredentials = array(
-"Username"=>'REPLACE_WITH_YOUR_USERNAME',
-"Password"=>'REPLACE_WITH_YOUR_PASSWORD',
-"SiteIDs"=>array('REPLACE_WITH_YOUR_SITE_ID')
-);
-*/
+
 	protected $appointmentServiceWSDL = "https://api.mindbodyonline.com/0_5/AppointmentService.asmx?WSDL";
 	protected $classServiceWSDL = "https://api.mindbodyonline.com/0_5/ClassService.asmx?WSDL";
 	protected $clientServiceWSDL = "https://api.mindbodyonline.com/0_5/ClientService.asmx?WSDL";
@@ -40,12 +33,14 @@ protected $userCredentials = array(
 			'StaffService' => $this->staffServiceWSDL
 		);
 		// set apiMethods array with available methods from Mindbody services
+
 		if (phpversion() >= 5.3) {
             include_once('php_variants/construct_newer.php');
         }else{
             include_once('php_variants/construct_older.php');
         }
 		
+			//mz_pr($this->apiMethods);
 		// set sourceCredentials
 		if(!empty($sourceCredentials)) {
 			if(!empty($sourceCredentials['SourceName'])) {
@@ -197,4 +192,5 @@ protected $userCredentials = array(
 		}
 	}
 }
+
 ?>

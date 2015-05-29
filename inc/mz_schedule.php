@@ -1,5 +1,5 @@
 <?php
-function mZ_mindbody_show_schedule( $atts )
+function mZ_mindbody_show_schedule( $atts, $account )
 {
 	require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
 	
@@ -9,7 +9,8 @@ function mZ_mindbody_show_schedule( $atts )
 	// optionally pass in a type parameter. Defaults to week.
 	extract( shortcode_atts( array(
 		'type' => 'week',
-		'location' => '1'
+		'location' => '1',
+		'account' => '0'
 			), $atts ) );
     $mz_date = empty($_GET['mz_date']) ? date_i18n('Y-m-d') : mz_validate_date($_GET['mz_date']);
 
@@ -33,10 +34,14 @@ function mZ_mindbody_show_schedule( $atts )
 	if ( $mz_cache_reset == "on" ){
 		delete_transient( $mz_schedule_cache );
 	}
-
 	if (isset($_GET) || ( false === ( $mz_schedule_data = get_transient( $mz_schedule_cache ) ) ) ) {
 	//Send the timeframe to the GetClasses class, unless already cached
-	$mz_schedule_data = $mb->GetClasses($mz_timeframe);
+	if ($account == 0) {
+		$mz_schedule_data = $mb->GetClasses($mz_timeframe);
+		}else{
+		$mb->sourceCredentials['SiteIDs'][0] = $account; 
+		$mz_schedule_data = $mb->GetClasses($mz_timeframe);
+		}
 	}
     //mz_pr($mz_schedule_data);
 	//Cache the mindbody call for 24 hours
@@ -48,8 +53,8 @@ function mZ_mindbody_show_schedule( $atts )
 
 	if(!empty($mz_schedule_data['GetClassesResult']['Classes']['Class']))
 	{
-
 		$mz_days = $mb->makeNumericArray($mz_schedule_data['GetClassesResult']['Classes']['Class']);
+		
 		$mz_days = sortClassesByDate($mz_days);
 
 		    $return .= '<div id="mz_mbo_schedule" class="mz_mbo_schedule">';

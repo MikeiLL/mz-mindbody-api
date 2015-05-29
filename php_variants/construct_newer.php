@@ -1,5 +1,5 @@
 <?php
-
+		
 		// set apiMethods array with available methods from Mindbody services
 		foreach($this->apiServices as $serviceName => $serviceWSDL) {
 			$this->client = new SoapClient($serviceWSDL, $this->soapOptions);
