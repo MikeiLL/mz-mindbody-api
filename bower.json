@@ -1,0 +1,85 @@
+{
+  "name": "mz-mindbody-api",
+  "version": "1.8",
+  "authors": [
+    "Mike iLL Kilmer <mike@mzoo.org>"
+  ],
+  "description": "Wordpress MBO API Integration Plugin.",
+  "keywords": [
+    "mindbody",
+    "wordpress",
+    "api"
+  ],
+  "license": "MIT",
+  "homepage": "www.mZoo.org",
+  "dependencies": {
+    "bootstrap-sass-official": "~3.3.4"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],  "overrides": {
+    "bootstrap-sass-official": {
+      "main": [
+		"./assets/stylesheets/bootstrap/mixins/*",
+		"./assets/stylesheets/bootstrap/_alerts.scss",
+		"./assets/stylesheets/bootstrap/_badges.scss",
+		"./assets/stylesheets/bootstrap/_breadcrumbs.scss",
+		"./assets/stylesheets/bootstrap/_button-groups.scss",
+		"./assets/stylesheets/bootstrap/_buttons.scss",
+		"./assets/stylesheets/bootstrap/_carousel.scss",
+		"./assets/stylesheets/bootstrap/_close.scss",
+		"./assets/stylesheets/bootstrap/_code.scss",
+		"./assets/stylesheets/bootstrap/_dropdowns.scss",
+		"./assets/stylesheets/bootstrap/_component-animations.scss",
+		"./assets/stylesheets/bootstrap/_normalize.scss",
+		"./assets/stylesheets/bootstrap/_forms.scss",
+		"./assets/stylesheets/bootstrap/_glyphicons.scss",
+		"./assets/stylesheets/bootstrap/_grid.scss",
+		"./assets/stylesheets/bootstrap/_input-groups.scss",
+		"./assets/stylesheets/bootstrap/_jumbotron.scss",
+		"./assets/stylesheets/bootstrap/_labels.scss",
+		"./assets/stylesheets/bootstrap/_list-group.scss",
+		"./assets/stylesheets/bootstrap/_media.scss",
+		"./assets/stylesheets/bootstrap/_mixins.scss",
+		"./assets/stylesheets/bootstrap/_modals.scss",
+		"./assets/stylesheets/bootstrap/_navs.scss",
+		"./assets/stylesheets/bootstrap/_pager.scss",
+		"./assets/stylesheets/bootstrap/_pagination.scss",
+		"./assets/stylesheets/bootstrap/_panels.scss",
+		"./assets/stylesheets/bootstrap/_popovers.scss",
+		"./assets/stylesheets/bootstrap/_print.scss",
+		"./assets/stylesheets/bootstrap/_progress-bars.scss",
+		"./assets/stylesheets/bootstrap/_responsive-embed.scss",
+		"./assets/stylesheets/bootstrap/_responsive-utilities.scss",
+		"./assets/stylesheets/bootstrap/_scaffolding.scss",
+		"./assets/stylesheets/bootstrap/_tables.scss",
+		"./assets/stylesheets/bootstrap/_theme.scss",
+		"./assets/stylesheets/bootstrap/_thumbnails.scss",
+		"./assets/stylesheets/bootstrap/_tooltip.scss",
+		"./assets/stylesheets/bootstrap/_type.scss",
+		"./assets/stylesheets/bootstrap/_utilities.scss",
+		"./assets/stylesheets/bootstrap/_wells.scss",
+        "./assets/javascripts/bootstrap/transition.js",
+        "./assets/javascripts/bootstrap/alert.js",
+        "./assets/javascripts/bootstrap/button.js",
+        "./assets/javascripts/bootstrap/collapse.js",
+        "./assets/javascripts/bootstrap/dropdown.js",
+        "./assets/javascripts/bootstrap/modal.js",
+        "./assets/javascripts/bootstrap/tooltip.js",
+        "./assets/javascripts/bootstrap/popover.js",
+        "./assets/javascripts/bootstrap/scrollspy.js",
+        "./assets/javascripts/bootstrap/tab.js",
+        "./assets/javascripts/bootstrap/affix.js",
+        "./assets/fonts/bootstrap/glyphicons-halflings-regular.eot",
+        "./assets/fonts/bootstrap/glyphicons-halflings-regular.svg",
+        "./assets/fonts/bootstrap/glyphicons-halflings-regular.ttf",
+        "./assets/fonts/bootstrap/glyphicons-halflings-regular.woff",
+        "./assets/fonts/bootstrap/glyphicons-halflings-regular.woff2"
+      ]
+    }
+  }
+}

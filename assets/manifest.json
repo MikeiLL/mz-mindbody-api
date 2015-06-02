@@ -1,0 +1,21 @@
+{
+  "dependencies": {
+    "main.js": {
+      "files": [
+        "scripts/main.js"
+      ],
+      "main": true
+    },
+    "main.css": {
+      "files": [
+        "styles/main.scss"
+      ],
+      "main": true
+    },
+    "admin-style.css": {
+      "files": [
+        "styles/admin-style.scss"
+      ]
+    }
+  }
+}
