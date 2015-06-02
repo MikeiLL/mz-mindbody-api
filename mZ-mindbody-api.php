@@ -65,6 +65,20 @@ function mZ_mindbody_schedule_register_widget() {
     register_widget( 'mZ_Mindbody_day_schedule');
 }
 
+add_action( 'init', 'mZ_latest_jquery' );
+
+if (!function_exists( 'mZ_latest_jquery' )){
+	function mZ_latest_jquery(){
+		//	Use latest jQuery release
+		if( !is_admin() ){
+			wp_deregister_script('jquery');
+			wp_register_script('jquery', ("http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"), false, '');
+			wp_enqueue_script('jquery');
+		}
+	}
+	add_action('wp_enqueue_scripts', 'mZ_latest_jquery');
+}
+
 class mZ_Mindbody_day_schedule extends WP_Widget {
 
     function mZ_Mindbody_day_schedule() {
@@ -100,12 +114,22 @@ class mZ_Mindbody_day_schedule extends WP_Widget {
         $arguments['type'] = 'day';
         if (!empty($title) ) 
             { echo $before_title . $title . $after_title; };
-            echo(mZ_mindbody_show_schedule($arguments));
+            echo(mZ_mindbody_show_schedule($arguments, $account=0));
         echo $after_widget;
     }
 }
 
-
+//Force page protocol to match current
+$protocol = isset( $_SERVER["HTTPS"]) ? 'https://' : 'http://';
+	
+	
+//For Testing
+function mZ_write_to_file($message){
+        $handle = fopen("/Applications/MAMP/logs/mZ_mbo_reader.php", "a+");
+        fwrite($handle, "\nMessage:\t " . $message);
+        fclose($handle);
+    }
+    
 if ( is_admin() )
 { // admin actions
 	add_action ('admin_menu', 'mz_mindbody_settings_menu');
@@ -250,30 +274,31 @@ if ( is_admin() )
 
 		if ($mz_requirements == 1)
 		{
-			echo "<p>MZ Mindbody API requires SOAP and PEAR. Please contact your hosting provider or enable via your CPANEL of php.ini file.</p>";
+			_e('<div class="settings-error" style="max-width:60%"><p>MZ Mindbody API requires SOAP and PEAR. Please contact your hosting provider or enable via your CPANEL of php.ini file.</p></div>');
 		}
 		else
 		{
-			_e('Congratulations. Your server appears to be configured to integrate with mindbodyonline.');
+			_e('<div class="updated" style="max-width:60%">Congratulations. Your server appears to be configured to integrate with mindbodyonline.</div>');
 		}
 	}
 
 	function mz_mindbody_section_text() { ?>
+		<div style="max-width:60%">
 		<p><?php _e('Enter your mindbody credentials below.') ?></p>
 		<p><?php _e('If you do not have them yet, visit the') ?> <a href="https://api.mindbodyonline.com/Home/LogIn"><?php _e('MindBodyOnline developers website') ?></a> <?php _e('and register for developer credentials.')?>
 		(<a href="http://www.mzoo.org/creating-your-mindbody-credentials/"><?php _e('Detailed instructions here') ?></a>.)</p>
-		<p><?php _e('Add to page or post with shortcode')?>: [mz-mindbody-show-schedule], [mz-mindbody-show-events], [mz-mindbody-staff-list], [mz-mindbody-show-schedule type=day location=1]</p>
+		<p><?php _e('Add to page or post with shortcode')?>: [mz-mindbody-show-schedule], [mz-mindbody-show-events], [mz-mindbody-staff-list], [mz-mindbody-show-schedule type=day location=1] </p>
+		<p> Parameter 'account' can be added to any of the above shortcodes like:  [shortcode account=-99] to call from a different MBO business account. 
+		(-99 is the MBO <em>sandbox</em> account)</font></p>
+		</div>
 	<?php
-	/*
-	TODO:[mz-mindbody-show-schedule (type=day)],
-	*/
+	
 	}
 
 	function mz_mindbody_section2_text() {
 	?><div style="float:right;width:150px;background:#CCCCFF;padding:5px 20px 20px 20px;margin-left:20px;margin-bottom:8px;"><h4><?php _e('Contact')?></h4>
 	<p><a href="http://www.mzoo.org">www.mzoo.org</a></p>
-	<p><div class="dashicons dashicons-email-alt" alt="f466"></div> welcome, but please also post in the <a href="https://wordpress.org/support/plugin/mz-mindbody-api">support forum</a> for the benefit of others.</p>
-	<p><div class="dashicons dashicons-heart" alt="f487" style="color:red;"></div><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A95ZEELLHGECE" target="_blank">Small donations</a> and <a href="https://wordpress.org/support/view/plugin-reviews/mz-mindbody-api">reviews</a> welcome.</p>
+	<p><a href="mailto:mike@mzoo.org"><div class="dashicons dashicons-email-alt" alt="f466"></a></div> <a href="mailto:mike@mzoo.org">emails welcome</a>.</p>
 	</div>
 	<br style='clear:right;'/>
 	<?php
@@ -281,8 +306,10 @@ if ( is_admin() )
 	
 	function mz_mindbody_section4_text() {
 	?><div style="float:right;width:150px;background:#CCCCFF;padding:5px 20px 20px 20px;margin-left:20px;">
-	<h4>Newsflash</h4>
-	<p><div class="dashicons dashicons-megaphone" alt="f488"></div>Ask about the new version that allows users to create MBO accounts and register for classes and events without leaving the Wordpress site.</p>
+	<h4><i class="dashicons dashicons-megaphone" alt="f488" style="max-width:90%"></i> News</h4>
+	<p>Now supports multiple locations <em>and</em> MBO accounts.<p>
+	<hr/>
+	Customization requests welcome and there's an advanced version of the plugin integrates MBO signup and class registration without leaving the WP site.
 	</div>
 	<?php
 	}
@@ -292,9 +319,10 @@ if ( is_admin() )
 	function mz_mindbody_debug_text() {
 	  require_once MZ_MINDBODY_SCHEDULE_DIR .'mindbody-php-api/MB_API.php';
 	  require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
+	  echo "<p>Once credentials have been set and activated, look for <code>&lt;ErrorCode&gt;200&lt;/ErrorCode&gt;</code> in the GetClassesResponse box below to confirm settings are correct.</p>";
 	  $mz_timeframe = array_slice(mz_getDateRange(date_i18n('Y-m-d'), 1), 0, 1);
 	  $test = $mb->GetClasses($mz_timeframe);
-	  echo "<p>Once credentials have been set and activated, look for &lt;ErrorCode&gt;200&lt;/ErrorCode&gt; in the GetClassesResponse box below to confirm settings are correct.</p>";
+	  echo "<p>Once credentials have been set and activated, look for <code>&lt;ErrorCode&gt;200&lt;/ErrorCode&gt;</code> in the GetClassesResponse box below to confirm settings are correct.</p>";
 	  $mb->debug();
 	  echo "<br/>";
 	}
@@ -380,20 +408,15 @@ else
     add_action('wp_login', 'myEndSession');
 
     function myStartSession() {
-    	if (phpversion() >= 5.4) {
-			if (session_status() == PHP_SESSION_NONE) {
-				session_start();
-				}
-			}else{
-			if(!session_id()) {
-				session_start();
-				}
+    	if ((function_exists('session_status') && session_status() !== PHP_SESSION_ACTIVE) || !session_id()) {
+			  session_start();
 			}
     }
 
     function myEndSession() {
         session_destroy ();
     }
+
 
   add_action( 'wp_enqueue_script', 'load_jquery' );
 	function load_jquery() {
@@ -422,10 +445,8 @@ else
 	add_shortcode('mz-mindbody-show-schedule', 'mZ_mindbody_show_schedule' );
 	add_shortcode('mz-mindbody-show-events', 'mZ_mindbody_show_events' );
 	add_shortcode('mz-mindbody-staff-list', 'mZ_mindbody_staff_listing' );
-	add_shortcode('mz-mindbody-login', 'mZ_mindbody_login' );
-	add_shortcode('mz-mindbody-logout', 'mZ_mindbody_logout' );
-	add_shortcode('mz-mindbody-signup', 'mZ_mindbody_signup' );
 	add_shortcode('mz-mindbody-activation', 'mZ_mindbody_activation' );
+	add_shortcode('mz-mindbody-add-to-classes', 'mz_mindbody_add_to_classes' );
 }//EOF Not Admin
 
 if (phpversion() >= 5.3) {

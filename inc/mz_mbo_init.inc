@@ -7,16 +7,13 @@ $mz_event_calendar_duration = 60;
 
 $options = get_option( 'mz_mindbody_options','Error: Mindbody Credentials Not Set' );
 
-$mb = new MB_API(array(
+$mb  = new MB_API(array(
  "SourceName" => $options['mz_source_name'],
    
                         'Password' => $options['mz_mindbody_password'],
    
                         'SiteIDs' => array($options['mz_mindbody_siteID'])
-));
-                        
-/* $mb->getXMLRequest();
-$mb->getXMLResponse();
-$mb->debug(); */
+)); 
+
 
 ?>

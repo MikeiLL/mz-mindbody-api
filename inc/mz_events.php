@@ -1,8 +1,16 @@
 <?php
-function mZ_mindbody_show_events ()
+function mZ_mindbody_show_events ($atts, $account=0)
 {
  	require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
 
+	global $add_mz_ajax_script;
+	$add_mz_ajax_script = true;
+
+	// optionally pass in a type parameter. Defaults to week.
+	extract( shortcode_atts( array(
+		'account' => '0'
+			), $atts ) );
+			
  	// grab session type IDs for events
  	$mz_sessions = array($options['mz_mindbody_eventID']);
 
@@ -15,7 +23,7 @@ function mZ_mindbody_show_events ()
 	{
 	    $mz_timeframe = array_slice(mz_getDateRange($mz_date, $mz_event_calendar_duration), 0, 1);
 	    
-	    //While we still eed to support php 5.2 and can't use [0] on above
+	    //While we still need to support php 5.2 and can't use [0] on above
 	    $mz_timeframe = array_pop($mz_timeframe);
 	    
         $mz_timeframe = array_merge($mz_timeframe, array('SessionTypeIDs'=>$mz_sessions));
@@ -31,6 +39,12 @@ function mZ_mindbody_show_events ()
 
 		if ( false === ( $mz_event_data = get_transient( $mz_events_cache ) ) )
 		{
+			if ($account == 0) {
+			$mz_schedule_data = $mb->GetClasses($mz_timeframe);
+		}else{
+			$mb->sourceCredentials['SiteIDs'][0] = $account; 
+			$mz_schedule_data = $mb->GetClasses($mz_timeframe);
+		}
 			$mz_event_data = $mb->GetClasses($mz_timeframe);
 		}
 
@@ -38,7 +52,6 @@ function mZ_mindbody_show_events ()
 		// TODO make cache timeout configurable.
 		set_transient($mz_events_cache, $mz_event_data, 60 * 60);
 		// END caching configuration
-
 		// keep this here
 		//$return .= $mb->debug();
         
@@ -70,9 +83,10 @@ function mZ_mindbody_show_events ()
 							$sDate = date_i18n('m/d/Y', strtotime($class['StartDateTime']));
 							$sLoc = $class['Location']['ID'];
 							$studioid = $class['Location']['SiteID'];
-							$sclassid = $class['ClassScheduleID'];
+							$sclassid = $class['ID'];
 							// why is this hardcoded?
 							$sType = -7;
+							$isAvailable = $class['IsAvailable'];
 							if (empty($class['ClassDescription']['ImageURL']))
 							    $image = '';
 							    else
@@ -88,19 +102,26 @@ function mZ_mindbody_show_events ()
 							$enrolmentType = $class['ClassDescription']['Program']['ScheduleType'];
 							$day_and_date =  date_i18n("D F d", strtotime($classDate));
 
-							$return .= '<tr><td>';
-							$return .= '<div class="mz_mindbody_events_header clearfix">';
-							$return .= '<div id="mz_mindbody_events_details">';
+							$return .= '<tr class="mz_description_holder"><td>';
 							$return .= "<h3>$className</h3>";
-							$return .= '<a class="btn btn-success" href="' . $eventLinkURL . '">' . __('Sign-Up') . '</a>';
+
+							$clientID = isset($_SESSION['GUID']) ? $_SESSION['client']['ID'] : '';
+							$add_to_class_nonce = wp_create_nonce( 'mz_MBO_add_to_class_nonce');
+							if ($clientID == ''){
+								 $return .= $isAvailable ? '<br/><a class="btn mz_add_to_class" href="'.home_url().'/login">Login to Sign-up</a>': '';
+								  }else{
+							  $return .= $isAvailable ? '<br/><a id="mz_add_to_class" class="btn mz_add_to_class"' 
+								. ' data-nonce="' . $add_to_class_nonce 
+								. '" data-classID="' . $sclassid  
+								. '" data-clientID="' . $clientID 
+								. '">' .
+							  '<span class="signup">'.__('Sign-Up') . '</span><span class="count" style="display:none">0</span></a>': '';
+							  }
+							$return .= '<br/><div id="visitMBO" class="btn visitMBO" style="display:none"><a href="'.$eventLinkURL.'" target="_blank">Manage on MindBody Site<a/></div>';
 							$return .= '<p class="mz_event_staff">with '. $staffName.'</p>';							
 
 							$return .= '<h4 class="mz_event_staff">'.$day_and_date.', ' . date_i18n('g:i a', strtotime($startDateTime)).' - ';
 							$return .= date_i18n('g:i a', strtotime($endDateTime)) . '</h4>';
-							
-							$return .= '</div>';
-
-							$return .= '</div>';
 
 							$return .= '<div class="mz_mindbody_event_description">';
 							$return .=  $image;

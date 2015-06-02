@@ -1,12 +1,16 @@
 <?php
-function mZ_mindbody_show_schedule( $atts )
+function mZ_mindbody_show_schedule( $atts, $account=0 )
 {
 	require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
+	
+	global $add_mz_ajax_script;
+	$add_mz_ajax_script = true;
 
 	// optionally pass in a type parameter. Defaults to week.
 	extract( shortcode_atts( array(
 		'type' => 'week',
-		'location' => '1'
+		'location' => '1',
+		'account' => '0'
 			), $atts ) );
     $mz_date = empty($_GET['mz_date']) ? date_i18n('Y-m-d') : mz_validate_date($_GET['mz_date']);
 
@@ -30,10 +34,14 @@ function mZ_mindbody_show_schedule( $atts )
 	if ( $mz_cache_reset == "on" ){
 		delete_transient( $mz_schedule_cache );
 	}
-
 	if (isset($_GET) || ( false === ( $mz_schedule_data = get_transient( $mz_schedule_cache ) ) ) ) {
 	//Send the timeframe to the GetClasses class, unless already cached
-	$mz_schedule_data = $mb->GetClasses($mz_timeframe);
+	if ($account == 0) {
+		$mz_schedule_data = $mb->GetClasses($mz_timeframe);
+		}else{
+		$mb->sourceCredentials['SiteIDs'][0] = $account; 
+		$mz_schedule_data = $mb->GetClasses($mz_timeframe);
+		}
 	}
     //mz_pr($mz_schedule_data);
 	//Cache the mindbody call for 24 hours
@@ -45,8 +53,8 @@ function mZ_mindbody_show_schedule( $atts )
 
 	if(!empty($mz_schedule_data['GetClassesResult']['Classes']['Class']))
 	{
-
 		$mz_days = $mb->makeNumericArray($mz_schedule_data['GetClassesResult']['Classes']['Class']);
+		
 		$mz_days = sortClassesByDate($mz_days);
 
 		    $return .= '<div id="mz_mbo_schedule" class="mz_mbo_schedule">';
@@ -70,10 +78,10 @@ function mZ_mindbody_show_schedule( $atts )
 					$sLoc = $class['Location']['ID'];
 					$sTG = $class['ClassDescription']['Program']['ID'];
 					$studioid = $class['Location']['SiteID'];
-					$sclassid = $class['ClassScheduleID'];
+					//$sclassid = $class['ClassScheduleID'];
+					$sclassid = $class['ID'];
 					$classDescription = $class['ClassDescription']['Description'];
 					$sType = -7;
-					$linkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$sclassid}&amp;studioid={$studioid}";
 					$className = $class['ClassDescription']['Name'];
 					$startDateTime = date_i18n('Y-m-d H:i:s', strtotime($class['StartDateTime']));
 					$endDateTime = date_i18n('Y-m-d H:i:s', strtotime($class['EndDateTime']));
@@ -82,16 +90,29 @@ function mZ_mindbody_show_schedule( $atts )
 					$isAvailable = $class['IsAvailable'];
 
 					// start building table rows
-					$return .= '<tr><td>';
+					$return .= '<tr class="mz_description_holder"><td>';
 					$return .= date_i18n('g:i a', strtotime($startDateTime)) . ' - ' . date_i18n('g:i a', strtotime($endDateTime));
 					// only show the schedule button if enabled in MBO
-					$return .= $isAvailable ? '<br><a class="btn" href="' . $linkURL . '" target="_blank">' . __('Sign-Up') . '</a>' : '';
+					$clientID = isset($_SESSION['GUID']) ? $_SESSION['client']['ID'] : '';
+					$add_to_class_nonce = wp_create_nonce( 'mz_MBO_add_to_class_nonce');
+					if ($clientID == ''){
+						 $return .= $isAvailable ? '<br/><a class="btn mz_add_to_class" href="'.home_url().'/login">Login to Sign-up</a>': '';
+						  }else{
+					  $return .= $isAvailable ? '<br/><a id="mz_add_to_class" class="btn mz_add_to_class"' 
+					    . ' data-nonce="' . $add_to_class_nonce 
+					    . '" data-classID="' . $sclassid  
+					    . '" data-clientID="' . $clientID 
+					    . '">' .
+					  '<span class="signup">'.__('Sign-Up') . '</span><span class="count" style="display:none">0</span></a>': '';
+					  }
 
 					$return .= '</td><td>';
 
 					// trigger link modal
 					$return .= '<a data-toggle="modal" data-target="#mzModal" href="' . MZ_MINDBODY_SCHEDULE_URL . 'inc/modal_descriptions.php?classDescription=' . urlencode(substr($classDescription, 0, 1000)) . '&amp;className='. urlencode(substr($className, 0, 1000)) .'">' . $className . '</a>';
-
+					$eventLinkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$sclassid}&amp;studioid={$studioid}";
+							
+					$return .= '<br/><div id="visitMBO" class="btn visitMBO" style="display:none"><a href="'.$eventLinkURL.'" target="_blank">Manage on MindBody Site<a/></div>';
 					$return .= '</td><td>';
 					$return .= $staffName;
 					$return .= '</td><td>';
@@ -107,10 +128,6 @@ function mZ_mindbody_show_schedule( $atts )
 		if ($type=='week')
 		    // schedule navigation
 		    $return .= mz_mbo_schedule_nav($mz_date);
-
-		// modal-content needs to live here for dynamic loading to work
-		// this still doesn't work because content is only loaded on
-		// the first click.  Not sure how to force content reload each click
 		$return .= '<div id="mzModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mzSmallModalLabel" aria-hidden="true">
                  <div class="modal-content">
 

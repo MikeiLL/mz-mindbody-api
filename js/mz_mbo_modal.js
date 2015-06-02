@@ -8,11 +8,9 @@ $(document).ready(function($) {
 				 $("#mzModal").modal({show:true});  
 			});
 			// kill modal contents on hide
-            $('body').on('hidden.bs.modal', '#mzModal', function () {
-             $(this).removeData('bs.modal');
-           });	
+			    $('body').on('hidden.bs.modal', '#mzModal', function () {
+			     $(this).removeData('bs.modal');
+			   });	
 		});
-		
-	});	
-
+	});
 })(jQuery);

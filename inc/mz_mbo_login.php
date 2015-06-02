@@ -8,6 +8,7 @@ require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
             'Username' => $_POST['username'],
             'Password' => $_POST['password']
         ));
+	
         if(!empty($validateLogin['ValidateLoginResult']['GUID'])) {
             $_SESSION['GUID'] = $validateLogin['ValidateLoginResult']['GUID'];
             $_SESSION['client'] = $validateLogin['ValidateLoginResult']['Client'];
@@ -21,27 +22,28 @@ require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
             displayLoginForm();
         }
     } else if(empty($_SESSION['GUID'])) {
-        displayLoginForm();
+        return displayLoginForm();
     } else {
-        displayWelcome();
+        return displayWelcome();
     }
 
 }
 
 function displayLoginForm() {
-	echo <<<EOD
-<form method="POST">
-	<input type="text" name="username" placeholder="username" />
-	<input type="password" name="password" placeholder="password" />
-	<button type="submit">Log in</button> <a href="signup.php">Sign up</a>
+$create_account_url = home_url()."/create-account";
+	return <<<EOD
+<form class="mz_mbo_login" method="POST">
+	<input type="text" name="username" placeholder="username" /><br class="btwn_mz_mbo_inputs"/>
+	<input type="password" name="password" placeholder="password" /><br class="btwn_mz_mbo_input_btns"/>
+	<button type="submit">Log in</button><br class="btwn_mz_mbo_buttons" /> 
+	or <a href="$create_account_url" class="btn mz_add_to_class">Register with MindBodyOnline</a>
 </form>	
 EOD;
 }
 
 function displayWelcome() {
-	echo "Welcome ".$_SESSION['client']['FirstName'].' '.$_SESSION['client']['LastName'];
+	echo "<h3>Welcome ".$_SESSION['client']['FirstName'].' '.$_SESSION['client']['LastName']."<h3>";
 	echo "<br />";
-	echo "<a href='logout.php'>Log out</a>";
-	echo "<pre>".print_r($_SESSION,1)."</pre>";
+	echo "<a href='".home_url()."/logout' class='btn mz_add_to_class'>Log out</a>";
 	}
 ?>

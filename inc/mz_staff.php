@@ -1,19 +1,30 @@
 <?php
-function mZ_mindbody_staff_listing()
+function mZ_mindbody_staff_listing($atts, $account=0)
 {
   require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
 
   $options = get_option( 'mz_mindbody_options','Option Not Set' );
   $mz_cache_reset = isset($options['mz_mindbody_clear_cache']) ? "on" : "off";
   $mz_staff_cache = "mz_staff_cache";
-
+  
+  // optionally pass in a type parameter. Defaults to week.
+	extract( shortcode_atts( array(
+		'account' => '0'
+			), $atts ) );
+			
   if ( $mz_cache_reset == "on" ){
     delete_transient( $mz_staff_cache );
   }
   if ( false === ( $staff = get_transient( $mz_staff_cache ) ) )
   {
-    //Send the timeframe to the GetClasses class, unless already cached
-    $staff = $mb->GetStaff();
+  	if ($account == 0) {
+			//Send the timeframe to the GetClasses class, unless already cached
+    		$staff = $mb->GetStaff();
+		}else{
+			$mb->sourceCredentials['SiteIDs'][0] = $account; 
+			$staff = $mb->GetStaff();
+		}
+    
   }
 
   $return = '';
