@@ -424,17 +424,17 @@ else
 	}
 
 	function mZ_mindbody_schedule_init() {
-	wp_register_style('mZ_mindbody_schedule_bs', plugins_url('/bootstrap/css/bootstrap.min.css',__FILE__ ));
+	wp_register_style('mZ_mindbody_schedule_bs', plugins_url('/dist/styles/main.css',__FILE__ ));
 	wp_enqueue_style('mZ_mindbody_schedule_bs');
 	}
 	add_action( 'init','mZ_mindbody_schedule_init');
 
 	add_action('init', 'enqueue_mz_mbo_scripts');
 	function enqueue_mz_mbo_scripts() {
-		wp_register_script( 'mz_mbo_bootstrap_script', plugins_url('/bootstrap/js/bootstrap.min.js', __FILE__), array( 'jquery' ),'3.1.1', true );
+		wp_register_script( 'mz_mbo_bootstrap_script', plugins_url('/dist/scripts/main.js', __FILE__), array( 'jquery' ),'3.1.1', true );
 		wp_enqueue_script( 'mz_mbo_bootstrap_script' );
-		wp_register_script( 'mz_mbo_modal_script', plugins_url('/js/mz_mbo_modal.js', __FILE__), array( 'jquery' ),'1', true );
-		wp_enqueue_script( 'mz_mbo_modal_script' );
+		//wp_register_script( 'mz_mbo_modal_script', plugins_url('/js/mz_mbo_modal.js', __FILE__), array( 'jquery' ),'1', true );
+		//wp_enqueue_script( 'mz_mbo_modal_script' );
 	}
 
 	include_once(dirname( __FILE__ ) . '/mindbody-php-api/MB_API.php');
