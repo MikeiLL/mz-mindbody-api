@@ -1,5 +1,5 @@
 <?php
-function mZ_mindbody_show_schedule( $atts, $account )
+function mZ_mindbody_show_schedule( $atts, $account=0 )
 {
 	require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
 	

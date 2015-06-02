@@ -1,11 +1,16 @@
 <?php
-function mZ_mindbody_show_events ()
+function mZ_mindbody_show_events ($atts, $account=0)
 {
  	require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
 
 	global $add_mz_ajax_script;
 	$add_mz_ajax_script = true;
 
+	// optionally pass in a type parameter. Defaults to week.
+	extract( shortcode_atts( array(
+		'account' => '0'
+			), $atts ) );
+			
  	// grab session type IDs for events
  	$mz_sessions = array($options['mz_mindbody_eventID']);
 
@@ -34,6 +39,12 @@ function mZ_mindbody_show_events ()
 
 		if ( false === ( $mz_event_data = get_transient( $mz_events_cache ) ) )
 		{
+			if ($account == 0) {
+			$mz_schedule_data = $mb->GetClasses($mz_timeframe);
+		}else{
+			$mb->sourceCredentials['SiteIDs'][0] = $account; 
+			$mz_schedule_data = $mb->GetClasses($mz_timeframe);
+		}
 			$mz_event_data = $mb->GetClasses($mz_timeframe);
 		}
 
