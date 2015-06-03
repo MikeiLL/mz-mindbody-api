@@ -343,6 +343,9 @@ if ( is_admin() )
 		<p><?php _e('Add to page or post with shortcode')?>: [mz-mindbody-show-schedule], [mz-mindbody-show-events], [mz-mindbody-staff-list], [mz-mindbody-show-schedule type=day location=1] </p>
 		<p> Parameter 'account' can be added to any of the above shortcodes like:  [shortcode account=-99] to call from a different MBO business account. 
 		(-99 is the MBO <em>sandbox</em> account)</font></p>
+		<p><?php _e('Advanced version offers some new shortcodes')?>: [mz-mindbody-login], [mz-mindbody-logout], [mz-mindbody-signup]</p>
+		<p><?php _e('In order for these to work correctly, the permalinks for those pages need to be: ')?><em>login</em>, <em>logout</em> and <em>create-account</em>
+
 		</div>
 	<?php
 	
@@ -372,7 +375,6 @@ if ( is_admin() )
 	function mz_mindbody_debug_text() {
 	  require_once MZ_MINDBODY_SCHEDULE_DIR .'mindbody-php-api/MB_API.php';
 	  require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
-	  echo "<p>Once credentials have been set and activated, look for <code>&lt;ErrorCode&gt;200&lt;/ErrorCode&gt;</code> in the GetClassesResponse box below to confirm settings are correct.</p>";
 	  $mz_timeframe = array_slice(mz_getDateRange(date_i18n('Y-m-d'), 1), 0, 1);
 	  $test = $mb->GetClasses($mz_timeframe);
 	  echo "<p>Once credentials have been set and activated, look for <code>&lt;ErrorCode&gt;200&lt;/ErrorCode&gt;</code> in the GetClassesResponse box below to confirm settings are correct.</p>";
