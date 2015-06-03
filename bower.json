@@ -28,13 +28,16 @@
     },
     "bootstrap-sass-official": {
       "main": [
-        "./assets/stylesheets/_bootstrap/mixins/*",
-        "./assets/stylesheets/bootstrap/_variables.scss",
-        "./assets/stylesheets/bootstrap/_mixins.scss",
-        "./assets/stylesheets/bootstrap/_alerts.scss",
-        "./assets/stylesheets/bootstrap/_button-groups.scss",
-        "./assets/stylesheets/bootstrap/_buttons.scss",
-        "./assets/stylesheets/bootstrap/_modals.scss",
+		"./assets/stylesheets/bootstrap/_variables.scss",
+		"./assets/stylesheets/bootstrap/mixins/_buttons.scss",
+		"./assets/stylesheets/bootstrap/mixins/_clearfix.scss",
+		"./assets/stylesheets/bootstrap/mixins/_opacity.scss",
+		"./assets/stylesheets/bootstrap/mixins/_tab-focus.scss",
+		"./assets/stylesheets/bootstrap/mixins/_table-row.scss",
+		"./assets/stylesheets/bootstrap/mixins/_vendor-prefixes.scss",
+		"./assets/stylesheets/bootstrap/_buttons.scss",
+		"./assets/stylesheets/bootstrap/_modals.scss",
+		"./assets/stylesheets/bootstrap/_tables.scss",
         "./assets/javascripts/bootstrap/button.js",
         "./assets/javascripts/bootstrap/modal.js"
       ]

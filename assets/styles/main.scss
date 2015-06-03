@@ -4,9 +4,13 @@ We want to do as little as possible here so CSS can be defined in theme.
 // Automatically injected Bower dependencies via wiredep (never manually edit this block)
 // bower:scss
 @import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/_variables.scss";
-@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/_mixins.scss";
-@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/_alerts.scss";
-@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/_button-groups.scss";
+@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/mixins/_buttons.scss";
+@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/mixins/_clearfix.scss";
+@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/mixins/_opacity.scss";
+@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/mixins/_tab-focus.scss";
+@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/mixins/_table-row.scss";
+@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/mixins/_vendor-prefixes.scss";
 @import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/_buttons.scss";
 @import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/_modals.scss";
+@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/_tables.scss";
 // endbower
