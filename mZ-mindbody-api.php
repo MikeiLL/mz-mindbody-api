@@ -129,6 +129,59 @@ function mZ_write_to_file($message){
         fwrite($handle, "\nMessage:\t " . $message);
         fclose($handle);
     }
+
+//Ajax Handler
+add_action('wp_ajax_nopriv_mz_mbo_add_client_ajax', 'mz_mbo_add_client_ajax');
+add_action('wp_ajax_mz_mbo_add_client_ajax', 'mz_mbo_add_client_ajax');	
+    
+function mz_mbo_add_client_ajax() {
+
+ 	check_ajax_referer( $_REQUEST['nonce'], "mz_MBO_add_to_class_nonce", false);
+ 	
+	require_once MZ_MINDBODY_SCHEDULE_DIR .'mindbody-php-api/MB_API.php';
+	require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
+
+	$additions['ClassIDs'] = array($_REQUEST['classID']);
+	$additions['ClientIDs'] = array($_REQUEST['clientID']);
+	//$additions['Test'] = true;
+	$additions['SendEmail'] = true;
+	$signupData = $mb->AddClientsToClasses($additions);
+	//$mb->debug();
+    //$rand_number = rand(1, 10); # for testing
+
+	if ( $signupData['AddClientsToClassesResult']['ErrorCode'] != 200 ){
+			$result['type'] = "failure";
+			$result['message'] = '';
+		foreach ($signupData['AddClientsToClassesResult']['Classes']['Class']['Clients']['Client']['Messages'] as $message){
+				if (strpos($message, 'already booked') != false){
+					$result['message'] .= "You are already registered.";
+					}else{
+					$result['message'] .= $message;
+					}
+			}
+			
+		}else{
+			//$classDetails = $signupData['AddClientsToClassesResult']['Classes']['Class'];
+			
+			$result['type'] = "success";
+			$result['message'] = "Registered via MindBody";
+			/*$classDetails['ClassDescription']['Name']
+			$classDetails['Staff']['Name'];
+			$classDetails['Location']['Name'];
+			$classDetails['Location']['Address'];*/
+		}
+		
+	if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+      $result = json_encode($result);
+      echo $result;
+   }
+   else {
+      header("Location: ".$_SERVER["HTTP_REFERER"]);
+   }
+
+   die();
+}
+//End Ajax
     
 if ( is_admin() )
 { // admin actions
@@ -309,7 +362,7 @@ if ( is_admin() )
 	<h4><i class="dashicons dashicons-megaphone" alt="f488" style="max-width:90%"></i> News</h4>
 	<p>Now supports multiple locations <em>and</em> MBO accounts.<p>
 	<hr/>
-	Customization requests welcome and there's an advanced version of the plugin integrates MBO signup and class registration without leaving the WP site.
+	<h4>Advanced Version. Customization requests welcome.</h4>
 	</div>
 	<?php
 	}
@@ -431,6 +484,8 @@ else
 	add_shortcode('mz-mindbody-show-schedule', 'mZ_mindbody_show_schedule' );
 	add_shortcode('mz-mindbody-show-events', 'mZ_mindbody_show_events' );
 	add_shortcode('mz-mindbody-staff-list', 'mZ_mindbody_staff_listing' );
+	add_shortcode('mz-mindbody-login', 'mZ_mindbody_login' );
+	add_shortcode('mz-mindbody-logout', 'mZ_mindbody_logout' );
 	add_shortcode('mz-mindbody-activation', 'mZ_mindbody_activation' );
 	add_shortcode('mz-mindbody-add-to-classes', 'mz_mindbody_add_to_classes' );
 }//EOF Not Admin
