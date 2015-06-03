@@ -88,24 +88,13 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 					$staffName = $class['Staff']['Name'];
 					$sessionType = $class['ClassDescription']['SessionType']['Name'];
 					$isAvailable = $class['IsAvailable'];
+					$linkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$sclassid}&amp;studioid={$studioid}";
+
 
 					// start building table rows
 					$return .= '<tr class="mz_description_holder"><td>';
 					$return .= date_i18n('g:i a', strtotime($startDateTime)) . ' - ' . date_i18n('g:i a', strtotime($endDateTime));
-					// only show the schedule button if enabled in MBO
-					$clientID = isset($_SESSION['GUID']) ? $_SESSION['client']['ID'] : '';
-					$add_to_class_nonce = wp_create_nonce( 'mz_MBO_add_to_class_nonce');
-					if ($clientID == ''){
-						 $return .= $isAvailable ? '<br/><a class="btn mz_add_to_class" href="'.home_url().'/login">Login to Sign-up</a>': '';
-						  }else{
-					  $return .= $isAvailable ? '<br/><a id="mz_add_to_class" class="btn mz_add_to_class"' 
-					    . ' data-nonce="' . $add_to_class_nonce 
-					    . '" data-classID="' . $sclassid  
-					    . '" data-clientID="' . $clientID 
-					    . '">' .
-					  '<span class="signup">'.__('Sign-Up') . '</span><span class="count" style="display:none">0</span></a>': '';
-					  }
-
+					$return .= $isAvailable ? '<br><a class="btn" href="' . $linkURL . '" target="_blank">' . __('Sign-Up') . '</a>' : '';
 					$return .= '</td><td>';
 
 					// trigger link modal
