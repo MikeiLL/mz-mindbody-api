@@ -286,7 +286,9 @@ if ( is_admin() )
 	function mz_mindbody_section2_text() {
 	?><div style="float:right;width:150px;background:#CCCCFF;padding:5px 20px 20px 20px;margin-left:20px;margin-bottom:8px;"><h4><?php _e('Contact')?></h4>
 	<p><a href="http://www.mzoo.org">www.mzoo.org</a></p>
-	<p><a href="mailto:mike@mzoo.org"><div class="dashicons dashicons-email-alt" alt="f466"></a></div> <a href="mailto:mike@mzoo.org">emails welcome</a>.</p>
+	<p><div class="dashicons dashicons-email-alt" alt="f466"></div> welcome, but please also post in the <a href="https://wordpress.org/support/plugin/mz-mindbody-api">support forum</a> for the benefit of others.</p>
+	<p><div class="dashicons dashicons-heart" alt="f487" style="color:red;"></div><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A95ZEELLHGECE" target="_blank">Small donations</a> and <a href="https://wordpress.org/support/view/plugin-reviews/mz-mindbody-api">reviews</a> welcome.</p>
+
 	</div>
 	<br style='clear:right;'/>
 	<?php
@@ -297,7 +299,7 @@ if ( is_admin() )
 	<h4><i class="dashicons dashicons-megaphone" alt="f488" style="max-width:90%"></i> News</h4>
 	<p>Now supports multiple locations <em>and</em> MBO accounts.<p>
 	<hr/>
-	Customization requests welcome and there's an advanced version of the plugin integrates MBO signup and class registration without leaving the WP site.
+	Customization requests invited, and there's an advanced version of the plugin integrates MBO signup and class registration without leaving the WP site.
 	</div>
 	<?php
 	}
