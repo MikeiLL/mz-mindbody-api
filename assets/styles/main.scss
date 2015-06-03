@@ -1,6 +1,7 @@
 /* 
 We want to do as little as possible here so CSS can be defined in theme.
 */
-
-@import "common/_variables";
-@import "common/_global";
+// Automatically injected Bower dependencies via wiredep (never manually edit this block)
+// bower:scss
+@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
+// endbower
