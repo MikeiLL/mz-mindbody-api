@@ -25,7 +25,20 @@
   "overrides": {
     "modernizr": {
       "main": "./modernizr.js"
-    } 
+    },
+    "bootstrap-sass-official": {
+      "main": [
+        "./assets/stylesheets/_bootstrap/mixins/*",
+        "./assets/stylesheets/bootstrap/_variables.scss",
+        "./assets/stylesheets/bootstrap/_mixins.scss",
+        "./assets/stylesheets/bootstrap/_alerts.scss",
+        "./assets/stylesheets/bootstrap/_button-groups.scss",
+        "./assets/stylesheets/bootstrap/_buttons.scss",
+        "./assets/stylesheets/bootstrap/_modals.scss",
+        "./assets/javascripts/bootstrap/button.js",
+        "./assets/javascripts/bootstrap/modal.js"
+      ]
+    }
   },
   "resolutions": {
     "modernizr": "~2.8.3"
