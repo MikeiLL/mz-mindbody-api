@@ -4,6 +4,7 @@
       "files": [
         "scripts/main.js"
       ],
+      "bower": ["jQuery.FilterTable"],
       "main": true
     },
     "main.css": {
