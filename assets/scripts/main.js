@@ -32,10 +32,13 @@ $(document).ready(function($) {
 $(document).ready(function() {
 
 	var stripeTable = function(table) { //stripe the table (jQuery selector)
-            table.find('tr').removeClass('table-striped').filter(':visible:even').addClass('table-striped');
+            table.find('tr').removeClass('striped').filter(':visible:even').addClass('striped');
         };
         $('table').filterTable({
-            callback: function(term, table) { stripeTable(table); } //call the striping after every change to the filter term
+            callback: function(term, table) { stripeTable(table); }, //call the striping after every change to the filter term
+            placeholder: 'by teacher, class type',
+            highlightClass: 'alt',
+            inputType: 'search'
         });
         stripeTable($('table')); //stripe the table for the first time
 	});
