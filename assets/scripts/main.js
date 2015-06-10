@@ -30,17 +30,17 @@ $(document).ready(function($) {
 	});
 	
 $(document).ready(function() {
-
 	var stripeTable = function(table) { //stripe the table (jQuery selector)
             table.find('tr').removeClass('striped').filter(':visible:even').addClass('striped');
         };
-        $('table').filterTable({
+        $('table.mz-schedule-table').filterTable({
             callback: function(term, table) { stripeTable(table); }, //call the striping after every change to the filter term
             placeholder: 'by teacher, class type',
             highlightClass: 'alt',
-            inputType: 'search'
+            inputType: 'search',
+            quickList: ['morning', 'afternoon', 'evening']
         });
-        stripeTable($('table')); //stripe the table for the first time
+        stripeTable($('table.mz-schedule-table')); //stripe the table for the first time
 	});
 })(jQuery);
 

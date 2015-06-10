@@ -62,7 +62,7 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 		    $return .= mz_mbo_schedule_nav($mz_date);
 		}
 		
-		$return .= '<table class="table">';
+		$return .= '<table class="mz-schedule-table">';
 
 		foreach($mz_days as $classDate => $mz_classes)
 		{   
