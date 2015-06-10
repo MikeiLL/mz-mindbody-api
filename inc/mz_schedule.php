@@ -10,7 +10,8 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 	extract( shortcode_atts( array(
 		'type' => 'week',
 		'location' => '1',
-		'account' => '0'
+		'account' => '0',
+		'filter' => '0'
 			), $atts ) );
     $mz_date = empty($_GET['mz_date']) ? date_i18n('Y-m-d') : mz_validate_date($_GET['mz_date']);
 
@@ -61,8 +62,12 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 		if ($type=='week'){
 		    $return .= mz_mbo_schedule_nav($mz_date);
 		}
-		
-		$return .= '<table class="mz-schedule-table">';
+
+		if ($filter == 1) {
+			$return .= '<table class="mz-schedule-filter">';
+			}else{
+			$return .= '<table class="mz-schedule-table">';
+			}
 
 		foreach($mz_days as $classDate => $mz_classes)
 		{   
