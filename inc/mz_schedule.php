@@ -62,13 +62,13 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 		    $return .= mz_mbo_schedule_nav($mz_date);
 		}
 		
-		$return .= '<table class="table table-striped">';
+		$return .= '<table class="table">';
 
 		foreach($mz_days as $classDate => $mz_classes)
 		{   
-			$return .= '<tr><th>';
+			$return .= '<thead><tr><th scope="col">';
 			$return .= date_i18n($mz_date_display, strtotime($classDate));
-			$return .= '</th><th>' . __('Class Name') . '</th><th>' . __('Instructor') . '</th><th>' . __('Class Type') . '</th></tr>';
+			$return .= '</th><th scope="col">' . __('Class Name') . '</th><th scope="col">' . __('Instructor') . '</th><th scope="col">' . __('Class Type') . '</th></tr></thead><tbody>';
 
 			foreach($mz_classes as $class)
 			{
@@ -90,9 +90,15 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 					$isAvailable = $class['IsAvailable'];
 					$linkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$sclassid}&amp;studioid={$studioid}";
 
-
+					if (date_i18n('H', strtotime($startDateTime)) < 12) {
+							$time_of_day = 'morning';
+						}else if ((date_i18n('H', strtotime($startDateTime)) > 16)) {
+							$time_of_day = 'evening';
+						}else{
+							$time_of_day = 'afternoon';
+							}
 					// start building table rows
-					$return .= '<tr class="mz_description_holder"><td>';
+					$return .= '<tr class="mz_description_holder"><td><span style="display:none">'.$time_of_day.'</span>';
 					$return .= date_i18n('g:i a', strtotime($startDateTime)) . ' - ' . date_i18n('g:i a', strtotime($endDateTime));
 					$return .= $isAvailable ? '<br><a class="btn" href="' . $linkURL . '" target="_blank">' . __('Sign-Up') . '</a>' : '';
 					$return .= '</td><td>';
@@ -113,7 +119,7 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 			}// EOF foreach class
 		}// EOF foreach day
 
-		$return .= '</table>';
+		$return .= '</tbody></table>';
 		if ($type=='week')
 		    // schedule navigation
 		    $return .= mz_mbo_schedule_nav($mz_date);

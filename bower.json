@@ -27,9 +27,6 @@
     "modernizr": {
       "main": "./modernizr.js"
     },
-    "jQuery.FilterTable": {
-      "main": "./jquery.filtertable.js"
-    },
     "bootstrap-sass-official": {
       "main": [
         "./assets/stylesheets/bootstrap/_variables.scss",
@@ -46,6 +43,9 @@
         "./assets/javascripts/bootstrap/button.js",
         "./assets/javascripts/bootstrap/modal.js"
       ]
+    },
+    "jQuery.FilterTable": {
+      "main": "./jquery.filtertable.js"
     }
   }
 }

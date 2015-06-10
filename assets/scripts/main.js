@@ -30,9 +30,14 @@ $(document).ready(function($) {
 	});
 	
 $(document).ready(function() {
-	$('table').filterTable({ // apply filterTable to all tables on this page
-		quickList: ['Oʻahu', 'Hawaiʻi', 'university', 'college', 'neighbor island'] // add some shortcut searches
+
+	var stripeTable = function(table) { //stripe the table (jQuery selector)
+            table.find('tr').removeClass('table-striped').filter(':visible:even').addClass('table-striped');
+        };
+        $('table').filterTable({
+            callback: function(term, table) { stripeTable(table); } //call the striping after every change to the filter term
+        });
+        stripeTable($('table')); //stripe the table for the first time
 	});
-});
 })(jQuery);
 
