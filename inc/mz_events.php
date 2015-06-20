@@ -118,7 +118,7 @@ function mZ_mindbody_show_events ($atts, $account=0)
 							  '<span class="signup">'.__('Sign-Up') . '</span><span class="count" style="display:none">0</span></a>': '';
 							  }
 							$return .= '<br/><div id="visitMBO" class="btn visitMBO" style="display:none"><a href="'.$eventLinkURL.'" target="_blank">Manage on MindBody Site<a/></div>';
-							$return .= '<p class="mz_event_staff">with '. $staffName.'</p>';							
+							$return .= '<p class="mz_event_staff_name">with '. $staffName.'</p>';							
 
 							$return .= '<h4 class="mz_event_staff">'.$day_and_date.', ' . date_i18n('g:i a', strtotime($startDateTime)).' - ';
 							$return .= date_i18n('g:i a', strtotime($endDateTime)) . '</h4>';
