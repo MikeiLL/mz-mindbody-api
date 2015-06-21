@@ -420,6 +420,8 @@ else
 	add_shortcode('mz-mindbody-show-schedule', 'mZ_mindbody_show_schedule' );
 	add_shortcode('mz-mindbody-show-events', 'mZ_mindbody_show_events' );
 	add_shortcode('mz-mindbody-staff-list', 'mZ_mindbody_staff_listing' );
+	add_shortcode('mz-mindbody-login', 'mZ_mindbody_login' );
+	add_shortcode('mz-mindbody-logout', 'mZ_mindbody_logout' );
 	add_shortcode('mz-mindbody-activation', 'mZ_mindbody_activation' );
 	add_shortcode('mz-mindbody-add-to-classes', 'mz_mindbody_add_to_classes' );
 }//EOF Not Admin
