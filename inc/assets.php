@@ -41,7 +41,7 @@ class JsonManifest {
   }
 
   public function get() {
-    return array('main.css' => 'something');//$this->manifest;
+    return $this->manifest;
   }
 
   public function getPath($key = '', $default = null) {
