@@ -8,14 +8,14 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 
 	// optionally pass in a type parameter. Defaults to week.
 	extract( shortcode_atts( array(
-		'type' => 'week',
-		'location' => '1',
-		'account' => '0',
-		'filter' => '0'
+		__('type', 'mz-mindbody-api') => __('week', 'mz-mindbody-api'),
+		__('location', 'mz-mindbody-api') => '1',
+		__('account', 'mz-mindbody-api') => '0',
+		__('filter', 'mz-mindbody-api') => '0'
 			), $atts ) );
     $mz_date = empty($_GET['mz_date']) ? date_i18n('Y-m-d') : mz_validate_date($_GET['mz_date']);
 
-	if ($type=='day')
+	if ($type==__('day', 'mz-mindbody-api'))
 	{
 		$mz_timeframe = array_slice(mz_getDateRange($mz_date, 1), 0, 1);
 		$mz_schedule_cache = "mz_schedule_day_cache";
@@ -73,7 +73,9 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 		{   
 			$return .= '<thead><tr><th scope="col">';
 			$return .= date_i18n($mz_date_display, strtotime($classDate));
-			$return .= '</th><th scope="col">' . __('Class Name') . '</th><th scope="col">' . __('Instructor') . '</th><th scope="col">' . __('Class Type') . '</th></tr></thead><tbody>';
+			$return .= '</th><th scope="col">' . __('Class Name', 'mz-mindbody-api') . 
+						'</th><th scope="col">' . __('Instructor', 'mz-mindbody-api') . 
+						'</th><th scope="col">' . __('Class Type', 'mz-mindbody-api') . '</th></tr></thead><tbody>';
 
 			foreach($mz_classes as $class)
 			{
@@ -96,23 +98,25 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 					$linkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$sclassid}&amp;studioid={$studioid}";
 
 					if (date_i18n('H', strtotime($startDateTime)) < 12) {
-							$time_of_day = 'morning';
+							$time_of_day = __('morning', 'mz-mindbody-api');
 						}else if ((date_i18n('H', strtotime($startDateTime)) > 16)) {
-							$time_of_day = 'evening';
+							$time_of_day = __('evening', 'mz-mindbody-api');
 						}else{
-							$time_of_day = 'afternoon';
+							$time_of_day = __('afternoon', 'mz-mindbody-api');
 							}
 					// start building table rows
 					$return .= '<tr class="mz_description_holder"><td><span style="display:none">'.$time_of_day.'</span>';
 					$return .= date_i18n('g:i a', strtotime($startDateTime)) . ' - ' . date_i18n('g:i a', strtotime($endDateTime));
-					$return .= $isAvailable ? '<br><a class="btn" href="' . $linkURL . '" target="_blank">' . __('Sign-Up') . '</a>' : '';
+					$return .= $isAvailable ? '<br><a class="btn" href="' . $linkURL . '" target="_blank">' . __('Sign-Up', 'mz-mindbody-api') . '</a>' : '';
 					$return .= '</td><td>';
 
 					// trigger link modal
 					$return .= '<a data-toggle="modal" data-target="#mzModal" href="' . MZ_MINDBODY_SCHEDULE_URL . 'inc/modal_descriptions.php?classDescription=' . urlencode(substr($classDescription, 0, 1000)) . '&amp;className='. urlencode(substr($className, 0, 1000)) .'">' . $className . '</a>';
 					$eventLinkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$sclassid}&amp;studioid={$studioid}";
 							
-					$return .= '<br/><div id="visitMBO" class="btn visitMBO" style="display:none"><a href="'.$eventLinkURL.'" target="_blank">Manage on MindBody Site<a/></div>';
+					$return .= '<br/><div id="visitMBO" class="btn visitMBO" style="display:none">';
+					$return .= '<a href="'.$eventLinkURL.'" target="_blank">';
+					$return .= __('Manage on MindBody Site',' mz-mindbody-api') . '<a/></div>';
 					$return .= '</td><td>';
 					$return .= $staffName;
 					$return .= '</td><td>';
@@ -145,7 +149,7 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 		}
 		else
 		{
-			$return = __('Error getting classes. Try re-loading the page.') . '<br />';
+			$return = __('Error getting classes. Try re-loading the page.',' mz-mindbody-api') . '<br />';
 			$return .= '<pre>'.print_r($mz_schedule_data,1).'</pre>';
 		}
 	}//EOF If Result / Else
