@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Advanced mZoo Mindbody Interface - Schedule, Events, "
 "Staff Display\n"
 "POT-Creation-Date: 2015-06-22 15:37-0600\n"
-"PO-Revision-Date: 2015-06-22 15:42-0600\n"
+"PO-Revision-Date: 2015-06-22 16:45-0600\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -121,203 +121,207 @@ msgstr "tipo"
 
 #: inc/mz_schedule.php:11
 msgid "week"
-msgstr ""
+msgstr "semana"
 
 #: inc/mz_schedule.php:12
 msgid "location"
-msgstr ""
+msgstr "destino"
 
 #: inc/mz_schedule.php:14
 msgid "filter"
-msgstr ""
+msgstr "filtro"
 
 #: inc/mz_schedule.php:18 mZ-mindbody-api.php:105
 msgid "day"
-msgstr ""
+msgstr "día"
 
 #: inc/mz_schedule.php:63 inc/mz_schedule.php:134 lib/functions.php:71
 msgid "Week"
-msgstr ""
+msgstr "Semana"
 
 #: inc/mz_schedule.php:76
 msgid "Class Name"
-msgstr ""
+msgstr "Nombre de Clase:"
 
 #: inc/mz_schedule.php:77
 msgid "Instructor"
-msgstr ""
+msgstr "Profesor"
 
 #: inc/mz_schedule.php:78
 msgid "Class Type"
-msgstr ""
+msgstr "Tipo de clase"
 
 #: inc/mz_schedule.php:110
 msgid "Sign-Up"
-msgstr ""
+msgstr "Inscríbete"
 
 #: inc/mz_schedule.php:119 lib/functions.php:56
 msgid "Manage on MindBody Site"
-msgstr ""
+msgstr "Administrar en el sitio de MindBody"
 
 #: inc/mz_schedule.php:152
 msgid "Error getting classes. Try re-loading the page."
-msgstr ""
+msgstr "Error al obtener las clases. Intente volver a cargar la página."
 
 #: lib/functions.php:17
 msgid "Monday"
-msgstr ""
+msgstr "Lunes"
 
 #: lib/functions.php:18
 msgid "Tuesday"
-msgstr ""
+msgstr "Martes"
 
 #: lib/functions.php:19
 msgid "Wednesday"
-msgstr ""
+msgstr "Miércoles"
 
 #: lib/functions.php:20
 msgid "Thursday"
-msgstr ""
+msgstr "Jueves"
 
 #: lib/functions.php:21
 msgid "Friday"
-msgstr ""
+msgstr "Viernes"
 
 #: lib/functions.php:22
 msgid "Saturday"
-msgstr ""
+msgstr "Sábado"
 
 #: lib/functions.php:23
 msgid "Sunday"
-msgstr ""
+msgstr "Domingo"
 
 #: lib/functions.php:50
 msgid "Username"
-msgstr ""
+msgstr "Nombre de usuario"
 
 #: lib/functions.php:51
 msgid "Password"
-msgstr ""
+msgstr "Contraseña"
 
 #: lib/functions.php:52
 msgid "Login"
-msgstr ""
+msgstr "Inicio de sesión"
 
 #: lib/functions.php:53
 msgid "Log Out"
-msgstr ""
+msgstr "Cerrar sesión"
 
 #: lib/functions.php:54
 msgid "Sign Up"
-msgstr ""
+msgstr "Inscríbete"
 
 #: lib/functions.php:55
 msgid "Log in to Sign up"
-msgstr ""
+msgstr "Iniciar sesión para Suscribirse"
 
 #: lib/functions.php:57
 msgid "login"
-msgstr ""
+msgstr "Iniciar-sesión"
 
 #: lib/functions.php:58
 msgid "logout"
-msgstr ""
+msgstr "Salir"
 
 #: lib/functions.php:59
 msgid "signup"
-msgstr ""
+msgstr "registrarse"
 
 #: lib/functions.php:60
 msgid "create-account"
-msgstr ""
+msgstr "crear-cuenta"
 
 #: lib/functions.php:61
 msgid "or"
-msgstr ""
+msgstr "ó"
 
 #: lib/functions.php:62
 msgid "and"
-msgstr ""
+msgstr "y"
 
 #: lib/functions.php:76
 msgid "Previous"
-msgstr ""
+msgstr "Anteriores"
 
 #: lib/functions.php:77
 msgid "Current"
-msgstr ""
+msgstr "Actuales"
 
 #: lib/functions.php:78
 msgid "Following"
-msgstr ""
+msgstr "Siguiendo"
 
 #: lib/sections.php:6
 msgid "MZ Mindbody"
-msgstr ""
+msgstr "MZ Mindbody"
 
 #: lib/sections.php:17
 msgid "Save Changes"
-msgstr ""
+msgstr "Guardar cambios"
 
 #: lib/sections.php:56
 msgid "MZ Mindbody Credentials"
-msgstr ""
+msgstr "Mindbody credenciales"
 
 #: lib/sections.php:64
 msgid "Source Name: "
-msgstr ""
+msgstr "Nombre de la Fuente"
 
 #: lib/sections.php:72
 msgid "Key: "
-msgstr ""
+msgstr "Teclas"
 
 #: lib/sections.php:80
 msgid "Site ID: "
-msgstr ""
+msgstr "Identificación del sitio:"
 
 #: lib/sections.php:88
 msgid "Event IDs: "
-msgstr ""
+msgstr "IDs de evento:"
 
 #: lib/sections.php:103
 msgid "Force Cache Reset "
-msgstr ""
+msgstr "Reset de memoria caché de fuerza"
 
 #: lib/sections.php:111
 msgid "Debug"
-msgstr ""
+msgstr "Depurar"
 
 #: lib/sections.php:124
 msgid "SOAP installed! "
-msgstr ""
+msgstr "SOAP instalado!"
 
 #: lib/sections.php:128
 msgid "SOAP is not installed. "
-msgstr ""
+msgstr "SOAP no está instalado."
 
 #: lib/sections.php:134
 msgid "PEAR installed! "
-msgstr ""
+msgstr "PEAR instalado!"
 
 #: lib/sections.php:138
 msgid "PEAR is not installed. "
-msgstr ""
+msgstr "PERA no está instalado."
 
 #: lib/sections.php:145
 msgid ""
 "MZ Mindbody API requires SOAP and PEAR. Please contact your hosting provider "
 "or enable via your CPANEL of php.ini file."
 msgstr ""
+"MZ Mindbody API requiere PEAR y SOAP. Por favor, póngase en contacto con su "
+"proveedor de hosting o activar a través de su CPANEL del archivo php.ini."
 
 #: lib/sections.php:152
 msgid ""
 "Congratulations. Your server appears to be configured to integrate with "
 "mindbodyonline."
 msgstr ""
+"Felicidades. El servidor parece configurarse para integrar con "
+"mindbodyonline."
 
 #: lib/sections.php:159
 msgid "Enter your mindbody credentials below."
-msgstr ""
+msgstr "Introduzca sus credenciales de mindbody abajo."
 
 #: lib/sections.php:160
 #, php-format
@@ -326,10 +330,12 @@ msgid ""
 "website %2$s \n"
 "\t\tand register for developer credentials."
 msgstr ""
+"Si no tienes todavía, visite %1$s %2$s de MindBodyOnline desarrolladores web "
+"y registro para desarrolladores."
 
 #: lib/sections.php:163
 msgid "Detailed instructions here"
-msgstr ""
+msgstr "Instrucciones detalladas aquí"
 
 #: lib/sections.php:164
 msgid ""
@@ -337,6 +343,9 @@ msgid ""
 "mindbody-show-events], [mz-mindbody-staff-list], [mz-mindbody-show-schedule "
 "type=day location=1]"
 msgstr ""
+"Añadir página o post con shortcode: [mz-mindbody-mostrar-horario], [mz-"
+"mindbody-mostrar-eventos], [mz-mindbody-personal-list], [mz-mindbody-mostrar-"
+"horario tipo = día ubicación = 1]"
 
 #: lib/sections.php:165
 msgid ""
@@ -344,22 +353,30 @@ msgid ""
 "[shortcode account=-99] to call from a different MBO business account. \n"
 "\t\t(-99 is the MBO <em>sandbox</em> account)"
 msgstr ""
+"Parámetro “cuenta” puede agregarse a cualquiera de los códigos cortos arriba "
+"como: [shortcode cuenta =-99] para llamar desde una cuenta diferente del "
+"negocio MBO. \n"
+"\t\t(-99 es el MBO <em>sandbox</em> )"
 
 #: lib/sections.php:167
 msgid ""
 "Advanced version offers some new shortcodes: [mz-mindbody-login], [mz-"
 "mindbody-logout], [mz-mindbody-signup]"
 msgstr ""
+"Versión avanzada ofrece algunos shortcodes nuevo: [mz-mindbody-login], [mz-"
+"mindbody-logout], [mz-mindbody-signup]"
 
 #: lib/sections.php:168
 msgid ""
 "In order for these to work correctly, the permalinks for those pages need to "
 "be: <em>login</em>, <em>logout</em> and <em>create-account</em>"
 msgstr ""
+"En orden para que funcione correctamente, los percalinas para esas páginas "
+"deben ser: <em>login</em>, <em>logout</em> y <em>crear-cuenta</em>"
 
 #: lib/sections.php:177
 msgid "Contact"
-msgstr ""
+msgstr "Contacto"
 
 #: lib/sections.php:180
 #, php-format
@@ -367,25 +384,29 @@ msgid ""
 "welcome, but please also post in the %1$s support forum %2$s for the benefit "
 "of others."
 msgstr ""
+"esta bienvenido, pero por favor publicar también en el %1$s soporte Foro "
+"%2$s en beneficio de otros."
 
 #: lib/sections.php:184
 #, php-format
 msgid "Small donations %1$s and %2$s reviews %3$s welcome."
-msgstr ""
+msgstr "Bienvenido pequeñas donaciones %1$s y %2$s comentarios %3$s."
 
 #: lib/sections.php:194
 msgid "News"
-msgstr ""
+msgstr "Noticias"
 
 #: lib/sections.php:195
 msgid "Now supports multiple locations and MBO accounts."
-msgstr ""
+msgstr "Ahora soporta múltiples ubicaciones y cuentas MBO."
 
 #: lib/sections.php:197
 msgid ""
 "Customization requests invited, and there's an ADVANCED VERSION of the "
 "plugin which integrates MBO class registration without leaving the WP site."
 msgstr ""
+"Invitó las solicitudes de personalización, y hay una versión avanzada del "
+"plugin que integra el registro de clase MBO sin dejar el sitio WP."
 
 #: lib/sections.php:208
 #, php-format
@@ -393,113 +414,120 @@ msgid ""
 "Once credentials have been set and activated, look for %1$s in the \n"
 "\t  GetClassesResponse box below to confirm settings are correct."
 msgstr ""
+"Una vez que las credenciales se han creado y activado, buscan %1$s en el "
+"cuadro de GetClassesResponse a continuación para confirmar los ajustes son "
+"correctos."
 
 #: lib/sections.php:221 lib/sections.php:229 lib/sections.php:238
 #: lib/sections.php:247
 msgid "Option Not Set"
-msgstr ""
+msgstr "Opción no establece"
 
 #: lib/sections.php:222
 msgid "YOUR SOURCE NAME"
-msgstr ""
+msgstr "SU SOURCE NAME"
 
 #: lib/sections.php:230
 msgid "YOUR MINDBODY PASSWORD"
-msgstr ""
+msgstr "SU MINDBODY PASSWORD"
 
 #: lib/sections.php:239
 msgid "YOUR SITE ID"
-msgstr ""
+msgstr "SU SITE ID"
 
 #: lib/sections.php:248
 msgid "Event Category IDs"
-msgstr ""
+msgstr "Categoria de eventos"
 
 #: mZ-mindbody-api.php:78
 msgid "Display class schedule for current day."
-msgstr ""
+msgstr "Mostrar horarios de clase para el día actual."
 
 #: mZ-mindbody-api.php:80
 msgid "Today's MindBody Schedule"
-msgstr ""
+msgstr "MindBody horario hoy"
 
 #: mZ-mindbody-api.php:85
 msgid "Today's Classes"
-msgstr ""
+msgstr "Clases de Hoy"
 
 #: mZ-mindbody-api.php:151
 msgid "mz-mindbody-show-schedule"
-msgstr ""
+msgstr "mz-mindbody-mostrar-horario"
 
 #: mZ-mindbody-api.php:151
 msgid "mZ_mindbody_show_schedule"
-msgstr ""
+msgstr "mZ-mindbody-mostrar-horario"
 
 #: mZ-mindbody-api.php:152
 msgid "mz-mindbody-show-events"
-msgstr ""
+msgstr "mz-mindbody-mostrar-eventos"
 
 #: mZ-mindbody-api.php:152
 msgid "mZ_mindbody_show_events"
-msgstr ""
+msgstr "mZ-mindbody-mostrar-eventos"
 
 #: mZ-mindbody-api.php:153
 msgid "mz-mindbody-staff-list"
-msgstr ""
+msgstr "mz-mindbody-personal-list"
 
 #: mZ-mindbody-api.php:153
 msgid "mZ_mindbody_staff_listing"
-msgstr ""
+msgstr "mZ_mindbody_staff_listing"
 
 #: mZ-mindbody-api.php:154
 msgid "mz-mindbody-login"
-msgstr ""
+msgstr "mz-mindbody-login"
 
 #: mZ-mindbody-api.php:154
 msgid "mZ_mindbody_login"
-msgstr ""
+msgstr "mZ_mindbody_login"
 
 #: mZ-mindbody-api.php:155
 msgid "mz-mindbody-logout"
-msgstr ""
+msgstr "mz-mindbody-logout"
 
 #: mZ-mindbody-api.php:155
 msgid "mZ_mindbody_logout"
-msgstr ""
+msgstr "mz-mindbody-logout"
 
 #: mZ-mindbody-api.php:156
 msgid "mz-mindbody-signup"
-msgstr ""
+msgstr "mz-mindbody-signup"
 
 #: mZ-mindbody-api.php:156
 msgid "mZ_mindbody_signup"
-msgstr ""
+msgstr "mZ_mindbody_signup"
 
 #: mZ-mindbody-api.php:157
 msgid "mz-mindbody-add-to-classes"
-msgstr ""
+msgstr "mz-mindbody-añadir-a-clases"
 
 #: mZ-mindbody-api.php:157
 msgid "mz_mindbody_add_to_classes"
-msgstr ""
+msgstr "mz-mindbody-añadir-a-clases"
 
 #. Plugin Name of the plugin/theme
 msgid "Advanced mZoo Mindbody Interface - Schedule, Events, Staff Display"
 msgstr ""
+"Mzoo avanzada interfaz de Mindbody - pantalla de calendario, eventos, "
+"personal"
 
 #. Plugin URI of the plugin/theme
 msgid "http://www.mzoo.org/mz-mindbody-wp"
-msgstr ""
+msgstr "http://www.mzoo.org/mz-mindbody-wp"
 
 #. Description of the plugin/theme
 msgid ""
 "Interface Wordpress with MindbodyOnline data with Bootstrap Responsive Layout"
 msgstr ""
+"Interfaz de Wordpress con MindbodyOnline datos con diseño responsivo "
+"Bootstrap"
 
 #. Author of the plugin/theme
 msgid "mZoo.org"
-msgstr ""
+msgstr "mZoo.org"
 
 #. Author URI of the plugin/theme
 msgid "http://www.mZoo.org/"
-msgstr ""
+msgstr "http://www.mZoo.org/"
