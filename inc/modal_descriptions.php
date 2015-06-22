@@ -13,7 +13,6 @@ if (isset($_GET["classDescription"]))
       <?php echo stripslashes($modal_description)?>
     </div>
     <div class="modal-footer">
-      <button id="close" type="button" class="btn btn-xs" data-dismiss="modal">Close</button>
     </div>
 </div>
 <?php } ?>
