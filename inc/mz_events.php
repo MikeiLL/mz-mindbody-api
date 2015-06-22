@@ -106,19 +106,9 @@ function mZ_mindbody_show_events ($atts, $account=0)
 							$return .= "<h3>$className</h3>";
 
 							$clientID = isset($_SESSION['GUID']) ? $_SESSION['client']['ID'] : '';
-							$add_to_class_nonce = wp_create_nonce( 'mz_MBO_add_to_class_nonce');
-							if ($clientID == ''){
-								 $return .= $isAvailable ? '<br/><a class="btn mz_add_to_class" href="'.home_url().'/login">Login to Sign-up</a>': '';
-								  }else{
-							  $return .= $isAvailable ? '<br/><a id="mz_add_to_class" class="btn mz_add_to_class"' 
-								. ' data-nonce="' . $add_to_class_nonce 
-								. '" data-classID="' . $sclassid  
-								. '" data-clientID="' . $clientID 
-								. '">' .
-							  '<span class="signup">'.__('Sign-Up') . '</span><span class="count" style="display:none">0</span></a>': '';
-							  }
-							$return .= '<br/><div id="visitMBO" class="btn visitMBO" style="display:none">';
-							$return .= '<a href="'.$eventLinkURL.'" target="_blank">Manage on MindBody Site</a></div>';
+							$globals = new Global_Strings();
+							$global_strings = $globals->translate_them();
+							$return .= '<a class="btn btn-success" href="' . $eventLinkURL . '">' . $global_strings['sign_up'] . '</a>';
 							$return .= '<p class="mz_event_staff_name">with '. $staffName.'</p>';							
 
 							$return .= '<h4 class="mz_event_staff">'.$day_and_date.', ' . date_i18n('g:i a', strtotime($startDateTime)).' - ';
