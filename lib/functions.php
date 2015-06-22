@@ -56,10 +56,21 @@ class Global_Strings {
 					  'manage_on_mbo' => __('Manage on MindBody Site', 'mz-mindbody-api' ),
 					  'login_url' => __( 'login', 'mz-mindbody-api' ),
 					  'logout_url' => __( 'logout', 'mz-mindbody-api' ),
-					  'sign_up_url' => __( 'signup', 'mz-mindbody-api' ),
+					  'signup_url' => __( 'signup', 'mz-mindbody-api' ),
 					  'create_account_url' => __('create-account', 'mz-mindbody-api' ),
 					  'or' => __( 'or', 'mz-mindbody-api' ),
-					  'and' => __( 'and', 'mz-mindbody-api' ),
+					  'mz-mindbody-show-schedule' => __( 'mz-mindbody-show-schedule', 'mz-mindbody-api' ),
+					  'mz-mindbody-show-events' => __( 'mz-mindbody-show-events', 'mz-mindbody-api' ),
+					  'mz-mindbody-staff-list' => __( 'mz-mindbody-staff-list', 'mz-mindbody-api' ),
+					  'mz-mindbody-show-schedule' => __( 'mz-mindbody-show-schedule', 'mz-mindbody-api' ),
+					  'mz-mindbody-login' => __( 'mz-mindbody-login', 'mz-mindbody-api' ),
+					  'mz-mindbody-logout' => __( 'mz-mindbody-logout', 'mz-mindbody-api' ),
+					  'mz-mindbody-signup' => __( 'mz-mindbody-signup', 'mz-mindbody-api' ),
+					  'type' => __( 'type', 'mz-mindbody-api' ),
+					  'location' => __( 'location', 'mz-mindbody-api' ),
+					  'account' => __( 'account', 'mz-mindbody-api' ),
+					  'day' => __( 'day', 'mz-mindbody-api' ),
+					  'shortcode' => __( 'shortcode', 'mz-mindbody-api' ),
 						);
 	}
 }

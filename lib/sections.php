@@ -154,18 +154,48 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 		}
 	}
 
-	function mz_mindbody_section_text() { ?>
+	function mz_mindbody_section_text() { 
+		$globals = new Global_Strings();
+		$global_strings = $globals->translate_them();
+		$password = $global_strings['mz-mindbody-show-schedule'];
+		$mz_mindbody_show_schedule = $global_strings['mz-mindbody-show-schedule'];
+		$mz_mindbody_show_events = $global_strings['mz-mindbody-show-events'];
+		$mz_mindbody_staff_list = $global_strings['mz-mindbody-staff-list'];
+		$mz_mindbody_show_schedule = $global_strings['mz-mindbody-show-schedule'];
+		$mz_mindbody_login = $global_strings['mz-mindbody-login'];
+		$mz_mindbody_logout = $global_strings['mz-mindbody-logout'];
+		$mz_mindbody_signup = $global_strings['mz-mindbody-signup'];
+		$type = $global_strings['type'];
+		$location = $global_strings['location'];
+		$account = $global_strings['account'];
+		$shortcode = $global_strings['shortcode'];
+		$day = $global_strings['day'];
+		$login_url = $global_strings['login_url'];
+		$logout_url = $global_strings['logout_url'];
+		$create_account_url = $global_strings['create_account_url'];
+
+		?>
 		<div style="max-width:60%">
 		<p><?php _e('Enter your mindbody credentials below.', 'mz-mindbody-api') ?></p>
 		<p><?php printf(__('If you do not have them yet, visit the %1$s MindBodyOnline developers website %2$s 
 		and register for developer credentials.', 'mz-mindbody-api'),
 		 '<a href="https://api.mindbodyonline.com/Home/LogIn">', '</a>')?>
 		(<a href="http://www.mzoo.org/creating-your-mindbody-credentials/"><?php _e('Detailed instructions here', 'mz-mindbody-api') ?></a>.)</p>
-		<p><?php _e('Add to page or post with shortcode: [mz-mindbody-show-schedule], [mz-mindbody-show-events], [mz-mindbody-staff-list], [mz-mindbody-show-schedule type=day location=1]', 'mz-mindbody-api') ?> </p>
-		<p> <?php _e('Parameter "account" can be added to any of the above shortcodes like:  [shortcode account=-99] to call from a different MBO business account. 
-		(-99 is the MBO <em>sandbox</em> account)', 'mz-mindbody-api')?></font></p>
-		<p><?php _e('Advanced version offers some new shortcodes: [mz-mindbody-login], [mz-mindbody-logout], [mz-mindbody-signup]', 'mz-mindbody-api') ?></p>
-		<p><?php _e('In order for these to work correctly, the permalinks for those pages need to be: <em>login</em>, <em>logout</em> and <em>create-account</em>', 'mz-mindbody-api')?>
+		<p>
+		<?php _e('Add to page or post with shortcode:', 'mz-mindbody-api'); 
+		echo '&nbsp;';
+		printf('[%1$s], [%2$s], [%3$s], [%4$s %5$s=%6$s %7$s=1 %8$s=-99]',
+		$mz_mindbody_show_schedule, $mz_mindbody_show_events, $mz_mindbody_staff_list,
+		$mz_mindbody_show_schedule, $type, $day, $location, $account);
+?>
+		<?php echo '<br/>('.__('-99 is the MBO sandbox/testing account', 'mz_mindbody_api').')'?></font></p>
+		<p><?php _e('Additional shortcodes: ', 'mz-mindbody-api');
+		printf('[%1$s], [%2$s], [%3$s] </p>',$mz_mindbody_login, $mz_mindbody_logout, $mz_mindbody_signup);
+?>
+
+		<?php echo '<p>In order for these to work correctly, the permalinks for those pages need to be: ';
+		printf('<em>%1$s</em>, <em>%2$s</em> and <em>%3$s</em></p>', $login_url, $logout_url, $create_account_url); 
+?>
 
 		</div>
 	<?php
@@ -218,16 +248,16 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 	// Display and fill the form field
 	function mz_mindbody_source_name() {
 		// get option 'mz_source_name' value from the database
-		$options = get_option( 'mz_mindbody_options',__('Option Not Set') );
-		$mz_source_name = (isset($options['mz_source_name'])) ? $options['mz_source_name'] : _e('YOUR SOURCE NAME');
+		$options = get_option( 'mz_mindbody_options',__('Option Not Set', 'mz-mindbody-api') );
+		$mz_source_name = (isset($options['mz_source_name'])) ? $options['mz_source_name'] : __('YOUR SOURCE NAME', 'mz-mindbody-api');
 		// echo the field
 		echo "<input id='mz_source_name' name='mz_mindbody_options[mz_source_name]' type='text' value='$mz_source_name' />";
 	}
 
 	// Display and fill the form field
 	function mz_mindbody_password() {
-		$options = get_option( 'mz_mindbody_options',__('Option Not Set') );
-		$mz_mindbody_password = (isset($options['mz_mindbody_password'])) ? $options['mz_mindbody_password'] : _e('YOUR MINDBODY PASSWORD');
+		$options = get_option( 'mz_mindbody_options',__('Option Not Set', 'mz-mindbody-api') );
+		$mz_mindbody_password = (isset($options['mz_mindbody_password'])) ? $options['mz_mindbody_password'] : __('YOUR MINDBODY PASSWORD', 'mz-mindbody-api');
 		// echo the field
 		echo "<input id='mz_mindbody_password' name='mz_mindbody_options[mz_mindbody_password]' type='text' value='$mz_mindbody_password' />";
 	}
@@ -235,8 +265,8 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 	// Display and fill the form field
 	function mz_mindbody_siteID() {
 		// get option 'text_string' value from the database
-		$options = get_option( 'mz_mindbody_options',__('Option Not Set') );
-		$mz_mindbody_siteID = (isset($options['mz_mindbody_siteID'])) ? $options['mz_mindbody_siteID'] : _e('YOUR SITE ID');
+		$options = get_option( 'mz_mindbody_options',__('Option Not Set', 'mz-mindbody-api') );
+		$mz_mindbody_siteID = (isset($options['mz_mindbody_siteID'])) ? $options['mz_mindbody_siteID'] : __('YOUR SITE ID', 'mz-mindbody-api');
 		// echo the field
 		echo "<input id='mz_mindbody_siteID' name='mz_mindbody_options[mz_mindbody_siteID]' type='text' value='$mz_mindbody_siteID' />";
 	}
@@ -244,8 +274,8 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 	// Display and fill the form field
 	function mz_mindbody_eventID() {
 		// get option 'text_string' value from the database
-		$options = get_option( 'mz_mindbody_options',__('Option Not Set') );
-		$mz_mindbody_eventID = (isset($options['mz_mindbody_eventID'])) ? $options['mz_mindbody_eventID'] : _e('Event Category IDs');
+		$options = get_option( 'mz_mindbody_options',__('Option Not Set', 'mz-mindbody-api') );
+		$mz_mindbody_eventID = (isset($options['mz_mindbody_eventID'])) ? $options['mz_mindbody_eventID'] : __('Event Category IDs');
 		// echo the field
 		echo "<input id='mz_mindbody_eventID' name='mz_mindbody_options[mz_mindbody_eventID]' type='text' value='$mz_mindbody_eventID' />  eg: 25,17";
 	}
