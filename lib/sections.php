@@ -39,14 +39,14 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 		
 		add_settings_section(
 			'mz_mindbody_section2_text',
-			__('', 'mz_mindbody_api'),
+			'',
 			'mz_mindbody_section2_text',
 			'mz_mindbody'
 		);
 		
 		add_settings_section(
 			'mz_mindbody_section4_text',
-			__('', 'mz_mindbody_api'),
+			'',
 			'mz_mindbody_section4_text',
 			'mz_mindbody'
 		);
@@ -93,7 +93,7 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 		
 		add_settings_section(
 			'mz_mindbody_section3_text',
-			__('', 'mz-mindbody-api'),
+			'',
 			'mz_mindbody_section3_text',
 			'mz_mindbody'
 		);
