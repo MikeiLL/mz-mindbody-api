@@ -181,7 +181,8 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 	<h4><i class="dashicons dashicons-megaphone" alt="f488" style="max-width:90%"></i> News</h4>
 	<p>Now supports multiple locations <em>and</em> MBO accounts.<p>
 	<hr/>
-	<h4>Advanced Version. Customization requests welcome.</h4>
+	<h4>Customization requests invited, and there's an ADVANCED VERSION of the plugin which integrates MBO class registration without leaving the WP site.
+	</h4>
 	</div>
 	<?php
 	}
