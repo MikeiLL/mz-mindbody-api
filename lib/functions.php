@@ -55,6 +55,7 @@ class Global_Strings {
 			   		  'login_url' => __( 'login', 'mz-mindbody-api' ),
 			   		  'logout_url' => __( 'logout', 'mz-mindbody-api' ),
 			   		  'sign_up_url' => __( 'signup', 'mz-mindbody-api' ),
+			   		  'create_account_url' => __('create-account', 'mz-mindbody-api' ),
 			   		  'or' => __( 'or', 'mz-mindbody-api' ),
 			   		  'and' => __( 'and', 'mz-mindbody-api' ),
 			   			);

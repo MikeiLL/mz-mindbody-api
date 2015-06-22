@@ -31,16 +31,14 @@ require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
 }
 
 function displayLoginForm() {
-$globals = new Global_Strings();
-$global_strings = $globals->translate_them();
-$password = $global_strings['password'];
-$username = $global_strings['username'];
-$login = $global_strings['login'];
-$logout = $global_strings['logout'];
-$logout_url = $global_strings['logout_url'];
-$create_account_url = home_url().__('/create-account', 'mz-mindbody-api');
-$registration_button = __('Register with MindBodyOnline', 'mz-mindbody-api');
-$or = $global_strings['or'];
+	$globals = new Global_Strings();
+	$global_strings = $globals->translate_them();
+	$password = $global_strings['password'];
+	$username = $global_strings['username'];
+	$login = $global_strings['login'];
+	$create_account_url = home_url().'/'.$global_strings['create_account_url'];
+	$registration_button = __('Register with MindBodyOnline', 'mz-mindbody-api');
+	$or = $global_strings['or'];
 	return <<<EOD
 <form class="mz_mbo_login" method="POST">
 	<input type="text" name="username" placeholder="$username" /><br class="btwn_mz_mbo_inputs"/>
@@ -52,8 +50,12 @@ EOD;
 }
 
 function displayWelcome() {
-	echo '<h3>'.__('Welcome', 'mz-mindbody-api').$_SESSION['client']['FirstName'].' '.$_SESSION['client']['LastName'].'<h3>';
+	$globals = new Global_Strings();
+	$global_strings = $globals->translate_them();
+	$logout = $global_strings['logout'];
+	$logout_url = $global_strings['logout_url'];
+	echo '<h3>'.__('Welcome', 'mz-mindbody-api').'&nbsp; '.$_SESSION['client']['FirstName'].' '.$_SESSION['client']['LastName'].'<h3>';
 	echo '<br />';
-	echo '<a href="'.home_url().'/'.$logout_url.' class="btn mz_add_to_class">'.$logout.'</a>';
+	echo '<a href="'.home_url().'/'.$logout_url.'" class="btn mz_add_to_class">'.$logout.'</a>';
 	}
 ?>
