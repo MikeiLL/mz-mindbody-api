@@ -1,5 +1,4 @@
 <?php
-require_once(MZ_MINDBODY_SCHEDULE_DIR .'lib/functions.php');
 
 function mZ_mindbody_logout() {
 	if (phpversion() >= 5.4) {
