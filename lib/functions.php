@@ -14,13 +14,13 @@ function mz_getDateRange($date, $duration=7) {
     $wkday = date('l',mktime('0','0','0', $month, $day, $year));
 
     switch($wkday) {
-        case __('Monday',' mz-mindbody-api'): $numDaysFromMon = 0; break;
-        case __('Tuesday',' mz-mindbody-api'): $numDaysFromMon = 1; break;
-        case __('Wednesday',' mz-mindbody-api'): $numDaysFromMon = 2; break;
-        case __('Thursday',' mz-mindbody-api'): $numDaysFromMon = 3; break;
-        case __('Friday',' mz-mindbody-api'): $numDaysFromMon = 4; break;
-        case __('Saturday',' mz-mindbody-api'): $numDaysFromMon = 5; break;
-        case __('Sunday',' mz-mindbody-api'): $numDaysFromMon = 6; break;   
+        case __('Monday', 'mz-mindbody-api'): $numDaysFromMon = 0; break;
+        case __('Tuesday', 'mz-mindbody-api'): $numDaysFromMon = 1; break;
+        case __('Wednesday', 'mz-mindbody-api'): $numDaysFromMon = 2; break;
+        case __('Thursday', 'mz-mindbody-api'): $numDaysFromMon = 3; break;
+        case __('Friday', 'mz-mindbody-api'): $numDaysFromMon = 4; break;
+        case __('Saturday', 'mz-mindbody-api'): $numDaysFromMon = 5; break;
+        case __('Sunday', 'mz-mindbody-api'): $numDaysFromMon = 6; break;   
     }
 
     // Timestamp of the monday for that week
@@ -42,6 +42,25 @@ function mz_getDateRange($date, $duration=7) {
     return $return;
 }
 
+class Global_Strings {
+ // property declaration
+
+    // method declaration
+    public function translate_them() {
+        return array( 'username' => __( 'Username', 'mz-mindbody-api' ),
+			   		  'password' => __( 'Password', 'mz-mindbody-api' ),
+			   		  'login' => __( 'Login', 'mz-mindbody-api' ),
+			   		  'logout' => __( 'Log Out', 'mz-mindbody-api' ),
+			   		  'sign_up' => __( 'Sign Up', 'mz-mindbody-api' ),
+			   		  'login_url' => __( 'login', 'mz-mindbody-api' ),
+			   		  'logout_url' => __( 'logout', 'mz-mindbody-api' ),
+			   		  'sign_up_url' => __( 'signup', 'mz-mindbody-api' ),
+			   		  'or' => __( 'or', 'mz-mindbody-api' ),
+			   		  'and' => __( 'and', 'mz-mindbody-api' ),
+			   			);
+    }
+}
+	
 function mz_mbo_schedule_nav($date, $period, $duration=7)
 {
 	$sched_nav = '';
@@ -88,4 +107,6 @@ function mz_pr($data)
   print_r($data);
   echo "</pre>";
 }
+
+
 ?>

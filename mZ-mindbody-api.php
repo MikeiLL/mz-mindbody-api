@@ -149,7 +149,7 @@ else
 	add_shortcode(__('mz-mindbody-staff-list', 'mz-mindbody-api'), __('mZ_mindbody_staff_listing', 'mz-mindbody-api') );
 	add_shortcode(__('mz-mindbody-login', 'mz-mindbody-api'), __('mZ_mindbody_login', 'mz-mindbody-api') );
 	add_shortcode(__('mz-mindbody-logout', 'mz-mindbody-api'), __('mZ_mindbody_logout', 'mz-mindbody-api') );
-	add_shortcode(__('mz-mindbody-activation', 'mz-mindbody-api'), __('mZ_mindbody_activation', 'mz-mindbody-api') );
+	add_shortcode(__('mz-mindbody-signup', 'mz-mindbody-api'), __('mZ_mindbody_signup', 'mz-mindbody-api') );
 	add_shortcode(__('mz-mindbody-add-to-classes', 'mz-mindbody-api'), __('mz_mindbody_add_to_classes', 'mz-mindbody-api') );
 	
 }//EOF Not Admin
