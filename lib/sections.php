@@ -3,7 +3,7 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 
 	function mz_mindbody_settings_menu() {
 		//create submenu under Settings
-		add_options_page ('MZ Mindbody Settings','MZ Mindbody',
+		add_options_page ('MZ Mindbody Settings', esc_attr__('MZ Mindbody', 'mz-mindbody-api'),
 		'manage_options', __FILE__, 'mz_mindbody_settings_page');
 	}
 
@@ -39,21 +39,21 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 		
 		add_settings_section(
 			'mz_mindbody_section2_text',
-			'',
+			__('', 'mz_mindbody_api'),
 			'mz_mindbody_section2_text',
 			'mz_mindbody'
 		);
 		
 		add_settings_section(
 			'mz_mindbody_section4_text',
-			'',
+			__('', 'mz_mindbody_api'),
 			'mz_mindbody_section4_text',
 			'mz_mindbody'
 		);
 		
 		add_settings_section(
 			'mz_mindbody_main',
-			'MZ Mindbody Credentials',
+			__('MZ Mindbody Credentials', 'mz-mindbody-api'),
 			'mz_mindbody_section_text',
 			'mz_mindbody'
 		);
@@ -61,7 +61,7 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 		
 		add_settings_field(
 			'mz_mindbody_source_name',
-			'Source Name: ',
+			__('Source Name: ', 'mz-mindbody-api'),
 			'mz_mindbody_source_name',
 			'mz_mindbody',
 			'mz_mindbody_main'
@@ -69,7 +69,7 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 
 		add_settings_field(
 			'mz_mindbody_password',
-			'Key: ',
+			__('Key: ', 'mz-mindbody-api'),
 			'mz_mindbody_password',
 			'mz_mindbody',
 			'mz_mindbody_main'
@@ -77,7 +77,7 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 
 		add_settings_field(
 			'mz_mindbody_siteID',
-			'Site ID: ',
+			__('Site ID: ', 'mz-mindbody-api'),
 			'mz_mindbody_siteID',
 			'mz_mindbody',
 			'mz_mindbody_main'
@@ -85,7 +85,7 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 
 		add_settings_field(
 			'mz_mindbody_eventID',
-			'Event IDs: ',
+			__('Event IDs: ', 'mz-mindbody-api'),
 			'mz_mindbody_eventID',
 			'mz_mindbody',
 			'mz_mindbody_main'
@@ -93,14 +93,14 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 		
 		add_settings_section(
 			'mz_mindbody_section3_text',
-			'',
+			__('', 'mz-mindbody-api'),
 			'mz_mindbody_section3_text',
 			'mz_mindbody'
 		);
 
 		add_settings_field(
 			'mz_mindbody_clear_cache',
-			'Force Cache Reset ',
+			__('Force Cache Reset ', 'mz-mindbody-api'),
 			'mz_mindbody_clear_cache',
 			'mz_mindbody',
 			'mz_mindbody_main'
@@ -108,7 +108,7 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 
 		add_settings_section(
 			'mz_mindbody_secondary',
-			'Debug',
+			__('Debug', 'mz-mindbody-api'),
 			'mz_mindbody_debug_text',
 			'mz_mindbody'
 		);
@@ -121,44 +121,51 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 
 		if (extension_loaded('soap'))
 		{
-			_e( 'SOAP installed! ');
+			_e( 'SOAP installed! ', 'mz-mindbody-api');
 		}
 		else
 		{
-		   _e('SOAP is not installed. ');
+		   _e('SOAP is not installed. ', 'mz-mindbody-api');
 		   $mz_requirements = 1;
 		}
 
 		if (class_exists('System')===true)
 		{
-		   _e('PEAR installed! ');
+		   _e('PEAR installed! ', 'mz-mindbody-api');
 		}
 		else
 		{
-		   _e('PEAR is not installed. ');
+		   _e('PEAR is not installed. ', 'mz-mindbody-api');
 		   $mz_requirements = 1;
 		}
 
 		if ($mz_requirements == 1)
 		{
-			_e('<div class="settings-error" style="max-width:60%"><p>MZ Mindbody API requires SOAP and PEAR. Please contact your hosting provider or enable via your CPANEL of php.ini file.</p></div>');
+			echo '<div class="settings-error" style="max-width:60%"><p>';
+			_e('MZ Mindbody API requires SOAP and PEAR. Please contact your hosting provider or enable via your CPANEL of php.ini file.', 'mz-mindbody-api');
+			echo '</p></div>';
 		}
 		else
 		{
-			_e('<div class="updated" style="max-width:60%">Congratulations. Your server appears to be configured to integrate with mindbodyonline.</div>');
+			
+			echo '<div class="updated" style="max-width:60%"><p>';
+			_e('Congratulations. Your server appears to be configured to integrate with mindbodyonline.', 'mz-mindbody-api');
+			echo '</p></div>';
 		}
 	}
 
 	function mz_mindbody_section_text() { ?>
 		<div style="max-width:60%">
-		<p><?php _e('Enter your mindbody credentials below.') ?></p>
-		<p><?php _e('If you do not have them yet, visit the') ?> <a href="https://api.mindbodyonline.com/Home/LogIn"><?php _e('MindBodyOnline developers website') ?></a> <?php _e('and register for developer credentials.')?>
-		(<a href="http://www.mzoo.org/creating-your-mindbody-credentials/"><?php _e('Detailed instructions here') ?></a>.)</p>
-		<p><?php _e('Add to page or post with shortcode')?>: [mz-mindbody-show-schedule], [mz-mindbody-show-events], [mz-mindbody-staff-list], [mz-mindbody-show-schedule type=day location=1] </p>
-		<p> Parameter 'account' can be added to any of the above shortcodes like:  [shortcode account=-99] to call from a different MBO business account. 
-		(-99 is the MBO <em>sandbox</em> account)</font></p>
-		<p><?php _e('Advanced version offers some new shortcodes')?>: [mz-mindbody-login], [mz-mindbody-logout], [mz-mindbody-signup]</p>
-		<p><?php _e('In order for these to work correctly, the permalinks for those pages need to be: //')?><em>login</em>, <em>logout</em> and <em>create-account</em>
+		<p><?php _e('Enter your mindbody credentials below.', 'mz-mindbody-api') ?></p>
+		<p><?php printf(__('If you do not have them yet, visit the %1$s MindBodyOnline developers website %2$s 
+		and register for developer credentials.', 'mz-mindbody-api'),
+		 '<a href="https://api.mindbodyonline.com/Home/LogIn">', '</a>')?>
+		(<a href="http://www.mzoo.org/creating-your-mindbody-credentials/"><?php _e('Detailed instructions here', 'mz-mindbody-api') ?></a>.)</p>
+		<p><?php _e('Add to page or post with shortcode: [mz-mindbody-show-schedule], [mz-mindbody-show-events], [mz-mindbody-staff-list], [mz-mindbody-show-schedule type=day location=1]', 'mz-mindbody-api') ?> </p>
+		<p> <?php _e('Parameter "account" can be added to any of the above shortcodes like:  [shortcode account=-99] to call from a different MBO business account. 
+		(-99 is the MBO <em>sandbox</em> account)', 'mz-mindbody-api')?></font></p>
+		<p><?php _e('Advanced version offers some new shortcodes: [mz-mindbody-login], [mz-mindbody-logout], [mz-mindbody-signup]', 'mz-mindbody-api') ?></p>
+		<p><?php _e('In order for these to work correctly, the permalinks for those pages need to be: <em>login</em>, <em>logout</em> and <em>create-account</em>', 'mz-mindbody-api')?>
 
 		</div>
 	<?php
@@ -166,10 +173,16 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 	}
 
 	function mz_mindbody_section2_text() {
-	?><div style="float:right;width:150px;background:#CCCCFF;padding:5px 20px 20px 20px;margin-left:20px;margin-bottom:8px;"><h4><?php _e('Contact')?></h4>
+	?><div style="float:right;width:150px;background:#CCCCFF;padding:5px 20px 20px 20px;margin-left:20px;margin-bottom:8px;">
+	<h4><?php _e('Contact', 'mz-mindbody-api')?></h4>
 	<p><a href="http://www.mzoo.org">www.mzoo.org</a></p>
-	<p><div class="dashicons dashicons-email-alt" alt="f466"></div> welcome, but please also post in the <a href="https://wordpress.org/support/plugin/mz-mindbody-api">support forum</a> for the benefit of others.</p>
-	<p><div class="dashicons dashicons-heart" alt="f487" style="color:red;"></div><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A95ZEELLHGECE" target="_blank">Small donations</a> and <a href="https://wordpress.org/support/view/plugin-reviews/mz-mindbody-api">reviews</a> welcome.</p>
+	<p><div class="dashicons dashicons-email-alt" alt="f466"></div> 
+	<?php printf(__('welcome, but please also post in the %1$s support forum %2$s for the benefit of others.', 'mz-mindbody-api'),
+	'<a href="https://wordpress.org/support/plugin/mz-mindbody-api">', '</a>')?></p>
+	<p><div class="dashicons dashicons-heart" alt="f487" style="color:red;"></div>
+	<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A95ZEELLHGECE" target="_blank">
+	<?php printf(__('Small donations %1$s and %2$s reviews %3$s welcome.'),
+	'</a>', '<a href="https://wordpress.org/support/view/plugin-reviews/mz-mindbody-api">','</a>'); ?> </p>
 
 	</div>
 	<br style='clear:right;'/>
@@ -178,10 +191,10 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 	
 	function mz_mindbody_section4_text() {
 	?><div style="float:right;width:150px;background:#CCCCFF;padding:5px 20px 20px 20px;margin-left:20px;">
-	<h4><i class="dashicons dashicons-megaphone" alt="f488" style="max-width:90%"></i> News</h4>
-	<p>Now supports multiple locations <em>and</em> MBO accounts.<p>
+	<h4><i class="dashicons dashicons-megaphone" alt="f488" style="max-width:90%"></i> <?php _e('News', 'mz-mindbody-api')?></h4>
+	<p><?php _e('Now supports multiple locations and MBO accounts.', 'mz-mindbody-api')?><p>
 	<hr/>
-	<h4>Customization requests invited, and there's an ADVANCED VERSION of the plugin which integrates MBO class registration without leaving the WP site.
+	<h4><?php _e("Customization requests invited, and there's an ADVANCED VERSION of the plugin which integrates MBO class registration without leaving the WP site.", 'mz-mindbody-api')?>
 	</h4>
 	</div>
 	<?php
@@ -191,7 +204,11 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 	function mz_mindbody_debug_text() {
 	  require_once MZ_MINDBODY_SCHEDULE_DIR .'mindbody-php-api/MB_API.php';
 	  require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
-	  echo "<p>Once credentials have been set and activated, look for <code>&lt;ErrorCode&gt;200&lt;/ErrorCode&gt;</code> in the GetClassesResponse box below to confirm settings are correct.</p>";
+	  echo "<p>";
+	  printf(__('Once credentials have been set and activated, look for %1$s in the 
+	  GetClassesResponse box below to confirm settings are correct.'),
+	  '<code>&lt;ErrorCode&gt;200&lt;/ErrorCode&gt;</code>');
+	  echo "</p>";
 	  $mz_timeframe = array_slice(mz_getDateRange(date_i18n('Y-m-d'), 1), 0, 1);
 	  $test = $mb->GetClasses($mz_timeframe);
 	  $mb->debug();
