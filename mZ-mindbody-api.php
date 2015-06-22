@@ -6,8 +6,9 @@ Version: 1.7.5
 Author: mZoo.org
 Author URI: http://www.mZoo.org/
 Plugin URI: http://www.mzoo.org/mz-mindbody-wp
-
-Based on API written by Devin Crossman.
+Text Domain: mz-mindbody-api
+Domain Path: /languages
+Utilizing on API written by Devin Crossman.
 */
 
 //define plugin path and directory
@@ -18,7 +19,10 @@ define( 'MZ_MINDBODY_SCHEDULE_URL', plugin_dir_url( __FILE__ ) );
 register_activation_hook(__FILE__, 'mZ_mindbody_schedule_activation');
 register_deactivation_hook(__FILE__, 'mZ_mindbody_schedule_deactivation');
 
-load_plugin_textdomain('mz-mindbody-api',false,'mz-mindbody-api/languages');
+function mZ_MBO_load_plugin_textdomain() {
+	load_plugin_textdomain('mz-mindbody-api',false,dirname(plugin_basename(__FILE__)) . '/languages');
+	}
+add_action( 'plugins_loaded', 'mZ_MBO_load_plugin_textdomain' );
 
 function mZ_mindbody_schedule_activation() {
 	//Don't know if there's anything we need to do here.
