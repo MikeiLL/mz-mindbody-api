@@ -35,10 +35,10 @@ $(document).ready(function() {
         };
         $('table.mz-schedule-filter').filterTable({
             callback: function(term, table) { stripeTable(table); }, //call the striping after every change to the filter term
-            placeholder: 'by teacher, class type',
+            placeholder: mz-mindbody-api-i18n.filter_default,
             highlightClass: 'alt',
             inputType: 'search',
-            quickList: ['morning', 'afternoon', 'evening']
+            quickList: [mz-mindbody-api-i18n.quick_1]
         });
         stripeTable($('table.mz-schedule-filter')); //stripe the table for the first time
 	});

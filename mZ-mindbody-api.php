@@ -65,6 +65,7 @@ if (!function_exists( 'mZ_latest_jquery' )){
 	add_action('wp_enqueue_scripts', 'mZ_latest_jquery');
 }
 
+
 class mZ_Mindbody_day_schedule extends WP_Widget {
 
     function mZ_Mindbody_day_schedule() {

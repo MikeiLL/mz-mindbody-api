@@ -8,7 +8,7 @@ function mZ_mindbody_show_events ($atts, $account=0)
 
 	// optionally pass in a type parameter. Defaults to week.
 	extract( shortcode_atts( array(
-		'account' => '0'
+		__('account', 'mz-mindbody-api') => '0'
 			), $atts ) );
 			
  	// grab session type IDs for events
@@ -136,7 +136,7 @@ function mZ_mindbody_show_events ($atts, $account=0)
 			}
 			else
 			{
-				$return .= '<h3>' . __('No events published this period.'). '</h3>';
+				$return .= '<h3>' . __('No events published this period.', 'mz-mindbody-api'). '</h3>';
 			}
 		}
 		else
@@ -148,12 +148,12 @@ function mZ_mindbody_show_events ($atts, $account=0)
 			}
 			else
 			{
-				$return .= '<p>' .$mz_event_calendar_duration .' '. __('Day Event Calendar');
+				$return .= '<p>' . sprintf(_n('%1$s Day Event Calendar', '%1$s Day Event Calendar', 'mz-mindbody-api'), $mz_event_calendar_duration);
 				$return .=  ' '. date_i18n($mz_date_display, strtotime($mz_timeframe['StartDateTime']));
 				$return .= ' - ';
 				$return .= date_i18n($mz_date_display, strtotime($mz_timeframe['EndDateTime']));
-				$return .= '<h3>' . __('No events published') . '. </h3>';
-				$return .= mz_mbo_schedule_nav($mz_date, "Events", $mz_event_calendar_duration);
+				$return .= '<h3>' . __('No events published', 'mz-mindbody-api') . '. </h3>';
+				$return .= mz_mbo_schedule_nav($mz_date, _n("Event", "Events", 'mz-mindbody-api'), $mz_event_calendar_duration);
 				//$return .= '<pre>'.print_r($mz_event_data,1).'</pre>';
 			}
 
@@ -162,9 +162,9 @@ function mZ_mindbody_show_events ($atts, $account=0)
 	}
 	else // no sessions set in admin
 	{
-		$return .= '<h2>Error: MBO Event Type IDs must be set in Admin Panel</h2>';
+		$return .= '<h2>'.__('Error: MBO Event Type IDs must be set in Admin Panel', 'mz-mindbody-api').'</h2>';
 	}
-    $return .= mz_mbo_schedule_nav($mz_date, "Events", $mz_event_calendar_duration);
+    $return .= mz_mbo_schedule_nav($mz_date, _n("Event", "Events", 'mz-mindbody-api'), $mz_event_calendar_duration);
 	return $return;
 
 }//EOF mZ_mindbody_show_events

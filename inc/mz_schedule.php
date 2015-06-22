@@ -60,7 +60,7 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 
 		    $return .= '<div id="mz_mbo_schedule" class="mz_mbo_schedule">';
 		if ($type=='week'){
-		    $return .= mz_mbo_schedule_nav($mz_date);
+		    $return .= mz_mbo_schedule_nav($mz_date, __('Week', 'mz-mindbody-api'));
 		}
 
 		if ($filter == 1) {
@@ -131,7 +131,7 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 		$return .= '</tbody></table>';
 		if ($type=='week')
 		    // schedule navigation
-		    $return .= mz_mbo_schedule_nav($mz_date);
+		    $return .= mz_mbo_schedule_nav($mz_date, __('Week', 'mz-mindbody-api'));
 		$return .= '<div id="mzModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mzSmallModalLabel" aria-hidden="true">
                  <div class="modal-content">
 
