@@ -1,6 +1,6 @@
 <?php
 /**
-Plugin Name: mZoo Mindbody Interface - Schedule, Events, Staff Display
+Plugin Name: Advanced mZoo Mindbody Interface - Schedule, Events, Staff Display
 Description: Interface Wordpress with MindbodyOnline data with Bootstrap Responsive Layout
 Version: 1.7.5
 Author: mZoo.org
@@ -45,7 +45,6 @@ function mz_mbo_enqueue($hook) {
 
 }
 add_action( 'admin_enqueue_scripts', 'mz_mbo_enqueue' );
-
 
 //TODO Deal with conflict when $mb class get's called twice
 add_action('widgets_init', 'mZ_mindbody_schedule_register_widget');
@@ -372,7 +371,9 @@ if ( is_admin() )
 	function mz_mindbody_section2_text() {
 	?><div style="float:right;width:150px;background:#CCCCFF;padding:5px 20px 20px 20px;margin-left:20px;margin-bottom:8px;"><h4><?php _e('Contact')?></h4>
 	<p><a href="http://www.mzoo.org">www.mzoo.org</a></p>
-	<p><a href="mailto:mike@mzoo.org"><div class="dashicons dashicons-email-alt" alt="f466"></a></div> <a href="mailto:mike@mzoo.org">emails welcome</a>.</p>
+	<p><div class="dashicons dashicons-email-alt" alt="f466"></div> welcome, but please also post in the <a href="https://wordpress.org/support/plugin/mz-mindbody-api">support forum</a> for the benefit of others.</p>
+	<p><div class="dashicons dashicons-heart" alt="f487" style="color:red;"></div><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A95ZEELLHGECE" target="_blank">Small donations</a> and <a href="https://wordpress.org/support/view/plugin-reviews/mz-mindbody-api">reviews</a> welcome.</p>
+
 	</div>
 	<br style='clear:right;'/>
 	<?php
@@ -395,7 +396,6 @@ if ( is_admin() )
 	  require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
 	  $mz_timeframe = array_slice(mz_getDateRange(date_i18n('Y-m-d'), 1), 0, 1);
 	  $test = $mb->GetClasses($mz_timeframe);
-	  echo "<p>Once credentials have been set and activated, look for <code>&lt;ErrorCode&gt;200&lt;/ErrorCode&gt;</code> in the GetClassesResponse box below to confirm settings are correct.</p>";
 	  $mb->debug();
 	  echo "<br/>";
 	}

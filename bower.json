@@ -14,7 +14,8 @@
   "homepage": "www.mZoo.org",
   "dependencies": {
     "bootstrap-sass-official": "~3.3.4",
-    "modernizr": "~2.8.3"
+    "modernizr": "~2.8.3",
+    "jQuery.FilterTable": "*"
   },
   "ignore": [
     "node_modules",
@@ -42,9 +43,9 @@
         "./assets/javascripts/bootstrap/button.js",
         "./assets/javascripts/bootstrap/modal.js"
       ]
+    },
+    "jQuery.FilterTable": {
+      "main": "./jquery.filtertable.js"
     }
-  },
-  "resolutions": {
-    "modernizr": "~2.8.3"
   }
 }

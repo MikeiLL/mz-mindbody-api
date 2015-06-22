@@ -10,7 +10,8 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 	extract( shortcode_atts( array(
 		'type' => 'week',
 		'location' => '1',
-		'account' => '0'
+		'account' => '0',
+		'filter' => '0'
 			), $atts ) );
     $mz_date = empty($_GET['mz_date']) ? date_i18n('Y-m-d') : mz_validate_date($_GET['mz_date']);
 
@@ -61,14 +62,18 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 		if ($type=='week'){
 		    $return .= mz_mbo_schedule_nav($mz_date);
 		}
-		
-		$return .= '<table class="table table-striped">';
+
+		if ($filter == 1) {
+			$return .= '<table class="mz-schedule-filter">';
+			}else{
+			$return .= '<table class="mz-schedule-table">';
+			}
 
 		foreach($mz_days as $classDate => $mz_classes)
 		{   
-			$return .= '<tr><th>';
+			$return .= '<thead><tr><th scope="col">';
 			$return .= date_i18n($mz_date_display, strtotime($classDate));
-			$return .= '</th><th>' . __('Class Name') . '</th><th>' . __('Instructor') . '</th><th>' . __('Class Type') . '</th></tr>';
+			$return .= '</th><th scope="col">' . __('Class Name') . '</th><th scope="col">' . __('Instructor') . '</th><th scope="col">' . __('Class Type') . '</th></tr></thead><tbody>';
 
 			foreach($mz_classes as $class)
 			{
@@ -88,24 +93,19 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 					$staffName = $class['Staff']['Name'];
 					$sessionType = $class['ClassDescription']['SessionType']['Name'];
 					$isAvailable = $class['IsAvailable'];
+					$linkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$sclassid}&amp;studioid={$studioid}";
 
+					if (date_i18n('H', strtotime($startDateTime)) < 12) {
+							$time_of_day = 'morning';
+						}else if ((date_i18n('H', strtotime($startDateTime)) > 16)) {
+							$time_of_day = 'evening';
+						}else{
+							$time_of_day = 'afternoon';
+							}
 					// start building table rows
-					$return .= '<tr class="mz_description_holder"><td>';
+					$return .= '<tr class="mz_description_holder"><td><span style="display:none">'.$time_of_day.'</span>';
 					$return .= date_i18n('g:i a', strtotime($startDateTime)) . ' - ' . date_i18n('g:i a', strtotime($endDateTime));
-					// only show the schedule button if enabled in MBO
-					$clientID = isset($_SESSION['GUID']) ? $_SESSION['client']['ID'] : '';
-					$add_to_class_nonce = wp_create_nonce( 'mz_MBO_add_to_class_nonce');
-					if ($clientID == ''){
-						 $return .= $isAvailable ? '<br/><a class="btn mz_add_to_class" href="'.home_url().'/login">Login to Sign-up</a>': '';
-						  }else{
-					  $return .= $isAvailable ? '<br/><a id="mz_add_to_class" class="btn mz_add_to_class"' 
-					    . ' data-nonce="' . $add_to_class_nonce 
-					    . '" data-classID="' . $sclassid  
-					    . '" data-clientID="' . $clientID 
-					    . '">' .
-					  '<span class="signup">'.__('Sign-Up') . '</span><span class="count" style="display:none">0</span></a>': '';
-					  }
-
+					$return .= $isAvailable ? '<br><a class="btn" href="' . $linkURL . '" target="_blank">' . __('Sign-Up') . '</a>' : '';
 					$return .= '</td><td>';
 
 					// trigger link modal
@@ -124,7 +124,7 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 			}// EOF foreach class
 		}// EOF foreach day
 
-		$return .= '</table>';
+		$return .= '</tbody></table>';
 		if ($type=='week')
 		    // schedule navigation
 		    $return .= mz_mbo_schedule_nav($mz_date);
