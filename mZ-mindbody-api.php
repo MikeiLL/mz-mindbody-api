@@ -18,14 +18,14 @@ define( 'MZ_MINDBODY_SCHEDULE_URL', plugin_dir_url( __FILE__ ) );
 register_activation_hook(__FILE__, 'mZ_mindbody_schedule_activation');
 register_deactivation_hook(__FILE__, 'mZ_mindbody_schedule_deactivation');
 
-load_plugin_textdomain('mz-mindbody-api',false,'mz-mindbody-schedule/languages');
+load_plugin_textdomain('mz-mindbody-api',false,'mz-mindbody-api/languages');
 
 function mZ_mindbody_schedule_activation() {
 	//Don't know if there's anything we need to do here.
 }
 
 function mZ_mindbody_schedule_deactivation() {
-	// actions to perform once on plugin deactivation go here
+	//Don't know if there's anything we need to do here.
 }
 
 //register uninstaller
@@ -70,14 +70,14 @@ class mZ_Mindbody_day_schedule extends WP_Widget {
     function mZ_Mindbody_day_schedule() {
         $widget_ops = array(
             'classname' => 'mZ_Mindbody_day_schedule_class',
-            'description' => 'Display class schedule for current day.'
+            'description' => __('Display class schedule for current day.', 'mz-mindbody-api')
             );
-        $this->WP_Widget('mZ_Mindbody_day_schedule', 'Today\'s MindBody Schedule',
+        $this->WP_Widget('mZ_Mindbody_day_schedule', __('Today\'s MindBody Schedule', 'mz-mindbody-api'),
                             $widget_ops );
     } 
     
     function form($instance){
-        $defaults = array('title' => 'Today\'s Classes');
+        $defaults = array('title' => __('Today\'s Classes', 'mz-mindbody-api'));
         $instance = wp_parse_args( (array) $instance, $defaults);
         $title = $instance['title'];
         ?>
@@ -97,7 +97,7 @@ class mZ_Mindbody_day_schedule extends WP_Widget {
         extract($args);
         echo $before_widget;
         $title = apply_filters( 'widget_title', $instance['title'] );
-        $arguments['type'] = 'day';
+        $arguments[__('type', 'mz-mindbody-api')] = __('day', 'mz-mindbody-api');
         if (!empty($title) ) 
             { echo $before_title . $title . $after_title; };
             echo(mZ_mindbody_show_schedule($arguments, $account=0));
@@ -143,13 +143,14 @@ else
 	foreach ( glob( plugin_dir_path( __FILE__ )."inc/*.php" ) as $file )
         include_once $file;
 
-	add_shortcode('mz-mindbody-show-schedule', 'mZ_mindbody_show_schedule' );
-	add_shortcode('mz-mindbody-show-events', 'mZ_mindbody_show_events' );
-	add_shortcode('mz-mindbody-staff-list', 'mZ_mindbody_staff_listing' );
-	add_shortcode('mz-mindbody-login', 'mZ_mindbody_login' );
-	add_shortcode('mz-mindbody-logout', 'mZ_mindbody_logout' );
-	add_shortcode('mz-mindbody-activation', 'mZ_mindbody_activation' );
-	add_shortcode('mz-mindbody-add-to-classes', 'mz_mindbody_add_to_classes' );
+	add_shortcode(__('mz-mindbody-show-schedule', 'mz-mindbody-api'), __('mZ_mindbody_show_schedule', 'mz-mindbody-api') );
+	add_shortcode(__('mz-mindbody-show-events', 'mz-mindbody-api'), __('mZ_mindbody_show_events', 'mz-mindbody-api') );
+	add_shortcode(__('mz-mindbody-staff-list', 'mz-mindbody-api'), __('mZ_mindbody_staff_listing', 'mz-mindbody-api') );
+	add_shortcode(__('mz-mindbody-login', 'mz-mindbody-api'), __('mZ_mindbody_login', 'mz-mindbody-api') );
+	add_shortcode(__('mz-mindbody-logout', 'mz-mindbody-api'), __('mZ_mindbody_logout', 'mz-mindbody-api') );
+	add_shortcode(__('mz-mindbody-activation', 'mz-mindbody-api'), __('mZ_mindbody_activation', 'mz-mindbody-api') );
+	add_shortcode(__('mz-mindbody-add-to-classes', 'mz-mindbody-api'), __('mz_mindbody_add_to_classes', 'mz-mindbody-api') );
+	
 }//EOF Not Admin
 
 if (phpversion() >= 5.3) {
