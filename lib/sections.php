@@ -190,6 +190,7 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 	function mz_mindbody_debug_text() {
 	  require_once MZ_MINDBODY_SCHEDULE_DIR .'mindbody-php-api/MB_API.php';
 	  require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
+	  echo "<p>Once credentials have been set and activated, look for <code>&lt;ErrorCode&gt;200&lt;/ErrorCode&gt;</code> in the GetClassesResponse box below to confirm settings are correct.</p>";
 	  $mz_timeframe = array_slice(mz_getDateRange(date_i18n('Y-m-d'), 1), 0, 1);
 	  $test = $mb->GetClasses($mz_timeframe);
 	  $mb->debug();
