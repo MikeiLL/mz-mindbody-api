@@ -6,16 +6,16 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 	global $add_mz_ajax_script;
 	$add_mz_ajax_script = true;
 	// optionally pass in a type parameter. Defaults to week.
-	extract( shortcode_atts( array(
-		__('type', 'mz-mindbody-api') => __('week', 'mz-mindbody-api'),
-		__('location', 'mz-mindbody-api') => '1',
-		__('account', 'mz-mindbody-api') => '0',
-		__('filter', 'mz-mindbody-api') => '0'
-			), $atts ) );
-		$type = ${__('type', 'mz-mindbody-api')};
-		$location = ${__('location', 'mz-mindbody-api')};
-		$account = ${__('account', 'mz-mindbody-api')};
-		$filter = ${__('filter', 'mz-mindbody-api')};
+	$atts = shortcode_atts( array(
+		'type' => 'week',
+		'location' => '1',
+		'account' => '0',
+		'filter' => '0'
+			), $atts );
+	$type = $atts['type'];
+	$location = $atts['location'];
+	$account = $atts['account'];
+	$filter = $atts['filter'];
 
     $mz_date = empty($_GET['mz_date']) ? date_i18n('Y-m-d') : mz_validate_date($_GET['mz_date']);
 

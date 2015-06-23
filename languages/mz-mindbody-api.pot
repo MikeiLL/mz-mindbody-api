@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Advanced mZoo Mindbody Interface - Schedule, Events, "
 "Staff Display\n"
-"POT-Creation-Date: 2015-06-22 20:42-0600\n"
+"POT-Creation-Date: 2015-06-23 03:42-0600\n"
 "PO-Revision-Date: 2015-06-22 15:30-0600\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -24,19 +24,19 @@ msgstr ""
 msgid "by teacher, class type"
 msgstr ""
 
-#: inc/assets.php:90 inc/mz_schedule.php:106
+#: inc/assets.php:90 inc/mz_schedule.php:105
 msgid "morning"
 msgstr ""
 
-#: inc/assets.php:91 inc/mz_schedule.php:110
+#: inc/assets.php:91 inc/mz_schedule.php:109
 msgid "afternoon"
 msgstr ""
 
-#: inc/assets.php:92 inc/mz_schedule.php:108
+#: inc/assets.php:92 inc/mz_schedule.php:107
 msgid "evening"
 msgstr ""
 
-#: inc/mz_events.php:11 lib/functions.php:72
+#: inc/mz_events.php:11
 msgid "account"
 msgstr ""
 
@@ -113,35 +113,39 @@ msgstr ""
 msgid "Sign up"
 msgstr ""
 
-#: inc/mz_schedule.php:16
+#: inc/mz_schedule.php:22 lib/functions.php:63 mZ-mindbody-api.php:105
+msgid "day"
+msgstr ""
+
+#: inc/mz_schedule.php:66
 msgid "week"
 msgstr ""
 
-#: inc/mz_schedule.php:68 inc/mz_schedule.php:139 lib/functions.php:83
+#: inc/mz_schedule.php:67 inc/mz_schedule.php:138 lib/functions.php:73
 msgid "Week"
 msgstr ""
 
-#: inc/mz_schedule.php:81
+#: inc/mz_schedule.php:80
 msgid "Class Name"
 msgstr ""
 
-#: inc/mz_schedule.php:82
+#: inc/mz_schedule.php:81
 msgid "Instructor"
 msgstr ""
 
-#: inc/mz_schedule.php:83
+#: inc/mz_schedule.php:82
 msgid "Class Type"
 msgstr ""
 
-#: inc/mz_schedule.php:115
+#: inc/mz_schedule.php:114
 msgid "Sign-Up"
 msgstr ""
 
-#: inc/mz_schedule.php:124 lib/functions.php:56
+#: inc/mz_schedule.php:123 lib/functions.php:56
 msgid "Manage on MindBody Site"
 msgstr ""
 
-#: inc/mz_schedule.php:157
+#: inc/mz_schedule.php:156
 msgid "Error getting classes. Try re-loading the page."
 msgstr ""
 
@@ -221,55 +225,19 @@ msgstr ""
 msgid "with"
 msgstr ""
 
-#: lib/functions.php:63 lib/functions.php:66 mZ-mindbody-api.php:151
-msgid "mz-mindbody-show-schedule"
-msgstr ""
-
-#: lib/functions.php:64 mZ-mindbody-api.php:152
-msgid "mz-mindbody-show-events"
-msgstr ""
-
-#: lib/functions.php:65 mZ-mindbody-api.php:153
-msgid "mz-mindbody-staff-list"
-msgstr ""
-
-#: lib/functions.php:67 mZ-mindbody-api.php:154
-msgid "mz-mindbody-login"
-msgstr ""
-
-#: lib/functions.php:68 mZ-mindbody-api.php:155
-msgid "mz-mindbody-logout"
-msgstr ""
-
-#: lib/functions.php:69 mZ-mindbody-api.php:156
-msgid "mz-mindbody-signup"
-msgstr ""
-
-#: lib/functions.php:70 mZ-mindbody-api.php:105
-msgid "type"
-msgstr ""
-
-#: lib/functions.php:71
-msgid "location"
-msgstr ""
-
-#: lib/functions.php:73 mZ-mindbody-api.php:105
-msgid "day"
-msgstr ""
-
-#: lib/functions.php:74
+#: lib/functions.php:64
 msgid "shortcode"
 msgstr ""
 
-#: lib/functions.php:88
+#: lib/functions.php:78
 msgid "Previous"
 msgstr ""
 
-#: lib/functions.php:89
+#: lib/functions.php:79
 msgid "Current"
 msgstr ""
 
-#: lib/functions.php:90
+#: lib/functions.php:80
 msgid "Following"
 msgstr ""
 
@@ -435,8 +403,8 @@ msgstr ""
 msgid "Today's Classes"
 msgstr ""
 
-#: mZ-mindbody-api.php:157
-msgid "mz-mindbody-add-to-classes"
+#: mZ-mindbody-api.php:105
+msgid "type"
 msgstr ""
 
 #. Plugin Name of the plugin/theme

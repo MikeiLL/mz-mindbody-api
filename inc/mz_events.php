@@ -7,9 +7,12 @@ function mZ_mindbody_show_events ($atts, $account=0)
 	//$add_mz_ajax_script = true;
 
 	// optionally pass in a type parameter. Defaults to week.
-	extract( shortcode_atts( array(
-		__('account', 'mz-mindbody-api') => '0'
-			), $atts ) );
+	$atts = shortcode_atts( array(
+		'location' => '1',
+		'account' => '0',
+			), $atts );
+	$location = $atts['location'];
+	$account = $atts['account'];
 			
  	// grab session type IDs for events
  	$mz_sessions = array($options['mz_mindbody_eventID']);
