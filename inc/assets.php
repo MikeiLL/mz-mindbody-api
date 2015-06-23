@@ -85,7 +85,7 @@ function assets() {
   wp_enqueue_style('mZ_mindbody_schedule_bs', asset_path('styles/main.css'), false, null);
   wp_enqueue_script('modernizr', asset_path('scripts/modernizr.js'), array(), null, true);
   wp_enqueue_script('mz_mbo_bootstrap_script', asset_path('scripts/main.js'), array('jquery'), null, true);
-  wp_localize_script('mz_mbo_bootstrap_script', 'mz-mindbody-api-i18n', array(
+  wp_localize_script('mz_mbo_bootstrap_script', 'mz_mindbody_api_i18n', array(
 			'filter_default' => __('by teacher, class type', 'mz-mindbody-api'),
 			'quick_1' => __('morning', 'mz-mindbody-api'),
 			'quick_2' => __('afternoon', 'mz-mindbody-api'),
