@@ -148,13 +148,13 @@ else
 	foreach ( glob( plugin_dir_path( __FILE__ )."inc/*.php" ) as $file )
         include_once $file;
 
-	add_shortcode(__('mz-mindbody-show-schedule', 'mz-mindbody-api'), __('mZ_mindbody_show_schedule', 'mz-mindbody-api') );
-	add_shortcode(__('mz-mindbody-show-events', 'mz-mindbody-api'), __('mZ_mindbody_show_events', 'mz-mindbody-api') );
-	add_shortcode(__('mz-mindbody-staff-list', 'mz-mindbody-api'), __('mZ_mindbody_staff_listing', 'mz-mindbody-api') );
-	add_shortcode(__('mz-mindbody-login', 'mz-mindbody-api'), __('mZ_mindbody_login', 'mz-mindbody-api') );
-	add_shortcode(__('mz-mindbody-logout', 'mz-mindbody-api'), __('mZ_mindbody_logout', 'mz-mindbody-api') );
-	add_shortcode(__('mz-mindbody-signup', 'mz-mindbody-api'), __('mZ_mindbody_signup', 'mz-mindbody-api') );
-	add_shortcode(__('mz-mindbody-add-to-classes', 'mz-mindbody-api'), __('mz_mindbody_add_to_classes', 'mz-mindbody-api') );
+	add_shortcode(__('mz-mindbody-show-schedule', 'mz-mindbody-api'), 'mZ_mindbody_show_schedule');
+	add_shortcode(__('mz-mindbody-show-events', 'mz-mindbody-api'), 'mZ_mindbody_show_events' );
+	add_shortcode(__('mz-mindbody-staff-list', 'mz-mindbody-api'), 'mZ_mindbody_staff_listing' );
+	add_shortcode(__('mz-mindbody-login', 'mz-mindbody-api'), 'mZ_mindbody_login' );
+	add_shortcode(__('mz-mindbody-logout', 'mz-mindbody-api'), 'mZ_mindbody_logout');
+	add_shortcode(__('mz-mindbody-signup', 'mz-mindbody-api'), 'mZ_mindbody_signup' );
+	add_shortcode(__('mz-mindbody-add-to-classes', 'mz-mindbody-api'), 'mz_mindbody_add_to_classes' );
 	
 }//EOF Not Admin
 
@@ -165,4 +165,6 @@ if (phpversion() >= 5.3) {
     }
     
 	//Functions
-	require_once MZ_MINDBODY_SCHEDULE_DIR .'lib/functions.php';?>
+	require_once MZ_MINDBODY_SCHEDULE_DIR .'lib/functions.php';
+	mz_pr(__('mZ_mindbody_show_schedule', 'mz-mindbody-api'));
+?>
