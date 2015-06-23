@@ -1,6 +1,6 @@
 <?php
 /**
-Plugin Name: Advanced mZoo Mindbody Interface - Schedule, Events, Staff Display
+Plugin Name: mZoo Mindbody Interface - Schedule, Events, Staff Display
 Description: Interface Wordpress with MindbodyOnline data with Bootstrap Responsive Layout
 Version: 1.7.5
 Author: mZoo.org

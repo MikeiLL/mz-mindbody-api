@@ -177,11 +177,11 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 		'mz_mindbody_show_schedule', 'type', 'day', 'location', 'account'); ?>
 		<?php echo '<br/>('.__('-99 is the MBO sandbox/testing account', 'mz_mindbody_api').')'?></font></p>
 		
-		<p><?php _e('Additional shortcodes:'); 
+		<p><?php _e('Additional shortcodes:', 'mz-mindbody-api'); 
 		echo '&nbsp;[mz-mindbody-signup], [mz-mindbody-login], [mz-mindbody-logout]';
 		?></p>
 
-		<p><?php _e('In order for these to work correctly, the permalinks for those pages need to be:');
+		<p><?php _e('In order for these to work correctly, the permalinks for those pages need to be:', 'mz-mindbody-api');
 		echo '&nbsp;<em>create-account</em>, <em>login</em> and <em>logout</em>.'; ?>
 
 		</div>
@@ -197,9 +197,9 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 	<?php printf(__('Email welcome, but please also post in the %1$s support forum %2$s for the benefit of others.', 'mz-mindbody-api'),
 	'<a href="https://wordpress.org/support/plugin/mz-mindbody-api">', '</a>')?></p>
 	<p><div class="dashicons dashicons-heart" alt="f487" style="color:red;"></div>
-	<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A95ZEELLHGECE" target="_blank">
-	<?php printf(__('Small donations %1$s and %2$s reviews %3$s welcome.'),
-	'</a>', '<a href="https://wordpress.org/support/view/plugin-reviews/mz-mindbody-api">','</a>'); ?> </p>
+	
+	<?php printf(__('%1$s Small donations %2$s and %3$s reviews %4$s welcome.', 'mz-mindbody-api'),
+	'<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A95ZEELLHGECE" target="_blank">','</a>', '<a href="https://wordpress.org/support/view/plugin-reviews/mz-mindbody-api">','</a>'); ?> </p>
 
 	</div>
 	<br style='clear:right;'/>
@@ -223,7 +223,7 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 	  require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
 	  echo "<p>";
 	  printf(__('Once credentials have been set and activated, look for %1$s in the 
-	  GetClassesResponse box below to confirm settings are correct.'),
+	  GetClassesResponse box below to confirm settings are correct.',  'mz-mindbody-api'),
 	  '<code>&lt;ErrorCode&gt;200&lt;/ErrorCode&gt;</code>');
 	  echo "</p>";
 	  $mz_timeframe = array_slice(mz_getDateRange(date_i18n('Y-m-d'), 1), 0, 1);
@@ -268,11 +268,11 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 	}
 
 	function mz_mindbody_section3_text() {
-		echo "Having this checked will allow you to see immediate changes in MBO, ";
+		_e('Having this checked will allow you to see immediate changes in MBO', 'mz-mindbody-api');
 		echo "<br/>";
-		echo "but may end up costing more in API transfer fees.";
+		_e('but may end up costing more in API transfer fees.', 'mz-mindbody-api');
 		echo "<br/>";
-		echo "Class calendar cache is held for 1 day. Event calendar for 1 hour.";
+		_e('Class calendar cache is held for 1 day. Event calendar for 1 hour.', 'mz-mindbody-api');
 		}
 		
 	// Display and fill the cache reset form field
