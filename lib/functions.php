@@ -11,7 +11,7 @@ function mz_getDateRange($date, $duration=7) {
     list($year, $month, $day) = explode("-", $date);
 
     // Get the weekday of the given date
-    $wkday = date('l',mktime('0','0','0', $month, $day, $year));
+    $wkday = date_i18n('l',mktime('0','0','0', $month, $day, $year));
 
     switch($wkday) {
         case __('Monday', 'mz-mindbody-api'): $numDaysFromMon = 0; break;
@@ -59,6 +59,7 @@ class Global_Strings {
 					  'signup_url' => __( 'signup', 'mz-mindbody-api' ),
 					  'create_account_url' => __('create-account', 'mz-mindbody-api' ),
 					  'or' => __( 'or', 'mz-mindbody-api' ),
+					  'with' => __( 'with', 'mz-mindbody-api' ),
 					  'mz-mindbody-show-schedule' => __( 'mz-mindbody-show-schedule', 'mz-mindbody-api' ),
 					  'mz-mindbody-show-events' => __( 'mz-mindbody-show-events', 'mz-mindbody-api' ),
 					  'mz-mindbody-staff-list' => __( 'mz-mindbody-staff-list', 'mz-mindbody-api' ),
