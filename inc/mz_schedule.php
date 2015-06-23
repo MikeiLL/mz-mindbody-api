@@ -1,8 +1,9 @@
 <?php
 function mZ_mindbody_show_schedule( $atts, $account=0 )
 {
-	require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
-	
+	require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
+	require_once(MZ_MINDBODY_SCHEDULE_DIR .'/lib/html_table.class.php');
+
 	global $add_mz_ajax_script;
 	$add_mz_ajax_script = true;
 	// optionally pass in a type parameter. Defaults to week.
@@ -54,7 +55,6 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 	set_transient($mz_schedule_cache, $mz_schedule_data, 60 * 60 * 24);
 	// END caching
 
-	$return = '';
 
 	if(!empty($mz_schedule_data['GetClassesResult']['Classes']['Class']))
 	{
@@ -66,20 +66,24 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 		if ($type==__('week','mz-mindbody-api')){
 		    $return .= mz_mbo_schedule_nav($mz_date, __('Week', 'mz-mindbody-api'));
 		}
-
-		if ($filter == 1) {
-			$return .= '<table class="mz-schedule-filter">';
-			}else{
-			$return .= '<table class="mz-schedule-table">';
-			}
+	// arguments: id, class
+	// can include associative array of optional additional attributes
+	if ($filter == 1) {
+			$tbl = new HTML_Table('', 'mz-schedule-filter');
+		}else{
+			$tbl = new HTML_Table('', 'mz-schedule-table');
+		}
 
 		foreach($mz_days as $classDate => $mz_classes)
 		{   
-			$return .= '<thead><tr><th scope="col">';
-			$return .= date_i18n($mz_date_display, strtotime($classDate));
-			$return .= '</th><th scope="col">' . __('Class Name', 'mz-mindbody-api') . 
-						'</th><th scope="col">' . __('Instructor', 'mz-mindbody-api') . 
-						'</th><th scope="col">' . __('Class Type', 'mz-mindbody-api') . '</th></tr></thead><tbody>';
+			$tbl->addRow();
+			// arguments: cell content, class, type (default is 'data' for td, pass 'header' for th)
+			// can include associative array of optional additional attributes
+		
+			$tbl->addCell(date_i18n($mz_date_display, strtotime($classDate)), 'first', 'header');
+			$tbl->addCell(__('Class Name', 'mz-mindbody-api'), '', 'header');
+			$tbl->addCell(__('Instructor', 'mz-mindbody-api'), '', 'header');
+			$tbl->addCell(__('Class Type', 'mz-mindbody-api'), '', 'header');
 
 			foreach($mz_classes as $class)
 			{
@@ -109,30 +113,38 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 							$time_of_day = __('afternoon', 'mz-mindbody-api');
 							}
 					// start building table rows
-					$return .= '<tr class="mz_description_holder"><td><span style="display:none">'.$time_of_day.'</span>';
-					$return .= date_i18n('g:i a', strtotime($startDateTime)) . ' - ' . date_i18n('g:i a', strtotime($endDateTime));
-					$return .= $isAvailable ? '<br><a class="btn" href="' . $linkURL . '" target="_blank">' . __('Sign-Up', 'mz-mindbody-api') . '</a>' : '';
-					$return .= '</td><td>';
+					$tbl->addRow();
+					$tbl->addCell($time_of_day, 'hidden', 'data');
+					
+					
+					if (isset($isAvailable)) {
+						$tbl->addCell(date_i18n('g:i a', strtotime($startDateTime)) . ' - ' . 
+						date_i18n('g:i a', strtotime($endDateTime)) .
+						'<br/><a class="btn" href="' . $linkURL . '" target="_blank">' . __('Sign-Up', 'mz-mindbody-api') . '</a>');
+						}else{ 
+						$tbl->addCell(date_i18n('g:i a', strtotime($startDateTime)) . ' - ' . 
+						date_i18n('g:i a', strtotime($endDateTime)));
+						}
 
+					$tbl->addCell(
+						'<a data-toggle="modal" data-target="#mzModal" href="' . MZ_MINDBODY_SCHEDULE_URL . 'inc/modal_descriptions.php?classDescription=' . urlencode(substr($classDescription, 0, 1000)) . '&amp;className='. urlencode(substr($className, 0, 1000)) .'">' . $className . '</a>'
+					);
 					// trigger link modal
-					$return .= '<a data-toggle="modal" data-target="#mzModal" href="' . MZ_MINDBODY_SCHEDULE_URL . 'inc/modal_descriptions.php?classDescription=' . urlencode(substr($classDescription, 0, 1000)) . '&amp;className='. urlencode(substr($className, 0, 1000)) .'">' . $className . '</a>';
+					//	$return .= '<a data-toggle="modal" data-target="#mzModal" href="' . MZ_MINDBODY_SCHEDULE_URL . 'inc/modal_descriptions.php?classDescription=' . urlencode(substr($classDescription, 0, 1000)) . '&amp;className='. urlencode(substr($className, 0, 1000)) .'">' . $className . '</a>';
 					$eventLinkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$sclassid}&amp;studioid={$studioid}";
 							
-					$return .= '<br/><div id="visitMBO" class="btn visitMBO" style="display:none">';
-					$return .= '<a href="'.$eventLinkURL.'" target="_blank">';
-					$return .= __('Manage on MindBody Site',' mz-mindbody-api') . '<a/></div>';
-					$return .= '</td><td>';
-					$return .= $staffName;
-					$return .= '</td><td>';
-					$return .= $sessionType;
+					$tbl->addCell('<br/><div id="visitMBO" class="btn visitMBO" style="display:none">' .
+						'<a href="'.$eventLinkURL.'" target="_blank">' .
+						__('Manage on MindBody Site',' mz-mindbody-api') . '<a/></div>');
 
-					$return .= '</td></tr>';
+					$tbl->addCell($staffName);
+					$tbl->addCell($sessionType);
+
 
 				} // EOF if
 			}// EOF foreach class
 		}// EOF foreach day
-
-		$return .= '</tbody></table>';
+		$return .= $tbl->display();
 		if ($type=='week')
 		    // schedule navigation
 		    $return .= mz_mbo_schedule_nav($mz_date, __('Week', 'mz-mindbody-api'));
