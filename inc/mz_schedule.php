@@ -5,14 +5,18 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 	
 	global $add_mz_ajax_script;
 	$add_mz_ajax_script = true;
-
 	// optionally pass in a type parameter. Defaults to week.
-	extract( shortcode_atts( array(
-		__('type', 'mz-mindbody-api') => __('week', 'mz-mindbody-api'),
-		__('location', 'mz-mindbody-api') => '1',
-		__('account', 'mz-mindbody-api') => '0',
-		__('filter', 'mz-mindbody-api') => '0'
-			), $atts ) );
+	$atts = shortcode_atts( array(
+		'type' => 'week',
+		'location' => '1',
+		'account' => '0',
+		'filter' => '0'
+			), $atts );
+	$type = $atts['type'];
+	$location = $atts['location'];
+	$account = $atts['account'];
+	$filter = $atts['filter'];
+
     $mz_date = empty($_GET['mz_date']) ? date_i18n('Y-m-d') : mz_validate_date($_GET['mz_date']);
 
 	if ($type==__('day', 'mz-mindbody-api'))
@@ -59,7 +63,7 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 		$mz_days = sortClassesByDate($mz_days);
 
 		    $return .= '<div id="mz_mbo_schedule" class="mz_mbo_schedule">';
-		if ($type=='week'){
+		if ($type==__('week','mz-mindbody-api')){
 		    $return .= mz_mbo_schedule_nav($mz_date, __('Week', 'mz-mindbody-api'));
 		}
 

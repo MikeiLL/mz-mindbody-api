@@ -7,9 +7,12 @@ function mZ_mindbody_show_events ($atts, $account=0)
 	//$add_mz_ajax_script = true;
 
 	// optionally pass in a type parameter. Defaults to week.
-	extract( shortcode_atts( array(
-		__('account', 'mz-mindbody-api') => '0'
-			), $atts ) );
+	$atts = shortcode_atts( array(
+		'location' => '1',
+		'account' => '0',
+			), $atts );
+	$location = $atts['location'];
+	$account = $atts['account'];
 			
  	// grab session type IDs for events
  	$mz_sessions = array($options['mz_mindbody_eventID']);
@@ -73,7 +76,8 @@ function mZ_mindbody_show_events ($atts, $account=0)
                 $return .= mz_mbo_schedule_nav($mz_date, "Events", $mz_event_calendar_duration);
 				$return .= '<div class="mz_mindbody_events">';
 				$return .= '<table class="table mz_mindbody_events">';
-
+				$globals = new Global_Strings();
+				$global_strings = $globals->translate_them();
 				foreach($classes as $classDate => $classes)
 				{
 					foreach($classes as $class)
@@ -106,10 +110,8 @@ function mZ_mindbody_show_events ($atts, $account=0)
 							$return .= "<h3>$className</h3>";
 
 							$clientID = isset($_SESSION['GUID']) ? $_SESSION['client']['ID'] : '';
-							$globals = new Global_Strings();
-							$global_strings = $globals->translate_them();
 							$return .= '<a class="btn btn-success" href="' . $eventLinkURL . '">' . $global_strings['sign_up'] . '</a>';
-							$return .= '<p class="mz_event_staff_name">with '. $staffName.'</p>';							
+							$return .= '<p class="mz_event_staff_name">'.$global_strings['with'] . '&nbsp;' . $staffName.'</p>';							
 
 							$return .= '<h4 class="mz_event_staff">'.$day_and_date.', ' . date_i18n('g:i a', strtotime($startDateTime)).' - ';
 							$return .= date_i18n('g:i a', strtotime($endDateTime)) . '</h4>';
