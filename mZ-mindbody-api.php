@@ -155,7 +155,6 @@ else
 	add_shortcode(__('mz-mindbody-logout', 'mz-mindbody-api'), 'mZ_mindbody_logout');
 	add_shortcode(__('mz-mindbody-signup', 'mz-mindbody-api'), 'mZ_mindbody_signup' );
 	add_shortcode(__('mz-mindbody-add-to-classes', 'mz-mindbody-api'), 'mz_mindbody_add_to_classes' );
-	
 }//EOF Not Admin
 
 if (phpversion() >= 5.3) {
@@ -166,5 +165,5 @@ if (phpversion() >= 5.3) {
     
 	//Functions
 	require_once MZ_MINDBODY_SCHEDULE_DIR .'lib/functions.php';
-	mz_pr(__('mZ_mindbody_show_schedule', 'mz-mindbody-api'));
+	//mz_pr(__('mz-mindbody-show-schedule', 'mz-mindbody-api'));
 ?>
