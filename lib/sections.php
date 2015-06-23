@@ -128,7 +128,7 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 		   _e('SOAP is not installed. ', 'mz-mindbody-api');
 		   $mz_requirements = 1;
 		}
-
+		echo '&nbsp;';
 		if (class_exists('System')===true)
 		{
 		   _e('PEAR installed! ', 'mz-mindbody-api');
@@ -157,19 +157,7 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 	function mz_mindbody_section_text() { 
 		$globals = new Global_Strings();
 		$global_strings = $globals->translate_them();
-		$password = $global_strings['mz-mindbody-show-schedule'];
-		$mz_mindbody_show_schedule = $global_strings['mz-mindbody-show-schedule'];
-		$mz_mindbody_show_events = $global_strings['mz-mindbody-show-events'];
-		$mz_mindbody_staff_list = $global_strings['mz-mindbody-staff-list'];
-		$mz_mindbody_show_schedule = $global_strings['mz-mindbody-show-schedule'];
-		$mz_mindbody_login = $global_strings['mz-mindbody-login'];
-		$mz_mindbody_logout = $global_strings['mz-mindbody-logout'];
-		$mz_mindbody_signup = $global_strings['mz-mindbody-signup'];
-		$type = $global_strings['type'];
-		$location = $global_strings['location'];
-		$account = $global_strings['account'];
-		$shortcode = $global_strings['shortcode'];
-		$day = $global_strings['day'];
+		$password = $global_strings['password'];
 		$login_url = $global_strings['login_url'];
 		$logout_url = $global_strings['logout_url'];
 		$create_account_url = $global_strings['create_account_url'];
@@ -185,17 +173,16 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 		<?php _e('Add to page or post with shortcode:', 'mz-mindbody-api'); 
 		echo '&nbsp;';
 		printf('[%1$s], [%2$s], [%3$s], [%4$s %5$s=%6$s %7$s=1 %8$s=-99]',
-		$mz_mindbody_show_schedule, $mz_mindbody_show_events, $mz_mindbody_staff_list,
-		$mz_mindbody_show_schedule, $type, $day, $location, $account);
-?>
+		'mz_mindbody_show_schedule', 'mz_mindbody_show_events', 'mz_mindbody_staff_list',
+		'mz_mindbody_show_schedule', 'type', 'day', 'location', 'account'); ?>
 		<?php echo '<br/>('.__('-99 is the MBO sandbox/testing account', 'mz_mindbody_api').')'?></font></p>
-		<p><?php _e('Additional shortcodes: ', 'mz-mindbody-api');
-		printf('[%1$s], [%2$s], [%3$s] </p>',$mz_mindbody_login, $mz_mindbody_logout, $mz_mindbody_signup);
-?>
+		
+		<p><?php _e('Additional shortcodes:'); 
+		echo '&nbsp;[mz-mindbody-signup], [mz-mindbody-login], [mz-mindbody-logout]';
+		?></p>
 
-		<?php echo '<p>In order for these to work correctly, the permalinks for those pages need to be: ';
-		printf('<em>%1$s</em>, <em>%2$s</em> and <em>%3$s</em></p>', $login_url, $logout_url, $create_account_url); 
-?>
+		<p><?php _e('In order for these to work correctly, the permalinks for those pages need to be:');
+		echo '&nbsp;<em>create-account</em>, <em>login</em> and <em>logout</em>.'; ?>
 
 		</div>
 	<?php
@@ -207,7 +194,7 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 	<h4><?php _e('Contact', 'mz-mindbody-api')?></h4>
 	<p><a href="http://www.mzoo.org">www.mzoo.org</a></p>
 	<p><div class="dashicons dashicons-email-alt" alt="f466"></div> 
-	<?php printf(__('welcome, but please also post in the %1$s support forum %2$s for the benefit of others.', 'mz-mindbody-api'),
+	<?php printf(__('Email welcome, but please also post in the %1$s support forum %2$s for the benefit of others.', 'mz-mindbody-api'),
 	'<a href="https://wordpress.org/support/plugin/mz-mindbody-api">', '</a>')?></p>
 	<p><div class="dashicons dashicons-heart" alt="f487" style="color:red;"></div>
 	<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A95ZEELLHGECE" target="_blank">

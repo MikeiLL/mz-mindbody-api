@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Advanced mZoo Mindbody Interface - Schedule, Events, "
 "Staff Display\n"
-"POT-Creation-Date: 2015-06-23 03:42-0600\n"
+"POT-Creation-Date: 2015-06-23 04:43-0600\n"
 "PO-Revision-Date: 2015-06-22 15:30-0600\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -36,36 +36,32 @@ msgstr ""
 msgid "evening"
 msgstr ""
 
-#: inc/mz_events.php:11
-msgid "account"
-msgstr ""
-
-#: inc/mz_events.php:64
+#: inc/mz_events.php:67
 msgid "Day Event Calendar"
 msgstr ""
 
-#: inc/mz_events.php:128
+#: inc/mz_events.php:131
 msgid "No events published this period."
 msgstr ""
 
-#: inc/mz_events.php:140
+#: inc/mz_events.php:143
 #, php-format
 msgid "%1$s Day Event Calendar"
 msgid_plural "%1$s Day Event Calendar"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/mz_events.php:144
+#: inc/mz_events.php:147
 msgid "No events published"
 msgstr ""
 
-#: inc/mz_events.php:145 inc/mz_events.php:156
+#: inc/mz_events.php:148 inc/mz_events.php:159
 msgid "Event"
 msgid_plural "Events"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/mz_events.php:154
+#: inc/mz_events.php:157
 msgid "Error: MBO Event Type IDs must be set in Admin Panel"
 msgstr ""
 
@@ -305,11 +301,11 @@ msgid ""
 "mindbodyonline."
 msgstr ""
 
-#: lib/sections.php:179
+#: lib/sections.php:167
 msgid "Enter your mindbody credentials below."
 msgstr ""
 
-#: lib/sections.php:180
+#: lib/sections.php:168
 #, php-format
 msgid ""
 "If you do not have them yet, visit the %1$s MindBodyOnline developers "
@@ -317,77 +313,83 @@ msgid ""
 "\t\tand register for developer credentials."
 msgstr ""
 
-#: lib/sections.php:183
+#: lib/sections.php:171
 msgid "Detailed instructions here"
 msgstr ""
 
-#: lib/sections.php:185
+#: lib/sections.php:173
 msgid "Add to page or post with shortcode:"
 msgstr ""
 
-#: lib/sections.php:191
+#: lib/sections.php:178
 msgid "-99 is the MBO sandbox/testing account"
 msgstr ""
 
-#: lib/sections.php:192
-msgid "Additional shortcodes: "
+#: lib/sections.php:180
+msgid "Additional shortcodes:"
 msgstr ""
 
-#: lib/sections.php:207
+#: lib/sections.php:184
+msgid ""
+"In order for these to work correctly, the permalinks for those pages need to "
+"be:"
+msgstr ""
+
+#: lib/sections.php:194
 msgid "Contact"
 msgstr ""
 
-#: lib/sections.php:210
+#: lib/sections.php:197
 #, php-format
 msgid ""
-"welcome, but please also post in the %1$s support forum %2$s for the benefit "
-"of others."
+"Email welcome, but please also post in the %1$s support forum %2$s for the "
+"benefit of others."
 msgstr ""
 
-#: lib/sections.php:214
+#: lib/sections.php:201
 #, php-format
 msgid "Small donations %1$s and %2$s reviews %3$s welcome."
 msgstr ""
 
-#: lib/sections.php:224
+#: lib/sections.php:211
 msgid "News"
 msgstr ""
 
-#: lib/sections.php:225
+#: lib/sections.php:212
 msgid "Now supports multiple locations and MBO accounts."
 msgstr ""
 
-#: lib/sections.php:227
+#: lib/sections.php:214
 msgid ""
 "Customization requests invited, and there's an ADVANCED VERSION of the "
 "plugin which integrates MBO class registration without leaving the WP site."
 msgstr ""
 
-#: lib/sections.php:238
+#: lib/sections.php:225
 #, php-format
 msgid ""
 "Once credentials have been set and activated, look for %1$s in the \n"
 "\t  GetClassesResponse box below to confirm settings are correct."
 msgstr ""
 
-#: lib/sections.php:251 lib/sections.php:259 lib/sections.php:268
-#: lib/sections.php:277
+#: lib/sections.php:238 lib/sections.php:246 lib/sections.php:255
+#: lib/sections.php:264
 msgid "Option Not Set"
 msgstr ""
 
-#: lib/sections.php:252
+#: lib/sections.php:239
 msgid "YOUR SOURCE NAME"
 msgstr ""
 
-#: lib/sections.php:260
+#: lib/sections.php:247
 msgid "YOUR MINDBODY PASSWORD"
 msgstr ""
 
-#: lib/sections.php:269
+#: lib/sections.php:256
 msgid "YOUR SITE ID"
 msgstr ""
 
-#: lib/sections.php:278
+#: lib/sections.php:265
 msgid "Event Category IDs"
 msgstr ""
 
