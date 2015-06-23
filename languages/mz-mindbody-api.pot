@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Advanced mZoo Mindbody Interface - Schedule, Events, "
 "Staff Display\n"
-"POT-Creation-Date: 2015-06-23 04:43-0600\n"
+"POT-Creation-Date: 2015-06-23 11:13-0600\n"
 "PO-Revision-Date: 2015-06-22 15:30-0600\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -348,7 +348,7 @@ msgstr ""
 
 #: lib/sections.php:201
 #, php-format
-msgid "Small donations %1$s and %2$s reviews %3$s welcome."
+msgid "%1$s Small donations %2$s and %3$s reviews %4$s welcome."
 msgstr ""
 
 #: lib/sections.php:211
@@ -393,6 +393,18 @@ msgstr ""
 msgid "Event Category IDs"
 msgstr ""
 
+#: lib/sections.php:271
+msgid "Having this checked will allow you to see immediate changes in MBO"
+msgstr ""
+
+#: lib/sections.php:273
+msgid "but may end up costing more in API transfer fees."
+msgstr ""
+
+#: lib/sections.php:275
+msgid "Class calendar cache is held for 1 day. Event calendar for 1 hour."
+msgstr ""
+
 #: mZ-mindbody-api.php:78
 msgid "Display class schedule for current day."
 msgstr ""
@@ -410,7 +422,7 @@ msgid "type"
 msgstr ""
 
 #. Plugin Name of the plugin/theme
-msgid "Advanced mZoo Mindbody Interface - Schedule, Events, Staff Display"
+msgid "mZoo Mindbody Interface - Schedule, Events, Staff Display"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
