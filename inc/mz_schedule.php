@@ -90,9 +90,11 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 			$tbl->addCell(__('Saturday', 'mz-mindbody-api'), '', 'header');
 			foreach($ordered_events as $scheduleTime => $mz_classes){  
 				$tbl->addRow();
-				$tbl->addCell($scheduleTime);
-				foreach($mz_classes as $class) {
-					$tbl->addCell($class['ClassDescription']['Name']);
+				$tbl->addCell($mz_classes['display_time']);
+				foreach($mz_classes['classes'] as $class) {
+					$tbl->addCell($class['ClassDescription']['Name'].'<br/>'.
+					date_i18n("l", strtotime($class['StartDateTime']))
+					);
 					}
 			}
 		}else{

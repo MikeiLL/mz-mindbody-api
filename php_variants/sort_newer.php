@@ -37,32 +37,34 @@ function sortClassesByTimeThenDay($mz_classes = array()) {
 		/* Create a new array with a key for each time
 		and corresponsing value an array of class details 
 		for classes at that time. */ 
-		$classTime = date_i18n("g:i a", strtotime($class['StartDateTime']));
-		//mz_pr(date_i18n("g:i a", strtotime($class['StartDateTime'])));
-		//mz_pr(date_i18n("l", strtotime($class['StartDateTime'])));
-		//mz_pr(date_i18n("N", strtotime($class['StartDateTime'])));
+		$classTime = date_i18n("G.i", strtotime($class['StartDateTime']));
+		$display_time = (date_i18n("g:i a", strtotime($class['StartDateTime'])));
+		//mz_pr(date_i18n("l", strtotime($class['StartDateTime']))); full weekday name
+		//mz_pr(date_i18n("N", strtotime($class['StartDateTime']))); 1 - 7 day numbers
 		$classDay = date_i18n("l", strtotime($class['StartDateTime']));
 		if(!empty($mz_classesByDate[$classTime])) {
-			$mz_classesByDate[$classTime] = array_merge($mz_classesByDate[$classTime], array($class));
+			$mz_classesByDate[$classTime]['classes'] = array_merge($mz_classesByDate[$classTime]['classes'], array($class));
 		} else {
-			$mz_classesByDate[$classTime] = array($class);
+			$mz_classesByDate[$classTime] = array('display_time' => $display_time, 'classes' => array($class));
 		}
 	}
-	/* They are not ordered by time so order them by time */
+	/* Timeslot keys in new array are not time sequenced so do so*/
 	ksort($mz_classesByDate);
 	foreach($mz_classesByDate as $scheduleTime => &$mz_classes)
 	{	
+		//mz_pr($mz_classes);
+		//die('this is it.');
 		/*
-		$mz_classes is an array of all classes for given date
-		Take each of the class arrays and order it by time
+		$mz_classes is an array of all classes for given time
+		Take each of the class arrays and order it by days 1-7
 		*/
-		usort($mz_classes, function($a, $b) {
+		usort($mz_classes['classes'], function($a, $b) {
 			if(date_i18n("N", strtotime($a['StartDateTime'])) == date_i18n("N", strtotime($b['StartDateTime']))) {
-				echo date_i18n("N", strtotime($a['StartDateTime'])) . ' and '. date_i18n("N", strtotime($b['StartDateTime'])) . '<br/>';
+				//echo date_i18n("N", strtotime($a['StartDateTime'])) . ' and '. date_i18n("N", strtotime($b['StartDateTime'])) . '<br/>';
 				return 0;
 			}
+			//echo date_i18n("N", strtotime($a['StartDateTime'])) . ' versus '. date_i18n("N", strtotime($b['StartDateTime'])). '<br/>';
 			return $a['StartDateTime'] < $b['StartDateTime'] ? -1 : 1;
-			echo date_i18n("N", strtotime($a['StartDateTime'])) . ' versus '. date_i18n("N", strtotime($b['StartDateTime'])). '<br/>';
 		});
 	}
 	return $mz_classesByDate;
