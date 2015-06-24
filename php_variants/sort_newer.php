@@ -51,7 +51,6 @@ function sortClassesByTimeThenDay($mz_classes = array()) {
 		if(!empty($mz_classesByTime[$classTime])) {
 			$mz_classesByTime[$classTime]['classes'] = array_merge($mz_classesByTime[$classTime]['classes'], array($class));
 		} else {
-			$class['day_num'] = $day_num;
 			$mz_classesByTime[$classTime] = array('display_time' => $display_time, 
 													'classes' => array($class));
 		}
