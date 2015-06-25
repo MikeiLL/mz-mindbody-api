@@ -84,7 +84,7 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 	if ($grid == 0) {
 		foreach($mz_days as $classDate => $mz_classes)
 		{   
-			$tbl->addTSection('thead');
+			//$tbl->addTSection('thead');
 			$tbl->addRow();
 			// arguments: cell content, class, type (default is 'data' for td, pass 'header' for th)
 			// can include associative array of optional additional attributes
@@ -153,6 +153,9 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 				} // EOF if
 			}// EOF foreach class
 		}// EOF foreach day
+		$tbl->addTSection('tfoot');
+		$tbl->addRow();
+		$tbl->addCell('','','', array('colspan' => 4));
 		$return .= $tbl->display();
 	}else{
 		//Display grid
