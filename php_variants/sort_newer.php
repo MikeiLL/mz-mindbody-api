@@ -78,8 +78,9 @@ function sortClassesByTimeThenDay($mz_classes = array()) {
 function fill_empty_slots(&$array, $needle)
 		{
 		$empty = array(array());
-		for($i=1;$i<8;$i++){
-		$key = array_search($i, array_column($array, $needle));
+		for($i=0;$i<7;$i++){
+		$j = $i + 1;
+		$key = array_search($j, array_column($array, $needle));
 		if ($key !== false){
 			return 0;
 			}else{
