@@ -84,15 +84,14 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 	if ($grid == 0) {
 		foreach($mz_days as $classDate => $mz_classes)
 		{   
-			$tbl->addTSection('thead');
-			$tbl->addRow();
+			$tbl->addRow('header');
 			// arguments: cell content, class, type (default is 'data' for td, pass 'header' for th)
 			// can include associative array of optional additional attributes
 		
-			$tbl->addCell(date_i18n($mz_date_display, strtotime($classDate)), '', 'header', array('scope'=>'col'));
-			$tbl->addCell(__('Class Name', 'mz-mindbody-api'), '', 'header', array('scope'=>'col'));
-			$tbl->addCell(__('Instructor', 'mz-mindbody-api'), '', 'header', array('scope'=>'col'));
-			$tbl->addCell(__('Class Type', 'mz-mindbody-api'), '', 'header', array('scope'=>'col'));
+			$tbl->addCell(date_i18n($mz_date_display, strtotime($classDate)), '', 'header', array('scope'=>'header'));
+			$tbl->addCell(__('Class Name', 'mz-mindbody-api'), '', 'header', array('scope'=>'header'));
+			$tbl->addCell(__('Instructor', 'mz-mindbody-api'), '', 'header', array('scope'=>'header'));
+			$tbl->addCell(__('Class Type', 'mz-mindbody-api'), '', 'header', array('scope'=>'header'));
 			
 			$tbl->addTSection('tbody');
 			foreach($mz_classes as $class)
