@@ -69,12 +69,42 @@ function sortClassesByTimeThenDay($mz_classes = array()) {
 			}
 			return $a['StartDateTime'] < $b['StartDateTime'] ? -1 : 1;
 		}); 
-		fill_empty_slots($mz_classes['classes'], 'day_num');
+		//fill_empty_slots($mz_classes['classes'], 'day_num');
+		$mz_classes['classes'] = week_of_timeslot($mz_classes['classes'], 'day_num');
+		/*printf('<br/>%1$s has %2$s classes on: <br/>', date_i18n("g:i a", strtotime($mz_classes['display_time'])), count($mz_classes['classes']));
+		foreach($mz_classes['classes'] as $class)
+			{	
+				if (array_key_exists('ClassScheduleID', $class)){
+			echo date_i18n("l", strtotime($class['StartDateTime'])) . ', ';
+				}else{
+				echo 'Empty, ';
+				}
+			}*/
 	}
-	//mz_pr($mz_classesByTime);
 	return $mz_classesByTime;
 }
 
+function week_of_timeslot($array, $indicator){
+	$seven_days = array_combine(range(1, 7), array(array(), array(), array(),
+											array(), array(), array(), array()));
+	/*
+	Go through each day and check $array
+		if no match fill with empty matrix
+		if day_num matches $seven_days key, popout and 
+		insert into $seven_days[index] array
+	*/
+		foreach($seven_days as $key => $value){
+			foreach ($array as $class) {
+					if ($class[$indicator] == $key){
+						array_push($seven_days[$key], $class);
+					}	
+				}
+			}
+	//array_map('insertion', $seven_days, $array);
+	//mz_pr($seven_days);
+	return $seven_days;
+	}
+	
 function fill_empty_slots(&$array, $needle)
 		{
 		$empty = array(array());
@@ -82,7 +112,7 @@ function fill_empty_slots(&$array, $needle)
 		$j = $i + 1;
 		$key = array_search($j, array_column($array, $needle));
 		if ($key !== false){
-			return 0;
+			break;
 			}else{
 			array_splice($array, $i, 0, $empty);
 			}

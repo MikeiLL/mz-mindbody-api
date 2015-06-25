@@ -176,18 +176,23 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 				//die();
 				$tbl->addRow();
 				$tbl->addCell($mz_classes['display_time']);
-				foreach($mz_classes['classes'] as $class)
+				foreach($mz_classes['classes'] as $key => $classes)
 				{
 					//mz_pr($class);
 					//die();
-					if(array_key_exists('ClassScheduleID', $class) &&
-						(!(($class['IsCanceled'] == 'TRUE') && ($class['HideCancel'] == 'TRUE')) 
-						&& ($class['Location']['ID'] == $location))) {
-						$className = $class['ClassDescription']['Name'];
-						$dayName = date_i18n("l", strtotime($class['StartDateTime']));
-						$class_details = $className . '<br/>' . $dayName;
+					if(empty($classes)){
+						$class_details = '';
 						}else{
-						$class_details = '<div>X</div>';
+						foreach($classes as $class){
+							$class_details = '';
+							if (!(($class['IsCanceled'] == 'TRUE') && ($class['HideCancel'] == 'TRUE')) 
+								&& ($class['Location']['ID'] == $location)) {
+								$className = $class['ClassDescription']['Name'];
+								$teacher = $class['Staff']['Name'];
+								$class_details .= $className . '<br/>' . __('with', 'mz-mindbody-api') . '&nbsp;' . 
+								$teacher . '<br/>';
+								}
+							}
 						}
 					$tbl->addCell($class_details);
 					
