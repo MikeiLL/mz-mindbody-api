@@ -158,7 +158,6 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 		$return .= '<h4 class="mz_grid_date">';
 		$return .= sprintf(__('Week of %1$s', 'mz-mindbody-api'), $week_starting);
 		$return .= '</h4>';
-		$tbl->addTSection('thead');
 				$tbl->addRow();
 				// arguments: cell content, class, type (default is 'data' for td, pass 'header' for th)
 				// can include associative array of optional additional attributes
