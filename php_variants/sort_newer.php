@@ -87,7 +87,7 @@ function fill_empty_slots(&$array, $needle)
 			array_splice($array, $i, 0, $empty);
 			}
 		}
-		//mz_pr($missing);
+		//mz_pr($array);
 		}
 		
 function combine_concurrent(&$array, $needle, $test)

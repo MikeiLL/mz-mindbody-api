@@ -19,8 +19,11 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 	$account = $atts['account'];
 	$filter = $atts['filter'];
 	$grid = $atts['grid'];
-
-    $mz_date = empty($_GET['mz_date']) ? date_i18n('Y-m-d') : mz_validate_date($_GET['mz_date']);
+	if ($grid == 0) {
+    	$mz_date = empty($_GET['mz_date']) ? date_i18n('Y-m-d') : mz_validate_date($_GET['mz_date']);
+    	}else{
+    	$mz_date = empty($_GET['mz_date']) ? date_i18n('Y-m-d',strtotime('last monday')) : mz_validate_date($_GET['mz_date']);
+    	}
 
 	if ($type==__('day', 'mz-mindbody-api'))
 	{
@@ -33,7 +36,7 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 		$mz_schedule_cache = "mz_schedule_week_cache";
 	}
 
-	//While we still eed to support php 5.2 and can't use [0] on above
+	//While we still need to support php 5.2 and can't use [0] on above
 	$mz_timeframe = array_pop($mz_timeframe);
 	
   // START caching
