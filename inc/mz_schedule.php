@@ -84,15 +84,17 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 	if ($grid == 0) {
 		foreach($mz_days as $classDate => $mz_classes)
 		{   
+			$tbl->addTSection('thead');
 			$tbl->addRow();
 			// arguments: cell content, class, type (default is 'data' for td, pass 'header' for th)
 			// can include associative array of optional additional attributes
 		
-			$tbl->addCell(date_i18n($mz_date_display, strtotime($classDate)), 'first', 'header', array('scope'=>'col'));
+			$tbl->addCell(date_i18n($mz_date_display, strtotime($classDate)), '', 'header', array('scope'=>'col'));
 			$tbl->addCell(__('Class Name', 'mz-mindbody-api'), '', 'header', array('scope'=>'col'));
 			$tbl->addCell(__('Instructor', 'mz-mindbody-api'), '', 'header', array('scope'=>'col'));
 			$tbl->addCell(__('Class Type', 'mz-mindbody-api'), '', 'header', array('scope'=>'col'));
-
+			
+			$tbl->addTSection('tbody');
 			foreach($mz_classes as $class)
 			{
 				if (!(($class['IsCanceled'] == 'TRUE') && ($class['HideCancel'] == 'TRUE')) && ($class['Location']['ID'] == $location))
@@ -158,6 +160,7 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 		$return .= '<h4 class="mz_grid_date">';
 		$return .= sprintf(__('Week of %1$s', 'mz-mindbody-api'), $week_starting);
 		$return .= '</h4>';
+				$tbl->addTSection('thead');
 				$tbl->addRow();
 				// arguments: cell content, class, type (default is 'data' for td, pass 'header' for th)
 				// can include associative array of optional additional attributes
@@ -169,11 +172,19 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 				$tbl->addCell(__('Friday', 'mz-mindbody-api'), '', 'header');
 				$tbl->addCell(__('Saturday', 'mz-mindbody-api'), '', 'header');
 				$tbl->addCell(__('Sunday', 'mz-mindbody-api'), '', 'header');
+				
+		$tbl->addTSection('tbody');
 		foreach($mz_days as $classDate => $mz_classes)
 			{   
-				//mz_pr($mz_classes);
-				//die();
+				if ($classDate < 12) {
+							$time_of_day = __('morning', 'mz-mindbody-api');
+						}else if ($classDate > 16) {
+							$time_of_day = __('evening', 'mz-mindbody-api');
+						}else{
+							$time_of_day = __('afternoon', 'mz-mindbody-api');
+							}					
 				$tbl->addRow();
+				$tbl->addCell($time_of_day, 'hidden', 'data');
 				$tbl->addCell($mz_classes['display_time']);
 				foreach($mz_classes['classes'] as $key => $classes)
 				{
