@@ -171,12 +171,18 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 				$tbl->addCell($mz_classes['display_time']);
 				foreach($mz_classes['classes'] as $class)
 				{
-					$className = $class['ClassDescription']['Name'];
-					$dayName = date_i18n("l", strtotime($class['StartDateTime']));
-					if (!(($class['IsCanceled'] == 'TRUE') && ($class['HideCancel'] == 'TRUE')) && ($class['Location']['ID'] == $location))
-					{
-					$tbl->addCell($className.'<br/>'.$dayName);
-					}
+					//mz_pr($class);
+					//die();
+					if(array_key_exists('ClassScheduleID', $class) &&
+						(!(($class['IsCanceled'] == 'TRUE') && ($class['HideCancel'] == 'TRUE')) 
+						&& ($class['Location']['ID'] == $location))) {
+						$className = $class['ClassDescription']['Name'];
+						$dayName = date_i18n("l", strtotime($class['StartDateTime']));
+						$class_details = $className . '<br/>' . $dayName;
+						}else{
+						$class_details = '<div>X</div>';
+						}
+					$tbl->addCell($class_details);
 					
 				}//end foreach mz_classes
 			}//end foreach mz_days

@@ -75,15 +75,15 @@ function sortClassesByTimeThenDay($mz_classes = array()) {
 	return $mz_classesByTime;
 }
 
-function fill_empty_slots($array, $needle)
+function fill_empty_slots(&$array, $needle)
 		{
-		$missing = array();
+		$empty = array(array());
 		for($i=1;$i<8;$i++){
 		$key = array_search($i, array_column($array, $needle));
 		if ($key !== false){
-			$missing[$i] = $key;
+			return 0;
 			}else{
-			$missing[$i] = 'x';
+			array_splice($array, $i, 0, $empty);
 			}
 		}
 		//mz_pr($missing);
