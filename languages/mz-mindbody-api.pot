@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Advanced mZoo Mindbody Interface - Schedule, Events, "
 "Staff Display\n"
-"POT-Creation-Date: 2015-06-23 11:13-0600\n"
+"POT-Creation-Date: 2015-06-24 23:22-0600\n"
 "PO-Revision-Date: 2015-06-22 15:30-0600\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -24,15 +24,15 @@ msgstr ""
 msgid "by teacher, class type"
 msgstr ""
 
-#: inc/assets.php:90 inc/mz_schedule.php:105
+#: inc/assets.php:90 inc/mz_schedule.php:117
 msgid "morning"
 msgstr ""
 
-#: inc/assets.php:91 inc/mz_schedule.php:109
+#: inc/assets.php:91 inc/mz_schedule.php:121
 msgid "afternoon"
 msgstr ""
 
-#: inc/assets.php:92 inc/mz_schedule.php:107
+#: inc/assets.php:92 inc/mz_schedule.php:119
 msgid "evening"
 msgstr ""
 
@@ -109,68 +109,73 @@ msgstr ""
 msgid "Sign up"
 msgstr ""
 
-#: inc/mz_schedule.php:22 lib/functions.php:63 mZ-mindbody-api.php:105
+#: inc/mz_schedule.php:28 lib/functions.php:63 mZ-mindbody-api.php:105
 msgid "day"
 msgstr ""
 
-#: inc/mz_schedule.php:66
+#: inc/mz_schedule.php:75
 msgid "week"
 msgstr ""
 
-#: inc/mz_schedule.php:67 inc/mz_schedule.php:138 lib/functions.php:73
+#: inc/mz_schedule.php:76 inc/mz_schedule.php:200 lib/functions.php:73
 msgid "Week"
 msgstr ""
 
-#: inc/mz_schedule.php:80
+#: inc/mz_schedule.php:92
 msgid "Class Name"
 msgstr ""
 
-#: inc/mz_schedule.php:81
+#: inc/mz_schedule.php:93
 msgid "Instructor"
 msgstr ""
 
-#: inc/mz_schedule.php:82
+#: inc/mz_schedule.php:94
 msgid "Class Type"
 msgstr ""
 
-#: inc/mz_schedule.php:114
+#: inc/mz_schedule.php:131
 msgid "Sign-Up"
 msgstr ""
 
-#: inc/mz_schedule.php:123 lib/functions.php:56
+#: inc/mz_schedule.php:145 lib/functions.php:56
 msgid "Manage on MindBody Site"
 msgstr ""
 
-#: inc/mz_schedule.php:156
-msgid "Error getting classes. Try re-loading the page."
+#: inc/mz_schedule.php:159
+#, php-format
+msgid "Week of %1$s"
 msgstr ""
 
-#: lib/functions.php:17
+#: inc/mz_schedule.php:166 lib/functions.php:17
 msgid "Monday"
 msgstr ""
 
-#: lib/functions.php:18
+#: inc/mz_schedule.php:167 lib/functions.php:18
 msgid "Tuesday"
 msgstr ""
 
-#: lib/functions.php:19
+#: inc/mz_schedule.php:168 lib/functions.php:19
 msgid "Wednesday"
 msgstr ""
 
-#: lib/functions.php:20
+#: inc/mz_schedule.php:169 lib/functions.php:20
 msgid "Thursday"
 msgstr ""
 
-#: lib/functions.php:21
+#: inc/mz_schedule.php:170 lib/functions.php:21
 msgid "Friday"
 msgstr ""
 
-#: lib/functions.php:22
+#: inc/mz_schedule.php:171 lib/functions.php:22
 msgid "Saturday"
 msgstr ""
 
-#: lib/functions.php:23
+#: inc/mz_schedule.php:172 lib/functions.php:23
 msgid "Sunday"
+msgstr ""
+
+#: inc/mz_schedule.php:218
+msgid "Error getting classes. Try re-loading the page."
 msgstr ""
 
 #: lib/functions.php:50

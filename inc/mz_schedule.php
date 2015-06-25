@@ -154,6 +154,10 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 		$return .= $tbl->display();
 	}else{
 		//Display grid
+		$week_starting = date_i18n($mz_date_display, strtotime('last monday'));
+		$return .= '<h4 class="mz_grid_date">';
+		$return .= sprintf(__('Week of %1$s', 'mz-mindbody-api'), $week_starting);
+		$return .= '</h4>';
 		$tbl->addTSection('thead');
 				$tbl->addRow();
 				// arguments: cell content, class, type (default is 'data' for td, pass 'header' for th)
