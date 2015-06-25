@@ -11,12 +11,14 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 		'type' => 'week',
 		'location' => '1',
 		'account' => '0',
-		'filter' => '0'
+		'filter' => '0',
+		'grid' => '0'
 			), $atts );
 	$type = $atts['type'];
 	$location = $atts['location'];
 	$account = $atts['account'];
 	$filter = $atts['filter'];
+	$grid = $atts['grid'];
 
     $mz_date = empty($_GET['mz_date']) ? date_i18n('Y-m-d') : mz_validate_date($_GET['mz_date']);
 
@@ -60,20 +62,23 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 	{
 		$mz_days = $mb->makeNumericArray($mz_schedule_data['GetClassesResult']['Classes']['Class']);
 		
-		$mz_days = sortClassesByDate($mz_days);
+		if ($grid == 0){
+			$mz_days = sortClassesByDate($mz_days);
+			}else{
+			$mz_days = sortClassesByTimeThenDay($mz_days);
+			}
 
 		    $return .= '<div id="mz_mbo_schedule" class="mz_mbo_schedule">';
 		if ($type==__('week','mz-mindbody-api')){
 		    $return .= mz_mbo_schedule_nav($mz_date, __('Week', 'mz-mindbody-api'));
 		}
-	// arguments: id, class
-	// can include associative array of optional additional attributes
+
 	if ($filter == 1) {
 			$tbl = new HTML_Table('', 'mz-schedule-filter');
 		}else{
 			$tbl = new HTML_Table('', 'mz-schedule-table');
 		}
-
+	if ($grid == 0) {
 		foreach($mz_days as $classDate => $mz_classes)
 		{   
 			$tbl->addRow();
@@ -144,6 +149,38 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 			}// EOF foreach class
 		}// EOF foreach day
 		$return .= $tbl->display();
+	}else{
+		//Display grid
+		$tbl->addTSection('thead');
+				$tbl->addRow();
+				// arguments: cell content, class, type (default is 'data' for td, pass 'header' for th)
+				// can include associative array of optional additional attributes
+				$tbl->addCell('', '', 'header');
+				$tbl->addCell(__('Monday', 'mz-mindbody-api'), '', 'header');
+				$tbl->addCell(__('Tuesday', 'mz-mindbody-api'), '', 'header');
+				$tbl->addCell(__('Wednesday', 'mz-mindbody-api'), '', 'header');
+				$tbl->addCell(__('Thursday', 'mz-mindbody-api'), '', 'header');
+				$tbl->addCell(__('Friday', 'mz-mindbody-api'), '', 'header');
+				$tbl->addCell(__('Saturday', 'mz-mindbody-api'), '', 'header');
+				$tbl->addCell(__('Sunday', 'mz-mindbody-api'), '', 'header');
+		foreach($mz_days as $classDate => $mz_classes)
+			{   
+				//mz_pr($mz_classes);
+				//die();
+				$tbl->addRow();
+				$tbl->addCell($mz_classes['display_time']);
+				foreach($mz_classes['classes'] as $class)
+				{
+					$className = $class['ClassDescription']['Name'];
+					if (!(($class['IsCanceled'] == 'TRUE') && ($class['HideCancel'] == 'TRUE')) && ($class['Location']['ID'] == $location))
+					{
+					$tbl->addCell($className);
+					}
+					
+				}//end foreach mz_classes
+			}//end foreach mz_days
+		$return .= $tbl->display();
+	}//End if grid
 		if ($type=='week')
 		    // schedule navigation
 		    $return .= mz_mbo_schedule_nav($mz_date, __('Week', 'mz-mindbody-api'));

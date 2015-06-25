@@ -71,11 +71,11 @@ function sortClassesByTimeThenDay($mz_classes = array()) {
 		}); 
 		fill_empty_slots($mz_classes['classes'], 'day_num');
 	}
-	
+	//mz_pr($mz_classesByTime);
 	return $mz_classesByTime;
 }
 
-function fill_empty_slots(&$array, $needle)
+function fill_empty_slots($array, $needle)
 		{
 		$missing = array();
 		for($i=1;$i<8;$i++){
@@ -86,8 +86,9 @@ function fill_empty_slots(&$array, $needle)
 			$missing[$i] = 'x';
 			}
 		}
-		mz_pr($missing);
+		//mz_pr($missing);
 		}
+		
 function combine_concurrent(&$array, $needle, $test)
 		{
 		/*
