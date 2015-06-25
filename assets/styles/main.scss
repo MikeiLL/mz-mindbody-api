@@ -19,7 +19,7 @@ We want to do as little as possible here so CSS can be defined in theme.
 		table { border-collapse: collapse; }
 			th, td { padding: 5px; }
 			th { border-bottom: 2px solid #999; background-color: #eee; vertical-align: bottom; }
-			td { border-bottom: 1px solid #ccc; }
+			td { border-bottom: 1px solid #ccc; border:1px solid #000;}
 
 			/*table.striped tbody tr:nth-child(even) { background-color: #f0f8ff; }*/ /*auto striping gets messed up with hidden rows*/
 			tr.striped { background-color: #f0f8ff; }

@@ -87,21 +87,13 @@ function sortClassesByTimeThenDay($mz_classes = array()) {
 function week_of_timeslot($array, $indicator){
 	$seven_days = array_combine(range(1, 7), array(array(), array(), array(),
 											array(), array(), array(), array()));
-	/*
-	Go through each day and check $array
-		if no match fill with empty matrix
-		if day_num matches $seven_days key, popout and 
-		insert into $seven_days[index] array
-	*/
 		foreach($seven_days as $key => $value){
 			foreach ($array as $class) {
 					if ($class[$indicator] == $key){
 						array_push($seven_days[$key], $class);
-					}	
+					}
 				}
 			}
-	//array_map('insertion', $seven_days, $array);
-	//mz_pr($seven_days);
 	return $seven_days;
 	}
 	

@@ -189,7 +189,14 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 								&& ($class['Location']['ID'] == $location)) {
 								$className = $class['ClassDescription']['Name'];
 								$teacher = $class['Staff']['Name'];
-								$class_details .= $className . '<br/>' . __('with', 'mz-mindbody-api') . '&nbsp;' . 
+								$classDescription = $class['ClassDescription']['Description'];
+								$class_details .= 
+								'<a data-toggle="modal" data-target="#mzModal" href="' . MZ_MINDBODY_SCHEDULE_URL . 
+								'inc/modal_descriptions.php?classDescription=' . 
+								urlencode(substr($classDescription, 0, 1000)) . 
+								'&amp;className='. urlencode(substr($className, 0, 1000)) .'">' . $className . '</a>' .
+							// trigger link modal
+									'<br/>' . __('with', 'mz-mindbody-api') . '&nbsp;' . 
 								$teacher . '<br/>';
 								}
 							}
