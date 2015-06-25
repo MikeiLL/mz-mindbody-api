@@ -11,14 +11,12 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 		'type' => 'week',
 		'location' => '1',
 		'account' => '0',
-		'filter' => '0',
-		'simplify' => '0'
+		'filter' => '0'
 			), $atts );
 	$type = $atts['type'];
 	$location = $atts['location'];
 	$account = $atts['account'];
 	$filter = $atts['filter'];
-	$simplify = $atts['simplify'];
 
     $mz_date = empty($_GET['mz_date']) ? date_i18n('Y-m-d') : mz_validate_date($_GET['mz_date']);
 
@@ -58,113 +56,93 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 	// END caching
 
 	$return = '';
-	
 	if(!empty($mz_schedule_data['GetClassesResult']['Classes']['Class']))
 	{
-		$ordered_events = $mb->makeNumericArray($mz_schedule_data['GetClassesResult']['Classes']['Class']);
-
-		if ($simplify == 0) {
-			$ordered_events = sortClassesByDate($ordered_events);
-			}else{
-			$ordered_events = sortClassesByTimeThenDay($ordered_events);
-			}
+		$mz_days = $mb->makeNumericArray($mz_schedule_data['GetClassesResult']['Classes']['Class']);
+		
+		$mz_days = sortClassesByDate($mz_days);
 
 		    $return .= '<div id="mz_mbo_schedule" class="mz_mbo_schedule">';
 		if ($type==__('week','mz-mindbody-api')){
 		    $return .= mz_mbo_schedule_nav($mz_date, __('Week', 'mz-mindbody-api'));
 		}
-
-	$tbl_class = ($filter == 1) ? 'mz-schedule-filter' : 'mz-schedule-table';
 	// arguments: id, class
 	// can include associative array of optional additional attributes
-	$tbl = new HTML_Table('', $tbl_class);
-	if ($simplify == 1) {
-			$tbl->addRow();
-			$tbl->addCell(__('', 'mz-mindbody-api'), '', 'header');
-			$tbl->addCell(__('Sunday', 'mz-mindbody-api'), '', 'header');
-			$tbl->addCell(__('Monday', 'mz-mindbody-api'), '', 'header');
-			$tbl->addCell(__('Tuesday', 'mz-mindbody-api'), '', 'header');
-			$tbl->addCell(__('Wednesday', 'mz-mindbody-api'), '', 'header');
-			$tbl->addCell(__('Thursday', 'mz-mindbody-api'), '', 'header');
-			$tbl->addCell(__('Friday', 'mz-mindbody-api'), '', 'header');
-			$tbl->addCell(__('Saturday', 'mz-mindbody-api'), '', 'header');
-			foreach($ordered_events as $scheduleTime => $mz_classes){  
-				$tbl->addRow();
-				$tbl->addCell($mz_classes['display_time']);
-				foreach($mz_classes['classes'] as $class) {
-					$tbl->addCell($class['ClassDescription']['Name'].'<br/>'.
-					date_i18n("l", strtotime($class['StartDateTime']))
-					);
-					}
-			}
+	if ($filter == 1) {
+			$tbl = new HTML_Table('', 'mz-schedule-filter');
 		}else{
+			$tbl = new HTML_Table('', 'mz-schedule-table');
+		}
+
+		foreach($mz_days as $classDate => $mz_classes)
+		{   
+			$tbl->addRow();
+			// arguments: cell content, class, type (default is 'data' for td, pass 'header' for th)
+			// can include associative array of optional additional attributes
 		
-			foreach($ordered_events as $classDate => $mz_classes){   
-				
-					$tbl->addTSection('thead');
-					$tbl->addRow();
-					// arguments: cell content, class, type (default is 'data' for td, pass 'header' for th)
-					// can include associative array of optional additional attributes
-					$tbl->addCell(date_i18n($mz_date_display, strtotime($classDate)), 'first', 'header');
-					$tbl->addCell(__('Class Name', 'mz-mindbody-api'), '', 'header');
-					$tbl->addCell(__('Instructor', 'mz-mindbody-api'), '', 'header');
-					$tbl->addCell(__('Class Type', 'mz-mindbody-api'), '', 'header');
+			$tbl->addCell(date_i18n($mz_date_display, strtotime($classDate)), 'first', 'header');
+			$tbl->addCell(__('Class Name', 'mz-mindbody-api'), '', 'header');
+			$tbl->addCell(__('Instructor', 'mz-mindbody-api'), '', 'header');
+			$tbl->addCell(__('Class Type', 'mz-mindbody-api'), '', 'header');
 
-				foreach($mz_classes as $class) {
-					if (!(($class['IsCanceled'] == 'TRUE') && ($class['HideCancel'] == 'TRUE')) && ($class['Location']['ID'] == $location))
-					{
-						$sDate = date_i18n('m/d/Y', strtotime($class['StartDateTime']));
-						$sLoc = $class['Location']['ID'];
-						$sTG = $class['ClassDescription']['Program']['ID'];
-						$studioid = $class['Location']['SiteID'];
-						$sclassid = $class['ID'];
-						$classDescription = $class['ClassDescription']['Description'];
-						$sType = -7;
-						$className = $class['ClassDescription']['Name'];
-						$startDateTime = date_i18n('Y-m-d H:i:s', strtotime($class['StartDateTime']));
-						$endDateTime = date_i18n('Y-m-d H:i:s', strtotime($class['EndDateTime']));
-						$staffName = $class['Staff']['Name'];
-						$sessionType = $class['ClassDescription']['SessionType']['Name'];
-						$isAvailable = $class['IsAvailable'];
-						$linkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$sclassid}&amp;studioid={$studioid}";
+			foreach($mz_classes as $class)
+			{
+				if (!(($class['IsCanceled'] == 'TRUE') && ($class['HideCancel'] == 'TRUE')) && ($class['Location']['ID'] == $location))
+				{
+					$sDate = date_i18n('m/d/Y', strtotime($class['StartDateTime']));
+					$sLoc = $class['Location']['ID'];
+					$sTG = $class['ClassDescription']['Program']['ID'];
+					$studioid = $class['Location']['SiteID'];
+					//$sclassid = $class['ClassScheduleID'];
+					$sclassid = $class['ID'];
+					$classDescription = $class['ClassDescription']['Description'];
+					$sType = -7;
+					$className = $class['ClassDescription']['Name'];
+					$startDateTime = date_i18n('Y-m-d H:i:s', strtotime($class['StartDateTime']));
+					$endDateTime = date_i18n('Y-m-d H:i:s', strtotime($class['EndDateTime']));
+					$staffName = $class['Staff']['Name'];
+					$sessionType = $class['ClassDescription']['SessionType']['Name'];
+					$isAvailable = $class['IsAvailable'];
+					$linkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$sclassid}&amp;studioid={$studioid}";
 
-						if (date_i18n('H', strtotime($startDateTime)) < 12) {
-								$time_of_day = __('morning', 'mz-mindbody-api');
-							}else if ((date_i18n('H', strtotime($startDateTime)) > 16)) {
-								$time_of_day = __('evening', 'mz-mindbody-api');
-							}else{
-								$time_of_day = __('afternoon', 'mz-mindbody-api');
-								}
-						// start building table rows
-						$tbl->addRow();
-						$tbl->addCell($time_of_day, 'hidden', 'data');
-					
-					
-						if (isset($isAvailable)) {
-							$tbl->addCell(date_i18n('g:i a', strtotime($startDateTime)) . ' - ' . 
-							date_i18n('g:i a', strtotime($endDateTime)) .
-							'<br/><a class="btn" href="' . $linkURL . '" target="_blank">' . __('Sign-Up', 'mz-mindbody-api') . '</a>');
-							}else{ 
-							$tbl->addCell(date_i18n('g:i a', strtotime($startDateTime)) . ' - ' . 
-							date_i18n('g:i a', strtotime($endDateTime)));
+					if (date_i18n('H', strtotime($startDateTime)) < 12) {
+							$time_of_day = __('morning', 'mz-mindbody-api');
+						}else if ((date_i18n('H', strtotime($startDateTime)) > 16)) {
+							$time_of_day = __('evening', 'mz-mindbody-api');
+						}else{
+							$time_of_day = __('afternoon', 'mz-mindbody-api');
 							}
-						$MBOSite = 'https://clients.mindbodyonline.com/ws.asp';
-						$eventLinkURL = $MBOSite . "?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$sclassid}&amp;studioid={$studioid}";							
-						$tbl->addCell(
-							'<a data-toggle="modal" data-target="#mzModal" href="' . MZ_MINDBODY_SCHEDULE_URL . 'inc/modal_descriptions.php?classDescription=' . urlencode(substr($classDescription, 0, 1000)) . '&amp;className='. urlencode(substr($className, 0, 1000)) .'">' . $className . '</a>'
-						// trigger link modal
-						. '<br/><div id="visitMBO" class="btn visitMBO" style="display:none">' .
-							'<a href="'.$eventLinkURL.'" target="_blank">' .
-							__('Manage on MindBody Site',' mz-mindbody-api') . '<a/></div>');
+					// start building table rows
+					$tbl->addRow();
+					$tbl->addCell($time_of_day, 'hidden', 'data');
+					
+					
+					if (isset($isAvailable)) {
+						$tbl->addCell(date_i18n('g:i a', strtotime($startDateTime)) . ' - ' . 
+						date_i18n('g:i a', strtotime($endDateTime)) .
+						'<br/><a class="btn" href="' . $linkURL . '" target="_blank">' . __('Sign-Up', 'mz-mindbody-api') . '</a>');
+						}else{ 
+						$tbl->addCell(date_i18n('g:i a', strtotime($startDateTime)) . ' - ' . 
+						date_i18n('g:i a', strtotime($endDateTime)));
+						}
+					$eventLinkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$sclassid}&amp;studioid={$studioid}";
+					$tbl->addCell(
+						'<a data-toggle="modal" data-target="#mzModal" href="' . MZ_MINDBODY_SCHEDULE_URL . 
+						'inc/modal_descriptions.php?classDescription=' . 
+						urlencode(substr($classDescription, 0, 1000)) . 
+						'&amp;className='. urlencode(substr($className, 0, 1000)) .'">' . $className . '</a>' .
+					// trigger link modal
+							'<br/><div id="visitMBO" class="btn visitMBO" style="display:none">' .
+						'<a href="'.$eventLinkURL.'" target="_blank">' .
+						__('Manage on MindBody Site',' mz-mindbody-api') . '<a/></div>');
 
-						$tbl->addCell($staffName);
-						$tbl->addCell($sessionType);
+					$tbl->addCell($staffName);
+					$tbl->addCell($sessionType);
 
 
-					} // EOF if
-				}// EOF foreach class
-			}// EOF foreach day
-		}// EOF if not simplify
+				} // EOF if
+			}// EOF foreach class
+		}// EOF foreach day
 		$return .= $tbl->display();
 		if ($type=='week')
 		    // schedule navigation

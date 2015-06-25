@@ -69,9 +69,17 @@ function sortClassesByTimeThenDay($mz_classes = array()) {
 			}
 			return $a['StartDateTime'] < $b['StartDateTime'] ? -1 : 1;
 		}); 
+		fill_empty_slots($mz_classes['classes'], 'day_num');
+	}
+	
+	return $mz_classesByTime;
+}
+
+function fill_empty_slots(&$array, $needle)
+		{
 		$missing = array();
 		for($i=1;$i<8;$i++){
-		$key = array_search($i, array_column($mz_classes['classes'], 'day_num'));
+		$key = array_search($i, array_column($array, $needle));
 		if ($key !== false){
 			$missing[$i] = $key;
 			}else{
@@ -79,8 +87,21 @@ function sortClassesByTimeThenDay($mz_classes = array()) {
 			}
 		}
 		mz_pr($missing);
-	}
-	
-	return $mz_classesByTime;
-}
+		}
+function combine_concurrent(&$array, $needle, $test)
+		{
+		/*
+		For each class at this time slot, if two have the same day_num
+		Put them together in an array
+		*/
+			for($i=0;$i<count($array);$i++)
+				{
+					$array_of_elements = array();
+					//Check if it's actually a class
+					if(!empty($value)) {
+					echo "Live one.<br/>";
+						$array[$i] = array($i => $array[$i]);
+						}
+				}
+		}
 ?>
