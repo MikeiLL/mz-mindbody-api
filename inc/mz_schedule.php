@@ -84,7 +84,7 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 	if ($grid == 0) {
 		foreach($mz_days as $classDate => $mz_classes)
 		{   
-			//$tbl->addTSection('thead');
+			$tbl->addTSection('thead');
 			$tbl->addRow();
 			// arguments: cell content, class, type (default is 'data' for td, pass 'header' for th)
 			// can include associative array of optional additional attributes
@@ -127,7 +127,7 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 					$tbl->addCell($time_of_day, 'hidden', 'data');
 					
 					
-					if (isset($isAvailable)) {
+					if (isset($isAvailable) && ($isAvailable != 0)) {
 						$tbl->addCell(date_i18n('g:i a', strtotime($startDateTime)) . ' - ' . 
 						date_i18n('g:i a', strtotime($endDateTime)) .
 						'<br/><a class="btn" href="' . $linkURL . '" target="_blank">' . __('Sign-Up', 'mz-mindbody-api') . '</a>');
