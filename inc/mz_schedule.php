@@ -88,10 +88,10 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 			// arguments: cell content, class, type (default is 'data' for td, pass 'header' for th)
 			// can include associative array of optional additional attributes
 		
-			$tbl->addCell(date_i18n($mz_date_display, strtotime($classDate)), 'first', 'header');
-			$tbl->addCell(__('Class Name', 'mz-mindbody-api'), '', 'header');
-			$tbl->addCell(__('Instructor', 'mz-mindbody-api'), '', 'header');
-			$tbl->addCell(__('Class Type', 'mz-mindbody-api'), '', 'header');
+			$tbl->addCell(date_i18n($mz_date_display, strtotime($classDate)), 'first', 'header', array('scope'=>'col'));
+			$tbl->addCell(__('Class Name', 'mz-mindbody-api'), '', 'header', array('scope'=>'col'));
+			$tbl->addCell(__('Instructor', 'mz-mindbody-api'), '', 'header', array('scope'=>'col'));
+			$tbl->addCell(__('Class Type', 'mz-mindbody-api'), '', 'header', array('scope'=>'col'));
 
 			foreach($mz_classes as $class)
 			{
