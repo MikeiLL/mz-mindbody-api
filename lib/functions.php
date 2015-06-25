@@ -75,9 +75,9 @@ function mz_mbo_schedule_nav($date, $period, $duration=7)
 	$mz_schedule_page = get_permalink();
 	//Navigate through the weeks
 	$mz_start_end_date = mz_getDateRange($date, $duration);
-	$mz_nav_weeks_text_prev = __('Previous',' mz-mindbody-api')." ".$period;
-	$mz_nav_weeks_text_current = __('Current',' mz-mindbody-api')." ".$period;
-	$mz_nav_weeks_text_following = __('Following',' mz-mindbody-api')." ".$period;
+	$mz_nav_weeks_text_prev = __('Previous','mz-mindbody-api')." ".$period;
+	$mz_nav_weeks_text_current = __('Current','mz-mindbody-api')." ".$period;
+	$mz_nav_weeks_text_following = __('Following','mz-mindbody-api')." ".$period;
 	$sched_nav .= ' <a href='.add_query_arg(array('mz_date' => ($mz_start_end_date[2]))).'>'.$mz_nav_weeks_text_prev.'</a> - ';
 	if (isset($_GET['mz_date']))
 	    $sched_nav .= ' <a href='.$mz_schedule_page.'>'.$mz_nav_weeks_text_current.'</a>  - ';
