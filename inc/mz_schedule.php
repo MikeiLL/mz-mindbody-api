@@ -172,9 +172,10 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 				foreach($mz_classes['classes'] as $class)
 				{
 					$className = $class['ClassDescription']['Name'];
+					$dayName = date_i18n("l", strtotime($class['StartDateTime']));
 					if (!(($class['IsCanceled'] == 'TRUE') && ($class['HideCancel'] == 'TRUE')) && ($class['Location']['ID'] == $location))
 					{
-					$tbl->addCell($className);
+					$tbl->addCell($className.'<br/>'.$dayName);
 					}
 					
 				}//end foreach mz_classes
