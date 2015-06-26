@@ -201,6 +201,7 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 					if(empty($classes)){
 						$class_details = '';
 						}else{
+						$class_details = '';
 						foreach($classes as $class){
 							if (!(($class['IsCanceled'] == 'TRUE') && ($class['HideCancel'] == 'TRUE')) 
 								&& ($class['Location']['ID'] == $location)) {
