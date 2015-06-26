@@ -19,6 +19,11 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 	$account = $atts['account'];
 	$filter = $atts['filter'];
 	$grid = $atts['grid'];
+	
+	if (($grid == 1) && ($type == 'day')) {
+		return '<div style="color:red"><h2>'.__('Grid Calendar Incompatible with Single Day Mode!', 'mz_mndbody_api').'</h2></div>';
+	}
+	
 	if ($grid == 0) {
     	$mz_date = empty($_GET['mz_date']) ? date_i18n('Y-m-d') : mz_validate_date($_GET['mz_date']);
     	}else{
@@ -61,6 +66,7 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 	// END caching
 
 	$return = '';
+
 	if(!empty($mz_schedule_data['GetClassesResult']['Classes']['Class']))
 	{
 		$mz_days = $mb->makeNumericArray($mz_schedule_data['GetClassesResult']['Classes']['Class']);
