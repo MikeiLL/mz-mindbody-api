@@ -108,8 +108,8 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 					$sLoc = $class['Location']['ID'];
 					$sTG = $class['ClassDescription']['Program']['ID'];
 					$studioid = $class['Location']['SiteID'];
-					//$sclassid = $class['ClassScheduleID'];
-					$sclassid = $class['ID'];
+					$sclassid = $class['ClassScheduleID'];
+					$sclassidID = $class['ID'];
 					$classDescription = $class['ClassDescription']['Description'];
 					$sType = -7;
 					$className = $class['ClassDescription']['Name'];
@@ -140,7 +140,6 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 						$tbl->addCell(date_i18n('g:i a', strtotime($startDateTime)) . ' - ' . 
 						date_i18n('g:i a', strtotime($endDateTime)));
 						}
-					$eventLinkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$sclassid}&amp;studioid={$studioid}";
 					$tbl->addCell(
 						'<a data-toggle="modal" data-target="#mzModal" href="' . MZ_MINDBODY_SCHEDULE_URL . 
 						'inc/modal_descriptions.php?classDescription=' . 
@@ -148,7 +147,7 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 						'&amp;className='. urlencode(substr($className, 0, 1000)) .'">' . $className . '</a>' .
 					// trigger link modal
 							'<br/><div id="visitMBO" class="btn visitMBO" style="display:none">' .
-						'<a href="'.$eventLinkURL.'" target="_blank">' .
+						'<a href="'.$linkURL.'" target="_blank">' .
 						__('Manage on MindBody Site',' mz-mindbody-api') . '<a/></div>');
 
 					$tbl->addCell($staffName);
@@ -206,6 +205,7 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 						foreach($classes as $class){
 							if (!(($class['IsCanceled'] == 'TRUE') && ($class['HideCancel'] == 'TRUE')) 
 								&& ($class['Location']['ID'] == $location)) {
+								
 								$className = $class['ClassDescription']['Name'];
 								$teacher = $class['Staff']['Name'];
 								$classDescription = $class['ClassDescription']['Description'];
@@ -213,6 +213,18 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 								$classEndTime = new DateTime($class['EndDateTime']);
 								$classLength = $classEndTime->diff($classStartTime);
 								$classLength = $classLength->format('%H:%I');
+								// Variables for class URL
+								$sDate = date_i18n('m/d/Y', strtotime($class['StartDateTime']));
+								$sLoc = $class['Location']['ID'];
+								$sTG = $class['ClassDescription']['Program']['ID'];
+								$studioid = $class['Location']['SiteID'];
+								$sclassid = $class['ClassScheduleID'];
+								$sclassidID = $class['ID'];
+								$sType = -7;
+								$linkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$sclassid}&amp;studioid={$studioid}";
+								$signupButton = '<a href="'.$linkURL.'" target="_blank" title="'.
+												__('Sign-Up', 'mz-mindbody-api'). '"><i class="fa fa-sign-in"></i></a>';
+								
 								$class_details .= 
 								'<a data-toggle="modal" data-target="#mzModal" href="' . MZ_MINDBODY_SCHEDULE_URL . 
 								'inc/modal_descriptions.php?classDescription=' . 
@@ -220,8 +232,9 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 								'&amp;className='. urlencode(substr($className, 0, 1000)) .'">' . $className . '</a>' .
 							// trigger link modal
 									'<br/>' . __('with', 'mz-mindbody-api') . '&nbsp;' . 
-								$teacher . '<br/>' . __('Duration:', 'mz-mindbody-api') . '&nbsp;' .
-								$classLength . $class_separator;
+								$teacher . '&nbsp;'.$signupButton.'<br/>' . __('Duration:', 'mz-mindbody-api') . '&nbsp;' .
+								$classLength .
+								$class_separator;
 								}
 							}
 						}
