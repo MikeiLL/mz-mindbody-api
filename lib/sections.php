@@ -174,8 +174,15 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 		echo '&nbsp;';
 		printf('[%1$s], [%2$s], [%3$s], [%4$s %5$s=%6$s %7$s=1 %8$s=-99]',
 		'mz_mindbody_show_schedule', 'mz_mindbody_show_events', 'mz_mindbody_staff_list',
-		'mz_mindbody_show_schedule', 'type', 'day', 'location', 'account'); ?>
-		<?php echo '<br/>('.__('-99 is the MBO sandbox/testing account', 'mz_mindbody_api').')'?></font></p>
+		'mz_mindbody_show_schedule', 'type', 'day', 'location', 'account'); 
+		echo '<br/>('.__('-99 is the MBO sandbox/testing account', 'mz-mindbody-api').')</font></p>';
+		echo '<p>';
+		echo __('Grid and Filter can be added like this:', 'mz-mindbody-api').'<br/>';
+		printf('[%1$s %2$s=1 %3$s=1]<br/>',
+		'mz_mindbody_show_schedule', 'grid', 'filter');
+		
+		echo '<p>';
+		?>
 		
 		<p><?php _e('Additional shortcodes:', 'mz-mindbody-api'); 
 		echo '&nbsp;[mz-mindbody-signup], [mz-mindbody-login], [mz-mindbody-logout]';
