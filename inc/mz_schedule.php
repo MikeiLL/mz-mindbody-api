@@ -202,6 +202,7 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 						$class_details = '';
 						}else{
 						$class_details = '';
+						$class_separator = (count($classes) > 1) ? '<hr/>' : '<br/>';
 						foreach($classes as $class){
 							if (!(($class['IsCanceled'] == 'TRUE') && ($class['HideCancel'] == 'TRUE')) 
 								&& ($class['Location']['ID'] == $location)) {
@@ -215,7 +216,7 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 								'&amp;className='. urlencode(substr($className, 0, 1000)) .'">' . $className . '</a>' .
 							// trigger link modal
 									'<br/>' . __('with', 'mz-mindbody-api') . '&nbsp;' . 
-								$teacher . '<br/>';
+								$teacher . $class_separator;
 								}
 							}
 						}
