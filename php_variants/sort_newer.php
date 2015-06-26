@@ -69,17 +69,7 @@ function sortClassesByTimeThenDay($mz_classes = array()) {
 			}
 			return $a['StartDateTime'] < $b['StartDateTime'] ? -1 : 1;
 		}); 
-		//fill_empty_slots($mz_classes['classes'], 'day_num');
 		$mz_classes['classes'] = week_of_timeslot($mz_classes['classes'], 'day_num');
-		/*printf('<br/>%1$s has %2$s classes on: <br/>', date_i18n("g:i a", strtotime($mz_classes['display_time'])), count($mz_classes['classes']));
-		foreach($mz_classes['classes'] as $class)
-			{	
-				if (array_key_exists('ClassScheduleID', $class)){
-			echo date_i18n("l", strtotime($class['StartDateTime'])) . ', ';
-				}else{
-				echo 'Empty, ';
-				}
-			}*/
 	}
 	return $mz_classesByTime;
 }
@@ -96,36 +86,4 @@ function week_of_timeslot($array, $indicator){
 			}
 	return $seven_days;
 	}
-	
-function fill_empty_slots(&$array, $needle)
-		{
-		$empty = array(array());
-		for($i=0;$i<7;$i++){
-		$j = $i + 1;
-		$key = array_search($j, array_column($array, $needle));
-		if ($key !== false){
-			break;
-			}else{
-			array_splice($array, $i, 0, $empty);
-			}
-		}
-		//mz_pr($array);
-		}
-		
-function combine_concurrent(&$array, $needle, $test)
-		{
-		/*
-		For each class at this time slot, if two have the same day_num
-		Put them together in an array
-		*/
-			for($i=0;$i<count($array);$i++)
-				{
-					$array_of_elements = array();
-					//Check if it's actually a class
-					if(!empty($value)) {
-					echo "Live one.<br/>";
-						$array[$i] = array($i => $array[$i]);
-						}
-				}
-		}
 ?>
