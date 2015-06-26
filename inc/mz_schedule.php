@@ -202,13 +202,17 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 						$class_details = '';
 						}else{
 						$class_details = '';
-						$class_separator = (count($classes) > 1) ? '<hr/>' : '<br/>';
+						$class_separator = (count($classes) > 1) ? '<hr/>' : '';
 						foreach($classes as $class){
 							if (!(($class['IsCanceled'] == 'TRUE') && ($class['HideCancel'] == 'TRUE')) 
 								&& ($class['Location']['ID'] == $location)) {
 								$className = $class['ClassDescription']['Name'];
 								$teacher = $class['Staff']['Name'];
 								$classDescription = $class['ClassDescription']['Description'];
+								$classStartTime = new DateTime($class['StartDateTime']);
+								$classEndTime = new DateTime($class['EndDateTime']);
+								$classLength = $classEndTime->diff($classStartTime);
+								$classLength = $classLength->format('%H:%I');
 								$class_details .= 
 								'<a data-toggle="modal" data-target="#mzModal" href="' . MZ_MINDBODY_SCHEDULE_URL . 
 								'inc/modal_descriptions.php?classDescription=' . 
@@ -216,7 +220,8 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 								'&amp;className='. urlencode(substr($className, 0, 1000)) .'">' . $className . '</a>' .
 							// trigger link modal
 									'<br/>' . __('with', 'mz-mindbody-api') . '&nbsp;' . 
-								$teacher . $class_separator;
+								$teacher . '<br/>' . __('Duration:', 'mz-mindbody-api') . '&nbsp;' .
+								$classLength . $class_separator;
 								}
 							}
 						}

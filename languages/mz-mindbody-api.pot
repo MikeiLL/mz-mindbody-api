@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Advanced mZoo Mindbody Interface - Schedule, Events, "
 "Staff Display\n"
-"POT-Creation-Date: 2015-06-25 19:23-0600\n"
+"POT-Creation-Date: 2015-06-26 01:04-0600\n"
 "PO-Revision-Date: 2015-06-22 15:30-0600\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -20,19 +20,19 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: inc/assets.php:89
+#: inc/assets.php:86
 msgid "by teacher, class type"
 msgstr ""
 
-#: inc/assets.php:90 inc/mz_schedule.php:124 inc/mz_schedule.php:188
+#: inc/assets.php:87 inc/mz_schedule.php:124 inc/mz_schedule.php:188
 msgid "morning"
 msgstr ""
 
-#: inc/assets.php:91 inc/mz_schedule.php:128 inc/mz_schedule.php:192
+#: inc/assets.php:88 inc/mz_schedule.php:128 inc/mz_schedule.php:192
 msgid "afternoon"
 msgstr ""
 
-#: inc/assets.php:92 inc/mz_schedule.php:126 inc/mz_schedule.php:190
+#: inc/assets.php:89 inc/mz_schedule.php:126 inc/mz_schedule.php:190
 msgid "evening"
 msgstr ""
 
@@ -121,7 +121,7 @@ msgstr ""
 msgid "week"
 msgstr ""
 
-#: inc/mz_schedule.php:82 inc/mz_schedule.php:230 lib/functions.php:73
+#: inc/mz_schedule.php:82 inc/mz_schedule.php:236 lib/functions.php:73
 msgid "Week"
 msgstr ""
 
@@ -178,11 +178,15 @@ msgstr ""
 msgid "Sunday"
 msgstr ""
 
-#: inc/mz_schedule.php:217 lib/functions.php:62
+#: inc/mz_schedule.php:222 lib/functions.php:62
 msgid "with"
 msgstr ""
 
-#: inc/mz_schedule.php:248
+#: inc/mz_schedule.php:223
+msgid "Duration:"
+msgstr ""
+
+#: inc/mz_schedule.php:254
 msgid "Error getting classes. Try re-loading the page."
 msgstr ""
 
@@ -331,90 +335,90 @@ msgid "Add to page or post with shortcode:"
 msgstr ""
 
 #: lib/sections.php:178
-msgid "Grid and Filter can be added like this:"
-msgstr ""
-
-#: lib/sections.php:182
 msgid "-99 is the MBO sandbox/testing account"
 msgstr ""
 
-#: lib/sections.php:184
+#: lib/sections.php:180
+msgid "Grid and Filter can be added like this:"
+msgstr ""
+
+#: lib/sections.php:187
 msgid "Additional shortcodes:"
 msgstr ""
 
-#: lib/sections.php:188
+#: lib/sections.php:191
 msgid ""
 "In order for these to work correctly, the permalinks for those pages need to "
 "be:"
 msgstr ""
 
-#: lib/sections.php:198
+#: lib/sections.php:201
 msgid "Contact"
 msgstr ""
 
-#: lib/sections.php:201
+#: lib/sections.php:204
 #, php-format
 msgid ""
 "Email welcome, but please also post in the %1$s support forum %2$s for the "
 "benefit of others."
 msgstr ""
 
-#: lib/sections.php:205
+#: lib/sections.php:208
 #, php-format
 msgid "%1$s Small donations %2$s and %3$s reviews %4$s welcome."
 msgstr ""
 
-#: lib/sections.php:215
+#: lib/sections.php:218
 msgid "News"
 msgstr ""
 
-#: lib/sections.php:216
+#: lib/sections.php:219
 msgid "Now supports multiple locations and MBO accounts."
 msgstr ""
 
-#: lib/sections.php:218
+#: lib/sections.php:221
 msgid ""
 "Customization requests invited, and there's an ADVANCED VERSION of the "
 "plugin which integrates MBO class registration without leaving the WP site."
 msgstr ""
 
-#: lib/sections.php:229
+#: lib/sections.php:232
 #, php-format
 msgid ""
 "Once credentials have been set and activated, look for %1$s in the \n"
 "\t  GetClassesResponse box below to confirm settings are correct."
 msgstr ""
 
-#: lib/sections.php:242 lib/sections.php:250 lib/sections.php:259
-#: lib/sections.php:268
+#: lib/sections.php:245 lib/sections.php:253 lib/sections.php:262
+#: lib/sections.php:271
 msgid "Option Not Set"
 msgstr ""
 
-#: lib/sections.php:243
+#: lib/sections.php:246
 msgid "YOUR SOURCE NAME"
 msgstr ""
 
-#: lib/sections.php:251
+#: lib/sections.php:254
 msgid "YOUR MINDBODY PASSWORD"
 msgstr ""
 
-#: lib/sections.php:260
+#: lib/sections.php:263
 msgid "YOUR SITE ID"
 msgstr ""
 
-#: lib/sections.php:269
+#: lib/sections.php:272
 msgid "Event Category IDs"
 msgstr ""
 
-#: lib/sections.php:275
+#: lib/sections.php:278
 msgid "Having this checked will allow you to see immediate changes in MBO"
 msgstr ""
 
-#: lib/sections.php:277
+#: lib/sections.php:280
 msgid "but may end up costing more in API transfer fees."
 msgstr ""
 
-#: lib/sections.php:279
+#: lib/sections.php:282
 msgid "Class calendar cache is held for 1 day. Event calendar for 1 hour."
 msgstr ""
 
