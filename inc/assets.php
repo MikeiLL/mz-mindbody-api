@@ -1,8 +1,5 @@
 <?php
-
 namespace mZoo\MindbodyAPI\Assets;
-
-
 /**
  * Configuration values
  */
