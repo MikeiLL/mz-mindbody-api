@@ -1,6 +1,6 @@
 {
   "name": "mz-mindbody-api",
-  "version": "1.8",
+  "version": "2.0",
   "authors": [
     "Mike iLL Kilmer <mike@mzoo.org>"
   ],
@@ -43,6 +43,19 @@
         "./assets/stylesheets/bootstrap/_tables.scss",
         "./assets/javascripts/bootstrap/button.js",
         "./assets/javascripts/bootstrap/modal.js"
+      ]
+    },
+    "font-awesome": {
+      "main": [
+		"scss/_variables.scss",
+		"scss/_icons.scss",
+		"scss/font-awesome.scss",
+		"fonts/FontAwesome.otf",
+		"fonts/fontawesome-webfont.eot",
+		"fonts/fontawesome-webfont.svg",
+		"fonts/fontawesome-webfont.ttf",
+		"fonts/fontawesome-webfont.woff",
+		"fonts/fontawesome-webfont.woff2"
       ]
     },
     "jQuery.FilterTable": {

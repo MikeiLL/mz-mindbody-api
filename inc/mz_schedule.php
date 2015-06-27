@@ -12,13 +12,16 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 		'location' => '1',
 		'account' => '0',
 		'filter' => '0',
-		'grid' => '0'
+		'grid' => '0',
+		'hide' => array()
 			), $atts );
 	$type = $atts['type'];
 	$location = $atts['location'];
 	$account = $atts['account'];
 	$filter = $atts['filter'];
 	$grid = $atts['grid'];
+	$hide = explode(', ', $atts['hide']);
+	print_r($hide);
 	
 	if (($grid == 1) && ($type == 'day')) {
 		return '<div style="color:red"><h2>'.__('Grid Calendar Incompatible with Single Day Mode!', 'mz_mndbody_api').'</h2></div>';
@@ -207,12 +210,16 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 								&& ($class['Location']['ID'] == $location)) {
 								
 								$className = $class['ClassDescription']['Name'];
-								$teacher = $class['Staff']['Name'];
+								if(!in_array('teacher', $hide)){
+									$teacher = __('with', 'mz-mindbody-api') . '&nbsp;' . $class['Staff']['Name'];
+									}else{ $teacher = '';}
 								$classDescription = $class['ClassDescription']['Description'];
 								$classStartTime = new DateTime($class['StartDateTime']);
 								$classEndTime = new DateTime($class['EndDateTime']);
 								$classLength = $classEndTime->diff($classStartTime);
-								$classLength = $classLength->format('%H:%I');
+								if(!in_array('teacher', $hide)){
+								$classLength = __('Duration:', 'mz-mindbody-api') . '&nbsp;' . $classLength->format('%H:%I');
+									}else{ $classLength = ''; }
 								// Variables for class URL
 								$sDate = date_i18n('m/d/Y', strtotime($class['StartDateTime']));
 								$sLoc = $class['Location']['ID'];
@@ -222,17 +229,17 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 								$sclassidID = $class['ID'];
 								$sType = -7;
 								$linkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$sclassid}&amp;studioid={$studioid}";
-								$signupButton = '<a href="'.$linkURL.'" target="_blank" title="'.
-												__('Sign-Up', 'mz-mindbody-api'). '"><i class="fa fa-sign-in"></i></a>';
-								
+								if(!in_array('teacher', $hide)){
+								$signupButton = '&nbsp;<a href="'.$linkURL.'" target="_blank" title="'.
+												__('Sign-Up', 'mz-mindbody-api'). '"><i class="fa fa-sign-in"></i></a><br/>';
+									}else{$signupButton = '';}
 								$class_details .= 
 								'<a data-toggle="modal" data-target="#mzModal" href="' . MZ_MINDBODY_SCHEDULE_URL . 
 								'inc/modal_descriptions.php?classDescription=' . 
 								urlencode(substr($classDescription, 0, 1000)) . 
 								'&amp;className='. urlencode(substr($className, 0, 1000)) .'">' . $className . '</a>' .
-							// trigger link modal
-									'<br/>' . __('with', 'mz-mindbody-api') . '&nbsp;' . 
-								$teacher . '&nbsp;'.$signupButton.'<br/>' . __('Duration:', 'mz-mindbody-api') . '&nbsp;' .
+								'<br/>' .	 
+								$teacher . $signupButton .
 								$classLength .
 								$class_separator;
 								}
