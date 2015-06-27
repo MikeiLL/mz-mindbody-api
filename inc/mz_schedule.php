@@ -120,6 +120,7 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 					$staffName = $class['Staff']['Name'];
 					$sessionType = $class['ClassDescription']['SessionType']['Name'];
 					$isAvailable = $class['IsAvailable'];
+					$classTimes = date_i18n('g:i a', strtotime($startDateTime)) . ' - ' . date_i18n('g:i a', strtotime($endDateTime));
 					$linkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$sclassid}&amp;studioid={$studioid}";
 
 					if (date_i18n('H', strtotime($startDateTime)) < 12) {
@@ -152,7 +153,7 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 							  		}
 							}
 					
-					$tbl->addCell($signupButton);
+					$tbl->addCell($classTimes . $signupButton);
 					$tbl->addCell(
 						'<a data-toggle="modal" data-target="#mzModal" href="' . MZ_MINDBODY_SCHEDULE_URL . 
 						'inc/modal_descriptions.php?classDescription=' . 
