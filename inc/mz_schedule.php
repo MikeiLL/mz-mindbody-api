@@ -120,6 +120,8 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 					$staffName = $class['Staff']['Name'];
 					$sessionType = $class['ClassDescription']['SessionType']['Name'];
 					$isAvailable = $class['IsAvailable'];
+					// Initialize $signupButton
+					$signupButton = '';
 					$classTimes = date_i18n('g:i a', strtotime($startDateTime)) . ' - ' . date_i18n('g:i a', strtotime($endDateTime));
 					$linkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$sclassid}&amp;studioid={$studioid}";
 
@@ -138,7 +140,7 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 							$clientID = isset($_SESSION['GUID']) ? $_SESSION['client']['ID'] : '';
 							$add_to_class_nonce = wp_create_nonce( 'mz_MBO_add_to_class_nonce');
 							if ($clientID == ''){
-								$signupButton = '<a class="btn mz_add_to_class" href="'.home_url().'/login">' .
+								$signupButton = '<br/><a class="btn mz_add_to_class" href="'.home_url().'/login">' .
 								 	__('Login to Sign-up', 'mz-mindbody-api') . '</a>';
 								  }else{
 							  	$signupButton = '<br/>' 
