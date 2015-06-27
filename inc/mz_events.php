@@ -1,5 +1,4 @@
-<?php
-function mZ_mindbody_show_events ($atts, $account=0)
+<?php function mZ_mindbody_show_events ($atts, $account=0)
 {
  	require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
 
@@ -7,9 +6,12 @@ function mZ_mindbody_show_events ($atts, $account=0)
 	//$add_mz_ajax_script = true;
 
 	// optionally pass in a type parameter. Defaults to week.
-	extract( shortcode_atts( array(
-		'account' => '0'
-			), $atts ) );
+	$atts = shortcode_atts( array(
+		'location' => '1',
+		'account' => '0',
+			), $atts );
+	$location = $atts['location'];
+	$account = $atts['account'];
 			
  	// grab session type IDs for events
  	$mz_sessions = array($options['mz_mindbody_eventID']);
@@ -73,7 +75,8 @@ function mZ_mindbody_show_events ($atts, $account=0)
                 $return .= mz_mbo_schedule_nav($mz_date, "Events", $mz_event_calendar_duration);
 				$return .= '<div class="mz_mindbody_events">';
 				$return .= '<table class="table mz_mindbody_events">';
-
+				$globals = new Global_Strings();
+				$global_strings = $globals->translate_them();
 				foreach($classes as $classDate => $classes)
 				{
 					foreach($classes as $class)
@@ -115,13 +118,11 @@ function mZ_mindbody_show_events ($atts, $account=0)
 								. '" data-classID="' . $sclassid  
 								. '" data-clientID="' . $clientID 
 								. '">' .
-							  '<span class="signup">'.__('Sign-Up') . '</span><span class="count" style="display:none">0</span></a>': '';
+							  '<span class="signup">'. $global_strings['sign_up'] . '</span><span class="count" style="display:none">0</span></a>': '';
 							  }
 							$return .= '<br/><div id="visitMBO" class="btn visitMBO" style="display:none">';
 							$return .= '<a href="'.$eventLinkURL.'" target="_blank">Manage on MindBody Site</a></div>';
-
-							$return .= '<p class="mz_event_staff_name">with '. $staffName.'</p>';							
-
+							$return .= '<p class="mz_event_staff_name">'.$global_strings['with'] . $staffName.'</p>';						
 							$return .= '<h4 class="mz_event_staff">'.$day_and_date.', ' . date_i18n('g:i a', strtotime($startDateTime)).' - ';
 							$return .= date_i18n('g:i a', strtotime($endDateTime)) . '</h4>';
 
@@ -137,7 +138,7 @@ function mZ_mindbody_show_events ($atts, $account=0)
 			}
 			else
 			{
-				$return .= '<h3>' . __('No events published this period.'). '</h3>';
+				$return .= '<h3>' . __('No events published this period.', 'mz-mindbody-api'). '</h3>';
 			}
 		}
 		else
@@ -149,12 +150,12 @@ function mZ_mindbody_show_events ($atts, $account=0)
 			}
 			else
 			{
-				$return .= '<p>' .$mz_event_calendar_duration .' '. __('Day Event Calendar');
+				$return .= '<p>' . sprintf(_n('%1$s Day Event Calendar', '%1$s Day Event Calendar', 'mz-mindbody-api'), $mz_event_calendar_duration);
 				$return .=  ' '. date_i18n($mz_date_display, strtotime($mz_timeframe['StartDateTime']));
 				$return .= ' - ';
 				$return .= date_i18n($mz_date_display, strtotime($mz_timeframe['EndDateTime']));
-				$return .= '<h3>' . __('No events published') . '. </h3>';
-				$return .= mz_mbo_schedule_nav($mz_date, "Events", $mz_event_calendar_duration);
+				$return .= '<h3>' . __('No events published', 'mz-mindbody-api') . '. </h3>';
+				$return .= mz_mbo_schedule_nav($mz_date, _n("Event", "Events", 'mz-mindbody-api'), $mz_event_calendar_duration);
 				//$return .= '<pre>'.print_r($mz_event_data,1).'</pre>';
 			}
 
@@ -163,9 +164,9 @@ function mZ_mindbody_show_events ($atts, $account=0)
 	}
 	else // no sessions set in admin
 	{
-		$return .= '<h2>Error: MBO Event Type IDs must be set in Admin Panel</h2>';
+		$return .= '<h2>'.__('Error: MBO Event Type IDs must be set in Admin Panel', 'mz-mindbody-api').'</h2>';
 	}
-    $return .= mz_mbo_schedule_nav($mz_date, "Events", $mz_event_calendar_duration);
+    $return .= mz_mbo_schedule_nav($mz_date, _n("Event", "Events", 'mz-mindbody-api'), $mz_event_calendar_duration);
 	return $return;
 
 }//EOF mZ_mindbody_show_events

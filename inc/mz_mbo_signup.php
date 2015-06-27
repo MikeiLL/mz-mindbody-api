@@ -4,7 +4,7 @@ function mZ_mindbody_signup() {
 	require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
 
 if(!empty($_POST['website_url'])){
-	echo "<h1>Die Robot Spam!</h1>";
+	echo '<h1>'. __('Die Robot Spam!', 'mz-mindbody-api') . '</h1>';
 	die();
 	}
 if(!empty($_POST['data']['Client'])) {
@@ -30,7 +30,8 @@ if (isset($_POST['data']['Client']['BirthDate'])){
 			$_SESSION['GUID'] = $validateLogin['ValidateLoginResult']['GUID'];
 			$_SESSION['client'] = $validateLogin['ValidateLoginResult']['Client'];
 		}
-		echo "<h3>Congratulations. You are now logged in with your new Mindbody account.</h3><h2>Sign-up for some classes.</h2>";
+		echo '<h3>' . __('Congratulations. You are now logged in with your new Mindbody account.', 'mz-mindbody-api') . '</h3>';
+		echo '<h2>' . __('Sign-up for some classes.', 'mz-mindbody-api') . '</h2>';
 		//header('location:index.php');
 	}
 }
@@ -48,7 +49,7 @@ if(!empty($requiredFields)) {
 		$requiredFields = array($requiredFields);
 	}
 	foreach($requiredFields as $field) {
-		$requiredFieldsInputs .= "<label for='$field'>{$field}: </label><input type='text' name='data[Client][$field]' id='$field' placeholder='$field' required /><br />";
+		$requiredFieldsInputs .= "<label for='$field'>{$field} </label><input type='text' name='data[Client][$field]' id='$field' placeholder='$field' required /><br />";
 	}
 }
 
@@ -57,15 +58,25 @@ if(!empty($signupData['AddOrUpdateClientsResult']['Clients']['Client']['Action']
 		echo "<pre>".print_r($message,1).'</pre><br />';
 	}
 }
+
+
+$globals = new Global_Strings();
+$global_strings = $globals->translate_them();
+$password = $global_strings['password'];
+$username = $global_strings['username'];
+$antispam = __('Leave this empty-slash-blank', 'mz-mindbody-api');
+$firstname = __('First Name', 'mz-mindbody-api');
+$lastname = __('Last Name', 'mz-mindbody-api');
+$sign_up = __('Sign up', 'mz-mindbody-api');
 return <<<EOD
 <form  class="mz_mbo_signup" method="POST">
-    <p class="website_url" style="display:none">Leave this empty-slash-blank: <input type="text" name="website_url" /></p>
-	<label for="Username">Username: </label><input type="text" name="data[Client][Username]" id="Username" placeholder="Username" required /><br />
-	<br/><label for="Password">Password: </label><input type="password" name="data[Client][Password]" id="Password" placeholder="Password" required /><br />
-	<br/><label for="FirstName">First Name: </label><input type="text" name="data[Client][FirstName]" id="FirstName" placeholder="First Name" required /><br />
-	<br/><label for="LastName">Last Name: </label><input type="text" name="data[Client][LastName]" id="LastName" placeholder="Last Name" required /><br />
+    <p class="website_url" style="display:none">$antispam<input type="text" name="website_url" /></p>
+	<label for="Username"> $username</label><input type="text" name="data[Client][Username]" id="Username" placeholder="$username" required /><br />
+	<br/><label for="Password"> $password</label><input type="password" name="data[Client][Password]" id="Password" placeholder="$password" required /><br />
+	<br/><label for="FirstName"> $firstname</label><input type="text" name="data[Client][FirstName]" id="FirstName" placeholder="$firstname" required /><br />
+	<br/><label for="LastName"> $lastname</label><input type="text" name="data[Client][LastName]" id="LastName" placeholder="$lastname" required /><br />
 	$requiredFieldsInputs
-	<button type="submit">Sign up</button>
+	<button type="submit">$sign_up</button>
 </form>
 EOD;
 }

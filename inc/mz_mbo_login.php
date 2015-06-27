@@ -17,9 +17,10 @@ require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
             if(!empty($validateLogin['ValidateLoginResult']['Message'])) {
                 echo $validateLogin['ValidateLoginResult']['Message'];
             } else {
-                echo "Invalid Login<br />";
+            	_e('Invalid Login', 'mz-mindbody-api');
+                echo '<br />';
             }
-            displayLoginForm();
+            return displayLoginForm();
         }
     } else if(empty($_SESSION['GUID'])) {
         return displayLoginForm();
@@ -30,20 +31,31 @@ require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
 }
 
 function displayLoginForm() {
-$create_account_url = home_url()."/create-account";
+	$globals = new Global_Strings();
+	$global_strings = $globals->translate_them();
+	$password = $global_strings['password'];
+	$username = $global_strings['username'];
+	$login = $global_strings['login'];
+	$create_account_url = home_url().'/'.$global_strings['create_account_url'];
+	$registration_button = __('Register with MindBodyOnline', 'mz-mindbody-api');
+	$or = $global_strings['or'];
 	return <<<EOD
 <form class="mz_mbo_login" method="POST">
-	<input type="text" name="username" placeholder="username" /><br class="btwn_mz_mbo_inputs"/>
-	<input type="password" name="password" placeholder="password" /><br class="btwn_mz_mbo_input_btns"/>
-	<button type="submit">Log in</button><br class="btwn_mz_mbo_buttons" /> 
-	or <a href="$create_account_url" class="btn mz_add_to_class">Register with MindBodyOnline</a>
+	<input type="text" name="username" placeholder="$username" /><br class="btwn_mz_mbo_inputs"/>
+	<input type="password" name="password" placeholder="$password" /><br class="btwn_mz_mbo_input_btns"/>
+	<button type="submit">$login</button><br class="btwn_mz_mbo_buttons" /> 
+	$or <a href="$create_account_url" class="btn mz_add_to_class">$registration_button</a>
 </form>	
 EOD;
 }
 
 function displayWelcome() {
-	echo "<h3>Welcome ".$_SESSION['client']['FirstName'].' '.$_SESSION['client']['LastName']."<h3>";
-	echo "<br />";
-	echo "<a href='".home_url()."/logout' class='btn mz_add_to_class'>Log out</a>";
+	$globals = new Global_Strings();
+	$global_strings = $globals->translate_them();
+	$logout = $global_strings['logout'];
+	$logout_url = $global_strings['logout_url'];
+	echo '<h3>'.__('Welcome', 'mz-mindbody-api').'&nbsp; '.$_SESSION['client']['FirstName'].' '.$_SESSION['client']['LastName'].'<h3>';
+	echo '<br />';
+	echo '<a href="'.home_url().'/'.$logout_url.'" class="btn mz_add_to_class">'.$logout.'</a>';
 	}
 ?>
