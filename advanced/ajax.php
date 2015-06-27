@@ -5,13 +5,6 @@
  //Enqueue script in footer
  //add_action('init', 'register_ajax_mbo_add_to_classes_js');
  add_action('wp_footer', 'ajax_mbo_add_to_classes_js');
- 
- function register_ajax_mbo_add_to_classes_js() {
- 		wp_register_script('mZ_add_to_classes', 
- 		plugin_dir_url(__FILE__).'dist/scripts/ajax-mbo-add-to-classes.js',
- 		array('jquery'), MZ_MBO_JS_VERSION, true
- 		);
- 	}
  	
  function ajax_mbo_add_to_classes_js() {
  	global $add_mz_ajax_script;
