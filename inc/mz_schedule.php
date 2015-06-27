@@ -216,7 +216,7 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 								$classStartTime = new DateTime($class['StartDateTime']);
 								$classEndTime = new DateTime($class['EndDateTime']);
 								$classLength = $classEndTime->diff($classStartTime);
-								if(!in_array('teacher', $hide)){
+								if(!in_array('duration', $hide)){
 								$classLength = __('Duration:', 'mz-mindbody-api') . '&nbsp;' . $classLength->format('%H:%I');
 									}else{ $classLength = ''; }
 								// Variables for class URL
@@ -228,7 +228,7 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 								$sclassidID = $class['ID'];
 								$sType = -7;
 								$linkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$sclassid}&amp;studioid={$studioid}";
-								if(!in_array('teacher', $hide)){
+								if(!in_array('signup', $hide)){
 								$signupButton = '&nbsp;<a href="'.$linkURL.'" target="_blank" title="'.
 												__('Sign-Up', 'mz-mindbody-api'). '"><i class="fa fa-sign-in"></i></a><br/>';
 									}else{$signupButton = '';}
