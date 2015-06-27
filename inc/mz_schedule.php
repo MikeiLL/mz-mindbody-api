@@ -237,6 +237,8 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 									$classLength = __('Duration:', 'mz-mindbody-api') . 
 									'<br/>&nbsp;' . $classLength->format('%H:%I');
 									}else{ $classLength = ''; }
+								// Initialize $signupButton
+								$signupButton = '';
 								// Variables for class URL
 								$sDate = date_i18n('m/d/Y', strtotime($class['StartDateTime']));
 								$sLoc = $class['Location']['ID'];
@@ -268,7 +270,9 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 										  		__('Manage on MindBody Site', 'mz-mindbody-api') . '"></a><br/>';
 										  		}
 										}
-								}else{ $signupButton = ''; }
+								}else{ 
+									$signupButton = ''; 
+									}
 								$class_details .= 
 								'<a data-toggle="modal" data-target="#mzModal" href="' . MZ_MINDBODY_SCHEDULE_URL . 
 								'inc/modal_descriptions.php?classDescription=' . 
