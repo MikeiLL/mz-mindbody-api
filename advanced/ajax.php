@@ -54,7 +54,7 @@
  			$result['message'] = '';
  		foreach ($signupData['AddClientsToClassesResult']['Classes']['Class']['Clients']['Client']['Messages'] as $message){
  				if (strpos($message, 'already booked') != false){
- 					$result['message'] .= "You are already registered.";
+ 					$result['message'] .= __('Already registered.', 'mz-mindbody-api');
  					}else{
  					$result['message'] .= $message;
  					}
@@ -64,7 +64,7 @@
  			//$classDetails = $signupData['AddClientsToClassesResult']['Classes']['Class'];
  			
  			$result['type'] = "success";
- 			$result['message'] = "Registered via MindBody";
+ 			$result['message'] = __('Registered via MindBody', 'mz-mindbody-api');
  			/*$classDetails['ClassDescription']['Name']
  			$classDetails['Staff']['Name'];
  			$classDetails['Location']['Name'];

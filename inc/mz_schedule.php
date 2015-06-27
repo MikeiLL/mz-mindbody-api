@@ -230,11 +230,12 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 									$teacher = __('with', 'mz-mindbody-api') . '&nbsp;' . $class['Staff']['Name'];
 									}else{ $teacher = '';}
 								$classDescription = $class['ClassDescription']['Description'];
-								$classStartTime = new DateTime($class['StartDateTime']);
-								$classEndTime = new DateTime($class['EndDateTime']);
-								$classLength = $classEndTime->diff($classStartTime);
 								if(!in_array('duration', $hide)){
-								$classLength = __('Duration:', 'mz-mindbody-api') . '&nbsp;' . $classLength->format('%H:%I');
+									$classStartTime = new DateTime($class['StartDateTime']);
+									$classEndTime = new DateTime($class['EndDateTime']);
+									$classLength = $classEndTime->diff($classStartTime);
+									$classLength = __('Duration:', 'mz-mindbody-api') . 
+									'<br/>&nbsp;' . $classLength->format('%H:%I');
 									}else{ $classLength = ''; }
 								// Variables for class URL
 								$sDate = date_i18n('m/d/Y', strtotime($class['StartDateTime']));
@@ -244,6 +245,7 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 								$sclassid = $class['ClassScheduleID'];
 								$sclassidID = $class['ID'];
 								$sType = -7;
+								$isAvailable = $class['IsAvailable'];
 								$linkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$sclassid}&amp;studioid={$studioid}";
 								if(!in_array('signup', $hide)){
 									if (isset($isAvailable) && ($isAvailable != 0)) {
@@ -253,13 +255,17 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 											 $signupButton = '<a class="btn mz_add_to_class" href="'.home_url().'/login">' .
 											 	'<i class="fa fa-sign-in"> </a>';
 											  }else{
-										  	  $signupButton = '<br/><a id="mz_add_to_class" class="btn mz_add_to_class"' 
+										  	  $signupButton = '<br/><a id="mz_add_to_class" class="fa fa-sign-in mz_add_to_class"' 
+											    . 'title="' .__('Sign-Up', 'mz-mindbody-api') . '"'
 											    . ' data-nonce="' . $add_to_class_nonce 
 											    . '" data-classID="' . $sclassidID  
 											    . '" data-clientID="' . $clientID 
 											    . '">' .
-										  		'<span class="signup"><i class="fa fa-sign-in"> </a>' .
-										  		'</span><span class="count" style="display:none">0</span></a>';
+										  		'&nbsp; <span class="signup"> ' .
+										  		'</span><span class="count" style="display:none">0</span></a><br/>' . 
+										  		'<a id="visitMBO" class="fa fa-wrench visitMBO" href="'.$linkURL.'" target="_blank" ' . 
+										  		'style="display:none" title="' .
+										  		__('Manage on MindBody Site', 'mz-mindbody-api') . '"></a><br/>';
 										  		}
 										}
 								}else{ $signupButton = ''; }
@@ -275,7 +281,7 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 								}
 							}
 						}
-					$tbl->addCell($class_details);
+					$tbl->addCell($class_details, 'mz_description_holder');
 					
 				}//end foreach mz_classes
 			}//end foreach mz_days
