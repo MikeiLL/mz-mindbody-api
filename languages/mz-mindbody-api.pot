@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Advanced mZoo Mindbody Interface - Schedule, Events, "
 "Staff Display\n"
-"POT-Creation-Date: 2015-06-26 01:04-0600\n"
+"POT-Creation-Date: 2015-06-26 19:36-0600\n"
 "PO-Revision-Date: 2015-06-22 15:30-0600\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -24,15 +24,15 @@ msgstr ""
 msgid "by teacher, class type"
 msgstr ""
 
-#: inc/assets.php:87 inc/mz_schedule.php:124 inc/mz_schedule.php:188
+#: inc/assets.php:87 inc/mz_schedule.php:126 inc/mz_schedule.php:189
 msgid "morning"
 msgstr ""
 
-#: inc/assets.php:88 inc/mz_schedule.php:128 inc/mz_schedule.php:192
+#: inc/assets.php:88 inc/mz_schedule.php:130 inc/mz_schedule.php:193
 msgid "afternoon"
 msgstr ""
 
-#: inc/assets.php:89 inc/mz_schedule.php:126 inc/mz_schedule.php:190
+#: inc/assets.php:89 inc/mz_schedule.php:128 inc/mz_schedule.php:191
 msgid "evening"
 msgstr ""
 
@@ -109,84 +109,84 @@ msgstr ""
 msgid "Sign up"
 msgstr ""
 
-#: inc/mz_schedule.php:24
+#: inc/mz_schedule.php:26
 msgid "Grid Calendar Incompatible with Single Day Mode!"
 msgstr ""
 
-#: inc/mz_schedule.php:33 lib/functions.php:63 mZ-mindbody-api.php:105
+#: inc/mz_schedule.php:35 lib/functions.php:63 mZ-mindbody-api.php:105
 msgid "day"
 msgstr ""
 
-#: inc/mz_schedule.php:81
+#: inc/mz_schedule.php:83
 msgid "week"
 msgstr ""
 
-#: inc/mz_schedule.php:82 inc/mz_schedule.php:236 lib/functions.php:73
+#: inc/mz_schedule.php:84 inc/mz_schedule.php:255 lib/functions.php:73
 msgid "Week"
 msgstr ""
 
-#: inc/mz_schedule.php:98
+#: inc/mz_schedule.php:100
 msgid "Class Name"
 msgstr ""
 
-#: inc/mz_schedule.php:99
+#: inc/mz_schedule.php:101
 msgid "Instructor"
 msgstr ""
 
-#: inc/mz_schedule.php:100
+#: inc/mz_schedule.php:102
 msgid "Class Type"
 msgstr ""
 
-#: inc/mz_schedule.php:138
+#: inc/mz_schedule.php:140 inc/mz_schedule.php:233
 msgid "Sign-Up"
 msgstr ""
 
-#: inc/mz_schedule.php:152 lib/functions.php:56
+#: inc/mz_schedule.php:153 lib/functions.php:56
 msgid "Manage on MindBody Site"
 msgstr ""
 
-#: inc/mz_schedule.php:169
+#: inc/mz_schedule.php:170
 #, php-format
 msgid "Week of %1$s"
 msgstr ""
 
-#: inc/mz_schedule.php:176 lib/functions.php:17
+#: inc/mz_schedule.php:177 lib/functions.php:17
 msgid "Monday"
 msgstr ""
 
-#: inc/mz_schedule.php:177 lib/functions.php:18
+#: inc/mz_schedule.php:178 lib/functions.php:18
 msgid "Tuesday"
 msgstr ""
 
-#: inc/mz_schedule.php:178 lib/functions.php:19
+#: inc/mz_schedule.php:179 lib/functions.php:19
 msgid "Wednesday"
 msgstr ""
 
-#: inc/mz_schedule.php:179 lib/functions.php:20
+#: inc/mz_schedule.php:180 lib/functions.php:20
 msgid "Thursday"
 msgstr ""
 
-#: inc/mz_schedule.php:180 lib/functions.php:21
+#: inc/mz_schedule.php:181 lib/functions.php:21
 msgid "Friday"
 msgstr ""
 
-#: inc/mz_schedule.php:181 lib/functions.php:22
+#: inc/mz_schedule.php:182 lib/functions.php:22
 msgid "Saturday"
 msgstr ""
 
-#: inc/mz_schedule.php:182 lib/functions.php:23
+#: inc/mz_schedule.php:183 lib/functions.php:23
 msgid "Sunday"
 msgstr ""
 
-#: inc/mz_schedule.php:222 lib/functions.php:62
+#: inc/mz_schedule.php:213 lib/functions.php:62
 msgid "with"
 msgstr ""
 
-#: inc/mz_schedule.php:223
+#: inc/mz_schedule.php:220
 msgid "Duration:"
 msgstr ""
 
-#: inc/mz_schedule.php:254
+#: inc/mz_schedule.php:273
 msgid "Error getting classes. Try re-loading the page."
 msgstr ""
 
@@ -330,95 +330,99 @@ msgstr ""
 msgid "Detailed instructions here"
 msgstr ""
 
-#: lib/sections.php:173
+#: lib/sections.php:174
 msgid "Add to page or post with shortcode:"
 msgstr ""
 
-#: lib/sections.php:178
+#: lib/sections.php:179
 msgid "-99 is the MBO sandbox/testing account"
 msgstr ""
 
-#: lib/sections.php:180
+#: lib/sections.php:181
 msgid "Grid and Filter can be added like this:"
 msgstr ""
 
-#: lib/sections.php:187
-msgid "Additional shortcodes:"
+#: lib/sections.php:186
+msgid "To remove hide any of the following elements from grid calendar:"
 msgstr ""
 
 #: lib/sections.php:191
+msgid "Additional shortcodes:"
+msgstr ""
+
+#: lib/sections.php:195
 msgid ""
 "In order for these to work correctly, the permalinks for those pages need to "
 "be:"
 msgstr ""
 
-#: lib/sections.php:201
+#: lib/sections.php:205
 msgid "Contact"
 msgstr ""
 
-#: lib/sections.php:204
+#: lib/sections.php:208
 #, php-format
 msgid ""
 "Email welcome, but please also post in the %1$s support forum %2$s for the "
 "benefit of others."
 msgstr ""
 
-#: lib/sections.php:208
+#: lib/sections.php:212
 #, php-format
 msgid "%1$s Small donations %2$s and %3$s reviews %4$s welcome."
 msgstr ""
 
-#: lib/sections.php:218
+#: lib/sections.php:222
 msgid "News"
 msgstr ""
 
-#: lib/sections.php:219
+#: lib/sections.php:223
 msgid "Now supports multiple locations and MBO accounts."
 msgstr ""
 
-#: lib/sections.php:221
+#: lib/sections.php:225
 msgid ""
 "Customization requests invited, and there's an ADVANCED VERSION of the "
 "plugin which integrates MBO class registration without leaving the WP site."
 msgstr ""
 
-#: lib/sections.php:232
+#: lib/sections.php:236
 #, php-format
 msgid ""
 "Once credentials have been set and activated, look for %1$s in the \n"
 "\t  GetClassesResponse box below to confirm settings are correct."
 msgstr ""
 
-#: lib/sections.php:245 lib/sections.php:253 lib/sections.php:262
-#: lib/sections.php:271
+#: lib/sections.php:249 lib/sections.php:257 lib/sections.php:266
+#: lib/sections.php:275
 msgid "Option Not Set"
 msgstr ""
 
-#: lib/sections.php:246
+#: lib/sections.php:250
 msgid "YOUR SOURCE NAME"
 msgstr ""
 
-#: lib/sections.php:254
+#: lib/sections.php:258
 msgid "YOUR MINDBODY PASSWORD"
 msgstr ""
 
-#: lib/sections.php:263
+#: lib/sections.php:267
 msgid "YOUR SITE ID"
 msgstr ""
 
-#: lib/sections.php:272
+#: lib/sections.php:276
 msgid "Event Category IDs"
 msgstr ""
 
-#: lib/sections.php:278
+#: lib/sections.php:282
 msgid "Having this checked will allow you to see immediate changes in MBO"
 msgstr ""
 
-#: lib/sections.php:280
+#: lib/sections.php:284
 msgid "but may end up costing more in API transfer fees."
 msgstr ""
 
-#: lib/sections.php:282
+#: lib/sections.php:286
 msgid "Class calendar cache is held for 1 day. Event calendar for 1 hour."
 msgstr ""
 

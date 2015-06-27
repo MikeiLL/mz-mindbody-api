@@ -169,6 +169,7 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 		and register for developer credentials.', 'mz-mindbody-api'),
 		 '<a href="https://api.mindbodyonline.com/Home/LogIn">', '</a>')?>
 		(<a href="http://www.mzoo.org/creating-your-mindbody-credentials/"><?php _e('Detailed instructions here', 'mz-mindbody-api') ?></a>.)</p>
+		<h3>Shortcodes</h3>
 		<p>
 		<?php _e('Add to page or post with shortcode:', 'mz-mindbody-api'); 
 		echo '&nbsp;';
@@ -181,7 +182,10 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 		printf('[%1$s %2$s=1 %3$s=1]<br/>',
 		'mz_mindbody_show_schedule', 'grid', 'filter');
 		
-		echo '<p>';
+		echo '</p>';
+		echo '<p>' . __('To remove hide any of the following elements from grid calendar:', 'mz-mindbody-api') . 
+		'&nbsp; hide="teacher, signup, duration"'
+		
 		?>
 		
 		<p><?php _e('Additional shortcodes:', 'mz-mindbody-api'); 
