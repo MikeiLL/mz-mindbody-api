@@ -13,14 +13,13 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 		'account' => '0',
 		'filter' => '0',
 		'grid' => '0',
-		'hide' => array()
+		'hide' => ''
 			), $atts );
 	$type = $atts['type'];
 	$location = $atts['location'];
 	$account = $atts['account'];
 	$filter = $atts['filter'];
 	$grid = $atts['grid'];
-	$hide = explode(', ', $atts['hide']);
 	
 	if (($grid == 1) && ($type == 'day')) {
 		return '<div style="color:red"><h2>'.__('Grid Calendar Incompatible with Single Day Mode!', 'mz_mndbody_api').'</h2></div>';
@@ -29,6 +28,7 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 	if ($grid == 0) {
     	$mz_date = empty($_GET['mz_date']) ? date_i18n('Y-m-d') : mz_validate_date($_GET['mz_date']);
     	}else{
+    	$hide = explode(', ', $atts['hide']);
     	$mz_date = empty($_GET['mz_date']) ? date_i18n('Y-m-d',strtotime('last monday')) : mz_validate_date($_GET['mz_date']);
     	}
 
