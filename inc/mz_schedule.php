@@ -21,7 +21,6 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 	$filter = $atts['filter'];
 	$grid = $atts['grid'];
 	$hide = explode(', ', $atts['hide']);
-	print_r($hide);
 	
 	if (($grid == 1) && ($type == 'day')) {
 		return '<div style="color:red"><h2>'.__('Grid Calendar Incompatible with Single Day Mode!', 'mz_mndbody_api').'</h2></div>';
