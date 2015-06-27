@@ -229,7 +229,8 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 								
 								$className = $class['ClassDescription']['Name'];
 								if(!in_array('teacher', $hide)){
-									$teacher = __('with', 'mz-mindbody-api') . '&nbsp;' . $class['Staff']['Name'];
+									$teacher = __('with', 'mz-mindbody-api') . '&nbsp;' . $class['Staff']['Name'] .
+									'<br/>';
 									}else{ $teacher = '';}
 								$classDescription = $class['ClassDescription']['Description'];
 								if(!in_array('duration', $hide)){
