@@ -146,7 +146,7 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 								    . '" data-clientID="' . $clientID 
 								    . '">' .
 							  		'<span class="signup">'.__('Sign-Up', 'mz-mindbody-api') .
-							  		'</span><span class="count" style="display:none">0</span></a>';
+							  		'</span><span class="count" style="display:none">0</span></a>' ;
 							  		}
 							}
 					
@@ -155,11 +155,13 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 						'<a data-toggle="modal" data-target="#mzModal" href="' . MZ_MINDBODY_SCHEDULE_URL . 
 						'inc/modal_descriptions.php?classDescription=' . 
 						urlencode(substr($classDescription, 0, 1000)) . 
-						'&amp;className='. urlencode(substr($className, 0, 1000)) .'">' . $className . '</a>' .
-				// trigger link modal
-						'<br/><div id="visitMBO" class="btn visitMBO" style="display:none">' .
-					'<a href="'.$linkURL.'" target="_blank">' .
-					__('Manage on MindBody Site',' mz-mindbody-api') . '<a/></div>');
+						'&amp;className='. urlencode(substr($className, 0, 1000)) .'">' . $className . '</a>' . 
+						'<br/><div class="mz_description_holder">' . 
+						'<div id="visitMBO" class="btn-small visitMBO" style="display:none">' . 
+						'<a href="'.$linkURL.'" target="_blank">' . 
+						__('Manage on MindBody Site', 'mz-mindbody-api') . '<a/></div>' . 
+						'</div>'
+						);
 
 					$tbl->addCell($staffName);
 					$tbl->addCell($sessionType);
