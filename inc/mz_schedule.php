@@ -130,7 +130,7 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 							$time_of_day = __('afternoon', 'mz-mindbody-api');
 							}
 					// start building table rows
-					$tbl->addRow();
+					$tbl->addRow('mz_description_holder');
 					$tbl->addCell($time_of_day, 'hidden', 'data');
 
 					if (isset($isAvailable) && ($isAvailable != 0)) {
@@ -140,13 +140,15 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 								$signupButton = '<a class="btn mz_add_to_class" href="'.home_url().'/login">' .
 								 	__('Login to Sign-up', 'mz-mindbody-api') . '</a>';
 								  }else{
-							  	$signupButton = '<br/><a id="mz_add_to_class" class="btn mz_add_to_class"' 
+							  	$signupButton = '<br/>' 
+							  		. '	<a id="mz_add_to_class" class="btn mz_add_to_class"' 
 								    . ' data-nonce="' . $add_to_class_nonce 
 								    . '" data-classID="' . $sclassidID  
 								    . '" data-clientID="' . $clientID 
 								    . '">' .
+								    '<span class="count" style="display:none">0</span>' . 
 							  		'<span class="signup">'.__('Sign-Up', 'mz-mindbody-api') .
-							  		'</span><span class="count" style="display:none">0</span></a>' ;
+							  		'</span></a>' ;
 							  		}
 							}
 					
@@ -155,12 +157,12 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 						'<a data-toggle="modal" data-target="#mzModal" href="' . MZ_MINDBODY_SCHEDULE_URL . 
 						'inc/modal_descriptions.php?classDescription=' . 
 						urlencode(substr($classDescription, 0, 1000)) . 
-						'&amp;className='. urlencode(substr($className, 0, 1000)) .'">' . $className . '</a>' . 
-						'<br/><div class="mz_description_holder">' . 
-						'<div id="visitMBO" class="btn-small visitMBO" style="display:none">' . 
+						'&amp;className='. urlencode(substr($className, 0, 1000)) .'">' . $className . '</a>'  . 
+						'<br/>' . 
+						'<span id="visitMBO" class="btn btn-xs visitMBO" style="display:none">' . 
 						'<a href="'.$linkURL.'" target="_blank">' . 
-						__('Manage on MindBody Site', 'mz-mindbody-api') . '<a/></div>' . 
-						'</div>'
+						__('Manage on MindBody Site', 'mz-mindbody-api') . '<a/>' . 
+						'</span>' 
 						);
 
 					$tbl->addCell($staffName);
