@@ -6,6 +6,12 @@
       ],
       "main": true
     },
+    "ajax-mbo-add-to-classes.js": {
+      "files": [
+        "advanced/js/ajax-mbo-add-to-classes.js"
+      ],
+      "external": true
+    },
     "main.css": {
       "files": [
         "styles/main.scss"

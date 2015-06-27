@@ -3,12 +3,12 @@
  define('MZ_MBO_JS_VERSION', '1.0');
  
  //Enqueue script in footer
- add_action('init', 'register_ajax_mbo_add_to_classes_js');
+ //add_action('init', 'register_ajax_mbo_add_to_classes_js');
  add_action('wp_footer', 'ajax_mbo_add_to_classes_js');
  
  function register_ajax_mbo_add_to_classes_js() {
  		wp_register_script('mZ_add_to_classes', 
- 		plugin_dir_url(__FILE__).'js/ajax-mbo-add-to-classes.js',
+ 		plugin_dir_url(__FILE__).'dist/scripts/ajax-mbo-add-to-classes.js',
  		array('jquery'), MZ_MBO_JS_VERSION, true
  		);
  	}
