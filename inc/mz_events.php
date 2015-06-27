@@ -111,7 +111,8 @@
 							$clientID = isset($_SESSION['GUID']) ? $_SESSION['client']['ID'] : '';
 							$add_to_class_nonce = wp_create_nonce( 'mz_MBO_add_to_class_nonce');
 							if ($clientID == ''){
-								 $return .= $isAvailable ? '<br/><a class="btn mz_add_to_class" href="'.home_url().'/login">Login to Sign-up</a>': '';
+								 $return .= $isAvailable ? '<br/><a class="btn mz_add_to_class" href="'.home_url().
+								 '/login">'.__('Login to Sign-up', 'mz-mindbody-api') . '</a>' : '';
 								  }else{
 							  $return .= $isAvailable ? '<br/><a id="mz_add_to_class" class="btn mz_add_to_class"' 
 								. ' data-nonce="' . $add_to_class_nonce 

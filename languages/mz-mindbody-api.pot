@@ -3,14 +3,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Advanced mZoo Mindbody Interface - Schedule, Events, "
 "Staff Display\n"
-"POT-Creation-Date: 2015-06-27 01:48-0600\n"
+"POT-Creation-Date: 2015-06-27 10:55-0500\n"
 "PO-Revision-Date: 2015-06-22 15:30-0600\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.1\n"
+"X-Generator: Poedit 1.8.2\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-WPHeader: mZ-mindbody-api.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -32,15 +32,15 @@ msgstr ""
 msgid "by teacher, class type"
 msgstr ""
 
-#: inc/assets.php:88 inc/mz_schedule.php:127 inc/mz_schedule.php:206
+#: inc/assets.php:88 inc/mz_schedule.php:129 inc/mz_schedule.php:208
 msgid "morning"
 msgstr ""
 
-#: inc/assets.php:89 inc/mz_schedule.php:131 inc/mz_schedule.php:210
+#: inc/assets.php:89 inc/mz_schedule.php:133 inc/mz_schedule.php:212
 msgid "afternoon"
 msgstr ""
 
-#: inc/assets.php:90 inc/mz_schedule.php:129 inc/mz_schedule.php:208
+#: inc/assets.php:90 inc/mz_schedule.php:131 inc/mz_schedule.php:210
 msgid "evening"
 msgstr ""
 
@@ -48,28 +48,32 @@ msgstr ""
 msgid "Day Event Calendar"
 msgstr ""
 
-#: inc/mz_events.php:141
+#: inc/mz_events.php:115 inc/mz_schedule.php:144
+msgid "Login to Sign-up"
+msgstr ""
+
+#: inc/mz_events.php:142
 msgid "No events published this period."
 msgstr ""
 
-#: inc/mz_events.php:153
+#: inc/mz_events.php:154
 #, php-format
 msgid "%1$s Day Event Calendar"
 msgid_plural "%1$s Day Event Calendar"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/mz_events.php:157
+#: inc/mz_events.php:158
 msgid "No events published"
 msgstr ""
 
-#: inc/mz_events.php:158 inc/mz_events.php:169
+#: inc/mz_events.php:159 inc/mz_events.php:170
 msgid "Event"
 msgid_plural "Events"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/mz_events.php:167
+#: inc/mz_events.php:168
 msgid "Error: MBO Event Type IDs must be set in Admin Panel"
 msgstr ""
 
@@ -129,7 +133,7 @@ msgstr ""
 msgid "week"
 msgstr ""
 
-#: inc/mz_schedule.php:84 inc/mz_schedule.php:291 lib/functions.php:73
+#: inc/mz_schedule.php:84 inc/mz_schedule.php:298 lib/functions.php:73
 msgid "Week"
 msgstr ""
 
@@ -145,60 +149,56 @@ msgstr ""
 msgid "Class Type"
 msgstr ""
 
-#: inc/mz_schedule.php:142
-msgid "Login to Sign-up"
-msgstr ""
-
-#: inc/mz_schedule.php:151
+#: inc/mz_schedule.php:153 inc/mz_schedule.php:263
 msgid "Sign-Up"
 msgstr ""
 
-#: inc/mz_schedule.php:165 inc/mz_schedule.php:267 lib/functions.php:56
+#: inc/mz_schedule.php:167 inc/mz_schedule.php:272 lib/functions.php:56
 msgid "Manage on MindBody Site"
 msgstr ""
 
-#: inc/mz_schedule.php:187
+#: inc/mz_schedule.php:189
 #, php-format
 msgid "Week of %1$s"
 msgstr ""
 
-#: inc/mz_schedule.php:194 lib/functions.php:17
+#: inc/mz_schedule.php:196 lib/functions.php:17
 msgid "Monday"
 msgstr ""
 
-#: inc/mz_schedule.php:195 lib/functions.php:18
+#: inc/mz_schedule.php:197 lib/functions.php:18
 msgid "Tuesday"
 msgstr ""
 
-#: inc/mz_schedule.php:196 lib/functions.php:19
+#: inc/mz_schedule.php:198 lib/functions.php:19
 msgid "Wednesday"
 msgstr ""
 
-#: inc/mz_schedule.php:197 lib/functions.php:20
+#: inc/mz_schedule.php:199 lib/functions.php:20
 msgid "Thursday"
 msgstr ""
 
-#: inc/mz_schedule.php:198 lib/functions.php:21
+#: inc/mz_schedule.php:200 lib/functions.php:21
 msgid "Friday"
 msgstr ""
 
-#: inc/mz_schedule.php:199 lib/functions.php:22
+#: inc/mz_schedule.php:201 lib/functions.php:22
 msgid "Saturday"
 msgstr ""
 
-#: inc/mz_schedule.php:200 lib/functions.php:23
+#: inc/mz_schedule.php:202 lib/functions.php:23
 msgid "Sunday"
 msgstr ""
 
-#: inc/mz_schedule.php:230 lib/functions.php:62
+#: inc/mz_schedule.php:232 lib/functions.php:62
 msgid "with"
 msgstr ""
 
-#: inc/mz_schedule.php:237
+#: inc/mz_schedule.php:239
 msgid "Duration:"
 msgstr ""
 
-#: inc/mz_schedule.php:309
+#: inc/mz_schedule.php:316
 msgid "Error getting classes. Try re-loading the page."
 msgstr ""
 
