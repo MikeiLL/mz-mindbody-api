@@ -28,10 +28,6 @@ function mz_uSortFunction($a, $b) {
 
 function sortClassesByTimeThenDay($mz_classes = array()) {
 	$mz_classesByTime = array();
-	for($i=0;$i<count($mz_classes);$i++)
-	{
-		$mz_classes[$i]['day_num'] = '';
-	}
 
 	foreach($mz_classes as &$class)
 	{
@@ -39,14 +35,14 @@ function sortClassesByTimeThenDay($mz_classes = array()) {
 		and corresponsing value an array of class details 
 		for classes at that time. */ 
 		$classTime = date_i18n("G.i", strtotime($class['StartDateTime']));
-		$display_time = (date_i18n("g:i a", strtotime($class['StartDateTime'])));
 		//mz_pr(date_i18n("l", strtotime($class['StartDateTime']))); full weekday name
 		//mz_pr(date_i18n("N", strtotime($class['StartDateTime']))); 1 - 7 day numbers
-		$classDay = date_i18n("l", strtotime($class['StartDateTime']));
+		$class['day_num'] = date_i18n("N", strtotime($class['StartDateTime'])); // Weekday num 1-7
 		$class['day_num'] = date_i18n("N", strtotime($class['StartDateTime']));
 		if(!empty($mz_classesByTime[$classTime])) {
 			$mz_classesByTime[$classTime]['classes'] = array_merge($mz_classesByTime[$classTime]['classes'], array($class));
 		} else {
+			$display_time = (date_i18n("g:i a", strtotime($class['StartDateTime'])));
 			$mz_classesByTime[$classTime] = array('display_time' => $display_time, 
 													'classes' => array($class));
 		}
@@ -81,36 +77,4 @@ function week_of_timeslot($array, $indicator){
 			}
 	return $seven_days;
 	}
-	
-function fill_empty_slots(&$array, $needle)
-		{
-		$empty = array(array());
-		for($i=0;$i<7;$i++){
-		$j = $i + 1;
-		$key = array_search($j, array_column($array, $needle));
-		if ($key !== false){
-			break;
-			}else{
-			array_splice($array, $i, 0, $empty);
-			}
-		}
-		//mz_pr($array);
-		}
-		
-function combine_concurrent(&$array, $needle, $test)
-		{
-		/*
-		For each class at this time slot, if two have the same day_num
-		Put them together in an array
-		*/
-			for($i=0;$i<count($array);$i++)
-				{
-					$array_of_elements = array();
-					//Check if it's actually a class
-					if(!empty($value)) {
-					echo "Live one.<br/>";
-						$array[$i] = array($i => $array[$i]);
-						}
-				}
-		}
 ?>
