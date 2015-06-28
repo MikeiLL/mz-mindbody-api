@@ -42,12 +42,9 @@ function sortClassesByTimeThenDay($mz_classes = array()) {
 		/* Create a new array with a key for each time
 		and corresponsing value an array of class details 
 		for classes at that time. */ 
-		$classTime = date_i18n("G.i", strtotime($class['StartDateTime']));
-		$display_time = (date_i18n("g:i a", strtotime($class['StartDateTime'])));
-		//mz_pr(date_i18n("l", strtotime($class['StartDateTime']))); full weekday name
-		//mz_pr(date_i18n("N", strtotime($class['StartDateTime']))); 1 - 7 day numbers
-		$classDay = date_i18n("l", strtotime($class['StartDateTime']));
-		$class['day_num'] = date_i18n("N", strtotime($class['StartDateTime']));
+		$classTime = date_i18n("G.i", strtotime($class['StartDateTime'])); // for numerical sorting
+		$display_time = (date_i18n("g:i a", strtotime($class['StartDateTime']))); 
+		$class['day_num'] = date_i18n("N", strtotime($class['StartDateTime'])); // Weekday num 1-7
 		if(!empty($mz_classesByTime[$classTime])) {
 			$mz_classesByTime[$classTime]['classes'] = array_merge($mz_classesByTime[$classTime]['classes'], array($class));
 		} else {
@@ -75,6 +72,11 @@ function sortClassesByTimeThenDay($mz_classes = array()) {
 }
 
 function week_of_timeslot($array, $indicator){
+	/*
+	Make a clean array with seven corresponding slots and populate 
+	based on indicator (day) for each class. There may be more than
+	one even for each day and empty arrays will represent empty time slots.
+	*/
 	$seven_days = array_combine(range(1, 7), array(array(), array(), array(),
 											array(), array(), array(), array()));
 		foreach($seven_days as $key => $value){
