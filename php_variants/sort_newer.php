@@ -32,10 +32,6 @@ function sortClassesByDate($mz_classes = array()) {
 
 function sortClassesByTimeThenDay($mz_classes = array()) {
 	$mz_classesByTime = array();
-	for($i=0;$i<count($mz_classes);$i++)
-	{
-		$mz_classes[$i]['day_num'] = '';
-	}
 
 	foreach($mz_classes as &$class)
 	{
@@ -43,11 +39,12 @@ function sortClassesByTimeThenDay($mz_classes = array()) {
 		and corresponsing value an array of class details 
 		for classes at that time. */ 
 		$classTime = date_i18n("G.i", strtotime($class['StartDateTime'])); // for numerical sorting
-		$display_time = (date_i18n("g:i a", strtotime($class['StartDateTime']))); 
+		// $class['day_num'] = '';
 		$class['day_num'] = date_i18n("N", strtotime($class['StartDateTime'])); // Weekday num 1-7
 		if(!empty($mz_classesByTime[$classTime])) {
 			$mz_classesByTime[$classTime]['classes'] = array_merge($mz_classesByTime[$classTime]['classes'], array($class));
 		} else {
+			$display_time = (date_i18n("g:i a", strtotime($class['StartDateTime']))); 
 			$mz_classesByTime[$classTime] = array('display_time' => $display_time, 
 													'classes' => array($class));
 		}
