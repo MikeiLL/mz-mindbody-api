@@ -3,7 +3,7 @@
 //set week number based on php date or passed parameter from $_GET
 //sanitize input
 $mz_date_display = "D F d";
-$mz_event_calendar_duration = 60;
+$mz_event_calendar_duration = 120;
 
 $options = get_option( 'mz_mindbody_options','Error: Mindbody Credentials Not Set' );
 

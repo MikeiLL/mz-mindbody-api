@@ -197,17 +197,25 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 				$tbl->addCell($mz_classes['display_time']);
 				foreach($mz_classes['classes'] as $key => $classes)
 				{
-					//mz_pr($class);
+					//mz_pr($classes);
 					//die();
 					if(empty($classes)){
 						$class_details = '';
+						$num_classes_min_one = 50;
 						}else{
 						$class_details = '';
-						$class_separator = (count($classes) > 1) ? '<hr/>' : '';
-						foreach($classes as $class){
-							if (!(($class['IsCanceled'] == 'TRUE') && ($class['HideCancel'] == 'TRUE')) 
-								&& ($class['Location']['ID'] == $location)) {
-								
+						$num_classes_min_one = count($classes) - 1;
+						foreach($classes as $key => $class){ 
+							// Remove events that don't belong here.
+							if (
+								($class['Location']['ID'] != $location) || 
+								(($class['IsCanceled'] == 'TRUE') && ($class['HideCancel'] == 'TRUE')) ||
+								($class['ClassDescription']['Program']['ScheduleType'] == 'Enrollment')
+								) {
+									unset($classes[$key]);
+								}
+						}
+						foreach($classes as $key => $class){	
 								$className = $class['ClassDescription']['Name'];
 								if(!in_array('teacher', $hide)){
 									$teacher = __('with', 'mz-mindbody-api') . '&nbsp;' . $class['Staff']['Name'];
@@ -227,6 +235,7 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 								$sclassid = $class['ClassScheduleID'];
 								$sclassidID = $class['ID'];
 								$sType = -7;
+								$class_separator = ($key == $num_classes_min_one) ? '' : '<hr/>';
 								$linkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$sclassid}&amp;studioid={$studioid}";
 								if(!in_array('signup', $hide)){
 								$signupButton = '&nbsp;<a href="'.$linkURL.'" target="_blank" title="'.
@@ -241,7 +250,6 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 								$teacher . $signupButton .
 								$classLength .
 								$class_separator;
-								}
 							}
 						}
 					$tbl->addCell($class_details);
