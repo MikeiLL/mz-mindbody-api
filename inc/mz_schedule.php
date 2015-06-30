@@ -199,9 +199,9 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 				{
 					//mz_pr($classes);
 					//die();
-					if(empty($classes)){
+					if ((empty($classes)) || (null === $classes[0]['ClassDescription']['Name'])){
 						$class_details = '';
-						$num_classes_min_one = 50;
+						$num_classes_min_one = 50; //Set to a number that won't match key
 						}else{
 						$class_details = '';
 						$num_classes_min_one = count($classes) - 1;
