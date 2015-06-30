@@ -180,7 +180,7 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 		echo '<p>';
 		echo __('Grid and Filter can be added like this:', 'mz-mindbody-api').'<br/>';
 		printf('[%1$s %2$s=1 %3$s=1]<br/>',
-		'mz_mindbody_show_schedule', 'grid', 'filter');
+		'mz-mindbody-show-schedule', 'grid', 'filter');
 		
 		echo '</p>';
 		echo '<p>' . __('To remove hide any of the following elements from grid calendar:', 'mz-mindbody-api') . 
