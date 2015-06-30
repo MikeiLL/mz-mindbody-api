@@ -201,18 +201,21 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 					//die();
 					if(empty($classes)){
 						$class_details = '';
+						$num_classes_min_one = 50;
 						}else{
 						$class_details = '';
+						$num_classes_min_one = count($classes) - 1;
 						foreach($classes as $key => $class){ 
 							// Remove events that don't belong here.
-							if ((($class['IsCanceled'] == 'TRUE') && ($class['HideCancel'] == 'TRUE')) 
-								&& (!($class['Location']['ID'] == $location))) {
-									unset($key[$class]);
+							if (
+								($class['Location']['ID'] != $location) || 
+								(($class['IsCanceled'] == 'TRUE') && ($class['HideCancel'] == 'TRUE')) ||
+								($class['ClassDescription']['Program']['ScheduleType'] == 'Enrollment')
+								) {
+									unset($classes[$key]);
 								}
 						}
-						//$class_separator = (count($classes) > 1) ? '<hr/>' : '';
-						$num_classes_min_one = count($classes) - 1;
-						foreach($classes as $key => $class){								
+						foreach($classes as $key => $class){	
 								$className = $class['ClassDescription']['Name'];
 								if(!in_array('teacher', $hide)){
 									$teacher = __('with', 'mz-mindbody-api') . '&nbsp;' . $class['Staff']['Name'];
