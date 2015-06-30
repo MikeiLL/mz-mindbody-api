@@ -265,7 +265,7 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 											    . ' data-nonce="' . $add_to_class_nonce 
 											    . '" data-classID="' . $sclassidID  
 											    . '" data-clientID="' . $clientID 
-											    . '">' .
+											    . '"></a>' .
 										  		'&nbsp; <span class="signup"> ' .
 										  		'</span><span class="count" style="display:none">0</span></a><br/>' . 
 										  		'<a id="visitMBO" class="fa fa-wrench visitMBO" href="'.$linkURL.'" target="_blank" ' . 
