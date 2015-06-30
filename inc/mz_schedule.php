@@ -199,9 +199,9 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 				{
 					//mz_pr($classes);
 					//die();
-					if(empty($classes)){
+					if ((empty($classes)) || (null === $classes[0]['ClassDescription']['Name'])){
 						$class_details = '';
-						$num_classes_min_one = 50;
+						$num_classes_min_one = 50; //Set to a number that won't match key
 						}else{
 						$class_details = '';
 						$num_classes_min_one = count($classes) - 1;
@@ -221,6 +221,7 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 									$teacher = __('with', 'mz-mindbody-api') . '&nbsp;' . $class['Staff']['Name'];
 									}else{ $teacher = '';}
 								$classDescription = $class['ClassDescription']['Description'];
+								$sessionTypeName = $class['ClassDescription']['SessionType']['Name'];
 								$classStartTime = new DateTime($class['StartDateTime']);
 								$classEndTime = new DateTime($class['EndDateTime']);
 								$classLength = $classEndTime->diff($classStartTime);
@@ -241,14 +242,14 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 								$signupButton = '&nbsp;<a href="'.$linkURL.'" target="_blank" title="'.
 												__('Sign-Up', 'mz-mindbody-api'). '"><i class="fa fa-sign-in"></i></a><br/>';
 									}else{$signupButton = '';}
-								$class_details .= 
+								$class_details .= '<div class="' .$sessionTypeName .'">' .
 								'<a data-toggle="modal" data-target="#mzModal" href="' . MZ_MINDBODY_SCHEDULE_URL . 
 								'inc/modal_descriptions.php?classDescription=' . 
 								urlencode(substr($classDescription, 0, 1000)) . 
 								'&amp;className='. urlencode(substr($className, 0, 1000)) .'">' . $className . '</a>' .
 								'<br/>' .	 
 								$teacher . $signupButton .
-								$classLength .
+								$classLength . '</div>' .
 								$class_separator;
 							}
 						}
