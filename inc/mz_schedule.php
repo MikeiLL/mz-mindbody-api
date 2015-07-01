@@ -243,7 +243,8 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 								$signupButton = '&nbsp;<a href="'.$linkURL.'" target="_blank" title="'.
 												__('Sign-Up', 'mz-mindbody-api'). '"><i class="fa fa-sign-in"></i></a><br/>';
 									}else{$signupButton = '';}
-								$class_details .= '<div class="' .$sessionTypeName .'">' .
+								$class_details .= '<div class="' .'mz_' . 
+								sanitize_html_class($sessionTypeName, 'mz_session_type') .'">' .
 								'<a data-toggle="modal" data-target="#mzModal" href="' . MZ_MINDBODY_SCHEDULE_URL . 
 								'inc/modal_descriptions.php?classDescription=' . 
 								urlencode(substr($classDescription, 0, 1000)) . 
