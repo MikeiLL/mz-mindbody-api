@@ -91,6 +91,14 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 			'mz_mindbody_main'
 		);
 		
+		add_settings_field(
+			'mz_mindbody_eventsDuration',
+			__('Event Schedule Duration', 'mz-mindbody-api'),
+			'mz_mindbody_eventsDuration',
+			'mz_mindbody',
+			'mz_mindbody_main'
+		);
+		
 		add_settings_section(
 			'mz_mindbody_section3_text',
 			'',
@@ -276,6 +284,14 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 		$mz_mindbody_eventID = (isset($options['mz_mindbody_eventID'])) ? $options['mz_mindbody_eventID'] : __('Event Category IDs');
 		// echo the field
 		echo "<input id='mz_mindbody_eventID' name='mz_mindbody_options[mz_mindbody_eventID]' type='text' value='$mz_mindbody_eventID' />  eg: 25,17";
+	}
+	
+	function mz_mindbody_eventsDuration() {
+		// get option 'text_string' value from the database
+		$options = get_option( 'mz_mindbody_options',__('Option Not Set', 'mz-mindbody-api') );
+		$mz_mindbody_eventsDuration = (isset($options['mz_mindbody_eventsDuration'])) ? $options['mz_mindbody_eventsDuration'] : '60';
+		// echo the field
+		echo "<input id='mz_mindbody_eventsDuration' name='mz_mindbody_options[mz_mindbody_eventsDuration]' type='text' value='$mz_mindbody_eventsDuration' />";
 	}
 
 	function mz_mindbody_section3_text() {

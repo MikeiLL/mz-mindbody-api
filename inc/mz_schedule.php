@@ -74,9 +74,9 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 		$mz_days = $mb->makeNumericArray($mz_schedule_data['GetClassesResult']['Classes']['Class']);
 		
 		if ($grid == 0){
-			$mz_days = sortClassesByDate($mz_days);
+			$mz_days = sortClassesByDate($mz_days, $time_format);
 			}else{
-			$mz_days = sortClassesByTimeThenDay($mz_days);
+			$mz_days = sortClassesByTimeThenDay($mz_days, $time_format);
 			}
 
 		    $return .= '<div id="mz_mbo_schedule" class="mz_mbo_schedule">';
@@ -135,12 +135,12 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 					
 					
 					if (isset($isAvailable) && ($isAvailable != 0)) {
-						$tbl->addCell(date_i18n('g:i a', strtotime($startDateTime)) . ' - ' . 
-						date_i18n('g:i a', strtotime($endDateTime)) .
+						$tbl->addCell(date_i18n($time_format, strtotime($startDateTime)) . ' - ' . 
+						date_i18n($time_format, strtotime($endDateTime)) .
 						'<br/><a class="btn" href="' . $linkURL . '" target="_blank">' . __('Sign-Up', 'mz-mindbody-api') . '</a>');
 						}else{ 
-						$tbl->addCell(date_i18n('g:i a', strtotime($startDateTime)) . ' - ' . 
-						date_i18n('g:i a', strtotime($endDateTime)));
+						$tbl->addCell(date_i18n($time_format, strtotime($startDateTime)) . ' - ' . 
+						date_i18n($time_format, strtotime($endDateTime)));
 						}
 					$tbl->addCell(
 						'<a data-toggle="modal" data-target="#mzModal" href="' . MZ_MINDBODY_SCHEDULE_URL . 
@@ -165,7 +165,7 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 		$return .= $tbl->display();
 	}else{
 		//Display grid
-		$week_starting = date_i18n($mz_date_display, strtotime('last monday'));
+		$week_starting = date_i18n($date_format, strtotime('last monday'));
 		$return .= '<h4 class="mz_grid_date">';
 		$return .= sprintf(__('Week of %1$s', 'mz-mindbody-api'), $week_starting);
 		$return .= '</h4>';
@@ -195,6 +195,7 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 				$tbl->addRow();
 				$tbl->addCell($time_of_day, 'hidden', 'data');
 				$tbl->addCell($mz_classes['display_time']);
+				
 				foreach($mz_classes['classes'] as $key => $classes)
 				{
 					//mz_pr($classes);
