@@ -265,14 +265,15 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 								$sclassidID = $class['ID'];
 								$sType = -7;
 								$isAvailable = $class['IsAvailable'];
+								$class_separator = ($key == $num_classes_min_one) ? '' : '<hr/>';
 								$linkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$sclassid}&amp;studioid={$studioid}";
 								if(!in_array('signup', $hide)){
 									if (isset($isAvailable) && ($isAvailable != 0)) {
 										$clientID = isset($_SESSION['GUID']) ? $_SESSION['client']['ID'] : '';
 										$add_to_class_nonce = wp_create_nonce( 'mz_MBO_add_to_class_nonce');
 										if ($clientID == ''){
-											 $signupButton = '<a class="btn mz_add_to_class" href="'.home_url().'/login">' .
-											 	'<i class="fa fa-sign-in"> </a>';
+											 $signupButton = '<a class="btn mz_add_to_class fa fa-sign-in" href="'.home_url().'/login"' .
+											 'title="' . __('Login to Sign-up', 'mz-mindbody-api') . '"></a><br/>';
 											  }else{
 										  	  $signupButton = '<br/><a id="mz_add_to_class" class="fa fa-sign-in mz_add_to_class"' 
 											    . 'title="' .__('Sign-Up', 'mz-mindbody-api') . '"'
