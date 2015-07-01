@@ -87,7 +87,8 @@ function assets() {
 			'filter_default' => __('by teacher, class type', 'mz-mindbody-api'),
 			'quick_1' => __('morning', 'mz-mindbody-api'),
 			'quick_2' => __('afternoon', 'mz-mindbody-api'),
-			'quick_3' => __('evening', 'mz-mindbody-api')
+			'quick_3' => __('evening', 'mz-mindbody-api'),
+			'label' => __('Filter', 'mz-mindbody-api')
 			));
 }
 add_action('wp_enqueue_scripts', __NAMESPACE__ . '\\assets', 100);

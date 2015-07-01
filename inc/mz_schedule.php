@@ -74,9 +74,9 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 		$mz_days = $mb->makeNumericArray($mz_schedule_data['GetClassesResult']['Classes']['Class']);
 		
 		if ($grid == 0){
-			$mz_days = sortClassesByDate($mz_days);
+			$mz_days = sortClassesByDate($mz_days, $time_format);
 			}else{
-			$mz_days = sortClassesByTimeThenDay($mz_days);
+			$mz_days = sortClassesByTimeThenDay($mz_days, $time_format);
 			}
 
 		    $return .= '<div id="mz_mbo_schedule" class="mz_mbo_schedule">';
@@ -156,6 +156,7 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 							}
 					
 					$tbl->addCell($classTimes . $signupButton);
+
 					$tbl->addCell(
 						'<a data-toggle="modal" data-target="#mzModal" href="' . MZ_MINDBODY_SCHEDULE_URL . 
 						'inc/modal_descriptions.php?classDescription=' . 
@@ -184,7 +185,7 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 	}else{
 		//Display grid
 
-		$week_starting = date_i18n($mz_date_display, strtotime('last monday'));
+		$week_starting = date_i18n($date_format, strtotime('last monday'));
 		$return .= '<h4 class="mz_grid_date">';
 		$return .= sprintf(__('Week of %1$s', 'mz-mindbody-api'), $week_starting);
 		$return .= '</h4>';
@@ -214,25 +215,38 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 				$tbl->addRow();
 				$tbl->addCell($time_of_day, 'hidden', 'data');
 				$tbl->addCell($mz_classes['display_time']);
+				
 				foreach($mz_classes['classes'] as $key => $classes)
 				{
-					//mz_pr($class);
+					//mz_pr($classes);
 					//die();
-					if(empty($classes)){
+					if ((empty($classes)) || (null === $classes[0]['ClassDescription']['Name'])){
 						$class_details = '';
+						$num_classes_min_one = 50; //Set to a number that won't match key
 						}else{
 						$class_details = '';
-						$class_separator = (count($classes) > 1) ? '<hr/>' : '';
-						foreach($classes as $class){
-							if (!(($class['IsCanceled'] == 'TRUE') && ($class['HideCancel'] == 'TRUE')) 
-								&& ($class['Location']['ID'] == $location)) {
-								
+						$num_classes_min_one = count($classes) - 1;
+						foreach($classes as $key => $class){ 
+							// Remove events that don't belong here.
+							if (
+								($class['Location']['ID'] != $location) || 
+								(($class['IsCanceled'] == 'TRUE') && ($class['HideCancel'] == 'TRUE')) ||
+								($class['ClassDescription']['Program']['ScheduleType'] == 'Enrollment')
+								) {
+									unset($classes[$key]);
+								}
+						}
+						foreach($classes as $key => $class){	
 								$className = $class['ClassDescription']['Name'];
 								if(!in_array('teacher', $hide)){
 									$teacher = __('with', 'mz-mindbody-api') . '&nbsp;' . $class['Staff']['Name'] .
 									'<br/>';
 									}else{ $teacher = '';}
 								$classDescription = $class['ClassDescription']['Description'];
+								$sessionTypeName = $class['ClassDescription']['SessionType']['Name'];
+								$classStartTime = new DateTime($class['StartDateTime']);
+								$classEndTime = new DateTime($class['EndDateTime']);
+								$classLength = $classEndTime->diff($classStartTime);
 								if(!in_array('duration', $hide)){
 									$classStartTime = new DateTime($class['StartDateTime']);
 									$classEndTime = new DateTime($class['EndDateTime']);
@@ -283,9 +297,8 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 								'&amp;className='. urlencode(substr($className, 0, 1000)) .'">' . $className . '</a>' .
 								'<br/>' .	 
 								$teacher . $signupButton .
-								$classLength .
+								$classLength . '</div>' .
 								$class_separator;
-								}
 							}
 						}
 					$tbl->addCell($class_details, 'mz_description_holder');
