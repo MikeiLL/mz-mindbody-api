@@ -65,14 +65,14 @@ function mZ_mindbody_show_events ($atts, $account=0)
 			if ($number_of_events >= 1)
 			{
 				$return .= '<p>' .$mz_event_calendar_duration .' '. __('Day Event Calendar');
-				$return .=  ' '. date_i18n($mz_date_display, strtotime($mz_timeframe['StartDateTime']));
+				$return .=  ' '. date_i18n($date_format, strtotime($mz_timeframe['StartDateTime']));
 				$return .= ' - ';
-				$return .= date_i18n($mz_date_display, strtotime($mz_timeframe['EndDateTime'])).'</p>';
+				$return .= date_i18n($date_format, strtotime($mz_timeframe['EndDateTime'])).'</p>';
 				//TODO Make this work - displaying number 20 with one event (correct on first page with 5 events).
 				//$return .= ': ' . $number_of_events . ' '.__('event(s)').'</p>';
 
 				$classes = $mb->makeNumericArray($mz_event_data['GetClassesResult']['Classes']['Class']);
-				$classes = sortClassesByDate($classes);
+				$classes = sortClassesByDate($classes, $time_format);
                 $return .= mz_mbo_schedule_nav($mz_date, "Events", $mz_event_calendar_duration);
 				$return .= '<div class="mz_mindbody_events">';
 				$return .= '<table class="table mz_mindbody_events">';
@@ -98,9 +98,9 @@ function mZ_mindbody_show_events ($atts, $account=0)
 							$sTG = $class['ClassDescription']['Program']['ID'];
 							$eventLinkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$sclassid}&amp;studioid={$studioid}";
 							$className = $class['ClassDescription']['Name'];
-							$startDateTime = date_i18n('Y-m-d H:i:s', strtotime($class['StartDateTime']));
+							$startDateTime = date_i18n($date_format . ' ' .$time_format, strtotime($class['StartDateTime']));
 							$classDescription = $class['ClassDescription']['Description'];
-							$endDateTime = date_i18n('Y-m-d H:i:s', strtotime($class['EndDateTime']));
+							$endDateTime = date_i18n($date_format . ' ' . $time_format, strtotime($class['EndDateTime']));
 							$staffName = $class['Staff']['Name'];
 							$ItemType = $class['ClassDescription']['Program']['Name'];
 							$enrolmentType = $class['ClassDescription']['Program']['ScheduleType'];

@@ -1,5 +1,5 @@
 <?php
-function sortClassesByDate($mz_classes = array()) {
+function sortClassesByDate($mz_classes = array(), $time_format = "g:i a") {
 	$mz_classesByDate = array();
 	foreach($mz_classes as $class)
 	{
@@ -30,7 +30,7 @@ function sortClassesByDate($mz_classes = array()) {
 	return $mz_classesByDate;
 }
 
-function sortClassesByTimeThenDay($mz_classes = array()) {
+function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a") {
 	$mz_classesByTime = array();
 
 	foreach($mz_classes as &$class)
@@ -44,7 +44,7 @@ function sortClassesByTimeThenDay($mz_classes = array()) {
 		if(!empty($mz_classesByTime[$classTime])) {
 			$mz_classesByTime[$classTime]['classes'] = array_merge($mz_classesByTime[$classTime]['classes'], array($class));
 		} else {
-			$display_time = (date_i18n("g:i a", strtotime($class['StartDateTime']))); 
+			$display_time = (date_i18n($time_format, strtotime($class['StartDateTime']))); 
 			$mz_classesByTime[$classTime] = array('display_time' => $display_time, 
 													'classes' => array($class));
 		}
