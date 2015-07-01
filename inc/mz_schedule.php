@@ -291,7 +291,8 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 								}else{ 
 									$signupButton = ''; 
 									}
-								$class_details .= 
+								$class_details .= '<div class="' .'mz_' . 
+								sanitize_html_class($sessionTypeName, 'mz_session_type') .'">' .
 								'<a data-toggle="modal" data-target="#mzModal" href="' . MZ_MINDBODY_SCHEDULE_URL . 
 								'inc/modal_descriptions.php?classDescription=' . 
 								urlencode(substr($classDescription, 0, 1000)) . 
