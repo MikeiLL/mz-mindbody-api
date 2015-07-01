@@ -65,9 +65,9 @@ function mZ_mindbody_show_events ($atts, $account=0)
 			if ($number_of_events >= 1)
 			{
 				$return .= '<p>' .$mz_event_calendar_duration .' '. __('Day Event Calendar');
-				$return .=  ' '. date_i18n($time_format, strtotime($mz_timeframe['StartDateTime']));
+				$return .=  ' '. date_i18n($date_format, strtotime($mz_timeframe['StartDateTime']));
 				$return .= ' - ';
-				$return .= date_i18n($time_format, strtotime($mz_timeframe['EndDateTime'])).'</p>';
+				$return .= date_i18n($date_format, strtotime($mz_timeframe['EndDateTime'])).'</p>';
 				//TODO Make this work - displaying number 20 with one event (correct on first page with 5 events).
 				//$return .= ': ' . $number_of_events . ' '.__('event(s)').'</p>';
 
