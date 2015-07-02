@@ -76,7 +76,7 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 		if ($grid == 0){
 			$mz_days = sortClassesByDate($mz_days, $time_format);
 			}else{
-			$mz_days = sortClassesByTimeThenDay($mz_days, $time_format);
+			$mz_days = sortClassesByTimeThenDay($mz_days, $time_format, $location);
 			}
 
 		    $return .= '<div id="mz_mbo_schedule" class="mz_mbo_schedule">';
@@ -195,9 +195,10 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 				$tbl->addRow();
 				$tbl->addCell($time_of_day, 'hidden', 'data');
 				$tbl->addCell($mz_classes['display_time']);
-				
+				//mz_pr($mz_classes['display_time']);
 				foreach($mz_classes['classes'] as $key => $classes)
 				{
+					//mz_pr($key);
 					//mz_pr($classes);
 					//die();
 					if ((empty($classes)) || (null === $classes[0]['ClassDescription']['Name'])){
@@ -206,16 +207,7 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 						}else{
 						$class_details = '';
 						$num_classes_min_one = count($classes) - 1;
-						foreach($classes as $key => $class){ 
-							// Remove events that don't belong here.
-							if (
-								($class['Location']['ID'] != $location) || 
-								(($class['IsCanceled'] == 'TRUE') && ($class['HideCancel'] == 'TRUE')) ||
-								($class['ClassDescription']['Program']['ScheduleType'] == 'Enrollment')
-								) {
-									unset($classes[$key]);
-								}
-						}
+	
 						foreach($classes as $key => $class){	
 								$className = $class['ClassDescription']['Name'];
 								if(!in_array('teacher', $hide)){
