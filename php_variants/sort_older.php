@@ -40,8 +40,22 @@ function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a")
 		$class['day_num'] = date_i18n("N", strtotime($class['StartDateTime'])); // Weekday num 1-7
 		$class['day_num'] = date_i18n("N", strtotime($class['StartDateTime']));
 		if(!empty($mz_classesByTime[$classTime])) {
+			if (
+				($class['Location']['ID'] != $location) || 
+				(($class['IsCanceled'] == 1) && ($class['HideCancel'] == 1)) ||
+				($class['ClassDescription']['Program']['ScheduleType'] == 'Enrollment')
+				) {
+					continue;
+				}
 			$mz_classesByTime[$classTime]['classes'] = array_merge($mz_classesByTime[$classTime]['classes'], array($class));
 		} else {
+			if (
+				($class['Location']['ID'] != $location) || 
+				(($class['IsCanceled'] == 1) && ($class['HideCancel'] == 1)) ||
+				($class['ClassDescription']['Program']['ScheduleType'] == 'Enrollment')
+				) {
+					continue;
+				}
 			$display_time = (date_i18n($time_format, strtotime($class['StartDateTime'])));
 			$mz_classesByTime[$classTime] = array('display_time' => $display_time, 
 													'classes' => array($class));
