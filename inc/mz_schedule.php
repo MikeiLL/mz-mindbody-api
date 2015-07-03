@@ -113,7 +113,7 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 					$classDescription = $class['ClassDescription']['Description'];
 					$sType = -7;
 					$showCancelled = ($class['IsCanceled'] == 1) ? '<div class="mz_cancelled_class">' .
-									__('Cancelled') . '</div>' : '';
+									__('Cancelled', 'mz-mindbody-api') . '</div>' : '';
 					$className = $class['ClassDescription']['Name'];
 					$startDateTime = date_i18n('Y-m-d H:i:s', strtotime($class['StartDateTime']));
 					$endDateTime = date_i18n('Y-m-d H:i:s', strtotime($class['EndDateTime']));
