@@ -104,8 +104,6 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 			$tbl->addTSection('tbody');
 			foreach($mz_classes as $class)
 			{
-				if (!(($class['IsCanceled'] == 'TRUE') && ($class['HideCancel'] == 'TRUE')) && ($class['Location']['ID'] == $location))
-				{
 					$sDate = date_i18n('m/d/Y', strtotime($class['StartDateTime']));
 					$sLoc = $class['Location']['ID'];
 					$sTG = $class['ClassDescription']['Program']['ID'];
@@ -174,9 +172,6 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 
 					$tbl->addCell($staffName);
 					$tbl->addCell($sessionType);
-
-
-				} // EOF if
 			}// EOF foreach class
 		}// EOF foreach day
 
