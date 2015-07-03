@@ -114,6 +114,8 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 					$sclassidID = $class['ID'];
 					$classDescription = $class['ClassDescription']['Description'];
 					$sType = -7;
+					$showCancelled = ($class['IsCanceled'] == 1) ? '<div class="mz_cancelled_class">' .
+									__('Cancelled') . '</div>' : '';
 					$className = $class['ClassDescription']['Name'];
 					$startDateTime = date_i18n('Y-m-d H:i:s', strtotime($class['StartDateTime']));
 					$endDateTime = date_i18n('Y-m-d H:i:s', strtotime($class['EndDateTime']));
@@ -165,8 +167,9 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 						'<br/>' . 
 						'<span id="visitMBO" class="btn btn-xs visitMBO" style="display:none">' . 
 						'<a href="'.$linkURL.'" target="_blank">' . 
-						__('Manage on MindBody Site', 'mz-mindbody-api') . '<a/>' . 
-						'</span>' 
+						__('Manage on MindBody Site', 'mz-mindbody-api') . '</a>' . 
+						'</span>' .
+						$showCancelled
 						);
 
 					$tbl->addCell($staffName);
@@ -238,7 +241,9 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 								$classStartTime = new DateTime($class['StartDateTime']);
 								$classEndTime = new DateTime($class['EndDateTime']);
 								$classLength = $classEndTime->diff($classStartTime);
-								if(!in_array('duration', $hide)){
+								$showCancelled = ($class['IsCanceled'] == 1) ? '<div class="mz_cancelled_class">' .
+									__('Cancelled') . '</div>' : '';
+								if(!in_array('duration', $hide) && ($class['IsCanceled'] != 1)){
 									$classStartTime = new DateTime($class['StartDateTime']);
 									$classEndTime = new DateTime($class['EndDateTime']);
 									$classLength = $classEndTime->diff($classStartTime);
@@ -290,7 +295,7 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 								'&amp;className='. urlencode(substr($className, 0, 1000)) .'">' . $className . '</a>' .
 								'<br/>' .	 
 								$teacher . $signupButton .
-								$classLength . '</div>' .
+								$classLength . $showCancelled . '</div>' .
 								$class_separator;
 							}
 						}
