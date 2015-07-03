@@ -74,9 +74,9 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 		$mz_days = $mb->makeNumericArray($mz_schedule_data['GetClassesResult']['Classes']['Class']);
 		
 		if ($grid == 0){
-			$mz_days = sortClassesByDate($mz_days, $time_format);
+			$mz_days = sortClassesByDate($mz_days, $time_format, $location);
 			}else{
-			$mz_days = sortClassesByTimeThenDay($mz_days, $time_format);
+			$mz_days = sortClassesByTimeThenDay($mz_days, $time_format, $location);
 			}
 
 		    $return .= '<div id="mz_mbo_schedule" class="mz_mbo_schedule">';
