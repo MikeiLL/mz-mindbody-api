@@ -74,7 +74,7 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 		$mz_days = $mb->makeNumericArray($mz_schedule_data['GetClassesResult']['Classes']['Class']);
 		
 		if ($grid == 0){
-			$mz_days = sortClassesByDate($mz_days, $time_format);
+			$mz_days = sortClassesByDate($mz_days, $time_format, $location);
 			}else{
 			$mz_days = sortClassesByTimeThenDay($mz_days, $time_format, $location);
 			}
@@ -151,10 +151,10 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 					// trigger link modal
 							'<br/><div id="visitMBO" class="btn visitMBO" style="display:none">' .
 						'<a href="'.$linkURL.'" target="_blank">' .
-						__('Manage on MindBody Site',' mz-mindbody-api') . '<a/></div>' .
+						__('Manage on MindBody Site',' mz-mindbody-api') . '</a></div>' .
 						$showCancelled );
 
-					$tbl->addCell($staffName . $showCancelled);
+					$tbl->addCell($staffName);
 					$tbl->addCell($sessionType);
 			}// EOF foreach class
 		}// EOF foreach day
