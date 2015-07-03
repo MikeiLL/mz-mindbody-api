@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: Advanced mZoo Mindbody Interface - Schedule, Events, "
 "Staff Display\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-03 00:13-0500\n"
-"PO-Revision-Date: 2015-07-03 00:13-0500\n"
+"POT-Creation-Date: 2015-07-03 00:21-0500\n"
+"PO-Revision-Date: 2015-07-03 00:21-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -254,17 +254,17 @@ msgstr "shortcode (atalho)"
 #: lib/functions.php:78
 #, php-format
 msgid "Previous %1$s"
-msgstr ""
+msgstr "Anterior %1$s"
 
 #: lib/functions.php:79
 #, php-format
 msgid "Current %1$s"
-msgstr ""
+msgstr "%s Atual"
 
 #: lib/functions.php:80
 #, php-format
 msgid "Following %1$s"
-msgstr ""
+msgstr "Seguir %1$s"
 
 #: lib/sections.php:6
 msgid "MZ Mindbody"
@@ -296,7 +296,7 @@ msgstr "IDs de Eventos:"
 
 #: lib/sections.php:96
 msgid "Event Schedule Duration"
-msgstr ""
+msgstr "Duração do calendário de eventos"
 
 #: lib/sections.php:111
 msgid "Force Cache Reset "
@@ -308,7 +308,7 @@ msgstr "Debug"
 
 #: lib/sections.php:130
 msgid "Sorry but this plugin requires php version 5.3.10 or greater."
-msgstr ""
+msgstr "Desculpe, mas este plugin requer php versão 5.3.10 ou maior."
 
 #: lib/sections.php:138
 msgid "SOAP installed! "

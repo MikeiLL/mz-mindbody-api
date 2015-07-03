@@ -127,7 +127,7 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 		$mz_requirements = 0;
 		if (version_compare(phpversion(), '5.3.10', '<')) {
 			echo '<h2>';
-    		_e('Sorry but this plugin requires php version 5.3.10 or greater.'); // php version isn't high enough
+    		_e('Sorry but this plugin requires php version 5.3.10 or greater.', 'mz-mindbody-api'); // php version isn't high enough
     		echo '</h2>';
     		die();
 		}
