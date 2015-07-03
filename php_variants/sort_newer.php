@@ -44,7 +44,7 @@ function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a",
 		if(!empty($mz_classesByTime[$classTime])) {
 			if (
 				($class['Location']['ID'] != $location) || 
-				(($class['IsCanceled'] == 1) && ($class['HideCancel'] == 1)) ||
+				//(($class['IsCanceled'] == 1) && ($class['HideCancel'] == 1)) ||
 				($class['ClassDescription']['Program']['ScheduleType'] == 'Enrollment')
 				) {
 					continue;

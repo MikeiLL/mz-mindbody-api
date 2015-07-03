@@ -104,8 +104,7 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 			$tbl->addTSection('tbody');
 			foreach($mz_classes as $class)
 			{
-				if (!(($class['IsCanceled'] == 'TRUE') && ($class['HideCancel'] == 'TRUE')) && ($class['Location']['ID'] == $location))
-				{
+					// mz_pr($class);
 					$sDate = date_i18n('m/d/Y', strtotime($class['StartDateTime']));
 					$sLoc = $class['Location']['ID'];
 					$sTG = $class['ClassDescription']['Program']['ID'];
@@ -120,6 +119,8 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 					$staffName = $class['Staff']['Name'];
 					$sessionType = $class['ClassDescription']['SessionType']['Name'];
 					$isAvailable = $class['IsAvailable'];
+					$showCancelled = ($class['IsCanceled'] == 1) ? '<div class="mz_cancelled_class">' .
+									__('Cancelled') . '</div>' : '';
 					$linkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$sclassid}&amp;studioid={$studioid}";
 
 					if (date_i18n('H', strtotime($startDateTime)) < 12) {
@@ -150,13 +151,11 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 					// trigger link modal
 							'<br/><div id="visitMBO" class="btn visitMBO" style="display:none">' .
 						'<a href="'.$linkURL.'" target="_blank">' .
-						__('Manage on MindBody Site',' mz-mindbody-api') . '<a/></div>');
+						__('Manage on MindBody Site',' mz-mindbody-api') . '<a/></div>' .
+						$showCancelled );
 
-					$tbl->addCell($staffName);
+					$tbl->addCell($staffName . $showCancelled);
 					$tbl->addCell($sessionType);
-
-
-				} // EOF if
 			}// EOF foreach class
 		}// EOF foreach day
 		$tbl->addTSection('tfoot');
@@ -213,12 +212,14 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 								if(!in_array('teacher', $hide)){
 									$teacher = __('with', 'mz-mindbody-api') . '&nbsp;' . $class['Staff']['Name'];
 									}else{ $teacher = '';}
+								$showCancelled = ($class['IsCanceled'] == 1) ? '<div class="mz_cancelled_class">' .
+									__('Cancelled') . '</div>' : '';
 								$classDescription = $class['ClassDescription']['Description'];
 								$sessionTypeName = $class['ClassDescription']['SessionType']['Name'];
 								$classStartTime = new DateTime($class['StartDateTime']);
 								$classEndTime = new DateTime($class['EndDateTime']);
 								$classLength = $classEndTime->diff($classStartTime);
-								if(!in_array('duration', $hide)){
+								if(!in_array('duration', $hide) && ($class['IsCanceled'] != 1)){
 								$classLength = __('Duration:', 'mz-mindbody-api') . '&nbsp;' . $classLength->format('%H:%I');
 									}else{ $classLength = ''; }
 								// Variables for class URL
@@ -244,6 +245,7 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 								'<br/>' .	 
 								$teacher . $signupButton .
 								$classLength . '</div>' .
+								$showCancelled .
 								$class_separator;
 							}
 						}
