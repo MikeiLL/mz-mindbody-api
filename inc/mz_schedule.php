@@ -120,7 +120,7 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 					$sessionType = $class['ClassDescription']['SessionType']['Name'];
 					$isAvailable = $class['IsAvailable'];
 					$showCancelled = ($class['IsCanceled'] == 1) ? '<div class="mz_cancelled_class">' .
-									__('Cancelled') . '</div>' : '';
+									__('Cancelled', 'mz-mindbody-api') . '</div>' : '';
 					$linkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$sclassid}&amp;studioid={$studioid}";
 
 					if (date_i18n('H', strtotime($startDateTime)) < 12) {
