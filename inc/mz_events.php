@@ -59,19 +59,18 @@
         
 		if(!empty($mz_event_data['GetClassesResult']['Classes']['Class']))
 		{
-			$number_of_events = count($mz_event_data['GetClassesResult']['Classes']['Class']);
-			
+			$classes = $mb->makeNumericArray($mz_event_data['GetClassesResult']['Classes']['Class']);
+			$classes = sortClassesByDate($classes, $time_format);
+			$number_of_events = count($classes);
+			$return .= '<p>' .$mz_event_calendar_duration .' '. __('Day Event Calendar');
+			$return .=  ' '. date_i18n($date_format, strtotime($mz_timeframe['StartDateTime']));
+			$return .= ' - ';
+			$return .= date_i18n($date_format, strtotime($mz_timeframe['EndDateTime'])).'</p>';
 			if ($number_of_events >= 1)
 			{
-				$return .= '<p>' .$mz_event_calendar_duration .' '. __('Day Event Calendar');
-				$return .=  ' '. date_i18n($date_format, strtotime($mz_timeframe['StartDateTime']));
-				$return .= ' - ';
-				$return .= date_i18n($date_format, strtotime($mz_timeframe['EndDateTime'])).'</p>';
 				//TODO Make this work - displaying number 20 with one event (correct on first page with 5 events).
 				//$return .= ': ' . $number_of_events . ' '.__('event(s)').'</p>';
 
-				$classes = $mb->makeNumericArray($mz_event_data['GetClassesResult']['Classes']['Class']);
-				$classes = sortClassesByDate($classes, $time_format);
                 $return .= mz_mbo_schedule_nav($mz_date, "Events", $mz_event_calendar_duration);
 				$return .= '<div class="mz_mindbody_events">';
 				$return .= '<table class="table mz_mindbody_events">';
@@ -156,7 +155,6 @@
 				$return .= ' - ';
 				$return .= date_i18n($mz_date_display, strtotime($mz_timeframe['EndDateTime']));
 				$return .= '<h3>' . __('No events published', 'mz-mindbody-api') . '. </h3>';
-				$return .= mz_mbo_schedule_nav($mz_date, _n("Event", "Events", 'mz-mindbody-api'), $mz_event_calendar_duration);
 				//$return .= '<pre>'.print_r($mz_event_data,1).'</pre>';
 			}
 
