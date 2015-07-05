@@ -233,17 +233,21 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 									}else{ $teacher = '';}
 								$classDescription = $class['ClassDescription']['Description'];
 								$sessionTypeName = $class['ClassDescription']['SessionType']['Name'];
-								$classStartTime = new DateTime($class['StartDateTime']);
-								$classEndTime = new DateTime($class['EndDateTime']);
-								$classLength = $classEndTime->diff($classStartTime);
 								$showCancelled = ($class['IsCanceled'] == 1) ? '<div class="mz_cancelled_class">' .
 									__('Cancelled') . '</div>' : '';
 								if(!in_array('duration', $hide) && ($class['IsCanceled'] != 1)){
 									$classStartTime = new DateTime($class['StartDateTime']);
 									$classEndTime = new DateTime($class['EndDateTime']);
-									$classLength = $classEndTime->diff($classStartTime);
-									$classLength = __('Duration:', 'mz-mindbody-api') . 
-									'<br/>&nbsp;' . $classLength->format('%H:%I');
+									if (phpversion() >= 5.3) {
+										$classLength = $classEndTime->diff($classStartTime);
+										$classLength = __('Duration:', 'mz-mindbody-api') . 
+										'<br/>&nbsp;' . $classLength->format('%H:%I');
+										}else{
+										$classLength = round(($classEndTime->format('U') - $classStartTime->format('U')));
+										$classLength = __('Duration:', 'mz-mindbody-api') . 
+										'<br/>&nbsp;' . gmdate("H:i", $classLength);
+										}
+										
 									}else{ $classLength = ''; }
 								// Initialize $signupButton
 								$signupButton = '';

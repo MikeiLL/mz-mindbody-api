@@ -1,5 +1,7 @@
 <?php
-namespace mZoo\MindbodyAPI\Assets;
+if (phpversion() >= 5.3) {
+	require_once(MZ_MINDBODY_SCHEDULE_DIR . 'lib/namespace.php');
+	}
 /**
  * Configuration values
  */
@@ -91,5 +93,9 @@ function assets() {
 			'label' => __('Filter', 'mz-mindbody-api')
 			));
 }
-add_action('wp_enqueue_scripts', __NAMESPACE__ . '\\assets', 100);
+if (phpversion() >= 5.3) {
+	add_action('wp_enqueue_scripts', __NAMESPACE__ . '\\assets', 100);
+	}else{
+		add_action('wp_enqueue_scripts', 'assets', 100);
+		}
 

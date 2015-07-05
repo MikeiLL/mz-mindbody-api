@@ -45,7 +45,7 @@ This is the first released one, so please be gentle.
 = One of the elements I need to fill is are the *Event IDs*. Can you help me learn where to find those? =
 
 I'm not sure if there's an easier way, but you can find them by, within MindBody,
-going to and Event EDIT page and viewing the source of the Dropdown menu items, which
+going to an Event EDIT page and viewing the source of the Dropdown menu items, which
 contain the name of each event type and it's associated ID number.
 
 == Why am I getting "Permission denied" and "Invalid Argument" errors? ==
