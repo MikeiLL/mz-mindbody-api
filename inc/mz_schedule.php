@@ -265,8 +265,6 @@ function mZ_mindbody_show_schedule( $atts, $account=0 )
 								'&amp;className='. urlencode(substr($className, 0, 1000)) .'">' . $className . '</a>' .
 								'<br/>' .	 
 								$teacher . $signupButton .
-								$classLength . '</div>' .
-								$showCancelled .
 								$classLength . $showCancelled . '</div>' .
 								$class_separator;
 							}
