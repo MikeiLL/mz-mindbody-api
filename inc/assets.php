@@ -1,5 +1,7 @@
 <?php
-namespace mZoo\MindbodyAPI\Assets;
+if (phpversion() >= 5.3) {
+	require_once(MZ_MINDBODY_SCHEDULE_DIR . 'lib/namespace.php');
+	}
 /**
  * Configuration values
  */
@@ -82,6 +84,7 @@ function assets() {
   wp_enqueue_style('mZ_mindbody_schedule_bs', asset_path('styles/main.css'), false, null);
   wp_enqueue_script('modernizr', asset_path('scripts/modernizr.js'), array(), null, true);
   wp_enqueue_script('mz_mbo_bootstrap_script', asset_path('scripts/main.js'), array('jquery'), null, true);
+  wp_enqueue_script('mZ_add_to_classes', asset_path('scripts/ajax-mbo-add-to-classes.js'), array('jquery'), null, true);
   wp_localize_script('mz_mbo_bootstrap_script', 'mz_mindbody_api_i18n', array(
 			'filter_default' => __('by teacher, class type', 'mz-mindbody-api'),
 			'quick_1' => __('morning', 'mz-mindbody-api'),
@@ -90,8 +93,9 @@ function assets() {
 			'label' => __('Filter', 'mz-mindbody-api')
 			));
 }
-add_action('wp_enqueue_scripts', __NAMESPACE__ . '\\assets', 100);
-//add_action('wp_enqueue_scripts', 'mZoo\MindbodyAPI\Assets\assets', 100);
-
-
+if (phpversion() >= 5.3) {
+	add_action('wp_enqueue_scripts', __NAMESPACE__ . '\\assets', 100);
+	}else{
+		add_action('wp_enqueue_scripts', 'assets', 100);
+		}
 
