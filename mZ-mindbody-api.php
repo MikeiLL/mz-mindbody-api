@@ -1,6 +1,6 @@
 <?php
 /**
-Plugin Name: mZoo Mindbody Interface - Schedule, Events, Staff Display
+Plugin Name: Advanced mZoo Mindbody Interface - Schedule, Events, Staff Display
 Description: Interface Wordpress with MindbodyOnline data with Bootstrap Responsive Layout
 Version: 2.0
 Author: mZoo.org
@@ -113,7 +113,9 @@ class mZ_Mindbody_day_schedule extends WP_Widget {
 //Force page protocol to match current
 $protocol = isset( $_SERVER["HTTPS"]) ? 'https://' : 'http://';
 
-//Advanced Includes go here
+//Advanced Includes
+	foreach ( glob( plugin_dir_path( __FILE__ )."advanced/*.php" ) as $file )
+        include_once $file;
     
 if ( is_admin() )
 {     
@@ -164,6 +166,6 @@ if (phpversion() >= 5.3) {
     }
     
 	//Functions
+
 	require_once MZ_MINDBODY_SCHEDULE_DIR .'lib/functions.php';
-	//mz_pr(__('mz-mindbody-show-schedule', 'mz-mindbody-api'));
 ?>

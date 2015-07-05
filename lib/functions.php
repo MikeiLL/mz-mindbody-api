@@ -112,6 +112,4 @@ function mz_pr($data)
   print_r($data);
   echo "</pre>";
 }
-
-
 ?>

@@ -53,7 +53,7 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 		
 		add_settings_section(
 			'mz_mindbody_main',
-			__('MZ Mindbody Credentials', 'mz-mindbody-api'),
+			__('Mindbody Credentials', 'mz-mindbody-api'),
 			'mz_mindbody_section_text',
 			'mz_mindbody'
 		);
@@ -155,6 +155,7 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 
 		if ($mz_requirements == 1)
 		{
+
 			echo '<div class="settings-error" style="max-width:60%"><p>';
 			_e('MZ Mindbody API requires SOAP and PEAR. Please contact your hosting provider or enable via your CPANEL of php.ini file.', 'mz-mindbody-api');
 			echo '</p></div>';
@@ -236,8 +237,8 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 	<h4><i class="dashicons dashicons-megaphone" alt="f488" style="max-width:90%"></i> <?php _e('News', 'mz-mindbody-api')?></h4>
 	<p><?php _e('Now supports multiple locations and MBO accounts.', 'mz-mindbody-api')?><p>
 	<hr/>
-	<h4><?php _e("Customization requests invited, and there's an ADVANCED VERSION of the plugin which integrates MBO class registration without leaving the WP site.", 'mz-mindbody-api')?>
-	</h4>
+	<h4>Advanced Version. Customization requests welcome.</h4>
+	<?php $not_used_text = __("Customization requests invited, and there's an ADVANCED VERSION of the plugin which integrates MBO class registration without leaving the WP site.", 'mz-mindbody-api')?>
 	</div>
 	<?php
 	}
@@ -260,8 +261,10 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 	// Display and fill the form field
 	function mz_mindbody_source_name() {
 		// get option 'mz_source_name' value from the database
+
 		$options = get_option( 'mz_mindbody_options',__('Option Not Set', 'mz-mindbody-api') );
 		$mz_source_name = (isset($options['mz_source_name'])) ? $options['mz_source_name'] : __('YOUR SOURCE NAME', 'mz-mindbody-api');
+
 		// echo the field
 		echo "<input id='mz_source_name' name='mz_mindbody_options[mz_source_name]' type='text' value='$mz_source_name' />";
 	}

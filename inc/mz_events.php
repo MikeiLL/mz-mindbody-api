@@ -1,5 +1,4 @@
-<?php
-function mZ_mindbody_show_events ($atts, $account=0)
+<?php function mZ_mindbody_show_events ($atts, $account=0)
 {
  	require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
 
@@ -60,19 +59,18 @@ function mZ_mindbody_show_events ($atts, $account=0)
         
 		if(!empty($mz_event_data['GetClassesResult']['Classes']['Class']))
 		{
-			$number_of_events = count($mz_event_data['GetClassesResult']['Classes']['Class']);
-			
+			$classes = $mb->makeNumericArray($mz_event_data['GetClassesResult']['Classes']['Class']);
+			$classes = sortClassesByDate($classes, $time_format);
+			$number_of_events = count($classes);
+			$return .= '<p>' .$mz_event_calendar_duration .' '. __('Day Event Calendar');
+			$return .=  ' '. date_i18n($date_format, strtotime($mz_timeframe['StartDateTime']));
+			$return .= ' - ';
+			$return .= date_i18n($date_format, strtotime($mz_timeframe['EndDateTime'])).'</p>';
 			if ($number_of_events >= 1)
 			{
-				$return .= '<p>' .$mz_event_calendar_duration .' '. __('Day Event Calendar');
-				$return .=  ' '. date_i18n($date_format, strtotime($mz_timeframe['StartDateTime']));
-				$return .= ' - ';
-				$return .= date_i18n($date_format, strtotime($mz_timeframe['EndDateTime'])).'</p>';
 				//TODO Make this work - displaying number 20 with one event (correct on first page with 5 events).
 				//$return .= ': ' . $number_of_events . ' '.__('event(s)').'</p>';
 
-				$classes = $mb->makeNumericArray($mz_event_data['GetClassesResult']['Classes']['Class']);
-				$classes = sortClassesByDate($classes, $time_format);
                 $return .= mz_mbo_schedule_nav($mz_date, "Events", $mz_event_calendar_duration);
 				$return .= '<div class="mz_mindbody_events">';
 				$return .= '<table class="table mz_mindbody_events">';
@@ -110,9 +108,21 @@ function mZ_mindbody_show_events ($atts, $account=0)
 							$return .= "<h3>$className</h3>";
 
 							$clientID = isset($_SESSION['GUID']) ? $_SESSION['client']['ID'] : '';
-							$return .= '<a class="btn btn-success" href="' . $eventLinkURL . '">' . $global_strings['sign_up'] . '</a>';
-							$return .= '<p class="mz_event_staff_name">'.$global_strings['with'] . '&nbsp;' . $staffName.'</p>';							
-
+							$add_to_class_nonce = wp_create_nonce( 'mz_MBO_add_to_class_nonce');
+							if ($clientID == ''){
+								 $return .= $isAvailable ? '<br/><a class="btn mz_add_to_class" href="'.home_url().
+								 '/login">'.__('Login to Sign-up', 'mz-mindbody-api') . '</a>' : '';
+								  }else{
+							  $return .= $isAvailable ? '<br/><a id="mz_add_to_class" class="btn mz_add_to_class"' 
+								. ' data-nonce="' . $add_to_class_nonce 
+								. '" data-classID="' . $sclassid  
+								. '" data-clientID="' . $clientID 
+								. '">' .
+							  '<span class="signup">'. $global_strings['sign_up'] . '</span><span class="count" style="display:none">0</span></a>': '';
+							  }
+							$return .= '<br/><div id="visitMBO" class="btn visitMBO" style="display:none">';
+							$return .= '<a href="'.$eventLinkURL.'" target="_blank">Manage on MindBody Site</a></div>';
+							$return .= '<p class="mz_event_staff_name">'.$global_strings['with'] . $staffName.'</p>';						
 							$return .= '<h4 class="mz_event_staff">'.$day_and_date.', ' . date_i18n('g:i a', strtotime($startDateTime)).' - ';
 							$return .= date_i18n('g:i a', strtotime($endDateTime)) . '</h4>';
 
@@ -145,7 +155,6 @@ function mZ_mindbody_show_events ($atts, $account=0)
 				$return .= ' - ';
 				$return .= date_i18n($mz_date_display, strtotime($mz_timeframe['EndDateTime']));
 				$return .= '<h3>' . __('No events published', 'mz-mindbody-api') . '. </h3>';
-				$return .= mz_mbo_schedule_nav($mz_date, _n("Event", "Events", 'mz-mindbody-api'), $mz_event_calendar_duration);
 				//$return .= '<pre>'.print_r($mz_event_data,1).'</pre>';
 			}
 
