@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: mindbody, schedule, calendar, yoga, MBO, mindbodyonline, gym
 Requires at least: 3.0.1
 Tested up to: 4.2
-Stable tag: 2.0
+Stable tag: 2.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -56,7 +56,9 @@ You need to register a developer account with MindBody, which costs $5+ per webs
 
 = 2.0.0 =
 This release includes the most new features and also uses a more minimal version of bootstrap code:
-just the necessary components.
+just the necessary components. New jQuery filter, grid mode schedule view, configurable event cycle duration,
+multiple accounts and locations can be shown also via shortcode attributes.
+Internationalized - so far Spanish and Portuguese.
 
 = 1.6 =
 Fix some HTML validation errors in schedule table layout. 
