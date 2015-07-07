@@ -125,12 +125,12 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 	// Draw the section header
 	function mz_mindbody_server_check() {
 		$mz_requirements = 0;
-		if (version_compare(phpversion(), '5.3.10', '<')) {
+/*		if (version_compare(phpversion(), '5.3.10', '<')) {
 			echo '<h2>';
     		_e('Sorry but this plugin requires php version 5.3.10 or greater.', 'mz-mindbody-api'); // php version isn't high enough
     		echo '</h2>';
     		die();
-		}
+		}*/
 		require_once 'System.php';
 
 		if (extension_loaded('soap'))
