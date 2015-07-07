@@ -73,6 +73,7 @@ $(document).ready(function() {
             highlightClass: 'alt',
             inputType: 'search',
             label: mz_mindbody_api_i18n.label,
+            quickListClass: 'mz_quick_filter',
             quickList: [mz_mindbody_api_i18n.quick_1, mz_mindbody_api_i18n.quick_2, mz_mindbody_api_i18n.quick_3]
         });
         stripeTable($('table.mz-schedule-filter')); //stripe the table for the first time
