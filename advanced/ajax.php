@@ -1,6 +1,9 @@
 <?php
 // Ajax
  define('MZ_MBO_JS_VERSION', '1.0');
+
+//Force page protocol to match current
+$protocol = isset( $_SERVER["HTTPS"]) ? 'https://' : 'http://';
  
  //Enqueue script in footer
  //add_action('init', 'register_ajax_mbo_add_to_classes_js');

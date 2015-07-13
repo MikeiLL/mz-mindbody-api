@@ -2,7 +2,7 @@
 /**
 Plugin Name: Advanced mZoo Mindbody Interface - Schedule, Events, Staff Display
 Description: Interface Wordpress with MindbodyOnline data with Bootstrap Responsive Layout
-Version: 2.0.1
+Version: 2.1.0
 Author: mZoo.org
 Author URI: http://www.mZoo.org/
 Plugin URI: http://www.mzoo.org/mz-mindbody-wp
@@ -11,6 +11,10 @@ Domain Path: /languages
 Utilizing on API written by Devin Crossman.
 */
 
+if ( !defined( 'WPINC' ) ) {
+    die;
+}
+
 //define plugin path and directory
 define( 'MZ_MINDBODY_SCHEDULE_DIR', plugin_dir_path( __FILE__ ) );
 define( 'MZ_MINDBODY_SCHEDULE_URL', plugin_dir_url( __FILE__ ) );
@@ -18,6 +22,167 @@ define( 'MZ_MINDBODY_SCHEDULE_URL', plugin_dir_url( __FILE__ ) );
 //register activation and deactivation hooks
 register_activation_hook(__FILE__, 'mZ_mindbody_schedule_activation');
 register_deactivation_hook(__FILE__, 'mZ_mindbody_schedule_deactivation');
+
+class MZ_Mindbody_API_Admin {
+    
+    protected $version;
+ 
+    public function __construct( $version ) {
+        $this->version = $version;
+        $this->load_sections();
+        }
+        
+    public function load_sections() {
+        require_once MZ_MINDBODY_SCHEDULE_DIR .'lib/sections.php';
+        }
+}
+
+class MZ_Mindbody_API_Loader {
+ 
+protected $actions;
+ 
+    protected $filters;
+ 
+    public function __construct() {
+ 
+        $this->actions = array();
+        $this->filters = array();
+     
+    }
+ 
+    public function add_action( $hook, $component, $callback ) {
+        $this->actions = $this->add( $this->actions, $hook, $component, $callback );
+    }
+ 
+    public function add_filter( $hook, $component, $callback ) {
+        $this->filters = $this->add( $this->filters, $hook, $component, $callback );
+    }
+ 
+    private function add( $hooks, $hook, $component, $callback ) {
+ 
+        $hooks[] = array(
+            'hook'      => $hook,
+            'component' => $component,
+            'callback'  => $callback
+        );
+ 
+        return $hooks;
+ 
+    }
+ 
+    public function run() {
+ 
+        foreach ( $this->filters as $hook ) {
+            add_filter( $hook['hook'], array( $hook['component'], $hook['callback'] ) );
+        }
+ 
+        foreach ( $this->actions as $hook ) {
+            add_action( $hook['hook'], array( $hook['component'], $hook['callback'] ) );
+        }
+ 
+    }
+ 
+}
+
+class MZ_Mindbody_API {
+ 
+    protected $loader;
+ 
+    protected $plugin_slug;
+ 
+    protected $version;
+ 
+    public function __construct() {
+ 
+        $this->plugin_slug = 'mz-mindbody-api';
+        $this->version = '2.1.0';
+ 
+        $this->load_dependencies();
+        $this->define_main_hooks();
+        $this->add_shortcodes();
+ 
+    }
+ 
+    private function load_dependencies() {
+    
+ 		//Advanced Includes
+		foreach ( glob( plugin_dir_path( __FILE__ )."advanced/*.php" ) as $file )
+        	include_once $file;
+        	
+        include_once(dirname( __FILE__ ) . '/mindbody-php-api/MB_API.php');
+
+		foreach ( glob( plugin_dir_path( __FILE__ )."inc/*.php" ) as $file )
+			include_once $file;
+			
+		if (phpversion() >= 5.3) {
+			include_once('php_variants/sort_newer.php');
+			}else{
+			include_once('php_variants/sort_older.php');
+			}
+	
+		//Functions
+
+		require_once MZ_MINDBODY_SCHEDULE_DIR .'lib/functions.php';
+        	
+        $this->loader = new MZ_Mindbody_API_Loader();
+    }
+ 
+    private function define_admin_hooks() {
+ 
+        $admin = new MZ_Mindbody_API_Admin( $this->get_version() );
+        $this->loader->add_action( 'admin_enqueue_scripts', $admin, 'enqueue_styles' );
+        $this->loader->add_action( 'add_meta_boxes', $admin, 'add_meta_box' );
+    }
+    
+    private function define_main_hooks() {
+ 
+        $this->loader->add_action( 'init', $this, 'myStartSession' );
+        $this->loader->add_action( 'wp_logout', $this, 'myStartSession' );
+        $this->loader->add_action( 'wp_login', $this, 'myEndSession' );
+        
+        }
+        
+        /*
+        add_action('init', 'myStartSession', 1);
+    	add_action('wp_logout', 'myEndSession');
+    	add_action('wp_login', 'myEndSession');
+    	*/
+
+    public function myStartSession() {
+			if ((function_exists('session_status') && session_status() !== PHP_SESSION_ACTIVE) || !session_id()) {
+				  session_start();
+				}
+		}
+
+    private function myEndSession() {
+			session_destroy ();
+		}
+ 
+ 	private function add_shortcodes() {
+ 	
+ 		$schedule_display = new MZ_Mindbody_Schedule_Display();
+ 		$mz_staff = new MZ_MBO_Staff();
+ 		$mz_events = new MZ_MBO_Events();
+ 		$mz_clients = new MZ_MBO_Clients();
+ 		
+        add_shortcode('mz-mindbody-show-schedule', array($schedule_display, 'mZ_mindbody_show_schedule'));
+        add_shortcode('mz-mindbody-staff-list', array($mz_staff, 'mZ_mindbody_staff_listing'));
+        add_shortcode('mz-mindbody-show-events', array($mz_events, 'mZ_mindbody_show_events'));
+        add_shortcode('mz-mindbody-login', array($mz_clients, 'mZ_mindbody_login'));
+        add_shortcode('mz-mindbody-logout', array($mz_clients, 'mZ_mindbody_logout'));
+        add_shortcode('mz-mindbody-signup', array($mz_clients, 'mZ_mindbody_signup'));
+
+    }
+ 
+    public function run() {
+        $this->loader->run();
+    }
+ 
+    public function get_version() {
+        return $this->version;
+    }
+ 
+}
 
 function mZ_MBO_load_plugin_textdomain() {
 	load_plugin_textdomain('mz-mindbody-api',false,dirname(plugin_basename(__FILE__)) . '/languages');
@@ -110,62 +275,31 @@ class mZ_Mindbody_day_schedule extends WP_Widget {
     }
 }
 
-//Force page protocol to match current
-$protocol = isset( $_SERVER["HTTPS"]) ? 'https://' : 'http://';
 
-//Advanced Includes
-	foreach ( glob( plugin_dir_path( __FILE__ )."advanced/*.php" ) as $file )
-        include_once $file;
     
 if ( is_admin() )
 {     
-    //Sections
-	require_once MZ_MINDBODY_SCHEDULE_DIR .'lib/sections.php';
+	$admin_backend = new MZ_Mindbody_API_Admin('2.1.0');
 }
 else
 {// non-admin enqueues, actions, and filters
 
-    add_action('init', 'myStartSession', 1);
-    add_action('wp_logout', 'myEndSession');
-    add_action('wp_login', 'myEndSession');
-
-    function myStartSession() {
-    	if ((function_exists('session_status') && session_status() !== PHP_SESSION_ACTIVE) || !session_id()) {
-			  session_start();
-			}
-    }
-
-    function myEndSession() {
-        session_destroy ();
-    }
+function run_mz_mindbody_schedule_api() {
+ 
+    $mz_mbo = new MZ_Mindbody_API();
+    $mz_mbo->run();
+ 
+}
+ 
+run_mz_mindbody_schedule_api();
 	
-  
-	function load_jquery() {
+/*	function load_jquery() {
 		wp_enqueue_script( 'jquery' );
 	}
 	add_action( 'wp_enqueue_script', 'load_jquery' );
+	*/
 	
-	include_once(dirname( __FILE__ ) . '/mindbody-php-api/MB_API.php');
-
-	foreach ( glob( plugin_dir_path( __FILE__ )."inc/*.php" ) as $file )
-        include_once $file;
-
-	add_shortcode('mz-mindbody-show-schedule', 'mZ_mindbody_show_schedule');
-	add_shortcode('mz-mindbody-show-events', 'mZ_mindbody_show_events' );
-	add_shortcode('mz-mindbody-staff-list', 'mZ_mindbody_staff_listing' );
-	add_shortcode('mz-mindbody-login', 'mZ_mindbody_login' );
-	add_shortcode('mz-mindbody-logout', 'mZ_mindbody_logout');
-	add_shortcode('mz-mindbody-signup', 'mZ_mindbody_signup' );
-	add_shortcode('mz-mindbody-add-to-classes', 'mz_mindbody_add_to_classes' );
 }//EOF Not Admin
 
-if (phpversion() >= 5.3) {
-    include_once('php_variants/sort_newer.php');
-    }else{
-    include_once('php_variants/sort_older.php');
-    }
-    
-	//Functions
 
-	require_once MZ_MINDBODY_SCHEDULE_DIR .'lib/functions.php';
 ?>
