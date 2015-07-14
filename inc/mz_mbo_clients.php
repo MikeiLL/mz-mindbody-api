@@ -2,12 +2,18 @@
 
 class MZ_MBO_Clients {
 
+	private $mb;
+
+	public function __construct(){
+		require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
+		$this->mbo = new MZ_Mindbody_Init();
+		$this->mb = instantiate_mbo_API();;
+	}
+
 	public function mZ_mindbody_login() {
 
-	require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
-
 		if(!empty($_POST)) {
-			$validateLogin = $mb->ValidateLogin(array(
+			$validateLogin = $this->mb->ValidateLogin(array(
 				'Username' => $_POST['username'],
 				'Password' => $_POST['password']
 			));
@@ -26,7 +32,7 @@ class MZ_MBO_Clients {
 				return $this->displayLoginForm();
 			}
 		} else if(empty($_SESSION['GUID'])) {
-			return displayLoginForm();
+			return $this->displayLoginForm();
 		} else {
 			return $this->displayWelcome();
 		}
@@ -62,7 +68,7 @@ EOD;
 		echo '<a href="'.home_url().'/'.$logout_url.'" class="btn mz_add_to_class">'.$logout.'</a>';
 		}
 		
-	private function mZ_mindbody_logout() {
+	public function mZ_mindbody_logout() {
 		if (phpversion() >= 5.4) {
 				if (session_status() == PHP_SESSION_NONE) {
 					session_start();
@@ -91,8 +97,6 @@ EOD;
 		}
 		
 	public function mZ_mindbody_signup() {
-	
-	require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
 
 	if(!empty($_POST['website_url'])){
 		echo '<h1>'. __('Die Robot Spam!', 'mz-mindbody-api') . '</h1>';
@@ -110,10 +114,10 @@ EOD;
 				'Client'=>$_POST['data']['Client']
 			)
 		);
-		$signupData = $mb->AddOrUpdateClients($options);
+		$signupData = $this->mb->AddOrUpdateClients($options);
 	
 		if($signupData['AddOrUpdateClientsResult']['Clients']['Client']['Action'] == 'Added') {
-			$validateLogin = $mb->ValidateLogin(array(
+			$validateLogin = $this->mb->ValidateLogin(array(
 				'Username' => $_POST['data']['Client']['Username'],
 				'Password' => $_POST['data']['Client']['Password']
 			));
@@ -126,7 +130,7 @@ EOD;
 			//header('location:index.php');
 		}
 	}
-	$requiredFields = $mb->GetRequiredClientFields();
+	$requiredFields = $this->mb->GetRequiredClientFields();
 
 	if(!empty($requiredFields['GetRequiredClientFieldsResult']['RequiredClientFields']['string'])) {
 		$requiredFields = $this->makeNumericArray($requiredFields['GetRequiredClientFieldsResult']['RequiredClientFields']['string']);
