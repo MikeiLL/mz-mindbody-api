@@ -35,7 +35,10 @@ $protocol = isset( $_SERVER["HTTPS"]) ? 'https://' : 'http://';
   	check_ajax_referer( $_REQUEST['nonce'], "mz_MBO_add_to_class_nonce", false);
   	
  	require_once MZ_MINDBODY_SCHEDULE_DIR .'mindbody-php-api/MB_API.php';
- 	require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
+ 	add_action('wp_loaded', function () {
+			require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
+			$mz_mbo = new MZ_MBO_Init();
+		});
  
  	$additions['ClassIDs'] = array($_REQUEST['classID']);
  	$additions['ClientIDs'] = array($_REQUEST['clientID']);

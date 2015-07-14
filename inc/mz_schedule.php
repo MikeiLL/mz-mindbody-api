@@ -1,16 +1,25 @@
 <?php
-
+	
 class MZ_Mindbody_Schedule_Display {
-
-	protected $counter;
+	
+	private $mz_date_display = "D F d";
+	private $my_options;
+	private $mz_event_calendar_duration;
+	private $time_format;
+	private $date_format;
 	
 	public function __construct(){
-		$this->counter = 0;
+		require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
+		$this->options = get_option('mz_mindbody_options');
+		$this->mz_event_calendar_duration = isset($options['mz_mindbody_eventsDuration']) ? $options['mz_mindbody_eventsDuration'] : '60';
+		$this->time_format = get_option('time_format');
+		$this->date_format = get_option('date_format');
 	}
+	
+	
 
 	public function mZ_mindbody_show_schedule( $atts, $account=0 )
 	{
-		require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
 		require_once(MZ_MINDBODY_SCHEDULE_DIR .'/lib/html_table.class.php');
 
 		global $add_mz_ajax_script;
@@ -90,9 +99,9 @@ class MZ_Mindbody_Schedule_Display {
 			$mz_days = $this->makeNumericArray($mz_schedule_data['GetClassesResult']['Classes']['Class']);
 		
 			if ($grid == 0){
-				$mz_days = sortClassesByDate($mz_days, $time_format, $location);
+				$mz_days = sortClassesByDate($mz_days, $this->time_format, $location);
 				}else{
-				$mz_days = sortClassesByTimeThenDay($mz_days, $time_format, $location);
+				$mz_days = sortClassesByTimeThenDay($mz_days, $this->time_format, $location);
 				}
 
 				$return .= '<div id="mz_mbo_schedule" class="mz_mbo_schedule">';
@@ -112,7 +121,7 @@ class MZ_Mindbody_Schedule_Display {
 				// arguments: cell content, class, type (default is 'data' for td, pass 'header' for th)
 				// can include associative array of optional additional attributes
 		
-				$tbl->addCell(date_i18n($mz_date_display, strtotime($classDate)), '', 'header', array('scope'=>'header'));
+				$tbl->addCell(date_i18n($this->mz_date_display, strtotime($classDate)), '', 'header', array('scope'=>'header'));
 				$tbl->addCell(__('Class Name', 'mz-mindbody-api'), '', 'header', array('scope'=>'header'));
 				$tbl->addCell(__('Instructor', 'mz-mindbody-api'), '', 'header', array('scope'=>'header'));
 				$tbl->addCell(__('Class Type', 'mz-mindbody-api'), '', 'header', array('scope'=>'header'));
@@ -152,11 +161,11 @@ class MZ_Mindbody_Schedule_Display {
 						$tbl->addCell($time_of_day, 'hidden', 'data');
 
 						if (isset($isAvailable) && ($isAvailable != 0)) {
-								$tbl->addCell(date_i18n($time_format, strtotime($startDateTime)) . ' - ' . 
-									date_i18n($time_format, strtotime($endDateTime)) .
+								$tbl->addCell(date_i18n($this->time_format, strtotime($startDateTime)) . ' - ' . 
+									date_i18n($this->time_format, strtotime($endDateTime)) .
 									'<br/><a class="btn" href="' . $linkURL . '" target="_blank">' . __('Sign-Up', 'mz-mindbody-api') . '</a>');
 							}else{ 
-								$tbl->addCell(date_i18n($time_format, strtotime($startDateTime)) . ' - ' . 
+								$tbl->addCell(date_i18n($this->time_format, strtotime($startDateTime)) . ' - ' . 
 									date_i18n($time_format, strtotime($endDateTime)));
 									}
 
@@ -184,7 +193,7 @@ class MZ_Mindbody_Schedule_Display {
 
 		}else{
 			//Display grid
-			$week_starting = date_i18n($date_format, strtotime($mz_date)); //
+			$week_starting = date_i18n($this->date_format, strtotime($mz_date)); //
 			$return .= '<h4 class="mz_grid_date">';
 			$return .= sprintf(__('Week of %1$s', 'mz-mindbody-api'), $week_starting);
 			$return .= '</h4>';
