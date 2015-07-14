@@ -20,6 +20,7 @@ class MZ_MBO_Staff {
 	  }
 	  if ( false === ( $staff = get_transient( $mz_staff_cache ) ) )
 	  {
+	  	$mb = instantiate_mbo_API();
 		if ($account == 0) {
 				//Send the timeframe to the GetClasses class, unless already cached
 				$staff = $mb->GetStaff();

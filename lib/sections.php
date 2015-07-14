@@ -170,6 +170,7 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 	}
 
 	function mz_mindbody_section_text() { 
+		require_once(MZ_MINDBODY_SCHEDULE_DIR .'/lib/functions.php');
 		$globals = new Global_Strings();
 		$global_strings = $globals->translate_them();
 		$password = $global_strings['password'];
@@ -253,6 +254,7 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 	  '<code>&lt;ErrorCode&gt;200&lt;/ErrorCode&gt;</code>');
 	  echo "</p>";
 	  $mz_timeframe = array_slice(mz_getDateRange(date_i18n('Y-m-d'), 1), 0, 1);
+	  $mb = instantiate_mbo_API();
 	  $test = $mb->GetClasses($mz_timeframe);
 	  $mb->debug();
 	  echo "<br/>";

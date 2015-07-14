@@ -63,6 +63,9 @@ class MZ_Mindbody_Schedule_Display {
 		}
 		if (isset($_GET) || ( false === ( $mz_schedule_data = get_transient( $mz_schedule_cache ) ) ) ) {
 		//Send the timeframe to the GetClasses class, unless already cached
+		
+		$mb = instantiate_mbo_API();
+		
 		if ($account == 0) {
 			$mz_schedule_data = $mb->GetClasses($mz_timeframe);
 			}else{
@@ -308,8 +311,10 @@ class MZ_Mindbody_Schedule_Display {
 				$return .= '<pre>'.print_r($mz_schedule_data,1).'</pre>';
 			}
 		}//EOF If Result / Else
+		
+		set_transient('mz_schedule_display', $return, 60 * 60 * 24);
 
-		return $return;
+		return get_transient( 'mz_schedule_display' );
 
 	}//EOF mZ_show_schedule
 	

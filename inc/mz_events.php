@@ -16,7 +16,8 @@ class MZ_MBO_Events {
 				), $atts );
 		$location = $atts['location'];
 		$account = $atts['account'];
-			
+		
+		$options = get_option( 'mz_mindbody_options' );
 		// grab session type IDs for events
 		$mz_sessions = array($options['mz_mindbody_eventID']);
 
@@ -45,6 +46,7 @@ class MZ_MBO_Events {
 
 			if ( false === ( $mz_event_data = get_transient( $mz_events_cache ) ) )
 			{
+				$mb = instantiate_mbo_API();
 				if ($account == 0) {
 				$mz_schedule_data = $mb->GetClasses($mz_timeframe);
 			}else{
