@@ -53,12 +53,12 @@ class MZ_Mindbody_Schedule_Display {
 		if ($type==__('day', 'mz-mindbody-api'))
 		{
 			$mz_timeframe = array_slice(mz_getDateRange($mz_date, 1), 0, 1);
-			$mz_schedule_cache = "mz_schedule_day_cache";
+			$mz_schedule_cache = "mz_schedule_day_cache_" . mt_rand(1, 10);
 		}
 		else
 		{   
 			$mz_timeframe = array_slice(mz_getDateRange($mz_date, 7), 0, 1);
-			$mz_schedule_cache = "mz_schedule_week_cache";
+			$mz_schedule_cache = "mz_schedule_week_cache_" . mt_rand(1, 10);
 		}
 
 		//While we still need to support php 5.2 and can't use [0] on above
@@ -69,28 +69,28 @@ class MZ_Mindbody_Schedule_Display {
 
 		if ( $mz_cache_reset == "on" ){
 			delete_transient( $mz_schedule_cache );
-			delete_transient( $mz_schedule_cache );
 		}
 		
 		$mz_schedule_data = get_transient( $mz_schedule_cache );
-		mz_pr(( false === $mz_schedule_data ));
-		if (isset($_GET['mz_date']) || ( false === $mz_schedule_data ) ){
+		mz_pr(( '' == $mz_schedule_data ));
+		if (isset($_GET['mz_date']) || ( '' == $mz_schedule_data ) ){
 		//Send the timeframe to the GetClasses class, unless already cached
+			
 		
-		$mb = instantiate_mbo_API();
+			$mb = instantiate_mbo_API();
 		
-		if ($account == 0) {
-			$mz_schedule_data = $mb->GetClasses($mz_timeframe);
-			}else{
-			$mb->sourceCredentials['SiteIDs'][0] = $account; 
-			$mz_schedule_data = $mb->GetClasses($mz_timeframe);
-			}
+			if ($account == 0) {
+				$mz_schedule_data = $mb->GetClasses($mz_timeframe);
+				}else{
+				$mb->sourceCredentials['SiteIDs'][0] = $account; 
+				$mz_schedule_data = $mb->GetClasses($mz_timeframe);
+				}
+
+			//Cache the mindbody call for 24 hours
+			// TODO make cache timeout configurable.
+			set_transient($mz_schedule_cache, $mz_schedule_data, 60 * 60 * 24);
+			
 		}
-		//mz_pr($mz_schedule_data);
-		//Cache the mindbody call for 24 hours
-		// TODO make cache timeout configurable.
-		set_transient($mz_schedule_cache, $mz_schedule_data, 60 * 60 * 24);
-		// END caching
 
 		$return = '';
 
@@ -166,7 +166,7 @@ class MZ_Mindbody_Schedule_Display {
 									'<br/><a class="btn" href="' . $linkURL . '" target="_blank">' . __('Sign-Up', 'mz-mindbody-api') . '</a>');
 							}else{ 
 								$tbl->addCell(date_i18n($this->time_format, strtotime($startDateTime)) . ' - ' . 
-									date_i18n($time_format, strtotime($endDateTime)));
+									date_i18n($this->time_format, strtotime($endDateTime)));
 									}
 
 						$tbl->addCell(
@@ -324,9 +324,11 @@ class MZ_Mindbody_Schedule_Display {
 			}
 		}//EOF If Result / Else
 		
-		set_transient('mz_schedule_display', $return, 60 * 60 * 24);
+		$mz_schedule_display = 'mz_schedule_display_' . mt_rand(1, 1000000);
+		mz_pr($mz_schedule_display);
+		set_transient($mz_schedule_display, $return, 60 * 60 * 24);
 
-		return get_transient( 'mz_schedule_display' );
+		return get_transient( $mz_schedule_display );
 
 	}//EOF mZ_show_schedule
 	
