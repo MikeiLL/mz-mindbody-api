@@ -61,6 +61,7 @@ class MZ_Mindbody_Schedule_Display {
 		if ( $mz_cache_reset == "on" ){
 			delete_transient( $mz_schedule_cache );
 		}
+		mz_pr($_GET);
 		if (isset($_GET) || ( false === ( $mz_schedule_data = get_transient( $mz_schedule_cache ) ) ) ) {
 		//Send the timeframe to the GetClasses class, unless already cached
 		
@@ -180,8 +181,7 @@ class MZ_Mindbody_Schedule_Display {
 
 		}else{
 			//Display grid
-
-			$week_starting = date_i18n($date_format, strtotime('last monday'));
+			$week_starting = date_i18n($date_format, strtotime($mz_date)); //
 			$return .= '<h4 class="mz_grid_date">';
 			$return .= sprintf(__('Week of %1$s', 'mz-mindbody-api'), $week_starting);
 			$return .= '</h4>';
