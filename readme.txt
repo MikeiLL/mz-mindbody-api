@@ -1,10 +1,10 @@
 === MZ Mindbody API ===
 Contributors: mikeill, rtzee
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A95ZEELLHGECE
-Tags: mindbody, schedule, calendar, yoga, soap, pear
+Tags: mindbody, schedule, calendar, yoga, MBO, mindbodyonline, gym
 Requires at least: 3.0.1
-Tested up to: 4.1
-Stable tag: 1.6
+Tested up to: 4.2
+Stable tag: 2.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -30,22 +30,15 @@ Steps to install and configure MZ Mindbody API:
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. Follow instructions at [mZoo.org](http://www.mzoo.org/creating-your-mindbody-credentials).
 4. In the WP Admin panel go to: Settings -> MZ Mindbody and configure settings
-5. It will probably be necessary to add .css either in child theme or elsewhere:
-
-    `.modal-sm {
-    background-color: #fff;
-    }`
+5. This plugin includes some minimal CSS which you can override in theme.
+6. Also includes some bootstrap css so check there if conflicts arise.
 
 == Frequently Asked Questions ==
-
-= Seriously, have you ever made a plugin before? =
-
-This is the first released one, so please be gentle.
 
 = One of the elements I need to fill is are the *Event IDs*. Can you help me learn where to find those? =
 
 I'm not sure if there's an easier way, but you can find them by, within MindBody,
-going to and Event EDIT page and viewing the source of the Dropdown menu items, which
+going to an Event EDIT page and viewing the source of the Dropdown menu items, which
 contain the name of each event type and it's associated ID number.
 
 == Why am I getting "Permission denied" and "Invalid Argument" errors? ==
@@ -60,6 +53,12 @@ You need to register a developer account with MindBody, which costs $5+ per webs
 4. Admin Page
 
 == Changelog ==
+
+= 2.0.0 =
+This release includes the most new features and also uses a more minimal version of bootstrap code:
+just the necessary components. New jQuery filter, grid mode schedule view, configurable event cycle duration,
+multiple accounts and locations can be shown also via shortcode attributes.
+Internationalized - so far Spanish and Portuguese.
 
 = 1.6 =
 Fix some HTML validation errors in schedule table layout. 
@@ -80,6 +79,11 @@ Fix navigation on Schedule page when Force Cache not selected.
 Initial release.
 
 == Upgrade Notice ==
+
+= 2.0.0 =
+New jQuery filter, grid mode schedule view, configurable event cycle duration,
+multiple accounts and locations can be shown also via shortcode attributes.
+Internationalized - so far Spanish and Portuguese.
 
 = 1.6 =
 Add Today's Schedule widget - must be only MBO call on page!

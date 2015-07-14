@@ -1,0 +1,50 @@
+/* 
+We want to do as little as possible here so CSS can be defined in theme.
+*/
+// Automatically injected Bower dependencies via wiredep (never manually edit this block)
+// bower:scss
+@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/_variables.scss";
+@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/mixins/_buttons.scss";
+@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/mixins/_clearfix.scss";
+@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/mixins/_opacity.scss";
+@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/_close.scss";
+@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/mixins/_tab-focus.scss";
+@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/mixins/_table-row.scss";
+@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/mixins/_vendor-prefixes.scss";
+@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/_buttons.scss";
+@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/_modals.scss";
+@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/_tables.scss";
+@import "../../bower_components/font-awesome/scss/_variables.scss";
+@import "../../bower_components/font-awesome/scss/_icons.scss";
+@import "../../bower_components/font-awesome/scss/font-awesome.scss";
+// endbower
+
+		table { border-collapse: collapse; }
+			th, td { padding: 5px; }
+			th { border: 2px solid #999; background-color: #eee; vertical-align: bottom; }
+			td { border-bottom: 1px solid #ccc; border:1px solid #000;}
+
+			/*table.striped tbody tr:nth-child(even) { background-color: #f0f8ff; }*/ /*auto striping gets messed up with hidden rows*/
+			tr.striped { background-color: #f0f8ff; }
+
+			/* filter-table specific styling */
+			td.alt { background-color: #ffc; background-color: rgba(255, 255, 0, 0.2); }
+			td.hidden { display:none; }
+			.red {background:red}
+			.mz_add_to_class { cursor:pointer; }
+		
+		.modal-sm {
+			background-color: #fff;
+		}
+		
+		.filter-table {
+			a { margin-right:.5em;
+				margin-left:.5em;  }
+		}
+		
+		.mz_quick_filter {
+			margin-right:.5em;
+			margin-left:.5em;  
+		}
+		
+		

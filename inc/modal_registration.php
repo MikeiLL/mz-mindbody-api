@@ -1,8 +1,14 @@
 <?php
-if (isset($_GET["classDescription"]))
+if (isset($_GET["clientID"]))
   {
-    $modal_description = $_GET["classDescription"];
-    $modal_name = $_GET["className"];
+    $clientID = $_GET["clientID"];
+    $classID = $_GET["classID"];
+    print_r($_GET);
+    function mz_client_api_call($classID,$clientID){
+	
+	return 1==1;
+}
+mz_client_api_call($classID,$clientID);
 ?>
 <div class="modal-dialog modal-sm">
     <div class="modal-header">
@@ -10,9 +16,10 @@ if (isset($_GET["classDescription"]))
       <h4 class="modal-title" id="mzSmallModalLabel"><?php echo stripslashes($modal_name)?></h4>
     </div>
      <div class="modal-body">
-      <?php echo stripslashes($modal_description)?>
+      Hi, iLL.<?php echo stripslashes($modal_description)?>
     </div>
     <div class="modal-footer">
+      <button id="close" type="button" class="btn btn-xs" data-dismiss="modal">Close</button>
     </div>
 </div>
 <?php } ?>
