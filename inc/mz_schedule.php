@@ -60,9 +60,12 @@ class MZ_Mindbody_Schedule_Display {
 
 		if ( $mz_cache_reset == "on" ){
 			delete_transient( $mz_schedule_cache );
+			delete_transient( $mz_schedule_cache );
 		}
-		mz_pr($_GET);
-		if (isset($_GET) || ( false === ( $mz_schedule_data = get_transient( $mz_schedule_cache ) ) ) ) {
+		
+		$mz_schedule_data = get_transient( $mz_schedule_cache );
+		mz_pr(( false === $mz_schedule_data ));
+		if (isset($_GET['mz_date']) || ( false === $mz_schedule_data ) ){
 		//Send the timeframe to the GetClasses class, unless already cached
 		
 		$mb = instantiate_mbo_API();
@@ -84,7 +87,7 @@ class MZ_Mindbody_Schedule_Display {
 
 		if(!empty($mz_schedule_data['GetClassesResult']['Classes']['Class']))
 		{
-			$mz_days = $mb->makeNumericArray($mz_schedule_data['GetClassesResult']['Classes']['Class']);
+			$mz_days = $this->makeNumericArray($mz_schedule_data['GetClassesResult']['Classes']['Class']);
 		
 			if ($grid == 0){
 				$mz_days = sortClassesByDate($mz_days, $time_format, $location);
@@ -317,6 +320,10 @@ class MZ_Mindbody_Schedule_Display {
 		return get_transient( 'mz_schedule_display' );
 
 	}//EOF mZ_show_schedule
+	
+	public function makeNumericArray($data) {
+		return (isset($data[0])) ? $data : array($data);
+	}
 	
 }// EOF MZ_Mindbody_Schedule_Display Class
 

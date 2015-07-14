@@ -129,7 +129,7 @@ EOD;
 	$requiredFields = $mb->GetRequiredClientFields();
 
 	if(!empty($requiredFields['GetRequiredClientFieldsResult']['RequiredClientFields']['string'])) {
-		$requiredFields = $mb->makeNumericArray($requiredFields['GetRequiredClientFieldsResult']['RequiredClientFields']['string']);
+		$requiredFields = $this->makeNumericArray($requiredFields['GetRequiredClientFieldsResult']['RequiredClientFields']['string']);
 	} else {
 		$requiredFields = false;
 	}
@@ -172,6 +172,9 @@ EOD;
 EOD;
 	}
 
+	public function makeNumericArray($data) {
+		return (isset($data[0])) ? $data : array($data);
+	}
 		
 }//EOF MZ_MBO_Clients
 ?>

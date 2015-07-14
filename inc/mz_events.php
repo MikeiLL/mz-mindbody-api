@@ -43,8 +43,10 @@ class MZ_MBO_Events {
 			{
 				delete_transient( $mz_events_cache );
 			}
-
-			if ( false === ( $mz_event_data = get_transient( $mz_events_cache ) ) )
+			
+			$mz_event_data = get_transient( $mz_events_cache );
+			
+			if ( false === $mz_event_data )
 			{
 				$mb = instantiate_mbo_API();
 				if ($account == 0) {
@@ -58,14 +60,16 @@ class MZ_MBO_Events {
 
 			//Cache the mindbody call for 1 hour
 			// TODO make cache timeout configurable.
+			
 			set_transient($mz_events_cache, $mz_event_data, 60 * 60);
+			
 			// END caching configuration
 			// keep this here
 			//$return .= $mb->debug();
 		
 			if(!empty($mz_event_data['GetClassesResult']['Classes']['Class']))
 			{
-				$classes = $mb->makeNumericArray($mz_event_data['GetClassesResult']['Classes']['Class']);
+				$classes = $this->makeNumericArray($mz_event_data['GetClassesResult']['Classes']['Class']);
 				$classes = sortClassesByDate($classes, $time_format);
 				$number_of_events = count($classes);
 				$return .= '<p>' .$mz_event_calendar_duration .' '. __('Day Event Calendar');
@@ -175,6 +179,10 @@ class MZ_MBO_Events {
 		return $return;
 
 	}//EOF mZ_mindbody_show_events
+	
+	public function makeNumericArray($data) {
+		return (isset($data[0])) ? $data : array($data);
+	}
 
 }//EOF MZ_MBO_Events
 ?>
