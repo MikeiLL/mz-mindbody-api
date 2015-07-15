@@ -1,14 +1,24 @@
 <?php
 /**
-Plugin Name: Advanced mZoo Mindbody Interface - Schedule, Events, Staff Display
-Description: Interface Wordpress with MindbodyOnline data with Bootstrap Responsive Layout
-Version: 2.1.0
-Author: mZoo.org
-Author URI: http://www.mZoo.org/
-Plugin URI: http://www.mzoo.org/mz-mindbody-wp
-Text Domain: mz-mindbody-api
-Domain Path: /languages
-Utilizing on API written by Devin Crossman.
+ * This file contains main plugin class and, defines and plugin loader.
+ *
+ * The mZoo Mindbody Interface plugin utilizes the Devin Crossman Mindbody API
+ * to interface with mindbody's SOAP API. This particular file is responsible for
+ * including the necessary dependencies and starting the plugin.
+ *
+ * @package MZAPI
+ *
+ * @wordpress-plugin
+ * Plugin Name: 	mZoo Mindbody Interface - Schedule, Events, Staff Display
+ * Description: 	Interface Wordpress with MindbodyOnline data with Bootstrap Responsive Layout.
+ * Version: 		2.1.0
+ * Author: 			mZoo.org
+ * Author URI: 		http://www.mZoo.org/
+ * Plugin URI: 		http://www.mzoo.org/mz-mindbody-wp
+ * License:         GPL-2.0+
+ * License URI:     http://www.gnu.org/licenses/gpl-2.0.txt
+ * Text Domain: 	mz-mindbody-api
+ * Domain Path: 	/languages
 */
 
 if ( !defined( 'WPINC' ) ) {
@@ -23,6 +33,16 @@ define( 'MZ_MINDBODY_SCHEDULE_URL', plugin_dir_url( __FILE__ ) );
 register_activation_hook(__FILE__, 'mZ_mindbody_schedule_activation');
 register_deactivation_hook(__FILE__, 'mZ_mindbody_schedule_deactivation');
 
+
+/**
+ * The MZ Mindbody API Admin defines all the functionality for the dashboard
+ * of the plugin.
+ *
+ * This class defines version and loads the actions and functions
+ * that create the dashboard.
+ *
+ * @since    2.1.0
+ */
 class MZ_Mindbody_API_Admin {
     
     protected $version;
@@ -37,27 +57,82 @@ class MZ_Mindbody_API_Admin {
         }
 }
 
+/**
+ * The MZ Mindbody API Loader class is responsible
+ * coordinating most of the actions and filters used in the plugin.
+ *
+ * This class maintains two internal collections - one for actions, one for
+ * hooks - each of which are coordinated through external classes that
+ * register the various hooks through this class. Note that the actions
+ * specific to the admin sections are loaded in /lib/sections.php
+ *
+ * @since    2.1.0
+ */
 class MZ_Mindbody_API_Loader {
+    /**
+     * A reference to the collection of actions used throughout the plugin.
+     *
+     * @access protected
+     * @var    array    $actions    The array of actions that are defined throughout the plugin.
+     */
+    protected $actions;
  
-protected $actions;
- 
+    /**
+     * A reference to the collection of filters used throughout the plugin.
+     *
+     * @access protected
+     * @var    array    $actions    The array of filters that are defined throughout the plugin.
+     */
     protected $filters;
  
+    /**
+     * Instantiates the plugin by setting up the data structures that will
+     * be used to maintain the actions and the filters.
+     */
     public function __construct() {
  
         $this->actions = array();
         $this->filters = array();
-     
-    }
  
+    }
+    
+    /**
+     * Registers the actions with WordPress and the respective objects and
+     * their methods.
+     *
+     * @param  string    $hook        The name of the WordPress hook to which we're registering a callback.
+     * @param  object    $component   The object that contains the method to be called when the hook is fired.
+     * @param  string    $callback    The function that resides on the specified component.
+     */ 
     public function add_action( $hook, $component, $callback ) {
         $this->actions = $this->add( $this->actions, $hook, $component, $callback );
     }
- 
+
+    /**
+     * Registers the filters with WordPress and the respective objects and
+     * their methods.
+     *
+     * @param  string    $hook        The name of the WordPress hook to which we're registering a callback.
+     * @param  object    $component   The object that contains the method to be called when the hook is fired.
+     * @param  string    $callback    The function that resides on the specified component.
+     */ 
     public function add_filter( $hook, $component, $callback ) {
         $this->filters = $this->add( $this->filters, $hook, $component, $callback );
     }
- 
+    
+    /**
+     * Registers the filters with WordPress and the respective objects and
+     * their methods.
+     *
+     * @access private
+     *
+     * @param  array     $hooks       The collection of existing hooks to add to the collection of hooks.
+     * @param  string    $hook        The name of the WordPress hook to which we're registering a callback.
+     * @param  object    $component   The object that contains the method to be called when the hook is fired.
+     * @param  string    $callback    The function that resides on the specified component.
+     *
+     * @return array                  The collection of hooks that are registered with WordPress via this class.
+     */ 
     private function add( $hooks, $hook, $component, $callback ) {
  
         $hooks[] = array(
@@ -70,6 +145,9 @@ protected $actions;
  
     }
  
+     /**
+     * Calls the add methods for above referenced filters and actions and registers them with WordPress.
+     */
     public function run() {
  
         foreach ( $this->filters as $hook ) {
@@ -83,6 +161,7 @@ protected $actions;
     }
  
 }
+
 
 class MZ_Mindbody_API {
  
@@ -141,12 +220,6 @@ class MZ_Mindbody_API {
         $this->loader->add_action( 'wp_login', $this, 'myEndSession' );
         
         }
-        
-        /*
-        add_action('init', 'myStartSession', 1);
-    	add_action('wp_logout', 'myEndSession');
-    	add_action('wp_login', 'myEndSession');
-    	*/
 
     public function myStartSession() {
 			if ((function_exists('session_status') && session_status() !== PHP_SESSION_ACTIVE) || !session_id()) {
@@ -169,8 +242,8 @@ class MZ_Mindbody_API {
         add_shortcode('mz-mindbody-staff-list', array($mz_staff, 'mZ_mindbody_staff_listing'));
         add_shortcode('mz-mindbody-show-events', array($mz_events, 'mZ_mindbody_show_events'));
         add_shortcode('mz-mindbody-login', array($mz_clients, 'mZ_mindbody_login'));
-        add_shortcode('mz-mindbody-logout', array($mz_clients, 'mZ_mindbody_logout'));
         add_shortcode('mz-mindbody-signup', array($mz_clients, 'mZ_mindbody_signup'));
+        add_shortcode('mz-mindbody-logout', array($mz_clients, 'mZ_mindbody_logout'));
 
     }
  

@@ -62,7 +62,7 @@ EOD;
 		echo '<a href="'.home_url().'/'.$logout_url.'" class="btn mz_add_to_class">'.$logout.'</a>';
 		}
 		
-	private function mZ_mindbody_logout() {
+	public function mZ_mindbody_logout() {
 		if (phpversion() >= 5.4) {
 				if (session_status() == PHP_SESSION_NONE) {
 					session_start();
