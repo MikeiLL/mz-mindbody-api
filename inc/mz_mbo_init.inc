@@ -1,13 +1,30 @@
 <?php
+class MZ_Mindbody_Init {
+	
+	public $mz_date_display = "D F d";
+	public $my_options;
+	public $mz_event_calendar_duration;
+	public $time_format;
+	public $date_format;
+	
+	public function __construct(){
+		require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
+		$this->options = get_option('mz_mindbody_options');
+		$this->mz_event_calendar_duration = isset($options['mz_mindbody_eventsDuration']) ? $options['mz_mindbody_eventsDuration'] : '60';
+		$this->time_format = get_option('time_format');
+		$this->date_format = get_option('date_format');
+	}
 
+}
+	
 $mz_date_display = "D F d";
 $options = get_option('mz_mindbody_options');
 $mz_event_calendar_duration = isset($options['mz_mindbody_eventsDuration']) ? $options['mz_mindbody_eventsDuration'] : '60';
 $time_format = get_option('time_format');
 $date_format = get_option('date_format');
-	
+
 function instantiate_mbo_API () {
-	mz_pr("OKAY We ARE DOING IT.");
+	//mz_pr("OKAY We ARE DOING IT.");
 	$options = get_option( 'mz_mindbody_options','Error: Mindbody Credentials Not Set' );
 	if ($options != 'Error: Mindbody Credentials Not Set') {
 		$mb  = new MB_API(array(
