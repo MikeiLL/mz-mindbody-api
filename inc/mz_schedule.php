@@ -54,7 +54,7 @@ class MZ_Mindbody_Schedule_Display {
 		$mz_timeframe = array_pop($mz_timeframe);
 	
 	  // START caching
-	  mz_pr($this->mbo->options['mz_mindbody_clear_cache']);
+
 		$mz_cache_reset = isset($this->mbo->options['mz_mindbody_clear_cache']) ? "on" : "off";
 
 		if ( $mz_cache_reset == "on" ){
@@ -68,15 +68,15 @@ class MZ_Mindbody_Schedule_Display {
    		$results = $wpdb->get_results( $sql );
 
 		foreach ( $results as $result ) {
-				if ( 0 !== strpos($result->name, '_transient_mz_schedule') )
-					delete_transient( $result->name );
+				if ( false !== strpos($result->name, 'mz_schedule') ) {
+					delete_transient( substr($result->name, 11) );
+					}
 			}
-		$this->view_transients ();
 			
 		}
     
 		$mz_schedule_data = get_transient( $mz_schedule_cache );
-		mz_pr(( '' == $mz_schedule_data ));
+
 		if (isset($_GET['mz_date']) || ( '' == $mz_schedule_data ) ){
 		//Send the timeframe to the GetClasses class, unless already cached
 			
@@ -328,8 +328,8 @@ class MZ_Mindbody_Schedule_Display {
 		}//EOF If Result / Else
 		
 		$mz_schedule_display = 'mz_schedule_display_' . mt_rand(1, 1000000);
-		mz_pr($mz_schedule_display);
-		set_transient($mz_schedule_display, $return, 60 * 60 * 24);
+
+		//set_transient($mz_schedule_display, $return, 60 * 60 * 24);
 
 		return $return; //get_transient( $mz_schedule_display );
 
@@ -351,8 +351,24 @@ class MZ_Mindbody_Schedule_Display {
 
 		foreach ( $results as $result )
 		{
+
 			if ( 0 !== strpos($result->name, '_transient_mz_schedule') )
 				$transients['mz_plugin_transient'][ $result->name ] = maybe_unserialize( $result->value );
+				
+			if ( 0 !== strpos( $result->name, '_site_transient_' ) )
+			{
+				if ( 0 === strpos( $result->name, '_site_transient_timeout_') )
+					$transients['site_transient_timeout'][ $result->name ] = $result->value;
+				else
+					$transients['site_transient'][ $result->name ] = maybe_unserialize( $result->value );
+			}
+			else
+			{
+				if ( 0 === strpos( $result->name, '_transient_timeout_') )
+					$transients['transient_timeout'][ $result->name ] = $result->value;
+				else
+					$transients['transient'][ $result->name ] = maybe_unserialize( $result->value );
+			}
 		}
 		print '<pre>$transients = ' . esc_html( var_export( $transients, TRUE ) ) . '</pre>';
 		}
