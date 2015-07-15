@@ -72,7 +72,6 @@ class MZ_Mindbody_Schedule_Display {
 					delete_transient( substr($result->name, 11) );
 					}
 			}
-			
 		}
     
 		$mz_schedule_data = get_transient( $mz_schedule_cache );
