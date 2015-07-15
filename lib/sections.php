@@ -1,4 +1,16 @@
 <?php
+/**
+ * This file contains all the actions and functions to create the admin dashboard sections
+ *
+ * This file contains all the actions and functions to create the admin dashboard sections.
+ * It should probably be refactored to use oop approach at least for the sake of consistency.
+ *
+ * @since 2.1.0
+ *
+ * @package MZMBO
+ * 
+ */
+ 
 add_action ('admin_menu', 'mz_mindbody_settings_menu');
 
 	function mz_mindbody_settings_menu() {
