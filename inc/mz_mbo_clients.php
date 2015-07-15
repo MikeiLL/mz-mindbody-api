@@ -2,12 +2,13 @@
 
 class MZ_MBO_Clients {
 
-	public function mZ_mindbody_login() {
+	private $mb;
 
 	$mb = instantiate_mbo_API();
 
+
 		if(!empty($_POST)) {
-			$validateLogin = $mb->ValidateLogin(array(
+			$validateLogin = $this->mb->ValidateLogin(array(
 				'Username' => $_POST['username'],
 				'Password' => $_POST['password']
 			));
@@ -91,8 +92,6 @@ EOD;
 		}
 		
 	public function mZ_mindbody_signup() {
-	
-	require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
 
 	if(!empty($_POST['website_url'])){
 		echo '<h1>'. __('Die Robot Spam!', 'mz-mindbody-api') . '</h1>';
@@ -110,10 +109,10 @@ EOD;
 				'Client'=>$_POST['data']['Client']
 			)
 		);
-		$signupData = $mb->AddOrUpdateClients($options);
+		$signupData = $this->mb->AddOrUpdateClients($options);
 	
 		if($signupData['AddOrUpdateClientsResult']['Clients']['Client']['Action'] == 'Added') {
-			$validateLogin = $mb->ValidateLogin(array(
+			$validateLogin = $this->mb->ValidateLogin(array(
 				'Username' => $_POST['data']['Client']['Username'],
 				'Password' => $_POST['data']['Client']['Password']
 			));
@@ -130,6 +129,7 @@ EOD;
 	$mb = instantiate_mbo_API();
 	
 	$requiredFields = $mb->GetRequiredClientFields();
+
 
 	if(!empty($requiredFields['GetRequiredClientFieldsResult']['RequiredClientFields']['string'])) {
 		$requiredFields = $this->makeNumericArray($requiredFields['GetRequiredClientFieldsResult']['RequiredClientFields']['string']);

@@ -2,10 +2,13 @@
 
 class MZ_MBO_Staff {
 
+	public function __construct(){
+		require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
+		$this->mbo = new MZ_Mindbody_Init();
+	}
+
 	public function mZ_mindbody_staff_listing($atts, $account=0) {
 	
-	  require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
-
 	  $options = get_option( 'mz_mindbody_options','Option Not Set' );
 	  $mz_cache_reset = isset($options['mz_mindbody_clear_cache']) ? "on" : "off";
 	  $mz_staff_cache = "mz_staff_cache";

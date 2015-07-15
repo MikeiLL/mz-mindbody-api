@@ -23,8 +23,9 @@ $mz_event_calendar_duration = isset($options['mz_mindbody_eventsDuration']) ? $o
 $time_format = get_option('time_format');
 $date_format = get_option('date_format');
 
+
 function instantiate_mbo_API () {
-	mz_pr("OKAY We ARE DOING IT.");
+	//mz_pr("OKAY We ARE DOING IT.");
 	$options = get_option( 'mz_mindbody_options','Error: Mindbody Credentials Not Set' );
 	if ($options != 'Error: Mindbody Credentials Not Set') {
 		$mb  = new MB_API(array(
