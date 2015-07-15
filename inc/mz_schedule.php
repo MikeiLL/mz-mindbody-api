@@ -328,9 +328,9 @@ class MZ_Mindbody_Schedule_Display {
 		
 		$mz_schedule_display = 'mz_schedule_display_' . mt_rand(1, 1000000);
 
-		//set_transient($mz_schedule_display, $return, 60 * 60 * 24);
+		set_transient($mz_schedule_display, $return, 60 * 60 * 24);
 
-		return $return; //get_transient( $mz_schedule_display );
+		return get_transient( $mz_schedule_display );
 
 	}//EOF mZ_show_schedule
 	
