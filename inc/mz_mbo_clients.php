@@ -4,7 +4,7 @@ class MZ_MBO_Clients {
 
 	public function mZ_mindbody_login() {
 
-	require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
+	$mb = instantiate_mbo_API();
 
 		if(!empty($_POST)) {
 			$validateLogin = $mb->ValidateLogin(array(
@@ -26,7 +26,7 @@ class MZ_MBO_Clients {
 				return $this->displayLoginForm();
 			}
 		} else if(empty($_SESSION['GUID'])) {
-			return displayLoginForm();
+			return $this->displayLoginForm();
 		} else {
 			return $this->displayWelcome();
 		}
@@ -126,6 +126,9 @@ EOD;
 			//header('location:index.php');
 		}
 	}
+	
+	$mb = instantiate_mbo_API();
+	
 	$requiredFields = $mb->GetRequiredClientFields();
 
 	if(!empty($requiredFields['GetRequiredClientFieldsResult']['RequiredClientFields']['string'])) {
