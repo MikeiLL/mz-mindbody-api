@@ -1,4 +1,25 @@
 <?php
+/**
+ * This file contains a class that holds some "global" variables and the class that instantiates the MBO object.
+ *
+ * This file contains global variables and the class that instantiates the MBO object. Possible it should be
+ * moved into the lib directory instead of inc, as it's more of a library than an include file. The inc folder
+ * mostly contains files which display something in the browser.
+ *
+ * @since 2.1.0
+ *
+ * @package MZMBO
+ * 
+ */
+ 
+
+/**
+ * The MZ Mindbody Init holds variables which are shared between different view methods.
+ *
+ * 
+ *
+ * @since    2.1.0
+ */
 class MZ_Mindbody_Init {
 	
 	public $mz_date_display = "D F d";
@@ -16,13 +37,6 @@ class MZ_Mindbody_Init {
 	}
 
 }
-	
-$mz_date_display = "D F d";
-$options = get_option('mz_mindbody_options');
-$mz_event_calendar_duration = isset($options['mz_mindbody_eventsDuration']) ? $options['mz_mindbody_eventsDuration'] : '60';
-$time_format = get_option('time_format');
-$date_format = get_option('date_format');
-
 
 function instantiate_mbo_API () {
 	//mz_pr("OKAY We ARE DOING IT.");

@@ -2,9 +2,11 @@
 
 class MZ_MBO_Staff {
 
+	private $mz_mbo_globals;
+	
 	public function __construct(){
 		require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
-		$this->mbo = new MZ_Mindbody_Init();
+		$this->mz_mbo_globals = new MZ_Mindbody_Init();
 	}
 
 	public function mZ_mindbody_staff_listing($atts, $account=0) {
@@ -24,6 +26,7 @@ class MZ_MBO_Staff {
 	  if ( false === ( $staff = get_transient( $mz_staff_cache ) ) )
 	  {
 	  	$mb = instantiate_mbo_API();
+	  	
 		if ($account == 0) {
 				//Send the timeframe to the GetClasses class, unless already cached
 				$staff = $mb->GetStaff();

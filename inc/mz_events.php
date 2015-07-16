@@ -1,6 +1,13 @@
 <?php 
 
 class MZ_MBO_Events {
+
+	private $mz_mbo_globals;
+	
+	public function __construct(){
+		require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
+		$this->mz_mbo_globals = new MZ_Mindbody_Init();
+	}
 	
 	public function mZ_mindbody_show_events ($atts, $account=0) {
 	
@@ -31,7 +38,7 @@ class MZ_MBO_Events {
 		// only make API call if we have sessions set
 		if (!empty($mz_sessions) && ($mz_sessions[0] != 0))
 		{
-			$mz_timeframe = array_slice(mz_getDateRange($mz_date, $mz_event_calendar_duration), 0, 1);
+			$mz_timeframe = array_slice(mz_getDateRange($mz_date, $this->mz_mbo_globals->mz_event_calendar_duration), 0, 1);
 		
 			//While we still need to support php 5.2 and can't use [0] on above
 			$mz_timeframe = array_pop($mz_timeframe);
@@ -75,7 +82,7 @@ class MZ_MBO_Events {
 				$classes = $this->makeNumericArray($mz_event_data['GetClassesResult']['Classes']['Class']);
 				$classes = sortClassesByDate($classes, $time_format);
 				$number_of_events = count($classes);
-				$return .= '<p>' .$mz_event_calendar_duration .' '. __('Day Event Calendar');
+				$return .= '<p>' .$this->mz_mbo_globals->mz_event_calendar_duration .' '. __('Day Event Calendar');
 				$return .=  ' '. date_i18n($date_format, strtotime($mz_timeframe['StartDateTime']));
 				$return .= ' - ';
 				$return .= date_i18n($date_format, strtotime($mz_timeframe['EndDateTime'])).'</p>';
@@ -84,7 +91,7 @@ class MZ_MBO_Events {
 					//TODO Make this work - displaying number 20 with one event (correct on first page with 5 events).
 					//$return .= ': ' . $number_of_events . ' '.__('event(s)').'</p>';
 
-					$return .= mz_mbo_schedule_nav($mz_date, "Events", $mz_event_calendar_duration);
+					$return .= mz_mbo_schedule_nav($mz_date, "Events", $this->mz_mbo_globals->mz_event_calendar_duration);
 					$return .= '<div class="mz_mindbody_events">';
 					$return .= '<table class="table mz_mindbody_events">';
 					$globals = new Global_Strings();
@@ -163,10 +170,10 @@ class MZ_MBO_Events {
 				}
 				else
 				{
-					$return .= '<p>' . sprintf(_n('%1$s Day Event Calendar', '%1$s Day Event Calendar', 'mz-mindbody-api'), $mz_event_calendar_duration);
-					$return .=  ' '. date_i18n($mz_date_display, strtotime($mz_timeframe['StartDateTime']));
+					$return .= '<p>' . sprintf(_n('%1$s Day Event Calendar', '%1$s Day Event Calendar', 'mz-mindbody-api'), $this->mz_mbo_globals->mz_event_calendar_duration);
+					$return .=  ' '. date_i18n($this->mz_mbo_globals->mz_date_display, strtotime($mz_timeframe['StartDateTime']));
 					$return .= ' - ';
-					$return .= date_i18n($mz_date_display, strtotime($mz_timeframe['EndDateTime']));
+					$return .= date_i18n($this->mz_mbo_globals->mz_date_display, strtotime($mz_timeframe['EndDateTime']));
 					$return .= '<h3>' . __('No events published', 'mz-mindbody-api') . '. </h3>';
 					//$return .= '<pre>'.print_r($mz_event_data,1).'</pre>';
 				}
@@ -178,7 +185,7 @@ class MZ_MBO_Events {
 		{
 			$return .= '<h2>'.__('Error: MBO Event Type IDs must be set in Admin Panel', 'mz-mindbody-api').'</h2>';
 		}
-		$return .= mz_mbo_schedule_nav($mz_date, _n("Event", "Events", 'mz-mindbody-api'), $mz_event_calendar_duration);
+		$return .= mz_mbo_schedule_nav($mz_date, _n("Event", "Events", 'mz-mindbody-api'), $this->mz_mbo_globals->mz_event_calendar_duration);
 		return $return;
 
 	}//EOF mZ_mindbody_show_events

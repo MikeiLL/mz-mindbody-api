@@ -2,9 +2,13 @@
 
 class MZ_MBO_Clients {
 
+	private $mz_mbo_globals;
+	private $mb;
+	
 	public function __construct(){
 		require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
-		$this->mbo = new MZ_Mindbody_Init();
+		$this->mz_mbo_globals = new MZ_Mindbody_Init();
+		$this->mb = instantiate_mbo_API();
 	}
 
 	public function mZ_mindbody_login() {
@@ -128,9 +132,7 @@ EOD;
 		}
 	}
 	
-	$mb = instantiate_mbo_API();
-	
-	$requiredFields = $mb->GetRequiredClientFields();
+	$requiredFields = $this->mb->GetRequiredClientFields();
 
 	if(!empty($requiredFields['GetRequiredClientFieldsResult']['RequiredClientFields']['string'])) {
 		$requiredFields = $this->makeNumericArray($requiredFields['GetRequiredClientFieldsResult']['RequiredClientFields']['string']);
