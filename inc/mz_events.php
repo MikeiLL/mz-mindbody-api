@@ -10,11 +10,6 @@ class MZ_MBO_Events {
 	}
 	
 	public function mZ_mindbody_show_events ($atts, $account=0) {
-	
-		add_action('wp_loaded', function () {
-			require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
-			$mz_mbo = new MZ_MBO_Init();
-		});
 
 		//global $add_mz_ajax_script;
 		//$add_mz_ajax_script = true;

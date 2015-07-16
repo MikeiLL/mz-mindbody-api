@@ -8,10 +8,11 @@ class MZ_MBO_Clients {
 	public function __construct(){
 		require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
 		$this->mz_mbo_globals = new MZ_Mindbody_Init();
-		$this->mb = instantiate_mbo_API();
 	}
 
 	public function mZ_mindbody_login() {
+	
+		$this->mb = instantiate_mbo_API();
 
 		if(!empty($_POST)) {
 			$validateLogin = $this->mb->ValidateLogin(array(
@@ -98,6 +99,8 @@ EOD;
 		}
 		
 	public function mZ_mindbody_signup() {
+
+	$this->mb = instantiate_mbo_API();
 
 	if(!empty($_POST['website_url'])){
 		echo '<h1>'. __('Die Robot Spam!', 'mz-mindbody-api') . '</h1>';

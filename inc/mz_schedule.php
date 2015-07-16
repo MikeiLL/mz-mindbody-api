@@ -79,7 +79,6 @@ class MZ_Mindbody_Schedule_Display {
 		$mz_schedule_data = get_transient( $mz_schedule_cache );
 
 		if (isset($_GET['mz_date']) || ( '' == $mz_schedule_data ) ){
-		//Send the timeframe to the GetClasses class, unless already cached
 			/* uncomment line mz_pr("OKAY We ARE DOING IT."); in inc/mz_mbo_init.php
 			 * to see confirmation in broser of if MBO was called with the following 
 			 * line.

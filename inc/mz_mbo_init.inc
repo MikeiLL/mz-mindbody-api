@@ -29,7 +29,6 @@ class MZ_Mindbody_Init {
 	public $date_format;
 	
 	public function __construct(){
-		require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
 		$this->options = get_option('mz_mindbody_options');
 		$this->mz_event_calendar_duration = isset($options['mz_mindbody_eventsDuration']) ? $options['mz_mindbody_eventsDuration'] : '60';
 		$this->time_format = get_option('time_format');
