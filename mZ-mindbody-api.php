@@ -227,7 +227,7 @@ class MZ_Mindbody_API {
 				}
 		}
 
-    private function myEndSession() {
+    public function myEndSession() {
 			session_destroy ();
 		}
  
