@@ -84,7 +84,10 @@ class MZ_Mindbody_Schedule_Display {
 			 * line.
 			*/
 			$mb = instantiate_mbo_API();
-		
+			if ($mb == 'NO_SOAP_SERVICE') {
+				mz_pr($mb);
+				}
+				
 			if ($account == 0) {
 				$mz_schedule_data = $mb->GetClasses($mz_timeframe);
 				}else{
