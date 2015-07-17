@@ -38,7 +38,7 @@ class MZ_Mindbody_Init {
 }
 
 function instantiate_mbo_API () {
-	//mz_pr("OKAY We ARE DOING IT.");
+	mz_pr("OKAY We ARE DOING IT.");
 	$options = get_option( 'mz_mindbody_options','Error: Mindbody Credentials Not Set' );
 	if ($options != 'Error: Mindbody Credentials Not Set') {
 		$mb  = new MB_API(array(

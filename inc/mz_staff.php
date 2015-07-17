@@ -23,23 +23,27 @@ class MZ_MBO_Staff {
 	  if ( $mz_cache_reset == "on" ){
 		delete_transient( $mz_staff_cache );
 	  }
-	  if ( false === ( $staff = get_transient( $mz_staff_cache ) ) )
+	  
+	  $mbo_staff_data = get_transient( $mz_staff_cache );
+	  
+	  if ( '' == $mbo_staff_data )
 	  {
 	  	$mb = instantiate_mbo_API();
 	  	
 		if ($account == 0) {
 				//Send the timeframe to the GetClasses class, unless already cached
-				$staff = $mb->GetStaff();
+				$mbo_staff_data = $mb->GetStaff();
 			}else{
 				$mb->sourceCredentials['SiteIDs'][0] = $account; 
-				$staff = $mb->GetStaff();
+				$mbo_staff_data = $mb->GetStaff();
 			}
+		set_transient( $mz_staff_cache, $mbo_staff_data, 60 * 60 * 24 );
 	
 	  }
 
 	  $return = '';
 
-	  $mz_staff_list = $staff['GetStaffResult']['StaffMembers']['Staff'];
+	  $mz_staff_list = $mbo_staff_data['GetStaffResult']['StaffMembers']['Staff'];
 
 	  // trying to allow sort order from within MBO - not working
 	  //usort($mz_staff_list, $this->sortById());;
