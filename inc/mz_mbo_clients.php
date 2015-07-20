@@ -12,7 +12,7 @@ class MZ_MBO_Clients {
 
 	public function mZ_mindbody_login() {
 	
-		$this->mb = instantiate_mbo_API();
+		$this->mb = MZ_Mindbody_Init::instantiate_mbo_API();
 
 		if(!empty($_POST)) {
 			$validateLogin = $this->mb->ValidateLogin(array(
@@ -100,7 +100,7 @@ EOD;
 		
 	public function mZ_mindbody_signup() {
 
-	$this->mb = instantiate_mbo_API();
+	$this->mb = MZ_Mindbody_Init::instantiate_mbo_API();
 
 	if(!empty($_POST['website_url'])){
 		echo '<h1>'. __('Die Robot Spam!', 'mz-mindbody-api') . '</h1>';

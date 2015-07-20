@@ -155,7 +155,12 @@ class MZ_Mindbody_API_Loader {
         }
  
         foreach ( $this->actions as $hook ) {
-            add_action( $hook['hook'], array( $hook['component'], $hook['callback'] ) );
+        	if (($hook['callback'] == 'instantiate_mbo_API') && ($hook['component'] == 'MZ_Mindbody_Init')) {
+        		add_action( $hook['hook'], array( $hook['component'], $hook['callback'] ) );
+        		mz_pr(MZ_MBO_Instances::$instances_of_MBO);
+        	}else{
+            	add_action( $hook['hook'], array( $hook['component'], $hook['callback'] ) );
+            }
         }
  
     }
@@ -180,6 +185,14 @@ class MZ_Mindbody_API {
         $this->define_main_hooks();
         $this->add_shortcodes();
  
+    }
+    
+    public function whatever() {
+    	$recentPosts = new WP_Query();
+    	$recentPosts->query('showposts=5');
+    	while ($recentPosts->have_posts()) : $recentPosts->the_post();
+    		echo "I'm in here.";
+    	endwhile;
     }
  
     private function load_dependencies() {
@@ -218,6 +231,8 @@ class MZ_Mindbody_API {
         $this->loader->add_action( 'init', $this, 'myStartSession' );
         $this->loader->add_action( 'wp_logout', $this, 'myStartSession' );
         $this->loader->add_action( 'wp_login', $this, 'myEndSession' );
+        $this->loader->add_action( 'wp_head', 'MZ_Mindbody_Init', 'instantiate_mbo_API' );
+        $this->loader->add_action( 'wp_footer', 'MZ_Mindbody_Init', 'instantiate_mbo_API' );
         
         }
 

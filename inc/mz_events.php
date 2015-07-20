@@ -53,7 +53,7 @@ class MZ_MBO_Events {
 			
 			if ( false === $mz_event_data )
 			{
-				$mb = instantiate_mbo_API();
+				$mb = MZ_Mindbody_Init::instantiate_mbo_API();
 				if ($account == 0) {
 				$mz_schedule_data = $mb->GetClasses($mz_timeframe);
 			}else{

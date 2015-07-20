@@ -83,7 +83,7 @@ class MZ_Mindbody_Schedule_Display {
 			 * to see confirmation in broser of if MBO was called with the following 
 			 * line.
 			*/
-			$mb = instantiate_mbo_API();
+			$mb = MZ_Mindbody_Init::instantiate_mbo_API();
 			if ($mb == 'NO_SOAP_SERVICE') {
 				mz_pr($mb);
 				}

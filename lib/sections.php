@@ -266,7 +266,7 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 	  '<code>&lt;ErrorCode&gt;200&lt;/ErrorCode&gt;</code>');
 	  echo "</p>";
 	  $mz_timeframe = array_slice(mz_getDateRange(date_i18n('Y-m-d'), 1), 0, 1);
-	  $mb = instantiate_mbo_API();
+	  $mb = MZ_Mindbody_Init::instantiate_mbo_API();
 	  $test = $mb->GetClasses($mz_timeframe);
 	  $mb->debug();
 	  echo "<br/>";

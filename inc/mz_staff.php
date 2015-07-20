@@ -28,7 +28,7 @@ class MZ_MBO_Staff {
 	  
 	  if ( '' == $mbo_staff_data )
 	  {
-	  	$mb = instantiate_mbo_API();
+	  	$mb = MZ_Mindbody_Init::instantiate_mbo_API();
 	  	
 		if ($account == 0) {
 				//Send the timeframe to the GetClasses class, unless already cached
