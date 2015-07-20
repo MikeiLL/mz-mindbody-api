@@ -15,6 +15,7 @@ class MZ_Mindbody_Schedule_Display {
 
 		global $add_mz_ajax_script;
 		$add_mz_ajax_script = true;
+    
 		// optionally pass in a type parameter. Defaults to week.
 		$atts = shortcode_atts( array(
 			'type' => 'week',

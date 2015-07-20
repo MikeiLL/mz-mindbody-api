@@ -52,8 +52,8 @@ class MZ_Mindbody_Init {
 								'SiteIDs' => array('')
 							)); 
 			}
-		array_push(MZ_MBO_Instances::$instances_of_MBO, $mb);
-		mz_pr(MZ_MBO_Instances::$instances_of_MBO);
+		//array_push(MZ_MBO_Instances::$instances_of_MBO, $mb);
+		return $mb;
 		}
 
 
