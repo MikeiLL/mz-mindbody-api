@@ -20,6 +20,7 @@ class MZ_Mindbody_Schedule_Display {
 		$atts = shortcode_atts( array(
 			'type' => 'week',
 			'location' => '1',
+			'locations' => '',
 			'account' => '0',
 			'filter' => '0',
 			'grid' => '0',
@@ -27,6 +28,7 @@ class MZ_Mindbody_Schedule_Display {
 				), $atts );
 		$type = $atts['type'];
 		$location = $atts['location'];
+		$locations = $atts['locations'];
 		$account = $atts['account'];
 		$filter = $atts['filter'];
 		$grid = $atts['grid'];
@@ -34,6 +36,7 @@ class MZ_Mindbody_Schedule_Display {
 		if (($grid == 1) && ($type == 'day')) {
 			return '<div style="color:red"><h2>'.__('Grid Calendar Incompatible with Single Day Mode!', 'mz_mndbody_api').'</h2></div>';
 		}
+		$locations = explode(', ', $atts['locations']);
 	
 		if ($grid == 0) {
 			$mz_date = empty($_GET['mz_date']) ? date_i18n('Y-m-d') : mz_validate_date($_GET['mz_date']);
@@ -109,9 +112,9 @@ class MZ_Mindbody_Schedule_Display {
 			$mz_days = $this->makeNumericArray($mz_schedule_data['GetClassesResult']['Classes']['Class']);
 		
 			if ($grid == 0){
-				$mz_days = sortClassesByDate($mz_days, $this->mz_mbo_globals->time_format, $location);
+				$mz_days = sortClassesByDate($mz_days, $this->mz_mbo_globals->time_format, $locations);
 				}else{
-				$mz_days = sortClassesByTimeThenDay($mz_days, $this->mz_mbo_globals->time_format, $location);
+				$mz_days = sortClassesByTimeThenDay($mz_days, $this->mz_mbo_globals->time_format, $locations);
 				}
 
 				$return .= '<div id="mz_mbo_schedule" class="mz_mbo_schedule">';
@@ -207,6 +210,11 @@ class MZ_Mindbody_Schedule_Display {
 			$return .= '<h4 class="mz_grid_date">';
 			$return .= sprintf(__('Week of %1$s', 'mz-mindbody-api'), $week_starting);
 			$return .= '</h4>';
+			//$return .= '<select id="location_selector"><option value="0" selected>All Locations</option>';
+			//foreach ($locations as $location){
+			//	$return .= '<option value="'.$location.'">'.$location.'</option>';
+			//}
+			//$return .= '</select>';
 					$tbl->addTSection('thead');
 					$tbl->addRow();
 					// arguments: cell content, class, type (default is 'data' for td, pass 'header' for th)
@@ -219,7 +227,7 @@ class MZ_Mindbody_Schedule_Display {
 					$tbl->addCell(__('Friday', 'mz-mindbody-api'), '', 'header');
 					$tbl->addCell(__('Saturday', 'mz-mindbody-api'), '', 'header');
 					$tbl->addCell(__('Sunday', 'mz-mindbody-api'), '', 'header');
-				
+			
 			$tbl->addTSection('tbody');
 			foreach($mz_days as $classDate => $mz_classes)
 				{   
@@ -246,7 +254,7 @@ class MZ_Mindbody_Schedule_Display {
 							$class_details = '';
 							$num_classes_min_one = count($classes) - 1;
 
-							foreach($classes as $key => $class){	
+							foreach($classes as $key => $class){
 									$className = $class['ClassDescription']['Name'];
 									if(!in_array('teacher', $hide)){
 										$teacher = __('with', 'mz-mindbody-api') . '&nbsp;' . $class['Staff']['Name'] .
@@ -284,22 +292,33 @@ class MZ_Mindbody_Schedule_Display {
 									$sclassidID = $class['ID'];
 									$sType = -7;
 									$isAvailable = $class['IsAvailable'];
+									if (count($locations) > 1) {
+										$locationName = $class['Location']['Name'];
+										$location_name_css = sanitize_html_class($locationName, 'mz_location_class');
+										$locationAddress = $class['Location']['Address'];
+										$locationNameDisplay = '<div class="'.$location_name_css.'"><a href="#" title="'. $locationAddress. '">' . 
+																$locationName . '</a>';
+										}else{
+										$locationAddress = '';
+										$locationNameDisplay = '';
+										}
 									$class_separator = ($key == $num_classes_min_one) ? '' : '<hr/>';
 									$linkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$sclassid}&amp;studioid={$studioid}";
 									if(!in_array('signup', $hide)){
 									$signupButton = '&nbsp;<a href="'.$linkURL.'" target="_blank" title="'.
 													__('Sign-Up', 'mz-mindbody-api'). '"><i class="fa fa-sign-in"></i></a><br/>';
 										}else{$signupButton = '';}
+									$session_type_css = sanitize_html_class($sessionTypeName, 'mz_session_type');
 
-									$class_details .= '<div class="' .'mz_' . 
-									sanitize_html_class($sessionTypeName, 'mz_session_type') .'">' .
+									$class_details .= '<div class="mz_schedule_table mz_location_'.$class['Location']['ID'].' '.'mz_' . 
+									$session_type_css .'">' .
 									'<a data-toggle="modal" data-target="#mzModal" href="' . MZ_MINDBODY_SCHEDULE_URL . 
 									'inc/modal_descriptions.php?classDescription=' . 
 									urlencode(substr($classDescription, 0, 1000)) . 
 									'&amp;className='. urlencode(substr($className, 0, 1000)) .'">' . $className . '</a>' .
 									'<br/>' .	 
 									$teacher . $signupButton .
-									$classLength . $showCancelled . '</div>' .
+									$classLength . $showCancelled . $locationNameDisplay . '</div>' .
 									$class_separator;
 								}
 							}
@@ -334,6 +353,8 @@ class MZ_Mindbody_Schedule_Display {
 			}
 		}//EOF If Result / Else
 		
+		add_action('wp_footer', array($this, 'initialize_filter'));
+		
 		$mz_schedule_display = 'mz_schedule_display_' . mt_rand(1, 1000000);
 
 		set_transient($mz_schedule_display, $return, 60 * 60 * 24);
@@ -344,6 +365,30 @@ class MZ_Mindbody_Schedule_Display {
 	
 	public function makeNumericArray($data) {
 		return (isset($data[0])) ? $data : array($data);
+	}
+	
+	public function initialize_filter() {
+		?>
+		<script type="text/javascript">
+			$(document).ready(function() {
+			var stripeTable = function(table) { //stripe the table (jQuery selector)
+					table.find('tr').removeClass('striped').filter(':visible:even').addClass('striped');
+				};
+
+				$('table.mz-schedule-filter').filterTable({
+					callback: function(term, table) { stripeTable(table); }, //call the striping after every change to the filter term
+					placeholder: mz_mindbody_api_i18n.filter_default,
+					highlightClass: 'alt',
+					inputType: 'search',
+					label: mz_mindbody_api_i18n.label,
+					quickListClass: 'mz_quick_filter',
+					quickList: [mz_mindbody_api_i18n.quick_1, mz_mindbody_api_i18n.quick_2, mz_mindbody_api_i18n.quick_3],
+					locations: { 1:"One Location", 2: "Another Location"}
+				});
+				stripeTable($('table.mz-schedule-filter')); //stripe the table for the first time
+			});
+		</script>
+		<?php
 	}
 	
 	private function view_transients () {

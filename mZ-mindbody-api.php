@@ -246,9 +246,9 @@ class MZ_Mindbody_API {
         $this->loader->add_action( 'init', $this, 'myStartSession' );
         $this->loader->add_action( 'wp_logout', $this, 'myStartSession' );
         $this->loader->add_action( 'wp_login', $this, 'myEndSession' );
-        $this->loader->add_action( 'wp_head', $this, 'whenever' );
-        $this->loader->add_action( 'wp_head', $this, 'whatever' );
-        $this->loader->add_action( 'the_title', $this, 'in_the_title' );
+        //$this->loader->add_action( 'wp_head', $this, 'whenever' );
+        //$this->loader->add_action( 'wp_head', $this, 'whatever' );
+        //$this->loader->add_action( 'the_title', $this, 'in_the_title' );
         //$this->loader->add_action( 'wp_head', 'MZ_Mindbody_Init', 'instantiate_mbo_API' );
         //$this->loader->add_action( 'wp_footer', 'MZ_Mindbody_Init', 'instantiate_mbo_API' );
         
