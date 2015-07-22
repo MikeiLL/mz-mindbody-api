@@ -20,13 +20,13 @@
     	}
     if (jmajor<2 && jminor<8) { // build the pseudo selector for jQuery < 1.8
         $.expr[':'].filterTableFind = function(a, i, m) { // build the case insensitive filtering functionality as a pseudo-selector expression
-        	if ((location == 0 || ($(el).find('.mz_location_'+mz_schedule_location)).length > 0))
+        	if ((location === 0 || ($(el).find('.mz_location_'+mz_schedule_location)).length > 0))
             return $(a).text().toUpperCase().indexOf(m[3].toUpperCase())>=0;
         };
     } else { // build the pseudo selector for jQuery >= 1.8
         $.expr[':'].filterTableFind = jQuery.expr.createPseudo(function(arg) {
             return function(el) {
-            	if (location == 0 || filter_by_location(el) == true)
+            	if (location === 0 || filter_by_location(el) === true)
                 return $(el).text().toUpperCase().indexOf(arg.toUpperCase())>=0;
             };
         });

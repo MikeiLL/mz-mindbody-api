@@ -353,6 +353,8 @@ class MZ_Mindbody_Schedule_Display {
 			}
 		}//EOF If Result / Else
 		
+		
+		add_action('wp_footer', array($this, 'add_filter_table'));
 		add_action('wp_footer', array($this, 'initialize_filter'));
 		
 		$mz_schedule_display = 'mz_schedule_display_' . mt_rand(1, 1000000);
@@ -367,6 +369,10 @@ class MZ_Mindbody_Schedule_Display {
 		return (isset($data[0])) ? $data : array($data);
 	}
 	
+	public function add_filter_table() {
+		wp_enqueue_script('filterTable', asset_path('scripts/mz_filtertable.js'), array('jquery'), null, true);
+		}
+		
 	public function initialize_filter() {
 		?>
 		<script type="text/javascript">

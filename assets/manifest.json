@@ -6,6 +6,12 @@
       ],
       "main": true
     },
+    "mz_filtertable.js": {
+    "files": [
+        "scripts/jquery.filtertable.mz.js"
+      ],
+      "main": true
+    },
     "main.css": {
       "files": [
         "styles/main.scss"
