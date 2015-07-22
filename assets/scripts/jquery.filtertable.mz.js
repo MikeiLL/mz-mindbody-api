@@ -131,11 +131,18 @@
                     container.append(filter);
                 }
 				selector.bind('change', function() { // bind doFiltering() to click and search events
-					$( ".mz_schedule_table" ).hide(); // hide all the divs in the schedule
-					$( ".mz_location_"+$(this).val() ).show(); // show the ones from selected location
-					if (window.mz_mbo_selectValue === 0)
-						$( ".mz_schedule_table" ).show();
 					window.mz_mbo_selectValue = $(this).val();
+					if ($(this).val() != '0') {
+							$( ".mz_schedule_table" ).hide(); // hide all the divs in the schedule
+							$( ".mz_location_"+$(this).val() ).show();
+						}else{
+							$( ".mz_schedule_table" ).show();
+							console.log(Object.keys(settings.locations));
+							Object.keys(settings.locations).forEach(function(value) {
+									console.log('location value is :'+value);
+									$( ".mz_location_"+value ).show();
+								});
+						}
 				});
                 if (settings.quickList.length>0) { // are there any quick list items to add?
                     quicks = settings.quickListGroupTag ? $('<'+settings.quickListGroupTag+' />') : container;
