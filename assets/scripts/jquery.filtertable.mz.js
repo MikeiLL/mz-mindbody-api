@@ -73,6 +73,9 @@
                     }
                     tbody.find('td').removeClass(settings.highlightClass).filter(':filterTableFind("'+q.replace(/(['"])/g,'\\$1')+'")').addClass(settings.highlightClass).closest('tr').show().addClass(settings.visibleClass); // highlight (class=alt) only the cells that match the query and show their rows
                 }
+                if (settings.showAllHeaderRows) {
+                    	table.find('tr.header').show().addClass(settings.visibleClass);
+                    }
                 if (settings.callback) { // call the callback function
                     settings.callback(q, table);
                 }
