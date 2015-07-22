@@ -131,6 +131,13 @@
                 if (created_filter) { // add the filter field to the container if it was created by the plugin
                     container.append(filter);
                 }
+                selector.bind('change', function() { // bind doFiltering() to click and search events
+                    doFiltering(t, $(this).val());
+					$( ".mz_schedule_table" ).hide(); // hide all the divs in the schedule
+					$( ".mz_location_"+$(this).val() ).show(); // show the ones from selected location
+					if (location === 0)
+						$( ".mz_schedule_table" ).show();
+                });
                 if (settings.quickList.length>0) { // are there any quick list items to add?
                     quicks = settings.quickListGroupTag ? $('<'+settings.quickListGroupTag+' />') : container;
                     $.each(settings.quickList, function(index, value) { // for each quick list item...
