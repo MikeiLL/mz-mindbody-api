@@ -12,15 +12,12 @@
  */
 (function($) {
     var jversion = $.fn.jquery.split('.'), jmajor = parseFloat(jversion[0]), jminor = parseFloat(jversion[1]);
-    var mz_schedule_location = $("#location_selector").val();
     function filter_by_location(el) {
-    	console.log('.mz_location_'+mz_schedule_location);
-    	console.log((($(el).find('.mz_location_'+mz_schedule_location)).length > 0));
-    	return (($(el).find('.mz_location_'+mz_schedule_location)).length > 0); // return true if is shown div
+    	return (($(el).find('.mz_location_'+$("#location_selector").val())).length > 0); // return true if is shown div
     	}
     if (jmajor<2 && jminor<8) { // build the pseudo selector for jQuery < 1.8
         $.expr[':'].filterTableFind = function(a, i, m) { // build the case insensitive filtering functionality as a pseudo-selector expression
-        	if ((location === 0 || ($(el).find('.mz_location_'+mz_schedule_location)).length > 0))
+        	if ((location === 0 || ($(el).find('.mz_location_'+$("#location_selector").val())).length > 0))
             return $(a).text().toUpperCase().indexOf(m[3].toUpperCase())>=0;
         };
     } else { // build the pseudo selector for jQuery >= 1.8
@@ -89,7 +86,6 @@
                     selector.append('<option value="0">All Locations</option>');
 					$.each(settings.locations, function (i, el) {
 						selector.append('<option value="'+i+'">' + el + '</option>');
-						console.log(i, el);
 					});
                 created_filter = true; // was the filter created or chosen from an existing element?
             if (t[0].nodeName==='TABLE' && tbody.length>0 && (settings.minRows===0 || (settings.minRows>0 && tbody.find('tr').length>settings.minRows)) && !t.prev().hasClass(settings.containerClass)) { // only if object is a table and there's a tbody and at least minRows trs and hasn't already had a filter added
@@ -132,7 +128,6 @@
                     container.append(filter);
                 }
                 selector.bind('change', function() { // bind doFiltering() to click and search events
-                    doFiltering(t, $(this).val());
 					$( ".mz_schedule_table" ).hide(); // hide all the divs in the schedule
 					$( ".mz_location_"+$(this).val() ).show(); // show the ones from selected location
 					if (location === 0)

@@ -3,6 +3,7 @@
 class MZ_Mindbody_Schedule_Display {
 
 	private $mz_mbo_globals;
+	private $locations_dictionary = array();
 	
 	public function __construct(){
 		require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
@@ -241,7 +242,7 @@ class MZ_Mindbody_Schedule_Display {
 					$tbl->addRow();
 					$tbl->addCell($time_of_day, 'hidden', 'data');
 					$tbl->addCell($mz_classes['display_time']);
-					//mz_pr($mz_classes['display_time']);
+
 					foreach($mz_classes['classes'] as $key => $classes)
 					{
 						//mz_pr($key);
@@ -320,6 +321,9 @@ class MZ_Mindbody_Schedule_Display {
 									$teacher . $signupButton .
 									$classLength . $showCancelled . $locationNameDisplay . '</div>' .
 									$class_separator;
+									// populate dictionary of locations with names 
+									if (!array_key_exists($sLoc, $this->locations_dictionary))
+										$this->locations_dictionary[$sLoc] = $locationName;
 								}
 							}
 						$tbl->addCell($class_details, 'mz_description_holder');
@@ -374,6 +378,15 @@ class MZ_Mindbody_Schedule_Display {
 		}
 		
 	public function initialize_filter() {
+		  wp_localize_script('mz_mbo_bootstrap_script', 'mz_mindbody_api_i18n', array(
+			'filter_default' => __('by teacher, class type', 'mz-mindbody-api'),
+			'quick_1' => __('morning', 'mz-mindbody-api'),
+			'quick_2' => __('afternoon', 'mz-mindbody-api'),
+			'quick_3' => __('evening', 'mz-mindbody-api'),
+			'label' => __('Filter', 'mz-mindbody-api'),
+			'Locations_dict' => $this->locations_dictionary
+			));
+
 		?>
 		<script type="text/javascript">
 			$(document).ready(function() {
@@ -389,7 +402,7 @@ class MZ_Mindbody_Schedule_Display {
 					label: mz_mindbody_api_i18n.label,
 					quickListClass: 'mz_quick_filter',
 					quickList: [mz_mindbody_api_i18n.quick_1, mz_mindbody_api_i18n.quick_2, mz_mindbody_api_i18n.quick_3],
-					locations: { 1:"One Location", 2: "Another Location"}
+					locations: mz_mindbody_api_i18n.Locations_dict
 				});
 				stripeTable($('table.mz-schedule-filter')); //stripe the table for the first time
 			});
