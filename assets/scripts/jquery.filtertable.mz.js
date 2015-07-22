@@ -11,19 +11,22 @@
  * @license MIT
  */
 (function($) {
+	window.mz_mbo_selectValue = 0; // initialize global variable set by DOM select element
     var jversion = $.fn.jquery.split('.'), jmajor = parseFloat(jversion[0]), jminor = parseFloat(jversion[1]);
     function filter_by_location(el) {
-    	return (($(el).find('.mz_location_'+$("#location_selector").val())).length > 0); // return true if is shown div
+    	return (($(el).find('.mz_location_'+window.mz_mbo_selectValue)).length > 0); // return true if is shown div
     	}
     if (jmajor<2 && jminor<8) { // build the pseudo selector for jQuery < 1.8
         $.expr[':'].filterTableFind = function(a, i, m) { // build the case insensitive filtering functionality as a pseudo-selector expression
-        	if ((location === 0 || ($(el).find('.mz_location_'+$("#location_selector").val())).length > 0))
+        	if ((window.mz_mbo_selectValue === 0 || ($(el).find('.mz_location_'+window.mz_mbo_selectValue)).length > 0))
             return $(a).text().toUpperCase().indexOf(m[3].toUpperCase())>=0;
         };
     } else { // build the pseudo selector for jQuery >= 1.8
         $.expr[':'].filterTableFind = jQuery.expr.createPseudo(function(arg) {
             return function(el) {
-            	if (location === 0 || filter_by_location(el) === true)
+            	console.log(el);
+            	console.log(window.mz_mbo_selectValue);
+            	if (window.mz_mbo_selectValue === 0 || filter_by_location(el) === true)
                 return $(el).text().toUpperCase().indexOf(arg.toUpperCase())>=0;
             };
         });
@@ -130,8 +133,9 @@
                 selector.bind('change', function() { // bind doFiltering() to click and search events
 					$( ".mz_schedule_table" ).hide(); // hide all the divs in the schedule
 					$( ".mz_location_"+$(this).val() ).show(); // show the ones from selected location
-					if (location === 0)
+					if (window.mz_mbo_selectValue === 0)
 						$( ".mz_schedule_table" ).show();
+					window.mz_mbo_selectValue = $(this).val();
                 });
                 if (settings.quickList.length>0) { // are there any quick list items to add?
                     quicks = settings.quickListGroupTag ? $('<'+settings.quickListGroupTag+' />') : container;

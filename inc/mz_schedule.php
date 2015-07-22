@@ -33,12 +33,19 @@ class MZ_Mindbody_Schedule_Display {
 		$account = $atts['account'];
 		$filter = $atts['filter'];
 		$grid = $atts['grid'];
+			
 	
 		if (($grid == 1) && ($type == 'day')) {
 			return '<div style="color:red"><h2>'.__('Grid Calendar Incompatible with Single Day Mode!', 'mz_mndbody_api').'</h2></div>';
 		}
 		$locations = explode(', ', $atts['locations']);
-	
+		
+		/*
+		 * This is for backwards compatibility for previous to using an array to hold one or more locations.
+		*/
+		if (isset($location))
+			$locations = array($location);
+			
 		if ($grid == 0) {
 			$mz_date = empty($_GET['mz_date']) ? date_i18n('Y-m-d') : mz_validate_date($_GET['mz_date']);
 			}else{
@@ -293,8 +300,8 @@ class MZ_Mindbody_Schedule_Display {
 									$sclassidID = $class['ID'];
 									$sType = -7;
 									$isAvailable = $class['IsAvailable'];
+									$locationName = $class['Location']['Name'];
 									if (count($locations) > 1) {
-										$locationName = $class['Location']['Name'];
 										$location_name_css = sanitize_html_class($locationName, 'mz_location_class');
 										$locationAddress = $class['Location']['Address'];
 										$locationNameDisplay = '<div class="'.$location_name_css.'"><a href="#" title="'. $locationAddress. '">' . 
