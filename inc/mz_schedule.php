@@ -173,6 +173,7 @@ class MZ_Mindbody_Schedule_Display {
 						$staffName = $class['Staff']['Name'];
 						$sessionType = $class['ClassDescription']['SessionType']['Name'];
 						$isAvailable = $class['IsAvailable'];
+						$locationName = $class['Location']['Name'];
 
 						$linkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$sclassid}&amp;studioid={$studioid}";
 
@@ -184,7 +185,8 @@ class MZ_Mindbody_Schedule_Display {
 								$time_of_day = __('afternoon', 'mz-mindbody-api');
 								}
 						// start building table rows
-						$tbl->addRow('mz_description_holder');
+						$row_css_classes = 'mz_description_holder mz_schedule_table mz_location_'.$sLoc;
+						$tbl->addRow($row_css_classes);
 						$tbl->addCell($time_of_day, 'hidden', 'data');
 
 						if (isset($isAvailable) && ($isAvailable != 0)) {
@@ -210,12 +212,17 @@ class MZ_Mindbody_Schedule_Display {
 
 						$tbl->addCell($staffName);
 						$tbl->addCell($sessionType);
+						// populate dictionary of locations with names 
+						if (!array_key_exists($sLoc, $this->locations_dictionary))
+							$this->locations_dictionary[$sLoc] = $locationName;
+				
 				}// EOF foreach class
 			}// EOF foreach day
 
 			$tbl->addTSection('tfoot');
 			$tbl->addRow();
 			$tbl->addCell('','','', array('colspan' => 4));
+				
 			$return .= $tbl->display();
 
 		}else{
@@ -261,6 +268,7 @@ class MZ_Mindbody_Schedule_Display {
 						//mz_pr($key);
 						//mz_pr($classes);
 						//die();
+						// Set some variables to determine if we need to display an <hr/> after event
 						if ((empty($classes)) || (null === $classes[0]['ClassDescription']['Name'])){
 							$class_details = '';
 							$num_classes_min_one = 50; //Set to a number that won't match key
@@ -324,7 +332,7 @@ class MZ_Mindbody_Schedule_Display {
 										}else{$signupButton = '';}
 									$session_type_css = sanitize_html_class($sessionTypeName, 'mz_session_type');
 
-									$class_details .= '<div class="mz_schedule_table mz_location_'.$class['Location']['ID'].' '.'mz_' . 
+									$class_details .= '<div class="mz_schedule_table mz_location_'.$sLoc.' '.'mz_' . 
 									$session_type_css .'">' .
 									'<a data-toggle="modal" data-target="#mzModal" href="' . MZ_MINDBODY_SCHEDULE_URL . 
 									'inc/modal_descriptions.php?classDescription=' . 
