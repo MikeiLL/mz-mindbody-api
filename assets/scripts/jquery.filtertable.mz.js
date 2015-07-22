@@ -11,22 +11,21 @@
  * @license MIT
  */
 (function($) {
-	window.mz_mbo_selectValue = 0; // initialize global variable set by DOM select element
+	window.mz_mbo_selectValue = '0'; // initialize global variable set by DOM select element
     var jversion = $.fn.jquery.split('.'), jmajor = parseFloat(jversion[0]), jminor = parseFloat(jversion[1]);
     function filter_by_location(el) {
     	return (($(el).find('.mz_location_'+window.mz_mbo_selectValue)).length > 0); // return true if is shown div
     	}
     if (jmajor<2 && jminor<8) { // build the pseudo selector for jQuery < 1.8
         $.expr[':'].filterTableFind = function(a, i, m) { // build the case insensitive filtering functionality as a pseudo-selector expression
-        	if ((window.mz_mbo_selectValue === 0 || ($(el).find('.mz_location_'+window.mz_mbo_selectValue)).length > 0))
+        	if ((window.mz_mbo_selectValue == '0' || ($(el).find('.mz_location_'+window.mz_mbo_selectValue)).length > 0))
             return $(a).text().toUpperCase().indexOf(m[3].toUpperCase())>=0;
         };
     } else { // build the pseudo selector for jQuery >= 1.8
         $.expr[':'].filterTableFind = jQuery.expr.createPseudo(function(arg) {
             return function(el) {
-            	console.log(el);
             	console.log(window.mz_mbo_selectValue);
-            	if (window.mz_mbo_selectValue === 0 || filter_by_location(el) === true)
+            	if (window.mz_mbo_selectValue == '0' || filter_by_location(el) === true)
                 return $(el).text().toUpperCase().indexOf(arg.toUpperCase())>=0;
             };
         });
@@ -137,9 +136,7 @@
 							$( ".mz_location_"+$(this).val() ).show();
 						}else{
 							$( ".mz_schedule_table" ).show();
-							console.log(Object.keys(settings.locations));
 							Object.keys(settings.locations).forEach(function(value) {
-									console.log('location value is :'+value);
 									$( ".mz_location_"+value ).show();
 								});
 						}
