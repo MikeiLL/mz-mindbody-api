@@ -85,8 +85,8 @@
                 container = null, // placeholder for the filter field container DOM node
                 quicks = null, // placeholder for the quick list items
                 filter = null, // placeholder for the field field DOM node
-                selector = $("<select></select>").attr("id", 'location_selector').attr("name", 'mz_mbo_selector');
-                    selector.append('<option value="0">All Locations</option>');
+				selector = $("<select></select>").attr("id", 'location_selector').attr("name", 'mz_mbo_selector');
+					selector.append('<option value="0">All Locations</option>');
 					$.each(settings.locations, function (i, el) {
 						selector.append('<option value="'+i+'">' + el + '</option>');
 					});
@@ -130,13 +130,13 @@
                 if (created_filter) { // add the filter field to the container if it was created by the plugin
                     container.append(filter);
                 }
-                selector.bind('change', function() { // bind doFiltering() to click and search events
+				selector.bind('change', function() { // bind doFiltering() to click and search events
 					$( ".mz_schedule_table" ).hide(); // hide all the divs in the schedule
 					$( ".mz_location_"+$(this).val() ).show(); // show the ones from selected location
 					if (window.mz_mbo_selectValue === 0)
 						$( ".mz_schedule_table" ).show();
 					window.mz_mbo_selectValue = $(this).val();
-                });
+				});
                 if (settings.quickList.length>0) { // are there any quick list items to add?
                     quicks = settings.quickListGroupTag ? $('<'+settings.quickListGroupTag+' />') : container;
                     $.each(settings.quickList, function(index, value) { // for each quick list item...
@@ -155,7 +155,7 @@
                         container.append(quicks); // add the quick list groups container to the DOM if it isn't already there
                     }
                 } // if quick list items
-                if (selector!==container) {
+                if ((selector!==container) && (Object.keys(settings.locations).length > 1)) {
                         container.append(selector); // add the selector container to the DOM if it isn't already there
                     }
                 if (created_filter) { // add the filter field and quick list container to just before the table if it was created by the plugin

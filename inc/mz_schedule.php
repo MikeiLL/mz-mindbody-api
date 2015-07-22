@@ -20,7 +20,7 @@ class MZ_Mindbody_Schedule_Display {
 		// optionally pass in a type parameter. Defaults to week.
 		$atts = shortcode_atts( array(
 			'type' => 'week',
-			'location' => '1',
+			'location' => '', // stop using this eventually, in preference "int, int" format
 			'locations' => '',
 			'account' => '0',
 			'filter' => '0',
@@ -43,8 +43,14 @@ class MZ_Mindbody_Schedule_Display {
 		/*
 		 * This is for backwards compatibility for previous to using an array to hold one or more locations.
 		*/
-		if (isset($location))
-			$locations = array($location);
+		if (count($locations) == 0) {
+			if ($location == '') {
+				$locations = array('1');
+			}else{
+				$locations = array($location);
+			}
+		}
+			
 			
 		if ($grid == 0) {
 			$mz_date = empty($_GET['mz_date']) ? date_i18n('Y-m-d') : mz_validate_date($_GET['mz_date']);
