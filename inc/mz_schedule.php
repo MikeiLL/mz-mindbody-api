@@ -25,7 +25,8 @@ class MZ_Mindbody_Schedule_Display {
 			'account' => '0',
 			'filter' => '0',
 			'grid' => '0',
-			'hide' => ''
+			'hide' => '',
+			'class_types' => ''
 				), $atts );
 		$type = $atts['type'];
 		$location = $atts['location'];
@@ -33,12 +34,14 @@ class MZ_Mindbody_Schedule_Display {
 		$account = $atts['account'];
 		$filter = $atts['filter'];
 		$grid = $atts['grid'];
+		$class_types = $atts['class_types'];
 			
 	
 		if (($grid == 1) && ($type == 'day')) {
 			return '<div style="color:red"><h2>'.__('Grid Calendar Incompatible with Single Day Mode!', 'mz_mndbody_api').'</h2></div>';
 		}
 		$locations = explode(', ', $atts['locations']);
+		$class_types = explode(', ', $atts['class_types']);
 		
 		/*
 		 * This is for backwards compatibility for previous to using an array to hold one or more locations.
