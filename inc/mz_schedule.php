@@ -40,7 +40,6 @@ class MZ_Mindbody_Schedule_Display {
 		if (($grid == 1) && ($type == 'day')) {
 			return '<div style="color:red"><h2>'.__('Grid Calendar Incompatible with Single Day Mode!', 'mz_mndbody_api').'</h2></div>';
 		}
-		$class_types = explode(', ', $atts['class_types']);
 		
 		/*
 		 * This is for backwards compatibility for previous to using an array to hold one or more locations.
@@ -54,7 +53,7 @@ class MZ_Mindbody_Schedule_Display {
 		}else{
 			$locations = explode(', ', $atts['locations']);
 			}
-			
+
 		if ($grid == 0) {
 			$mz_date = empty($_GET['mz_date']) ? date_i18n('Y-m-d') : mz_validate_date($_GET['mz_date']);
 			}else{
@@ -159,7 +158,13 @@ class MZ_Mindbody_Schedule_Display {
 				$tbl->addTSection('tbody');
 				foreach($mz_classes as $class)
 				{
-						// mz_pr($class);
+						$sessionTypeName = $class['ClassDescription']['SessionType']['Name'];
+						if ($class_types != '') {
+							$class_types = explode(', ', $atts['class_types']);
+							if (!in_array($sessionTypeName, $class_types)){
+								continue;
+								}
+							}
 						$sDate = date_i18n('m/d/Y', strtotime($class['StartDateTime']));
 						$sLoc = $class['Location']['ID'];
 						$sTG = $class['ClassDescription']['Program']['ID'];
@@ -174,7 +179,6 @@ class MZ_Mindbody_Schedule_Display {
 						$startDateTime = date_i18n('Y-m-d H:i:s', strtotime($class['StartDateTime']));
 						$endDateTime = date_i18n('Y-m-d H:i:s', strtotime($class['EndDateTime']));
 						$staffName = $class['Staff']['Name'];
-						$sessionType = $class['ClassDescription']['SessionType']['Name'];
 						$isAvailable = $class['IsAvailable'];
 						$locationName = $class['Location']['Name'];
 
@@ -214,7 +218,7 @@ class MZ_Mindbody_Schedule_Display {
 
 
 						$tbl->addCell($staffName);
-						$tbl->addCell($sessionType);
+						$tbl->addCell($sessionTypeName);
 						// populate dictionary of locations with names 
 						if (!array_key_exists($sLoc, $this->locations_dictionary))
 							$this->locations_dictionary[$sLoc] = $locationName;
@@ -280,6 +284,18 @@ class MZ_Mindbody_Schedule_Display {
 							$num_classes_min_one = count($classes) - 1;
 
 							foreach($classes as $key => $class){
+									// populate dictionary of locations with names 
+									$sLoc = $class['Location']['ID'];
+									$locationName = $class['Location']['Name'];
+									if (!array_key_exists($sLoc, $this->locations_dictionary))
+										$this->locations_dictionary[$sLoc] = $locationName;
+									$sessionTypeName = $class['ClassDescription']['SessionType']['Name'];
+									if ($class_types != '') {
+										$class_types = explode(', ', $atts['class_types']);
+										if (!in_array($sessionTypeName, $class_types)){
+											continue;
+											}
+										}
 									$className = $class['ClassDescription']['Name'];
 									if(!in_array('teacher', $hide)){
 										$teacher = __('with', 'mz-mindbody-api') . '&nbsp;' . $class['Staff']['Name'] .
@@ -288,8 +304,6 @@ class MZ_Mindbody_Schedule_Display {
 									$showCancelled = ($class['IsCanceled'] == 1) ? '<div class="mz_cancelled_class">' .
 										__('Cancelled') . '</div>' : '';
 									$classDescription = $class['ClassDescription']['Description'];
-									$sessionTypeName = $class['ClassDescription']['SessionType']['Name'];
-
 									$showCancelled = ($class['IsCanceled'] == 1) ? '<div class="mz_cancelled_class">' .
 										__('Cancelled') . '</div>' : '';
 									if(!in_array('duration', $hide) && ($class['IsCanceled'] != 1)){
@@ -310,14 +324,12 @@ class MZ_Mindbody_Schedule_Display {
 									$signupButton = '';
 									// Variables for class URL
 									$sDate = date_i18n('m/d/Y', strtotime($class['StartDateTime']));
-									$sLoc = $class['Location']['ID'];
 									$sTG = $class['ClassDescription']['Program']['ID'];
 									$studioid = $class['Location']['SiteID'];
 									$sclassid = $class['ClassScheduleID'];
 									$sclassidID = $class['ID'];
 									$sType = -7;
 									$isAvailable = $class['IsAvailable'];
-									$locationName = $class['Location']['Name'];
 									if (count($locations) > 1) {
 										$location_name_css = sanitize_html_class($locationName, 'mz_location_class');
 										$locationAddress = $class['Location']['Address'];
@@ -345,9 +357,6 @@ class MZ_Mindbody_Schedule_Display {
 									$teacher . $signupButton .
 									$classLength . $showCancelled . $locationNameDisplay . '</div>' .
 									$class_separator;
-									// populate dictionary of locations with names 
-									if (!array_key_exists($sLoc, $this->locations_dictionary))
-										$this->locations_dictionary[$sLoc] = $locationName;
 								}
 							}
 						$tbl->addCell($class_details, 'mz_description_holder');
