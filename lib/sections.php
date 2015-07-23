@@ -1,4 +1,16 @@
 <?php
+/**
+ * This file contains all the actions and functions to create the admin dashboard sections
+ *
+ * This file contains all the actions and functions to create the admin dashboard sections.
+ * It should probably be refactored to use oop approach at least for the sake of consistency.
+ *
+ * @since 2.1.0
+ *
+ * @package MZMBO
+ * 
+ */
+ 
 add_action ('admin_menu', 'mz_mindbody_settings_menu');
 
 	function mz_mindbody_settings_menu() {
@@ -189,9 +201,9 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 		<p>
 		<?php _e('Add to page or post with shortcode:', 'mz-mindbody-api'); 
 		echo '&nbsp;';
-		printf('[%1$s], [%2$s], [%3$s], [%4$s %5$s=%6$s %7$s=1 %8$s=-99]',
+		printf('[%1$s], [%2$s], [%3$s], [%4$s %5$s=%6$s %7$s="1, 2" %8$s=-99]',
 		'mz_mindbody_show_schedule', 'mz_mindbody_show_events', 'mz_mindbody_staff_list',
-		'mz_mindbody_show_schedule', 'type', 'day', 'location', 'account'); 
+		'mz_mindbody_show_schedule', 'type', 'day', 'locations', 'account'); 
 		echo '<br/>('.__('-99 is the MBO sandbox/testing account', 'mz-mindbody-api').')</font></p>';
 		echo '<p>';
 		echo __('Grid and Filter can be added like this:', 'mz-mindbody-api').'<br/>';
@@ -254,7 +266,7 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 	  '<code>&lt;ErrorCode&gt;200&lt;/ErrorCode&gt;</code>');
 	  echo "</p>";
 	  $mz_timeframe = array_slice(mz_getDateRange(date_i18n('Y-m-d'), 1), 0, 1);
-	  $mb = instantiate_mbo_API();
+	  $mb = MZ_Mindbody_Init::instantiate_mbo_API();
 	  $test = $mb->GetClasses($mz_timeframe);
 	  $mb->debug();
 	  echo "<br/>";

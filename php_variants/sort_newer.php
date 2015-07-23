@@ -1,5 +1,5 @@
 <?php
-function sortClassesByDate($mz_classes = array(), $time_format = "g:i a", $location = 1) {
+function sortClassesByDate($mz_classes = array(), $time_format = "g:i a", $locations = array(1)) {
 	$mz_classesByDate = array();
 	foreach($mz_classes as $class)
 	{
@@ -8,8 +8,7 @@ function sortClassesByDate($mz_classes = array(), $time_format = "g:i a", $locat
 		$classDate = date("Y-m-d", strtotime($class['StartDateTime']));
 		if(!empty($mz_classesByDate[$classDate])) {
 			if (
-				($class['Location']['ID'] != $location) || 
-
+				(!in_array($class['Location']['ID'], $locations)) || 
 				(($class['IsCanceled'] == 1) && ($class['HideCancel'] == 1)) ||
 				($class['ClassDescription']['Program']['ScheduleType'] == 'Enrollment')
 				) {
@@ -18,8 +17,7 @@ function sortClassesByDate($mz_classes = array(), $time_format = "g:i a", $locat
 			$mz_classesByDate[$classDate] = array_merge($mz_classesByDate[$classDate], array($class));
 		} else {
 			if (
-				($class['Location']['ID'] != $location) || 
-
+				(!in_array($class['Location']['ID'], $locations)) || 
 				(($class['IsCanceled'] == 1) && ($class['HideCancel'] == 1)) ||
 				($class['ClassDescription']['Program']['ScheduleType'] == 'Enrollment')
 				) {
@@ -46,7 +44,7 @@ function sortClassesByDate($mz_classes = array(), $time_format = "g:i a", $locat
 	return $mz_classesByDate;
 }
 
-function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a", $location = 1) {
+function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a", $locations = array(1)) {
 	$mz_classesByTime = array();
 	foreach($mz_classes as $class)
 	{
@@ -59,7 +57,7 @@ function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a",
 		$class['day_num'] = date_i18n("N", strtotime($class['StartDateTime'])); // Weekday num 1-7
 		if(!empty($mz_classesByTime[$classTime])) {
 			if (
-				($class['Location']['ID'] != $location) || 
+				(!in_array($class['Location']['ID'], $locations)) || 
 				(($class['IsCanceled'] == 1) && ($class['HideCancel'] == 1)) ||
 				($class['ClassDescription']['Program']['ScheduleType'] == 'Enrollment')
 				) {
@@ -68,7 +66,7 @@ function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a",
 			$mz_classesByTime[$classTime]['classes'] = array_merge($mz_classesByTime[$classTime]['classes'], array($class));
 		} else {
 			if (
-				($class['Location']['ID'] != $location) || 
+				(!in_array($class['Location']['ID'], $locations)) || 
 				(($class['IsCanceled'] == 1) && ($class['HideCancel'] == 1)) ||
 				($class['ClassDescription']['Program']['ScheduleType'] == 'Enrollment')
 				) {

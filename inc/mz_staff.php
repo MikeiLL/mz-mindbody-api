@@ -2,10 +2,15 @@
 
 class MZ_MBO_Staff {
 
+	private $mz_mbo_globals;
+	
+	public function __construct(){
+		require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
+		$this->mz_mbo_globals = new MZ_Mindbody_Init();
+	}
+
 	public function mZ_mindbody_staff_listing($atts, $account=0) {
 	
-	  require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
-
 	  $options = get_option( 'mz_mindbody_options','Option Not Set' );
 	  $mz_cache_reset = isset($options['mz_mindbody_clear_cache']) ? "on" : "off";
 	  $mz_staff_cache = "mz_staff_cache";
@@ -18,22 +23,27 @@ class MZ_MBO_Staff {
 	  if ( $mz_cache_reset == "on" ){
 		delete_transient( $mz_staff_cache );
 	  }
-	  if ( false === ( $staff = get_transient( $mz_staff_cache ) ) )
+	  
+	  $mbo_staff_data = get_transient( $mz_staff_cache );
+	  
+	  if ( '' == $mbo_staff_data )
 	  {
-	  	$mb = instantiate_mbo_API();
+	  	$mb = MZ_Mindbody_Init::instantiate_mbo_API();
+	  	
 		if ($account == 0) {
 				//Send the timeframe to the GetClasses class, unless already cached
-				$staff = $mb->GetStaff();
+				$mbo_staff_data = $mb->GetStaff();
 			}else{
 				$mb->sourceCredentials['SiteIDs'][0] = $account; 
-				$staff = $mb->GetStaff();
+				$mbo_staff_data = $mb->GetStaff();
 			}
+		set_transient( $mz_staff_cache, $mbo_staff_data, 60 * 60 * 24 );
 	
 	  }
 
 	  $return = '';
 
-	  $mz_staff_list = $staff['GetStaffResult']['StaffMembers']['Staff'];
+	  $mz_staff_list = $mbo_staff_data['GetStaffResult']['StaffMembers']['Staff'];
 
 	  // trying to allow sort order from within MBO - not working
 	  //usort($mz_staff_list, $this->sortById());;

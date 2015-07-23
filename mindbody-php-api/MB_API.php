@@ -84,6 +84,7 @@ class MB_API {
 			}
 		} else {
 			echo "called unknown method '$name'<br />";
+			return 'NO_SOAP_SERVICE';
 		}
 	}
 

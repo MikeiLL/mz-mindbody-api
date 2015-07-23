@@ -15,7 +15,6 @@
   "dependencies": {
     "bootstrap-sass-official": "~3.3.4",
     "modernizr": "~2.8.3",
-    "jQuery.FilterTable": "*",
     "font-awesome": "~4.3.0"
   },
   "ignore": [
