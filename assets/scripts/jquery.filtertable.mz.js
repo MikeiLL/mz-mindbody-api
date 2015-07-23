@@ -57,6 +57,7 @@
                 quickListGroupTag: '',                  // tag surrounding quick list items (e.g., ul)
                 quickListTag:      'a',                 // tag type of each quick list item (e.g., a or li)
                 visibleClass:      'visible',           // class applied to visible rows
+                selector:		   'All Locations',		// label in default select option
                 locations:			{}					// empty array to hold locations
             },
             hsc = function(text) { // mimic PHP's htmlspecialchars() function
@@ -94,7 +95,7 @@
                 quicks = null, // placeholder for the quick list items
                 filter = null, // placeholder for the field field DOM node
 				selector = $("<select></select>").attr("id", 'location_selector').attr("name", 'mz_mbo_selector');
-					selector.append('<option value="0">All Locations</option>');
+					selector.append('<option value="0">'+settings.selector+'</option>');
 					$.each(settings.locations, function (i, el) {
 						selector.append('<option value="'+i+'">' + el + '</option>');
 					});

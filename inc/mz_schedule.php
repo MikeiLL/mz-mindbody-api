@@ -238,11 +238,6 @@ class MZ_Mindbody_Schedule_Display {
 			$return .= '<h4 class="mz_grid_date">';
 			$return .= sprintf(__('Week of %1$s', 'mz-mindbody-api'), $week_starting);
 			$return .= '</h4>';
-			//$return .= '<select id="location_selector"><option value="0" selected>All Locations</option>';
-			//foreach ($locations as $location){
-			//	$return .= '<option value="'.$location.'">'.$location.'</option>';
-			//}
-			//$return .= '</select>';
 					$tbl->addTSection('thead');
 					$tbl->addRow();
 					// arguments: cell content, class, type (default is 'data' for td, pass 'header' for th)
@@ -409,7 +404,7 @@ class MZ_Mindbody_Schedule_Display {
 	public function add_filter_table() {
 		wp_enqueue_script('filterTable', asset_path('scripts/mz_filtertable.js'), array('jquery'), null, true);
 		}
-		
+
 	public function initialize_filter() {
 		  wp_localize_script('mz_mbo_bootstrap_script', 'mz_mindbody_api_i18n', array(
 			'filter_default' => __('by teacher, class type', 'mz-mindbody-api'),
@@ -417,6 +412,7 @@ class MZ_Mindbody_Schedule_Display {
 			'quick_2' => __('afternoon', 'mz-mindbody-api'),
 			'quick_3' => __('evening', 'mz-mindbody-api'),
 			'label' => __('Filter', 'mz-mindbody-api'),
+			'selector' => __('All Locations', 'mz-mindbody-api'),
 			'Locations_dict' => $this->locations_dictionary
 			));
 
@@ -433,6 +429,7 @@ class MZ_Mindbody_Schedule_Display {
 					highlightClass: 'alt',
 					inputType: 'search',
 					label: mz_mindbody_api_i18n.label,
+					selector: mz_mindbody_api_i18n.selector,
 					quickListClass: 'mz_quick_filter',
 					quickList: [mz_mindbody_api_i18n.quick_1, mz_mindbody_api_i18n.quick_2, mz_mindbody_api_i18n.quick_3],
 					locations: mz_mindbody_api_i18n.Locations_dict
