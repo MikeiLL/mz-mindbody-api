@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: mindbody, schedule, calendar, yoga, MBO, mindbodyonline, gym
 Requires at least: 3.0.1
 Tested up to: 4.2
-Stable tag: 2.0.1
+Stable tag: 2.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -54,6 +54,12 @@ You need to register a developer account with MindBody, which costs $5+ per webs
 
 == Changelog ==
 
+= 2.1.0 =
+* Can display multiple locations on same calendar with select to filter. Shortcode
+* to show calendar with specified class types.
+* Using modified version of jQuery.filterTable now.
+* Locations now held in array, but still supporting older single item method.
+
 = 2.0.0 =
 This release includes the most new features and also uses a more minimal version of bootstrap code:
 just the necessary components. New jQuery filter, grid mode schedule view, configurable event cycle duration,
@@ -79,6 +85,10 @@ Fix navigation on Schedule page when Force Cache not selected.
 Initial release.
 
 == Upgrade Notice ==
+
+= 2.1.0 =
+Display multiple locations on same calendar with SELECT to filter. New shortcode
+to show calendar with specified class types.
 
 = 2.0.0 =
 New jQuery filter, grid mode schedule view, configurable event cycle duration,
