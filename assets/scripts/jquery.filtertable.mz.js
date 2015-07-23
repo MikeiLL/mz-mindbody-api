@@ -1,5 +1,7 @@
 /**
- * jquery.filterTable
+ * Modified by Mike iLL/mZoo.org for mz_mindbody_api plugin
+ *
+ * jquery.filterTable.mz
  *
  * This plugin will add a search filter to tables. When typing in the filter,
  * any rows that do not contain the filter will be hidden.
@@ -14,7 +16,10 @@
 	window.mz_mbo_selectValue = '0'; // initialize global variable set by DOM select element
     var jversion = $.fn.jquery.split('.'), jmajor = parseFloat(jversion[0]), jminor = parseFloat(jversion[1]);
     function filter_by_location(el) {
-    	return (($(el).find('.mz_location_'+window.mz_mbo_selectValue)).length > 0); // return true if is shown div
+    	// Filter out divs which are hidden from text search, 
+    	if ($(el).find('.mz_time_of_day')) // but keep hidden time of day in result set
+    		return true;
+    	return (($(el).find('.mz_location_'+window.mz_mbo_selectValue)).length > 0); // is a displayed div
     	}
     if (jmajor<2 && jminor<8) { // build the pseudo selector for jQuery < 1.8
         $.expr[':'].filterTableFind = function(a, i, m) { // build the case insensitive filtering functionality as a pseudo-selector expression
@@ -24,9 +29,10 @@
     } else { // build the pseudo selector for jQuery >= 1.8
         $.expr[':'].filterTableFind = jQuery.expr.createPseudo(function(arg) {
             return function(el) {
-            	console.log(window.mz_mbo_selectValue);
-            	if (window.mz_mbo_selectValue == '0' || filter_by_location(el) === true)
-                return $(el).text().toUpperCase().indexOf(arg.toUpperCase())>=0;
+            	console.log("text is: "+$(el).text());
+            	if (window.mz_mbo_selectValue == '0' || filter_by_location(el) === true) {
+                	return $(el).text().toUpperCase().indexOf(arg.toUpperCase())>=0;
+                	}
             };
         });
     }
@@ -132,7 +138,7 @@
                 if (created_filter) { // add the filter field to the container if it was created by the plugin
                     container.append(filter);
                 }
-				selector.bind('change', function() { // bind doFiltering() to click and search events
+				selector.bind('change', function () { // bind doFiltering() to click and search events
 					window.mz_mbo_selectValue = $(this).val();
 					if ($(this).val() != '0') {
 							$( ".mz_schedule_table" ).hide(); // hide all the divs in the schedule

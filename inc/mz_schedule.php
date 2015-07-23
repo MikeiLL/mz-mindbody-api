@@ -260,7 +260,7 @@ class MZ_Mindbody_Schedule_Display {
 								$time_of_day = __('afternoon', 'mz-mindbody-api');
 								}					
 					$tbl->addRow();
-					$tbl->addCell($time_of_day, 'hidden', 'data');
+					$tbl->addCell($time_of_day, 'hidden mz_time_of_day', 'data');
 					$tbl->addCell($mz_classes['display_time']);
 
 					foreach($mz_classes['classes'] as $key => $classes)
