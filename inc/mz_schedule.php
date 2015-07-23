@@ -40,20 +40,20 @@ class MZ_Mindbody_Schedule_Display {
 		if (($grid == 1) && ($type == 'day')) {
 			return '<div style="color:red"><h2>'.__('Grid Calendar Incompatible with Single Day Mode!', 'mz_mndbody_api').'</h2></div>';
 		}
-		$locations = explode(', ', $atts['locations']);
 		$class_types = explode(', ', $atts['class_types']);
 		
 		/*
 		 * This is for backwards compatibility for previous to using an array to hold one or more locations.
 		*/
-		if (count($locations) == 0) {
+		if (($locations == '') || !isset($locations)) {
 			if ($location == '') {
 				$locations = array('1');
 			}else{
 				$locations = array($location);
 			}
-		}
-			
+		}else{
+			$locations = explode(', ', $atts['locations']);
+			}
 			
 		if ($grid == 0) {
 			$mz_date = empty($_GET['mz_date']) ? date_i18n('Y-m-d') : mz_validate_date($_GET['mz_date']);
