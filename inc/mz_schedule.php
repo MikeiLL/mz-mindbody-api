@@ -297,7 +297,7 @@ class MZ_Mindbody_Schedule_Display {
 										'<br/>';
 										}else{ $teacher = '';}
 									$showCancelled = ($class['IsCanceled'] == 1) ? '<div class="mz_cancelled_class">' .
-										__('Cancelled') . '</div>' : '';
+										__('Cancelled', 'mz-mindbody-api') . '</div>' : '';
 									$classDescription = $class['ClassDescription']['Description'];
 									$showCancelled = ($class['IsCanceled'] == 1) ? '<div class="mz_cancelled_class">' .
 										__('Cancelled') . '</div>' : '';
