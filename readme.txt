@@ -59,6 +59,7 @@ You need to register a developer account with MindBody, which costs $5+ per webs
 * to show calendar with specified class types.
 * Using modified version of jQuery.filterTable now.
 * Locations now held in array, but still supporting older single item method.
+* Add CSS classes to horizontal schedule display cells.
 
 = 2.0.0 =
 This release includes the most new features and also uses a more minimal version of bootstrap code:
