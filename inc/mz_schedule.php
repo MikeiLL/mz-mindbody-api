@@ -150,10 +150,10 @@ class MZ_Mindbody_Schedule_Display {
 				// arguments: cell content, class, type (default is 'data' for td, pass 'header' for th)
 				// can include associative array of optional additional attributes
 		
-				$tbl->addCell(date_i18n($this->mz_mbo_globals->mz_date_display, strtotime($classDate)), '', 'header', array('scope'=>'header'));
-				$tbl->addCell(__('Class Name', 'mz-mindbody-api'), '', 'header', array('scope'=>'header'));
-				$tbl->addCell(__('Instructor', 'mz-mindbody-api'), '', 'header', array('scope'=>'header'));
-				$tbl->addCell(__('Class Type', 'mz-mindbody-api'), '', 'header', array('scope'=>'header'));
+				$tbl->addCell(date_i18n($this->mz_mbo_globals->mz_date_display, strtotime($classDate)), 'mz_date_display', 'header', array('scope'=>'header'));
+				$tbl->addCell(__('Class Name', 'mz-mindbody-api'), 'mz_classDetails', 'header', array('scope'=>'header'));
+				$tbl->addCell(__('Instructor', 'mz-mindbody-api'), 'mz_staffName', 'header', array('scope'=>'header'));
+				$tbl->addCell(__('Class Type', 'mz-mindbody-api'), 'mz_sessionTypeName', 'header', array('scope'=>'header'));
 			
 				$tbl->addTSection('tbody');
 				foreach($mz_classes as $class)
@@ -202,7 +202,7 @@ class MZ_Mindbody_Schedule_Display {
 									'<br/><a class="btn" href="' . $linkURL . '" target="_blank">' . __('Sign-Up', 'mz-mindbody-api') . '</a>');
 							}else{ 
 								$tbl->addCell(date_i18n($this->mz_mbo_globals->time_format, strtotime($startDateTime)) . ' - ' . 
-									date_i18n($this->mz_mbo_globals->time_format, strtotime($endDateTime)));
+									date_i18n($this->mz_mbo_globals->time_format, strtotime($endDateTime)), 'mz_date_display');
 									}
 
 						$tbl->addCell(
@@ -214,11 +214,11 @@ class MZ_Mindbody_Schedule_Display {
 								'<br/><div id="visitMBO" class="btn visitMBO" style="display:none">' .
 							'<a href="'.$linkURL.'" target="_blank">' .
 							__('Manage on MindBody Site',' mz-mindbody-api') . '</a></div>' .
-							$showCancelled );
+							$showCancelled , 'mz_classDetails');
 
 
-						$tbl->addCell($staffName);
-						$tbl->addCell($sessionTypeName);
+						$tbl->addCell($staffName, 'mz_staffName');
+						$tbl->addCell($sessionTypeName, 'mz_sessionTypeName');
 						// populate dictionary of locations with names 
 						if (!array_key_exists($sLoc, $this->locations_dictionary))
 							$this->locations_dictionary[$sLoc] = $locationName;

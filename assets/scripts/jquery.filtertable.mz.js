@@ -29,7 +29,6 @@
     } else { // build the pseudo selector for jQuery >= 1.8
         $.expr[':'].filterTableFind = jQuery.expr.createPseudo(function(arg) {
             return function(el) {
-            	console.log("text is: "+$(el).text());
             	if (window.mz_mbo_selectValue == '0' || filter_by_location(el) === true) {
                 	return $(el).text().toUpperCase().indexOf(arg.toUpperCase())>=0;
                 	}

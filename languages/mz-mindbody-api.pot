@@ -3,14 +3,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mZoo Mindbody Interface - Schedule, Events, Staff "
 "Display\n"
-"POT-Creation-Date: 2015-07-23 01:07-0500\n"
+"POT-Creation-Date: 2015-07-23 14:01-0500\n"
 "PO-Revision-Date: 2015-07-23 01:06-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.2\n"
+"X-Generator: Poedit 1.8.3\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-WPHeader: mZ-mindbody-api.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -45,7 +45,6 @@ msgstr ""
 msgid "%1$s Day Event Calendar"
 msgid_plural "%1$s Day Event Calendar"
 msgstr[0] ""
-msgstr[1] ""
 
 #: inc/mz_events.php:172
 msgid "No events published"
@@ -59,7 +58,6 @@ msgstr ""
 msgid "Event"
 msgid_plural "Events"
 msgstr[0] ""
-msgstr[1] ""
 
 #: inc/mz_mbo_clients.php:31
 msgid "Invalid Login"
@@ -202,16 +200,16 @@ msgstr ""
 msgid "Error getting classes. Try re-loading the page."
 msgstr ""
 
-#: inc/mz_schedule.php:407 inc/mz_schedule.php:415
-msgid "All Locations"
-msgstr ""
-
 #: inc/mz_schedule.php:410
 msgid "by teacher, class type"
 msgstr ""
 
 #: inc/mz_schedule.php:414
 msgid "Filter"
+msgstr ""
+
+#: inc/mz_schedule.php:415
+msgid "All Locations"
 msgstr ""
 
 #: lib/functions.php:57
