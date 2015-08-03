@@ -5,7 +5,7 @@ if (phpversion() >= 5.3) {
 	}else{
 		add_action('wp_enqueue_scripts', 'assets', 100);
 	}
-	
+
 function mz_getDateRange($date, $duration=7) {
     /*Gets a YYYY-mm-dd date and returns an array of four dates:
         start of requested week
