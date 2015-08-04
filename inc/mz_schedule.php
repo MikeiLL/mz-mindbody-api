@@ -25,6 +25,7 @@ class MZ_Mindbody_Schedule_Display {
 			'account' => '0',
 			'filter' => '0',
 			'grid' => '0',
+			'advanced' => '0',
 			'hide' => '',
 			'class_types' => ''
 				), $atts );
@@ -34,6 +35,7 @@ class MZ_Mindbody_Schedule_Display {
 		$account = $atts['account'];
 		$filter = $atts['filter'];
 		$grid = $atts['grid'];
+		$advanced = $atts['advanced'];
 		$class_types = $atts['class_types'];
 			
 	
@@ -197,9 +199,34 @@ class MZ_Mindbody_Schedule_Display {
 						$tbl->addCell($time_of_day, 'hidden', 'data');
 
 						if (isset($isAvailable) && ($isAvailable != 0)) {
+							if ($advanced == 1){
+								$clientID = isset($_SESSION['GUID']) ? $_SESSION['client']['ID'] : '';
+								$add_to_class_nonce = wp_create_nonce( 'mz_MBO_add_to_class_nonce');
+								if ($clientID == ''){
+										 $signupButton = '<a class="btn mz_add_to_class" href="'.home_url().'/login"' .
+										 'title="' . __('Login to Sign-up', 'mz-mindbody-api') . '">' . 
+										 __('Login to Sign-up', 'mz-mindbody-api') . '</a><br/>';
+									  }else{
+										  $signupButton = '<br/><a id="mz_add_to_class" class="mz_add_to_class"' 
+											. 'title="' .__('Sign-Up', 'mz-mindbody-api') . '"'
+											. ' data-nonce="' . $add_to_class_nonce 
+											. '" data-classID="' . $sclassidID  
+											. '" data-clientID="' . $clientID 
+											. '"></a>' .
+											'&nbsp; <span class="signup"> ' .
+											__('Sign-Up', 'mz-mindbody-api') . 
+											'</span><span class="count" style="display:none">0</span></a><br/>' . 
+											'<a id="visitMBO" class="visitMBO" href="'.$linkURL.'" target="_blank" ' . 
+											'style="display:none" title="' .
+											__('Manage on MindBody Site', 'mz-mindbody-api') . '">'.__('Manage on MindBody Site', 'mz-mindbody-api').'</a><br/>';
+											}
+									}else{
+										$signupButton = '<a class="btn" href="' . $linkURL . '" target="_blank">' . __('Sign-Up', 'mz-mindbody-api') . '</a>';
+									}
+
 								$tbl->addCell(date_i18n($this->mz_mbo_globals->time_format, strtotime($startDateTime)) . ' - ' . 
-									date_i18n($this->mz_mbo_globals->time_format, strtotime($endDateTime)) .
-									'<br/><a class="btn" href="' . $linkURL . '" target="_blank">' . __('Sign-Up', 'mz-mindbody-api') . '</a>');
+								date_i18n($this->mz_mbo_globals->time_format, strtotime($endDateTime)) .
+								'<br/>' . $signupButton );
 							}else{ 
 								$tbl->addCell(date_i18n($this->mz_mbo_globals->time_format, strtotime($startDateTime)) . ' - ' . 
 									date_i18n($this->mz_mbo_globals->time_format, strtotime($endDateTime)), 'mz_date_display');
@@ -337,9 +364,34 @@ class MZ_Mindbody_Schedule_Display {
 									$class_separator = ($key == $num_classes_min_one) ? '' : '<hr/>';
 									$linkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$sclassid}&amp;studioid={$studioid}";
 									if(!in_array('signup', $hide)){
-									$signupButton = '&nbsp;<a href="'.$linkURL.'" target="_blank" title="'.
-													__('Sign-Up', 'mz-mindbody-api'). '"><i class="fa fa-sign-in"></i></a><br/>';
-										}else{$signupButton = '';}
+										if ($advanced == 1){
+											if (isset($isAvailable) && ($isAvailable == 0)) {
+												$clientID = isset($_SESSION['GUID']) ? $_SESSION['client']['ID'] : '';
+												$add_to_class_nonce = wp_create_nonce( 'mz_MBO_add_to_class_nonce');
+												if ($clientID == ''){
+													 $signupButton = '<a class="btn mz_add_to_class fa fa-sign-in" href="'.home_url().'/login"' .
+													 'title="' . __('Login to Sign-up', 'mz-mindbody-api') . '"></a><br/>';
+													  }else{
+													  $signupButton = '<br/><a id="mz_add_to_class" class="fa fa-sign-in mz_add_to_class"' 
+														. 'title="' .__('Sign-Up', 'mz-mindbody-api') . '"'
+														. ' data-nonce="' . $add_to_class_nonce 
+														. '" data-classID="' . $sclassidID  
+														. '" data-clientID="' . $clientID 
+														. '"></a>' .
+														'&nbsp; <span class="signup"> ' .
+														'</span><span class="count" style="display:none">0</span></a><br/>' . 
+														'<a id="visitMBO" class="fa fa-wrench visitMBO" href="'.$linkURL.'" target="_blank" ' . 
+														'style="display:none" title="' .
+														__('Manage on MindBody Site', 'mz-mindbody-api') . '"></a><br/>';
+														}
+												}
+											}else{
+												$signupButton = '&nbsp;<a href="'.$linkURL.'" target="_blank" title="'.
+																__('Sign-Up', 'mz-mindbody-api'). '"><i class="fa fa-sign-in"></i></a><br/>';
+													}
+									}else{
+										$signupButton = '';
+										}
 									$session_type_css = sanitize_html_class($sessionTypeName, 'mz_session_type');
 
 									$class_details .= '<div class="mz_schedule_table mz_location_'.$sLoc.' '.'mz_' . 

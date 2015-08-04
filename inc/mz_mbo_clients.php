@@ -4,15 +4,20 @@ class MZ_MBO_Clients {
 
 	private $mz_mbo_globals;
 	private $mb;
-	
+		
 	public function __construct(){
 		require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
 		$this->mz_mbo_globals = new MZ_Mindbody_Init();
 	}
 
-	public function mZ_mindbody_login() {
+	public function mZ_mindbody_login($atts) {
 	
 		$this->mb = MZ_Mindbody_Init::instantiate_mbo_API();
+		
+	    $atts = shortcode_atts( array(
+			'welcome' => '',
+				), $atts );
+		$welcome = $atts['welcome'];
 
 		if(!empty($_POST)) {
 			$validateLogin = $this->mb->ValidateLogin(array(
@@ -23,7 +28,7 @@ class MZ_MBO_Clients {
 			if(!empty($validateLogin['ValidateLoginResult']['GUID'])) {
 				$_SESSION['GUID'] = $validateLogin['ValidateLoginResult']['GUID'];
 				$_SESSION['client'] = $validateLogin['ValidateLoginResult']['Client'];
-				$this->displayWelcome();
+				$this->displayWelcome($welcome);
 			} else {
 				if(!empty($validateLogin['ValidateLoginResult']['Message'])) {
 					echo $validateLogin['ValidateLoginResult']['Message'];
@@ -36,7 +41,7 @@ class MZ_MBO_Clients {
 		} else if(empty($_SESSION['GUID'])) {
 			return $this->displayLoginForm();
 		} else {
-			return $this->displayWelcome();
+			return $this->displayWelcome($welcome);
 		}
 
 	}
@@ -60,14 +65,17 @@ class MZ_MBO_Clients {
 EOD;
 	}
 
-	private function displayWelcome() {
+	private function displayWelcome($welcome) {
 		$globals = new Global_Strings();
 		$global_strings = $globals->translate_them();
 		$logout = $global_strings['logout'];
 		$logout_url = $global_strings['logout_url'];
-		echo '<h3>'.__('Welcome', 'mz-mindbody-api').'&nbsp; '.$_SESSION['client']['FirstName'].' '.$_SESSION['client']['LastName'].'<h3>';
-		echo '<br />';
-		echo '<a href="'.home_url().'/'.$logout_url.'" class="btn mz_add_to_class">'.$logout.'</a>';
+		$result = '';
+		$result .= '<h3 class="mz_login_welcome">'.__('Welcome', 'mz-mindbody-api').'&nbsp; '.$_SESSION['client']['FirstName'].' '.$_SESSION['client']['LastName'].'</h3>';
+		$result .= '<div class="mz_login_welcome" />';
+		$result .= $welcome . '</div>';
+		$result .= '<a href="'.home_url().'/'.$logout_url.'" class="btn mz_add_to_class">'.$logout.'</a>';
+		return $result;
 		}
 		
 	public function mZ_mindbody_logout() {
@@ -98,9 +106,14 @@ EOD;
 		return $return;
 		}
 		
-	public function mZ_mindbody_signup() {
+	public function mZ_mindbody_signup($atts) {
 
 	$this->mb = MZ_Mindbody_Init::instantiate_mbo_API();
+	
+	$atts = shortcode_atts( array(
+			'welcome' => '',
+				), $atts );
+		$welcome = $atts['welcome'];
 
 	if(!empty($_POST['website_url'])){
 		echo '<h1>'. __('Die Robot Spam!', 'mz-mindbody-api') . '</h1>';
@@ -129,9 +142,14 @@ EOD;
 				$_SESSION['GUID'] = $validateLogin['ValidateLoginResult']['GUID'];
 				$_SESSION['client'] = $validateLogin['ValidateLoginResult']['Client'];
 			}
-			echo '<h3>' . __('Congratulations. You are now logged in with your new Mindbody account.', 'mz-mindbody-api') . '</h3>';
-			echo '<h2>' . __('Sign-up for some classes.', 'mz-mindbody-api') . '</h2>';
-			//header('location:index.php');
+			$result = '';
+			$result .= '<h3>' . __('Congratulations. You are now logged in with your new Mindbody account.', 'mz-mindbody-api') . '</h3>';
+			if ($welcome == ''){
+				$result .= '<div class="mz_signup_welcome">' . __('Sign-up for some classes.', 'mz-mindbody-api') . '</div>';
+			}else{
+				$result .= '<div class="mz_signup_welcome">'.$welcome.'</div>';
+			}
+			return $result;
 		}
 	}
 	
