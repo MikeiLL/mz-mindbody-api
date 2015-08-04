@@ -23,6 +23,7 @@ class MZ_MBO_Events {
 		$location = $atts['location'];
 		$account = $atts['account'];
 		$advanced = $atts['advanced'];
+		$clientID = isset($_SESSION['GUID']) ? $_SESSION['client']['ID'] : '';
 		
 		$options = get_option( 'mz_mindbody_options' );
 		// grab session type IDs for events
@@ -124,7 +125,6 @@ class MZ_MBO_Events {
 								$return .= '<tr class="mz_description_holder"><td>';
 								$return .= "<h3>$className</h3>";
 								if ($advanced == 1) {
-									$clientID = isset($_SESSION['GUID']) ? $_SESSION['client']['ID'] : '';
 									$add_to_class_nonce = wp_create_nonce( 'mz_MBO_add_to_class_nonce');
 									if ($clientID == ''){
 										 $return .= $isAvailable ? '<br/><a class="btn mz_add_to_class" href="'.home_url().

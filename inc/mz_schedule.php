@@ -37,6 +37,10 @@ class MZ_Mindbody_Schedule_Display {
 		$grid = $atts['grid'];
 		$advanced = $atts['advanced'];
 		$class_types = $atts['class_types'];
+		$clientID = isset($_SESSION['GUID']) ? $_SESSION['client']['ID'] : '';
+		
+		$sign_up_text = __('Sign-Up', 'mz-mindbody-api');
+		$manage_text = __('Manage on MindBody Site', 'mz-mindbody-api');
 			
 	
 		if (($grid == 1) && ($type == 'day')) {
@@ -200,7 +204,6 @@ class MZ_Mindbody_Schedule_Display {
 
 						if (isset($isAvailable) && ($isAvailable != 0)) {
 							if ($advanced == 1){
-								$clientID = isset($_SESSION['GUID']) ? $_SESSION['client']['ID'] : '';
 								$add_to_class_nonce = wp_create_nonce( 'mz_MBO_add_to_class_nonce');
 								if ($clientID == ''){
 										 $signupButton = '<a class="btn mz_add_to_class" href="'.home_url().'/login"' .
@@ -208,22 +211,23 @@ class MZ_Mindbody_Schedule_Display {
 										 __('Login to Sign-up', 'mz-mindbody-api') . '</a><br/>';
 									  }else{
 										  $signupButton = '<br/><a id="mz_add_to_class" class="mz_add_to_class"' 
-											. 'title="' .__('Sign-Up', 'mz-mindbody-api') . '"'
+											. 'title="' . $sign_up_text . '"'
 											. ' data-nonce="' . $add_to_class_nonce 
 											. '" data-classID="' . $sclassidID  
 											. '" data-clientID="' . $clientID 
 											. '"></a>' .
 											'&nbsp; <span class="signup"> ' .
-											__('Sign-Up', 'mz-mindbody-api') . 
+											$sign_up_text .
 											'</span><span class="count" style="display:none">0</span></a><br/>' . 
 											'<a id="visitMBO" class="visitMBO" href="'.$linkURL.'" target="_blank" ' . 
 											'style="display:none" title="' .
-											__('Manage on MindBody Site', 'mz-mindbody-api') . '">'.__('Manage on MindBody Site', 'mz-mindbody-api').'</a><br/>';
+											$manage_text . '">'.$manage_text.'</a><br/>';
 											}
 									}else{
 										$signupButton = '<a class="btn" href="' . $linkURL . '" target="_blank">' . __('Sign-Up', 'mz-mindbody-api') . '</a>';
 									}
-
+								mz_pr($signupButton);
+									
 								$tbl->addCell(date_i18n($this->mz_mbo_globals->time_format, strtotime($startDateTime)) . ' - ' . 
 								date_i18n($this->mz_mbo_globals->time_format, strtotime($endDateTime)) .
 								'<br/>' . $signupButton );
