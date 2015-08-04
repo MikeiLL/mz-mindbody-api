@@ -24,6 +24,7 @@ $(document).ready(function($) {
 						if(json.type == "success") {
 						   $(".mz_add_to_class"+nuVal).find(".signup").text(json.message);
 						   $(".mz_description_holder").find(".visitMBO"+nuVal).removeAttr("style");
+						   //$(".mz_add_to_class"+nuVal).find(".fa-sign-in").switchClass('fa-sign-in', 'fa-check-square-o');
 						}
 						else {
 						   $(".mz_add_to_class"+nuVal).find(".signup").text(json.message);

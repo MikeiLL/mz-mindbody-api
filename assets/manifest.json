@@ -12,6 +12,12 @@
       ],
       "main": true
     },
+    "ajax-mbo-add-to-classes.js": {
+    "files": [
+        "scripts/ajax-mbo-add-to-classes.js"
+      ],
+      "main": true
+    },
     "main.css": {
       "files": [
         "styles/main.scss"
