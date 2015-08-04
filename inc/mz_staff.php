@@ -16,9 +16,10 @@ class MZ_MBO_Staff {
 	  $mz_staff_cache = "mz_staff_cache";
   
 	  // optionally pass in a type parameter. Defaults to week.
-		extract( shortcode_atts( array(
+		$atts = shortcode_atts( array(
 			'account' => '0'
-				), $atts ) );
+				), $atts );
+		$account = $atts['account'];
 			
 	  if ( $mz_cache_reset == "on" ){
 		delete_transient( $mz_staff_cache );
