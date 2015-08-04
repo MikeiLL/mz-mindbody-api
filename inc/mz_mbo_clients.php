@@ -14,6 +14,8 @@ class MZ_MBO_Clients {
 	
 		$this->mb = MZ_Mindbody_Init::instantiate_mbo_API();
 		
+		wp_enqueue_style('mZ_mindbody_schedule_bs', asset_path('styles/main.css'), false, null);
+		
 	    $atts = shortcode_atts( array(
 			'welcome' => '',
 				), $atts );
@@ -80,6 +82,7 @@ EOD;
 		}
 		
 	public function mZ_mindbody_logout() {
+		wp_enqueue_style('mZ_mindbody_schedule_bs', asset_path('styles/main.css'), false, null);
 		if (phpversion() >= 5.4) {
 				if (session_status() == PHP_SESSION_NONE) {
 					session_start();
@@ -110,6 +113,8 @@ EOD;
 	public function mZ_mindbody_signup($atts) {
 
 	$this->mb = MZ_Mindbody_Init::instantiate_mbo_API();
+	
+	wp_enqueue_style('mZ_mindbody_schedule_bs', asset_path('styles/main.css'), false, null);
 	
 	$atts = shortcode_atts( array(
 			'welcome' => '',
