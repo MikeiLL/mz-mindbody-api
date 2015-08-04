@@ -215,21 +215,18 @@ class MZ_Mindbody_Schedule_Display {
 										 'title="' . __('Login to Sign-up', 'mz-mindbody-api') . '">' . 
 										 __('Login to Sign-up', 'mz-mindbody-api') . '</a><br/>';
 									  }else{
-										  $signupButton = '<br/><a id="mz_add_to_class" class="mz_add_to_class"' 
-											. 'title="' . $sign_up_text . '"'
+										  $signupButton = $signupButton = '<br/>' 
+											. '	<a id="mz_add_to_class" class="btn mz_add_to_class"' 
 											. ' data-nonce="' . $add_to_class_nonce 
 											. '" data-classID="' . $sclassidID  
 											. '" data-clientID="' . $clientID 
-											. '"></a>' .
-											'&nbsp; <span class="signup"> ' .
-											$sign_up_text .
-											'</span><span class="count" style="display:none">0</span></a><br/>' . 
-											'<a id="visitMBO" class="visitMBO" href="'.$linkURL.'" target="_blank" ' . 
-											'style="display:none" title="' .
-											$manage_text . '">'.$manage_text.'</a><br/>';
+											. '">' .
+											'<span class="count" style="display:none">0</span>' . 
+											'<span class="signup">'. $sign_up_text .
+											'</span></a>' ;
 											}
 									}else{
-										$signupButton = '<a class="btn" href="' . $linkURL . '" target="_blank">' . __('Sign-Up', 'mz-mindbody-api') . '</a>';
+										$signupButton = '<a class="btn" href="' . $linkURL . '" target="_blank">' . $sign_up_text . '</a>';
 									}
 									
 								$tbl->addCell(date_i18n($this->mz_mbo_globals->time_format, strtotime($startDateTime)) . ' - ' . 
@@ -248,7 +245,7 @@ class MZ_Mindbody_Schedule_Display {
 						// trigger link modal
 								'<br/><div id="visitMBO" class="btn visitMBO" style="display:none">' .
 							'<a href="'.$linkURL.'" target="_blank">' .
-							__('Manage on MindBody Site',' mz-mindbody-api') . '</a></div>' .
+							$manage_text . '</a></div>' .
 							$showCancelled , 'mz_classDetails');
 
 
