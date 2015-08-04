@@ -1,4 +1,3 @@
-(function($){
 $(document).ready(function($) {
 	var mZ_row_count = 1;
 		$('.mz_add_to_class').click(function(){
@@ -19,12 +18,11 @@ $(document).ready(function($) {
 					 type : "post",
 					 dataType : "json",
 					 url : mZ_add_to_classes.ajaxurl,
-					 data : {action: 'mz_mbo_add_client_ajax', nonce: nonce, clientID: clientID, classID: classID},
+					 data : {action: 'mz_mbo_add_client', nonce: nonce, clientID: clientID, classID: classID},
 					 success: function(json) {
 						if(json.type == "success") {
 						   $(".mz_add_to_class"+nuVal).find(".signup").text(json.message);
 						   $(".mz_description_holder").find(".visitMBO"+nuVal).removeAttr("style");
-						   //$(".mz_add_to_class"+nuVal).find(".fa-sign-in").switchClass('fa-sign-in', 'fa-check-square-o');
 						}
 						else {
 						   $(".mz_add_to_class"+nuVal).find(".signup").text(json.message);
@@ -34,4 +32,3 @@ $(document).ready(function($) {
 				  });  
 		    });
 		});
-})(jQuery);
