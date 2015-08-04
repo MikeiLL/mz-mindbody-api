@@ -71,10 +71,11 @@ EOD;
 		$logout = $global_strings['logout'];
 		$logout_url = $global_strings['logout_url'];
 		$result = '';
-		$result .= '<h3 class="mz_login_welcome">'.__('Welcome', 'mz-mindbody-api').'&nbsp; '.$_SESSION['client']['FirstName'].' '.$_SESSION['client']['LastName'].'</h3>';
-		$result .= '<div class="mz_login_welcome" />';
-		$result .= $welcome . '</div>';
-		$result .= '<a href="'.home_url().'/'.$logout_url.'" class="btn mz_add_to_class">'.$logout.'</a>';
+		//TODO why doesn't return result work?
+		echo '<h3 class="mz_login_welcome">'.__('Welcome', 'mz-mindbody-api').'&nbsp; '.$_SESSION['client']['FirstName'].' '.$_SESSION['client']['LastName'].'</h3>';
+		echo '<div class="mz_login_welcome" />';
+		echo $welcome . '</div>';
+		echo '<a href="'.home_url().'/'.$logout_url.'" class="btn mz_add_to_class">'.$logout.'</a>';
 		return $result;
 		}
 		
