@@ -80,11 +80,5 @@ function asset_path($filename) {
   }
 }
 
-function assets() {
-  wp_enqueue_style('mZ_mindbody_schedule_bs', asset_path('styles/main.css'), false, null);
-  wp_enqueue_script('modernizr', asset_path('scripts/modernizr.js'), array(), null, true);
-  wp_enqueue_script('mz_mbo_bootstrap_script', asset_path('scripts/main.js'), array('jquery'), null, true);
-
-}
 
 

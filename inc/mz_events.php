@@ -11,8 +11,13 @@ class MZ_MBO_Events {
 	
 	public function mZ_mindbody_show_events ($atts, $account=0) {
 
-		//global $add_mz_ajax_script;
-		//$add_mz_ajax_script = true;
+		global $add_mz_ajax_script;
+		$add_mz_ajax_script = true;
+		
+		wp_enqueue_style('mZ_mindbody_schedule_bs', asset_path('styles/main.css'), false, null);
+		wp_enqueue_script('modernizr', asset_path('scripts/modernizr.js'), array(), null, true);
+		wp_enqueue_script('mz_mbo_bootstrap_script', asset_path('scripts/main.js'), array('jquery'), null, true);
+		wp_enqueue_script('mZ_add_to_classes', asset_path('scripts/ajax-mbo-add-to-classes.js'), array('jquery'), null, true);
 
 		// optionally pass in a type parameter. Defaults to week.
 		$atts = shortcode_atts( array(
