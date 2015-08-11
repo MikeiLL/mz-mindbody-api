@@ -74,12 +74,12 @@ class MZ_Mindbody_Schedule_Display {
 		if ($type==__('day', 'mz-mindbody-api'))
 		{
 			$mz_timeframe = array_slice(mz_getDateRange($mz_date, 1), 0, 1);
-			$mz_schedule_cache = "mz_schedule_day_cache_" . mt_rand(1, 10);
+			$mz_schedule_cache = "mz_schedule_day_cache";
 		}
 		else
 		{   
 			$mz_timeframe = array_slice(mz_getDateRange($mz_date, 7), 0, 1);
-			$mz_schedule_cache = "mz_schedule_week_cache_" . mt_rand(1, 10);
+			$mz_schedule_cache = "mz_schedule_week_cache";
 		}
 
 		//While we still need to support php 5.2 and can't use [0] on above
@@ -90,6 +90,11 @@ class MZ_Mindbody_Schedule_Display {
 		$mz_cache_reset = isset($this->mz_mbo_globals->options['mz_mindbody_clear_cache']) ? "on" : "off";
 
 		if ( $mz_cache_reset == "on" ){
+		/*
+		* Creating Multiple Transients is causing problem: Page doesn't know which to load, so removing for now.
+		*
+		* Above was using $mz_schedule_cache = "mz_schedule_week_cache_" . mt_rand(1, 10); but reverting
+		*/
 
 		global $wpdb;
     	$sql = "SELECT `option_name` AS `name`, `option_value` AS `value`
@@ -107,6 +112,8 @@ class MZ_Mindbody_Schedule_Display {
 		}
     
 		$mz_schedule_data = get_transient( $mz_schedule_cache );
+		mz_pr($mz_schedule_cache);
+		mz_pr($mz_schedule_data['GetClassesResult']['Classes']['Class'][0]['Location']['BusinessDescription']);
 
 		if (isset($_GET['mz_date']) || ( '' == $mz_schedule_data ) ){
 			/* uncomment line mz_pr("OKAY We ARE DOING IT."); in inc/mz_mbo_init.php
