@@ -74,12 +74,12 @@ class MZ_Mindbody_Schedule_Display {
 		if ($type==__('day', 'mz-mindbody-api'))
 		{
 			$mz_timeframe = array_slice(mz_getDateRange($mz_date, 1), 0, 1);
-			$mz_schedule_cache = "mz_schedule_day_cache_" . mt_rand(1, 10);
+			$mz_schedule_cache = "mz_schedule_day_cache";
 		}
 		else
 		{   
 			$mz_timeframe = array_slice(mz_getDateRange($mz_date, 7), 0, 1);
-			$mz_schedule_cache = "mz_schedule_week_cache_" . mt_rand(1, 10);
+			$mz_schedule_cache = "mz_schedule_week_cache";
 		}
 
 		//While we still need to support php 5.2 and can't use [0] on above
@@ -90,20 +90,7 @@ class MZ_Mindbody_Schedule_Display {
 		$mz_cache_reset = isset($this->mz_mbo_globals->options['mz_mindbody_clear_cache']) ? "on" : "off";
 
 		if ( $mz_cache_reset == "on" ){
-
-		global $wpdb;
-    	$sql = "SELECT `option_name` AS `name`, `option_value` AS `value`
-            FROM  $wpdb->options
-            WHERE `option_name` LIKE '%transient_%'
-            ORDER BY `option_name`";
-
-   		$results = $wpdb->get_results( $sql );
-
-		foreach ( $results as $result ) {
-				if ( false !== strpos($result->name, 'mz_schedule') ) {
-					delete_transient( substr($result->name, 11) );
-					}
-			}
+			delete_transient( $mz_schedule_cache );
 		}
     
 		$mz_schedule_data = get_transient( $mz_schedule_cache );
