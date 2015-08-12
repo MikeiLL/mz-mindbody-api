@@ -92,10 +92,9 @@ class MZ_Mindbody_Schedule_Display {
 		if ( $mz_cache_reset == "on" ){
 			delete_transient( $mz_schedule_cache );
 		}
-    
-		$mz_schedule_data = get_transient( $mz_schedule_cache );
-
-		if (isset($_GET['mz_date']) || ( '' == $mz_schedule_data ) ){
+		
+		// If receiving parameters in $_GET or transient deleted we need to send a new date range so reset transient
+		if (isset($_GET) || ( false === ( $mz_schedule_data = get_transient( $mz_schedule_cache ) ) ) ) {
 			/* uncomment line mz_pr("OKAY We ARE DOING IT."); in inc/mz_mbo_init.php
 			 * to see confirmation in broser of if MBO was called with the following 
 			 * line.
@@ -115,7 +114,7 @@ class MZ_Mindbody_Schedule_Display {
 			//Cache the mindbody call for 24 hours
 			// TODO make cache timeout configurable.
 			set_transient($mz_schedule_cache, $mz_schedule_data, 60 * 60 * 24);
-			
+		   // END caching*/
 		}
 
 		$return = '';
