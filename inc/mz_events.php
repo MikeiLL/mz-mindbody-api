@@ -158,7 +158,7 @@ class MZ_MBO_Events {
 								}else{
 									$return .= '<a class="btn" href="' . $eventLinkURL . '" target="_blank">' . __('Sign-Up', 'mz-mindbody-api') . '</a>';
 								}
-								$return .= '<p class="mz_event_staff_name">'.$global_strings['with'] . $staffName.'</p>';						
+								$return .= '<p class="mz_event_staff_name">'.$global_strings['with'] . '&nbsp;' . $staffName.'</p>';						
 								$return .= '<h4 class="mz_event_staff">'.$day_and_date.', ' . date_i18n('g:i a', strtotime($startDateTime)).' - ';
 								$return .= date_i18n('g:i a', strtotime($endDateTime)) . '</h4>';
 
