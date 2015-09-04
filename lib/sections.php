@@ -202,8 +202,8 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 		<?php _e('Add to page or post with shortcode:', 'mz-mindbody-api'); 
 		echo '&nbsp;';
 		printf('[%1$s], [%2$s], [%3$s], [%4$s %5$s=%6$s %7$s="1, 2" %8$s=-99 %9$s="Meditation, Hot Yoga"]',
-		'mz_mindbody_show_schedule', 'mz_mindbody_show_events', 'mz_mindbody_staff_list',
-		'mz_mindbody_show_schedule', 'type', 'day', 'locations', 'account', 'class_types'); 
+		'mz-mindbody-show-schedule', 'mz-mindbody-show-events', 'mz-mindbody-staff-list',
+		'mz-mindbody-show-schedule', 'type', 'day', 'locations', 'account', 'class_types'); 
 		echo '<br/>('.__('-99 is the MBO sandbox/testing account', 'mz-mindbody-api').')</font></p>';
 		echo '<p>';
 		echo __('Grid and Filter can be added like this:', 'mz-mindbody-api').'<br/>';
