@@ -21,13 +21,28 @@ class MZ_MBO_Events {
 		// optionally pass in a type parameter. Defaults to week.
 		$atts = shortcode_atts( array(
 			'location' => '1',
+			'locations' => '',
 			'account' => '0',
 			'advanced' => '1',
 				), $atts );
 		$location = $atts['location'];
+		$locations = $atts['locations'];
 		$account = $atts['account'];
 		$advanced = $atts['advanced'];
 		$clientID = isset($_SESSION['GUID']) ? $_SESSION['client']['ID'] : '';
+		
+		/*
+		 * This is for backwards compatibility for previous to using an array to hold one or more locations.
+		*/
+		if (($locations == '') || !isset($locations)) {
+			if ($location == '') {
+				$locations = array('1');
+			}else{
+				$locations = array($location);
+			}
+		}else{
+			$locations = explode(', ', $atts['locations']);
+			}
 		
 		$options = get_option( 'mz_mindbody_options' );
 		// grab session type IDs for events
@@ -49,40 +64,37 @@ class MZ_MBO_Events {
 
 			// START caching configuration
 			$mz_events_cache = "mz_events_cache";
-			$mz_cache_reset = isset($options['mz_mindbody_clear_cache']) ? "on" : "off";
+
+			$mz_cache_reset = isset($this->mz_mbo_globals->options['mz_mindbody_clear_cache']) ? "on" : "off";
 
 			if ( $mz_cache_reset == "on" )
 			{
 				delete_transient( $mz_events_cache );
 			}
 			
-			$mz_event_data = get_transient( $mz_events_cache );
-			
-			if ( false === $mz_event_data )
-			{
+			if (isset($_GET) || ( false === ( $mz_event_data = get_transient( $mz_events_cache ) ) ) ) {
 				$mb = MZ_Mindbody_Init::instantiate_mbo_API();
 				if ($account == 0) {
-				$mz_schedule_data = $mb->GetClasses($mz_timeframe);
+				$mz_event_data = $mb->GetClasses($mz_timeframe);
 			}else{
 				$mb->sourceCredentials['SiteIDs'][0] = $account; 
-				$mz_schedule_data = $mb->GetClasses($mz_timeframe);
-			}
 				$mz_event_data = $mb->GetClasses($mz_timeframe);
 			}
+				
+			$mz_event_data = $mb->GetClasses($mz_timeframe);
 
-			//Cache the mindbody call for 1 hour
+			//echo $mb->debug();
+
+			//Cache the mindbody call for 24 hour2
 			// TODO make cache timeout configurable.
-			
-			set_transient($mz_events_cache, $mz_event_data, 60 * 60);
-			
+			set_transient($mz_events_cache, $mz_event_data, 60 * 60 * 24);
+			}
 			// END caching configuration
-			// keep this here
-			//$return .= $mb->debug();
-		
+			
 			if(!empty($mz_event_data['GetClassesResult']['Classes']['Class']))
 			{
 				$classes = $this->makeNumericArray($mz_event_data['GetClassesResult']['Classes']['Class']);
-				$classes = sortClassesByDate($classes, $this->mz_mbo_globals->time_format);
+				$classes = sortClassesByDate($classes, $this->mz_mbo_globals->time_format, $locations, 'DropIn');
 				$number_of_events = count($classes);
 				$return .= '<p>' .$this->mz_mbo_globals->mz_event_calendar_duration .' '. __('Day Event Calendar');
 				$return .=  ' '. date_i18n($this->mz_mbo_globals->date_format, strtotime($mz_timeframe['StartDateTime']));
@@ -118,9 +130,9 @@ class MZ_MBO_Events {
 								$sTG = $class['ClassDescription']['Program']['ID'];
 								$eventLinkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$sclassid}&amp;studioid={$studioid}";
 								$className = $class['ClassDescription']['Name'];
-								$startDateTime = date_i18n($date_format . ' ' .$time_format, strtotime($class['StartDateTime']));
+								$startDateTime = date_i18n($this->mz_mbo_globals->date_format . ' ' .$this->mz_mbo_globals->time_format, strtotime($class['StartDateTime']));
 								$classDescription = $class['ClassDescription']['Description'];
-								$endDateTime = date_i18n($date_format . ' ' . $time_format, strtotime($class['EndDateTime']));
+								$endDateTime = date_i18n($this->mz_mbo_globals->date_format . ' ' . $this->mz_mbo_globals->time_format, strtotime($class['EndDateTime']));
 								$staffName = $class['Staff']['Name'];
 								$ItemType = $class['ClassDescription']['Program']['Name'];
 								$enrolmentType = $class['ClassDescription']['Program']['ScheduleType'];

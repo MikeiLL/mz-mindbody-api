@@ -1,5 +1,5 @@
 <?php
-function sortClassesByDate($mz_classes = array(), $time_format = "g:i a", $locations = array(1)) {
+function sortClassesByDate($mz_classes = array(), $time_format = "g:i a", $locations = array(1), $type = 'Enrollment') {
 	$mz_classesByDate = array();
 	foreach($mz_classes as $class)
 	{
@@ -10,7 +10,7 @@ function sortClassesByDate($mz_classes = array(), $time_format = "g:i a", $locat
 			if (
 				(!in_array($class['Location']['ID'], $locations)) || 
 				(($class['IsCanceled'] == 1) && ($class['HideCancel'] == 1)) ||
-				($class['ClassDescription']['Program']['ScheduleType'] == 'Enrollment')
+				($class['ClassDescription']['Program']['ScheduleType'] == $type)
 				) {
 					continue;
 				}
@@ -19,7 +19,7 @@ function sortClassesByDate($mz_classes = array(), $time_format = "g:i a", $locat
 			if (
 				(!in_array($class['Location']['ID'], $locations)) || 
 				(($class['IsCanceled'] == 1) && ($class['HideCancel'] == 1)) ||
-				($class['ClassDescription']['Program']['ScheduleType'] == 'Enrollment')
+				($class['ClassDescription']['Program']['ScheduleType'] == $type)
 				) {
 					continue;
 				}
