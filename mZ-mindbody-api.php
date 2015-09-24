@@ -347,7 +347,7 @@ class mZ_Mindbody_day_schedule extends WP_Widget {
             'classname' => 'mZ_Mindbody_day_schedule_class',
             'description' => __('Display class schedule for current day.', 'mz-mindbody-api')
             );
-        $this->WP_Widget('mZ_Mindbody_day_schedule', __('Today\'s MindBody Schedule', 'mz-mindbody-api'),
+        parent::__construct('mZ_Mindbody_day_schedule', __('Today\'s MindBody Schedule', 'mz-mindbody-api'),
                             $widget_ops );
     } 
     
