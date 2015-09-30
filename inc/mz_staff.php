@@ -26,8 +26,9 @@ class MZ_MBO_Staff {
 		
 		wp_enqueue_style('mZ_mindbody_schedule_bs', asset_path('styles/main.css'), false, null);
 		wp_enqueue_script('modernizr', asset_path('scripts/modernizr.js'), array(), null, true);
+		
 		if ($gallery_style == 1)
-		wp_enqueue_script('mz_mbo_bootstrap_script', asset_path('scripts/main.js'), array('jquery'), null, true);
+			wp_enqueue_script('mz_mbo_bootstrap_script', asset_path('scripts/main.js'), array('jquery'), null, true);
 		
 	  if ( $mz_cache_reset == "on" ){
 		delete_transient( $mz_staff_cache );
