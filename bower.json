@@ -29,7 +29,14 @@
     },
     "bootstrap-sass-official": {
       "main": [
+    		"./assets/stylesheets/bootstrap/mixins/_clearfix.scss",
+    		"./assets/stylesheets/bootstrap/mixins/_grid-framework.scss",
+    		"./assets/stylesheets/bootstrap/mixins/_vendor-prefixes.scss",
     		"./assets/stylesheets/bootstrap/_variables.scss",
+        "./assets/stylesheets/bootstrap/mixins/_grid.scss",
+        "./assets/stylesheets/bootstrap/mixins/_image.scss",
+      	"./assets/stylesheets/bootstrap/_grid.scss",
+      	"./assets/stylesheets/bootstrap/_thumbnails.scss",
     		"./assets/stylesheets/bootstrap/mixins/_buttons.scss",
     		"./assets/stylesheets/bootstrap/mixins/_clearfix.scss",
     		"./assets/stylesheets/bootstrap/mixins/_opacity.scss",

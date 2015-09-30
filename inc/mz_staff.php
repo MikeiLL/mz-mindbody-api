@@ -9,6 +9,7 @@ class MZ_MBO_Staff {
 		$this->mz_mbo_globals = new MZ_Mindbody_Init();
 	}
 
+	
 	public function mZ_mindbody_staff_listing($atts, $account=0) {
 	
 	  $options = get_option( 'mz_mindbody_options','Option Not Set' );
@@ -17,10 +18,17 @@ class MZ_MBO_Staff {
   
 	  // optionally pass in a type parameter. Defaults to week.
 		$atts = shortcode_atts( array(
-			'account' => '0'
+			'account' => '0',
+			'gallery-style' => '0'
 				), $atts );
 		$account = $atts['account'];
-			
+		$gallery_style = $atts['gallery-style'];
+		
+		wp_enqueue_style('mZ_mindbody_schedule_bs', asset_path('styles/main.css'), false, null);
+		wp_enqueue_script('modernizr', asset_path('scripts/modernizr.js'), array(), null, true);
+		if ($gallery_style == 1)
+		wp_enqueue_script('mz_mbo_bootstrap_script', asset_path('scripts/main.js'), array('jquery'), null, true);
+		
 	  if ( $mz_cache_reset == "on" ){
 		delete_transient( $mz_staff_cache );
 	  }
@@ -42,7 +50,12 @@ class MZ_MBO_Staff {
 	
 	  }
 
-	  $return = '';
+	  $return = <<<EFD
+		   <!-- Page Content -->
+    <div class="container">
+
+        <div class="row">
+EFD;
 
 	  $mz_staff_list = $mbo_staff_data['GetStaffResult']['StaffMembers']['Staff'];
 
@@ -61,23 +74,34 @@ class MZ_MBO_Staff {
 		  $mz_staff_image = $staff_member['ImageURL'];
 		  $mz_staff_id = $staff_member['ID'];
 
-		  $return .= '<div class="mz_mbo_staff_profile clearfix">';
-		  $return .= '<div class="mz_mbo_staff_caption">';
-		  $return .= '<h3>' . $mz_staff_name . '</h3>';
-		  $return .= '</div>';
-		  $return .= '<div class="mz_mbo_staff_bio">';
-		  $return .= '<div class="mz_mbo_staff_photo">';
-		  $return .= '<img src="' . $mz_staff_image . '" alt="">';
-		  $return .= '<p class="mz_mbo_staff_schedule">';
-		  $return .= '<a href="http://clients.mindbodyonline.com/ws.asp?studioid=' . $options['mz_mindbody_siteID'] . '&stype=-7&sView=week&sTrn=' . $mz_staff_id . '" class="btn btn-info">See ' . $mz_staff_name .'&apos;s Schedule</a>';
-		  $return .= '</p>';
-		  $return .= '</div>';
-		  $return .= '</div>';
-		  $return .= $mz_staff_bio;
-		  $return .= '</div>';
-		  $return .= '<hr/>';
-		}
+
+		  //$return .= '<div class="mz_mbo_staff_profile clearfix">';
+		  //$return .= '<div class="mz_mbo_staff_caption">';
+		  //$return .= '<h3>' . $mz_staff_name . '</h3>';
+		  //$return .= '</div>';
+		  //$return .= '<div class="mz_mbo_staff_details">';
+		  
+		  //$return .= '<div class="mz_mbo_staff_photo">';
+		  //$return .= '<img src="' . $mz_staff_image . '" alt="">';
+		   $return .=     '<div class="col-lg-3 col-md-4 col-xs-6 mz-staff-thumb">';
+       $return .=         '<a class="thumbnail" href="#">';
+       $return .=             sprintf('<img class="img-responsive" src="%s" alt="">', $mz_staff_image);
+       $return .=        ' </a>';
+       $return .=     '</div>';
+		  //$return .= '<p class="mz_mbo_staff_schedule">';
+		  //$return .= '<a class="btn btn-default mz_staff_button"href="http://clients.mindbodyonline.com/ws.asp?studioid=' . $options['mz_mindbody_siteID'] . '&stype=-7&sView=week&sTrn=' . $mz_staff_id . '" class="btn btn-info">See ' . $mz_staff_name .'&apos;s Schedule</a>';
+		  
+		  //$return .= '</p>';
+		  //$return .= '</div>';
+		  
+		  //$return .= '<div class="mz_mbo_staff_bio">';
+		  //$return .= $mz_staff_bio;
+		  //$return .= '</div>';
+			}
 	  }
+	  
+		$return .= '</div>';
+		$return .= '</div>';
 	  return $return;
 	}
 
