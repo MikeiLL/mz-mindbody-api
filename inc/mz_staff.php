@@ -74,7 +74,17 @@ EFD;
 		  $mz_staff_bio = str_replace($mz_empty_tags_pattern, '', $mz_staff_bio);
 		  $mz_staff_image = $staff_member['ImageURL'];
 		  $mz_staff_id = $staff_member['ID'];
-
+		  
+/* $tbl->addCell(
+							'<a data-toggle="modal" data-target="#mzModal" href="' . MZ_MINDBODY_SCHEDULE_URL . 
+							'inc/modal_descriptions.php?classDescription=' . 
+							urlencode(substr($classDescription, 0, 1000)) . 
+							'&amp;className='. urlencode(substr($className, 0, 1000)) .'">' . $className . '</a>' .
+						trigger link modal
+								'<br/><div id="visitMBO" class="btn visitMBO" style="display:none">' .
+							'<a href="'.$linkURL.'" target="_blank">' .
+							$manage_text . '</a></div>' .
+							$showCancelled , 'mz_classDetails'); */
 
 		  //$return .= '<div class="mz_mbo_staff_profile clearfix">';
 		  //$return .= '<div class="mz_mbo_staff_caption">';
@@ -85,8 +95,13 @@ EFD;
 		  //$return .= '<div class="mz_mbo_staff_photo">';
 		  //$return .= '<img src="' . $mz_staff_image . '" alt="">';
 		   $return .=     '<div class="col-lg-3 col-md-4 col-xs-6 mz-staff-thumb">';
-       $return .=         '<a class="thumbnail" href="#">';
-       $return .=             sprintf('<img class="img-responsive" src="%s" alt="">', $mz_staff_image);
+       $return .=         '<a class="thumbnail" data-toggle="modal" data-target="#mzModal" href="' . MZ_MINDBODY_SCHEDULE_URL . 
+							'inc/modal_biographies.php?staffBiography=' . 
+							urlencode(substr($mz_staff_bio, 0, 1000)) . 
+							'&amp;staffName='. urlencode(substr($mz_staff_name, 0, 1000)) .
+							'&amp;staffImage='. urlencode(substr($mz_staff_image, 0, 1000)) .'">';
+       $return .=             sprintf('<img class="img-responsive mz-staff-image" src="%s" alt="">', $mz_staff_image);
+       $return .= 						sprintf('<div class="mz-staff-name">%s</div>',$mz_staff_name);
        $return .=        ' </a>';
        $return .=     '</div>';
 		  //$return .= '<p class="mz_mbo_staff_schedule">';
@@ -103,6 +118,11 @@ EFD;
 	  
 		$return .= '</div>';
 		$return .= '</div>';
+		$return .= '<div id="mzModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mzSmallModalLabel" aria-hidden="true">
+					 <div class="modal-content">
+
+					</div>
+			</div>';
 	  return $return;
 	}
 

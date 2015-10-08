@@ -38,7 +38,7 @@ We want to do as little as possible here so CSS can be defined in theme.
 			.red {background:red}
 			.mz_add_to_class { cursor:pointer; }
 		
-		.modal-sm {
+		.mz-modal {
 			background-color: #fff;
 		}
 		
@@ -53,6 +53,14 @@ We want to do as little as possible here so CSS can be defined in theme.
 		}
 		
 		.mz-staff-thumb {
-    	height: 200px;
+    	height: 240px;
     	margin-bottom: 1rem;
+		}
+		
+		.mz-staff-name{
+			text-align: center;
+		}
+		
+		.mz_modal_staff_image_body {
+			float: left;
 		}
