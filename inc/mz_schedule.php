@@ -224,10 +224,10 @@ class MZ_Mindbody_Schedule_Display {
 									}
 
 						$tbl->addCell(
-							'<a data-toggle="modal" data-target="#mzModal" href="' . MZ_MINDBODY_SCHEDULE_URL . 
-							'inc/modal_descriptions.php?classDescription=' . 
-							urlencode(substr($classDescription, 0, 1000)) . 
-							'&amp;className='. urlencode(substr($className, 0, 1000)) .'">' . $className . '</a>' .
+							'<a data-toggle="modal" data-target="#mzModal" ' .
+									'data-maincontent="' . rawurlencode(substr($classDescription, 0, 1000)) . 
+									'" href="' . MZ_MINDBODY_SCHEDULE_URL . 
+									'inc/modal_descriptions.php?className='. urlencode(substr($className, 0, 1000)) .'">' . $className . '</a>' .
 						// trigger link modal
 								'<br/><div id="visitMBO" class="btn visitMBO" style="display:none">' .
 							'<a href="'.$linkURL.'" target="_blank">' .
@@ -386,10 +386,10 @@ class MZ_Mindbody_Schedule_Display {
 
 									$class_details .= '<div class="mz_schedule_table mz_description_holder mz_location_'.$sLoc.' '.'mz_' . 
 									$session_type_css .'">' .
-									'<a data-toggle="modal" data-target="#mzModal" href="' . MZ_MINDBODY_SCHEDULE_URL . 
-									'inc/modal_descriptions.php?classDescription=' . 
-									urlencode(substr($classDescription, 0, 1000)) . 
-									'&amp;className='. urlencode(substr($className, 0, 1000)) .'">' . $className . '</a>' .
+									'<a data-toggle="modal" data-target="#mzModal" ' .
+									'data-maincontent="' . rawurlencode(substr($classDescription, 0, 1000)) .
+									'" href="' . MZ_MINDBODY_SCHEDULE_URL . 
+									'inc/modal_descriptions.php?className='. urlencode(substr($className, 0, 1000)) .'">' . $className . '</a>' .
 									'<br/>' .	 
 									$teacher . $signupButton .
 									$classLength . $showCancelled . $locationNameDisplay . '</div>' .

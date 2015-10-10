@@ -1,7 +1,6 @@
 <?php
-if (isset($_GET["classDescription"]))
+if (isset($_GET["className"]))
   {
-    $modal_description = $_GET["classDescription"];
     $modal_name = $_GET["className"];
 ?>
 <div class="modal-dialog modal-wide mz-modal">
@@ -10,6 +9,8 @@ if (isset($_GET["classDescription"]))
       <h4 class="modal-title" id="mzSmallModalLabel"><?php echo stripslashes($modal_name)?></h4>
     </div>
      <div class="modal-body">
+      <span>
+     	</span>
       <?php echo stripslashes($modal_description)?>
     </div>
     <div class="modal-footer">

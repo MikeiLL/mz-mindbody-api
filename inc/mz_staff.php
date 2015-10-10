@@ -108,10 +108,8 @@ EFD;
 				$return .= '<hr style="clear:both"/>';
 		  } else {
 				$return .=     '<div class="col-lg-3 col-md-4 col-xs-6 mz-staff-thumb">';
-				$return .=         '<a class="thumbnail" data-toggle="modal" data-target="#mzModal" href="' . MZ_MINDBODY_SCHEDULE_URL . 
-							'inc/modal_biographies.php?staffBiography=' . 
-							urlencode(substr($mz_staff_bio, 0, 1000)) . 
-							'&amp;staffName='. urlencode(substr($mz_staff_name, 0, 1000)) .
+				$return .=     '<a class="thumbnail" data-toggle="modal" data-target="#mzModal" data-maincontent="'. rawUrlEncode($mz_staff_bio) .'" href="' . MZ_MINDBODY_SCHEDULE_URL . 
+							'inc/modal_biographies.php?staffName='. urlencode(substr($mz_staff_name, 0, 1000)) .
 							'&amp;staffID='. urlencode(substr($mz_staff_id, 0, 1000)) .
 							'&amp;siteID='. urlencode(substr($mz_site_id, 0, 1000)) .
 							'&amp;domStart='. $mz_replace_dom_start .

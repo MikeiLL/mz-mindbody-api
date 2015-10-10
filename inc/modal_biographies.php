@@ -2,9 +2,9 @@
 $MBO_URL_PARTS = array('http://clients.mindbodyonline.com/ws.asp?studioid=',
 											'&stype=-7&sView=week&sTrn=');
 											
-if (isset($_GET["staffBiography"]))
+if (isset($_GET["staffName"]))
   {
-    $staff_description = $_GET["staffBiography"];
+    //$staff_description = $_GET["staffBiography"];
     $staff_image = $_GET["staffImage"];
     $mz_staff_name = $_GET["staffName"];
     $mz_staff_id = $_GET["staffID"];
@@ -16,8 +16,10 @@ if (isset($_GET["staffBiography"]))
       <h4 class="modal-title" id="mzSmallModalLabel"><?php echo stripslashes($mz_staff_name)?></h4>
     </div>
      <div class="modal-body">
-      <?php echo sprintf('<img class="img-responsive mz_modal_staff_image_body" src="%s" alt="">', $staff_image); ?>
-      <?php echo stripslashes($staff_description)?>
+     <?php echo sprintf('<img class="img-responsive mz_modal_staff_image_body" src="%s" alt="">', $staff_image); ?>
+     	<span>
+     		
+     	</span>
     </div>
     <div class="modal-footer">
 			<?php 
