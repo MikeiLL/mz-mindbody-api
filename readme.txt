@@ -54,6 +54,10 @@ You need to register a developer account with MindBody, which costs $5+ per webs
 
 == Changelog ==
 
+= 2.2.2 =
+* Using bootstrap gallery to optionally display staff page
+* Hopefully adding the new CSS won't cause theme conflicts.
+
 = 2.2.0 =
 * Refactor with more OOP approach
 * Could be further refactored.
@@ -91,6 +95,9 @@ Fix navigation on Schedule page when Force Cache not selected.
 Initial release.
 
 == Upgrade Notice ==
+
+= 2.2.2 =
+Add gallery mode option for Staff page.
 
 = 2.2.0 =
 Refactoring update.
