@@ -211,6 +211,12 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 		'mz-mindbody-show-schedule', 'grid', 'filter');
 		
 		echo '</p>';
+		echo '<p>';
+		
+		echo __('To display staff page as a responsive gallery of images with pop-up biographies, use ', 'mz-mindbody-api');
+		printf('[%1$s %2$s]<br/>', 'mz-mindbody-staff-list', 'gallery=1');
+		
+		echo '</p>';
 		echo '<p>' . __('To remove hide any of the following elements from grid calendar:', 'mz-mindbody-api') . 
 		'&nbsp; hide="teacher, signup, duration"'
 		
@@ -220,8 +226,8 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 		echo '&nbsp;[mz-mindbody-signup], [mz-mindbody-login], [mz-mindbody-logout]';
 		?></p>
 
-		<p><?php _e('In order for these to work correctly, the permalinks for those pages need to be:', 'mz-mindbody-api');
-		echo '&nbsp;<em>create-account</em>, <em>login</em> and <em>logout</em>.'; ?>
+		<p><?php _e('!!! In order for these to work correctly, the permalinks for those pages need to be:', 'mz-mindbody-api');
+		echo '&nbsp;<em>create-account</em>, <em>login</em> and <em>logout</em>!!!'; ?>
 
 		</div>
 	<?php
