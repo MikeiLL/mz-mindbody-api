@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: mindbody, schedule, calendar, yoga, MBO, mindbodyonline, gym
 Requires at least: 3.0.1
 Tested up to: 4.3.1
-Stable tag: 2.2.2
+Stable tag: 2.2.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,7 +31,7 @@ Steps to install and configure MZ Mindbody API:
 3. Follow instructions at [mZoo.org](http://www.mzoo.org/creating-your-mindbody-credentials).
 4. In the WP Admin panel go to: Settings -> MZ Mindbody and configure settings
 5. This plugin includes some minimal CSS which you can override in theme.
-6. Also includes some bootstrap css so check there if conflicts arise.
+6. Also includes some bootstrap css and javascript so check there if conflicts arise.
 
 == Frequently Asked Questions ==
 
@@ -55,7 +55,7 @@ You need to register a developer account with MindBody, which costs $5+ per webs
 == Changelog ==
 
 = 2.2.2 =
-* Using bootstrap gallery to optionally display staff page
+* Using bootstrap gallery to optionally display staff page as gallery
 * Hopefully adding the new CSS won't cause theme conflicts.
 
 = 2.2.0 =
