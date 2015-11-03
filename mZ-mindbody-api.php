@@ -273,6 +273,7 @@ class MZ_Mindbody_API {
         add_shortcode('mz-mindbody-show-schedule', array($schedule_display, 'mZ_mindbody_show_schedule'));
         add_shortcode('mz-mindbody-staff-list', array($mz_staff, 'mZ_mindbody_staff_listing'));
         add_shortcode('mz-mindbody-show-events', array($mz_events, 'mZ_mindbody_show_events'));
+        add_shortcode('mz-mindbody-show-registrants', array($mz_clients, 'mZ_mindbody_show_registrants'));
         add_shortcode('mz-mindbody-login', array($mz_clients, 'mZ_mindbody_login'));
         add_shortcode('mz-mindbody-signup', array($mz_clients, 'mZ_mindbody_signup'));
         add_shortcode('mz-mindbody-logout', array($mz_clients, 'mZ_mindbody_logout'));
@@ -385,7 +386,8 @@ class mZ_Mindbody_day_schedule extends WP_Widget {
 if ( is_admin() )
 {     
 	$admin_backend = new MZ_Mindbody_API_Admin('2.1.0');
-	 //Ajax Handler has to be within admin section
+	//Start Ajax Signup
+	 //(Ajax Handler has to be within admin section)
  add_action('wp_ajax_nopriv_mz_mbo_add_client', 'mz_mbo_add_client_callback');
  add_action('wp_ajax_mz_mbo_add_client', 'mz_mbo_add_client_callback');	
 
@@ -437,7 +439,53 @@ if ( is_admin() )
  
     die();
  }
- //End Ajax
+ //End Ajax Signup
+ 
+ //Start Ajax Get Registrants
+ add_action('wp_ajax_nopriv_mz_mbo_get_registrants', 'mz_mbo_get_registrants_callback');
+ add_action('wp_ajax_mz_mbo_get_registrants', 'mz_mbo_get_registrants_callback');	
+
+ function mz_mbo_get_registrants_callback() {
+
+  check_ajax_referer( $_REQUEST['nonce'], "mz_MBO_get_registrants_nonce", false);
+  	
+ 	require_once MZ_MINDBODY_SCHEDULE_DIR .'mindbody-php-api/MB_API.php';
+	require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
+	$mb = MZ_Mindbody_Init::instantiate_mbo_API();
+ 
+ 	$classid = array($_REQUEST['classID']);
+ 	$class_visits = $mb->GetClassVisits(array('ClassID'=> $classid));
+		if ($class_visits['GetClassVisitsResult']['Status'] != 'Success'):
+				$result['type'] = "failure";
+ 				$result['message'] = __("Unable to retrieve registrants.", 'mz-mindbody-api');
+ 		else:
+				if (empty($class_visits['GetClassVisitsResult']['Class']['Visits'])) :
+					$result['type'] = "success";
+ 					$result['message'] = __("No registrants yet.", 'mz-mindbody-api');
+				else:
+					foreach($class_visits['GetClassVisitsResult']['Class']['Visits'] as $registrants) {
+						foreach ($registrants as $registrant) {
+								$result['message'] .= $registrant['Client']['FirstName'];
+							}
+					}
+				endif;
+		endif;
+		die();
+		
+		//$mb->debug();
+    //$rand_number = rand(1, 10); # for testing
+ 		
+ 	if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+       $result = json_encode($result);
+       echo $result;
+    }
+    else {
+       header("Location: ".$_SERVER["HTTP_REFERER"]);
+    }
+ 
+    die();
+ }
+ //End Ajax Get Registrants
 }
 else
 {// non-admin enqueues, actions, and filters

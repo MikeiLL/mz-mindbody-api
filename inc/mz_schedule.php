@@ -31,7 +31,8 @@ class MZ_Mindbody_Schedule_Display {
 			'grid' => '0',
 			'advanced' => '0',
 			'hide' => '',
-			'class_types' => ''
+			'class_types' => '',
+			'show_registrants' => '0'
 				), $atts );
 		$type = $atts['type'];
 		$location = $atts['location'];
@@ -42,6 +43,7 @@ class MZ_Mindbody_Schedule_Display {
 		$advanced = $atts['advanced'];
 		$class_types = $atts['class_types'];
 		$clientID = isset($_SESSION['GUID']) ? $_SESSION['client']['ID'] : '';
+		$show_registrants = $atts['show_registrants'];
 		
 		$sign_up_text = __('Sign-Up', 'mz-mindbody-api');
 		$manage_text = __('Manage on MindBody Site', 'mz-mindbody-api');
@@ -168,12 +170,16 @@ class MZ_Mindbody_Schedule_Display {
 						$studioid = $class['Location']['SiteID'];
 						$sclassid = $class['ClassScheduleID'];
 						$sclassidID = $class['ID'];
+						//mz_pr($sclassidID);
 						$classDescription = $class['ClassDescription']['Description'];
 						$sType = -7;
 						$showCancelled = ($class['IsCanceled'] == 1) ? '<div class="mz_cancelled_class">' .
 										__('Cancelled', 'mz-mindbody-api') . '</div>' : '';
 						$className = $class['ClassDescription']['Name'];
+						//mz_pr($className);
 						$startDateTime = date_i18n('Y-m-d H:i:s', strtotime($class['StartDateTime']));
+						//mz_pr($startDateTime);
+						//echo "<hr/>";
 						$endDateTime = date_i18n('Y-m-d H:i:s', strtotime($class['EndDateTime']));
 						$staffName = $class['Staff']['Name'];
 						$isAvailable = $class['IsAvailable'];
@@ -223,6 +229,29 @@ class MZ_Mindbody_Schedule_Display {
 									date_i18n($this->mz_mbo_globals->time_format, strtotime($endDateTime)), 'mz_date_display');
 									}
 
+						if ($show_registrants == 1){
+						$get_registrants_nonce = wp_create_nonce( 'mz_MBO_get_registrants_nonce');
+							$tbl->addCell(
+								'<br/> 
+											<a class="modal-toggle" data-toggle="modal" data-target="#myModal" data-id="{{{ $item->id }}}">' . $className . '</a>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel">New message</h4>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Add to cart</button>
+      </div>
+    </div>
+  </div>
+</div>'
+										);
+						} else {
 						$tbl->addCell(
 							'<a data-toggle="modal" data-target="#mzModal" ' .
 									'data-maincontent="' . rawurlencode(substr($classDescription, 0, 1000)) . 
@@ -233,6 +262,7 @@ class MZ_Mindbody_Schedule_Display {
 							'<a href="'.$linkURL.'" target="_blank">' .
 							$manage_text . '</a></div>' .
 							$showCancelled , 'mz_classDetails');
+							}
 
 
 						$tbl->addCell($staffName, 'mz_staffName');

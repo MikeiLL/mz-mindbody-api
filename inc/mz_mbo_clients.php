@@ -97,6 +97,29 @@ EOD;
 		}
 		return $this->displayConfirmation();
 	}
+	
+	public function mZ_mindbody_show_registrants($atts) {
+		$this->mb = MZ_Mindbody_Init::instantiate_mbo_API();
+			$atts = shortcode_atts( array(
+			'id' => '',
+				), $atts );
+		$classid = $atts['id'];
+		
+		$class_visits = $this->mb->GetClassVisits(array('ClassID'=> $classid));
+		if ($class_visits['GetClassVisitsResult']['Status'] != 'Success') 
+				return __("Unable to retrieve registrants", 'mz-mindbody-api');
+		if(empty($class_visits['GetClassVisitsResult']['Class']['Visits'])) :
+				return "No registrants yet.";
+			else:
+				foreach($class_visits['GetClassVisitsResult']['Class']['Visits'] as $registrants) {
+					foreach ($registrants as $registrant) {
+						mz_pr($registrant['Client']['FirstName']);
+						}
+			}
+			mz_pr($registrants);
+		endif;
+		return "nothing";
+	}
 
 
 	private function displayConfirmation() {
