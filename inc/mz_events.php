@@ -114,7 +114,8 @@ class MZ_MBO_Events {
 					{
 						foreach($classes as $class)
 						{
-							if (!(($class['IsCanceled'] == 'TRUE') && ($class['HideCancel'] == 'TRUE')))
+							if (!(($class['IsCanceled'] == 'TRUE') && ($class['HideCancel'] == 'TRUE') 
+											&& in_array($locations, $class['Location']['SiteID'])))
 							{
 								$sDate = date_i18n('m/d/Y', strtotime($class['StartDateTime']));
 								$sLoc = $class['Location']['ID'];
