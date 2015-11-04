@@ -451,11 +451,8 @@ if ( is_admin() )
     die();
  }
  //End Ajax Signup
- function mZ_write_to_file($message){
-        $handle = fopen("/Applications/MAMP/logs/mZ_mbo_reader.php", "a+");
-        fwrite($handle, "\nMessage:\t " . $message);
-        fclose($handle);
-    }
+
+ require_once('lib/functions.php');
  //Start Ajax Get Registrants
  add_action('wp_ajax_nopriv_mz_mbo_get_registrants', 'mz_mbo_get_registrants_callback');
  add_action('wp_ajax_mz_mbo_get_registrants', 'mz_mbo_get_registrants_callback');	
@@ -470,27 +467,32 @@ if ( is_admin() )
  
  	$classid = array($_REQUEST['classID']);
  	$result['type'] = "success";
- 	$result['message'] = $classid;
- 	mZ_write_to_file($classid);
- 	die();
+ 	$result['message'] = $classid[0];
+	mZ_write_to_file($result['message']);
  	$class_visits = $mb->GetClassVisits(array('ClassID'=> $classid));
+ 	mZ_write_to_file($class_visits['GetClassVisitsResult']['Status']);
+ 	mZ_write_to_file($class_visits['GetClassVisitsResult']['Class']['ID']);
 		if ($class_visits['GetClassVisitsResult']['Status'] != 'Success'):
-				$result['type'] = "success";
+				$result['type'] = "error";
  				$result['message'] = __("Unable to retrieve registrants.", 'mz-mindbody-api');
+ 				mZ_write_to_file($result['message'][0]);
  		else:
+ 				mZ_write_to_file($class_visits['GetClassVisitsResult']['Status']);
 				if (empty($class_visits['GetClassVisitsResult']['Class']['Visits'])) :
 					$result['type'] = "success";
  					$result['message'] = __("No registrants yet.", 'mz-mindbody-api');
+ 					mZ_write_to_file($class_visits['GetClassVisitsResult']['Class']['Visits']);
 				else:
+					mZ_write_to_file("inner else");
+					$result['message'] = array();
 					foreach($class_visits['GetClassVisitsResult']['Class']['Visits'] as $registrants) {
 						foreach ($registrants as $registrant) {
 								$result['message'] .= $registrant['Client']['FirstName'];
+								mZ_write_to_file($registrant['Client']['FirstName']);
 							}
 					}
 				endif;
-		endif;
-		die();
-		
+		endif;		
  		
  	if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
        $result = json_encode($result);

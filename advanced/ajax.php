@@ -16,10 +16,6 @@ $protocol = isset( $_SERVER["HTTPS"]) ? 'https://' : 'http://';
  	
  function ajax_mbo_add_to_classes_js() {
 
- 	global $add_mz_ajax_script;
- 	if ( ! $add_mz_ajax_script )
- 		return;
-
 	//Force page protocol to match current
 	$protocol = isset( $_SERVER["HTTPS"]) ? 'https://' : 'http://';
  
@@ -45,9 +41,6 @@ $protocol = isset( $_SERVER["HTTPS"]) ? 'https://' : 'http://';
  add_action('wp_footer', 'ajax_mbo_get_registrants_js');
 
  function ajax_mbo_get_registrants_js() {
-
- 	if ( ! $add_mz_ajax_script )
- 		return;
 
 	//Force page protocol to match current
 	$protocol = isset( $_SERVER["HTTPS"]) ? 'https://' : 'http://';

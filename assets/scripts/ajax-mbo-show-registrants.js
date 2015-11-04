@@ -3,6 +3,8 @@ $(document).ready(function($) {
 			$('.mz_get_registrants').click(function(){
 					var nonce = $(this).attr("data-nonce");
 					classID = $(this).attr("data-classID");
+					classDescription = $(this).attr("data-classDescription");
+					className = $(this).attr("data-className");
 					//alert("The class ID is: " + classID);
 					$.ajax({
 							type: "GET",
@@ -11,12 +13,16 @@ $(document).ready(function($) {
 						 data : {action: 'mz_mbo_get_registrants', nonce: nonce, classID: classID},
 						 success: function(json) {
 							console.log(json);
-							alert("in there!");
 							if(json.type == "success") {
-									var htmlData = '<ul><li>';
-									htmlData += json.message;
-									htmlData += 'hi, ill';
-									htmlData += '</li></ul>';
+									var htmlData = '<ul>';
+									if ( $.isArray(json.message)  ) {
+										json.message.forEach( function(name) {
+											htmlData += '<li>' + name + '</li>';
+											});
+									} else {
+										htmlData += '<li>' + json.message + '</li>';
+									}
+									htmlData += '</ul>';
 									infoModal.find('#class-description-modal-body')[0].innerHTML = htmlData;
 									infoModal.modal();
 							}else{

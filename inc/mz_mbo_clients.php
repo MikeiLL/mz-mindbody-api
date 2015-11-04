@@ -111,6 +111,7 @@ EOD;
 		if(empty($class_visits['GetClassVisitsResult']['Class']['Visits'])) :
 				return "No registrants yet.";
 			else:
+				mz_pr($class_visits['GetClassVisitsResult']['Class']['ID']);
 				foreach($class_visits['GetClassVisitsResult']['Class']['Visits'] as $registrants) {
 					foreach ($registrants as $registrant) {
 						mz_pr($registrant['Client']['FirstName']);

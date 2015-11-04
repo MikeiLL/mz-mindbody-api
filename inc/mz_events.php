@@ -10,9 +10,6 @@ class MZ_MBO_Events {
 	}
 	
 	public function mZ_mindbody_show_events ($atts, $account=0) {
-
-		global $add_mz_ajax_script;
-		$add_mz_ajax_script = true;
 		
 		wp_enqueue_style('mZ_mindbody_schedule_bs', asset_path('styles/main.css'), false, null);
 		wp_enqueue_script('modernizr', asset_path('scripts/modernizr.js'), array(), null, true);

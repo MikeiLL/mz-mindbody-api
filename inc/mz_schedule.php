@@ -13,9 +13,6 @@ class MZ_Mindbody_Schedule_Display {
 	public function mZ_mindbody_show_schedule( $atts, $account=0 )
 	{
 		require_once(MZ_MINDBODY_SCHEDULE_DIR .'/lib/html_table.class.php');
-
-		global $add_mz_ajax_script;
-		$add_mz_ajax_script = true;
 		
 		wp_enqueue_style('mZ_mindbody_schedule_bs', asset_path('styles/main.css'), false, null);
 		wp_enqueue_script('modernizr', asset_path('scripts/modernizr.js'), array(), null, true);
@@ -235,6 +232,8 @@ class MZ_Mindbody_Schedule_Display {
 								'<br/> 
 											<a class="modal-toggle mz_get_registrants" data-toggle="modal" data-target="#registrantModal"' 
 											. 'data-nonce="' . $get_registrants_nonce 
+											. '" data-classDescription="' . urlencode($classDescription) 
+											. '" data-className="' . $className 
 											. '" data-classID="' . $sclassidID  . '">' . $className . '</a>'
 											. '<br/><div id="visitMBO" class="btn visitMBO" style="display:none">' .
 							'<a href="'.$linkURL.'" target="_blank">' .
