@@ -233,18 +233,22 @@ class MZ_Mindbody_Schedule_Display {
 						$get_registrants_nonce = wp_create_nonce( 'mz_MBO_get_registrants_nonce');
 							$tbl->addCell(
 								'<br/> 
-											<a class="modal-toggle mz_get_registrants" data-toggle="modal" data-target="#registrantModal" data-id="{{{ $item->id }}}' 
+											<a class="modal-toggle mz_get_registrants" data-toggle="modal" data-target="#registrantModal"' 
 											. 'data-nonce="' . $get_registrants_nonce 
-											. '" data-classID="' . $sclassidID  . '">' . $className . '</a>
+											. '" data-classID="' . $sclassidID  . '">' . $className . '</a>'
+											. '<br/><div id="visitMBO" class="btn visitMBO" style="display:none">' .
+							'<a href="'.$linkURL.'" target="_blank">' .
+							$manage_text . '</a></div>' .
+							$showCancelled .
 
-<div class="modal fade" id="registrantModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+'<div class="modal fade" id="registrantModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="exampleModalLabel">New message</h4>
+        <h4 class="modal-title" id="exampleModalLabel">Class Details</h4>
       </div>
-      <div class="modal-body" id="modal-body"></div>
+      <div class="class-description-modal-body" id="class-description-modal-body"></div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary">Add to cart</button>
@@ -263,7 +267,7 @@ class MZ_Mindbody_Schedule_Display {
 								'<br/><div id="visitMBO" class="btn visitMBO" style="display:none">' .
 							'<a href="'.$linkURL.'" target="_blank">' .
 							$manage_text . '</a></div>' .
-							$showCancelled , 'mz_classDetails');
+							$showCancelled );
 							}
 
 

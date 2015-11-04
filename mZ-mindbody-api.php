@@ -407,17 +407,28 @@ if ( is_admin() )
  	//$mb->debug();
      //$rand_number = rand(1, 10); # for testing
  
- 	if ( $signupData['AddClientsToClassesResult']['ErrorCode'] != 200 ){
- 			$result['type'] = "failure";
+ 	if ( $signupData['AddClientsToClassesResult']['ErrorCode'] != 200 ) {
+ 			$result['type'] = "error";
  			$result['message'] = '';
- 		foreach ($signupData['AddClientsToClassesResult']['Classes']['Class']['Clients']['Client']['Messages'] as $message){
- 				if (strpos($message, 'already booked') != false){
- 					$result['message'] .= __('Already registered.', 'mz-mindbody-api');
- 					}else{
- 					$result['message'] .= $message;
- 					}
- 			}
  			
+ 		if (!isset($signupData['AddClientsToClassesResult']['Classes']['Class']['Clients']['Client'])) :
+ 		
+ 			mZ_write_to_file($signupData['AddClientsToClassesResult']['ErrorCode']);
+ 			$result['type'] = "error";
+ 			$result['message'] = __('Cannot add to class.', 'mz-mindbody-api');
+ 			
+ 		else:
+ 			
+			foreach ($signupData['AddClientsToClassesResult']['Classes']['Class']['Clients']['Client']['Messages'] as $message){
+					if (strpos($message, 'already booked') != false){
+						$result['message'] .= __('Already registered.', 'mz-mindbody-api');
+						}else{
+						$result['message'] .= $message;
+						}
+				}
+				
+		endif;
+			
  		}else{
  			//$classDetails = $signupData['AddClientsToClassesResult']['Classes']['Class'];
  			
@@ -440,7 +451,11 @@ if ( is_admin() )
     die();
  }
  //End Ajax Signup
- 
+ function mZ_write_to_file($message){
+        $handle = fopen("/Applications/MAMP/logs/mZ_mbo_reader.php", "a+");
+        fwrite($handle, "\nMessage:\t " . $message);
+        fclose($handle);
+    }
  //Start Ajax Get Registrants
  add_action('wp_ajax_nopriv_mz_mbo_get_registrants', 'mz_mbo_get_registrants_callback');
  add_action('wp_ajax_mz_mbo_get_registrants', 'mz_mbo_get_registrants_callback');	
@@ -454,9 +469,13 @@ if ( is_admin() )
 	$mb = MZ_Mindbody_Init::instantiate_mbo_API();
  
  	$classid = array($_REQUEST['classID']);
+ 	$result['type'] = "success";
+ 	$result['message'] = $classid;
+ 	mZ_write_to_file($classid);
+ 	die();
  	$class_visits = $mb->GetClassVisits(array('ClassID'=> $classid));
 		if ($class_visits['GetClassVisitsResult']['Status'] != 'Success'):
-				$result['type'] = "failure";
+				$result['type'] = "success";
  				$result['message'] = __("Unable to retrieve registrants.", 'mz-mindbody-api');
  		else:
 				if (empty($class_visits['GetClassVisitsResult']['Class']['Visits'])) :

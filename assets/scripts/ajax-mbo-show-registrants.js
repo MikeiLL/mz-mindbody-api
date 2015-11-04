@@ -1,22 +1,26 @@
 $(document).ready(function($) {
 			var infoModal = $('#registrantModal');
-			var nonce = $(this).attr("data-nonce");
-			var classID = $(this).attr("data-classID");
 			$('.mz_get_registrants').click(function(){
-					alert("The class ID is: " + classID);
+					var nonce = $(this).attr("data-nonce");
+					classID = $(this).attr("data-classID");
+					//alert("The class ID is: " + classID);
 					$.ajax({
 							type: "GET",
-							//url: '/api/menu-item/'+$(this).data('id'),
 							dataType: 'json',
 						 url : mZ_add_to_classes.ajaxurl,
 						 data : {action: 'mz_mbo_get_registrants', nonce: nonce, classID: classID},
 						 success: function(json) {
+							console.log(json);
+							alert("in there!");
 							if(json.type == "success") {
-								console.log(classID);
 									var htmlData = '<ul><li>';
-									htmlData += fakeResponse.name;
+									htmlData += json.message;
+									htmlData += 'hi, ill';
 									htmlData += '</li></ul>';
-									infoModal.find('#modal-body')[0].innerHTML = htmlData;
+									infoModal.find('#class-description-modal-body')[0].innerHTML = htmlData;
+									infoModal.modal();
+							}else{
+									infoModal.find('#class-description-modal-body')[0].innerHTML = "bla bla bla";
 									infoModal.modal();
 							}
 					}
