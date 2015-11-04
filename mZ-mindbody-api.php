@@ -393,9 +393,9 @@ if ( is_admin() )
 
  function mz_mbo_add_client_callback() {
 
-  	check_ajax_referer( $_REQUEST['nonce'], "mz_MBO_add_to_class_nonce", false);
+  check_ajax_referer( $_REQUEST['nonce'], "mz_MBO_add_to_class_nonce", false);
   	
- 	require_once MZ_MINDBODY_SCHEDULE_DIR .'mindbody-php-api/MB_API.php';
+ 	require_once(MZ_MINDBODY_SCHEDULE_DIR .'mindbody-php-api/MB_API.php');
 	require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
 	$mb = MZ_Mindbody_Init::instantiate_mbo_API();
  
@@ -449,7 +449,7 @@ if ( is_admin() )
 
   check_ajax_referer( $_REQUEST['nonce'], "mz_MBO_get_registrants_nonce", false);
   	
- 	require_once MZ_MINDBODY_SCHEDULE_DIR .'mindbody-php-api/MB_API.php';
+ 	require_once(MZ_MINDBODY_SCHEDULE_DIR .'mindbody-php-api/MB_API.php');
 	require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
 	$mb = MZ_Mindbody_Init::instantiate_mbo_API();
  
@@ -472,8 +472,6 @@ if ( is_admin() )
 		endif;
 		die();
 		
-		//$mb->debug();
-    //$rand_number = rand(1, 10); # for testing
  		
  	if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
        $result = json_encode($result);

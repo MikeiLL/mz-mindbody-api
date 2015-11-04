@@ -31,6 +31,34 @@ $protocol = isset( $_SERVER["HTTPS"]) ? 'https://' : 'http://';
 	wp_localize_script( 'mZ_add_to_classes', 'mZ_add_to_classes', $params);
 
  	}
+
+// Ajax
+
+ function mZ_get_registrants() {
+ 	wp_register_script('mZ_get_registrants', plugins_url('/mz-mindbody-api/dist/scripts/ajax-mbo-show-registrants.js'), array('jquery'), null, true);
+ 	wp_enqueue_script('mZ_get_registrants');
+ 	}
+
+ //Enqueue script in footer
+ add_action('wp_footer', 'mZ_get_registrants');
+ add_action('wp_footer', 'ajax_mbo_get_registrants_js');
+
+ function ajax_mbo_get_registrants_js() {
+
+ 	if ( ! $add_mz_ajax_script )
+ 		return;
+
+	//Force page protocol to match current
+	$protocol = isset( $_SERVER["HTTPS"]) ? 'https://' : 'http://';
+ 
+ 	$params = array(
+		'ajaxurl' => admin_url( 'admin-ajax.php', $protocol ),
+		'registrants_list' => __('registrant list here', 'mz-mindbody-api')
+		);
+	
+	wp_localize_script( 'mZ_get_registrants', 'mZ_get_registrants', $params);
+
+ 	}
  
 
  ?>

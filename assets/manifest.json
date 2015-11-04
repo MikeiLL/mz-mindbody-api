@@ -18,6 +18,12 @@
       ],
       "main": true
     },
+    "ajax-mbo-show-registrants.js": {
+    "files": [
+        "scripts/ajax-mbo-show-registrants.js"
+      ],
+      "main": true
+    },
     "main.css": {
       "files": [
         "styles/main.scss"
