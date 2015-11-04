@@ -14,10 +14,11 @@ $(document).ready(function($) {
 						 success: function(json) {
 							console.log(json);
 							if(json.type == "success") {
-									var htmlData = '<ul>';
+									var htmlData = '<div>' + decodeURIComponent(classDescription) + '</div>';
+									htmlData += '<ul>';
 									if ( $.isArray(json.message)  ) {
 										json.message.forEach( function(name) {
-											htmlData += '<li>' + name + '</li>';
+											htmlData += '<li>' + name.replace('_', ' ') + '</li>';
 											});
 									} else {
 										htmlData += '<li>' + json.message + '</li>';

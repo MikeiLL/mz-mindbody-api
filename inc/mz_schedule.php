@@ -232,7 +232,7 @@ class MZ_Mindbody_Schedule_Display {
 								'<br/> 
 											<a class="modal-toggle mz_get_registrants" data-toggle="modal" data-target="#registrantModal"' 
 											. 'data-nonce="' . $get_registrants_nonce 
-											. '" data-classDescription="' . urlencode($classDescription) 
+											. '" data-classDescription="' . rawUrlEncode($classDescription) 
 											. '" data-className="' . $className 
 											. '" data-classID="' . $sclassidID  . '">' . $className . '</a>'
 											. '<br/><div id="visitMBO" class="btn visitMBO" style="display:none">' .

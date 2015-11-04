@@ -452,7 +452,7 @@ if ( is_admin() )
  }
  //End Ajax Signup
 
- require_once('lib/functions.php');
+ //require_once('lib/functions.php'); // for testing functions
  //Start Ajax Get Registrants
  add_action('wp_ajax_nopriv_mz_mbo_get_registrants', 'mz_mbo_get_registrants_callback');
  add_action('wp_ajax_mz_mbo_get_registrants', 'mz_mbo_get_registrants_callback');	
@@ -463,6 +463,7 @@ if ( is_admin() )
   	
  	require_once(MZ_MINDBODY_SCHEDULE_DIR .'mindbody-php-api/MB_API.php');
 	require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
+	
 	$mb = MZ_Mindbody_Init::instantiate_mbo_API();
  
  	$classid = $_REQUEST['classID'];
@@ -483,8 +484,8 @@ if ( is_admin() )
 					$result['type'] = "success";
 					foreach($class_visits['GetClassVisitsResult']['Class']['Visits'] as $registrants) {
 						foreach ($registrants as $key => $registrant) {
-								$result['message'][] = $registrant['Client']['FirstName'];
-								mZ_write_to_file($result['message']); // $registrant['Client']['FirstName']);
+								$result['message'][] = $registrant['Client']['FirstName'] . '_' 
+																				. substr($registrant['Client']['FirstName'], 0, 1);
 							}
 					}
 				endif;
