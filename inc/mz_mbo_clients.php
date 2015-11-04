@@ -117,7 +117,7 @@ EOD;
 						mz_pr($registrant['Client']['FirstName']);
 						}
 			}
-			mz_pr($registrants);
+			//mz_pr($class_visits);
 		endif;
 		return "nothing";
 	}

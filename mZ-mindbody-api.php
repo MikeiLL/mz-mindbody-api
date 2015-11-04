@@ -465,30 +465,26 @@ if ( is_admin() )
 	require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
 	$mb = MZ_Mindbody_Init::instantiate_mbo_API();
  
- 	$classid = array($_REQUEST['classID']);
+ 	$classid = $_REQUEST['classID'];
  	$result['type'] = "success";
- 	$result['message'] = $classid[0];
-	mZ_write_to_file($result['message']);
+ 	$result['message'] = $classid;
  	$class_visits = $mb->GetClassVisits(array('ClassID'=> $classid));
- 	mZ_write_to_file($class_visits['GetClassVisitsResult']['Status']);
- 	mZ_write_to_file($class_visits['GetClassVisitsResult']['Class']['ID']);
 		if ($class_visits['GetClassVisitsResult']['Status'] != 'Success'):
 				$result['type'] = "error";
  				$result['message'] = __("Unable to retrieve registrants.", 'mz-mindbody-api');
  				mZ_write_to_file($result['message'][0]);
  		else:
- 				mZ_write_to_file($class_visits['GetClassVisitsResult']['Status']);
 				if (empty($class_visits['GetClassVisitsResult']['Class']['Visits'])) :
 					$result['type'] = "success";
  					$result['message'] = __("No registrants yet.", 'mz-mindbody-api');
- 					mZ_write_to_file($class_visits['GetClassVisitsResult']['Class']['Visits']);
+ 					//mZ_write_to_file($class_visits['GetClassVisitsResult']['Class']['Visits']);
 				else:
-					mZ_write_to_file("inner else");
 					$result['message'] = array();
+					$result['type'] = "success";
 					foreach($class_visits['GetClassVisitsResult']['Class']['Visits'] as $registrants) {
-						foreach ($registrants as $registrant) {
-								$result['message'] .= $registrant['Client']['FirstName'];
-								mZ_write_to_file($registrant['Client']['FirstName']);
+						foreach ($registrants as $key => $registrant) {
+								$result['message'][] = $registrant['Client']['FirstName'];
+								mZ_write_to_file($result['message']); // $registrant['Client']['FirstName']);
 							}
 					}
 				endif;
