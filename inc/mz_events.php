@@ -46,7 +46,7 @@ class MZ_MBO_Events {
 		
 		$options = get_option( 'mz_mindbody_options' );
 		// grab session type IDs for events
-		$mz_sessions = array($options['mz_mindbody_eventID']);
+		$mz_sessions = explode(',', $options['mz_mindbody_eventID']);
 
 		$return = '';
 	
@@ -90,7 +90,7 @@ class MZ_MBO_Events {
 			set_transient($mz_events_cache, $mz_event_data, 60 * 60 * 24);
 			}
 			// END caching configuration
-			
+
 			if(!empty($mz_event_data['GetClassesResult']['Classes']['Class']))
 			{
 				$classes = $this->makeNumericArray($mz_event_data['GetClassesResult']['Classes']['Class']);
@@ -110,6 +110,7 @@ class MZ_MBO_Events {
 					$return .= '<table class="table mz_mindbody_events">';
 					$globals = new Global_Strings();
 					$global_strings = $globals->translate_them();
+					
 					foreach($classes as $classDate => $classes)
 					{
 						foreach($classes as $class)
