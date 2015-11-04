@@ -25,7 +25,8 @@ $protocol = isset( $_SERVER["HTTPS"]) ? 'https://' : 'http://';
  
  	$params = array(
 		'ajaxurl' => admin_url( 'admin-ajax.php', $protocol ),
-		'registered_message' => __('Registered via MindBody', 'mz-mindbody-api')
+		'registered_message' => __('Registered via MindBody', 'mz-mindbody-api'),
+		'not_registered_message' => __('Problem with MindBody Registration', 'mz-mindbody-api')
 		);
 	
 	wp_localize_script( 'mZ_add_to_classes', 'mZ_add_to_classes', $params);

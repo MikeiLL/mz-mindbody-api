@@ -30,8 +30,8 @@ $(document).ready(function($) {
 				 $(".mz_add_to_class"+classID).find(".signup").text(json.message);
 				 $(".mz_description_holder").find(".visitMBO"+classID).removeAttr("style");
 				 if ($(".mz_add_to_class"+classID).hasClass("fa-sign-in")){
-							$(".mz_add_to_class"+classID).removeClass("fa-sign-in").addClass("fa-check-square-o");
-							$(".mz_add_to_class"+classID).removeAttr('href').attr('title', mZ_add_to_classes.registered_message);
+							$(".mz_add_to_class"+classID).removeClass("fa-sign-in").addClass("fa-thumbs-o-down");
+							$(".mz_add_to_class"+classID).removeAttr('href').attr('title', mZ_add_to_classes.not_registered_message);
 						}
 					}
 			} // End Ajax success
