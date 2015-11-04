@@ -101,17 +101,17 @@ function mz_validate_date( $string ) {
 	
 //For Testing
 function mZ_write_to_file($message){
-        $handle = fopen("/Applications/MAMP/logs/mZ_mbo_reader.php", "a+");
-        if (is_array($message)):
-        	fwrite($handle, "\nMessage is array.\t ");
-        	fclose($handle);
-        	file_put_contents('/Applications/MAMP/logs/mZ_mbo_reader.php', print_r($message, true),
-        										FILE_APPEND | LOCK_EX);
-        else:
-        	fwrite($handle, "\nMessage:\t " . $message);
-        	fclose($handle);
-        endif;
-    }
+		$handle = fopen("/Applications/MAMP/logs/mZ_mbo_reader.php", "a+");
+		if (is_array($message)):
+			fwrite($handle, "\nMessage is array.\t ");
+			fclose($handle);
+			file_put_contents('/Applications/MAMP/logs/mZ_mbo_reader.php', print_r($message, true),
+												FILE_APPEND | LOCK_EX);
+		else:
+			fwrite($handle, "\nMessage:\t " . $message);
+			fclose($handle);
+		endif;
+		}
 
 //Format arrays for display in development
 function mz_pr($data)
