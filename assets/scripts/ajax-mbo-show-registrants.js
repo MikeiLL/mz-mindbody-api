@@ -24,10 +24,10 @@ $(document).ready(function($) {
 										htmlData += '<li>' + json.message + '</li>';
 									}
 									htmlData += '</ul>';
-									infoModal.find('#class-description-modal-body')[0].innerHTML = htmlData;
+									infoModal.find('#class-description-modal-body')[0].innerHTML = mZ_get_registrants.get_registrants_error; // htmlData;
 									infoModal.modal();
 							}else{
-									infoModal.find('#class-description-modal-body')[0].innerHTML = "bla bla bla";
+									infoModal.find('#class-description-modal-body')[0].innerHTML = mZ_get_registrants.get_registrants_error;
 									infoModal.modal();
 							}
 					}

@@ -236,7 +236,8 @@ class MZ_Mindbody_Schedule_Display {
 											. '" data-className="' . $className 
 											. '" data-classID="' . $sclassidID  . '">' . $className . '</a>'
 											. '<br/><div id="visitMBO" class="btn visitMBO" style="display:none">' .
-							'<a href="'.$linkURL.'" target="_blank">' .
+							'<a href="' . MZ_MINDBODY_SCHEDULE_URL . 
+									'inc/modal_descriptions.php?className='. urlencode(substr($className, 0, 1000)) .'" target="_blank">' .
 							$manage_text . '</a></div>' .
 							$showCancelled .
 
