@@ -113,10 +113,14 @@ EOD;
 			else:
 				mz_pr($class_visits['GetClassVisitsResult']['Class']['ID']);
 				foreach($class_visits['GetClassVisitsResult']['Class']['Visits'] as $registrants) {
-					foreach ($registrants as $registrant) {
-						mz_pr($registrant['Client']['FirstName']);
+						if (!isset($registrants['Client']['FirstName'])) {
+							foreach ($registrants as $registrant) {
+									mz_pr($registrant['Client']['FirstName']);
+								}
+						} else {
+								mz_pr($registrants['Client']['FirstName']);
 						}
-			}
+					}
 			//mz_pr($class_visits);
 		endif;
 		return "nothing";

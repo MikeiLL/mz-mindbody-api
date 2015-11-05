@@ -452,7 +452,7 @@ if ( is_admin() )
  }
  //End Ajax Signup
 
- //require_once('lib/functions.php'); // for testing functions
+ require_once('lib/functions.php'); // for testing functions
  //Start Ajax Get Registrants
  add_action('wp_ajax_nopriv_mz_mbo_get_registrants', 'mz_mbo_get_registrants_callback');
  add_action('wp_ajax_mz_mbo_get_registrants', 'mz_mbo_get_registrants_callback');	
@@ -483,10 +483,18 @@ if ( is_admin() )
 					$result['message'] = array();
 					$result['type'] = "success";
 					foreach($class_visits['GetClassVisitsResult']['Class']['Visits'] as $registrants) {
-						foreach ($registrants as $key => $registrant) {
-								$result['message'][] = $registrant['Client']['FirstName'] . '_' 
-																				. substr($registrant['Client']['FirstName'], 0, 1);
-							}
+						if (!isset($registrants['Client']['FirstName'])):
+							foreach ($registrants as $key => $registrant) {
+									if (!isset($registrant['Client']))
+											//mZ_write_to_file($key);
+											mZ_write_to_file($registrants);
+									$result['message'][] = $registrant['Client']['FirstName'] . '_' 
+																					. substr($registrant['Client']['FirstName'], 0, 1);
+								}
+						else: 
+								$result['message'][] = $registrants['Client']['FirstName'] . '_' 
+																					. substr($registrants['Client']['FirstName'], 0, 1);
+						endif;
 					}
 				endif;
 		endif;		

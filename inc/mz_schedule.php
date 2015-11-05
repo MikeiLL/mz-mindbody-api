@@ -234,10 +234,8 @@ class MZ_Mindbody_Schedule_Display {
 											. 'data-nonce="' . $get_registrants_nonce 
 											. '" data-classDescription="' . rawUrlEncode($classDescription) 
 											. '" data-className="' . $className 
-											. '" data-classID="' . $sclassidID  . '">' . $className . '</a>'
+											. '" data-classID="' . $sclassidID  . '" href="#">' . $className . '</a>'
 											. '<br/><div id="visitMBO" class="btn visitMBO" style="display:none">' .
-							'<a href="' . MZ_MINDBODY_SCHEDULE_URL . 
-									'inc/modal_descriptions.php?className='. urlencode(substr($className, 0, 1000)) .'" target="_blank">' .
 							$manage_text . '</a></div>' .
 							$showCancelled .
 
@@ -246,12 +244,11 @@ class MZ_Mindbody_Schedule_Display {
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="exampleModalLabel"></h4>
+        <h4 class="modal-title" id="ClassTitle"></h4>
       </div>
       <div class="modal-body" id="class-description-modal-body"></div>
+      <div class="modal-body" id="ClasseRegistrants"></div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Add to cart</button>
       </div>
     </div>
   </div>
