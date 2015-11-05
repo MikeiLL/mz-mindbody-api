@@ -230,7 +230,7 @@ class MZ_Mindbody_Schedule_Display {
 						$get_registrants_nonce = wp_create_nonce( 'mz_MBO_get_registrants_nonce');
 							$tbl->addCell(
 								'<br/> 
-											<a class="modal-toggle mz_get_registrants" data-toggle="modal" data-target="#registrantModal"' 
+											<a class="modal-toggle mz_get_registrants ' . $className .'" data-toggle="modal" data-target="#registrantModal"' 
 											. 'data-nonce="' . $get_registrants_nonce 
 											. '" data-classDescription="' . rawUrlEncode($classDescription) 
 											. '" data-className="' . $className 
@@ -244,7 +244,7 @@ class MZ_Mindbody_Schedule_Display {
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="ClassTitle"></h4>
+        <h4 class="modal-title ' . $className .'" id="ClassTitle"></h4>
       </div>
       <div class="modal-body" id="class-description-modal-body"></div>
       <div class="modal-body" id="ClasseRegistrants"></div>
@@ -256,7 +256,7 @@ class MZ_Mindbody_Schedule_Display {
 										);
 						} else {
 						$tbl->addCell(
-							'<a data-toggle="modal" data-target="#mzModal" ' .
+							'<a class="class_name ' . $className . '" data-toggle="modal" data-target="#mzModal" ' .
 									'data-maincontent="' . rawurlencode(substr($classDescription, 0, 1000)) . 
 									'" href="' . MZ_MINDBODY_SCHEDULE_URL . 
 									'inc/modal_descriptions.php?className='. urlencode(substr($className, 0, 1000)) .'">' . $className . '</a>' .
