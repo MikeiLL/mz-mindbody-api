@@ -486,8 +486,6 @@ if ( is_admin() )
 						if (!isset($registrants['Client']['FirstName'])):
 							foreach ($registrants as $key => $registrant) {
 									if (!isset($registrant['Client']))
-											//mZ_write_to_file($key);
-											mZ_write_to_file($registrants);
 									$result['message'][] = $registrant['Client']['FirstName'] . '_' 
 																					. substr($registrant['Client']['FirstName'], 0, 1);
 								}
