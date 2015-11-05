@@ -237,22 +237,7 @@ class MZ_Mindbody_Schedule_Display {
 											. '" data-classID="' . $sclassidID  . '" href="#">' . $className . '</a>'
 											. '<br/><div id="visitMBO" class="btn visitMBO" style="display:none">' .
 							$manage_text . '</a></div>' .
-							$showCancelled .
-
-'<div class="modal fade" id="registrantModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title ' . $className .'" id="ClassTitle"></h4>
-      </div>
-      <div class="modal-body" id="class-description-modal-body"></div>
-      <div class="modal-body" id="ClasseRegistrants"></div>
-      <div class="modal-footer">
-      </div>
-    </div>
-  </div>
-</div>'
+							$showCancelled
 										);
 						} else {
 						$tbl->addCell(
@@ -416,6 +401,20 @@ class MZ_Mindbody_Schedule_Display {
 										$signupButton = '';
 										}
 									$session_type_css = sanitize_html_class($sessionTypeName, 'mz_session_type');
+									
+									if ($show_registrants == 1){
+										$get_registrants_nonce = wp_create_nonce( 'mz_MBO_get_registrants_nonce');
+										$class_details .= '<br/> 
+											<a class="modal-toggle mz_get_registrants ' . $className .'" data-toggle="modal" data-target="#registrantModal"' 
+											. 'data-nonce="' . $get_registrants_nonce 
+											. '" data-classDescription="' . rawUrlEncode($classDescription) 
+											. '" data-className="' . $className 
+											. '" data-classID="' . $sclassidID  . '" href="#">' . $className . '</a>'
+											. ' ' . $teacher
+											. '<br/><div id="visitMBO" class="btn visitMBO" style="display:none">' .
+							$manage_text . '</a></div>' .
+							$showCancelled ;
+						} else {
 
 									$class_details .= '<div class="mz_schedule_table mz_description_holder mz_location_'.$sLoc.' '.'mz_' . 
 									$session_type_css .'">' .
@@ -427,6 +426,7 @@ class MZ_Mindbody_Schedule_Display {
 									$teacher . $signupButton .
 									$classLength . $showCancelled . $locationNameDisplay . '</div>' .
 									$class_separator;
+									} // ./if not $registrants
 								}
 							}
 						$tbl->addCell($class_details);
@@ -460,16 +460,38 @@ class MZ_Mindbody_Schedule_Display {
 			}
 		}//EOF If Result / Else
 		
+		if ($filter == 1):
+			add_action('wp_footer', array($this, 'add_filter_table'));
+			add_action('wp_footer', array($this, 'initialize_filter'));
+		endif;
 		
-		add_action('wp_footer', array($this, 'add_filter_table'));
-		add_action('wp_footer', array($this, 'initialize_filter'));
+		if ($show_registrants == 1 ): ?>
+
+				<div class="modal fade" id="registrantModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								<h4 class="modal-title ' . $className .'" id="ClassTitle"></h4>
+							</div>
+							<div class="modal-body" id="class-description-modal-body"></div>
+							<div class="modal-body" id="ClasseRegistrants"></div>
+							<div class="modal-footer">
+							</div>
+						</div>
+					</div>
+				</div>
+		
+		<?php endif;
 		
 		$mz_schedule_display = 'mz_schedule_display_' . mt_rand(1, 1000000);
 
 		set_transient($mz_schedule_display, $return, 60 * 60 * 24);
 
 		return get_transient( $mz_schedule_display );
+		
 
+				
 	}//EOF mZ_show_schedule
 	
 	public function makeNumericArray($data) {
@@ -492,10 +514,9 @@ class MZ_Mindbody_Schedule_Display {
 			));
 
 		?>
-		<?php if ($filter == 1): ?>
+		
 		<!-- Start mZ_mindbody-api filterTable configuration -->
 		<script type="text/javascript">
-			(function($) {
 			$(document).ready(function() {
 				var stripeTable = function(table) { //stripe the table (jQuery selector)
 						table.find('tr').removeClass('striped').filter(':visible:even').addClass('striped');
@@ -514,10 +535,9 @@ class MZ_Mindbody_Schedule_Display {
 					});
 					stripeTable($('table.mz-schedule-filter')); //stripe the table for the first time
 				});
-			})(jQuery);
 		</script>
-		<!-- End mZ_mindbody-api filterTable configuration -->
-		<?php endif; ?>
+		<!-- End mZ_mindbody-api filterTable configuration -->		
+
 		
 		<?php
 	}
