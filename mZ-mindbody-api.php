@@ -473,7 +473,6 @@ if ( is_admin() )
 		if ($class_visits['GetClassVisitsResult']['Status'] != 'Success'):
 				$result['type'] = "error";
  				$result['message'] = __("Unable to retrieve registrants.", 'mz-mindbody-api');
- 				mZ_write_to_file($result['message'][0]);
  		else:
 				if (empty($class_visits['GetClassVisitsResult']['Class']['Visits'])) :
 					$result['type'] = "success";
@@ -485,13 +484,14 @@ if ( is_admin() )
 					foreach($class_visits['GetClassVisitsResult']['Class']['Visits'] as $registrants) {
 						if (!isset($registrants['Client']['FirstName'])):
 							foreach ($registrants as $key => $registrant) {
-									if (!isset($registrant['Client']))
+									if (isset($registrant['Client'])): 
 									$result['message'][] = $registrant['Client']['FirstName'] . '_' 
-																					. substr($registrant['Client']['FirstName'], 0, 1);
+																					. substr($registrant['Client']['LastName'], 0, 1);
+									endif;
 								}
 						else: 
 								$result['message'][] = $registrants['Client']['FirstName'] . '_' 
-																					. substr($registrants['Client']['FirstName'], 0, 1);
+																					. substr($registrants['Client']['LastName'], 0, 1);
 						endif;
 					}
 				endif;
