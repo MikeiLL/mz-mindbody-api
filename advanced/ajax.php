@@ -47,7 +47,8 @@ $protocol = isset( $_SERVER["HTTPS"]) ? 'https://' : 'http://';
  
  	$params = array(
 		'ajaxurl' => admin_url( 'admin-ajax.php', $protocol ),
-		'get_registrants_error' => __('Error retreiving class details.', 'mz-mindbody-api')
+		'get_registrants_error' => __('Error retreiving class details.', 'mz-mindbody-api'),
+		'registrants_header' => __('Registrants', 'mz-mindbody-api')
 		);
 	
 	wp_localize_script( 'mZ_get_registrants', 'mZ_get_registrants', $params);
