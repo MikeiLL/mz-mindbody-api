@@ -246,7 +246,7 @@ class MZ_Mindbody_Schedule_Display {
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="exampleModalLabel">Class Details</h4>
+        <h4 class="modal-title" id="exampleModalLabel"></h4>
       </div>
       <div class="class-description-modal-body" id="class-description-modal-body"></div>
       <div class="modal-footer">
