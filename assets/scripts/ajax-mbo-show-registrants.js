@@ -27,7 +27,6 @@ $(document).ready(function($) {
 						htmlData += '</ul>';
 						infoModal.find('#class-description-modal-body')[0].innerHTML = htmlData;
 						infoModal.find('#exampleModalLabel')[0].innerHTML = className;
-	
 						infoModal.modal();
 				}else{
 						infoModal.find('#class-description-modal-body')[0].innerHTML = mZ_get_registrants.get_registrants_error;
