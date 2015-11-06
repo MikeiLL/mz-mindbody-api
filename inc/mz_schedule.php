@@ -411,9 +411,10 @@ class MZ_Mindbody_Schedule_Display {
 											. '" data-className="' . $className 
 											. '" data-classID="' . $sclassidID  . '" href="#">' . $className . '</a>'
 											. ' ' . $teacher
-											. '<br/><div id="visitMBO" class="btn visitMBO" style="display:none">' .
-							$manage_text . '</a></div>' .
-							$showCancelled ;
+											. '<br/>' .	 
+									$teacher . $signupButton .
+									$classLength . $showCancelled . $locationNameDisplay . '</div>' .
+									$class_separator;
 						} else {
 
 									$class_details .= '<div class="mz_schedule_table mz_description_holder mz_location_'.$sLoc.' '.'mz_' . 
