@@ -24,6 +24,9 @@
       ],
       "main": true
     },
+    "jquery.js": {
+      "bower": ["jquery"]
+    },
     "main.css": {
       "files": [
         "styles/main.scss"

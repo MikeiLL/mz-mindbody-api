@@ -1,4 +1,12 @@
 (function($){
+
+/*$(document).ready(function($) {
+if (typeof jQuery != 'undefined') {  
+			// jQuery is loaded => print the version
+			alert("hey" + jQuery.fn.jquery);
+	}
+});*/
+		
 $(document).ready(function($) {
 		$("a[data-target=#mzModal]").click(function(ev) {
 			ev.preventDefault();

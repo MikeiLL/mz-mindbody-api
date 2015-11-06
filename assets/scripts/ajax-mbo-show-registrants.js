@@ -13,6 +13,7 @@ $(document).ready(function($) {
 		htmlClassDescription +=  decodeURIComponent(classDescription) + '</div>';
 		htmlClassDescription += '<h5 class="mz_registrants_header">' + mZ_get_registrants.registrants_header + '</h5>';
 		infoModal.find('#class-description-modal-body')[0].innerHTML = htmlClassDescription;
+		infoModal.modal();
 		$.ajax({
 			type: "GET",
 			dataType: 'json',

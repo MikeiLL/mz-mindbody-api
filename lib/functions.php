@@ -113,6 +113,23 @@ function mZ_write_to_file($message){
 		endif;
 		}
 
+//TODO - implement this better method
+function mZ_new_write_to_file($message)
+{
+    $header = "\nMessage:\t ";
+
+    if (is_array($message)) {
+        $header = "\nMessage is array.\n";
+        $message = print_r($message, true);
+    }
+
+    file_put_contents(
+        '/path/to/logs/a_log_file.php', 
+        $header . $message, 
+        FILE_APPEND | LOCK_EX
+    );
+}
+
 //Format arrays for display in development
 function mz_pr($data)
 {

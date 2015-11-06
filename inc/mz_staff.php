@@ -81,12 +81,15 @@ EFD;
 			$mz_staff_bio = $staff_member['Bio'];
 			$mz_staff_bio = str_replace($mz_empty_tags_pattern, '', $mz_staff_bio);
 
+			//TODO Abstract this (with regular expressions?).
 			if (substr($mz_staff_bio, 0, 3) == '<p>') {
 					$mz_staff_bio = substr($mz_staff_bio, 3);
 					$mz_replace_dom_start = '<p>';
 				} else if (substr($mz_staff_bio, 0, 5) == '<div>'){
 					$mz_staff_bio = substr($mz_staff_bio, 5);
 					$mz_replace_dom_start = '<div>';
+				} else {
+					$mz_replace_dom_start = '';
 				}
 				
 			$mz_staff_image = $staff_member['ImageURL'];
