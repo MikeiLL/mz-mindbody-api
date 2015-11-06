@@ -13,7 +13,7 @@ $(document).ready(function($) {
 		htmlClassDescription +=  decodeURIComponent(classDescription) + '</div>';
 		htmlClassDescription += '<h5 class="mz_registrants_header">' + mZ_get_registrants.registrants_header + '</h5>';
 		infoModal.find('#class-description-modal-body')[0].innerHTML = htmlClassDescription;
-		infoModal.modal();
+		infoModal.modal(); // open modal before ajax here to work with jquery 1.11, wordpress core jquery
 		$.ajax({
 			type: "GET",
 			dataType: 'json',
@@ -33,10 +33,10 @@ $(document).ready(function($) {
 						}
 						htmlRegistrants += '</ul>';
 						infoModal.find('#ClasseRegistrants')[0].innerHTML = htmlRegistrants;
-						infoModal.modal();
+						//infoModal.modal();
 				}else{
 						infoModal.find('#class-description-modal-body')[0].innerHTML = mZ_get_registrants.get_registrants_error;
-						infoModal.modal();
+						//infoModal.modal();
 				}
 			} // ./ Ajax Success
 		}); // ./Ajax
