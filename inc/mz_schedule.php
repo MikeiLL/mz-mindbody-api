@@ -373,6 +373,7 @@ class MZ_Mindbody_Schedule_Display {
 									$class_separator = ($key == $num_classes_min_one) ? '' : '<hr/>';
 									$linkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$sclassid}&amp;studioid={$studioid}";
 									if(!in_array('signup', $hide)){
+									//TODO Are advanced and show_registrants compatible?
 										if ($advanced == 1){
 											if (isset($isAvailable) && ($isAvailable != 0)) {
 												$add_to_class_nonce = wp_create_nonce( 'mz_MBO_add_to_class_nonce');
