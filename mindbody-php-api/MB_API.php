@@ -73,6 +73,7 @@ class MB_API {
 		}
 		if(!empty($soapService)) {
 			if(empty($arguments)) {
+				//mz_pr($this->callMindbodyService($soapService, $name));
 				return $this->callMindbodyService($soapService, $name);
 			} else {
 				switch(count($arguments)) {
@@ -84,6 +85,7 @@ class MB_API {
 			}
 		} else {
 			echo "called unknown method '$name'<br />";
+			mz_pr($this->callMindbodyService($soapService, $name));
 			return 'NO_SOAP_SERVICE';
 		}
 	}

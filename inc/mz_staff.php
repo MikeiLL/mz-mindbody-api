@@ -57,8 +57,11 @@ class MZ_MBO_Staff {
 
         <div class="row">
 EFD;
-
-	  $mz_staff_list = $mbo_staff_data['GetStaffResult']['StaffMembers']['Staff'];
+		if (isset($mbo_staff_data['GetStaffResult'])):
+	  	$mz_staff_list = $mbo_staff_data['GetStaffResult']['StaffMembers']['Staff'];
+	  else:
+	  	mz_pr($mbo_staff_data);
+	  endif;
 
 	  // trying to allow sort order from within MBO - not working
 	  //usort($mz_staff_list, $this->sortById());;
