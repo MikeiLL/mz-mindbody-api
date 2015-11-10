@@ -236,6 +236,7 @@ class MZ_Mindbody_Schedule_Display {
 											. '" data-className="' . $className 
 											. '" data-classID="' . $sclassidID  . '" href="#">' . $className . '</a>'
 											. '<br/><div id="visitMBO" class="btn visitMBO" style="display:none">' .
+							'<a href="'.$linkURL.'" target="_blank">' .
 							$manage_text . '</a></div>' .
 							$showCancelled
 										);
@@ -483,7 +484,7 @@ class MZ_Mindbody_Schedule_Display {
 						</div>
 					</div>
 				</div>
-		
+						
 		<?php endif;
 		
 		$mz_schedule_display = 'mz_schedule_display_' . mt_rand(1, 1000000);
