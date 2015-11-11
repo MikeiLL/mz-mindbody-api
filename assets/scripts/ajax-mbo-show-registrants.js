@@ -21,7 +21,7 @@ $(document).ready(function($) {
 			url : mZ_add_to_classes.ajaxurl,
 			data : {action: 'mz_mbo_get_registrants', nonce: nonce, classID: classID},
 			success: function(json) {
-				console.log(json);
+				//console.log(json);
 				if(json.type == "success") {
 						htmlRegistrants = '<ul class="mz_class_registrants">';
 						if ( $.isArray(json.message)  ) {
