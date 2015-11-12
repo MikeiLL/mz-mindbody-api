@@ -142,6 +142,7 @@ class MZ_Mindbody_Schedule_Display {
 		if ($grid == 0) {
 			foreach($mz_days as $classDate => $mz_classes)
 			{   
+			
 				$tbl->addRow('header');
 				// arguments: cell content, class, type (default is 'data' for td, pass 'header' for th)
 				// can include associative array of optional additional attributes
@@ -161,6 +162,7 @@ class MZ_Mindbody_Schedule_Display {
 								continue;
 								}
 							}
+						//mz_pr($class );
 						$sDate = date_i18n('m/d/Y', strtotime($class['StartDateTime']));
 						$sLoc = $class['Location']['ID'];
 						$sTG = $class['ClassDescription']['Program']['ID'];
@@ -169,7 +171,18 @@ class MZ_Mindbody_Schedule_Display {
 						$sclassidID = $class['ID'];
 						//mz_pr($sclassidID);
 						$classDescription = $class['ClassDescription']['Description'];
-						$classaImage = $class['ClassDescription']['ImageURL'];
+						
+						//Let's find an image if there is one and assign it to $classImage
+						
+						if (!isset($class['ClassDescription']['ImageURL'])) {
+							$classImage = '';
+							if (isset($class['ClassDescription']['AdditionalImageURLs']) && !empty($classImageArray)) {
+								$classImage = pop($classImageArray);
+								}
+						} else {
+							$classImage = $class['ClassDescription']['ImageURL'];
+						}
+
 						$sType = -7;
 						$showCancelled = ($class['IsCanceled'] == 1) ? '<div class="mz_cancelled_class">' .
 										__('Cancelled', 'mz-mindbody-api') . '</div>' : '';
