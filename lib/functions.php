@@ -131,11 +131,12 @@ function mZ_new_write_to_file($message)
 }
 
 //Format arrays for display in development
-function mz_pr($data)
-{
-  echo "<pre>";
-  print_r($data);
-  echo "</pre>";
+if ( ! function_exists( 'mz_pr' ) ) {
+	function mz_pr($message) {
+		echo "<pre>";
+		print_r($message);
+		echo "</pre>";
+	}
 }
 
 ?>
