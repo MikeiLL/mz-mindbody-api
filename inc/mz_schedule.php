@@ -135,9 +135,17 @@ class MZ_Mindbody_Schedule_Display {
 			}
 
 		if ($filter == 1) {
-				$tbl = new HTML_Table('', 'mz-schedule-filter');
+				if ($grid == 1):
+					$tbl = new HTML_Table('', 'mz-schedule-filter mz-schedule-grid');
+				else:
+					$tbl = new HTML_Table('', 'mz-schedule-filter');
+				endif;
 			}else{
-				$tbl = new HTML_Table('', 'mz-schedule-table');
+				if ($grid == 1):
+					$tbl = new HTML_Table('', 'mz-schedule-table mz-schedule-grid');
+				else:
+					$tbl = new HTML_Table('', 'mz-schedule-table');
+				endif;
 			}
 		if ($grid == 0) {
 			foreach($mz_days as $classDate => $mz_classes)
@@ -251,8 +259,7 @@ class MZ_Mindbody_Schedule_Display {
 											. '" data-classID="' . $sclassidID  . '" href="#">' . $className . '</a>'
 											. '<br/><div id="visitMBO" class="btn visitMBO" style="display:none">' .
 							$manage_text . '</a></div>' .
-							$showCancelled
-										);
+							$showCancelled, "class_name_cell");
 						} else {
 						$tbl->addCell(
 							'<a class="class_name ' . $className . '" data-toggle="modal" data-target="#mzModal" ' .
@@ -263,7 +270,7 @@ class MZ_Mindbody_Schedule_Display {
 								'<br/><div id="visitMBO" class="btn visitMBO" style="display:none">' .
 							'<a href="'.$linkURL.'" target="_blank">' .
 							$manage_text . '</a></div>' .
-							$showCancelled );
+							$showCancelled, "class_name_cell" );
 							}
 
 
