@@ -142,8 +142,8 @@ class MZ_MBO_Events {
 								if ($advanced == 1) {
 									$add_to_class_nonce = wp_create_nonce( 'mz_MBO_add_to_class_nonce');
 									if ($clientID == ''){
-										 $return .= $isAvailable ? '<a class="btn mz_add_to_class" href="'.home_url().
-										 '/login">'.__('Login to Sign-up', 'mz-mindbody-api') . '</a>' : '';
+										 $return .= $isAvailable ? '<br/><a class="btn mz_add_to_class" href="'.home_url().
+										 '/login">'.__('Login to Sign-up', 'mz-mindbody-api') . '</a><br/>' : '';
 										  }else{
 									  $return .= $isAvailable ? '<br/><a id="mz_add_to_class" class="btn mz_add_to_class"' 
 										. ' data-nonce="' . $add_to_class_nonce 
@@ -155,7 +155,7 @@ class MZ_MBO_Events {
 									  $return .= '<a href="'.$eventLinkURL.'" target="_blank">Manage on MindBody Site</a></div>';
 									  }
 								}else{
-									$return .= '<a class="btn" href="' . $eventLinkURL . '" target="_blank">' . __('Sign-Up', 'mz-mindbody-api') . '</a>';
+									$return .= '<br/><a class="btn" href="' . $eventLinkURL . '" target="_blank">' . __('Sign-Up', 'mz-mindbody-api') . '</a><br/>';
 								}
 								$return .= '<span class="mz_event_staff">'.$day_and_date.', ' . date_i18n('g:i a', strtotime($startDateTime)).' - ';
 								$return .= date_i18n('g:i a', strtotime($endDateTime)) . '</span>';
