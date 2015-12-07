@@ -1132,10 +1132,6 @@ $(document).ready(function($) {
 				 $("#mzModal").colorbox();
 				 //$(".modal-body span").html(decodeURIComponent(maincontent));
 			});
-			/* kill modal contents on hide
-			    $('body').on('hidden.bs.modal', '#mzModal', function () {
-			     $(this).removeData('bs.modal');
-			   });*/	
 		});
 	});
 	
@@ -1144,15 +1140,14 @@ $(document).ready(function($) {
 			ev.preventDefault();
 			var target = $(this).attr("href");
 			var maincontent = $(this).attr('data-maincontent');
+			var teacherName = $(this).find( "div" ).text();
+			var teacherPicture = $(this).find( "img" ).attr('src');
+			var popUpContent = "<h3>" + teacherName + "</h3>" + /*"<img class='teacher-picture' src='" + teacherPicture + "' />*/"<div class='teacher-info'><div class='teacher-name'>" + teacherName + "</div><div class='teacher-description'>"  +  decodeURIComponent(maincontent) + "</div></div>";
+
 			// load the url and show modal on success
 			$("#mzStaffModal").load(target, function() { 
-				 $("#mzStaffModal").modal({show:true});  
-				 $("#staffBio").innerHTML = staffBio;
+				 $("#mzStaffModal").colorbox();
 			});
-			// kill modal contents on hide
-			    $('body').on('hidden.bs.modal', '#mzStaffModal', function () {
-			     $(this).removeData('bs.modal');
-			   });	
 		});
 	});
 
