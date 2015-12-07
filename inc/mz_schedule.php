@@ -265,6 +265,7 @@ class MZ_Mindbody_Schedule_Display {
 						$tbl->addCell(
 							'<a class="class_name ' . $className . '" data-target="#mzModal" ' .
 									'data-maincontent="' . rawurlencode(substr($classDescription, 0, 1000)) . 
+									'" data-className="' . $className .
 									'" href="' . MZ_MINDBODY_SCHEDULE_URL . 
 									'inc/modal_descriptions.php?className='. urlencode(substr($className, 0, 1000)) .'">' . $className . '</a>' .
 						// trigger link modal
