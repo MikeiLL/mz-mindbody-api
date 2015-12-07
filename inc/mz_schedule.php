@@ -252,7 +252,7 @@ class MZ_Mindbody_Schedule_Display {
 						$get_registrants_nonce = wp_create_nonce( 'mz_MBO_get_registrants_nonce');
 							$tbl->addCell(
 								'<br/> 
-											<a class="modal-toggle mz_get_registrants ' . $className .'" data-toggle="modal" data-target="#registrantModal"' 
+											<a class="modal-toggle mz_get_registrants ' . $className .'" data-target="#registrantModal"' 
 											. 'data-nonce="' . $get_registrants_nonce 
 											. '" data-classDescription="' . rawUrlEncode($classDescription) 
 											. '" data-className="' . $className 
@@ -263,7 +263,7 @@ class MZ_Mindbody_Schedule_Display {
 							$showCancelled, "class_name_cell");
 						} else {
 						$tbl->addCell(
-							'<a class="class_name ' . $className . '" data-toggle="modal" data-target="#mzModal" ' .
+							'<a class="class_name ' . $className . '" data-target="#mzModal" ' .
 									'data-maincontent="' . rawurlencode(substr($classDescription, 0, 1000)) . 
 									'" href="' . MZ_MINDBODY_SCHEDULE_URL . 
 									'inc/modal_descriptions.php?className='. urlencode(substr($className, 0, 1000)) .'">' . $className . '</a>' .
@@ -426,7 +426,7 @@ class MZ_Mindbody_Schedule_Display {
 									if ($show_registrants == 1){
 										$get_registrants_nonce = wp_create_nonce( 'mz_MBO_get_registrants_nonce');
 										$class_details .= '<br/> 
-											<a class="modal-toggle mz_get_registrants ' . $className .'" data-toggle="modal" data-target="#registrantModal"' 
+											<a class="modal-toggle mz_get_registrants ' . $className .'" data-target="#registrantModal"' 
 											. 'data-nonce="' . $get_registrants_nonce 
 											. '" data-classDescription="' . rawUrlEncode($classDescription) 
 											. '" data-className="' . $className 
@@ -439,7 +439,7 @@ class MZ_Mindbody_Schedule_Display {
 
 									$class_details .= '<div class="mz_schedule_table mz_description_holder mz_location_'.$sLoc.' '.'mz_' . 
 									$session_type_css .'">' .
-									'<a data-toggle="modal" data-target="#mzModal" ' .
+									'<a data-target="#mzModal" ' .
 									'data-maincontent="' . rawurlencode(substr($classDescription, 0, 1000)) .
 									'" href="' . MZ_MINDBODY_SCHEDULE_URL . 
 									'inc/modal_descriptions.php?className='. urlencode(substr($className, 0, 1000)) .'">' . $className . '</a>' .
