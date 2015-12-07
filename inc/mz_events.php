@@ -138,12 +138,12 @@ class MZ_MBO_Events {
 								$day_and_date =  date_i18n("D F d", strtotime($classDate));
 
 								$return .= '<tr class="mz_description_holder"><td>';
-								$return .= "<h3>$className</h3>";
+								$return .= "<span class='mz_event_name'>$className</span>";
 								if ($advanced == 1) {
 									$add_to_class_nonce = wp_create_nonce( 'mz_MBO_add_to_class_nonce');
 									if ($clientID == ''){
 										 $return .= $isAvailable ? '<br/><a class="btn mz_add_to_class" href="'.home_url().
-										 '/login">'.__('Login to Sign-up', 'mz-mindbody-api') . '</a>' : '';
+										 '/login">'.__('Login to Sign-up', 'mz-mindbody-api') . '</a><br/>' : '';
 										  }else{
 									  $return .= $isAvailable ? '<br/><a id="mz_add_to_class" class="btn mz_add_to_class"' 
 										. ' data-nonce="' . $add_to_class_nonce 
@@ -155,15 +155,16 @@ class MZ_MBO_Events {
 									  $return .= '<a href="'.$eventLinkURL.'" target="_blank">Manage on MindBody Site</a></div>';
 									  }
 								}else{
-									$return .= '<a class="btn" href="' . $eventLinkURL . '" target="_blank">' . __('Sign-Up', 'mz-mindbody-api') . '</a>';
+									$return .= '<br/><a class="btn" href="' . $eventLinkURL . '" target="_blank">' . __('Sign-Up', 'mz-mindbody-api') . '</a><br/>';
 								}
+								$return .= '<span class="mz_event_staff">'.$day_and_date.', ' . date_i18n('g:i a', strtotime($startDateTime)).' - ';
+								$return .= date_i18n('g:i a', strtotime($endDateTime)) . '</span>';
 								$return .= '<p class="mz_event_staff_name">'.$global_strings['with'] . '&nbsp;' . $staffName.'</p>';						
-								$return .= '<h4 class="mz_event_staff">'.$day_and_date.', ' . date_i18n('g:i a', strtotime($startDateTime)).' - ';
-								$return .= date_i18n('g:i a', strtotime($endDateTime)) . '</h4>';
+							
 
 								$return .= '<div class="mz_mindbody_event_description">';
 								$return .=  $image;
-								$return .= "<p>$classDescription</p>";
+								$return .= "<div class='mz_event_text'>$classDescription</div>";
 								$return .= "</div>";
 								$return .= '</td></tr>';
 							}
