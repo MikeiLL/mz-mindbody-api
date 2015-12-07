@@ -67,13 +67,11 @@ We want to do as little as possible here so CSS can be defined in theme.
     .mz_event_name {
       font-size: 18px;
       font-weight: 600;
-      color: #bb7268;
       text-transform: uppercase;
     }
     .mz_event_date {
       padding-left: 4px;
       line-height: 30px;
-      color: #bb7268;
     }
     .mz_event_staff_name {
       clear: both;
