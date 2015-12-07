@@ -138,7 +138,7 @@ class MZ_MBO_Events {
 								$day_and_date =  date_i18n("D F d", strtotime($classDate));
 
 								$return .= '<tr class="mz_description_holder"><td>';
-								$return .= "<span class='mz_event_name'>$className</span>";
+								$return .= "<h3 class='mz_event_name'>$className</h3>";
 								if ($advanced == 1) {
 									$add_to_class_nonce = wp_create_nonce( 'mz_MBO_add_to_class_nonce');
 									if ($clientID == ''){
