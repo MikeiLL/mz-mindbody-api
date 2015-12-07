@@ -460,11 +460,7 @@ class MZ_Mindbody_Schedule_Display {
 			if ($type=='week')
 				// schedule navigation
 				$return .= mz_mbo_schedule_nav($mz_date, __('Week', 'mz-mindbody-api'));
-			$return .= '<div id="mzModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mzSmallModalLabel" aria-hidden="true">
-					 <div class="modal-content">
-
-					</div>
-			</div>';
+			$return .= '<div id="mzModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mzSmallModalLabel" aria-hidden="true"></div>';
 
 			$return .= '</div>';
 		}

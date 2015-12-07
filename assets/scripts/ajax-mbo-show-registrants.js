@@ -8,6 +8,7 @@ $(document).ready(function($) {
 		var teacherPicture = $(this).find( "img" ).attr('src');
 		var className = $(this).attr("data-className");
 		var popUpContent = "<h3>" + className + "</h3>" + /*"<img class='teacher-picture' src='" + teacherPicture + "' />*/"<div class='teacher-info'><div class='teacher-name'>" + teacherName + "</div><div class='teacher-description'>"  +  decodeURIComponent(maincontent) + "</div></div>";
+		
 
 		$('.mz_get_registrants').click(function(){
 			$(this).removeData('bs.modal');
@@ -43,7 +44,7 @@ $(document).ready(function($) {
 								htmlRegistrants += '<li>' + json.message + '</li>';
 							}
 							htmlRegistrants += '</ul>';
-							$('#registrantModal').find('#ClasseRegistrants')[0].innerHTML = htmlRegistrants;
+							$('#registrantModal').find('#ClassRegistrants')[0].innerHTML = htmlRegistrants;
 							//infoModal.modal();
 							//$('#registrantModal').modal('show');
 					}else{
