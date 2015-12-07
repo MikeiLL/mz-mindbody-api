@@ -258,6 +258,7 @@ class MZ_Mindbody_Schedule_Display {
 											. '" data-className="' . $className 
 											. '" data-classID="' . $sclassidID  . '" href="#">' . $className . '</a>'
 											. '<br/><div id="visitMBO" class="btn visitMBO" style="display:none">' .
+							'<a class="btn" href="'.$linkURL.'" target="_blank">' .
 							$manage_text . '</a></div>' .
 							$showCancelled, "class_name_cell");
 						} else {
@@ -268,7 +269,7 @@ class MZ_Mindbody_Schedule_Display {
 									'inc/modal_descriptions.php?className='. urlencode(substr($className, 0, 1000)) .'">' . $className . '</a>' .
 						// trigger link modal
 								'<br/><div id="visitMBO" class="btn visitMBO" style="display:none">' .
-							'<a href="'.$linkURL.'" target="_blank">' .
+							'<a class="btn" href="'.$linkURL.'" target="_blank">' .
 							$manage_text . '</a></div>' .
 							$showCancelled, "class_name_cell" );
 							}
