@@ -12,6 +12,8 @@ if (isset($_GET["className"]))
       <span>
      	</span>
       <?php echo stripslashes($modal_description)?>
+      <div id="ClassRegistrants">
+      </div>
     </div>
     <div class="modal-footer">
     </div>

@@ -256,8 +256,9 @@ class MZ_Mindbody_Schedule_Display {
 											. 'data-nonce="' . $get_registrants_nonce 
 											. '" data-classDescription="' . rawUrlEncode($classDescription) 
 											. '" data-className="' . $className 
-											. '" data-classID="' . $sclassidID  . '" href="#">' . $className . '</a>'
-											. '<br/><div id="visitMBO" class="btn visitMBO" style="display:none">' .
+											. '" data-classID="' . $sclassidID  . '" href="' . MZ_MINDBODY_SCHEDULE_URL . 
+									'inc/modal_descriptions.php?className='. urlencode(substr($className, 0, 1000)) .'">' . $className . '</a>' .
+									'<br/><div id="visitMBO" class="btn visitMBO" style="display:none">' .
 							'<a class="btn" href="'.$linkURL.'" target="_blank">' .
 							$manage_text . '</a></div>' .
 							$showCancelled, "class_name_cell");
@@ -483,24 +484,13 @@ class MZ_Mindbody_Schedule_Display {
 			add_action('wp_footer', array($this, 'initialize_filter'));
 		endif;
 		
-		if ($show_registrants == 1 ): ?>
+		if ($show_registrants == 1 ): 
 
-				<div class="modal fade" id="registrantModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-								<h4 class="modal-title ' . $className .'" id="ClassTitle"></h4>
-							</div>
-							<div class="modal-body" id="class-description-modal-body"></div>
-							<div class="modal-body" id="ClasseRegistrants"></div>
-							<div class="modal-footer">
-							</div>
-						</div>
-					</div>
-				</div>
+			$return .= '<div class="modal fade" id="registrantModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">';
+
+			$return .= '</div>';
 		
-		<?php endif;
+		endif;
 		
 		$mz_schedule_display = 'mz_schedule_display_' . mt_rand(1, 1000000);
 
