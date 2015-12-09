@@ -1139,10 +1139,11 @@ $(document).ready(function($) {
 		$("a[data-target=#mzStaffModal]").click(function(ev) {
 			ev.preventDefault();
 			var target = $(this).attr("href");
-			var maincontent = $(this).attr('data-maincontent');
-			var teacherName = $(this).find( "div" ).text();
-			var teacherPicture = $(this).find( "img" ).attr('src');
-			var popUpContent = "<h3>" + teacherName + "</h3>" + /*"<img class='teacher-picture' src='" + teacherPicture + "' />*/"<div class='teacher-info'><div class='teacher-name'>" + teacherName + "</div><div class='teacher-description'>"  +  decodeURIComponent(maincontent) + "</div></div>";
+			var staffBio = $(this).attr('data-staffBio');
+			var staffName = $(this).attr('data-staffName');
+			var staffImage = $(this).attr('data-staffImage');
+			console.log(StaffBio);
+			var popUpContent = '<h3>' + staffName + '</h3>' + '<img class="mz-staffImage" src="' + staffImage + '"><div class="mz_teacher-info"><div class="mz_teacher_name">' + teacherName + '</div><div class="mz_teacher_description">'  +  decodeURIComponent(staffBio) + '</div></div>';
 
 			// load the url and show modal on success
 			$("#mzStaffModal").load(target, function() { 

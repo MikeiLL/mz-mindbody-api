@@ -408,6 +408,7 @@ class MZ_Mindbody_Schedule_Display {
 													  $signupButton = '<br/><a id="mz_add_to_class" class="fa fa-sign-in mz_add_to_class"' 
 														. 'title="' . $sign_up_text . '"'
 														. ' data-nonce="' . $add_to_class_nonce 
+														. '" data-className="' . $className 
 														. '" data-classID="' . $sclassidID  
 														. '" data-clientID="' . $clientID 
 														. '"></a>' .
@@ -445,6 +446,7 @@ class MZ_Mindbody_Schedule_Display {
 									$session_type_css .'">' .
 									'<a data-target="#mzModal" ' .
 									'data-maincontent="' . rawurlencode(substr($classDescription, 0, 1000)) .
+									'" data-className="' . $className .
 									'" href="' . MZ_MINDBODY_SCHEDULE_URL . 
 									'inc/modal_descriptions.php?className='. urlencode(substr($className, 0, 1000)) .'">' . $className . '</a>' .
 									'<br/>' .	 
