@@ -1139,15 +1139,19 @@ $(document).ready(function($) {
 		$("a[data-target=#mzStaffModal]").click(function(ev) {
 			ev.preventDefault();
 			var target = $(this).attr("href");
-			var staffBio = $(this).attr('data-staffBio');
+			var staffBio = decodeURIComponent($(this).attr('data-staffBio'));
 			var staffName = $(this).attr('data-staffName');
-			var staffImage = $(this).attr('data-staffImage');
-			console.log(StaffBio);
-			var popUpContent = '<h3>' + staffName + '</h3>' + '<img class="mz-staffImage" src="' + staffImage + '"><div class="mz_teacher-info"><div class="mz_teacher_name">' + teacherName + '</div><div class="mz_teacher_description">'  +  decodeURIComponent(staffBio) + '</div></div>';
-
+			var siteID = $(this).attr('data-siteID');
+			var staffID = $(this).attr('data-staffID');
+			var mbo_url_parts = ['http://clients.mindbodyonline.com/ws.asp?studioid=',
+													'&stype=-7&sView=week&sTrn='];
+			var staffImage = decodeURIComponent($(this).attr('data-staffImage'));
+			var popUpContent = '<div class="mz_teacher-info"><h3>' + staffName + '</h3>' + '<img class="mz-staffImage" src="' + staffImage + '"><div class="mz_teacher_description">'  +  staffBio + '</div></div>';
+			popUpContent += '<br/><a href="' + mbo_url_parts[0] + siteID + mbo_url_parts[1] + staffID + '" class="btn btn-info mz-btn-info mz-bio-button" target="_blank">See ' + staffName +'&apos;s Schedule</a>';
 			// load the url and show modal on success
 			$("#mzStaffModal").load(target, function() { 
-				 $("#mzStaffModal").colorbox();
+					$.colorbox({html: popUpContent, width:"75%"}); 
+					$("#mzStaffModal").colorbox();
 			});
 		});
 	});
