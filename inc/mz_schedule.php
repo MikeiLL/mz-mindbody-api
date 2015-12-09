@@ -93,7 +93,7 @@ class MZ_Mindbody_Schedule_Display {
 		}
 		
 		
-		if (isset($_GET) || ( false === ( $mz_schedule_data = get_transient( $mz_schedule_cache ) ) ) ) {
+		if (isset($_GET['mz_date']) || ( false === get_transient( $mz_schedule_cache ) ) ) {
 			/* If receiving parameters in $_GET or transient deleted we need to send a new date range so reset transient
 			 * uncomment line mz_pr("OKAY We ARE DOING IT."); in inc/mz_mbo_init.php
 			 * to see confirmation in broser of if MBO was called with the following 
@@ -116,6 +116,8 @@ class MZ_Mindbody_Schedule_Display {
 			set_transient($mz_schedule_cache, $mz_schedule_data, 60 * 60 * 24);
 		   // END caching*/
 		}
+		
+		$mz_schedule_data = get_transient( $mz_schedule_cache );
 
 		$return = '';
 

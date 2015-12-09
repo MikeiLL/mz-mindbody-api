@@ -124,7 +124,7 @@ function mZ_new_write_to_file($message)
     }
 
     file_put_contents(
-        '/path/to/logs/a_log_file.php', 
+        '/Applications/MAMP/logs/mZ_mbo_reader.php', 
         $header . $message, 
         FILE_APPEND | LOCK_EX
     );
