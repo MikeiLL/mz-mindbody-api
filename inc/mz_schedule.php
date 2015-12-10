@@ -431,35 +431,26 @@ class MZ_Mindbody_Schedule_Display {
 										$signupButton = '';
 										}
 									$session_type_css = sanitize_html_class($sessionTypeName, 'mz_session_type');
-									
-									if ($show_registrants == 1){
-										$get_registrants_nonce = wp_create_nonce( 'mz_MBO_get_registrants_nonce');
-										$class_details .= '<br/> 
-											<a class="modal-toggle mz_get_registrants ' . $className .'" data-target="#registrantModal"' 
-											. 'data-nonce="' . $get_registrants_nonce 
-											. '" data-classDescription="' . rawUrlEncode($classDescription) 
-											. '" data-className="' . $className 
-											. '" data-staffName="' . $staffName
-											. '" data-classID="' . $sclassidID  . '" href="#">' . $className . '</a>'
-											. ' ' . $teacher
-											. '<br/><div id="visitMBO" class="btn visitMBO" style="display:none">' .
-							$manage_text . '</a></div>' .
-							$showCancelled ;
-						} else {
-
 									$class_details .= '<div class="mz_schedule_table mz_description_holder mz_location_'.$sLoc.' '.'mz_' . 
 									$session_type_css .'">' .
-									'<a data-target="#mzModal" ' .
-									'data-maincontent="' . rawurlencode(substr($classDescription, 0, 1000)) .
+									'<a data-classDescription="' . rawurlencode(substr($classDescription, 0, 1000));
+									if ($show_registrants == 1){
+												$get_registrants_nonce = wp_create_nonce( 'mz_MBO_get_registrants_nonce');
+												$class_details .= '" data-nonce="' . $get_registrants_nonce 
+																					. '" data-classID="' . $sclassidID
+																					. '" data-target="#registrantModal"' ;
+											} else {
+												$class_details .= '" data-target="#mzModal"';
+											}
+									$class_details .= 
 									'" data-className="' . $className .
 									'" data-staffName="' . $staffName .
 									'" href="' . MZ_MINDBODY_SCHEDULE_URL . 
-									'inc/modal_descriptions.php?className='. urlencode(substr($className, 0, 1000)) .'">' . $className . '</a>' .
+									'inc/modal_descriptions.php">' . $className . '</a>' .
 									'<br/>' .	 
 									$teacher . $signupButton .
 									$classLength . $showCancelled . $locationNameDisplay . '</div>' .
 									$class_separator;
-									} // ./if not $registrants
 								}
 							}
 						$tbl->addCell($class_details);

@@ -1119,11 +1119,11 @@ $(document).ready(function($) {
 			//this is the teacher click function
 			ev.preventDefault();
 			var target = $(this).attr("href");
-			var maincontent = $(this).attr('data-maincontent');
+			var classDescription = $(this).attr('data-classDescription');
 			var staffName = $(this).attr('data-staffName');
 			var teacherPicture = $(this).find( "img" ).attr('src');
 			var className = $(this).attr("data-className");
-			var popUpContent = "<h3>" + className + "</h3>" + /*"<img class='teacher-picture' src='" + teacherPicture + "' />*/"<div class='teacher-info'><div class='mz-staff-name'>" + staffName + "</div><div class='teacher-description'>"  +  decodeURIComponent(maincontent) + "</div></div>";
+			var popUpContent = "<h3>" + className + "</h3>" + /*"<img class='teacher-picture' src='" + teacherPicture + "' />*/"<div class='teacher-info'><div class='mz-staff-name'>" + staffName + "</div><div class='teacher-description'>"  +  decodeURIComponent(classDescription) + "</div></div>";
 
 			// load the url and show modal on success
 			$("#mzModal").load(target, function() { 

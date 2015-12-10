@@ -3,10 +3,10 @@
 			ev.preventDefault();
 			var target = $(this).attr("href");
 			var classDescription = $(this).attr('data-classDescription');
-			var teacherName = $(this).find( "div" ).text();
+			var staffName = $(this).attr('data-staffName');
 			var teacherPicture = $(this).find( "img" ).attr('src');
 			var className = $(this).attr("data-className");
-			var popUpContent = "<h3>" + className + "</h3>" + /*"<img class='teacher-picture' src='" + teacherPicture + "' />*/"<div class='teacher-info'><div class='teacher-name'>" + teacherName + "</div>";
+			var popUpContent = '<h3>' + className + '</h3>' + /*'<img class="teacher-picture" src="' + teacherPicture + '" />*/'<div class="mz-class-info"></div>';
 			var nonce = $(this).attr("data-nonce");
 			var classID = $(this).attr("data-classID");
 			var htmlClassDescription = '<div class="mz_modal_class_description">';
