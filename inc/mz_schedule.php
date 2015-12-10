@@ -250,36 +250,28 @@ class MZ_Mindbody_Schedule_Display {
 									date_i18n($this->mz_mbo_globals->time_format, strtotime($endDateTime)), 'mz_date_display');
 									}
 
-						if ($show_registrants == 1){
-						$get_registrants_nonce = wp_create_nonce( 'mz_MBO_get_registrants_nonce');
-							$tbl->addCell(
-								'<br/> 
-											<a class="modal-toggle mz_get_registrants ' . $className .'" data-target="#registrantModal"' 
-											. 'data-nonce="' . $get_registrants_nonce 
-											. '" data-classDescription="' . rawUrlEncode($classDescription) 
+						$class_name_link = '<br/> 
+											<a class="modal-toggle mz_get_registrants ' . $className;
+											if ($show_registrants == 1){
+															$get_registrants_nonce = wp_create_nonce( 'mz_MBO_get_registrants_nonce');
+															$class_name_link .=
+															'" data-target="#registrantModal"' 
+															. 'data-nonce="' . $get_registrants_nonce 
+															. '" data-classID="' . $sclassidID;
+														} else {
+															$class_name_link .= '" data-target="#mzModal"';
+														}
+											$class_name_link .= '" data-classDescription="' . rawUrlEncode($classDescription) 
 											. '" data-staffName="' . $staffName 
 											. '" data-className="' . $className 
-											. '" data-classID="' . $sclassidID  . '" href="' . MZ_MINDBODY_SCHEDULE_URL . 
-									'inc/modal_descriptions.php?className='. urlencode(substr($className, 0, 1000)) .'">' . $className . '</a>' .
+											. '" href="' . MZ_MINDBODY_SCHEDULE_URL . 
+									'inc/modal_descriptions.php">' . $className . '</a>' .
 									'<br/><div id="visitMBO" class="btn visitMBO" style="display:none">' .
 							'<a class="btn" href="'.$linkURL.'" target="_blank">' .
 							$manage_text . '</a></div>' .
-							$showCancelled, "class_name_cell");
-						} else {
-						$tbl->addCell(
-							'<a class="class_name ' . $className . '" data-target="#mzModal" ' .
-									'data-maincontent="' . rawurlencode(substr($classDescription, 0, 1000)) . 
-									'" data-className="' . $className .
-									'" data-staffName="' . $staffName .
-									'" href="' . MZ_MINDBODY_SCHEDULE_URL . 
-									'inc/modal_descriptions.php?className='. urlencode(substr($className, 0, 1000)) .'">' . $className . '</a>' .
-						// trigger link modal
-								'<br/><div id="visitMBO" class="btn visitMBO" style="display:none">' .
-							'<a class="btn" href="'.$linkURL.'" target="_blank">' .
-							$manage_text . '</a></div>' .
-							$showCancelled, "class_name_cell" );
-							}
-
+							$showCancelled;
+							
+							$tbl->addCell($class_name_link, "class_name_cell");
 
 						$tbl->addCell($staffName, 'mz_staffName');
 						$tbl->addCell($sessionTypeName, 'mz_sessionTypeName');
