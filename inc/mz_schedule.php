@@ -479,7 +479,7 @@ class MZ_Mindbody_Schedule_Display {
 		
 		if ($show_registrants == 1 ): 
 
-			$return .= '<div class="modal fade" id="registrantModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">';
+			$return .= '<div class="modal fade" id="registrantModal" tabindex="-1" role="dialog" aria-labelledby="mzSmallModalLabel" aria-hidden="true">';
 
 			$return .= '</div>';
 		

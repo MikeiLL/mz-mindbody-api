@@ -54,6 +54,14 @@ You need to register a developer account with MindBody, which costs $5+ per webs
 
 == Changelog ==
 
+= 2.2.7 =
+* Refactor to make Schedule script more DRY.
+* Replace Bootstrap Modal with colorbox which seems to be less likely to cause theme conflicts.
+* Fix broken caching.
+
+= 2.2.6 =
+* Not much of note
+
 = 2.2.5 =
 * Clean up and add a little output on SOAP ERROR.
 
@@ -105,6 +113,10 @@ Fix navigation on Schedule page when Force Cache not selected.
 Initial release.
 
 == Upgrade Notice ==
+
+= 2.2.7 =
+Wider Theme compatibility for Modal Pop-ups.
+Can display registrants on class pop-ups.
 
 = 2.2.2 =
 Add gallery mode option for Staff page.

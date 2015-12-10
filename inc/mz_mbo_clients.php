@@ -26,7 +26,6 @@ class MZ_MBO_Clients {
 				'Username' => $_POST['username'],
 				'Password' => $_POST['password']
 			));
-			$this->mb->debug();
 	
 			if(!empty($validateLogin['ValidateLoginResult']['GUID'])) {
 				$_SESSION['GUID'] = $validateLogin['ValidateLoginResult']['GUID'];
