@@ -1120,10 +1120,10 @@ $(document).ready(function($) {
 			ev.preventDefault();
 			var target = $(this).attr("href");
 			var maincontent = $(this).attr('data-maincontent');
-			var teacherName = $(this).find( "div" ).text();
+			var staffName = $(this).attr('data-staffName');
 			var teacherPicture = $(this).find( "img" ).attr('src');
 			var className = $(this).attr("data-className");
-			var popUpContent = "<h3>" + className + "</h3>" + /*"<img class='teacher-picture' src='" + teacherPicture + "' />*/"<div class='teacher-info'><div class='teacher-name'>" + teacherName + "</div><div class='teacher-description'>"  +  decodeURIComponent(maincontent) + "</div></div>";
+			var popUpContent = "<h3>" + className + "</h3>" + /*"<img class='teacher-picture' src='" + teacherPicture + "' />*/"<div class='teacher-info'><div class='mz-staff-name'>" + staffName + "</div><div class='teacher-description'>"  +  decodeURIComponent(maincontent) + "</div></div>";
 
 			// load the url and show modal on success
 			$("#mzModal").load(target, function() { 

@@ -257,6 +257,7 @@ class MZ_Mindbody_Schedule_Display {
 											<a class="modal-toggle mz_get_registrants ' . $className .'" data-target="#registrantModal"' 
 											. 'data-nonce="' . $get_registrants_nonce 
 											. '" data-classDescription="' . rawUrlEncode($classDescription) 
+											. '" data-staffName="' . $staffName 
 											. '" data-className="' . $className 
 											. '" data-classID="' . $sclassidID  . '" href="' . MZ_MINDBODY_SCHEDULE_URL . 
 									'inc/modal_descriptions.php?className='. urlencode(substr($className, 0, 1000)) .'">' . $className . '</a>' .
@@ -269,6 +270,7 @@ class MZ_Mindbody_Schedule_Display {
 							'<a class="class_name ' . $className . '" data-target="#mzModal" ' .
 									'data-maincontent="' . rawurlencode(substr($classDescription, 0, 1000)) . 
 									'" data-className="' . $className .
+									'" data-staffName="' . $staffName .
 									'" href="' . MZ_MINDBODY_SCHEDULE_URL . 
 									'inc/modal_descriptions.php?className='. urlencode(substr($className, 0, 1000)) .'">' . $className . '</a>' .
 						// trigger link modal
@@ -384,6 +386,7 @@ class MZ_Mindbody_Schedule_Display {
 									$studioid = $class['Location']['SiteID'];
 									$sclassid = $class['ClassScheduleID'];
 									$sclassidID = $class['ID'];
+									$staffName = $class['Staff']['Name'];
 									$sType = -7;
 									$isAvailable = $class['IsAvailable'];
 									if (count($locations) > 1) {
@@ -411,6 +414,7 @@ class MZ_Mindbody_Schedule_Display {
 														. '" data-className="' . $className 
 														. '" data-classID="' . $sclassidID  
 														. '" data-clientID="' . $clientID 
+														. '" data-staffName="' . $staffName 
 														. '"></a>' .
 														'&nbsp; <span class="signup"> ' .
 														'</span></a>&nbsp;' . 
@@ -435,6 +439,7 @@ class MZ_Mindbody_Schedule_Display {
 											. 'data-nonce="' . $get_registrants_nonce 
 											. '" data-classDescription="' . rawUrlEncode($classDescription) 
 											. '" data-className="' . $className 
+											. '" data-staffName="' . $staffName
 											. '" data-classID="' . $sclassidID  . '" href="#">' . $className . '</a>'
 											. ' ' . $teacher
 											. '<br/><div id="visitMBO" class="btn visitMBO" style="display:none">' .
@@ -447,6 +452,7 @@ class MZ_Mindbody_Schedule_Display {
 									'<a data-target="#mzModal" ' .
 									'data-maincontent="' . rawurlencode(substr($classDescription, 0, 1000)) .
 									'" data-className="' . $className .
+									'" data-staffName="' . $staffName .
 									'" href="' . MZ_MINDBODY_SCHEDULE_URL . 
 									'inc/modal_descriptions.php?className='. urlencode(substr($className, 0, 1000)) .'">' . $className . '</a>' .
 									'<br/>' .	 
