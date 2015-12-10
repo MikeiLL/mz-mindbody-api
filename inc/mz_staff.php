@@ -121,7 +121,7 @@ EFD;
 								. 'data-siteID="' . $mz_site_id . '" '
 								. 'data-staffID="' . $mz_staff_id . '" '
 								. 'data-staffBio="' . rawUrlEncode($mz_staff_bio) .'" href="' . MZ_MINDBODY_SCHEDULE_URL . 
-							'inc/modal_biographies.php">';
+							'inc/modal_descriptions.php">';
 				$return .=             sprintf('<img class="img-responsive mz-staff-image" src="%s" alt="">', $mz_staff_image);
 				$return .= 						sprintf('<div class="mz-staff-name">%s</div>',$mz_staff_name);
 				$return .=        ' </a>';
