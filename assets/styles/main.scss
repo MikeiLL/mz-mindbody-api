@@ -59,6 +59,13 @@ We want to do as little as possible here so CSS can be defined in theme.
 			text-align: center;
 		}
 		
+		.mz-staffImage {
+			width: 30%;
+			height: auto;
+			float:left;
+			margin-right:.8rem;
+		}
+		
 /*colorbox css*/
 /*
     Colorbox Core Style:

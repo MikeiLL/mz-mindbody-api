@@ -10,6 +10,18 @@ class MZ_Mindbody_Schedule_Display {
 		$this->mz_mbo_globals = new MZ_Mindbody_Init();
 	}
 	
+	
+ 	public function mbo_localize_main_js() {
+
+		$main_js_params = array(
+			'staff_preposition' => __('with', 'mz-mindbody-api')
+			);
+	
+		wp_localize_script( 'mz_mbo_bootstrap_script', 'mz_mbo_bootstrap_script', $main_js_params);
+
+
+ 	}
+	
 	public function mZ_mindbody_show_schedule( $atts, $account=0 )
 	{
 		require_once(MZ_MINDBODY_SCHEDULE_DIR .'/lib/html_table.class.php');
@@ -17,6 +29,9 @@ class MZ_Mindbody_Schedule_Display {
 		wp_enqueue_style('mZ_mindbody_schedule_bs', asset_path('styles/main.css'), false, null);
 		wp_enqueue_script('modernizr', asset_path('scripts/modernizr.js'), array(), null, true);
 		wp_enqueue_script('mz_mbo_bootstrap_script', asset_path('scripts/main.js'), array('jquery'), null, true);
+		
+		add_action('wp_footer', array($this, 'mbo_localize_main_js'));
+
 		    
 		// optionally pass in a type parameter. Defaults to week.
 		$atts = shortcode_atts( array(
@@ -379,6 +394,10 @@ class MZ_Mindbody_Schedule_Display {
 									$sclassid = $class['ClassScheduleID'];
 									$sclassidID = $class['ID'];
 									$staffName = $class['Staff']['Name'];
+									
+									if (isset($class['Staff']['ImageURL'])):
+										$staffImage = $class['Staff']['ImageURL'];
+									endif;
 									$sType = -7;
 									$isAvailable = $class['IsAvailable'];
 									if (count($locations) > 1) {
@@ -423,9 +442,10 @@ class MZ_Mindbody_Schedule_Display {
 										$signupButton = '';
 										}
 									$session_type_css = sanitize_html_class($sessionTypeName, 'mz_session_type');
+									$class_name_css = sanitize_html_class($className, 'mz_class_name');
 									$class_details .= '<div class="mz_schedule_table mz_description_holder mz_location_'.$sLoc.' '.'mz_' . 
-									$session_type_css .'">' .
-									'<a data-classDescription="' . rawurlencode(substr($classDescription, 0, 1000));
+									$session_type_css .' mz_'. $class_name_css .'">' .
+									'<a data-classDescription="' . rawurlencode($classDescription);
 									if ($show_registrants == 1){
 												$get_registrants_nonce = wp_create_nonce( 'mz_MBO_get_registrants_nonce');
 												$class_details .= '" data-nonce="' . $get_registrants_nonce 
@@ -434,8 +454,11 @@ class MZ_Mindbody_Schedule_Display {
 											} else {
 												$class_details .= '" data-target="#mzModal"';
 											}
+									if (isset($staffImage)):
+										$class_details .= '" data-staffImage="' . $staffImage . '" ';
+									endif;
 									$class_details .= 
-									'" data-className="' . $className .
+									' data-className="' . $className .
 									'" data-staffName="' . $staffName .
 									'" href="' . MZ_MINDBODY_SCHEDULE_URL . 
 									'inc/modal_descriptions.php">' . $className . '</a>' .

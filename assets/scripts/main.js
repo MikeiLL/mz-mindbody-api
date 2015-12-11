@@ -1121,14 +1121,26 @@ $(document).ready(function($) {
 			var target = $(this).attr("href");
 			var classDescription = $(this).attr('data-classDescription');
 			var staffName = $(this).attr('data-staffName');
-			var teacherPicture = $(this).find( "img" ).attr('src');
+			var staffImage = $(this).attr('data-staffImage');
 			var className = $(this).attr("data-className");
-			var popUpContent = "<h3>" + className + "</h3>" + /*"<img class='teacher-picture' src='" + teacherPicture + "' />*/"<div class='teacher-info'><div class='mz-staff-name'>" + staffName + "</div><div class='teacher-description'>"  +  decodeURIComponent(classDescription) + "</div></div>";
+			var classID = $(this).attr("data-classID");
+			var popUpContent = '<div class="mz-classInfo">';
+			popUpContent += '<h3>' + className + '</h3>';
+			popUpContent += '<h4>' + mz_mbo_bootstrap_script.staff_preposition + ' ' + staffName + '</h4>';
+						
+			if (typeof staffImage != 'undefined') {
+ 				popUpContent += '<img class="mz-staffImage img-responsive" src="' + staffImage + '" />';
+			} 
 
+			var htmlClassDescription = '<div class="mz_modal_class_description">';
+			htmlClassDescription += "<div class='class-description'>"  +  decodeURIComponent(classDescription) + "</div></div>";
+			popUpContent += htmlClassDescription;
+			popUpContent += '</div>';
+			
 			// load the url and show modal on success
 			$("#mzModal").load(target, function() { 
 				 //$("#mzModal").modal({show:true}); 
-				 $.colorbox({html: popUpContent, width:"75%"}); 
+				 $.colorbox({html: popUpContent, width:"75%", height:"80%"}); 
 				 $("#mzModal").colorbox();
 				 //$(".modal-body span").html(decodeURIComponent(maincontent));
 			});
@@ -1146,8 +1158,11 @@ $(document).ready(function($) {
 			var mbo_url_parts = ['http://clients.mindbodyonline.com/ws.asp?studioid=',
 													'&stype=-7&sView=week&sTrn='];
 			var staffImage = decodeURIComponent($(this).attr('data-staffImage'));
-			var popUpContent = '<div class="mz_teacher-info"><h3>' + staffName + '</h3>' + '<img class="mz-staffImage" src="' + staffImage + '"><div class="mz_teacher_description">'  +  staffBio + '</div></div>';
-			popUpContent += '<br/><a href="' + mbo_url_parts[0] + siteID + mbo_url_parts[1] + staffID + '" class="btn btn-info mz-btn-info mz-bio-button" target="_blank">See ' + staffName +'&apos;s Schedule</a>';
+			var popUpContent = '<div class="mz_staffName"><h3>' + staffName + '</h3>';
+			popUpContent += '<img class="mz-staffImage" src="' + staffImage + '">';
+			popUpContent += '<div class="mz_staffBio">'  +  staffBio + '</div></div>';
+			popUpContent += '<br/><a href="' + mbo_url_parts[0] + siteID + mbo_url_parts[1] + staffID + '" ';
+			popUpContent += 'class="btn btn-info mz-btn-info mz-bio-button" target="_blank">See ' + staffName +'&apos;s Schedule</a>';
 			// load the url and show modal on success
 			$("#mzStaffModal").load(target, function() { 
 					$.colorbox({html: popUpContent, width:"75%"}); 

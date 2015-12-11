@@ -4,18 +4,28 @@
 			var target = $(this).attr("href");
 			var classDescription = $(this).attr('data-classDescription');
 			var staffName = $(this).attr('data-staffName');
-			var teacherPicture = $(this).find( "img" ).attr('src');
+			var staffImage = $(this).attr('data-staffImage');
 			var className = $(this).attr("data-className");
-			var popUpContent = '<h3>' + className + '</h3>' + /*'<img class="teacher-picture" src="' + teacherPicture + '" />*/'<div class="mz-class-info"></div>';
-			var nonce = $(this).attr("data-nonce");
 			var classID = $(this).attr("data-classID");
-			var htmlClassDescription = '<div class="mz_modal_class_description">';
-			htmlClassDescription += "<div class='class-description'>"  +  decodeURIComponent(classDescription) + "</div>";
-			htmlClassDescription += '<h5 class="mz_registrants_header">' + mZ_get_registrants.registrants_header + '</h5>';
+			var nonce = $(this).attr("data-nonce");
+			var popUpContent = '<div class="mz-classInfo">';
+			popUpContent += '<h3>' + className + '</h3>';
+			popUpContent += '<h4>' + mZ_get_registrants.staff_preposition + ' ' + staffName + '</h4>';
+						
+			if (typeof staffImage != 'undefined') {
+ 				popUpContent += '<img class="mz-staffImage" src="' + staffImage + '" />';
+			} 
+
+			var htmlClassDescription = '<div class="mz_modalClassDescription">';
+			htmlClassDescription += "<div class='class-description'>"  +  decodeURIComponent(classDescription) + "</div></div>";
 			popUpContent += htmlClassDescription;
-			popUpContent += '<div id="modalRegistrants"><div id="ClassRegistrants" style="min-height:90px;"><i class="fa fa-spinner fa-3x fa-spin"></i></div></div></div>';
+			popUpContent += '</div>';
+			
+			popUpContent += '<div id="modalRegistrants"><div id="ClassRegistrants" style="min-height:90px;">';
+			popUpContent += '<h3>' + mZ_get_registrants.registrants_header + '</h3>';
+			popUpContent += '<i class="fa fa-spinner fa-3x fa-spin"></i></div></div></div>';
 			$("#registrantModal").load(target, function() { 
-				 $.colorbox({html: popUpContent, width:"75%"}); 
+				 $.colorbox({html: popUpContent, width:"75%", height:"80%"}); 
 				 $("#registrantModal").colorbox();
 			});
 			$.ajax({
@@ -24,9 +34,8 @@
 				url : mZ_add_to_classes.ajaxurl,
 				data : {action: 'mz_mbo_get_registrants', nonce: nonce, classID: classID},
 				success: function(json) {
-					console.log(json);
 					if(json.type == "success") {
-							htmlRegistrants = '<ul class="mz_class_registrants">';
+							htmlRegistrants = '<ul class="mz-classRegistrants">';
 							if ( $.isArray(json.message)  ) {
 								json.message.forEach( function(name) {
 									htmlRegistrants += '<li>' + name.replace('_', ' ') + '</li>';
@@ -36,7 +45,6 @@
 							}
 							htmlRegistrants += '</ul>';
 							$('#modalRegistrants').find('#ClassRegistrants')[0].innerHTML = htmlRegistrants;
-							console.log(htmlRegistrants);
 					}else{
 							$('#modalRegistrants').find('#class-description-modal-body')[0].innerHTML = mZ_get_registrants.get_registrants_error;
 					}
