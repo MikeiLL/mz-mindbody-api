@@ -60,10 +60,24 @@ We want to do as little as possible here so CSS can be defined in theme.
 		}
 		
 		.mz-staffImage {
-			width: 30%;
+			max-width: 33%;
 			height: auto;
 			float:left;
 			margin-right:.8rem;
+		}
+		
+		#ModalRegistrants {
+			border: 2px solid blue;
+		}
+		
+		#ClassRegistrants {
+			ul {
+					list-style-type: none;
+				}
+		}
+		
+		ul.mz-classRegistrants li{
+			margin-left: 20%;
 		}
 		
 /*colorbox css*/

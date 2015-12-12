@@ -21,9 +21,9 @@
 			popUpContent += htmlClassDescription;
 			popUpContent += '</div>';
 			
-			popUpContent += '<div id="modalRegistrants"><div id="ClassRegistrants" style="min-height:90px;">';
 			popUpContent += '<h3>' + mZ_get_registrants.registrants_header + '</h3>';
-			popUpContent += '<i class="fa fa-spinner fa-3x fa-spin"></i></div></div></div>';
+			popUpContent += '<div id="modalRegistrants"><div id="ClassRegistrants" style="min-height:90px;">';
+			popUpContent += '<i class="fa fa-spinner fa-3x fa-spin"></i></div></div>';
 			$("#registrantModal").load(target, function() { 
 				 $.colorbox({html: popUpContent, width:"75%", height:"80%"}); 
 				 $("#registrantModal").colorbox();
