@@ -220,6 +220,9 @@ class MZ_Mindbody_Schedule_Display {
 						$staffName = $class['Staff']['Name'];
 						$isAvailable = $class['IsAvailable'];
 						$locationName = $class['Location']['Name'];
+						if (isset($class['Staff']['ImageURL'])):
+										$staffImage = $class['Staff']['ImageURL'];
+						endif;
 
 						$linkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$sclassid}&amp;studioid={$studioid}";
 
@@ -276,6 +279,9 @@ class MZ_Mindbody_Schedule_Display {
 														} else {
 															$class_name_link .= '" data-target="#mzModal"';
 														}
+											if (isset($staffImage)):
+												$class_name_link .= '" data-staffImage="' . $staffImage . '" ';
+											endif;
 											$class_name_link .= '" data-classDescription="' . rawUrlEncode($classDescription) 
 											. '" data-staffName="' . $staffName 
 											. '" data-className="' . $className 
