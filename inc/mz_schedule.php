@@ -61,14 +61,14 @@ class MZ_Mindbody_Schedule_Display {
 		$manage_text = __('Manage on MindBody Site', 'mz-mindbody-api');
 		
 		//Build caache based on shortcode attributes.
-		$mz_schedule_cache = 'mz_schedule';
+		$mz_schedule_cache = 'mz_sched_che';
 		foreach ($atts as $key=>$value){
 			if($value=='0' || $value=='') continue;
-			$mz_schedule_cache .= '_'.$key.'_'.$value;
+			$mz_schedule_cache .= '_'.substr($key,1,1).'_'.$value;
 		}
 		//Add date to cache
 		if (!empty($_GET['mz_date']))
-			$mz_schedule_cache .= $_GET['mz_date'];
+			$mz_schedule_cache .= '_'.$_GET['mz_date'];
 	
 		if (($grid == 1) && ($type == 'day')) {
 			return '<div style="color:red"><h2>'.__('Grid Calendar Incompatible with Single Day Mode!', 'mz_mndbody_api').'</h2></div>';
@@ -113,9 +113,11 @@ class MZ_Mindbody_Schedule_Display {
 		if ( $mz_cache_reset == "on" ){
 			//delete_transient( $mz_schedule_cache );
 			global $wpdb;
-			$wpdb->query( "DELETE FROM `".$wpdb->options."` WHERE `option_name` LIKE ('mz_schedule_%')" );
+			$wpdb->query( "DELETE FROM `$wpdb->options` WHERE `option_name` LIKE ('%mz_sched_chee%')" );
 		}
-		
+		//Uncomment to look at transients
+		//global $wpdb;
+		//$all_of_us = $wpdb->get_results( "SELECT * FROM `$wpdb->options` WHERE `option_name` LIKE ('%mz_sched_che%')" );
 		
 		if ( false === get_transient( $mz_schedule_cache ) ) {
 			/* If receiving parameters in $_GET or transient deleted we need to send a new date range to reset transient
@@ -138,7 +140,9 @@ class MZ_Mindbody_Schedule_Display {
 			//Cache the mindbody call for 24 hours
 			//But only if we are NOT loading for different week than current
 			// TODO make cache timeout configurable.
+
 			set_transient($mz_schedule_cache, $mz_schedule_data, 60 * 60 * 24);
+
 		   // END caching*/
 		}
 		
