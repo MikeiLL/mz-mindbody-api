@@ -127,12 +127,23 @@ class MZ_Mindbody_Schedule_Display {
 				}
 
 			//Cache the mindbody call for 24 hours
+			//But only if we are NOT loading for different week than current
 			// TODO make cache timeout configurable.
-			set_transient($mz_schedule_cache, $mz_schedule_data, 60 * 60 * 24);
+			if (!isset($_GET['mz_date'])):
+				set_transient($mz_schedule_cache, $mz_schedule_data, 60 * 60 * 24);
+			else:
+				//Initialize variable to use for transient name
+				${'mz_schedule_cache_' . $_GET['mz_date']} = ''; 
+				set_transient(${'mz_schedule_cache_' . $_GET['mz_date']}, $mz_schedule_data, 60 * 60 * 24);
+			endif;
 		   // END caching*/
 		}
 		
-		$mz_schedule_data = get_transient( $mz_schedule_cache );
+		if (!isset($_GET['mz_date'])):
+			$mz_schedule_data = get_transient( $mz_schedule_cache );
+		else:
+			$mz_schedule_data = get_transient( ${'mz_schedule_cache_' . $_GET['mz_date']} );
+		endif;
 
 		$return = '';
 

@@ -80,7 +80,7 @@ function mz_mbo_schedule_nav($date, $period, $duration=7)
 	$mz_nav_weeks_text_following = sprintf(__('Following %1$s','mz-mindbody-api'), $period);
 	$sched_nav .= ' <a href='.add_query_arg(array('mz_date' => ($mz_start_end_date[2]))).'>'.$mz_nav_weeks_text_prev.'</a> - ';
 	if (isset($_GET['mz_date']))
-	    $sched_nav .= ' <a href='.$mz_schedule_page.'>'.$mz_nav_weeks_text_current.'</a>  - ';
+	    $sched_nav .= ' <a href='.add_query_arg(array('mz_date' => (date_i18n('Y-m-d',current_time('timestamp'))))).'>'.$mz_nav_weeks_text_current.'</a>  - ';
 	$sched_nav .= '<a href='.add_query_arg(array('mz_date' => ($mz_start_end_date[1]))).'>'.$mz_nav_weeks_text_following.'</a>';
 
 	return $sched_nav;
