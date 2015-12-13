@@ -79,13 +79,13 @@ class MZ_Mindbody_Schedule_Display {
 			}
 
 		if ($grid == 0) {
-			$mz_date = empty($_GET['mz_date']) ? date_i18n('Y-m-d') : mz_validate_date($_GET['mz_date']);
+			$mz_date = empty($_GET['mz_date']) ? date_i18n('Y-m-d',current_time('timestamp')) : mz_validate_date($_GET['mz_date']);
 			}else{
 			$hide = explode(', ', $atts['hide']);
 			$mz_date = empty($_GET['mz_date']) ? date_i18n('Y-m-d',strtotime('last monday')) : mz_validate_date($_GET['mz_date']);
 			}
 
-		if ($type==__('day', 'mz-mindbody-api'))
+		if ($type=='day')
 		{
 			$mz_timeframe = array_slice(mz_getDateRange($mz_date, 1), 0, 1);
 			$mz_schedule_cache = "mz_schedule_day_cache";
@@ -95,10 +95,10 @@ class MZ_Mindbody_Schedule_Display {
 			$mz_timeframe = array_slice(mz_getDateRange($mz_date, 7), 0, 1);
 			$mz_schedule_cache = "mz_schedule_week_cache";
 		}
-
+		
 		//While we still need to support php 5.2 and can't use [0] on above
-		$mz_timeframe = array_pop($mz_timeframe);
-	
+		$mz_timeframe = array_shift($mz_timeframe);
+
 	  // START caching
 
 		$mz_cache_reset = isset($this->mz_mbo_globals->options['mz_mindbody_clear_cache']) ? "on" : "off";

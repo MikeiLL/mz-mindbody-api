@@ -29,17 +29,16 @@ function mz_getDateRange($date, $duration=7) {
     
     $monday = mktime('0','0','0', $month, $day-$numDaysFromMon, $year);
     $today = mktime('0','0','0', $month, $day, $year);
+
     if ($duration == 1){
         $rangeEnd = $today+($seconds_in_a_day*$duration);
     }else{
         $rangeEnd = $today+($seconds_in_a_day*($duration - $numDaysFromMon));
     }
     $previousRangeStart = $monday+($seconds_in_a_day*($numDaysFromMon - ($numDaysFromMon+$duration)));
-    
     $return[0] = array('StartDateTime'=>date('Y-m-d',$today), 'EndDateTime'=>date('Y-m-d',$rangeEnd-1));
-    //$return[1] = date('Y-m-d',$rangeEnd-1);
     $return[1] = date('Y-m-d',$rangeEnd+1); 
-    $return[2] = date('Y-m-d',$previousRangeStart); 
+    $return[2] = date('Y-m-d',$previousRangeStart);
     return $return;
 }
 
