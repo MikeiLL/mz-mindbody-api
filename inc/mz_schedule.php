@@ -59,7 +59,16 @@ class MZ_Mindbody_Schedule_Display {
 		
 		$sign_up_text = __('Sign-Up', 'mz-mindbody-api');
 		$manage_text = __('Manage on MindBody Site', 'mz-mindbody-api');
-			
+		
+		//Build caache based on shortcode attributes.
+		$mz_schedule_cache = 'mz_schedule';
+		foreach ($atts as $key=>$value){
+			if($value=='0' || $value=='') continue;
+			$mz_schedule_cache .= '_'.$key.'_'.$value;
+		}
+		//Add date to cache
+		if (!empty($_GET['mz_date']))
+			$mz_schedule_cache .= $_GET['mz_date'];
 	
 		if (($grid == 1) && ($type == 'day')) {
 			return '<div style="color:red"><h2>'.__('Grid Calendar Incompatible with Single Day Mode!', 'mz_mndbody_api').'</h2></div>';
@@ -82,18 +91,16 @@ class MZ_Mindbody_Schedule_Display {
 			$mz_date = empty($_GET['mz_date']) ? date_i18n('Y-m-d',current_time('timestamp')) : mz_validate_date($_GET['mz_date']);
 			}else{
 			$hide = explode(', ', $atts['hide']);
-			$mz_date = empty($_GET['mz_date']) ? date_i18n('Y-m-d',strtotime('last monday')) : mz_validate_date($_GET['mz_date']);
+			$mz_date = empty($_GET['mz_date']) || ( $_GET['mz_date'] == date_i18n('Y-m-d',current_time('timestamp')) ) ? date_i18n('Y-m-d',strtotime('last monday')) : mz_validate_date($_GET['mz_date']);
 			}
-
+		
 		if ($type=='day')
 		{
 			$mz_timeframe = array_slice(mz_getDateRange($mz_date, 1), 0, 1);
-			$mz_schedule_cache = "mz_schedule_day_cache";
 		}
 		else
 		{   
 			$mz_timeframe = array_slice(mz_getDateRange($mz_date, 7), 0, 1);
-			$mz_schedule_cache = "mz_schedule_week_cache";
 		}
 		
 		//While we still need to support php 5.2 and can't use [0] on above
@@ -104,12 +111,14 @@ class MZ_Mindbody_Schedule_Display {
 		$mz_cache_reset = isset($this->mz_mbo_globals->options['mz_mindbody_clear_cache']) ? "on" : "off";
 
 		if ( $mz_cache_reset == "on" ){
-			delete_transient( $mz_schedule_cache );
+			//delete_transient( $mz_schedule_cache );
+			global $wpdb;
+			$wpdb->query( "DELETE FROM `".$wpdb->options."` WHERE `option_name` LIKE ('mz_schedule_%')" );
 		}
 		
 		
-		if (isset($_GET['mz_date']) || ( false === get_transient( $mz_schedule_cache ) ) ) {
-			/* If receiving parameters in $_GET or transient deleted we need to send a new date range so reset transient
+		if ( false === get_transient( $mz_schedule_cache ) ) {
+			/* If receiving parameters in $_GET or transient deleted we need to send a new date range to reset transient
 			 * uncomment line mz_pr("OKAY We ARE DOING IT."); in inc/mz_mbo_init.php
 			 * to see confirmation in broser of if MBO was called with the following 
 			 * line.
@@ -129,21 +138,11 @@ class MZ_Mindbody_Schedule_Display {
 			//Cache the mindbody call for 24 hours
 			//But only if we are NOT loading for different week than current
 			// TODO make cache timeout configurable.
-			if (!isset($_GET['mz_date'])):
-				set_transient($mz_schedule_cache, $mz_schedule_data, 60 * 60 * 24);
-			else:
-				//Initialize variable to use for transient name
-				${'mz_schedule_cache_' . $_GET['mz_date']} = ''; 
-				set_transient(${'mz_schedule_cache_' . $_GET['mz_date']}, $mz_schedule_data, 60 * 60 * 24);
-			endif;
+			set_transient($mz_schedule_cache, $mz_schedule_data, 60 * 60 * 24);
 		   // END caching*/
 		}
 		
-		if (!isset($_GET['mz_date'])):
-			$mz_schedule_data = get_transient( $mz_schedule_cache );
-		else:
-			$mz_schedule_data = get_transient( ${'mz_schedule_cache_' . $_GET['mz_date']} );
-		endif;
+		$mz_schedule_data = get_transient( $mz_schedule_cache );
 
 		$return = '';
 
