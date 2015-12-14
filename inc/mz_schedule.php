@@ -93,7 +93,7 @@ class MZ_Mindbody_Schedule_Display {
 			$hide = explode(', ', $atts['hide']);
 			$mz_date = empty($_GET['mz_date']) || ( $_GET['mz_date'] == date_i18n('Y-m-d',current_time('timestamp')) ) ? date_i18n('Y-m-d',strtotime('last monday')) : mz_validate_date($_GET['mz_date']);
 			}
-		
+
 		if ($type=='day')
 		{
 			$mz_timeframe = array_slice(mz_getDateRange($mz_date, 1), 0, 1);
@@ -102,7 +102,6 @@ class MZ_Mindbody_Schedule_Display {
 		{   
 			$mz_timeframe = array_slice(mz_getDateRange($mz_date, 7), 0, 1);
 		}
-		
 		//While we still need to support php 5.2 and can't use [0] on above
 		$mz_timeframe = array_shift($mz_timeframe);
 
@@ -113,7 +112,7 @@ class MZ_Mindbody_Schedule_Display {
 		if ( $mz_cache_reset == "on" ){
 			//delete_transient( $mz_schedule_cache );
 			global $wpdb;
-			$wpdb->query( "DELETE FROM `$wpdb->options` WHERE `option_name` LIKE ('%mz_sched_chee%')" );
+			$wpdb->query( "DELETE FROM `$wpdb->options` WHERE `option_name` LIKE ('%mz_sched_che%')" );
 		}
 		//Uncomment to look at transients
 		//global $wpdb;
