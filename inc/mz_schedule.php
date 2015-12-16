@@ -280,32 +280,15 @@ class MZ_Mindbody_Schedule_Display {
 								$tbl->addCell(date_i18n($this->mz_mbo_globals->time_format, strtotime($startDateTime)) . ' - ' . 
 									date_i18n($this->mz_mbo_globals->time_format, strtotime($endDateTime)), 'mz_date_display');
 									}
-
-						$class_name_link = '<br/> 
-											<a class="modal-toggle mz_get_registrants ' . $className;
-											if ($show_registrants == 1){
-															$get_registrants_nonce = wp_create_nonce( 'mz_MBO_get_registrants_nonce');
-															$class_name_link .=
-															'" data-target="#registrantModal"' 
-															. 'data-nonce="' . $get_registrants_nonce 
-															. '" data-classID="' . $sclassidID;
-														} else {
-															$class_name_link .= '" data-target="#mzModal"';
-														}
-											if (isset($staffImage)):
-												$class_name_link .= '" data-staffImage="' . $staffImage . '" ';
-											endif;
-											$class_name_link .= '" data-classDescription="' . rawUrlEncode($classDescription) 
-											. '" data-staffName="' . $staffName 
-											. '" data-className="' . $className 
-											. '" href="' . MZ_MINDBODY_SCHEDULE_URL . 
-									'inc/modal_descriptions.php">' . $className . '</a>' .
-									'<br/><div id="visitMBO" class="btn visitMBO" style="display:none">' .
+									
+							$class_name_link = $this->classLinkMaker($staffName, $className, $classDescription, $sclassidID, $staffImage, $show_registrants);
+							
+							$class_name_details = $class_name_link->build() . '<br/><div id="visitMBO" class="btn visitMBO" style="display:none">' .
 							'<a class="btn" href="'.$linkURL.'" target="_blank">' .
 							$manage_text . '</a></div>' .
 							$showCancelled;
 							
-							$tbl->addCell($class_name_link, "class_name_cell");
+							$tbl->addCell($class_name_details, "class_name_cell");
 
 						$tbl->addCell($staffName, 'mz_staffName');
 						$tbl->addCell($sessionTypeName, 'mz_sessionTypeName');
@@ -369,6 +352,7 @@ class MZ_Mindbody_Schedule_Display {
 
 							foreach($classes as $key => $class){
 									// populate dictionary of locations with names 
+									//mz_pr($class['ClassDescription']);
 									$sLoc = $class['Location']['ID'];
 									$locationName = $class['Location']['Name'];
 									if (!array_key_exists($sLoc, $this->locations_dictionary))
@@ -414,9 +398,7 @@ class MZ_Mindbody_Schedule_Display {
 									$sclassidID = $class['ID'];
 									$staffName = $class['Staff']['Name'];
 									
-									if (isset($class['Staff']['ImageURL'])):
-										$staffImage = $class['Staff']['ImageURL'];
-									endif;
+									$staffImage = isset($class['Staff']['ImageURL']) ? $class['Staff']['ImageURL'] : '';
 									$sType = -7;
 									$isAvailable = $class['IsAvailable'];
 									if (count($locations) > 1) {
@@ -463,24 +445,11 @@ class MZ_Mindbody_Schedule_Display {
 									$session_type_css = sanitize_html_class($sessionTypeName, 'mz_session_type');
 									$class_name_css = sanitize_html_class($className, 'mz_class_name');
 									$class_details .= '<div class="mz_schedule_table mz_description_holder mz_location_'.$sLoc.' '.'mz_' . 
-									$session_type_css .' mz_'. $class_name_css .'">' .
-									'<a data-classDescription="' . rawurlencode($classDescription);
-									if ($show_registrants == 1){
-												$get_registrants_nonce = wp_create_nonce( 'mz_MBO_get_registrants_nonce');
-												$class_details .= '" data-nonce="' . $get_registrants_nonce 
-																					. '" data-classID="' . $sclassidID
-																					. '" data-target="#registrantModal"' ;
-											} else {
-												$class_details .= '" data-target="#mzModal"';
-											}
-									if (isset($staffImage)):
-										$class_details .= '" data-staffImage="' . $staffImage . '" ';
-									endif;
-									$class_details .= 
-									' data-className="' . $className .
-									'" data-staffName="' . $staffName .
-									'" href="' . MZ_MINDBODY_SCHEDULE_URL . 
-									'inc/modal_descriptions.php">' . $className . '</a>' .
+									$session_type_css .' mz_'. $class_name_css .'">';
+									
+									$class_name_link = $this->classLinkMaker($staffName, $className, $classDescription, $sclassidID, $staffImage, $show_registrants);
+							
+									$class_details .= $class_name_link->build() . 
 									'<br/>' .	 
 									$teacher . $signupButton .
 									$classLength . $showCancelled . $locationNameDisplay . '</div>' .
@@ -536,6 +505,38 @@ class MZ_Mindbody_Schedule_Display {
 
 				
 	}//EOF mZ_show_schedule
+	
+	private function classLinkMaker($staffName, $className, $classDescription, $sclassidID, $staffImage, $show_registrants) {
+			/* Build and return an href object for each class/event*/
+			
+			$class_name_css = 'modal-toggle mz_get_registrants ' . sanitize_html_class($className, 'mz_class_name');
+			
+			$linkArray = array(
+												'data-staffName'=>$staffName,
+												'data-className'=>$className,
+												'data-classDescription'=>rawUrlEncode($classDescription),
+												'class'=> $class_name_css,
+												'text'=>$className
+												);
+												
+								if ($show_registrants == 1){
+												$get_registrants_nonce = wp_create_nonce( 'mz_MBO_get_registrants_nonce');
+												$linkArray['data-nonce'] = $get_registrants_nonce;
+												$linkArray['data-target'] = "#registrantModal";  
+												$linkArray['data-classID'] = $sclassidID;
+											} else {
+												$linkArray['data-target'] = "#mzModal";
+											}
+								if ($staffImage != ''):
+									$linkArray['data-staffImage'] = $staffImage;
+								endif;
+						
+				$class_name_link = new html_element('a');
+				$class_name_link->set('href', MZ_MINDBODY_SCHEDULE_URL . 'inc/modal_descriptions.php');
+				$class_name_link->set($linkArray);
+				
+				return $class_name_link;
+	}
 	
 	public function makeNumericArray($data) {
 		return (isset($data[0])) ? $data : array($data);
@@ -620,5 +621,99 @@ class MZ_Mindbody_Schedule_Display {
 		}
 	
 }// EOF MZ_Mindbody_Schedule_Display Class
+
+/* creates an html element, like in js */
+class html_element
+{
+	/* vars */
+	var $type;
+	var $attributes;
+	var $self_closers;
+	
+	/* constructor */
+	function html_element($type,$self_closers = array('input','img','hr','br','meta','link'))
+	{
+		$this->type = strtolower($type);
+		$this->self_closers = $self_closers;
+	}
+	
+	/* get */
+	function get($attribute)
+	{
+		return $this->attributes[$attribute];
+	}
+	
+	/* set -- array or key,value */
+	function set($attribute,$value = '')
+	{
+		if(!is_array($attribute))
+		{
+			$this->attributes[$attribute] = $value;
+		}
+		else
+		{
+			$this->attributes = array_merge($this->attributes,$attribute);
+		}
+	}
+	
+	/* remove an attribute */
+	function remove($att)
+	{
+		if(isset($this->attributes[$att]))
+		{
+			unset($this->attributes[$att]);
+		}
+	}
+	
+	/* clear */
+	function clear()
+	{
+		$this->attributes = array();
+	}
+	
+	/* inject */
+	function inject($object)
+	{
+		if(@get_class($object) == __class__)
+		{
+			$this->attributes['text'].= $object->build();
+		}
+	}
+	
+	/* build */
+	function build()
+	{
+		//start
+		$build = '<'.$this->type;
+		
+		//add attributes
+		if(count($this->attributes))
+		{
+			foreach($this->attributes as $key=>$value)
+			{
+				if($key != 'text') { $build.= ' '.$key.'="'.$value.'"'; }
+			}
+		}
+		
+		//closing
+		if(!in_array($this->type,$this->self_closers))
+		{
+			$build.= '>'.$this->attributes['text'].'</'.$this->type.'>';
+		}
+		else
+		{
+			$build.= ' />';
+		}
+		
+		//return it
+		return $build;
+	}
+	
+	/* spit it out */
+	function output()
+	{
+		echo $this->build();
+	}
+}
 
 ?>
