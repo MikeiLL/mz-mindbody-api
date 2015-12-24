@@ -25,7 +25,7 @@
 			popUpContent += '<div id="modalRegistrants"><div id="ClassRegistrants" style="min-height:90px;">';
 			popUpContent += '<i class="fa fa-spinner fa-3x fa-spin"></i></div></div>';
 			$("#registrantModal").load(target, function() { 
-				 $.colorbox({html: popUpContent, width:"75%", height:"80%"}); 
+				 $.colorbox({html: popUpContent, width:"75%", height:"80%", href:"inc/modal_descriptions.php"}); 
 				 $("#registrantModal").colorbox();
 			});
 			$.ajax({

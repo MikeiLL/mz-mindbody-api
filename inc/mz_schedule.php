@@ -233,9 +233,7 @@ class MZ_Mindbody_Schedule_Display {
 						$staffName = $class['Staff']['Name'];
 						$isAvailable = $class['IsAvailable'];
 						$locationName = $class['Location']['Name'];
-						if (isset($class['Staff']['ImageURL'])):
-										$staffImage = $class['Staff']['ImageURL'];
-						endif;
+						$staffImage = isset($class['Staff']['ImageURL']) ? $class['Staff']['ImageURL'] : '';
 
 						$linkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$sclassid}&amp;studioid={$studioid}";
 
