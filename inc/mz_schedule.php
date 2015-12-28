@@ -93,7 +93,7 @@ class MZ_Mindbody_Schedule_Display {
 			$mz_date = empty($_GET['mz_date']) ? date_i18n('Y-m-d',current_time('timestamp')) : mz_validate_date($_GET['mz_date']);
 			}else{
 			$hide = explode(', ', $atts['hide']);
-			$mz_date = empty($_GET['mz_date']) || ( $_GET['mz_date'] == date_i18n('Y-m-d',current_time('timestamp')) ) ? date_i18n('Y-m-d',strtotime('last monday')) : mz_validate_date($_GET['mz_date']);
+			$mz_date = empty($_GET['mz_date']) || ( $_GET['mz_date'] == date_i18n('Y-m-d',current_time('timestamp')) ) ? date_i18n('Y-m-d',strtotime('this monday')) : mz_validate_date($_GET['mz_date']);
 			}
 
 		if ($type=='day')
@@ -154,17 +154,19 @@ class MZ_Mindbody_Schedule_Display {
 		if(!empty($mz_schedule_data['GetClassesResult']['Classes']['Class']))
 		{
 			$mz_days = $this->makeNumericArray($mz_schedule_data['GetClassesResult']['Classes']['Class']);
-
+			
+		//based on shortcode arguments, potentially remove array elements
 			if ($class_types != ''):
-						$class_types = explode(', ', $atts['class_types']);
-								$i = 0;
-								foreach ($mz_days as $day_of_classes) {
-									$sessionTypeName = $day_of_classes['ClassDescription']['SessionType']['Name'];
-									if (!in_array($sessionTypeName, $class_types)){
-										unset($mz_days[$i]);
-										}
-									$i++;
-									}
+				$class_types = explode(', ', $atts['class_types']);
+					$i = 0;
+					foreach ($mz_days as $day_of_classes) {
+						$sessionTypeName = $day_of_classes['ClassDescription']['SessionType']['Name'];
+						if (!in_array($sessionTypeName, $class_types)){
+							unset($mz_days[$i]);
+							}
+						$i++;
+						}
+				$mz_days = array_values($mz_days);
 			endif;
 			
 			if ($hide_cancelled == 1):
@@ -175,6 +177,7 @@ class MZ_Mindbody_Schedule_Display {
 							}
 						$i++;
 						}
+					$mz_days = array_values($mz_days);
 			endif;
 
 			if ($grid == 0){
@@ -251,7 +254,6 @@ class MZ_Mindbody_Schedule_Display {
 						$isAvailable = $class['IsAvailable'];
 						$locationName = $class['Location']['Name'];
 						$staffImage = isset($class['Staff']['ImageURL']) ? $class['Staff']['ImageURL'] : '';
-						mz_pr($staffImage);
 
 						$linkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$sclassid}&amp;studioid={$studioid}";
 
