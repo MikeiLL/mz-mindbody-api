@@ -44,7 +44,8 @@ class MZ_Mindbody_Schedule_Display {
 			'advanced' => '0',
 			'hide' => '',
 			'class_types' => '',
-			'show_registrants' => '0'
+			'show_registrants' => '0',
+			'hide_cancelled' => '1'
 				), $atts );
 		$type = $atts['type'];
 		$location = $atts['location'];
@@ -56,6 +57,7 @@ class MZ_Mindbody_Schedule_Display {
 		$class_types = $atts['class_types'];
 		$clientID = isset($_SESSION['GUID']) ? $_SESSION['client']['ID'] : '';
 		$show_registrants = $atts['show_registrants'];
+		$hide_cancelled = $atts['hide_cancelled'];
 		
 		$sign_up_text = __('Sign-Up', 'mz-mindbody-api');
 		$manage_text = __('Manage on MindBody Site', 'mz-mindbody-api');
@@ -222,7 +224,7 @@ class MZ_Mindbody_Schedule_Display {
 						}
 
 						$sType = -7;
-						$showCancelled = ($class['IsCanceled'] == 1) ? '<div class="mz_cancelled_class">' .
+						$displayCancelled = ($class['IsCanceled'] == 1) ? '<div class="mz_cancelled_class">' .
 										__('Cancelled', 'mz-mindbody-api') . '</div>' : '';
 						$className = $class['ClassDescription']['Name'];
 						//mz_pr($className);
@@ -234,6 +236,7 @@ class MZ_Mindbody_Schedule_Display {
 						$isAvailable = $class['IsAvailable'];
 						$locationName = $class['Location']['Name'];
 						$staffImage = isset($class['Staff']['ImageURL']) ? $class['Staff']['ImageURL'] : '';
+						mz_pr($staffImage);
 
 						$linkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$sclassid}&amp;studioid={$studioid}";
 
@@ -284,7 +287,7 @@ class MZ_Mindbody_Schedule_Display {
 							$class_name_details = $class_name_link->build() . '<br/><div id="visitMBO" class="btn visitMBO" style="display:none">' .
 							'<a class="btn" href="'.$linkURL.'" target="_blank">' .
 							$manage_text . '</a></div>' .
-							$showCancelled;
+							$displayCancelled;
 							
 							$tbl->addCell($class_name_details, "class_name_cell");
 
@@ -367,11 +370,9 @@ class MZ_Mindbody_Schedule_Display {
 										$teacher = __('with', 'mz-mindbody-api') . '&nbsp;' . $class['Staff']['Name'] .
 										'<br/>';
 										}else{ $teacher = '';}
-									$showCancelled = ($class['IsCanceled'] == 1) ? '<div class="mz_cancelled_class">' .
+									$displayCancelled = ($class['IsCanceled'] == 1) ? '<div class="mz_cancelled_class">' .
 										__('Cancelled', 'mz-mindbody-api') . '</div>' : '';
 									$classDescription = $class['ClassDescription']['Description'];
-									$showCancelled = ($class['IsCanceled'] == 1) ? '<div class="mz_cancelled_class">' .
-										__('Cancelled') . '</div>' : '';
 									if(!in_array('duration', $hide) && ($class['IsCanceled'] != 1)){
 										$classStartTime = new DateTime($class['StartDateTime']);
 										$classEndTime = new DateTime($class['EndDateTime']);
@@ -450,7 +451,7 @@ class MZ_Mindbody_Schedule_Display {
 									$class_details .= $class_name_link->build() . 
 									'<br/>' .	 
 									$teacher . $signupButton .
-									$classLength . $showCancelled . $locationNameDisplay . '</div>' .
+									$classLength . $displayCancelled . $locationNameDisplay . '</div>' .
 									$class_separator;
 								}
 							}
