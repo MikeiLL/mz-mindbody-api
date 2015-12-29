@@ -93,7 +93,8 @@ class MZ_Mindbody_Schedule_Display {
 			$mz_date = empty($_GET['mz_date']) ? date_i18n('Y-m-d',current_time('timestamp')) : mz_validate_date($_GET['mz_date']);
 			}else{
 			$hide = explode(', ', $atts['hide']);
-			$mz_date = empty($_GET['mz_date']) || ( $_GET['mz_date'] == date_i18n('Y-m-d',current_time('timestamp')) ) ? date_i18n('Y-m-d',strtotime('this monday')) : mz_validate_date($_GET['mz_date']);
+			$which_monday = (strtotime('this monday') > current_time('timestamp')) ? 'last monday' : 'this monday';
+			$mz_date = empty($_GET['mz_date']) || ( $_GET['mz_date'] == date_i18n('Y-m-d',current_time('timestamp')) ) ? date_i18n('Y-m-d',strtotime($which_monday)) : mz_validate_date($_GET['mz_date']);
 			}
 
 		if ($type=='day')
@@ -458,6 +459,7 @@ class MZ_Mindbody_Schedule_Display {
 									}else{
 										$signupButton = '';
 										}
+									$sessionTypeName = $class['ClassDescription']['SessionType']['Name'];
 									$session_type_css = sanitize_html_class($sessionTypeName, 'mz_session_type');
 									$class_name_css = sanitize_html_class($className, 'mz_class_name');
 									$class_details .= '<div class="mz_schedule_table mz_description_holder mz_location_'.$sLoc.' '.'mz_' . 
@@ -494,7 +496,11 @@ class MZ_Mindbody_Schedule_Display {
 			}
 			else
 			{
-				$return = __('Error getting classes. Try re-loading the page.',' mz-mindbody-api') . '<br />';
+				if ($type=='week'):
+					$return = mz_mbo_schedule_nav($mz_date, __('Week', 'mz-mindbody-api'));
+					$return .= '<br/>';
+				endif;
+				$return .= __('Error getting classes. Try re-loading the page.',' mz-mindbody-api') . '<br />';
 				$return .= '<pre>'.print_r($mz_schedule_data,1).'</pre>';
 			}
 		}//EOF If Result / Else
