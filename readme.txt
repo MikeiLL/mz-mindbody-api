@@ -54,6 +54,11 @@ You need to register a developer account with MindBody, which costs $5+ per webs
 
 == Changelog ==
 
+= 2.3.2 =
+* Display schedule navigation even if there are no classes in current week.
+* Allow shortcode argument to hide cancelled classes from calendar: show_cancelled=1
+* Replace `$(document).ready(function($)` with `jQuery(document).ready(function($)` 
+
 = 2.3.1 =
 * Use OOP to create link for schedule pop-up.
 

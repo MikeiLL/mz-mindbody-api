@@ -1,4 +1,4 @@
-	$(document).ready(function($) {
+	jQuery(document).ready(function($) {
 		$("a[data-target=#registrantModal]").click(function(ev) {
 			ev.preventDefault();
 			var target = $(this).attr("href");

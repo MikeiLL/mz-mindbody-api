@@ -1,6 +1,6 @@
 (function($){
 
-/*$(document).ready(function($) {
+/*jQuery(document).ready(function($) {
 if (typeof jQuery != 'undefined') {  
 			// jQuery is loaded => print the version
 			alert("hey" + jQuery.fn.jquery);
@@ -1114,7 +1114,7 @@ if (typeof jQuery != 'undefined') {
 }(jQuery, document, window));
 
 	
-$(document).ready(function($) {
+jQuery(document).ready(function($) {
 		$("a[data-target=#mzModal]").click(function(ev) {
 			//this is the teacher click function
 			ev.preventDefault();
@@ -1147,7 +1147,7 @@ $(document).ready(function($) {
 		});
 	});
 	
-$(document).ready(function($) {
+jQuery(document).ready(function($) {
 		$("a[data-target=#mzStaffModal]").click(function(ev) {
 			ev.preventDefault();
 			var target = $(this).attr("href");

@@ -1,4 +1,4 @@
-$(document).ready(function($) {
+jQuery(document).ready(function($) {
 	$('.mz_add_to_class').click(function(){
 	
 		var nonce = $(this).attr("data-nonce");
