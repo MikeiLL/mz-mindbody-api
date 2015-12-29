@@ -1,5 +1,5 @@
 (function($){
-jQuery(document).ready(function($) {
+$(document).ready(function($) {
 		$("a[data-target=#mzModal]").click(function(ev) {
 			ev.preventDefault();
 			var target = $(this).attr("href");

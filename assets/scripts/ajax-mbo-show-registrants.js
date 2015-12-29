@@ -1,4 +1,5 @@
-	jQuery(document).ready(function($) {
+(function($) {
+	$(document).ready(function($) {
 		$("a[data-target=#registrantModal]").click(function(ev) {
 			ev.preventDefault();
 			var target = $(this).attr("href");
@@ -52,4 +53,5 @@
 			}); // ./Ajax
 		});
 	});
+})( jQuery );
 	
