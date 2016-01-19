@@ -228,6 +228,7 @@ class MZ_Mindbody_Schedule_Display {
 						$studioid = $class['Location']['SiteID'];
 						$sclassid = $class['ClassScheduleID'];
 						$sclassidID = $class['ID'];
+						$sessionTypeName = $class['ClassDescription']['SessionType']['Name'];
 						//mz_pr($sclassidID);
 						$classDescription = $class['ClassDescription']['Description'];
 						
@@ -294,7 +295,7 @@ class MZ_Mindbody_Schedule_Display {
 									
 								$tbl->addCell(date_i18n($this->mz_mbo_globals->time_format, strtotime($startDateTime)) . ' - ' . 
 								date_i18n($this->mz_mbo_globals->time_format, strtotime($endDateTime)) .
-								'<br/>' . $signupButton );
+								'<br/>' . $signupButton, 'mz_date_display' );
 							}else{ 
 								$tbl->addCell(date_i18n($this->mz_mbo_globals->time_format, strtotime($startDateTime)) . ' - ' . 
 									date_i18n($this->mz_mbo_globals->time_format, strtotime($endDateTime)), 'mz_date_display');
