@@ -258,7 +258,11 @@ class MZ_Mindbody_Schedule_Display {
 						$staffImage = isset($class['Staff']['ImageURL']) ? $class['Staff']['ImageURL'] : '';
 
 						$linkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$sclassid}&amp;studioid={$studioid}";
-
+						$spots_remaining = $class['MaxCapacity'] - $class['TotalBooked'];
+						if ($spots_remaining < 1):
+								$sign_up_text = __('Sign-Up for waiting list', 'mz-mindbody-api');
+						endif;
+						
 						if (date_i18n('H', strtotime($startDateTime)) < 12) {
 								$time_of_day = __('morning', 'mz-mindbody-api');
 							}else if ((date_i18n('H', strtotime($startDateTime)) > 16)) {
@@ -271,7 +275,8 @@ class MZ_Mindbody_Schedule_Display {
 						$tbl->addRow($row_css_classes);
 						$tbl->addCell($time_of_day, 'hidden', 'data');
 
-						if (isset($isAvailable) && ($isAvailable != 0)) {
+						//if (isset($isAvailable) && ($isAvailable != 0)) {
+									
 							if ($advanced == 1){
 								$add_to_class_nonce = wp_create_nonce( 'mz_MBO_add_to_class_nonce');
 								if ($clientID == ''){
@@ -295,11 +300,11 @@ class MZ_Mindbody_Schedule_Display {
 									
 								$tbl->addCell(date_i18n($this->mz_mbo_globals->time_format, strtotime($startDateTime)) . ' - ' . 
 								date_i18n($this->mz_mbo_globals->time_format, strtotime($endDateTime)) .
-								'<br/>' . $signupButton, 'mz_date_display' );
-							}else{ 
+								'<br/>' . $signupButton . ' ' . $class['TotalBooked'] . '/' . $class['MaxCapacity'], 'mz_date_display' );
+							/*}else{ 
 								$tbl->addCell(date_i18n($this->mz_mbo_globals->time_format, strtotime($startDateTime)) . ' - ' . 
 									date_i18n($this->mz_mbo_globals->time_format, strtotime($endDateTime)), 'mz_date_display');
-									}
+									}*/
 									
 							$class_name_link = $this->classLinkMaker($staffName, $className, $classDescription, $sclassidID, $staffImage, $show_registrants);
 							
@@ -430,6 +435,10 @@ class MZ_Mindbody_Schedule_Display {
 										}
 									$class_separator = ($key == $num_classes_min_one) ? '' : '<hr/>';
 									$linkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$sclassid}&amp;studioid={$studioid}";
+					
+									if ($class['TotalBooked'] == $class['MaxCapacity']):
+										$sign_up_text = __('Sign-Up for waiting list', 'mz-mindbody-api');
+									endif;
 									if(!in_array('signup', $hide)){
 										if ($advanced == 1){
 											if (isset($isAvailable) && ($isAvailable != 0)) {
@@ -455,7 +464,7 @@ class MZ_Mindbody_Schedule_Display {
 												}
 											}else{
 												$signupButton = '&nbsp;<a href="'.$linkURL.'" target="_blank" title="'.
-																__('Sign-Up', 'mz-mindbody-api'). '"><i class="fa fa-sign-in"></i></a><br/>';
+																$sign_up_text. '"><i class="fa fa-sign-in"></i></a><br/>';
 													}
 									}else{
 										$signupButton = '';
