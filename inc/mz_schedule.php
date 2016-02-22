@@ -45,7 +45,8 @@ class MZ_Mindbody_Schedule_Display {
 			'hide' => '',
 			'class_types' => '',
 			'show_registrants' => '0',
-			'hide_cancelled' => '1'
+			'hide_cancelled' => '1',
+			'registrants_count' => '0'
 				), $atts );
 		$type = $atts['type'];
 		$location = $atts['location'];
@@ -58,6 +59,7 @@ class MZ_Mindbody_Schedule_Display {
 		$clientID = isset($_SESSION['GUID']) ? $_SESSION['client']['ID'] : '';
 		$show_registrants = $atts['show_registrants'];
 		$hide_cancelled = $atts['hide_cancelled'];
+		$registrants_count = $atts['registrants_count'];
 		
 		$sign_up_text = __('Sign-Up', 'mz-mindbody-api');
 		$manage_text = __('Manage on MindBody Site', 'mz-mindbody-api');
@@ -258,9 +260,12 @@ class MZ_Mindbody_Schedule_Display {
 						$staffImage = isset($class['Staff']['ImageURL']) ? $class['Staff']['ImageURL'] : '';
 
 						$linkURL = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$sclassid}&amp;studioid={$studioid}";
-						$spots_remaining = $class['MaxCapacity'] - $class['TotalBooked'];
-						if ($spots_remaining < 1):
-								$sign_up_text = __('Sign-Up for waiting list', 'mz-mindbody-api');
+						
+						if ($registrants_count == 1):
+							$spots_remaining = $class['MaxCapacity'] - $class['TotalBooked'];
+							if ($spots_remaining < 1):
+									$sign_up_text = __('Sign-Up for waiting list', 'mz-mindbody-api');
+							endif;
 						endif;
 						
 						if (date_i18n('H', strtotime($startDateTime)) < 12) {
@@ -276,7 +281,8 @@ class MZ_Mindbody_Schedule_Display {
 						$tbl->addCell($time_of_day, 'hidden', 'data');
 
 						//if (isset($isAvailable) && ($isAvailable != 0)) {
-									
+						$toward_capacity = ($registrants_count == 0) ?	'' : $class['TotalBooked'] . '/' . $class['MaxCapacity'];
+						
 							if ($advanced == 1){
 								$add_to_class_nonce = wp_create_nonce( 'mz_MBO_add_to_class_nonce');
 								if ($clientID == ''){
@@ -300,7 +306,7 @@ class MZ_Mindbody_Schedule_Display {
 									
 								$tbl->addCell(date_i18n($this->mz_mbo_globals->time_format, strtotime($startDateTime)) . ' - ' . 
 								date_i18n($this->mz_mbo_globals->time_format, strtotime($endDateTime)) .
-								'<br/>' . $signupButton . ' ' . $class['TotalBooked'] . '/' . $class['MaxCapacity'], 'mz_date_display' );
+								'<br/>' . $signupButton . ' ' . $toward_capacity , 'mz_date_display' );
 							/*}else{ 
 								$tbl->addCell(date_i18n($this->mz_mbo_globals->time_format, strtotime($startDateTime)) . ' - ' . 
 									date_i18n($this->mz_mbo_globals->time_format, strtotime($endDateTime)), 'mz_date_display');
