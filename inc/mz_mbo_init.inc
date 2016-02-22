@@ -36,7 +36,15 @@ class MZ_Mindbody_Init {
 	}
 	
 	static function instantiate_mbo_API () {
-		//mz_pr("OKAY We ARE DOING IT.");
+		
+		// If dev plugin is loaded, use it to log MBO calls
+		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+		if (is_plugin_active( 'mz-mbo-sandbox/mZ-mbo-sandbox.php' )):
+				$mbo_sandbox = new MZ_MBO_Sandbox_Admin('1.0');
+				$mbo_sandbox->load_sandbox();
+				$mbo_sandbox->run_sandbox();
+		endif;
+		
 		$options = get_option( 'mz_mindbody_options','Error: Mindbody Credentials Not Set' );
 		if ($options != 'Error: Mindbody Credentials Not Set') {
 			$mb  = new MB_API(array(
@@ -55,8 +63,7 @@ class MZ_Mindbody_Init {
 		//array_push(MZ_MBO_Instances::$instances_of_MBO, $mb);
 		return $mb;
 		}
-
-
+		
 }
 
 class MZ_MBO_Instances {
