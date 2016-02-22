@@ -40,7 +40,6 @@ class MB_API {
             include_once('php_variants/construct_older.php');
         }
 		
-			//mz_pr($this->apiMethods);
 		// set sourceCredentials
 		if(!empty($sourceCredentials)) {
 			if(!empty($sourceCredentials['SourceName'])) {
@@ -73,7 +72,6 @@ class MB_API {
 		}
 		if(!empty($soapService)) {
 			if(empty($arguments)) {
-				//mz_pr($this->callMindbodyService($soapService, $name));
 				return $this->callMindbodyService($soapService, $name);
 			} else {
 				switch(count($arguments)) {
@@ -85,7 +83,6 @@ class MB_API {
 			}
 		} else {
 			echo "called unknown method '$name'<br />";
-			mz_pr($this->callMindbodyService($soapService, $name));
 			return 'NO_SOAP_SERVICE';
 		}
 	}
@@ -112,6 +109,10 @@ class MB_API {
 				return json_decode(json_encode($result),1);
 			}
 		} catch (SoapFault $s) {
+		// Uncomment following line for debugging request errors.
+		 //mz_pr($this->client->$methodName(array("Request"=>$request)));
+		 //mz_pr($s);
+		 //mz_pr($this->debugSoapErrors);
 			if($this->debugSoapErrors && $debugErrors) {
 				echo 'ERROR: [' . $s->faultcode . '] ' . $s->faultstring;
 				$this->debug();
