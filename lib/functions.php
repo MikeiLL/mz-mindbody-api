@@ -99,34 +99,22 @@ function mz_validate_date( $string ) {
 }
 	
 //For Testing
-function mZ_write_to_file($message){
-		$handle = fopen("/Applications/MAMP/logs/mZ_mbo_reader.php", "a+");
-		if (is_array($message)):
-			fwrite($handle, "\nMessage is array.\t ");
-			fclose($handle);
-			file_put_contents('/Applications/MAMP/logs/mZ_mbo_reader.php', print_r($message, true),
-												FILE_APPEND | LOCK_EX);
-		else:
-			fwrite($handle, "\nMessage:\t " . $message);
-			fclose($handle);
-		endif;
-		}
+if ( ! function_exists( 'mZ_write_to_file' ) ) {
+	function mZ_write_to_file($message)
+	{
+			$header = "\nMessage:\t ";
 
-//TODO - implement this better method
-function mZ_new_write_to_file($message)
-{
-    $header = "\nMessage:\t ";
+			if (is_array($message)) {
+					$header = "\nMessage is array.\n";
+					$message = print_r($message, true);
+			}
 
-    if (is_array($message)) {
-        $header = "\nMessage is array.\n";
-        $message = print_r($message, true);
-    }
-
-    file_put_contents(
-        '/Applications/MAMP/logs/mZ_mbo_reader.php', 
-        $header . $message, 
-        FILE_APPEND | LOCK_EX
-    );
+			file_put_contents(
+					'/Applications/MAMP/logs/mZ_mbo_reader.php', 
+					$header . $message, 
+					FILE_APPEND | LOCK_EX
+			);
+	}
 }
 
 //Format arrays for display in development
