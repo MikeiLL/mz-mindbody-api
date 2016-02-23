@@ -42,7 +42,7 @@ class MZ_Mindbody_Init {
 		if (is_plugin_active( 'mz-mbo-sandbox/mZ-mbo-sandbox.php' )):
 				$mbo_sandbox = new MZ_MBO_Sandbox_Admin('1.0');
 				$mbo_sandbox->load_sandbox();
-				$mbo_sandbox->run_sandbox();
+				$mbo_sandbox->run_sandbox("MBO Instantiation via " . $_SERVER['REQUEST_URI']);
 		endif;
 		
 		$options = get_option( 'mz_mindbody_options','Error: Mindbody Credentials Not Set' );
