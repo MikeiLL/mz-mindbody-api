@@ -4,10 +4,12 @@ class MZ_Mindbody_Schedule_Display {
 
 	private $mz_mbo_globals;
 	private $locations_dictionary = array();
+	static $time_tracker;	
 	
 	public function __construct(){
 		require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
 		$this->mz_mbo_globals = new MZ_Mindbody_Init();
+		$this::$time_tracker = date('Fd', strtotime("now"));
 	}
 	
 	
@@ -66,6 +68,8 @@ class MZ_Mindbody_Schedule_Display {
 		
 		//Build caache based on shortcode attributes.
 		$mz_schedule_cache = 'mz_sched_che';
+		$mz_schedule_timer = 'mz_sched_tim';
+		
 		foreach ($atts as $key=>$value){
 			if($value=='0' || $value=='') continue;
 			$mz_schedule_cache .= '_'.substr($key,1,1).'_'.$value;
@@ -113,15 +117,20 @@ class MZ_Mindbody_Schedule_Display {
 	  // START caching
 
 		$mz_cache_reset = isset($this->mz_mbo_globals->options['mz_mindbody_clear_cache']) ? "on" : "off";
-
-		if ( $mz_cache_reset == "on" ){
+		
+		$last_look = get_transient($mz_schedule_timer);
+		
+		// Insure that MBO info is up to date for each new day.
+		if ( $mz_cache_reset == "on" || $last_look != $this::$time_tracker){
 			//delete_transient( $mz_schedule_cache );
+			// Replaced above with the following so we could deal with multiple date ranges being called.
 			global $wpdb;
 			$wpdb->query( "DELETE FROM `$wpdb->options` WHERE `option_name` LIKE ('%mz_sched_che%')" );
 		}
 		//Uncomment to look at transients
 		//global $wpdb;
-		//$all_of_us = $wpdb->get_results( "SELECT * FROM `$wpdb->options` WHERE `option_name` LIKE ('%mz_sched_che%')" );
+		//$all_of_us = $wpdb->get_results( "SELECT * FROM `$wpdb->options` WHERE `option_name` LIKE ('%mz_sched_%')" );
+		//mz_pr($all_of_us);
 		
 		if ( false === get_transient( $mz_schedule_cache ) ) {
 			/* If receiving parameters in $_GET or transient deleted we need to send a new date range to reset transient
@@ -144,7 +153,8 @@ class MZ_Mindbody_Schedule_Display {
 			//Cache the mindbody call for 24 hours
 			//But only if we are NOT loading for different week than current
 			// TODO make cache timeout configurable.
-
+			
+			set_transient($mz_schedule_timer, $this::$time_tracker, 60 * 60 * 24);
 			set_transient($mz_schedule_cache, $mz_schedule_data, 60 * 60 * 24);
 
 		   // END caching*/
