@@ -53,7 +53,6 @@ function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a",
 		and corresponsing value an array of class details 
 		for classes at that time. */ 
 		$classTime = date_i18n("G.i", strtotime($class['StartDateTime'])); // for numerical sorting
-		// $class['day_num'] = '';
 		$class['day_num'] = date_i18n("N", strtotime($class['StartDateTime'])); // Weekday num 1-7
 		if(!empty($mz_classesByTime[$classTime])) {
 			if (
@@ -63,8 +62,10 @@ function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a",
 				) {
 					continue;
 				}
-			$mz_classesByTime[$classTime]['classes'] = array_merge($mz_classesByTime[$classTime]['classes'], array($class));
+			$single_event = new Single_event($class, $class['day_num']);
+			array_push($mz_classesByTime[$classTime]['classes'], $single_event);
 		} else {
+			// Assign the first element ( of this time slot ?).
 			if (
 				(!in_array($class['Location']['ID'], $locations)) || 
 				(($class['IsCanceled'] == 1) && ($class['HideCancel'] == 1)) ||
@@ -72,9 +73,11 @@ function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a",
 				) {
 					continue;
 				}
+			$single_event = new Single_event($class, $class['day_num']);
 			$display_time = (date_i18n($time_format, strtotime($class['StartDateTime']))); 
 			$mz_classesByTime[$classTime] = array('display_time' => $display_time, 
-													'classes' => array($class));
+													'classes' => array($single_event));
+			
 		}
 	}
 
@@ -83,14 +86,14 @@ function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a",
 	foreach($mz_classesByTime as $scheduleTime => &$mz_classes)
 	{
 		/*
-		$mz_classes is an array of all classes for given time
+		$mz_classes is an array of all class_event objects for given time
 		Take each of the class arrays and order it by days 1-7
 		*/
 		usort($mz_classes['classes'], function($a, $b) {
-			if(date_i18n("N", strtotime($a['StartDateTime'])) == date_i18n("N", strtotime($b['StartDateTime']))) {
+			if(date_i18n("N", strtotime($a->startDateTime)) == date_i18n("N", strtotime($b->startDateTime))) {
 				return 0;
 			}
-			return $a['StartDateTime'] < $b['StartDateTime'] ? -1 : 1;
+			return $a->startDateTime < $b->startDateTime ? -1 : 1;
 		}); 
 		$mz_classes['classes'] = week_of_timeslot($mz_classes['classes'], 'day_num');
 	}
@@ -107,7 +110,7 @@ function week_of_timeslot($array, $indicator){
 											array(), array(), array(), array()));
 		foreach($seven_days as $key => $value){
 			foreach ($array as $class) {
-					if ($class[$indicator] == $key){
+					if ($class->$indicator == $key){
 						array_push($seven_days[$key], $class);
 					}
 				}

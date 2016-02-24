@@ -199,26 +199,8 @@ class MZ_Mindbody_Schedule_Display {
 			//mz_pr($mz_days['2016-02-24'][0]);
 				}else{
 				// Create matrix of existing class times with empty schedule slots, sequenced by day 
+				// Each "class" is an instance of Single_event
 				$mz_days = sortClassesByTimeThenDay($mz_days, $this->mz_mbo_globals->time_format, $locations);
-				$full_week = array();
-				foreach($mz_days as $classTime => $mz_classes) {
-					// classTime contains class time in 24hr format, mz_classes all the classes for that particular time.
-					//$a_class = new Single_event($mz_days['9.00']['classes'][4][0]);
-					$time_slot = new Time_slot($classTime, $mz_classes['display_time']);
-					foreach($mz_classes['classes'] as $key => $classes) {
-						// Here $key corresponds the day number 1 - 7 as returned by sortClassesByTimeThenDay
-					if ($key == 3) {
-					mz_pr($classes[0]);
-					die();
-					}
-						foreach($classes as $class) {
-							$a_class = new Single_event($class, $key);
-							array_push($time_slot->classes, $a_class);
-						}
-					array_push($full_week, $time_slot);
-					}
-				} // EOF foreach mz_days
-				mz_pr($full_week);
 			}
 		}	// EOF if ['GetClassesResult']['Classes']['Class'] is populated
 	}//EOF mZ_show_schedule

@@ -45,8 +45,8 @@ function mz_sort_order ($a, $b) {
 			}
 			return $a['StartDateTime'] < $b['StartDateTime'] ? -1 : 1;
 		}
-		
-function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a", $location = 1) {
+
+function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a", $locations = array(1)) {
 	$mz_classesByTime = array();
 	foreach($mz_classes as $class)
 	{
@@ -55,28 +55,31 @@ function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a",
 		and corresponsing value an array of class details 
 		for classes at that time. */ 
 		$classTime = date_i18n("G.i", strtotime($class['StartDateTime'])); // for numerical sorting
-		// $class['day_num'] = '';
 		$class['day_num'] = date_i18n("N", strtotime($class['StartDateTime'])); // Weekday num 1-7
 		if(!empty($mz_classesByTime[$classTime])) {
 			if (
-				($class['Location']['ID'] != $location) || 
+				(!in_array($class['Location']['ID'], $locations)) || 
 				(($class['IsCanceled'] == 1) && ($class['HideCancel'] == 1)) ||
 				($class['ClassDescription']['Program']['ScheduleType'] == 'Enrollment')
 				) {
 					continue;
 				}
-			$mz_classesByTime[$classTime]['classes'] = array_merge($mz_classesByTime[$classTime]['classes'], array($class));
+			$single_event = new Single_event($class, $class['day_num']);
+			array_push($mz_classesByTime[$classTime]['classes'], $single_event);
 		} else {
+			// Assign the first element ( of this time slot ?).
 			if (
-				($class['Location']['ID'] != $location) || 
+				(!in_array($class['Location']['ID'], $locations)) || 
 				(($class['IsCanceled'] == 1) && ($class['HideCancel'] == 1)) ||
 				($class['ClassDescription']['Program']['ScheduleType'] == 'Enrollment')
 				) {
 					continue;
 				}
-			$display_time = (date_i18n($time_format, strtotime($class['StartDateTime'])));
+			$single_event = new Single_event($class, $class['day_num']);
+			$display_time = (date_i18n($time_format, strtotime($class['StartDateTime']))); 
 			$mz_classesByTime[$classTime] = array('display_time' => $display_time, 
-													'classes' => array($class));
+													'classes' => array($single_event));
+			
 		}
 	}
 
@@ -85,10 +88,10 @@ function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a",
 	foreach($mz_classesByTime as $scheduleTime => &$mz_classes)
 	{
 		/*
-		$mz_classes is an array of all classes for given time
+		$mz_classes is an array of all class_event objects for given time
 		Take each of the class arrays and order it by days 1-7
 		*/
-		usort($mz_classes['classes'], 'mz_sort_order'); 
+		usort($mz_classes['classes'], 'mz_sort_order');
 		$mz_classes['classes'] = week_of_timeslot($mz_classes['classes'], 'day_num');
 	}
 	return $mz_classesByTime;
