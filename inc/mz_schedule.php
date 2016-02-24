@@ -26,8 +26,6 @@ class MZ_Mindbody_Schedule_Display {
 	
 	public function mZ_mindbody_show_schedule( $atts, $account=0 )
 	{
-		require_once(MZ_MINDBODY_SCHEDULE_DIR .'/lib/html_table.class.php');
-		
 		wp_enqueue_style('mZ_mindbody_schedule_bs', asset_path('styles/main.css'), false, null);
 		wp_enqueue_script('modernizr', asset_path('scripts/modernizr.js'), array(), null, true);
 		wp_enqueue_script('mz_mbo_bootstrap_script', asset_path('scripts/main.js'), array('jquery'), null, true);
@@ -202,10 +200,27 @@ class MZ_Mindbody_Schedule_Display {
 				}else{
 				// Create matrix of existing class times with empty schedule slots, sequenced by day 
 				$mz_days = sortClassesByTimeThenDay($mz_days, $this->mz_mbo_globals->time_format, $locations);
-				$a_class = new Single_event($mz_days['9.00']['classes'][4][0]);
-					mz_pr($a_class);
-				}
-		}	// EOF if ['GetClassesResult']['Classes']['Class'] populated
+				$full_week = array();
+				foreach($mz_days as $classTime => $mz_classes) {
+					// classTime contains class time in 24hr format, mz_classes all the classes for that particular time.
+					//$a_class = new Single_event($mz_days['9.00']['classes'][4][0]);
+					$time_slot = new Time_slot($classTime, $mz_classes['display_time']);
+					foreach($mz_classes['classes'] as $key => $classes) {
+						// Here $key corresponds the day number 1 - 7 as returned by sortClassesByTimeThenDay
+					if ($key == 3) {
+					mz_pr($classes[0]);
+					die();
+					}
+						foreach($classes as $class) {
+							$a_class = new Single_event($class, $key);
+							array_push($time_slot->classes, $a_class);
+						}
+					array_push($full_week, $time_slot);
+					}
+				} // EOF foreach mz_days
+				mz_pr($full_week);
+			}
+		}	// EOF if ['GetClassesResult']['Classes']['Class'] is populated
 	}//EOF mZ_show_schedule
 	
 	private function classLinkMaker($staffName, $className, $classDescription, $sclassidID, $staffImage, $show_registrants) {
@@ -324,167 +339,6 @@ class MZ_Mindbody_Schedule_Display {
 	
 }// EOF MZ_Mindbody_Schedule_Display Class
 
-class One_Week {
 
-	public $schedule=array();
-	
-	public function __construct(){
-		
-	}
-	
-}
-
-class Single_event {
-
-	public $sDate;
-	public $sLoc;
-	public $sTG;
-	public $studioid;
-	public $sclassid;
-	public $sclassidID;
-	public $sessionTypeName;
-	public $classDescription;
-	public $classImage;
-	public $classImageArray;
-	public $displayCancelled;
-	public $className;
-	public $startDateTime;
-	public $endDateTime;
-	public $staffName;
-	public $isAvailable;
-	public $locationName;
-	public $staffImage;
-	
-	public function __construct($class){
-		$this->sDate = date_i18n('m/d/Y', strtotime($class['StartDateTime']));
-		$this->sLoc = $class['Location']['ID'];
-		$this->sTG = $class['ClassDescription']['Program']['ID'];
-		$this->studioid = $class['Location']['SiteID'];
-		$this->sclassid = $class['ClassScheduleID'];
-		$this->sclassidID = $class['ID'];
-		$this->sessionTypeName = $class['ClassDescription']['SessionType']['Name'];
-								//mz_pr($sclassidID);
-		$this->classDescription = $class['ClassDescription']['Description'];
-						
-								//Let's find an image if there is one and assign it to $classImage
-						
-								if (!isset($class['ClassDescription']['ImageURL'])) {
-			$this->classImage = '';
-									if (isset($class['ClassDescription']['AdditionalImageURLs']) && !empty($classImageArray)) {
-				$this->classImage = pop($classImageArray);
-										}
-								} else {
-			$this->classImage = $class['ClassDescription']['ImageURL'];
-								}
-
-		$this->sType = -7;
-		$this->displayCancelled = ($class['IsCanceled'] == 1) ? '<div class="mz_cancelled_class">' .
-												__('Cancelled', 'mz-mindbody-api') . '</div>' : '';
-		$this->className = $class['ClassDescription']['Name'];
-								//mz_pr($className);
-		$this->startDateTime = date_i18n('Y-m-d H:i:s', strtotime($class['StartDateTime']));
-								//mz_pr($startDateTime);
-								//echo "<hr/>";
-		$this->endDateTime = date_i18n('Y-m-d H:i:s', strtotime($class['EndDateTime']));
-		$this->staffName = $class['Staff']['Name'];
-		$this->isAvailable = $class['IsAvailable'];
-		$this->locationName = $class['Location']['Name'];
-		$this->staffImage = isset($class['Staff']['ImageURL']) ? $class['Staff']['ImageURL'] : '';
-	}
-	
-}
-/* creates an html element, like in js */
-class html_element
-{
-	/* vars */
-	var $type;
-	var $attributes;
-	var $self_closers;
-	
-	/* constructor */
-	function html_element($type,$self_closers = array('input','img','hr','br','meta','link'))
-	{
-		$this->type = strtolower($type);
-		$this->self_closers = $self_closers;
-	}
-	
-	/* get */
-	function get($attribute)
-	{
-		return $this->attributes[$attribute];
-	}
-	
-	/* set -- array or key,value */
-	function set($attribute,$value = '')
-	{
-		if(!is_array($attribute))
-		{
-			$this->attributes[$attribute] = $value;
-		}
-		else
-		{
-			$this->attributes = array_merge($this->attributes,$attribute);
-		}
-	}
-	
-	/* remove an attribute */
-	function remove($att)
-	{
-		if(isset($this->attributes[$att]))
-		{
-			unset($this->attributes[$att]);
-		}
-	}
-	
-	/* clear */
-	function clear()
-	{
-		$this->attributes = array();
-	}
-	
-	/* inject */
-	function inject($object)
-	{
-		if(@get_class($object) == __class__)
-		{
-			$this->attributes['text'].= $object->build();
-		}
-	}
-	
-	/* build */
-	function build()
-	{
-		//start
-		$build = '<'.$this->type;
-		
-		//add attributes
-		if(count($this->attributes))
-		{
-			foreach($this->attributes as $key=>$value)
-			{
-				if($key != 'text') { $build.= ' '.$key.'="'.$value.'"'; }
-			}
-		}
-		
-		//closing
-		if(!in_array($this->type,$this->self_closers))
-		{
-			$build.= '>'.$this->attributes['text'].'</'.$this->type.'>';
-		}
-		else
-		{
-			$build.= ' />';
-		}
-		
-		//return it
-		return $build;
-	}
-	
-	/* spit it out */
-	function output()
-	{
-		echo $this->build();
-	}
-}
 
 ?>

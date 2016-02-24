@@ -206,5 +206,4 @@ class HTML_Table {
     }
     
 }
-
 ?>
