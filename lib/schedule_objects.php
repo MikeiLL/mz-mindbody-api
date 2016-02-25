@@ -36,8 +36,9 @@ class Single_event {
 	private $sType = -7;
 	private $session_type_css;
 	private $class_name_css;
+	private $show_registrants;
 	
-	public function __construct($class, $day_num='', $hide, $locations, $advanced){
+	public function __construct($class, $day_num='', $hide, $locations, $advanced, $show_registrants){
 	
 		$this->sign_up_text = __('Sign-Up', 'mz-mindbody-api');
 		$this->manage_text = __('Manage on MindBody Site', 'mz-mindbody-api');
@@ -140,9 +141,14 @@ class Single_event {
 		$this->class_details .= '<div class="mz_schedule_table mz_description_holder mz_location_'.$this->sLoc.' '.'mz_' . 
 		$this->session_type_css .' mz_'. $this->class_name_css .'">';
 		
-		$class_name_link = $this->classLinkMaker($this->staffName, $this->className, 
+		$this->class_name_link = $this->classLinkMaker($this->staffName, $this->className, 
 																							$this->classDescription, $this->sclassidID, 
 																							$this->staffImage, $this->show_registrants);
+																							
+		$this->class_details .= $this->class_name_link->build() . 
+									'<br/>' .	 
+									$this->teacher . $this->signupButton .
+									$this->classLength . $this->displayCancelled . $this->locationNameDisplay . '</div>';
 
 	}
 	
@@ -175,7 +181,6 @@ class Single_event {
 				$class_name_link = new html_element('a');
 				$class_name_link->set('href', MZ_MINDBODY_SCHEDULE_URL . 'inc/modal_descriptions.php');
 				$class_name_link->set($linkArray);
-				
 				return $class_name_link;
 	}
 	

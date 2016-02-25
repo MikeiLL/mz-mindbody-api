@@ -241,7 +241,9 @@ class MZ_Mindbody_Schedule_Display {
 				// Create matrix of existing class times with empty schedule slots, sequenced by day 
 				// Each "class" is an instance of Single_event
 				
-				$mz_days = sortClassesByTimeThenDay($mz_days, $this->mz_mbo_globals->time_format, $locations, $hide_cancelled, $hide, $advanced);
+				$mz_days = sortClassesByTimeThenDay($mz_days, $this->mz_mbo_globals->time_format, $locations, 
+																						$hide_cancelled, $hide, $advanced, $show_registrants);
+																						
 				foreach($mz_days as $classTime => $mz_classes) {
 					if ($classTime < 12) {
 							$time_of_day = __('morning', 'mz-mindbody-api');
@@ -251,6 +253,10 @@ class MZ_Mindbody_Schedule_Display {
 							$time_of_day = __('afternoon', 'mz-mindbody-api');
 						}				
 
+					$tbl->addRow();
+					$tbl->addCell($time_of_day, 'hidden mz_time_of_day', 'data');
+					$tbl->addCell($mz_classes['display_time']);
+					
 					foreach($mz_classes['classes'] as $key => $classes)
 					{
 						// Set some variables to determine if we need to display an <hr/> after event
@@ -267,13 +273,18 @@ class MZ_Mindbody_Schedule_Display {
 							// TODO Move out of this "presentation" loop
 							if (!array_key_exists($class->sLoc, $this->locations_dictionary))
 								$this->locations_dictionary[$class->sLoc] = $class->locationName;
+								
 							$class_separator = ($key == $num_classes_min_one) ? '' : '<hr/>';
+							
 							$signupButton = $class->signupButton;
-							mz_pr($class->sLoc);
-							mz_pr($class->className);
-						}
+							
+							$class_details = $class->class_details . $class_separator;
+							$tbl->addCell($class_details);
+						} // foreach mz_classes
 					}
 				} // EOF foreach($mz_days)
+				mz_pr($tbl);
+				$return .= $tbl->display();
 			}
 		}	// EOF if ['GetClassesResult']['Classes']['Class'] is populated
 	}//EOF mZ_show_schedule
