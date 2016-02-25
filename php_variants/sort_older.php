@@ -40,10 +40,10 @@ function sortClassesByDate($mz_classes = array(), $time_format = "g:i a", $locat
 }
 
 function mz_sort_order ($a, $b) {
-			if(date_i18n("N", strtotime($a['StartDateTime'])) == date_i18n("N", strtotime($b['StartDateTime']))) {
+			if(date_i18n("N", strtotime($a->startDateTime)) == date_i18n("N", strtotime($b->startDateTime))) {
 				return 0;
 			}
-			return $a['StartDateTime'] < $b['StartDateTime'] ? -1 : 1;
+			return $a->startDateTime < $b->startDateTime ? -1 : 1;
 		}
 
 function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a", $locations = array(1)) {

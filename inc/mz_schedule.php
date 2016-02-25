@@ -201,6 +201,7 @@ class MZ_Mindbody_Schedule_Display {
 				// Create matrix of existing class times with empty schedule slots, sequenced by day 
 				// Each "class" is an instance of Single_event
 				$mz_days = sortClassesByTimeThenDay($mz_days, $this->mz_mbo_globals->time_format, $locations);
+				mz_pr($mz_days);
 			}
 		}	// EOF if ['GetClassesResult']['Classes']['Class'] is populated
 	}//EOF mZ_show_schedule

@@ -1,5 +1,53 @@
 <?php
 
+class One_Week {
+
+	public $schedule=array();
+	
+	public function __construct(){
+		
+	}
+	
+}
+
+class Single_day {
+
+	public $day_number;
+	public $classes = array();
+	
+	public function __construct($day){
+		$this->day_number = $day;
+	}
+	
+}
+
+class Time_slot {
+
+	public $day_num;
+	public $classes = array();
+	public $time_slot;
+	public $display_time;
+	
+	public function __construct($time, $display_time){
+		$this->time_slot = $time;
+		$this->display_time = $display_time;
+	}
+	
+}
+
+class Classes_by_time {
+
+	public $day_num;
+	public $classes = array();
+	public $classTime;
+	public $display_time;
+	
+	public function __construct(){
+	
+	}
+	
+}
+
 class Single_event {
 
 	public $sDate;

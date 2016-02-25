@@ -220,8 +220,8 @@ class MZ_Mindbody_API {
 		foreach ( glob( plugin_dir_path( __FILE__ )."inc/*.php" ) as $file )
 			include_once $file;
 			
-		foreach ( glob( plugin_dir_path( __FILE__ )."lib/*.php" ) as $file )
-			include_once $file;
+			include_once(plugin_dir_path( __FILE__ ).'/lib/functions.php');
+			include_once(plugin_dir_path( __FILE__ ) . 'lib/schedule_objects.php');
 			
 		if (phpversion() >= 5.3) {
 			include_once('php_variants/sort_newer.php');

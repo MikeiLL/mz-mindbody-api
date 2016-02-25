@@ -53,6 +53,7 @@ function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a",
 		and corresponsing value an array of class details 
 		for classes at that time. */ 
 		$classTime = date_i18n("G.i", strtotime($class['StartDateTime'])); // for numerical sorting
+		// $class['day_num'] = '';
 		$class['day_num'] = date_i18n("N", strtotime($class['StartDateTime'])); // Weekday num 1-7
 		if(!empty($mz_classesByTime[$classTime])) {
 			if (
