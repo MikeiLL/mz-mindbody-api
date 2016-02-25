@@ -5,6 +5,9 @@ class MZ_Mindbody_Schedule_Display {
 	private $mz_mbo_globals;
 	private $locations_dictionary = array();
 	static $time_tracker;	
+	private $locations_count; // Used to know how many times we need to check when populating dict
+	private $locations_dict_length;
+	private $time_slot;
 	
 	public function __construct(){
 		require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
@@ -86,9 +89,10 @@ class MZ_Mindbody_Schedule_Display {
 			}else{
 				$locations = array($location);
 			}
-		}else{
+		} else {
 			$locations = array_map('trim', explode(',', $atts['locations']));
-			}
+		}
+		$this->locations_count = count($locations);
 
 		if ($grid == 0) {
 			$mz_date = empty($_GET['mz_date']) ? date_i18n('Y-m-d',current_time('timestamp')) : mz_validate_date($_GET['mz_date']);
@@ -243,7 +247,7 @@ class MZ_Mindbody_Schedule_Display {
 				
 				$mz_days = sortClassesByTimeThenDay($mz_days, $this->mz_mbo_globals->time_format, $locations, 
 																						$hide_cancelled, $hide, $advanced, $show_registrants);
-																						
+																										
 				foreach($mz_days as $classTime => $mz_classes) {
 					if ($classTime < 12) {
 							$time_of_day = __('morning', 'mz-mindbody-api');
@@ -260,28 +264,40 @@ class MZ_Mindbody_Schedule_Display {
 					foreach($mz_classes['classes'] as $key => $classes)
 					{
 						// Set some variables to determine if we need to display an <hr/> after event
-						if ((empty($classes)) || (null === $classes[0]->className)){
-							$class_details = '';
+						/*if (count($classes) > 1):
+							foreach ($classes as $class) {
+								mz_pr($class->locationName);
+								mz_pr($class->startDateTime);
+								mz_pr($class->className);
+								mz_pr(count($classes));
+								echo "<hr/>";
+								}
+						endif;*/
+						if (empty($classes)) {
 							$num_classes_min_one = 50; //Set to a number that won't match key
 							}else{
-							$class_details = '';
 							$num_classes_min_one = count($classes) - 1;
 							}
-							
+
 						foreach($classes as $key => $class)	{
 							// populate dictionary of locations with names 
 							// TODO Move out of this "presentation" loop
-							if (!array_key_exists($class->sLoc, $this->locations_dictionary))
-								$this->locations_dictionary[$class->sLoc] = $class->locationName;
-								
+							if ($this->locations_count > $this->locations_dict_length):
+								if (!array_key_exists($class->sLoc, $this->locations_dictionary)):
+									$this->locations_dictionary[$class->sLoc] = $class->locationName;
+								endif;
+							endif;
+
 							$class_separator = ($key == $num_classes_min_one) ? '' : '<hr/>';
 							
 							$signupButton = $class->signupButton;
 							
 							$class_details = $class->class_details . $class_separator;
+							$this->time_slot .= $class_details;
 						} // foreach mz_classes
-						
-							$tbl->addCell($class_details);
+						$tbl->addCell($this->time_slot);
+						$class_details = ''; // Reinitialize class details
+						$this->time_slot = ''; // Reinitialize time slot
 					}
 				} // EOF foreach($mz_days)
 				//mz_pr($tbl);

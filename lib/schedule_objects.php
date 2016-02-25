@@ -51,6 +51,24 @@ class Single_event {
 		$this->sessionTypeName = $class['ClassDescription']['SessionType']['Name'];
 								//mz_pr($sclassidID);
 		$this->classDescription = $class['ClassDescription']['Description'];
+		$this->displayCancelled = ($class['IsCanceled'] == 1) ? '<div class="mz_cancelled_class">' .
+												__('Cancelled', 'mz-mindbody-api') . '</div>' : '';
+		$this->className = $class['ClassDescription']['Name'];
+								//mz_pr($className);
+		$this->startDateTime = date_i18n('Y-m-d H:i:s', strtotime($class['StartDateTime']));
+								//mz_pr($startDateTime);
+								//echo "<hr/>";
+		$this->endDateTime = date_i18n('Y-m-d H:i:s', strtotime($class['EndDateTime']));
+		$this->staffName = $class['Staff']['Name'];
+		$this->isAvailable = $class['IsAvailable'];
+		$this->locationName = $class['Location']['Name'];
+		$this->staffImage = isset($class['Staff']['ImageURL']) ? $class['Staff']['ImageURL'] : '';
+		$this->day_num = $day_num;
+		
+		$this->session_type_css = sanitize_html_class($this->sessionTypeName, 'mz_session_type');
+		$this->class_name_css = sanitize_html_class($this->className, 'mz_class_name');
+		$this->class_details .= '<div class="mz_schedule_table mz_description_holder mz_location_'.$this->sLoc.' '.'mz_' . 
+		$this->session_type_css .' mz_'. $this->class_name_css .'">';
 						
 		//Let's find an image if there is one and assign it to $classImage
 
@@ -82,6 +100,7 @@ class Single_event {
 		}
 		
 		if (count($locations) > 1) {
+				// TODO Let's not do this loop every time. Ouch.
 				$this->location_name_css = sanitize_html_class($this->locationName, 'mz_location_class');
 				$this->locationAddress = $class['Location']['Address'];
 				$this->locationNameDisplay = '<div class="'.$this->location_name_css.'"><a href="#" title="'. $this->locationAddress. '">' . 
@@ -122,24 +141,7 @@ class Single_event {
 								}
 				}
 									
-		$this->displayCancelled = ($class['IsCanceled'] == 1) ? '<div class="mz_cancelled_class">' .
-												__('Cancelled', 'mz-mindbody-api') . '</div>' : '';
-		$this->className = $class['ClassDescription']['Name'];
-								//mz_pr($className);
-		$this->startDateTime = date_i18n('Y-m-d H:i:s', strtotime($class['StartDateTime']));
-								//mz_pr($startDateTime);
-								//echo "<hr/>";
-		$this->endDateTime = date_i18n('Y-m-d H:i:s', strtotime($class['EndDateTime']));
-		$this->staffName = $class['Staff']['Name'];
-		$this->isAvailable = $class['IsAvailable'];
-		$this->locationName = $class['Location']['Name'];
-		$this->staffImage = isset($class['Staff']['ImageURL']) ? $class['Staff']['ImageURL'] : '';
-		$this->day_num = $day_num;
 		
-		$this->session_type_css = sanitize_html_class($this->sessionTypeName, 'mz_session_type');
-		$this->class_name_css = sanitize_html_class($this->className, 'mz_class_name');
-		$this->class_details .= '<div class="mz_schedule_table mz_description_holder mz_location_'.$this->sLoc.' '.'mz_' . 
-		$this->session_type_css .' mz_'. $this->class_name_css .'">';
 		
 		$this->class_name_link = $this->classLinkMaker($this->staffName, $this->className, 
 																							$this->classDescription, $this->sclassidID, 
@@ -148,7 +150,9 @@ class Single_event {
 		$this->class_details .= $this->class_name_link->build() . 
 									'<br/>' .	 
 									$this->teacher . $this->signupButton .
-									$this->classLength . $this->displayCancelled . $this->locationNameDisplay . '</div>';
+									$this->classLength . $this->displayCancelled . $this->locationNameDisplay . 
+									$this->startDateTime . "<br/>" .
+									$this->locationName . '</div>';
 
 	}
 	
