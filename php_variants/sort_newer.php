@@ -27,20 +27,21 @@ function sortClassesByDate($mz_classes = array(), $time_format = "g:i a",
 		if(!empty($mz_classesByDate[$classDate])) {
 			if (
 				(!in_array($class['Location']['ID'], $locations)) || 
-				($class['ClassDescription']['Program']['ScheduleType'] == $type)
+				($class['ClassDescription']['Program']['ScheduleType'] == 'Enrollment')
 				) {
 					continue;
 				}
-			$mz_classesByDate[$classDate] = array_merge($mz_classesByDate[$classDate], array($class));
+			//$mz_classesByDate[$classDate] = array_merge($mz_classesByDate[$classDate], array($class));
+			array_push($mz_classesByDate[$classDate]['classes'], $single_event);
 		} else {
-		mz_pr($class['ClassDescription']['Program']['ScheduleType']);
 			if (
 				(!in_array($class['Location']['ID'], $locations)) || 
-				($class['ClassDescription']['Program']['ScheduleType'] == $type)
+				($class['ClassDescription']['Program']['ScheduleType'] == 'Enrollment')
 				) {
 					continue;
 				}
-			$mz_classesByDate[$classDate] = array($single_event);
+			//$mz_classesByDate[$classDate]['classes'] = $single_event;
+			$mz_classesByDate[$classDate] = array('classes' => array($single_event));
 		}
 	}
 	/* They are not ordered by date so order them by date */
@@ -51,7 +52,10 @@ function sortClassesByDate($mz_classes = array(), $time_format = "g:i a",
 		$mz_classes is an array of all classes for given date
 		Take each of the class arrays and order it by time
 		*/
-		usort($mz_classes, function($a, $b) {
+		usort($mz_classes['classDate'], function($a, $b) {
+				mz_pr($a);
+				mz_pr($b);
+				die();
 				if(date_i18n("N", strtotime($a->startDateTime)) == date_i18n("N", strtotime($b->startDateTime))) {
 				return 0;
 			}
@@ -119,6 +123,9 @@ function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a",
 		Take each of the class arrays and order it by days 1-7
 		*/
 		usort($mz_classes['classes'], function($a, $b) {
+				mz_pr($a);
+				mz_pr($b);
+				die();
 			if(date_i18n("N", strtotime($a->startDateTime)) == date_i18n("N", strtotime($b->startDateTime))) {
 				return 0;
 			}
