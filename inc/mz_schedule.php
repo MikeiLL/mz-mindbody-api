@@ -279,14 +279,16 @@ class MZ_Mindbody_Schedule_Display {
 							$signupButton = $class->signupButton;
 							
 							$class_details = $class->class_details . $class_separator;
-							$tbl->addCell($class_details);
 						} // foreach mz_classes
+						
+							$tbl->addCell($class_details);
 					}
 				} // EOF foreach($mz_days)
-				mz_pr($tbl);
+				//mz_pr($tbl);
 				$return .= $tbl->display();
 			}
 		}	// EOF if ['GetClassesResult']['Classes']['Class'] is populated
+		return $return;
 	}//EOF mZ_show_schedule
 		
 	
