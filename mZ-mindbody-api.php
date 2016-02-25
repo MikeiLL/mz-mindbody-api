@@ -221,6 +221,7 @@ class MZ_Mindbody_API {
 			include_once $file;
 			
 			include_once(plugin_dir_path( __FILE__ ).'/lib/functions.php');
+			include_once(plugin_dir_path( __FILE__ ) . 'lib/html_table.class.php');
 			include_once(plugin_dir_path( __FILE__ ) . 'lib/schedule_objects.php');
 			
 		if (phpversion() >= 5.3) {

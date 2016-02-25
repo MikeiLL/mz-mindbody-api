@@ -61,9 +61,6 @@ class MZ_Mindbody_Schedule_Display {
 		$hide_cancelled = $atts['hide_cancelled'];
 		$registrants_count = $atts['registrants_count'];
 		
-		$sign_up_text = __('Sign-Up', 'mz-mindbody-api');
-		$manage_text = __('Manage on MindBody Site', 'mz-mindbody-api');
-		
 		//Build caache based on shortcode attributes.
 		$mz_schedule_cache = 'mz_sched_che';
 		$mz_schedule_timer = 'mz_sched_tim';
@@ -90,7 +87,7 @@ class MZ_Mindbody_Schedule_Display {
 				$locations = array($location);
 			}
 		}else{
-			$locations = explode(', ', $atts['locations']);
+			$locations = array_map('trim', explode(',', $atts['locations']));
 			}
 
 		if ($grid == 0) {
@@ -190,53 +187,97 @@ class MZ_Mindbody_Schedule_Display {
 						}
 					$mz_days = array_values($mz_days);
 			endif;
+			
+			$return .= '<div id="mz_mbo_schedule" class="mz_mbo_schedule">';
+			if ($type==__('week','mz-mindbody-api')){
+				$return .= mz_mbo_schedule_nav($mz_date, __('Week', 'mz-mindbody-api'));
+			}
+
+		if ($filter == 1) {
+				if ($grid == 1):
+					$tbl = new HTML_Table('', 'mz-schedule-filter mz-schedule-grid');
+				else:
+					$tbl = new HTML_Table('', 'mz-schedule-filter');
+				endif;
+			}else{
+				if ($grid == 1):
+					$tbl = new HTML_Table('', 'mz-schedule-table mz-schedule-grid');
+				else:
+					$tbl = new HTML_Table('', 'mz-schedule-table');
+				endif;
+			}
 
 			if ($grid == 0){
 				// Order class matrix by date and time
-				$mz_days = sortClassesByDate($mz_days, $this->mz_mbo_globals->time_format, $locations);
+				mz_pr($locations);
+				$mz_days = sortClassesByDate($mz_days, $this->mz_mbo_globals->time_format, $locations, $hide_cancelled, $hide);
 				$a_class = new Single_event($mz_days['2016-02-24'][1]);
 					mz_pr($a_class);
 			//mz_pr($mz_days['2016-02-24'][0]);
 				}else{
+				// Display GRID
+				$week_starting = date_i18n($this->mz_mbo_globals->date_format, strtotime($mz_date)); 
+				
+				$return .= '<h4 class="mz_grid_date">';
+				$return .= sprintf(__('Week of %1$s', 'mz-mindbody-api'), $week_starting);
+				$return .= '</h4>';
+				
+				// Begin building HTML Table object
+				$tbl->addTSection('thead');
+				$tbl->addRow();
+				// arguments: cell content, class, type (default is 'data' for td, pass 'header' for th)
+				// can include associative array of optional additional attributes
+				$tbl->addCell('', '', 'header');
+				$tbl->addCell(__('Monday', 'mz-mindbody-api'), '', 'header');
+				$tbl->addCell(__('Tuesday', 'mz-mindbody-api'), '', 'header');
+				$tbl->addCell(__('Wednesday', 'mz-mindbody-api'), '', 'header');
+				$tbl->addCell(__('Thursday', 'mz-mindbody-api'), '', 'header');
+				$tbl->addCell(__('Friday', 'mz-mindbody-api'), '', 'header');
+				$tbl->addCell(__('Saturday', 'mz-mindbody-api'), '', 'header');
+				$tbl->addCell(__('Sunday', 'mz-mindbody-api'), '', 'header');
+
+				$tbl->addTSection('tbody');
+				
 				// Create matrix of existing class times with empty schedule slots, sequenced by day 
 				// Each "class" is an instance of Single_event
-				$mz_days = sortClassesByTimeThenDay($mz_days, $this->mz_mbo_globals->time_format, $locations);
-				mz_pr($mz_days);
+				
+				$mz_days = sortClassesByTimeThenDay($mz_days, $this->mz_mbo_globals->time_format, $locations, $hide_cancelled, $hide, $advanced);
+				foreach($mz_days as $classTime => $mz_classes) {
+					if ($classTime < 12) {
+							$time_of_day = __('morning', 'mz-mindbody-api');
+						}else if ($classTime > 16) {
+							$time_of_day = __('evening', 'mz-mindbody-api');
+						}else{
+							$time_of_day = __('afternoon', 'mz-mindbody-api');
+						}				
+
+					foreach($mz_classes['classes'] as $key => $classes)
+					{
+						// Set some variables to determine if we need to display an <hr/> after event
+						if ((empty($classes)) || (null === $classes[0]->className)){
+							$class_details = '';
+							$num_classes_min_one = 50; //Set to a number that won't match key
+							}else{
+							$class_details = '';
+							$num_classes_min_one = count($classes) - 1;
+							}
+							
+						foreach($classes as $key => $class)	{
+							// populate dictionary of locations with names 
+							// TODO Move out of this "presentation" loop
+							if (!array_key_exists($class->sLoc, $this->locations_dictionary))
+								$this->locations_dictionary[$class->sLoc] = $class->locationName;
+							$class_separator = ($key == $num_classes_min_one) ? '' : '<hr/>';
+							$signupButton = $class->signupButton;
+							mz_pr($class->sLoc);
+							mz_pr($class->className);
+						}
+					}
+				} // EOF foreach($mz_days)
 			}
 		}	// EOF if ['GetClassesResult']['Classes']['Class'] is populated
 	}//EOF mZ_show_schedule
-	
-	private function classLinkMaker($staffName, $className, $classDescription, $sclassidID, $staffImage, $show_registrants) {
-			/* Build and return an href object for each class/event*/
-			
-			$class_name_css = 'modal-toggle mz_get_registrants ' . sanitize_html_class($className, 'mz_class_name');
-			
-			$linkArray = array(
-												'data-staffName'=>$staffName,
-												'data-className'=>$className,
-												'data-classDescription'=>rawUrlEncode($classDescription),
-												'class'=> $class_name_css,
-												'text'=>$className
-												);
-												
-								if ($show_registrants == 1){
-												$get_registrants_nonce = wp_create_nonce( 'mz_MBO_get_registrants_nonce');
-												$linkArray['data-nonce'] = $get_registrants_nonce;
-												$linkArray['data-target'] = "#registrantModal";  
-												$linkArray['data-classID'] = $sclassidID;
-											} else {
-												$linkArray['data-target'] = "#mzModal";
-											}
-								if ($staffImage != ''):
-									$linkArray['data-staffImage'] = $staffImage;
-								endif;
-						
-				$class_name_link = new html_element('a');
-				$class_name_link->set('href', MZ_MINDBODY_SCHEDULE_URL . 'inc/modal_descriptions.php');
-				$class_name_link->set($linkArray);
-				
-				return $class_name_link;
-	}
+		
 	
 	public function makeNumericArray($data) {
 		return (isset($data[0])) ? $data : array($data);

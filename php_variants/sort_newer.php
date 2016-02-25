@@ -44,10 +44,21 @@ function sortClassesByDate($mz_classes = array(), $time_format = "g:i a", $locat
 	return $mz_classesByDate;
 }
 
-function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a", $locations = array(1)) {
+function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a", $locations = 1, $hide_cancelled=0, $hide, $advanced) {
+	
 	$mz_classesByTime = array();
+	
+	if(!is_array($locations)):
+		$locations = array($locations);
+	endif;
+										
 	foreach($mz_classes as $class)
 	{
+		if ($hide_cancelled == 1):
+			if ($class['IsCanceled'] == 1):
+				continue;
+			endif;
+		endif;
 		
 		/* Create a new array with a key for each time
 		and corresponsing value an array of class details 
@@ -55,26 +66,24 @@ function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a",
 		$classTime = date_i18n("G.i", strtotime($class['StartDateTime'])); // for numerical sorting
 		// $class['day_num'] = '';
 		$class['day_num'] = date_i18n("N", strtotime($class['StartDateTime'])); // Weekday num 1-7
+		$single_event = new Single_event($class, $class['day_num'], $hide, $locations, $advanced);
+		
 		if(!empty($mz_classesByTime[$classTime])) {
 			if (
 				(!in_array($class['Location']['ID'], $locations)) || 
-				(($class['IsCanceled'] == 1) && ($class['HideCancel'] == 1)) ||
 				($class['ClassDescription']['Program']['ScheduleType'] == 'Enrollment')
 				) {
 					continue;
 				}
-			$single_event = new Single_event($class, $class['day_num']);
 			array_push($mz_classesByTime[$classTime]['classes'], $single_event);
 		} else {
 			// Assign the first element ( of this time slot ?).
 			if (
 				(!in_array($class['Location']['ID'], $locations)) || 
-				(($class['IsCanceled'] == 1) && ($class['HideCancel'] == 1)) ||
 				($class['ClassDescription']['Program']['ScheduleType'] == 'Enrollment')
 				) {
 					continue;
 				}
-			$single_event = new Single_event($class, $class['day_num']);
 			$display_time = (date_i18n($time_format, strtotime($class['StartDateTime']))); 
 			$mz_classesByTime[$classTime] = array('display_time' => $display_time, 
 													'classes' => array($single_event));

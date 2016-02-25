@@ -54,6 +54,10 @@ You need to register a developer account with MindBody, which costs $5+ per webs
 
 == Changelog ==
 
+= 2.3.5 =
+* Fix bug with multiple locations requiring space between them in shortcode.
+* Use Object for Class Event to reduce code redundancy. (Dry it up)
+
 = 2.3.4 =
 * Fix error date_display not displaying with add to class.
 
