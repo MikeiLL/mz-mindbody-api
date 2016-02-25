@@ -302,8 +302,49 @@ class MZ_Mindbody_Schedule_Display {
 				} // EOF foreach($mz_days)
 				//mz_pr($tbl);
 				$return .= $tbl->display();
+			} // EOF If Grid
+			
+		// Add "footer" Items
+		if ($type=='week'):
+				// schedule navigation
+				$return .= mz_mbo_schedule_nav($mz_date, __('Week', 'mz-mindbody-api'));
+		endif;
+			
+			$return .= '<div id="mzModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mzSmallModalLabel" aria-hidden="true"></div>';
+
+			$return .= '</div>';
+		}
+		else
+		{
+
+			if(!empty($mz_schedule_data['GetClassesResult']['Message']))
+			{
+				$return = $mz_schedule_data['GetClassesResult']['Message'];
+			}
+			else
+			{
+				if ($type=='week'):
+					$return = mz_mbo_schedule_nav($mz_date, __('Week', 'mz-mindbody-api'));
+					$return .= '<br/>';
+				endif;
+				$return .= __('Error getting classes. Try re-loading the page.',' mz-mindbody-api') . '<br />';
+				$return .= '<pre>'.print_r($mz_schedule_data,1).'</pre>';
 			}
 		}	// EOF if ['GetClassesResult']['Classes']['Class'] is populated
+		
+		if ($filter == 1):
+			add_action('wp_footer', array($this, 'add_filter_table'));
+			add_action('wp_footer', array($this, 'initialize_filter'));
+		endif;
+		
+		if ($show_registrants == 1 ): 
+
+			$return .= '<div class="modal fade" id="registrantModal" tabindex="-1" role="dialog" aria-labelledby="mzSmallModalLabel" aria-hidden="true">';
+
+			$return .= '</div>';
+		
+		endif;
+		
 		return $return;
 	}//EOF mZ_show_schedule
 		
