@@ -58,6 +58,7 @@ class MZ_Mindbody_Schedule_Display {
 		$filter = $atts['filter'];
 		$grid = $atts['grid'];
 		$advanced = $atts['advanced'];
+		$hide = $atts['hide'];
 		$class_types = $atts['class_types'];
 		$clientID = isset($_SESSION['GUID']) ? $_SESSION['client']['ID'] : '';
 		$show_registrants = $atts['show_registrants'];
@@ -213,11 +214,10 @@ class MZ_Mindbody_Schedule_Display {
 
 			if ($grid == 0){
 				// Order class matrix by date and time
-				mz_pr($locations);
-				$mz_days = sortClassesByDate($mz_days, $this->mz_mbo_globals->time_format, $locations, $hide_cancelled, $hide);
-				$a_class = new Single_event($mz_days['2016-02-24'][1]);
-					mz_pr($a_class);
-			//mz_pr($mz_days['2016-02-24'][0]);
+
+				$mz_days = sortClassesByDate($mz_days, $this->mz_mbo_globals->time_format, $locations, 
+																						$hide_cancelled, $hide, $advanced, $show_registrants);
+				mz_pr($mz_days);
 				}else{
 				// Display GRID
 				$week_starting = date_i18n($this->mz_mbo_globals->date_format, strtotime($mz_date)); 
@@ -244,7 +244,6 @@ class MZ_Mindbody_Schedule_Display {
 				
 				// Create matrix of existing class times with empty schedule slots, sequenced by day 
 				// Each "class" is an instance of Single_event
-				
 				$mz_days = sortClassesByTimeThenDay($mz_days, $this->mz_mbo_globals->time_format, $locations, 
 																						$hide_cancelled, $hide, $advanced, $show_registrants);
 																										

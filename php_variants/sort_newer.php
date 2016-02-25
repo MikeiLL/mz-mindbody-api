@@ -1,29 +1,46 @@
 <?php
-function sortClassesByDate($mz_classes = array(), $time_format = "g:i a", $locations = array(1), $type = 'Enrollment') {
+function sortClassesByDate($mz_classes = array(), $time_format = "g:i a", 
+																	$locations=1, $hide_cancelled=0, $hide, 
+																	$advanced, $show_registrants) {
 	$mz_classesByDate = array();
+	
+	if(!is_array($locations)):
+		$locations = array($locations);
+	endif;
+	
 	foreach($mz_classes as $class)
 	{
+		
+		if ($hide_cancelled == 1):
+			if ($class['IsCanceled'] == 1):
+				continue;
+			endif;
+		endif;
+		
 		/* Create a new array with a key for each date YYYY-MM-DD
 		and corresponsing value an array of class details */ 
 		$classDate = date("Y-m-d", strtotime($class['StartDateTime']));
+		
+		$single_event = new Single_event($class, $daynum="", $hide=array(), $locations, $hide_cancelled=0, 
+																			$advanced, $show_registrants);
+																			
 		if(!empty($mz_classesByDate[$classDate])) {
 			if (
 				(!in_array($class['Location']['ID'], $locations)) || 
-				(($class['IsCanceled'] == 1) && ($class['HideCancel'] == 1)) ||
 				($class['ClassDescription']['Program']['ScheduleType'] == $type)
 				) {
 					continue;
 				}
 			$mz_classesByDate[$classDate] = array_merge($mz_classesByDate[$classDate], array($class));
 		} else {
+		mz_pr($class['ClassDescription']['Program']['ScheduleType']);
 			if (
 				(!in_array($class['Location']['ID'], $locations)) || 
-				(($class['IsCanceled'] == 1) && ($class['HideCancel'] == 1)) ||
 				($class['ClassDescription']['Program']['ScheduleType'] == $type)
 				) {
 					continue;
 				}
-			$mz_classesByDate[$classDate] = array($class);
+			$mz_classesByDate[$classDate] = array($single_event);
 		}
 	}
 	/* They are not ordered by date so order them by date */
@@ -35,16 +52,18 @@ function sortClassesByDate($mz_classes = array(), $time_format = "g:i a", $locat
 		Take each of the class arrays and order it by time
 		*/
 		usort($mz_classes, function($a, $b) {
-			if(strtotime($a['StartDateTime']) == strtotime($b['StartDateTime'])) {
+				if(date_i18n("N", strtotime($a->startDateTime)) == date_i18n("N", strtotime($b->startDateTime))) {
 				return 0;
 			}
-			return $a['StartDateTime'] < $b['StartDateTime'] ? -1 : 1;
-		});
+			return $a->startDateTime < $b->startDateTime ? -1 : 1;
+		}); 
 	}
 	return $mz_classesByDate;
 }
 
-function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a", $locations = 1, $hide_cancelled=0, $hide, $advanced, $show_registrants) {
+function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a", 
+																	$locations=1, $hide_cancelled=0, $hide, 
+																	$advanced, $show_registrants) {
 	
 	$mz_classesByTime = array();
 	

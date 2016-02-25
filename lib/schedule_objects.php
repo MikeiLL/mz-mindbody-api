@@ -25,6 +25,7 @@ class Single_event {
 	public $classLength = '';
 	public $signupButton = '';
 	public $locationAddress = '';
+	public $locationAddress2 = '';
 	public $locationNameDisplay = '';
 	public $sign_up_text;
 	public $manage_text;
@@ -103,7 +104,9 @@ class Single_event {
 				// TODO Let's not do this loop every time. Ouch.
 				$this->location_name_css = sanitize_html_class($this->locationName, 'mz_location_class');
 				$this->locationAddress = $class['Location']['Address'];
-				$this->locationNameDisplay = '<div class="'.$this->location_name_css.'"><a href="#" title="'. $this->locationAddress. '">' . 
+				$this->locationAddress2 = $class['Location']['Address2'];
+				$this->url_encoded_address = urlencode($this->locationAddress.$this->locationAddress2);
+				$this->locationNameDisplay = '<div class="location_name '.$this->location_name_css.'"><a href="http://maps.google.com/maps?q='.$this->url_encoded_address.'" target="_blank" title="'. $this->locationAddress. '">' . 
 										$this->locationName . '</a>';
 			}
 
@@ -130,13 +133,13 @@ class Single_event {
 									. '"></a>' .
 									'&nbsp; <span class="signup"> ' .
 									'</span></a>&nbsp;' . 
-									'<a id="visitMBO" class="fa fa-wrench visitMBO" href="'.$linkURL.'" target="_blank" ' . 
+									'<a id="visitMBO" class="fa fa-wrench visitMBO" href="'.$this->mbo_url.'" target="_blank" ' . 
 									'style="display:none" title="' .
 									$this->manage_text . '"></a><br/>';
 									}
 							}
 						}else{
-							$this->signupButton = '&nbsp;<a href="'.$linkURL.'" target="_blank" title="'.
+							$this->signupButton = '&nbsp;<a href="'.$this->mbo_url.'" target="_blank" title="'.
 											$this->sign_up_text. '"><i class="fa fa-sign-in"></i></a><br/>';
 								}
 				}
@@ -150,9 +153,7 @@ class Single_event {
 		$this->class_details .= $this->class_name_link->build() . 
 									'<br/>' .	 
 									$this->teacher . $this->signupButton .
-									$this->classLength . $this->displayCancelled . $this->locationNameDisplay . 
-									$this->startDateTime . "<br/>" .
-									$this->locationName . '</div>';
+									$this->classLength . $this->displayCancelled . $this->locationNameDisplay . '</div>';
 
 	}
 	
