@@ -213,12 +213,47 @@ class MZ_Mindbody_Schedule_Display {
 			}
 
 			if ($grid == 0){
-				// Order class matrix by date and time
-
+			
 				$mz_days = sortClassesByDate($mz_days, $this->mz_mbo_globals->time_format, $locations, 
-																						$hide_cancelled, $hide, $advanced, $show_registrants);
-				mz_pr($mz_days);
-				}else{
+																						$hide_cancelled, $hide, $advanced, $show_registrants,
+																						$registrants_count, 'horizontal');
+																						
+				foreach($mz_days as $classDate => $mz_classes) {   
+			
+					$tbl->addRow('header');
+					// arguments: cell content, class, type (default is 'data' for td, pass 'header' for th)
+					// can include associative array of optional additional attributes
+		
+					$tbl->addCell(date_i18n($this->mz_mbo_globals->mz_date_display, strtotime($classDate)), 'mz_date_display', 'header', array('scope'=>'header'));
+					$tbl->addCell(__('Class Name', 'mz-mindbody-api'), 'mz_classDetails', 'header', array('scope'=>'header'));
+					$tbl->addCell(__('Instructor', 'mz-mindbody-api'), 'mz_staffName', 'header', array('scope'=>'header'));
+					$tbl->addCell(__('Class Type', 'mz-mindbody-api'), 'mz_sessionTypeName', 'header', array('scope'=>'header'));
+			
+					$tbl->addTSection('tbody');
+					foreach($mz_classes as $class)
+						{
+							// start building table rows
+							$row_css_classes = 'mz_description_holder mz_schedule_table mz_location_'.$sLoc;
+							$tbl->addRow($row_css_classes);
+							$tbl->addCell($time_of_day, 'hidden', 'data');
+							$tbl->addCell(date_i18n($this->mz_mbo_globals->time_format, strtotime($class->startDateTime)) . ' - ' . 
+											date_i18n($this->mz_mbo_globals->time_format, strtotime($class->endDateTime)) .
+											'<br/>' . $class->signupButton . ' ' . $class->toward_capacity , 'mz_date_display' );
+				
+							$class_name_link = $this->classLinkMaker($staffName, $className, $classDescription, $sclassidID, $staffImage, $show_registrants);
+
+							$class_name_details = $class_name_link->build() . '<br/><div id="visitMBO" class="btn visitMBO" style="display:none">' .
+							'<a class="btn" href="'.$linkURL.'" target="_blank">' .
+							$manage_text . '</a></div>' .
+							$displayCancelled;
+
+							$tbl->addCell($class_name_details, "class_name_cell");
+
+							$tbl->addCell($staffName, 'mz_staffName');
+							$tbl->addCell($sessionTypeName, 'mz_sessionTypeName');
+						}
+					}
+				} else {
 				// Display GRID
 				$week_starting = date_i18n($this->mz_mbo_globals->date_format, strtotime($mz_date)); 
 				
@@ -245,7 +280,8 @@ class MZ_Mindbody_Schedule_Display {
 				// Create matrix of existing class times with empty schedule slots, sequenced by day 
 				// Each "class" is an instance of Single_event
 				$mz_days = sortClassesByTimeThenDay($mz_days, $this->mz_mbo_globals->time_format, $locations, 
-																						$hide_cancelled, $hide, $advanced, $show_registrants);
+																						$hide_cancelled, $hide, $advanced, $show_registrants,
+																						$registrants_count, 'grid');
 																										
 				foreach($mz_days as $classTime => $mz_classes) {
 					if ($classTime < 12) {

@@ -38,8 +38,15 @@ class Single_event {
 	private $session_type_css;
 	private $class_name_css;
 	private $show_registrants;
+	private $toward_capacity = '';
+	private $totalBooked; 
+	private $maxCapacity;
+	private $registrants_count;
+	private $advanced;
+	private $calendar_format;
 	
-	public function __construct($class, $day_num='', $hide, $locations, $advanced, $show_registrants){
+	public function __construct($class, $day_num='', $hide, $locations, $advanced, 
+															$show_registrants, $registrants_count, $calendar_format){
 	
 		$this->sign_up_text = __('Sign-Up', 'mz-mindbody-api');
 		$this->manage_text = __('Manage on MindBody Site', 'mz-mindbody-api');
@@ -70,6 +77,14 @@ class Single_event {
 		$this->class_name_css = sanitize_html_class($this->className, 'mz_class_name');
 		$this->class_details .= '<div class="mz_schedule_table mz_description_holder mz_location_'.$this->sLoc.' '.'mz_' . 
 		$this->session_type_css .' mz_'. $this->class_name_css .'">';
+		$this->totalBooked = $class['TotalBooked'];
+		$this->maxCapacity = $class['MaxCapacity'];
+		
+		$this->advanced = $advanced;
+		$this->calendar_format = $calendar_format;
+		
+		if ($this->registrants_count == 1)
+			$this->toward_capacity = $this->TotalBooked . '/' . $this->MaxCapacity;
 						
 		//Let's find an image if there is one and assign it to $classImage
 
@@ -110,42 +125,13 @@ class Single_event {
 										$this->locationName . '</a>';
 			}
 
-			$this->mbo_url = $this->mbo_url($this->sDate, $this->sLoc, $this->sTG, $this->sType, $this->sclassid, $this->studioid);
-					
-				if ($class['TotalBooked'] == $class['MaxCapacity']):
-					$sign_up_text = __('Sign-Up for waiting list', 'mz-mindbody-api');
-				endif;
-				if(!in_array('signup', $hide)){
-					if ($advanced == 1){
-						if (isset($isAvailable) && ($isAvailable != 0)) {
-							$add_to_class_nonce = wp_create_nonce( 'mz_MBO_add_to_class_nonce');
-							if ($clientID == ''){
-								 $this->signupButton = '<a class="btn mz_add_to_class fa fa-sign-in" href="'.home_url().'/login"' .
-								 'title="' . __('Login to Sign-up', 'mz-mindbody-api') . '"></a><br/>';
-									}else{
-									$this->signupButton = '<br/><a id="mz_add_to_class" class="fa fa-sign-in mz_add_to_class"' 
-									. 'title="' . $sign_up_text . '"'
-									. ' data-nonce="' . $add_to_class_nonce 
-									. '" data-className="' . $className 
-									. '" data-classID="' . $sclassidID  
-									. '" data-clientID="' . $clientID 
-									. '" data-staffName="' . $staffName 
-									. '"></a>' .
-									'&nbsp; <span class="signup"> ' .
-									'</span></a>&nbsp;' . 
-									'<a id="visitMBO" class="fa fa-wrench visitMBO" href="'.$this->mbo_url.'" target="_blank" ' . 
-									'style="display:none" title="' .
-									$this->manage_text . '"></a><br/>';
-									}
-							}
-						}else{
-							$this->signupButton = '&nbsp;<a href="'.$this->mbo_url.'" target="_blank" title="'.
-											$this->sign_up_text. '"><i class="fa fa-sign-in"></i></a><br/>';
-								}
-				}
-									
+		$this->mbo_url = $this->mbo_url($this->sDate, $this->sLoc, $this->sTG, $this->sType, $this->sclassid, $this->studioid);
+				
 		
-		
+		if(!in_array('signup', $hide)){
+				$this->signupButton = $this->makeSignupButton($this->advanced, $this->calendar_format);
+			}
+											
 		$this->class_name_link = $this->classLinkMaker($this->staffName, $this->className, 
 																							$this->classDescription, $this->sclassidID, 
 																							$this->staffImage, $this->show_registrants);
@@ -190,21 +176,54 @@ class Single_event {
 	}
 	
 	private function time_of_day($classDate) {
-		if ($classDate < 12) {
-					return __('morning', 'mz-mindbody-api');
-				}else if ($classDate > 16) {
-					return __('evening', 'mz-mindbody-api');
-				}else{
-					return __('afternoon', 'mz-mindbody-api');
-				}					
+			if ($classDate < 12) {
+				return __('morning', 'mz-mindbody-api');
+			}else if ($classDate > 16) {
+				return __('evening', 'mz-mindbody-api');
+			}else{
+				return __('afternoon', 'mz-mindbody-api');
+			}					
 		}
 	
-		private function mbo_url($sDate, $sLoc, $sTG, $sType, $sclassid, $studioid) {
 	
+	private function mbo_url($sDate, $sLoc, $sTG, $sType, $sclassid, $studioid) {
 			$mbo_url = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$sclassid}&amp;studioid={$studioid}";
-			
 			return $mbo_url;
-			}
+		}
+	
+	private function makeSignupButton($advanced, $calendar_format) {
+	
+		if ($this->totalBooked == $this->maxCapacity):
+			$this->sign_up_text = __('Sign-Up for waiting list', 'mz-mindbody-api');
+		endif;
+		
+		if ($advanced == 1){
+			if (isset($this->isAvailableisAvailable) && ($this->isAvailableisAvailable != 0)) {
+				$add_to_class_nonce = wp_create_nonce( 'mz_MBO_add_to_class_nonce');
+				if ($this->clientID == ''){
+					 return '<a class="btn mz_add_to_class fa fa-sign-in" href="'.home_url().'/login"' .
+					 'title="' . __('Login to Sign-up', 'mz-mindbody-api') . '"></a><br/>';
+						}else{
+						return '<br/><a id="mz_add_to_class" class="fa fa-sign-in mz_add_to_class"' 
+						. 'title="' . $sign_up_text . '"'
+						. ' data-nonce="' . $add_to_class_nonce 
+						. '" data-className="' . $className 
+						. '" data-classID="' . $sclassidID  
+						. '" data-clientID="' . $clientID 
+						. '" data-staffName="' . $staffName 
+						. '"></a>' .
+						'&nbsp; <span class="signup"> ' .
+						'</span></a>&nbsp;' . 
+						'<a id="visitMBO" class="fa fa-wrench visitMBO" href="'.$this->mbo_url.'" target="_blank" ' . 
+						'style="display:none" title="' .
+						$this->manage_text . '"></a><br/>';
+						}
+				}
+			}else{
+				return '&nbsp;<a href="'.$this->mbo_url.'" target="_blank" title="'.
+								$this->sign_up_text. '"><i class="fa fa-sign-in"></i></a><br/>';
+					}
+		}
 	
 	}
 ?>
