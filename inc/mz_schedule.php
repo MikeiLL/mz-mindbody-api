@@ -60,7 +60,8 @@ class MZ_Mindbody_Schedule_Display {
 		$advanced = $atts['advanced'];
 		$hide = $atts['hide'];
 		$class_types = $atts['class_types'];
-		$clientID = isset($_SESSION['GUID']) ? $_SESSION['client']['ID'] : '';
+		// moved this to Class object class
+		//$clientID = isset($_SESSION['GUID']) ? $_SESSION['client']['ID'] : '';
 		$show_registrants = $atts['show_registrants'];
 		$hide_cancelled = $atts['hide_cancelled'];
 		$registrants_count = $atts['registrants_count'];
@@ -301,15 +302,6 @@ class MZ_Mindbody_Schedule_Display {
 					foreach($mz_classes['classes'] as $key => $classes)
 					{
 						// Set some variables to determine if we need to display an <hr/> after event
-						/*if (count($classes) > 1):
-							foreach ($classes as $class) {
-								mz_pr($class->locationName);
-								mz_pr($class->startDateTime);
-								mz_pr($class->className);
-								mz_pr(count($classes));
-								echo "<hr/>";
-								}
-						endif;*/
 						if (empty($classes)) {
 							$num_classes_min_one = 50; //Set to a number that won't match key
 							}else{
@@ -337,7 +329,6 @@ class MZ_Mindbody_Schedule_Display {
 						$this->time_slot = ''; // Reinitialize time slot
 					}
 				} // EOF foreach($mz_days)
-				//mz_pr($tbl);
 				$return .= $tbl->display();
 			} // EOF If Grid
 			

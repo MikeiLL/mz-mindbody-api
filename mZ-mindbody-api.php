@@ -260,6 +260,9 @@ class MZ_Mindbody_API {
 		}
 
     public function myEndSession() {
+    /* Following line to deal with Warning: session_destroy(): Trying to destroy uninitialized session
+    when auto-logged out of WP admin session. */
+    	session_start(); 
 			session_destroy ();
 		}
  
