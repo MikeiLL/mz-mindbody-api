@@ -230,29 +230,31 @@ class MZ_Mindbody_Schedule_Display {
 					$tbl->addCell(__('Class Type', 'mz-mindbody-api'), 'mz_sessionTypeName', 'header', array('scope'=>'header'));
 			
 					$tbl->addTSection('tbody');
-					foreach($mz_classes as $class)
+					foreach($mz_classes['classes'] as $class)
 						{
 							// start building table rows
-							$row_css_classes = 'mz_description_holder mz_schedule_table mz_location_'.$sLoc;
+							$row_css_classes = 'mz_description_holder mz_schedule_table mz_location_'.$class->sLoc;
 							$tbl->addRow($row_css_classes);
-							$tbl->addCell($time_of_day, 'hidden', 'data');
+							$tbl->addCell($class->time_of_day, 'hidden', 'data');
 							$tbl->addCell(date_i18n($this->mz_mbo_globals->time_format, strtotime($class->startDateTime)) . ' - ' . 
 											date_i18n($this->mz_mbo_globals->time_format, strtotime($class->endDateTime)) .
 											'<br/>' . $class->signupButton . ' ' . $class->toward_capacity , 'mz_date_display' );
 				
-							$class_name_link = $this->classLinkMaker($staffName, $className, $classDescription, $sclassidID, $staffImage, $show_registrants);
+							//class name link
 
-							$class_name_details = $class_name_link->build() . '<br/><div id="visitMBO" class="btn visitMBO" style="display:none">' .
-							'<a class="btn" href="'.$linkURL.'" target="_blank">' .
-							$manage_text . '</a></div>' .
-							$displayCancelled;
+							$tbl->addCell($class->class_details, "class_name_cell");
 
-							$tbl->addCell($class_name_details, "class_name_cell");
-
-							$tbl->addCell($staffName, 'mz_staffName');
-							$tbl->addCell($sessionTypeName, 'mz_sessionTypeName');
+							$tbl->addCell($class->staffName, 'mz_staffName');
+							$tbl->addCell($class->sessionTypeName, 'mz_sessionTypeName');
 						}
 					}
+					
+				$tbl->addTSection('tfoot');
+				$tbl->addRow();
+				$tbl->addCell('','','', array('colspan' => 4));
+			
+				$return .= $tbl->display();
+				
 				} else {
 				// Display GRID
 				$week_starting = date_i18n($this->mz_mbo_globals->date_format, strtotime($mz_date)); 

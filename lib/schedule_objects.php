@@ -30,6 +30,8 @@ class Single_event {
 	public $sign_up_text;
 	public $manage_text;
 	public $class_details;
+	public $toward_capacity = '';
+	public $time_of_day;
 	
 	private $classStartTime;
 	private $classEndTime;
@@ -38,7 +40,6 @@ class Single_event {
 	private $session_type_css;
 	private $class_name_css;
 	private $show_registrants;
-	private $toward_capacity = '';
 	private $totalBooked; 
 	private $maxCapacity;
 	private $registrants_count;
@@ -46,7 +47,7 @@ class Single_event {
 	private $calendar_format;
 	
 	public function __construct($class, $day_num='', $hide, $locations, $advanced, 
-															$show_registrants, $registrants_count, $calendar_format){
+															$show_registrants, $registrants_count, $calendar_format='horizontal'){
 	
 		$this->sign_up_text = __('Sign-Up', 'mz-mindbody-api');
 		$this->manage_text = __('Manage on MindBody Site', 'mz-mindbody-api');
@@ -82,6 +83,7 @@ class Single_event {
 		
 		$this->advanced = $advanced;
 		$this->calendar_format = $calendar_format;
+		$this->time_of_day = $this->time_of_day_maker($this->startDateTime);
 		
 		if ($this->registrants_count == 1)
 			$this->toward_capacity = $this->TotalBooked . '/' . $this->MaxCapacity;
@@ -136,10 +138,22 @@ class Single_event {
 																							$this->classDescription, $this->sclassidID, 
 																							$this->staffImage, $this->show_registrants);
 																							
-		$this->class_details .= $this->class_name_link->build() . 
-									'<br/>' .	 
-									$this->teacher . $this->signupButton .
-									$this->classLength . $this->displayCancelled . $this->locationNameDisplay . '</div>';
+
+		/*$class_name_details = $class_name_link->build() . '<br/><div id="visitMBO" class="btn visitMBO" style="display:none">' .
+		'<a class="btn" href="'.$linkURL.'" target="_blank">' .
+		$manage_text . '</a></div>' .
+		$displayCancelled;*/
+		if ($this->calendar_format == 'grid'):																					
+			$this->class_details .= $this->class_name_link->build() . '<br/>' .	 
+			$this->teacher . $this->signupButton . $this->classLength . 
+			$this->displayCancelled . $this->locationNameDisplay . '</div>';
+		else:
+			$this->class_details .= $this->class_name_link->build() . 
+			'<br/><div id="visitMBO" class="btn visitMBO" style="display:none">' .
+			'<a class="btn" href="'.$this->mbo_url.'" target="_blank">' .
+			$this->manage_text . '</a></div>' .
+			$this->displayCancelled;
+		endif;
 
 	}
 	
@@ -175,7 +189,7 @@ class Single_event {
 				return $class_name_link;
 	}
 	
-	private function time_of_day($classDate) {
+	private function time_of_day_maker($classDate) {
 			if ($classDate < 12) {
 				return __('morning', 'mz-mindbody-api');
 			}else if ($classDate > 16) {
