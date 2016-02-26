@@ -47,6 +47,7 @@ class Single_event {
 	private $calendar_format;
 	private $add_to_class_nonce = '';
 	private $clientID;
+	private $signUpButtonID;
 	
 	public function __construct($class, $day_num='', $hide, $locations, $advanced, 
 															$show_registrants, $registrants_count, $calendar_format='horizontal'){
@@ -88,7 +89,7 @@ class Single_event {
 		$this->time_of_day = $this->time_of_day_maker($this->startDateTime);
 		
 		$this->clientID = isset($_SESSION['GUID']) ? $_SESSION['client']['ID'] : '';
-		
+
 		if (($this->registrants_count == 1) && ($this->maxCapacity != ''))
 			$this->toward_capacity = $this->totalBooked . '/' . $this->maxCapacity;
 						
@@ -141,10 +142,16 @@ class Single_event {
 		$this->class_name_link = $this->classLinkMaker($this->staffName, $this->className, 
 																							$this->classDescription, $this->sclassidID, 
 																							$this->staffImage, $this->show_registrants);
-																							
+								
+		if (isset($this->isAvailable) && ($this->isAvailable == 1)):		
+			$sign_up_manage_links = $this->signupButton[0] . ' ' . $this->signupButton[1]	;
+		else:
+			$sign_up_manage_links = '';
+		endif;			
+											
 		if ($this->calendar_format == 'grid'):																					
 			$this->class_details .= $this->class_name_link->build() . '<br/>' .	 
-			$this->teacher . $this->signupButton[0]->build() . ' ' . $this->signupButton[1]->build() .
+			$this->teacher . $sign_up_manage_links .
 			'<br/>' . $this->classLength . 
 			$this->displayCancelled . '<br/>' . $this->locationNameDisplay . '</div>';
 		else:
@@ -207,7 +214,9 @@ class Single_event {
 	
 	
 	private function makeSignupButton($advanced, $calendar_format) {
-	
+		/*
+		Render Sign-up and Manage buttons
+		*/
 		if ($calendar_format == 'grid'):
 			$signup_button_class = "fa fa-sign-in mz_add_to_class";
 			$manage_button_class = "fa fa-wrench visitMBO";
@@ -222,30 +231,61 @@ class Single_event {
 			$this->sign_up_text = __('Sign-Up for waiting list', 'mz-mindbody-api');
 		endif;
 		
-		$signupLinkArray = array(
-									'id=' => "mz_add_to_class",
-									'class' => $signup_button_class ,
-									'title' => $this->sign_up_text,
-									'target' => $signup_target,
-									'data-nonce' => $this->add_to_class_nonce, 
-									'data-className' => $this->className,
-									'data-classID' => $this->sclassidID, 
-									'data-clientID' => $this->clientID,
-									'data-staffName' => $this->staffName,
-									'text' => ''
-									);
-									
-		$manageLinkArray = array(
-									'id' => "visitMBO",
-									'class' => $manage_button_class,
-									'title' => $this->manage_text,
-									'target' => "_blank",
-									'style' => "display:none",
-									'text' => ''
-									);
-
 		$sign_up_link = new html_element('a');
 		$manage_link = new html_element('a');
+		
+		if ($advanced == 1):
+			$add_to_class_nonce = wp_create_nonce( 'mz_MBO_add_to_class_nonce');
+			$signup_target = "_parent";
+			if ($this->clientID == ''):
+				$signupURL = home_url() . '/login';
+				$sign_up_link->set('href', $signupURL);
+				$this->sign_up_text = __('Login to Sign-up', 'mz-mindbody-api');
+				$this->signUpButtonID = 'mz_login';
+			else:
+				//$signupURL = '';
+				$sign_up_link = new html_element('a');
+				//TODO figure out why next line is necessary
+				$sign_up_link->set('link', '');
+				$this->signUpButtonID = 'mz_add_to_class';
+			endif;
+
+				$sign_up_display = '';
+				$manage_display = '';		
+		else: // If Not Advanced
+				$signupURL = $this->mbo_url;
+				$sign_up_link->set('href', $signupURL);
+		endif; 
+		
+		$signupLinkArray = array(
+						'id=' => $this->signUpButtonID,
+						'class' => $signup_button_class ,
+						'title' => $this->sign_up_text,
+						'target' => $signup_target,
+						'data-nonce' => $this->add_to_class_nonce, 
+						'data-className' => $this->className,
+						'data-classID' => $this->sclassidID, 
+						'data-clientID' => $this->clientID,
+						'data-staffName' => $this->staffName,
+						'text' => ''
+						);
+	
+		$manageLinkArray = array(
+					'id' => "visitMBO",
+					'class' => $manage_button_class,
+					'title' => $this->manage_text,
+					'target' => "_blank",
+					'style' => "display:none",
+					'text' => ''
+					);
+		
+
+		$sign_up_link->set($signupLinkArray);		
+		$sign_up_display = $sign_up_link->build();
+		
+		$manage_link->set('href', $this->mbo_url);
+		$manage_link->set($manageLinkArray);
+		$manage_display = $manage_link->build();
 			/*if ($advanced == 1){
 				if (isset($this->isAvailableisAvailable) && ($this->isAvailableisAvailable != 0)) {
 					$add_to_class_nonce = wp_create_nonce( 'mz_MBO_add_to_class_nonce');
@@ -272,13 +312,7 @@ class Single_event {
 				return '&nbsp;<a href="'.$this->mbo_url.'" target="_blank" title="'.
 								$this->sign_up_text. '"><i class="fa fa-sign-in"></i></a><br/>';
 					}*/
-		$sign_up_link->set('href', $this->mbo_url);
-		$sign_up_link->set($signupLinkArray);
-		
-		$manage_link->set('href', $this->mbo_url);
-		$manage_link->set($manageLinkArray);
-		
-		return array($sign_up_link, $manage_link);
+		return array($sign_up_display, $manage_display);
 	}
 	
 }
