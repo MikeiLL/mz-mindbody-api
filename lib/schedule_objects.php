@@ -235,7 +235,7 @@ class Single_event {
 		$manage_link = new html_element('a');
 		
 		if ($advanced == 1):
-			$add_to_class_nonce = wp_create_nonce( 'mz_MBO_add_to_class_nonce');
+			$this->add_to_class_nonce = wp_create_nonce( 'mz_MBO_add_to_class_nonce');
 			$signup_target = "_parent";
 			if ($this->clientID == ''):
 				$signupURL = home_url() . '/login';
@@ -247,7 +247,7 @@ class Single_event {
 				$sign_up_link = new html_element('a');
 				//TODO figure out why next line is necessary
 				$sign_up_link->set('link', '');
-				$this->signUpButtonID = 'mz_add_to_class';
+				$this->signUpButtonID = 'mz_add_to_class_ID';
 			endif;
 
 				$sign_up_display = '';
