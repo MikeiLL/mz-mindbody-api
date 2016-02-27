@@ -48,6 +48,7 @@ class Single_event {
 	private $add_to_class_nonce = '';
 	private $clientID;
 	private $signUpButtonID;
+	private $signup_button_class;
 	
 	public function __construct($class, $day_num='', $hide, $locations, $advanced, 
 															$show_registrants, $registrants_count, $calendar_format='horizontal'){
@@ -218,10 +219,10 @@ class Single_event {
 		Render Sign-up and Manage buttons
 		*/
 		if ($calendar_format == 'grid'):
-			$signup_button_class = "fa fa-sign-in mz_add_to_class";
+			$this->signup_button_class = "mz_add_to_class fa fa-sign-in";
 			$manage_button_class = "fa fa-wrench visitMBO";
 		else:
-			$signup_button_class = "fa fa-sign-in mz_add_to_class";
+			$this->signup_button_class = "mz_add_to_class fa fa-sign-in";
 			$manage_button_class = "fa fa-wrench visitMBO";
 		endif;
 		
@@ -247,7 +248,7 @@ class Single_event {
 				$sign_up_link = new html_element('a');
 				//TODO figure out why next line is necessary
 				$sign_up_link->set('link', '');
-				$this->signUpButtonID = 'mz_add_to_class_ID';
+				$this->signUpButtonID = 'mz_add_to_class';
 			endif;
 
 				$sign_up_display = '';
@@ -258,8 +259,8 @@ class Single_event {
 		endif; 
 		
 		$signupLinkArray = array(
-						'id=' => $this->signUpButtonID,
-						'class' => $signup_button_class ,
+						'id' => $this->signUpButtonID,
+						'class' => $this->signup_button_class,
 						'title' => $this->sign_up_text,
 						'target' => $signup_target,
 						'data-nonce' => $this->add_to_class_nonce, 
@@ -312,6 +313,7 @@ class Single_event {
 				return '&nbsp;<a href="'.$this->mbo_url.'" target="_blank" title="'.
 								$this->sign_up_text. '"><i class="fa fa-sign-in"></i></a><br/>';
 					}*/
+					
 		return array($sign_up_display, $manage_display);
 	}
 	
