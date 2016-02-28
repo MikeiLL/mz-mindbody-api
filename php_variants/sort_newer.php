@@ -55,10 +55,10 @@ function sortClassesByDate($mz_classes = array(), $time_format = "g:i a",
 		Take each of the class arrays and order it by time
 		*/
 		usort($mz_classes['classes'], function($a, $b) {
-				if(date_i18n("N", strtotime($a->startDateTime)) == date_i18n("N", strtotime($b->startDateTime))) {
-				return 0;
-			}
-			return $a->startDateTime < $b->startDateTime ? -1 : 1;
+				if(strtotime($a->startDateTime) == strtotime($b->startDateTime)) {
+ 				return 0;
+ 			}
+ 			return $a->startDateTime < $b->startDateTime ? -1 : 1;
 		}); 
 	}
 	return $mz_classesByDate;
