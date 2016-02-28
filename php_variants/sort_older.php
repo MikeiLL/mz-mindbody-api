@@ -1,29 +1,57 @@
 <?php
-function sortClassesByDate($mz_classes = array(), $time_format = "g:i a", $location = 1, $type = 'Enrollment') {
+
+function mz_sort_horizontal_times($a, $b) {
+				if(strtotime($a->startDateTime) == strtotime($b->startDateTime)) {
+ 				return 0;
+ 			}
+ 			return $a->startDateTime < $b->startDateTime ? -1 : 1;
+		}
+		
+function sortClassesByDate($mz_classes = array(), $time_format = "g:i a", 
+																	$locations=1, $hide_cancelled=0, $hide, 
+																	$advanced, $show_registrants, $registrants_count, 
+																	$calendar_format) {
 	$mz_classesByDate = array();
+	
+	if(!is_array($locations)):
+		$locations = array($locations);
+	endif;
+	
 	foreach($mz_classes as $class)
 	{
+		
+		if ($hide_cancelled == 1):
+			if ($class['IsCanceled'] == 1):
+				continue;
+			endif;
+		endif;
+		
 		/* Create a new array with a key for each date YYYY-MM-DD
 		and corresponsing value an array of class details */ 
 		$classDate = date("Y-m-d", strtotime($class['StartDateTime']));
+
+		$single_event = new Single_event($class, $daynum="", $hide=array(), $locations, $hide_cancelled=0, 
+																			$advanced, $show_registrants, $registrants_count, $calendar_format,
+																			$calendar_format);
+																			
 		if(!empty($mz_classesByDate[$classDate])) {
 			if (
-				($class['Location']['ID'] != $location) || 
-				(($class['IsCanceled'] == 1) && ($class['HideCancel'] == 1)) ||
-				($class['ClassDescription']['Program']['ScheduleType'] == $type)
+				(!in_array($class['Location']['ID'], $locations)) || 
+				($class['ClassDescription']['Program']['ScheduleType'] == 'Enrollment')
 				) {
 					continue;
 				}
-			$mz_classesByDate[$classDate] = array_merge($mz_classesByDate[$classDate], array($class));
+			//$mz_classesByDate[$classDate] = array_merge($mz_classesByDate[$classDate], array($class));
+			array_push($mz_classesByDate[$classDate]['classes'], $single_event);
 		} else {
 			if (
-				($class['Location']['ID'] != $location) || 
-				(($class['IsCanceled'] == 1) && ($class['HideCancel'] == 1)) ||
-				($class['ClassDescription']['Program']['ScheduleType'] == $type)
+				(!in_array($class['Location']['ID'], $locations)) || 
+				($class['ClassDescription']['Program']['ScheduleType'] == 'Enrollment')
 				) {
 					continue;
 				}
-			$mz_classesByDate[$classDate] = array($class);
+			//$mz_classesByDate[$classDate]['classes'] = $single_event;
+			$mz_classesByDate[$classDate] = array('classes' => array($single_event));
 		}
 	}
 	/* They are not ordered by date so order them by date */
@@ -34,48 +62,62 @@ function sortClassesByDate($mz_classes = array(), $time_format = "g:i a", $locat
 		$mz_classes is an array of all classes for given date
 		Take each of the class arrays and order it by time
 		*/
-		usort($mz_classes, 'mz_sort_order');
+		usort($mz_classes['classes'], 'mz_sort_horizontal_times'); 
 	}
 	return $mz_classesByDate;
 }
 
-function mz_sort_order ($a, $b) {
+
+function mz_sort_grid_times ($a, $b) {
 			if(date_i18n("N", strtotime($a->startDateTime)) == date_i18n("N", strtotime($b->startDateTime))) {
 				return 0;
 			}
 			return $a->startDateTime < $b->startDateTime ? -1 : 1;
 		}
-
-function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a", $locations = array(1)) {
+		
+function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a", 
+																	$locations=1, $hide_cancelled=0, $hide, 
+																	$advanced, $show_registrants, $registrants_count, $calendar_format) {
+	
 	$mz_classesByTime = array();
+	
+	if(!is_array($locations)):
+		$locations = array($locations);
+	endif;
+										
 	foreach($mz_classes as $class)
 	{
+		if ($hide_cancelled == 1):
+			if ($class['IsCanceled'] == 1):
+				continue;
+			endif;
+		endif;
 		
 		/* Create a new array with a key for each time
 		and corresponsing value an array of class details 
 		for classes at that time. */ 
 		$classTime = date_i18n("G.i", strtotime($class['StartDateTime'])); // for numerical sorting
+		// $class['day_num'] = '';
 		$class['day_num'] = date_i18n("N", strtotime($class['StartDateTime'])); // Weekday num 1-7
+		$single_event = new Single_event($class, $class['day_num'], $hide, $locations, $advanced, 
+																			$show_registrants, $registrants_count, $calendar_format);
+		
 		if(!empty($mz_classesByTime[$classTime])) {
 			if (
 				(!in_array($class['Location']['ID'], $locations)) || 
-				(($class['IsCanceled'] == 1) && ($class['HideCancel'] == 1)) ||
 				($class['ClassDescription']['Program']['ScheduleType'] == 'Enrollment')
 				) {
 					continue;
 				}
-			$single_event = new Single_event($class, $class['day_num']);
 			array_push($mz_classesByTime[$classTime]['classes'], $single_event);
 		} else {
 			// Assign the first element ( of this time slot ?).
 			if (
 				(!in_array($class['Location']['ID'], $locations)) || 
-				(($class['IsCanceled'] == 1) && ($class['HideCancel'] == 1)) ||
 				($class['ClassDescription']['Program']['ScheduleType'] == 'Enrollment')
 				) {
 					continue;
 				}
-			$single_event = new Single_event($class, $class['day_num']);
 			$display_time = (date_i18n($time_format, strtotime($class['StartDateTime']))); 
 			$mz_classesByTime[$classTime] = array('display_time' => $display_time, 
 													'classes' => array($single_event));
@@ -91,7 +133,8 @@ function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a",
 		$mz_classes is an array of all class_event objects for given time
 		Take each of the class arrays and order it by days 1-7
 		*/
-		usort($mz_classes['classes'], 'mz_sort_order');
+		usort($mz_classes['classes'], 'mz_sort_grid_times'); 
+		
 		$mz_classes['classes'] = week_of_timeslot($mz_classes['classes'], 'day_num');
 	}
 	return $mz_classesByTime;
@@ -107,7 +150,7 @@ function week_of_timeslot($array, $indicator){
 											array(), array(), array(), array()));
 		foreach($seven_days as $key => $value){
 			foreach ($array as $class) {
-					if ($class[$indicator] == $key){
+					if ($class->$indicator == $key){
 						array_push($seven_days[$key], $class);
 					}
 				}
