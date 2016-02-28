@@ -233,9 +233,18 @@ class MZ_Mindbody_Schedule_Display {
 						$tbl->addCell(__('Location', 'mz-mindbody-api'), 'mz_locationName', 'header', array('scope'=>'header'));
 					endif;
 						
+												
 					$tbl->addTSection('tbody');
 					foreach($mz_classes['classes'] as $class)
 						{
+						  // populate dictionary of locations with names 
+							// TODO Move out of this "presentation" loop
+							if ($this->locations_count > $this->locations_dict_length):
+								if (!array_key_exists($class->sLoc, $this->locations_dictionary)):
+									$this->locations_dictionary[$class->sLoc] = $class->locationName;
+								endif;
+							endif;
+
 							// start building table rows
 							$row_css_classes = 'mz_description_holder mz_schedule_table mz_location_'.$class->sLoc;
 							$tbl->addRow($row_css_classes);
