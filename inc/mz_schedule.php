@@ -229,7 +229,10 @@ class MZ_Mindbody_Schedule_Display {
 					$tbl->addCell(__('Class Name', 'mz-mindbody-api'), 'mz_classDetails', 'header', array('scope'=>'header'));
 					$tbl->addCell(__('Instructor', 'mz-mindbody-api'), 'mz_staffName', 'header', array('scope'=>'header'));
 					$tbl->addCell(__('Class Type', 'mz-mindbody-api'), 'mz_sessionTypeName', 'header', array('scope'=>'header'));
-			
+					if (count($locations > 1)):
+						$tbl->addCell(__('Location', 'mz-mindbody-api'), 'mz_locationName', 'header', array('scope'=>'header'));
+					endif;
+						
 					$tbl->addTSection('tbody');
 					foreach($mz_classes['classes'] as $class)
 						{
@@ -239,7 +242,7 @@ class MZ_Mindbody_Schedule_Display {
 							$tbl->addCell($class->time_of_day, 'hidden', 'data');
 							$tbl->addCell(date_i18n($this->mz_mbo_globals->time_format, strtotime($class->startDateTime)) . ' - ' . 
 											date_i18n($this->mz_mbo_globals->time_format, strtotime($class->endDateTime)) .
-											'<br/>' . $class->signupButton . ' ' . $class->toward_capacity , 'mz_date_display' );
+											'<br/>' . $class->signupButton[0] . ' ' . $class->toward_capacity , 'mz_date_display' );
 				
 							//class name link
 
@@ -247,12 +250,16 @@ class MZ_Mindbody_Schedule_Display {
 
 							$tbl->addCell($class->staffName, 'mz_staffName');
 							$tbl->addCell($class->sessionTypeName, 'mz_sessionTypeName');
+							if (count($locations > 1)):
+								$tbl->addCell($class->locationName, 'mz_locationName');
+								$colwidth = 5;
+							endif;
 						}
 					}
 					
 				$tbl->addTSection('tfoot');
 				$tbl->addRow();
-				$tbl->addCell('','','', array('colspan' => 4));
+				$tbl->addCell('','','', array('colspan' => $colwidth));
 			
 				$return .= $tbl->display();
 				

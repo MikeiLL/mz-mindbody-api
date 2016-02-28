@@ -21,7 +21,7 @@ function sortClassesByDate($mz_classes = array(), $time_format = "g:i a",
 		/* Create a new array with a key for each date YYYY-MM-DD
 		and corresponsing value an array of class details */ 
 		$classDate = date("Y-m-d", strtotime($class['StartDateTime']));
-		
+
 		$single_event = new Single_event($class, $daynum="", $hide=array(), $locations, $hide_cancelled=0, 
 																			$advanced, $show_registrants, $registrants_count, $calendar_format,
 																			$calendar_format);

@@ -27,7 +27,8 @@ class Single_event {
 	public $locationAddress = '';
 	public $locationAddress2 = '';
 	public $locationNameDisplay = '';
-	public $sign_up_text;
+	public $sign_up_title;
+	public $sign_up_text = '';
 	public $manage_text;
 	public $class_details;
 	public $toward_capacity = '';
@@ -50,10 +51,10 @@ class Single_event {
 	private $signUpButtonID;
 	private $signup_button_class;
 	
-	public function __construct($class, $day_num='', $hide, $locations, $advanced, 
+	public function __construct($class, $day_num='', $hide, $locations,  $hide_cancelled=0, $advanced, 
 															$show_registrants, $registrants_count, $calendar_format='horizontal'){
-	
-		$this->sign_up_text = __('Sign-Up', 'mz-mindbody-api');
+
+		$this->sign_up_title = __('Sign-Up', 'mz-mindbody-api');
 		$this->manage_text = __('Manage on MindBody Site', 'mz-mindbody-api');
 		$this->sDate = date_i18n('m/d/Y', strtotime($class['StartDateTime']));
 		$this->sLoc = $class['Location']['ID'];
@@ -218,19 +219,21 @@ class Single_event {
 		/*
 		Render Sign-up and Manage buttons
 		*/
+		
+		if (($this->maxCapacity != "") && ($this->totalBooked == $this->maxCapacity)):
+			$this->sign_up_title = __('Sign-Up for waiting list', 'mz-mindbody-api');
+		endif;
+		
 		if ($calendar_format == 'grid'):
 			$this->signup_button_class = "mz_add_to_class fa fa-sign-in";
 			$manage_button_class = "fa fa-wrench visitMBO";
 		else:
-			$this->signup_button_class = "mz_add_to_class fa fa-sign-in";
+			$this->signup_button_class = "mz_add_to_class btn";
 			$manage_button_class = "fa fa-wrench visitMBO";
+			$this->sign_up_text = $this->sign_up_title;
 		endif;
 		
 		$signup_target = "_blank";
-		
-		if (($this->maxCapacity != "") && ($this->totalBooked == $this->maxCapacity)):
-			$this->sign_up_text = __('Sign-Up for waiting list', 'mz-mindbody-api');
-		endif;
 		
 		$sign_up_link = new html_element('a');
 		$manage_link = new html_element('a');
@@ -241,12 +244,12 @@ class Single_event {
 			if ($this->clientID == ''):
 				$signupURL = home_url() . '/login';
 				$sign_up_link->set('href', $signupURL);
-				$this->sign_up_text = __('Login to Sign-up', 'mz-mindbody-api');
+				$this->sign_up_title = __('Login to Sign-up', 'mz-mindbody-api');
 				$this->signUpButtonID = 'mz_login';
 			else:
 				//$signupURL = '';
 				$sign_up_link = new html_element('a');
-				//TODO figure out why next line is necessary
+				//TODO figure out why next line is required to not break html_class
 				$sign_up_link->set('link', '');
 				$this->signUpButtonID = 'mz_add_to_class';
 			endif;
@@ -261,14 +264,14 @@ class Single_event {
 		$signupLinkArray = array(
 						'id' => $this->signUpButtonID,
 						'class' => $this->signup_button_class,
-						'title' => $this->sign_up_text,
+						'title' => $this->sign_up_title,
 						'target' => $signup_target,
 						'data-nonce' => $this->add_to_class_nonce, 
 						'data-className' => $this->className,
 						'data-classID' => $this->sclassidID, 
 						'data-clientID' => $this->clientID,
 						'data-staffName' => $this->staffName,
-						'text' => ''
+						'text' => $this->sign_up_text
 						);
 	
 		$manageLinkArray = array(
@@ -295,7 +298,7 @@ class Single_event {
 					 'title="' . __('Login to Sign-up', 'mz-mindbody-api') . '"></a><br/>';
 						}else{
 						return '<br/><a id="mz_add_to_class" class="fa fa-sign-in mz_add_to_class"' 
-						. 'title="' . $sign_up_text . '"'
+						. 'title="' . $sign_up_title . '"'
 						. ' data-nonce="' . $add_to_class_nonce 
 						. '" data-className="' . $className 
 						. '" data-classID="' . $sclassidID  
@@ -311,7 +314,7 @@ class Single_event {
 				}
 			}else{
 				return '&nbsp;<a href="'.$this->mbo_url.'" target="_blank" title="'.
-								$this->sign_up_text. '"><i class="fa fa-sign-in"></i></a><br/>';
+								$this->sign_up_title. '"><i class="fa fa-sign-in"></i></a><br/>';
 					}*/
 					
 		return array($sign_up_display, $manage_display);
