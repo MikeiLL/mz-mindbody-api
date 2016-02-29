@@ -186,29 +186,6 @@ class MZ_Mindbody_API {
         $this->add_shortcodes();
  
     }
-    
-    public function whatever() {
-    	$recentPosts = new WP_Query();
-    	$recentPosts->query('showposts=2');
-    	while ($recentPosts->have_posts()) : $recentPosts->the_post();
-    		$mb = MZ_Mindbody_Init::instantiate_mbo_API();
-    		mz_pr($mb);
-    	endwhile;
-    }
-    
-    public function whenever() {
-    	$recentPosts = new WP_Query();
-    	$recentPosts->query('showposts=2');
-    	while ($recentPosts->have_posts()) : $recentPosts->the_post();
-    		$mb = MZ_Mindbody_Init::instantiate_mbo_API();
-    		echo '<hr/>';
-    		mz_pr($mb);
-    	endwhile;
-    }
-    
-    public function in_the_title() {
-    	mz_pr('In title, yo');
-    }
  
     private function load_dependencies() {
     

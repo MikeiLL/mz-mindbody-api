@@ -260,7 +260,7 @@ class MZ_Mindbody_Schedule_Display {
 							$tbl->addCell($class->class_details, "class_name_cell");
 
 							$tbl->addCell($class->staffName, 'mz_staffName');
-							if (count($locations > 1)):
+							if (count($locations) > 1):
 								$tbl->addCell($class->sessionTypeName . '<br/>' .__('at', 'mz_mbo_api') . ' ' 
 								. $class->locationNameDisplay, 'mz_locationName');
 							else:
