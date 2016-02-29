@@ -80,6 +80,34 @@ We want to do as little as possible here so CSS can be defined in theme.
 			margin-left: 20%;
 		}
 		
+		.mz_mbo_styled_select {
+    	display: inline-block;
+		}
+/* Potentially nice select styling:
+ Select Box Styles: bavotasan.com Method (with special adaptations by ericrasch.com) */
+/* -------------------- Source: http://bavotasan.com/2011/style-select-box-using-only-css/ */
+/* From http://codepen.io/ericrasch/pen/zjDBx 
+.mz_mbo_styled_select {
+   width: 240px;
+   height: 34px;
+   overflow: hidden;
+   border: 1px solid #ccc;
+   background: hsla(40, 98%, 75%, 1);
+}
+
+.mz_mbo_styled_select select {
+   background: transparent;
+   width: 268px;
+   padding: 5px;
+   font-size: 16px;
+   line-height: 1;
+   border: 0;
+   border-radius: 0;
+   height: 34px;
+   -webkit-appearance: none;
+}
+*/
+		
 /*colorbox css*/
 /*
     Colorbox Core Style:
