@@ -200,41 +200,33 @@ class MZ_Mindbody_Schedule_Display {
 			}
 
 		if ($filter == 1) {
-				if ($grid == 1):
-					$tbl = new HTML_Table('', 'mz-schedule-filter mz-schedule-grid');
-				else:
-					$tbl = new HTML_Table('', 'mz-schedule-filter');
-				endif;
+					$tbl_horizontal = new HTML_Table('', 'mz-schedule-filter mz-schedule-horizontal');
+					$tbl_grid = new HTML_Table('', 'mz-schedule-filter mz-schedule-grid');
 			}else{
-				if ($grid == 1):
-					$tbl = new HTML_Table('', 'mz-schedule-table mz-schedule-grid');
-				else:
-					$tbl = new HTML_Table('', 'mz-schedule-table');
-				endif;
+					$tbl_horizontal = new HTML_Table('', 'mz-schedule-table mz-schedule-horizontal');
+					$tbl_grid = new HTML_Table('', 'mz-schedule-table mz-schedule-grid');
 			}
-
-			if ($grid == 0){
 			
-				$mz_days = sortClassesByDate($mz_days, $this->mz_mbo_globals->time_format, $locations, 
+				$mz_days_grid = sortClassesByDate($mz_days, $this->mz_mbo_globals->time_format, $locations, 
 																						$hide_cancelled, $hide, $advanced, $show_registrants,
 																						$registrants_count, 'horizontal');
 																						
-				foreach($mz_days as $classDate => $mz_classes) {   
+				foreach($mz_days_grid as $classDate => $mz_classes) {   
 			
-					$tbl->addRow('header');
+					$tbl_horizontal->addRow('header');
 					// arguments: cell content, class, type (default is 'data' for td, pass 'header' for th)
 					// can include associative array of optional additional attributes
 		
-					$tbl->addCell(date_i18n($this->mz_mbo_globals->mz_date_display, strtotime($classDate)), 'mz_date_display', 'header', array('scope'=>'header'));
-					$tbl->addCell(__('Class Name', 'mz-mindbody-api'), 'mz_classDetails', 'header', array('scope'=>'header'));
-					$tbl->addCell(__('Instructor', 'mz-mindbody-api'), 'mz_staffName', 'header', array('scope'=>'header'));
-					$tbl->addCell(__('Class Type', 'mz-mindbody-api'), 'mz_sessionTypeName', 'header', array('scope'=>'header'));
+					$tbl_horizontal->addCell(date_i18n($this->mz_mbo_globals->mz_date_display, strtotime($classDate)), 'mz_date_display', 'header', array('scope'=>'header'));
+					$tbl_horizontal->addCell(__('Class Name', 'mz-mindbody-api'), 'mz_classDetails', 'header', array('scope'=>'header'));
+					$tbl_horizontal->addCell(__('Instructor', 'mz-mindbody-api'), 'mz_staffName', 'header', array('scope'=>'header'));
+					$tbl_horizontal->addCell(__('Class Type', 'mz-mindbody-api'), 'mz_sessionTypeName', 'header', array('scope'=>'header'));
 					/*if (count($locations > 1)):
 						$tbl->addCell(__('Location', 'mz-mindbody-api'), 'mz_locationName', 'header', array('scope'=>'header'));
 					endif;*/
 						
 												
-					$tbl->addTSection('tbody');
+					$tbl_horizontal->addTSection('tbody');
 					foreach($mz_classes['classes'] as $class)
 						{
 						  // populate dictionary of locations with names 
@@ -249,34 +241,33 @@ class MZ_Mindbody_Schedule_Display {
 
 							// start building table rows
 							$row_css_classes = 'mz_description_holder mz_schedule_table mz_location_'.$class->sLoc;
-							$tbl->addRow($row_css_classes);
-							$tbl->addCell($class->time_of_day, 'hidden', 'data');
-							$tbl->addCell(date_i18n($this->mz_mbo_globals->time_format, strtotime($class->startDateTime)) . ' - ' . 
+							$tbl_horizontal->addRow($row_css_classes);
+							$tbl_horizontal->addCell($class->time_of_day, 'hidden', 'data');
+							$tbl_horizontal->addCell(date_i18n($this->mz_mbo_globals->time_format, strtotime($class->startDateTime)) . ' - ' . 
 											date_i18n($this->mz_mbo_globals->time_format, strtotime($class->endDateTime)) .
 											'<br/>' . $class->signupButton[0] . ' ' . $class->toward_capacity , 'mz_date_display' );
 				
 							//class name link
 
-							$tbl->addCell($class->class_details, "class_name_cell");
+							$tbl_horizontal->addCell($class->class_details, "class_name_cell");
 
-							$tbl->addCell($class->staffName, 'mz_staffName');
+							$tbl_horizontal->addCell($class->staffName, 'mz_staffName');
 							if (count($locations) > 1):
-								$tbl->addCell($class->sessionTypeName . '<br/>' .__('at', 'mz_mbo_api') . ' ' 
+								$tbl_horizontal->addCell($class->sessionTypeName . '<br/>' .__('at', 'mz_mbo_api') . ' ' 
 								. $class->locationNameDisplay, 'mz_locationName');
 							else:
-								$tbl->addCell($class->sessionTypeName, 'mz_sessionTypeName');
+								$tbl_horizontal->addCell($class->sessionTypeName, 'mz_sessionTypeName');
 							endif;
 							
 						}
 					}
 					
-				$tbl->addTSection('tfoot');
-				$tbl->addRow();
-				$tbl->addCell('','','', array('colspan' => '4'));
+				$tbl_horizontal->addTSection('tfoot');
+				$tbl_horizontal->addRow();
+				$tbl_horizontal->addCell('','','', array('colspan' => '4'));
 			
-				$return .= $tbl->display();
+				$return .= $tbl_horizontal->display();
 				
-				} else {
 				// Display GRID
 				$week_starting = date_i18n($this->mz_mbo_globals->date_format, strtotime($mz_date)); 
 				
@@ -285,20 +276,20 @@ class MZ_Mindbody_Schedule_Display {
 				$return .= '</h4>';
 				
 				// Begin building HTML Table object
-				$tbl->addTSection('thead');
-				$tbl->addRow();
+				$tbl_grid->addTSection('thead');
+				$tbl_grid->addRow();
 				// arguments: cell content, class, type (default is 'data' for td, pass 'header' for th)
 				// can include associative array of optional additional attributes
-				$tbl->addCell('', '', 'header');
-				$tbl->addCell(__('Monday', 'mz-mindbody-api'), '', 'header');
-				$tbl->addCell(__('Tuesday', 'mz-mindbody-api'), '', 'header');
-				$tbl->addCell(__('Wednesday', 'mz-mindbody-api'), '', 'header');
-				$tbl->addCell(__('Thursday', 'mz-mindbody-api'), '', 'header');
-				$tbl->addCell(__('Friday', 'mz-mindbody-api'), '', 'header');
-				$tbl->addCell(__('Saturday', 'mz-mindbody-api'), '', 'header');
-				$tbl->addCell(__('Sunday', 'mz-mindbody-api'), '', 'header');
+				$tbl_grid->addCell('', '', 'header');
+				$tbl_grid->addCell(__('Monday', 'mz-mindbody-api'), '', 'header');
+				$tbl_grid->addCell(__('Tuesday', 'mz-mindbody-api'), '', 'header');
+				$tbl_grid->addCell(__('Wednesday', 'mz-mindbody-api'), '', 'header');
+				$tbl_grid->addCell(__('Thursday', 'mz-mindbody-api'), '', 'header');
+				$tbl_grid->addCell(__('Friday', 'mz-mindbody-api'), '', 'header');
+				$tbl_grid->addCell(__('Saturday', 'mz-mindbody-api'), '', 'header');
+				$tbl_grid->addCell(__('Sunday', 'mz-mindbody-api'), '', 'header');
 
-				$tbl->addTSection('tbody');
+				$tbl_grid->addTSection('tbody');
 				
 				// Create matrix of existing class times with empty schedule slots, sequenced by day 
 				// Each "class" is an instance of Single_event
@@ -315,9 +306,9 @@ class MZ_Mindbody_Schedule_Display {
 							$time_of_day = __('afternoon', 'mz-mindbody-api');
 						}				
 
-					$tbl->addRow();
-					$tbl->addCell($time_of_day, 'hidden mz_time_of_day', 'data');
-					$tbl->addCell($mz_classes['display_time']);
+					$tbl_grid->addRow();
+					$tbl_grid->addCell($time_of_day, 'hidden mz_time_of_day', 'data');
+					$tbl_grid->addCell($mz_classes['display_time']);
 					
 					foreach($mz_classes['classes'] as $key => $classes)
 					{
@@ -346,13 +337,12 @@ class MZ_Mindbody_Schedule_Display {
 							$class_details = $class->class_details . $class_separator;
 							$this->time_slot .= $class_details;
 						} // foreach mz_classes
-						$tbl->addCell($this->time_slot);
+						$tbl_grid->addCell($this->time_slot);
 						$class_details = ''; // Reinitialize class details
 						$this->time_slot = ''; // Reinitialize time slot
 					}
 				} // EOF foreach($mz_days)
-				$return .= $tbl->display();
-			} // EOF If Grid
+				$return .= $tbl_grid->display();
 			
 		// Add "footer" Items
 		if ($type=='week'):
