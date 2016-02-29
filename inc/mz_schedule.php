@@ -229,9 +229,9 @@ class MZ_Mindbody_Schedule_Display {
 					$tbl->addCell(__('Class Name', 'mz-mindbody-api'), 'mz_classDetails', 'header', array('scope'=>'header'));
 					$tbl->addCell(__('Instructor', 'mz-mindbody-api'), 'mz_staffName', 'header', array('scope'=>'header'));
 					$tbl->addCell(__('Class Type', 'mz-mindbody-api'), 'mz_sessionTypeName', 'header', array('scope'=>'header'));
-					if (count($locations > 1)):
+					/*if (count($locations > 1)):
 						$tbl->addCell(__('Location', 'mz-mindbody-api'), 'mz_locationName', 'header', array('scope'=>'header'));
-					endif;
+					endif;*/
 						
 												
 					$tbl->addTSection('tbody');
@@ -258,11 +258,13 @@ class MZ_Mindbody_Schedule_Display {
 							$tbl->addCell($class->class_details, "class_name_cell");
 
 							$tbl->addCell($class->staffName, 'mz_staffName');
-							$tbl->addCell($class->sessionTypeName, 'mz_sessionTypeName');
 							if (count($locations > 1)):
-								$tbl->addCell($class->locationName, 'mz_locationName');
-								$colwidth = 5;
+								$tbl->addCell($class->sessionTypeName . '<br/>' .__('at', 'mz_mbo_api') . ' ' 
+								. $class->locationNameDisplay, 'mz_locationName');
+							else:
+								$tbl->addCell($class->sessionTypeName, 'mz_sessionTypeName');
 							endif;
+							
 						}
 					}
 					
