@@ -70,6 +70,7 @@ class Single_event {
 		$this->className = $class['ClassDescription']['Name'];
 								//mz_pr($className);
 		$this->startDateTime = date_i18n('Y-m-d H:i:s', strtotime($class['StartDateTime']));
+		$this->startTime = date_i18n('H:i:s', strtotime($class['StartDateTime']));
 								//mz_pr($startDateTime);
 								//echo "<hr/>";
 		$this->endDateTime = date_i18n('Y-m-d H:i:s', strtotime($class['EndDateTime']));
@@ -88,7 +89,7 @@ class Single_event {
 		
 		$this->advanced = $advanced;
 		$this->calendar_format = $calendar_format;
-		$this->time_of_day = $this->time_of_day_maker($this->startDateTime);
+		$this->time_of_day = $this->time_of_day_maker($this->startTime);
 		$this->show_registrants = $show_registrants;
 		
 		$this->clientID = isset($_SESSION['GUID']) ? $_SESSION['client']['ID'] : '';

@@ -9,6 +9,7 @@ class MZ_Mindbody_Schedule_Display {
 	private $locations_dict_length;
 	private $time_slot;
 	private $locations;
+	private $mz_date_grid;
 	
 	public function __construct(){
 		require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
@@ -102,7 +103,7 @@ class MZ_Mindbody_Schedule_Display {
 			$mz_date = empty($_GET['mz_date']) ? date_i18n('Y-m-d',current_time('timestamp')) : mz_validate_date($_GET['mz_date']);
 			$hide = explode(', ', $atts['hide']);
 			$which_monday = (strtotime('this monday') > current_time('timestamp')) ? 'last monday' : 'this monday';
-			$mz_date_grid = empty($_GET['mz_date']) || ( $_GET['mz_date'] == date_i18n('Y-m-d',current_time('timestamp')) ) ? date_i18n('Y-m-d',strtotime($which_monday)) : mz_validate_date($_GET['mz_date']);
+			$this->mz_date_grid = empty($_GET['mz_date']) || ( $_GET['mz_date'] == date_i18n('Y-m-d',current_time('timestamp')) ) ? date_i18n('Y-m-d',strtotime($which_monday)) : mz_validate_date($_GET['mz_date']);
 
 		if ($type=='day')
 		{
@@ -199,13 +200,21 @@ class MZ_Mindbody_Schedule_Display {
 				$return .= mz_mbo_schedule_nav($mz_date, __('Week', 'mz-mindbody-api'));
 			}
 
-		if ($filter == 1) {
-					$tbl_horizontal = new HTML_Table('', 'mz-schedule-filter mz-schedule-horizontal');
-					$tbl_grid = new HTML_Table('', 'mz-schedule-filter mz-schedule-grid');
-			}else{
-					$tbl_horizontal = new HTML_Table('', 'mz-schedule-table mz-schedule-horizontal');
-					$tbl_grid = new HTML_Table('', 'mz-schedule-table mz-schedule-grid');
-			}
+		$table_class = ($filter == 1) ? 'mz-schedule-filter' : 'mz-schedule-table';
+		if ($mode_select == 1):
+			$grid_class = 'mz_hidden';
+			$horizontal_class = $table_class;
+		elseif ($mode_select == 2):
+			$horizontal_class = 'mz_hidden';
+			$grid_class = $table_class;
+		endif;
+			
+		$tbl_horizontal = new HTML_Table('', $horizontal_class .' mz-schedule-horizontal mz-schedule-display');
+		$tbl_grid = new HTML_Table('', $grid_class . ' mz-schedule-grid mz-schedule-display');
+
+			
+			if ($mode_select != 0) {
+				// If Mode Select is enabled we will return both displays
 				// Retrieve data for horizontal display
 				$mz_days_horizontal = sortClassesByDate($mz_days, $this->mz_mbo_globals->time_format, $locations, 
 																						$hide_cancelled, $hide, $advanced, $show_registrants,
@@ -218,7 +227,25 @@ class MZ_Mindbody_Schedule_Display {
 																						$hide_cancelled, $hide, $advanced, $show_registrants,
 																						$registrants_count, 'grid');
 				// Display Grid schedule																					
-				$return .= $this->grid_schedule($mz_days_grid, $tbl_grid);
+				$return .= $this->grid_schedule($mz_days_grid, $tbl_grid, $return);
+				
+			} else if ($grid == 1) {	
+				
+				// Retrieve data for grid display
+				$mz_days_grid = sortClassesByTimeThenDay($mz_days, $this->mz_mbo_globals->time_format, $locations, 
+																						$hide_cancelled, $hide, $advanced, $show_registrants,
+																						$registrants_count, 'grid');
+				// Display Grid schedule																					
+				$return .= $this->grid_schedule($mz_days_grid, $tbl_grid, $return);
+			} else {
+				// If grid is not one and mode_select not enabled, just display horizontal schedule
+			  // Retrieve data for horizontal display
+				$mz_days_horizontal = sortClassesByDate($mz_days, $this->mz_mbo_globals->time_format, $locations, 
+																						$hide_cancelled, $hide, $advanced, $show_registrants,
+																						$registrants_count, 'horizontal');
+				// Display Horizontal schedule								
+				$return .= $this->horizontal_schedule($mz_days_horizontal, $tbl_horizontal);
+			}
 			
 		// Add "footer" Items
 		if ($type=='week'):
@@ -275,10 +302,6 @@ class MZ_Mindbody_Schedule_Display {
 			$tbl_horizontal->addCell(__('Class Name', 'mz-mindbody-api'), 'mz_classDetails', 'header', array('scope'=>'header'));
 			$tbl_horizontal->addCell(__('Instructor', 'mz-mindbody-api'), 'mz_staffName', 'header', array('scope'=>'header'));
 			$tbl_horizontal->addCell(__('Class Type', 'mz-mindbody-api'), 'mz_sessionTypeName', 'header', array('scope'=>'header'));
-			/*if (count($locations > 1)):
-				$tbl->addCell(__('Location', 'mz-mindbody-api'), 'mz_locationName', 'header', array('scope'=>'header'));
-			endif;*/
-				
 										
 			$tbl_horizontal->addTSection('tbody');
 			foreach($mz_classes['classes'] as $class)
@@ -290,7 +313,7 @@ class MZ_Mindbody_Schedule_Display {
 							$this->locations_dictionary[$class->sLoc] = $class->locationName;
 						endif;
 					endif;
-					// TODO Remove this
+					// TODO Remove this which is URU specific
 					if ($class->className == 'Admin') {continue;}
 
 					// start building table rows
@@ -323,8 +346,8 @@ class MZ_Mindbody_Schedule_Display {
 		return $tbl_horizontal->display();
 	}
 	
-	private function grid_schedule ($mz_days_grid, $tbl_grid) {
-		$week_starting = date_i18n($this->mz_mbo_globals->date_format, strtotime($mz_date_grid)); 
+	private function grid_schedule ($mz_days_grid, $tbl_grid, &$return) {
+		$week_starting = date_i18n($this->mz_mbo_globals->date_format, strtotime($this->mz_date_grid)); 
 				
 		$return .= '<h4 class="mz_grid_date">';
 		$return .= sprintf(__('Week of %1$s', 'mz-mindbody-api'), $week_starting);
@@ -398,11 +421,11 @@ class MZ_Mindbody_Schedule_Display {
 		return (isset($data[0])) ? $data : array($data);
 	}
 	
-	private function add_filter_table() {
+	public function add_filter_table() {
 		wp_enqueue_script('filterTable', asset_path('scripts/mz_filtertable.js'), array('jquery'), null, true);
 		}
 
-	private function initialize_filter() {
+	public function initialize_filter() {
 		  wp_localize_script('mz_mbo_bootstrap_script', 'mz_mindbody_api_i18n', array(
 			'filter_default' => __('by teacher, class type', 'mz-mindbody-api'),
 			'quick_1' => __('morning', 'mz-mindbody-api'),

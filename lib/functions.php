@@ -68,7 +68,7 @@ class Global_Strings {
 	
 function mz_mbo_schedule_nav($date, $period, $duration=7)
 {
-	$sched_nav = '';
+	$sched_nav = '<div class="mz_schedule_nav_holder">';
 	if (!isset($period)){
 		$period = __('Week',' mz-mindbody-api');
 		}
@@ -82,6 +82,7 @@ function mz_mbo_schedule_nav($date, $period, $duration=7)
 	if (isset($_GET['mz_date']))
 	    $sched_nav .= ' <a href='.add_query_arg(array('mz_date' => (date_i18n('Y-m-d',current_time('timestamp'))))).'>'.$mz_nav_weeks_text_current.'</a>  - ';
 	$sched_nav .= '<a href='.add_query_arg(array('mz_date' => ($mz_start_end_date[1]))).'>'.$mz_nav_weeks_text_following.'</a>';
+	$sched_nav .= '</div>';
 
 	return $sched_nav;
 }

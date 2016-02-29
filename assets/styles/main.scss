@@ -83,6 +83,15 @@ We want to do as little as possible here so CSS can be defined in theme.
 		.mz_mbo_styled_select {
     	display: inline-block;
 		}
+		
+		.mz-mode-select {
+			display: inline-block;
+			float:right;
+		}
+		
+		.mz_hidden {
+			display:none;
+			}
 /* Potentially nice select styling:
  Select Box Styles: bavotasan.com Method (with special adaptations by ericrasch.com) */
 /* -------------------- Source: http://bavotasan.com/2011/style-select-box-using-only-css/ */
