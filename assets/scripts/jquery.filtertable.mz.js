@@ -93,11 +93,13 @@
                 container = null, // placeholder for the filter field container DOM node
                 quicks = null, // placeholder for the quick list items
                 filter = null, // placeholder for the field field DOM node
-				selector = $("<select></select>").attr("id", 'location_selector').attr("name", 'mz_mbo_selector');
+        styled_select = $("<div></div>").attr("class", 'mz_mbo_styled_select');
+				selector = $("<select></select>").attr("id", 'location_selector').attr("class", 'mz_mbo_selector');
 					selector.append('<option value="0">'+settings.selector+'</option>');
 					$.each(settings.locations, function (i, el) {
 						selector.append('<option value="'+i+'">' + el + '</option>');
 					});
+					styled_select.append(selector);
                 created_filter = true; // was the filter created or chosen from an existing element?
             if (t[0].nodeName==='TABLE' && tbody.length>0 && (settings.minRows===0 || (settings.minRows>0 && tbody.find('tr').length>settings.minRows)) && !t.prev().hasClass(settings.containerClass)) { // only if object is a table and there's a tbody and at least minRows trs and hasn't already had a filter added
                 if (settings.inputSelector && $(settings.inputSelector).length===1) { // use a single existing field as the filter input field
@@ -169,7 +171,7 @@
                     }
                 } // if quick list items
                 if ((selector!==container) && (Object.keys(settings.locations).length > 1)) {
-                        container.append(selector); // add the selector container to the DOM if it isn't already there
+                        container.append(styled_select); // add the selector container to the DOM if it isn't already there
                     }
                 if (created_filter) { // add the filter field and quick list container to just before the table if it was created by the plugin
                     t.before(container);
