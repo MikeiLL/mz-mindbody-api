@@ -7,10 +7,9 @@ function mz_sort_horizontal_times($a, $b) {
  			return $a->startDateTime < $b->startDateTime ? -1 : 1;
 		}
 		
-function sortClassesByDate($mz_classes = array(), $time_format = "g:i a", 
-																	$locations=1, $hide_cancelled=0, $hide, 
-																	$advanced, $show_registrants, $registrants_count, 
-																	$calendar_format) {
+function sortClassesByDate($class, $daynum="", $hide=array(), $locations, $hide_cancelled=0, 
+																			$advanced, $show_registrants, $registrants_count, $calendar_format,
+																			$calendar_format) {
 	$mz_classesByDate = array();
 	
 	if(!is_array($locations)):
@@ -75,8 +74,7 @@ function mz_sort_grid_times ($a, $b) {
 			return $a->startDateTime < $b->startDateTime ? -1 : 1;
 		}
 		
-function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a", 
-																	$locations=1, $hide_cancelled=0, $hide, 
+function sortClassesByTimeThenDay($class, $class['day_num'], $hide, $locations, $hide_cancelled, 
 																	$advanced, $show_registrants, $registrants_count, $calendar_format) {
 	
 	$mz_classesByTime = array();
