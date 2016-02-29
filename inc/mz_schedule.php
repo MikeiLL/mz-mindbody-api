@@ -270,7 +270,7 @@ class MZ_Mindbody_Schedule_Display {
 					
 				$tbl->addTSection('tfoot');
 				$tbl->addRow();
-				$tbl->addCell('','','', array('colspan' => $colwidth));
+				$tbl->addCell('','','', array('colspan' => '4'));
 			
 				$return .= $tbl->display();
 				
