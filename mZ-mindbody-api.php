@@ -198,12 +198,6 @@ class MZ_Mindbody_API {
 			include_once(plugin_dir_path( __FILE__ ) . '/lib/functions.php');
 			include_once(plugin_dir_path( __FILE__ ) . 'lib/html_table.class.php');
 			include_once(plugin_dir_path( __FILE__ ) . 'lib/schedule_objects.php');
-			
-		if (phpversion() >= 5.3) {
-			include_once('php_variants/sort_newer.php');
-			}else{
-			include_once('php_variants/sort_older.php');
-			}
         	
         $this->loader = new MZ_Mindbody_API_Loader();
     }
@@ -418,6 +412,8 @@ if ( is_admin() )
     die();
  }
  //End Ajax Signup
+ 
+ 
 
  require_once('lib/functions.php'); // for testing functions
  //Start Ajax Get Registrants
