@@ -51,7 +51,7 @@ class Single_event {
 	private $signUpButtonID;
 	private $signup_button_class;
 	
-	public function __construct($class, $day_num='', $hide, $locations, $hide_cancelled=0, $advanced, 
+	public function __construct($class, $day_num='', $hide=array(), $locations, $hide_cancelled=0, $advanced, 
 															$show_registrants, $registrants_count, $calendar_format='horizontal'){
 
 		$this->sign_up_title = __('Sign-Up', 'mz-mindbody-api');
@@ -105,7 +105,7 @@ class Single_event {
 		} else {
 			$this->classImage = $class['ClassDescription']['ImageURL'];
 		}
-		
+
 		if(!in_array('teacher', $hide)){
 			$this->teacher = __('with', 'mz-mindbody-api') . '&nbsp;' . $class['Staff']['Name'] .
 			'<br/>';
