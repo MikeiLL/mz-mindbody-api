@@ -244,6 +244,8 @@ class MZ_Mindbody_Schedule_Display {
 									$this->locations_dictionary[$class->sLoc] = $class->locationName;
 								endif;
 							endif;
+							// TODO Remove this
+							if ($class->className == 'Admin') {continue;}
 
 							// start building table rows
 							$row_css_classes = 'mz_description_holder mz_schedule_table mz_location_'.$class->sLoc;
@@ -327,6 +329,8 @@ class MZ_Mindbody_Schedule_Display {
 							}
 
 						foreach($classes as $key => $class)	{
+							//TODO remove this
+							if ($class->className == 'Admin') {continue;}
 							// populate dictionary of locations with names 
 							// TODO Move out of this "presentation" loop
 							if ($this->locations_count > $this->locations_dict_length):

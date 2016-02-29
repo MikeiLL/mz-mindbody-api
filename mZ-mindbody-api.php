@@ -212,15 +212,13 @@ class MZ_Mindbody_API {
  
     private function load_dependencies() {
     
- 		//Advanced Includes
-        include_once(dirname( __FILE__ ) . '/advanced/ajax.php');
-        	
-        include_once(dirname( __FILE__ ) . '/mindbody-php-api/MB_API.php');
 
 		foreach ( glob( plugin_dir_path( __FILE__ )."inc/*.php" ) as $file )
 			include_once $file;
 			
-			include_once(plugin_dir_path( __FILE__ ).'/lib/functions.php');
+			include_once(plugin_dir_path( __FILE__ ) . '/mindbody-php-api/MB_API.php');
+			include_once(plugin_dir_path( __FILE__ ) . '/lib/ajax.php');
+			include_once(plugin_dir_path( __FILE__ ) . '/lib/functions.php');
 			include_once(plugin_dir_path( __FILE__ ) . 'lib/html_table.class.php');
 			include_once(plugin_dir_path( __FILE__ ) . 'lib/schedule_objects.php');
 			
