@@ -89,6 +89,7 @@ class Single_event {
 		$this->advanced = $advanced;
 		$this->calendar_format = $calendar_format;
 		$this->time_of_day = $this->time_of_day_maker($this->startDateTime);
+		$this->show_registrants = $show_registrants;
 		
 		$this->clientID = isset($_SESSION['GUID']) ? $_SESSION['client']['ID'] : '';
 
@@ -179,12 +180,12 @@ class Single_event {
 												'class'=> $class_name_css,
 												'text'=>$className
 												);
-												
+
 								if ($show_registrants == 1){
 												$get_registrants_nonce = wp_create_nonce( 'mz_MBO_get_registrants_nonce');
 												$linkArray['data-nonce'] = $get_registrants_nonce;
 												$linkArray['data-target'] = "#registrantModal";  
-												$linkArray['data-classID'] = $tis->sclassidID;
+												$linkArray['data-classID'] = $this->sclassidID;
 											} else {
 												$linkArray['data-target'] = "#mzModal";
 											}
