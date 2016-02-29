@@ -51,9 +51,9 @@ class Single_event {
 	private $signUpButtonID;
 	private $signup_button_class;
 	
-	public function __construct($class, $day_num='', $hide, $locations,  $hide_cancelled=0, $advanced, 
+	public function __construct($class, $day_num='', $hide, $locations, $hide_cancelled=0, $advanced, 
 															$show_registrants, $registrants_count, $calendar_format='horizontal'){
-
+															
 		$this->sign_up_title = __('Sign-Up', 'mz-mindbody-api');
 		$this->manage_text = __('Manage on MindBody Site', 'mz-mindbody-api');
 		$this->sDate = date_i18n('m/d/Y', strtotime($class['StartDateTime']));

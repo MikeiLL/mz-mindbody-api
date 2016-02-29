@@ -66,8 +66,9 @@ function sortClassesByDate($mz_classes = array(), $time_format = "g:i a",
 
 function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a", 
 																	$locations=1, $hide_cancelled=0, $hide, 
-																	$advanced, $show_registrants, $registrants_count, $calendar_format) {
-	
+																	$advanced, $show_registrants, $registrants_count, 
+																	$calendar_format) {
+																		
 	$mz_classesByTime = array();
 	
 	if(!is_array($locations)):
@@ -88,9 +89,10 @@ function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a",
 		$classTime = date_i18n("G.i", strtotime($class['StartDateTime'])); // for numerical sorting
 		// $class['day_num'] = '';
 		$class['day_num'] = date_i18n("N", strtotime($class['StartDateTime'])); // Weekday num 1-7
-		$single_event = new Single_event($class, $class['day_num'], $hide, $locations, $advanced, 
-																			$show_registrants, $registrants_count, $calendar_format);
-		
+
+		$single_event = new Single_event($class, $class['day_num'], $hide, $locations, $hide_cancelled, 
+																			$advanced, $show_registrants, $registrants_count, $calendar_format);
+																			
 		if(!empty($mz_classesByTime[$classTime])) {
 			if (
 				(!in_array($class['Location']['ID'], $locations)) || 
