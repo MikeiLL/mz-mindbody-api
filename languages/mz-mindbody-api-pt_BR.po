@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: Advanced mZoo Mindbody Interface - Schedule, Events, "
 "Staff Display\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-12 10:30-0500\n"
-"PO-Revision-Date: 2015-10-12 10:31-0500\n"
+"POT-Creation-Date: 2016-02-29 10:45-0600\n"
+"PO-Revision-Date: 2016-02-29 10:47-0600\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Loco-Source-Locale: pt_BR\n"
-"X-Generator: Poedit 1.8.5\n"
+"X-Generator: Poedit 1.8.7\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-WPHeader: mZ-mindbody-api.php\n"
 "X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
@@ -25,20 +25,36 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: advanced/ajax.php:28 mZ-mindbody-api.php:423
+#: advanced/ajax.php:24 mZ-mindbody-api.php:439
 msgid "Registered via MindBody"
 msgstr "Registrado pela Mindbody"
 
-#: inc/mz_events.php:99
+#: advanced/ajax.php:25
+msgid "Problem with MindBody Registration"
+msgstr "Problema com o registo de MindBody"
+
+#: advanced/ajax.php:50
+msgid "Error retreiving class details."
+msgstr "Rastrear detalhes do erro"
+
+#: advanced/ajax.php:51
+msgid "Registrants"
+msgstr "Registantes"
+
+#: advanced/ajax.php:52 inc/mz_schedule.php:22 lib/functions.php:62
+#: lib/schedule_objects.php:110
+msgid "with"
+msgstr "com"
+
+#: inc/mz_events.php:96
 msgid "Day Event Calendar"
 msgstr "Calendário diário"
 
-#: inc/mz_events.php:147 inc/mz_schedule.php:201 inc/mz_schedule.php:202
-#: inc/mz_schedule.php:363
+#: inc/mz_events.php:146 lib/schedule_objects.php:248
 msgid "Login to Sign-up"
 msgstr "Login para inscrever-se"
 
-#: inc/mz_events.php:159 inc/mz_schedule.php:46 inc/mz_schedule.php:380
+#: inc/mz_events.php:158 lib/schedule_objects.php:57
 msgid "Sign-Up"
 msgstr "Inscrever-se"
 
@@ -79,205 +95,214 @@ msgstr "Registrar-se no Mindbody"
 msgid "Welcome"
 msgstr "Bem vindo"
 
-#: inc/mz_mbo_clients.php:107
+#: inc/mz_mbo_clients.php:110
+msgid "Unable to retrieve registrants"
+msgstr "Não é possível recuperar os registrastes"
+
+#: inc/mz_mbo_clients.php:135
 msgid "User Logged Out."
 msgstr "O usuário deu logoff."
 
-#: inc/mz_mbo_clients.php:125
+#: inc/mz_mbo_clients.php:153
 msgid "Die Robot Spam!"
 msgstr "Morre, robôs spammer!"
 
-#: inc/mz_mbo_clients.php:152
+#: inc/mz_mbo_clients.php:180
 msgid "Congratulations. You are now logged in with your new Mindbody account."
 msgstr "Muito bem! Agora você está logado com sua conta no mindbody."
 
-#: inc/mz_mbo_clients.php:154
+#: inc/mz_mbo_clients.php:182
 msgid "Sign-up for some classes."
 msgstr "Inscrever-se nas aulas"
 
-#: inc/mz_mbo_clients.php:191
+#: inc/mz_mbo_clients.php:219
 msgid "Leave this empty-slash-blank"
 msgstr "Deixe esse espaço vazio"
 
-#: inc/mz_mbo_clients.php:192
+#: inc/mz_mbo_clients.php:220
 msgid "First Name"
 msgstr "Primeiro Nome"
 
-#: inc/mz_mbo_clients.php:193
+#: inc/mz_mbo_clients.php:221
 msgid "Last Name"
 msgstr "Sobrenome"
 
-#: inc/mz_mbo_clients.php:194
+#: inc/mz_mbo_clients.php:222
 msgid "Sign up"
 msgstr "Inscrever-se"
 
-#: inc/mz_schedule.php:47 lib/functions.php:57
-msgid "Manage on MindBody Site"
-msgstr "Administrar no site do mindbody"
-
-#: inc/mz_schedule.php:51
+#: inc/mz_schedule.php:82
 msgid "Grid Calendar Incompatible with Single Day Mode!"
 msgstr "Calendário diário é incompatível com visualização diária!"
 
-#: inc/mz_schedule.php:74 lib/functions.php:64 mZ-mindbody-api.php:375
-msgid "day"
-msgstr "día"
-
-#: inc/mz_schedule.php:134
+#: inc/mz_schedule.php:198
 msgid "week"
 msgstr "semana"
 
-#: inc/mz_schedule.php:135 inc/mz_schedule.php:407 lib/functions.php:74
+#: inc/mz_schedule.php:199 inc/mz_schedule.php:356 inc/mz_schedule.php:373
+#: lib/functions.php:73
 msgid "Week"
 msgstr "Semana"
 
-#: inc/mz_schedule.php:151
+#: inc/mz_schedule.php:229
 msgid "Class Name"
 msgstr "Nome da aula"
 
-#: inc/mz_schedule.php:152
+#: inc/mz_schedule.php:230
 msgid "Instructor"
 msgstr "Instrutor"
 
-#: inc/mz_schedule.php:153
+#: inc/mz_schedule.php:231
 msgid "Class Type"
 msgstr "Tipo de aula"
 
-#: inc/mz_schedule.php:174 inc/mz_schedule.php:318 inc/mz_schedule.php:321
-msgid "Cancelled"
-msgstr "Cancelada"
+#: inc/mz_schedule.php:262
+msgid "at"
+msgstr "às"
 
-#: inc/mz_schedule.php:185 inc/mz_schedule.php:276 inc/mz_schedule.php:453
-msgid "morning"
-msgstr "manhã"
-
-#: inc/mz_schedule.php:187 inc/mz_schedule.php:278 inc/mz_schedule.php:455
-msgid "evening"
-msgstr "noite"
-
-#: inc/mz_schedule.php:189 inc/mz_schedule.php:280 inc/mz_schedule.php:454
-msgid "afternoon"
-msgstr "tarde"
-
-#: inc/mz_schedule.php:257
+#: inc/mz_schedule.php:282
 #, php-format
 msgid "Week of %1$s"
 msgstr "Semana de %1$s"
 
-#: inc/mz_schedule.php:264 lib/functions.php:18
+#: inc/mz_schedule.php:291 lib/functions.php:18
 msgid "Monday"
 msgstr "Segunda-feira"
 
-#: inc/mz_schedule.php:265 lib/functions.php:19
+#: inc/mz_schedule.php:292 lib/functions.php:19
 msgid "Tuesday"
 msgstr "Terça-feira"
 
-#: inc/mz_schedule.php:266 lib/functions.php:20
+#: inc/mz_schedule.php:293 lib/functions.php:20
 msgid "Wednesday"
 msgstr "Quarta-feira"
 
-#: inc/mz_schedule.php:267 lib/functions.php:21
+#: inc/mz_schedule.php:294 lib/functions.php:21
 msgid "Thursday"
 msgstr "Quinta-feira"
 
-#: inc/mz_schedule.php:268 lib/functions.php:22
+#: inc/mz_schedule.php:295 lib/functions.php:22
 msgid "Friday"
 msgstr "Sexta-feira"
 
-#: inc/mz_schedule.php:269 lib/functions.php:23
+#: inc/mz_schedule.php:296 lib/functions.php:23
 msgid "Saturday"
 msgstr "Sábado"
 
-#: inc/mz_schedule.php:270 lib/functions.php:24
+#: inc/mz_schedule.php:297 lib/functions.php:24
 msgid "Sunday"
 msgstr "Domingo"
 
-#: inc/mz_schedule.php:314 lib/functions.php:63
-msgid "with"
-msgstr "com"
+#: inc/mz_schedule.php:309 inc/mz_schedule.php:409 lib/schedule_objects.php:204
+msgid "morning"
+msgstr "manhã"
 
-#: inc/mz_schedule.php:327 inc/mz_schedule.php:331
-msgid "Duration:"
-msgstr "Duração:"
+#: inc/mz_schedule.php:311 inc/mz_schedule.php:411 lib/schedule_objects.php:206
+msgid "evening"
+msgstr "noite"
 
-#: inc/mz_schedule.php:425
+#: inc/mz_schedule.php:313 inc/mz_schedule.php:410 lib/schedule_objects.php:208
+msgid "afternoon"
+msgstr "tarde"
+
+#: inc/mz_schedule.php:376
 msgid "Error getting classes. Try re-loading the page."
 msgstr "Erro ao carregar as aulas. Tente recarregar a página."
 
-#: inc/mz_schedule.php:452
+#: inc/mz_schedule.php:408
 msgid "by teacher, class type"
 msgstr "por instrutor, tipo de aula "
 
-#: inc/mz_schedule.php:456
+#: inc/mz_schedule.php:412
 msgid "Filter"
 msgstr "Filtrar"
 
-#: inc/mz_schedule.php:457
+#: inc/mz_schedule.php:413
 msgid "All Locations"
 msgstr "Todos os Locais"
 
-#: lib/functions.php:51
+#: lib/functions.php:50
 msgid "Username"
 msgstr "Username"
 
-#: lib/functions.php:52
+#: lib/functions.php:51
 msgid "Password"
 msgstr "Senha"
 
-#: lib/functions.php:53
+#: lib/functions.php:52
 msgid "Login"
 msgstr "Entrar"
 
-#: lib/functions.php:54
+#: lib/functions.php:53
 msgid "Log Out"
 msgstr "Encerrar sessão"
 
-#: lib/functions.php:55
+#: lib/functions.php:54
 msgid "Sign Up"
 msgstr "Inscrever-se"
 
-#: lib/functions.php:56
+#: lib/functions.php:55
 msgid "Log in to Sign up"
 msgstr "Faça login para se inscrever"
 
-#: lib/functions.php:58
+#: lib/functions.php:56 lib/schedule_objects.php:58
+msgid "Manage on MindBody Site"
+msgstr "Administrar no site do mindbody"
+
+#: lib/functions.php:57
 msgid "login"
 msgstr "Entrar"
 
-#: lib/functions.php:59
+#: lib/functions.php:58
 msgid "logout"
 msgstr "Sair"
 
-#: lib/functions.php:60
+#: lib/functions.php:59
 msgid "signup"
 msgstr "Registrar-se"
 
-#: lib/functions.php:61
+#: lib/functions.php:60
 msgid "create-account"
 msgstr "Criar login"
 
-#: lib/functions.php:62
+#: lib/functions.php:61
 msgid "or"
 msgstr "ou"
 
-#: lib/functions.php:65
+#: lib/functions.php:63 mZ-mindbody-api.php:379
+msgid "day"
+msgstr "día"
+
+#: lib/functions.php:64
 msgid "shortcode"
 msgstr "shortcode (atalho)"
 
-#: lib/functions.php:79
+#: lib/functions.php:78
 #, php-format
 msgid "Previous %1$s"
 msgstr "< %1$s Anterior"
 
-#: lib/functions.php:80
+#: lib/functions.php:79
 #, php-format
 msgid "Current %1$s"
 msgstr "%1$s atual"
 
-#: lib/functions.php:81
+#: lib/functions.php:80
 #, php-format
 msgid "Following %1$s"
 msgstr "Próxima %1$s >"
+
+#: lib/schedule_objects.php:69
+msgid "Cancelled"
+msgstr "Cancelada"
+
+#: lib/schedule_objects.php:119 lib/schedule_objects.php:123
+msgid "Duration:"
+msgstr "Duração:"
+
+#: lib/schedule_objects.php:225
+msgid "Sign-Up for waiting list"
+msgstr "Inscreva-se para lista de espera"
 
 #: lib/sections.php:18
 msgid "MZ Mindbody"
@@ -483,25 +508,37 @@ msgstr "mas pode acabar custando mais transferências de dados da API."
 msgid "Class calendar cache is held for 1 day. Event calendar for 1 hour."
 msgstr "Cache de calendário se mantem por 1 día. Agenda de eventos por 1 hora."
 
-#: mZ-mindbody-api.php:348
+#: mZ-mindbody-api.php:352
 msgid "Display class schedule for current day."
 msgstr "Mostrar horários de aula para hoje."
 
-#: mZ-mindbody-api.php:350
+#: mZ-mindbody-api.php:354
 msgid "Today's MindBody Schedule"
 msgstr "Calendário do Mindbody de hoje"
 
-#: mZ-mindbody-api.php:355
+#: mZ-mindbody-api.php:359
 msgid "Today's Classes"
 msgstr "Aulas de hoje"
 
-#: mZ-mindbody-api.php:375
+#: mZ-mindbody-api.php:379
 msgid "type"
 msgstr "tipo"
 
-#: mZ-mindbody-api.php:413
+#: mZ-mindbody-api.php:421
+msgid "Cannot add to class."
+msgstr "Não é possível adicionar a classe."
+
+#: mZ-mindbody-api.php:427
 msgid "Already registered."
 msgstr "Já registrado."
+
+#: mZ-mindbody-api.php:478
+msgid "Unable to retrieve registrants."
+msgstr "Não é possível recuperar os registrastes"
+
+#: mZ-mindbody-api.php:482
+msgid "No registrants yet."
+msgstr "Ainda não os registrastes."
 
 #. Plugin Name of the plugin/theme
 msgid "mZoo Mindbody Interface - Schedule, Events, Staff Display"
