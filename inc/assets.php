@@ -13,7 +13,7 @@ if (!defined('WP_ENV')) {
 
 if (!defined('DIST_DIR')) {
   // Path to the build directory for front-end assets
-  define('DIST_DIR', '/dist/');
+  define('DIST_DIR', 'dist/');
 }
 
 
@@ -67,7 +67,6 @@ function asset_path($filename) {
   $directory = dirname($filename) . '/';
   $file = basename($filename);
   static $manifest;
-
   if (empty($manifest)) {
     $manifest_path = MZ_MINDBODY_SCHEDULE_URL . DIST_DIR . 'assets.json';
     $manifest = new JsonManifest($manifest_path);

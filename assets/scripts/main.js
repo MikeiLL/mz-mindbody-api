@@ -1170,7 +1170,19 @@ $(document).ready(function($) {
 			});
 		});
 	});
-
+	
+	$(document).ready(function() {
+			 $('.mz_schedule_nav_holder').append($('<a id="mode-select" class="btn btn-xs mz-mode-select">'+ mz_mbo_bootstrap_script.initial +'</a>'));
+			 $('#mode-select').click(function(){
+					$('.mz-schedule-display').toggleClass('mz_hidden');
+					$('.mz_grid_date').toggleClass('mz_hidden');
+					$('.mz-schedule-display').removeClass('mz-schedule-filter');
+					$('#mode-select').text(function(i, text) {
+						return text == mz_mbo_bootstrap_script.initial ? mz_mbo_bootstrap_script.swap : mz_mbo_bootstrap_script.initial;
+						});
+				});
+		});
+		
 })(jQuery);
 
 

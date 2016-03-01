@@ -10,6 +10,9 @@ class MZ_Mindbody_Schedule_Display {
 	private $time_slot;
 	private $locations;
 	private $mz_date_grid;
+	private $initial_button_text;
+	private $swap_button_text;
+	private $grid_class;
 	
 	public function __construct(){
 		require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
@@ -21,12 +24,12 @@ class MZ_Mindbody_Schedule_Display {
  	public function mbo_localize_main_js() {
 
 		$main_js_params = array(
-			'staff_preposition' => __('with', 'mz-mindbody-api')
+			'staff_preposition' => __('with', 'mz-mindbody-api'),
+			'initial' => $this->initial_button_text,
+			'swap' => $this->swap_button_text
 			);
 	
 		wp_localize_script( 'mz_mbo_bootstrap_script', 'mz_mbo_bootstrap_script', $main_js_params);
-
-
  	}
 	
 	public function mZ_mindbody_show_schedule( $atts, $account=0 )
@@ -202,18 +205,28 @@ class MZ_Mindbody_Schedule_Display {
 
 		$table_class = ($filter == 1) ? 'mz-schedule-filter' : 'mz-schedule-table';
 		if ($mode_select == 1):
-			$grid_class = 'mz_hidden';
+			$this->grid_class = 'mz_hidden';
 			$horizontal_class = $table_class;
+			$this->initial_button_text = __('Grid View', 'mz-mindbody-api');
+			$this->swap_button_text = __('Horizontal View', 'mz-mindbody-api');
 		elseif ($mode_select == 2):
 			$horizontal_class = 'mz_hidden';
-			$grid_class = $table_class;
+			$this->grid_class = $table_class;
+			$this->initial_button_text = __('Horizontal View', 'mz-mindbody-api');
+			$this->swap_button_text = __('Grid View', 'mz-mindbody-api');
 		endif;
 			
-		$tbl_horizontal = new HTML_Table('', $horizontal_class .' mz-schedule-horizontal mz-schedule-display');
-		$tbl_grid = new HTML_Table('', $grid_class . ' mz-schedule-grid mz-schedule-display');
+		$tbl_horizontal = new HTML_Table('', $horizontal_class . ' mz-schedule-horizontal mz-schedule-display');
+		$tbl_grid = new HTML_Table('', $this->grid_class . ' mz-schedule-grid mz-schedule-display');
 
 			
 			if ($mode_select != 0) {
+				
+				//add_action('wp_footer', array($this, 'schedule_button_text'));
+				
+				// This needs to load after filterTable. Not sure why.
+				//add_action('wp_footer', array($this, 'add_mode_select_button'), 100);
+			
 				// If Mode Select is enabled we will return both displays
 				// Retrieve data for horizontal display
 				$mz_days_horizontal = sortClassesByDate($mz_days, $this->mz_mbo_globals->time_format, $locations, 
@@ -245,8 +258,11 @@ class MZ_Mindbody_Schedule_Display {
 																						$registrants_count, 'horizontal');
 				// Display Horizontal schedule								
 				$return .= $this->horizontal_schedule($mz_days_horizontal, $tbl_horizontal);
+				
+				// We don't want to display the grid Week Of container
+				$this->grid_class = 'mz_hidden';
 			}
-			
+
 		// Add "footer" Items
 		if ($type=='week'):
 				// schedule navigation
@@ -276,7 +292,7 @@ class MZ_Mindbody_Schedule_Display {
 		}	// EOF if ['GetClassesResult']['Classes']['Class'] is populated
 		
 		if ($filter == 1):
-			add_action('wp_footer', array($this, 'add_filter_table'));
+			add_action('wp_footer', array($this, 'add_filter_table'), 10);
 			add_action('wp_footer', array($this, 'initialize_filter'));
 		endif;
 		
@@ -349,7 +365,7 @@ class MZ_Mindbody_Schedule_Display {
 	private function grid_schedule ($mz_days_grid, $tbl_grid, &$return) {
 		$week_starting = date_i18n($this->mz_mbo_globals->date_format, strtotime($this->mz_date_grid)); 
 				
-		$return .= '<h4 class="mz_grid_date">';
+		$return .= '<h4 class="mz_grid_date ' . $this->grid_class . '">';
 		$return .= sprintf(__('Week of %1$s', 'mz-mindbody-api'), $week_starting);
 		$return .= '</h4>';
 	
