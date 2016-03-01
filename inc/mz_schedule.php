@@ -6,7 +6,7 @@ class MZ_Mindbody_Schedule_Display {
 	private $locations_dictionary = array();
 	static $time_tracker;	
 	private $locations_count; // Used to know how many times we need to check when populating dict
-	private $locations_dict_length;
+	private $locations_dict_length = 0;
 	private $time_slot;
 	private $locations;
 	private $mz_date_grid;
@@ -101,8 +101,8 @@ class MZ_Mindbody_Schedule_Display {
 		} else {
 			$this->locations = array_map('trim', explode(',', $atts['locations']));
 		}
-		$this->locations_count = count($locations);
-
+		$this->locations_count = count($this->locations);
+		
 			$mz_date = empty($_GET['mz_date']) ? date_i18n('Y-m-d',current_time('timestamp')) : mz_validate_date($_GET['mz_date']);
 			$hide = explode(', ', $atts['hide']);
 			$which_monday = (strtotime('this monday') > current_time('timestamp')) ? 'last monday' : 'this monday';
@@ -173,6 +173,16 @@ class MZ_Mindbody_Schedule_Display {
 		{
 			$mz_days = $this->makeNumericArray($mz_schedule_data['GetClassesResult']['Classes']['Class']);
 			
+		// populate dictionary of locations with names 
+		while ($this->locations_count > $this->locations_dict_length):
+			foreach ($mz_days as $class) {
+				if (!array_key_exists($class['Location']['Name'], $this->locations_dictionary)):
+					$this->locations_dictionary[$class['Location']['Name']] = $class['Location']['Name'];
+					$this->locations_dict_length += 1;
+				endif;
+			}
+		endwhile;
+		
 		//based on shortcode arguments, potentially remove array elements
 			if ($class_types != ''):
 				$class_types = explode(', ', $atts['class_types']);
@@ -221,22 +231,16 @@ class MZ_Mindbody_Schedule_Display {
 
 			
 			if ($mode_select != 0) {
-				
-				//add_action('wp_footer', array($this, 'schedule_button_text'));
-				
-				// This needs to load after filterTable. Not sure why.
-				//add_action('wp_footer', array($this, 'add_mode_select_button'), 100);
-			
 				// If Mode Select is enabled we will return both displays
 				// Retrieve data for horizontal display
-				$mz_days_horizontal = sortClassesByDate($mz_days, $this->mz_mbo_globals->time_format, $locations, 
+				$mz_days_horizontal = sortClassesByDate($mz_days, $this->mz_mbo_globals->time_format, $this->locations, 
 																						$hide_cancelled, $hide, $advanced, $show_registrants,
 																						$registrants_count, 'horizontal');
 				// Display Horizontal schedule								
 				$return .= $this->horizontal_schedule($mz_days_horizontal, $tbl_horizontal);
 				
 				// Retrieve data for grid display
-				$mz_days_grid = sortClassesByTimeThenDay($mz_days, $this->mz_mbo_globals->time_format, $locations, 
+				$mz_days_grid = sortClassesByTimeThenDay($mz_days, $this->mz_mbo_globals->time_format, $this->locations, 
 																						$hide_cancelled, $hide, $advanced, $show_registrants,
 																						$registrants_count, 'grid');
 				// Display Grid schedule																					
@@ -245,7 +249,7 @@ class MZ_Mindbody_Schedule_Display {
 			} else if ($grid == 1) {	
 				
 				// Retrieve data for grid display
-				$mz_days_grid = sortClassesByTimeThenDay($mz_days, $this->mz_mbo_globals->time_format, $locations, 
+				$mz_days_grid = sortClassesByTimeThenDay($mz_days, $this->mz_mbo_globals->time_format, $this->locations, 
 																						$hide_cancelled, $hide, $advanced, $show_registrants,
 																						$registrants_count, 'grid');
 				// Display Grid schedule																					
@@ -253,7 +257,7 @@ class MZ_Mindbody_Schedule_Display {
 			} else {
 				// If grid is not one and mode_select not enabled, just display horizontal schedule
 			  // Retrieve data for horizontal display
-				$mz_days_horizontal = sortClassesByDate($mz_days, $this->mz_mbo_globals->time_format, $locations, 
+				$mz_days_horizontal = sortClassesByDate($mz_days, $this->mz_mbo_globals->time_format, $this->locations, 
 																						$hide_cancelled, $hide, $advanced, $show_registrants,
 																						$registrants_count, 'horizontal');
 				// Display Horizontal schedule								
@@ -322,13 +326,6 @@ class MZ_Mindbody_Schedule_Display {
 			$tbl_horizontal->addTSection('tbody');
 			foreach($mz_classes['classes'] as $class)
 				{
-					// populate dictionary of locations with names 
-					// TODO Move out of this "presentation" loop
-					if ($this->locations_count > $this->locations_dict_length):
-						if (!array_key_exists($class->sLoc, $this->locations_dictionary)):
-							$this->locations_dictionary[$class->sLoc] = $class->locationName;
-						endif;
-					endif;
 					// TODO Remove this which is URU specific
 					if ($class->className == 'Admin') {continue;}
 
@@ -408,15 +405,8 @@ class MZ_Mindbody_Schedule_Display {
 					}
 
 				foreach($classes as $key => $class)	{
-					//TODO remove this
+					//TODO remove this which is URU specific
 					if ($class->className == 'Admin') {continue;}
-					// populate dictionary of locations with names 
-					// TODO Move out of this "presentation" loop
-					if ($this->locations_count > $this->locations_dict_length):
-						if (!array_key_exists($class->sLoc, $this->locations_dictionary)):
-							$this->locations_dictionary[$class->sLoc] = $class->locationName;
-						endif;
-					endif;
 
 					$class_separator = ($key == $num_classes_min_one) ? '' : '<hr/>';
 					
