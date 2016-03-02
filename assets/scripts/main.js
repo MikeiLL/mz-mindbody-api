@@ -1169,23 +1169,33 @@ $(document).ready(function($) {
 					$("#mzStaffModal").colorbox();
 			});
 		});
-	});
-	
-	$(document).ready(function() {
-		if (mz_mbo_bootstrap_script.mode_button == 1) {
-			 $('.mz_schedule_nav_holder').append($('<a id="mode-select" class="btn btn-xs mz-mode-select">'+ mz_mbo_bootstrap_script.initial +'</a>'));
-			 $('#mode-select').click(function(){
-					$('.mz-schedule-table').toggleClass('mz_hidden');
-					$('.mz_grid_date').toggleClass('mz_hidden');
-					$('.mz-schedule-grid').toggleClass('mz-schedule-filter');
-					$('.mz-schedule-horizontal').toggleClass('mz-schedule-filter');
-					$('#mode-select').text(function(i, text) {
-						return text == mz_mbo_bootstrap_script.initial ? mz_mbo_bootstrap_script.swap : mz_mbo_bootstrap_script.initial;
-						});
-				});
-			} // if mode button = 1
-		});
 		
+		//Start mode select
+		if (mz_mbo_bootstrap_script.mode_button == 1) {
+			$('.mz_schedule_nav_holder').first().append($('<a id="mode-select" class="btn btn-xs mz-mode-select">'+ mz_mbo_bootstrap_script.initial +'</a>'));
+			var showMe = $("th.mz_date_display:contains('"+mz_mbo_bootstrap_script.today+"')");
+			$('.mz_date_display').each(function(i, cell){
+				if (cell.scope == 'header') {
+					if ($(cell).text() == mz_mbo_bootstrap_script.today){
+							return false;
+						}
+					}
+					$(cell).parent().remove();
+				});
+			$('#mode-select').click(function(){
+				$('.mz-schedule-display').each(function(i, item) {
+					$(item).toggleClass('mz_hidden');
+					$(item).toggleClass('mz_schedule_filter');
+					});
+				$('.mz_grid_date').toggleClass('mz_hidden');
+				$('#mode-select').text(function(i, text) {
+					return text == mz_mbo_bootstrap_script.initial ? mz_mbo_bootstrap_script.swap : mz_mbo_bootstrap_script.initial;
+					});
+			});
+		} // if mode button = 1
+		//End mode select		
+	}); // On doc ready
+	
 })(jQuery);
 
 

@@ -29,7 +29,8 @@ class MZ_Mindbody_Schedule_Display {
 			'staff_preposition' => __('with', 'mz-mindbody-api'),
 			'initial' => $this->initial_button_text,
 			'mode_button' => $this->mode_button,
-			'swap' => $this->swap_button_text
+			'swap' => $this->swap_button_text,
+			'today' => date_i18n($this->mz_mbo_globals->mz_date_display, strtotime('today'))
 			);
 	
 		wp_localize_script( 'mz_mbo_bootstrap_script', 'mz_mbo_bootstrap_script', $main_js_params);
@@ -227,26 +228,25 @@ class MZ_Mindbody_Schedule_Display {
 
 		$table_class = ($filter == 1) ? 'mz-schedule-filter' : 'mz-schedule-table';
 		if ($mode_select == 1):
-			$this->grid_class = 'mz_hidden';
+			$this->grid_class = 'mz_hidden mz-schedule-table';
 			$this->horizontal_class = $table_class;
 			$this->initial_button_text = __('Grid View', 'mz-mindbody-api');
 			$this->swap_button_text = __('Horizontal View', 'mz-mindbody-api');
 			$this->mode_button = 1;
 		elseif ($mode_select == 2):
-			$this->horizontal_class = 'mz_hidden';
+			$this->horizontal_class = 'mz_hidden mz-schedule-table';
 			$this->grid_class = $table_class;
 			$this->initial_button_text = __('Horizontal View', 'mz-mindbody-api');
 			$this->swap_button_text = __('Grid View', 'mz-mindbody-api');
 			$this->mode_button = 1;
+		else:
+			$this->horizontal_class = $table_class;
+			$this->grid_class = $table_class;
 		endif;
 
-		if ($grid != 1){
-			$tbl_horizontal = new HTML_Table('', $this->horizontal_class . ' ' . $table_class . ' mz-schedule-horizontal');
-			}
-			
-		$tbl_grid = new HTML_Table('', $this->grid_class . ' ' . $table_class . ' mz-schedule-grid');
+		$tbl_horizontal = new HTML_Table('', $this->horizontal_class . ' ' . ' mz-schedule-horizontal mz-schedule-display');
+		$tbl_grid = new HTML_Table('', $this->grid_class . ' ' . ' mz-schedule-grid mz-schedule-display');
 
-			
 		if ($mode_select != 0) {
 			// If Mode Select is enabled we will return both displays
 			// Retrieve data for horizontal display
