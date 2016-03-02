@@ -97,35 +97,6 @@ EOD;
 		}
 		return $this->displayConfirmation();
 	}
-	
-	public function mZ_mindbody_show_registrants($atts) {
-		$this->mb = MZ_Mindbody_Init::instantiate_mbo_API();
-			$atts = shortcode_atts( array(
-			'id' => '',
-				), $atts );
-		$classid = $atts['id'];
-		
-		$class_visits = $this->mb->GetClassVisits(array('ClassID'=> $classid));
-		if ($class_visits['GetClassVisitsResult']['Status'] != 'Success') 
-				return __("Unable to retrieve registrants", 'mz-mindbody-api');
-		if(empty($class_visits['GetClassVisitsResult']['Class']['Visits'])) :
-				return "No registrants yet.";
-			else:
-				mz_pr($class_visits['GetClassVisitsResult']['Class']['ID']);
-				foreach($class_visits['GetClassVisitsResult']['Class']['Visits'] as $registrants) {
-						if (!isset($registrants['Client']['FirstName'])) {
-							foreach ($registrants as $registrant) {
-									mz_pr($registrant['Client']['FirstName']);
-								}
-						} else {
-								mz_pr($registrants['Client']['FirstName']);
-						}
-					}
-			//mz_pr($class_visits);
-		endif;
-		return "nothing";
-	}
-
 
 	private function displayConfirmation() {
 		$globals = new Global_Strings();

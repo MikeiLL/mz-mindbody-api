@@ -243,7 +243,6 @@ class MZ_Mindbody_API {
         add_shortcode('mz-mindbody-show-schedule', array($schedule_display, 'mZ_mindbody_show_schedule'));
         add_shortcode('mz-mindbody-staff-list', array($mz_staff, 'mZ_mindbody_staff_listing'));
         add_shortcode('mz-mindbody-show-events', array($mz_events, 'mZ_mindbody_show_events'));
-        add_shortcode('mz-mindbody-show-registrants', array($mz_clients, 'mZ_mindbody_show_registrants'));
         add_shortcode('mz-mindbody-login', array($mz_clients, 'mZ_mindbody_login'));
         add_shortcode('mz-mindbody-signup', array($mz_clients, 'mZ_mindbody_signup'));
         add_shortcode('mz-mindbody-logout', array($mz_clients, 'mZ_mindbody_logout'));
