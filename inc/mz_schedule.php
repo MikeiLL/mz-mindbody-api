@@ -13,6 +13,7 @@ class MZ_Mindbody_Schedule_Display {
 	private $initial_button_text;
 	private $swap_button_text;
 	private $grid_class;
+	private $mode_button = 0;
 	
 	public function __construct(){
 		require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
@@ -26,6 +27,7 @@ class MZ_Mindbody_Schedule_Display {
 		$main_js_params = array(
 			'staff_preposition' => __('with', 'mz-mindbody-api'),
 			'initial' => $this->initial_button_text,
+			'mode_button' => $this->mode_button,
 			'swap' => $this->swap_button_text
 			);
 	
@@ -219,14 +221,19 @@ class MZ_Mindbody_Schedule_Display {
 			$horizontal_class = $table_class;
 			$this->initial_button_text = __('Grid View', 'mz-mindbody-api');
 			$this->swap_button_text = __('Horizontal View', 'mz-mindbody-api');
+			$this->mode_button = 1;
 		elseif ($mode_select == 2):
 			$horizontal_class = 'mz_hidden';
 			$this->grid_class = $table_class;
 			$this->initial_button_text = __('Horizontal View', 'mz-mindbody-api');
 			$this->swap_button_text = __('Grid View', 'mz-mindbody-api');
+			$this->mode_button = 1;
 		endif;
+		
+		if ($grid != 1){
+			$tbl_horizontal = new HTML_Table('', $horizontal_class . ' mz-schedule-horizontal mz-schedule-display');
+			}
 			
-		$tbl_horizontal = new HTML_Table('', $horizontal_class . ' mz-schedule-horizontal mz-schedule-display');
 		$tbl_grid = new HTML_Table('', $this->grid_class . ' mz-schedule-grid mz-schedule-display');
 
 			

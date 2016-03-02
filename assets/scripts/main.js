@@ -1172,6 +1172,7 @@ $(document).ready(function($) {
 	});
 	
 	$(document).ready(function() {
+		if (mz_mbo_bootstrap_script.mode_button == 1) {
 			 $('.mz_schedule_nav_holder').append($('<a id="mode-select" class="btn btn-xs mz-mode-select">'+ mz_mbo_bootstrap_script.initial +'</a>'));
 			 $('#mode-select').click(function(){
 					$('.mz-schedule-display').toggleClass('mz_hidden');
@@ -1182,6 +1183,7 @@ $(document).ready(function($) {
 						return text == mz_mbo_bootstrap_script.initial ? mz_mbo_bootstrap_script.swap : mz_mbo_bootstrap_script.initial;
 						});
 				});
+			} // if mode button = 1
 		});
 		
 })(jQuery);
