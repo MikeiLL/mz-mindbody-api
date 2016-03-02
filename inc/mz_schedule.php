@@ -12,7 +12,8 @@ class MZ_Mindbody_Schedule_Display {
 	private $mz_date_grid;
 	private $initial_button_text;
 	private $swap_button_text;
-	private $grid_class;
+	private $grid_class = '';
+	private $horizontal_class = '';
 	private $mode_button = 0;
 	
 	public function __construct(){
@@ -105,19 +106,23 @@ class MZ_Mindbody_Schedule_Display {
 		}
 		$this->locations_count = count($this->locations);
 		
-			$mz_date = empty($_GET['mz_date']) ? date_i18n('Y-m-d',current_time('timestamp')) : mz_validate_date($_GET['mz_date']);
-			$hide = explode(', ', $atts['hide']);
-			$which_monday = (strtotime('this monday') > current_time('timestamp')) ? 'last monday' : 'this monday';
-			$this->mz_date_grid = empty($_GET['mz_date']) || ( $_GET['mz_date'] == date_i18n('Y-m-d',current_time('timestamp')) ) ? date_i18n('Y-m-d',strtotime($which_monday)) : mz_validate_date($_GET['mz_date']);
+		$mz_date = empty($_GET['mz_date']) ? date_i18n('Y-m-d',current_time('timestamp')) : mz_validate_date($_GET['mz_date']);
+		$hide = explode(', ', $atts['hide']);
+		$which_monday = (strtotime('this monday') > current_time('timestamp')) ? 'last monday' : 'this monday';
+		$this->mz_date_grid = empty($_GET['mz_date']) || ( $_GET['mz_date'] == date_i18n('Y-m-d',current_time('timestamp')) ) ? date_i18n('Y-m-d',strtotime($which_monday)) : mz_validate_date($_GET['mz_date']);
 
 		if ($type=='day')
-		{
-			$mz_timeframe = array_slice(mz_getDateRange($mz_date, 1), 0, 1);
-		}
-		else
-		{   
-			$mz_timeframe = array_slice(mz_getDateRange($mz_date, 7), 0, 1);
-		}
+			{
+				$mz_timeframe = array_slice(mz_getDateRange($mz_date, 1), 0, 1);
+			}
+		else if (($mode_select != 0) || ($grid == 1))
+			{   
+				$mz_timeframe = array_slice(mz_getDateRange($this->mz_date_grid, 7), 0, 1);
+			} 
+		else 
+			{
+				$mz_timeframe = array_slice(mz_getDateRange($mz_date, 7), 0, 1);
+			}
 		//While we still need to support php 5.2 and can't use [0] on above
 		$mz_timeframe = array_shift($mz_timeframe);
 
@@ -149,7 +154,6 @@ class MZ_Mindbody_Schedule_Display {
 			if ($mb == 'NO_SOAP_SERVICE') {
 				mz_pr($mb);
 				}
-				
 			if ($account == 0) {
 				$mz_schedule_data = $mb->GetClasses($mz_timeframe);
 				}else{
@@ -185,7 +189,7 @@ class MZ_Mindbody_Schedule_Display {
 					break;
 			}
 		
-		// In case more locations specified than exist print error. 
+		// In case more locations specified than exist, print error. 
 		if ($this->locations_count > $this->locations_dict_length):
 			mz_pr("You seem to have specified a Location ID that does not exist in MBO. These exist:");
 			mz_pr($this->locations_dictionary);
@@ -224,12 +228,12 @@ class MZ_Mindbody_Schedule_Display {
 		$table_class = ($filter == 1) ? 'mz-schedule-filter' : 'mz-schedule-table';
 		if ($mode_select == 1):
 			$this->grid_class = 'mz_hidden';
-			$horizontal_class = $table_class;
+			$this->horizontal_class = $table_class;
 			$this->initial_button_text = __('Grid View', 'mz-mindbody-api');
 			$this->swap_button_text = __('Horizontal View', 'mz-mindbody-api');
 			$this->mode_button = 1;
 		elseif ($mode_select == 2):
-			$horizontal_class = 'mz_hidden';
+			$this->horizontal_class = 'mz_hidden';
 			$this->grid_class = $table_class;
 			$this->initial_button_text = __('Horizontal View', 'mz-mindbody-api');
 			$this->swap_button_text = __('Grid View', 'mz-mindbody-api');
@@ -237,10 +241,10 @@ class MZ_Mindbody_Schedule_Display {
 		endif;
 
 		if ($grid != 1){
-			$tbl_horizontal = new HTML_Table('', $horizontal_class . ' mz-schedule-horizontal mz-schedule-display');
+			$tbl_horizontal = new HTML_Table('', $this->horizontal_class . ' ' . $table_class . ' mz-schedule-horizontal');
 			}
 			
-		$tbl_grid = new HTML_Table('', $this->grid_class . ' mz-schedule-grid mz-schedule-display');
+		$tbl_grid = new HTML_Table('', $this->grid_class . ' ' . $table_class . ' mz-schedule-grid');
 
 			
 		if ($mode_select != 0) {

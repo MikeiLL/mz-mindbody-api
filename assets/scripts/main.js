@@ -1175,7 +1175,7 @@ $(document).ready(function($) {
 		if (mz_mbo_bootstrap_script.mode_button == 1) {
 			 $('.mz_schedule_nav_holder').append($('<a id="mode-select" class="btn btn-xs mz-mode-select">'+ mz_mbo_bootstrap_script.initial +'</a>'));
 			 $('#mode-select').click(function(){
-					$('.mz-schedule-display').toggleClass('mz_hidden');
+					$('.mz-schedule-table').toggleClass('mz_hidden');
 					$('.mz_grid_date').toggleClass('mz_hidden');
 					$('.mz-schedule-grid').toggleClass('mz-schedule-filter');
 					$('.mz-schedule-horizontal').toggleClass('mz-schedule-filter');

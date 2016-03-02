@@ -141,10 +141,9 @@
                     container.append(filter);
                 }
 				selector.bind('change', function () { // bind doFiltering() to click and search events
-					window.mz_mbo_selectValue = $(this).val();
 					if ($(this).val() != '0') {
 							$( ".mz_schedule_table" ).hide(); // hide all the divs in the schedule
-							$( ".mz_location_"+$(this).val() ).show();
+							$( ".mz_location_"+$(this).prop('selectedIndex') ).show();
 						}else{
 							$( ".mz_schedule_table" ).show();
 							Object.keys(settings.locations).forEach(function(value) {
