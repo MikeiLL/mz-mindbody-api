@@ -1176,7 +1176,8 @@ $(document).ready(function($) {
 			 $('#mode-select').click(function(){
 					$('.mz-schedule-display').toggleClass('mz_hidden');
 					$('.mz_grid_date').toggleClass('mz_hidden');
-					$('.mz-schedule-display').removeClass('mz-schedule-filter');
+					$('.mz-schedule-grid').toggleClass('mz-schedule-filter');
+					$('.mz-schedule-horizontal').toggleClass('mz-schedule-filter');
 					$('#mode-select').text(function(i, text) {
 						return text == mz_mbo_bootstrap_script.initial ? mz_mbo_bootstrap_script.swap : mz_mbo_bootstrap_script.initial;
 						});
