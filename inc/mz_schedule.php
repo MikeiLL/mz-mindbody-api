@@ -176,14 +176,20 @@ class MZ_Mindbody_Schedule_Display {
 			$mz_days = $this->makeNumericArray($mz_schedule_data['GetClassesResult']['Classes']['Class']);
 			
 		// populate dictionary of locations with names 
-		while ($this->locations_count > $this->locations_dict_length):
 			foreach ($mz_days as $class) {
 				if (!array_key_exists($class['Location']['Name'], $this->locations_dictionary)):
 					$this->locations_dictionary[$class['Location']['Name']] = $class['Location']['Name'];
 					$this->locations_dict_length += 1;
 				endif;
+				if ($this->locations_count == $this->locations_dict_length)
+					break;
 			}
-		endwhile;
+		
+		// In case more locations specified than exist print error. 
+		if ($this->locations_count > $this->locations_dict_length):
+			mz_pr("You seem to have specified a Location ID that does not exist in MBO. These exist:");
+			mz_pr($this->locations_dictionary);
+		endif;
 		
 		//based on shortcode arguments, potentially remove array elements
 			if ($class_types != ''):
@@ -229,7 +235,7 @@ class MZ_Mindbody_Schedule_Display {
 			$this->swap_button_text = __('Grid View', 'mz-mindbody-api');
 			$this->mode_button = 1;
 		endif;
-		
+
 		if ($grid != 1){
 			$tbl_horizontal = new HTML_Table('', $horizontal_class . ' mz-schedule-horizontal mz-schedule-display');
 			}
@@ -237,42 +243,42 @@ class MZ_Mindbody_Schedule_Display {
 		$tbl_grid = new HTML_Table('', $this->grid_class . ' mz-schedule-grid mz-schedule-display');
 
 			
-			if ($mode_select != 0) {
-				// If Mode Select is enabled we will return both displays
-				// Retrieve data for horizontal display
-				$mz_days_horizontal = sortClassesByDate($mz_days, $this->mz_mbo_globals->time_format, $this->locations, 
-																						$hide_cancelled, $hide, $advanced, $show_registrants,
-																						$registrants_count, 'horizontal');
-				// Display Horizontal schedule								
-				$return .= $this->horizontal_schedule($mz_days_horizontal, $tbl_horizontal);
-				
-				// Retrieve data for grid display
-				$mz_days_grid = sortClassesByTimeThenDay($mz_days, $this->mz_mbo_globals->time_format, $this->locations, 
-																						$hide_cancelled, $hide, $advanced, $show_registrants,
-																						$registrants_count, 'grid');
-				// Display Grid schedule																					
-				$return .= $this->grid_schedule($mz_days_grid, $tbl_grid, $return);
-				
-			} else if ($grid == 1) {	
-				
-				// Retrieve data for grid display
-				$mz_days_grid = sortClassesByTimeThenDay($mz_days, $this->mz_mbo_globals->time_format, $this->locations, 
-																						$hide_cancelled, $hide, $advanced, $show_registrants,
-																						$registrants_count, 'grid');
-				// Display Grid schedule																					
-				$return .= $this->grid_schedule($mz_days_grid, $tbl_grid, $return);
-			} else {
-				// If grid is not one and mode_select not enabled, just display horizontal schedule
-			  // Retrieve data for horizontal display
-				$mz_days_horizontal = sortClassesByDate($mz_days, $this->mz_mbo_globals->time_format, $this->locations, 
-																						$hide_cancelled, $hide, $advanced, $show_registrants,
-																						$registrants_count, 'horizontal');
-				// Display Horizontal schedule								
-				$return .= $this->horizontal_schedule($mz_days_horizontal, $tbl_horizontal);
-				
-				// We don't want to display the grid Week Of container
-				$this->grid_class = 'mz_hidden';
-			}
+		if ($mode_select != 0) {
+			// If Mode Select is enabled we will return both displays
+			// Retrieve data for horizontal display
+			$mz_days_horizontal = sortClassesByDate($mz_days, $this->mz_mbo_globals->time_format, $this->locations, 
+																					$hide_cancelled, $hide, $advanced, $show_registrants,
+																					$registrants_count, 'horizontal');
+			// Display Horizontal schedule								
+			$return .= $this->horizontal_schedule($mz_days_horizontal, $tbl_horizontal);
+			
+			// Retrieve data for grid display
+			$mz_days_grid = sortClassesByTimeThenDay($mz_days, $this->mz_mbo_globals->time_format, $this->locations, 
+																					$hide_cancelled, $hide, $advanced, $show_registrants,
+																					$registrants_count, 'grid');
+			// Display Grid schedule																					
+			$return .= $this->grid_schedule($mz_days_grid, $tbl_grid, $return);
+			
+		} else if ($grid == 1) {	
+			
+			// Retrieve data for grid display
+			$mz_days_grid = sortClassesByTimeThenDay($mz_days, $this->mz_mbo_globals->time_format, $this->locations, 
+																					$hide_cancelled, $hide, $advanced, $show_registrants,
+																					$registrants_count, 'grid');
+			// Display Grid schedule																					
+			$return .= $this->grid_schedule($mz_days_grid, $tbl_grid, $return);
+		} else {
+			// If grid is not one and mode_select not enabled, just display horizontal schedule
+			// Retrieve data for horizontal display
+			$mz_days_horizontal = sortClassesByDate($mz_days, $this->mz_mbo_globals->time_format, $this->locations, 
+																					$hide_cancelled, $hide, $advanced, $show_registrants,
+																					$registrants_count, 'horizontal');
+			// Display Horizontal schedule								
+			$return .= $this->horizontal_schedule($mz_days_horizontal, $tbl_horizontal);
+			
+			// We don't want to display the grid Week Of container
+			$this->grid_class = 'mz_hidden';
+		}
 
 		// Add "footer" Items
 		if ($type=='week'):

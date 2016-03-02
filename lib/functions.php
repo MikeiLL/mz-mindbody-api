@@ -287,7 +287,7 @@ function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a",
 																	$calendar_format) {
 																		
 	$mz_classesByTime = array();
-	
+
 	if(!is_array($locations)):
 		$locations = array($locations);
 	endif;
