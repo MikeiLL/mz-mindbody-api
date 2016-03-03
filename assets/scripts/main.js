@@ -1172,6 +1172,8 @@ $(document).ready(function($) {
 		
 		//Start mode select
 		if (mz_mbo_bootstrap_script.mode_button == 1) {
+			//Seems like we just shouldn't be creating the second '.filter-table' <p>, but for now
+			$('.filter-table').last().hide();
 			$('.mz_schedule_nav_holder').first().append($('<a id="mode-select" class="btn btn-xs mz-mode-select">'+ mz_mbo_bootstrap_script.initial +'</a>'));
 			var showMe = $("th.mz_date_display:contains('"+mz_mbo_bootstrap_script.today+"')");
 			$('.mz_date_display').each(function(i, cell){
@@ -1192,7 +1194,7 @@ $(document).ready(function($) {
 					return text == mz_mbo_bootstrap_script.initial ? mz_mbo_bootstrap_script.swap : mz_mbo_bootstrap_script.initial;
 					});
 			});
-		} // if mode button = 1
+		} // if mode button = 1 
 		//End mode select		
 	}); // On doc ready
 	

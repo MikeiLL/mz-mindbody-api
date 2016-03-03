@@ -190,11 +190,14 @@ class MZ_Mindbody_Schedule_Display {
 					break;
 			}
 		
-		// In case more locations specified than exist, print error. 
+		/* In case more locations specified than exist, print error. 
+		But this would be a problem if was were not any classes in location
+		during particular period.
 		if ($this->locations_count > $this->locations_dict_length):
 			mz_pr("You seem to have specified a Location ID that does not exist in MBO. These exist:");
 			mz_pr($this->locations_dictionary);
 		endif;
+		*/
 		
 		//based on shortcode arguments, potentially remove array elements
 			if ($class_types != ''):
@@ -228,13 +231,13 @@ class MZ_Mindbody_Schedule_Display {
 
 		$table_class = ($filter == 1) ? 'mz-schedule-filter' : 'mz-schedule-table';
 		if ($mode_select == 1):
-			$this->grid_class = 'mz_hidden mz-schedule-table';
+			$this->grid_class = 'mz_hidden '.$table_class;
 			$this->horizontal_class = $table_class;
 			$this->initial_button_text = __('Grid View', 'mz-mindbody-api');
 			$this->swap_button_text = __('Horizontal View', 'mz-mindbody-api');
 			$this->mode_button = 1;
 		elseif ($mode_select == 2):
-			$this->horizontal_class = 'mz_hidden mz-schedule-table';
+			$this->horizontal_class = 'mz_hidden '.$table_class;
 			$this->grid_class = $table_class;
 			$this->initial_button_text = __('Horizontal View', 'mz-mindbody-api');
 			$this->swap_button_text = __('Grid View', 'mz-mindbody-api');
