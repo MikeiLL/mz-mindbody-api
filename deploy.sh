@@ -83,6 +83,11 @@ assets
 gulpfile.js
 bower.json
 package.json
+.travis.yml
+bin/install-wp-tests.sh
+phpunit.xml.dist
+tests/bootstrap.php
+tests/test-sample.php
 .git
 .gitignore" "$SVNPATH/trunk/"
 
