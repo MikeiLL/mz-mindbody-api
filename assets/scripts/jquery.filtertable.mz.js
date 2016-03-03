@@ -152,7 +152,6 @@
 								});
 						}
 				});
-				console.log(settings.locations);
                 if (settings.quickList.length>0) { // are there any quick list items to add?
                     quicks = settings.quickListGroupTag ? $('<'+settings.quickListGroupTag+' />') : container;
                     $.each(settings.quickList, function(index, value) { // for each quick list item...

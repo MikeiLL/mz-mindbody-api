@@ -14,7 +14,7 @@ class MZ_Mindbody_Schedule_Display {
 	private $swap_button_text;
 	private $grid_class = '';
 	private $horizontal_class = '';
-	private $mode_button = 0;
+	private $mode_select = 0;
 	
 	public function __construct(){
 		require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
@@ -28,11 +28,11 @@ class MZ_Mindbody_Schedule_Display {
 		$main_js_params = array(
 			'staff_preposition' => __('with', 'mz-mindbody-api'),
 			'initial' => $this->initial_button_text,
-			'mode_button' => $this->mode_button,
+			'mode_select' => $this->mode_select,
 			'swap' => $this->swap_button_text,
 			'today' => date_i18n($this->mz_mbo_globals->mz_date_display, strtotime('today'))
 			);
-	
+
 		wp_localize_script( 'mz_mbo_bootstrap_script', 'mz_mbo_bootstrap_script', $main_js_params);
  	}
 	
@@ -76,6 +76,7 @@ class MZ_Mindbody_Schedule_Display {
 		$hide_cancelled = $atts['hide_cancelled'];
 		$registrants_count = $atts['registrants_count'];
 		$mode_select = $atts['mode_select'];
+		$this->mode_select = $mode_select;
 		
 		//Build caache based on shortcode attributes.
 		$mz_schedule_cache = 'mz_sched_che';
@@ -236,13 +237,11 @@ class MZ_Mindbody_Schedule_Display {
 			$this->horizontal_class = $table_class;
 			$this->initial_button_text = __('Grid View', 'mz-mindbody-api');
 			$this->swap_button_text = __('Horizontal View', 'mz-mindbody-api');
-			$this->mode_button = 1;
 		elseif ($mode_select == 2):
 			$this->horizontal_class = 'mz_hidden '.$table_class;
 			$this->grid_class = $table_class;
 			$this->initial_button_text = __('Horizontal View', 'mz-mindbody-api');
 			$this->swap_button_text = __('Grid View', 'mz-mindbody-api');
-			$this->mode_button = 1;
 		else:
 			$this->horizontal_class = $table_class;
 			$this->grid_class = $table_class;

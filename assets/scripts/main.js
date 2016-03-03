@@ -1171,9 +1171,12 @@ $(document).ready(function($) {
 		});
 		
 		//Start mode select
-		if (mz_mbo_bootstrap_script.mode_button == 1) {
-			//Seems like we just shouldn't be creating the second '.filter-table' <p>, but for now
-			$('.filter-table').last().hide();
+		if (mz_mbo_bootstrap_script.mode_select !== 0) {
+			if (mz_mbo_bootstrap_script.mode_select == 1) {
+				$('.filter-table').last().addClass('mz_hidden');
+			} else { // Then assume it's 2
+				$('.filter-table').first().addClass('mz_hidden');
+				}
 			$('.mz_schedule_nav_holder').first().append($('<a id="mode-select" class="btn btn-xs mz-mode-select">'+ mz_mbo_bootstrap_script.initial +'</a>'));
 			var showMe = $("th.mz_date_display:contains('"+mz_mbo_bootstrap_script.today+"')");
 			$('.mz_date_display').each(function(i, cell){
@@ -1190,6 +1193,7 @@ $(document).ready(function($) {
 					$(item).toggleClass('mz_schedule_filter');
 					});
 				$('.mz_grid_date').toggleClass('mz_hidden');
+				$('.filter-table').toggleClass('mz_hidden');
 				$('#mode-select').text(function(i, text) {
 					return text == mz_mbo_bootstrap_script.initial ? mz_mbo_bootstrap_script.swap : mz_mbo_bootstrap_script.initial;
 					});
