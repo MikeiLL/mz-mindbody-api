@@ -182,14 +182,15 @@ class MZ_Mindbody_Schedule_Display {
 			
 		// populate dictionary of locations with names 
 			foreach ($mz_days as $class) {
-				if (!array_key_exists($class['Location']['Name'], $this->locations_dictionary)):
-					$this->locations_dictionary[$class['Location']['Name']] = $class['Location']['Name'];
+				if (!in_array($class['Location']['ID'], $this->locations)) { continue; }
+				if (!array_key_exists($class['Location']['ID'], $this->locations_dictionary)):
+					$this->locations_dictionary[$class['Location']['ID']] = $class['Location']['Name'];
 					$this->locations_dict_length += 1;
 				endif;
 				if ($this->locations_count == $this->locations_dict_length)
 					break;
 			}
-		
+
 		/* In case more locations specified than exist, print error. 
 		But this would be a problem if was were not any classes in location
 		during particular period.

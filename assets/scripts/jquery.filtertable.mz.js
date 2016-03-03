@@ -141,9 +141,10 @@
                     container.append(filter);
                 }
 				selector.bind('change', function () { // bind doFiltering() to click and search events
+					window.mz_mbo_selectValue = $(this).val();
 					if ($(this).val() != '0') {
 							$( ".mz_schedule_table" ).hide(); // hide all the divs in the schedule
-							$( ".mz_location_"+$(this).prop('selectedIndex') ).show();
+							$( ".mz_location_"+$(this).val() ).show();
 						}else{
 							$( ".mz_schedule_table" ).show();
 							Object.keys(settings.locations).forEach(function(value) {
@@ -151,6 +152,7 @@
 								});
 						}
 				});
+				console.log(settings.locations);
                 if (settings.quickList.length>0) { // are there any quick list items to add?
                     quicks = settings.quickListGroupTag ? $('<'+settings.quickListGroupTag+' />') : container;
                     $.each(settings.quickList, function(index, value) { // for each quick list item...
