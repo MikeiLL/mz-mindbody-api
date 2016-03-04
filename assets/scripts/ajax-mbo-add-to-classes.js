@@ -8,8 +8,6 @@
 		
 			$(this).closest(".mz_add_to_class").removeClass('mz_add_to_class');
 			$(this).closest("#mz_add_to_class").addClass('mz_add_to_class'+classID);
-			console.log($(this));
-			console.log($(this).closest("#mz_add_to_class"));
 			$(this).closest(".mz_description_holder").find('.visitMBO').removeClass('visitMBO');
 			$(this).closest(".mz_description_holder").find("#visitMBO").addClass('visitMBO'+classID);
 			$('.mz_add_to_class'+classID).text("MindBodyOnline...");
