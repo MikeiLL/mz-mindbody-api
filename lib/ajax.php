@@ -74,7 +74,9 @@ $protocol = isset( $_SERVER["HTTPS"]) ? 'https://' : 'http://';
 	$protocol = isset( $_SERVER["HTTPS"]) ? 'https://' : 'http://';
  
  	$params = array(
-		'ajaxurl' => admin_url( 'admin-ajax.php', $protocol )
+		'ajaxurl' => admin_url( 'admin-ajax.php', $protocol ),
+		'signup' => __('Sign-up', 'mz-mindbody-api'),
+		'login' => __('Login to Sign-up', 'mz-mindbody-api')
 		);
 	
 	wp_localize_script( 'mZ_check_session_logged', 'mZ_check_session_logged', $params);

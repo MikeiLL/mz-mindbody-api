@@ -1179,8 +1179,8 @@ $(document).ready(function($) {
 				}
 			$('.mz_schedule_nav_holder').first().append($('<a id="mode-select" class="btn btn-xs mz-mode-select">'+ mz_mbo_bootstrap_script.initial +'</a>'));
 			//var showMe = $("th.mz_date_display:contains('"+mz_mbo_bootstrap_script.today+"')");
-			console.log(mz_mbo_bootstrap_script.is_current_week);
 			if (mz_mbo_bootstrap_script.is_current_week == 1) {
+			  // If in current week remove all days previous to today in horizontal mode
 				$('.mz_date_display').each(function(i, cell){
 					if (cell.scope == 'header') {
 						if ($(cell).text() == mz_mbo_bootstrap_script.today){

@@ -426,11 +426,18 @@ if ( is_admin() )
 				}
   mZ_write_to_file(array($_REQUEST, $_SESSION));
  	if (isset($_SESSION['GUID'])) {
-  	$result['logged_in'] = 'user_logged_in'; // $_SESSION['GUID'];
+  	$result['logged_in'] = 1; // 'user_logged_in'
   	} else {
-  	$result['logged_in'] = 'user_not_logged_in';
+  	$result['logged_in'] = 0; // 'user_not_logged_in'
   	}
-  $result = json_encode($result);
+ 
+   if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+       $result = json_encode($result);
+       echo $result;
+    }
+    else {
+       header("Location: ".$_SERVER["HTTP_REFERER"]);
+    }
  
     die();
  }
