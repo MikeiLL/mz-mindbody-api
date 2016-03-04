@@ -95,12 +95,10 @@ We want to do as little as possible here so CSS can be defined in theme.
 			
 		.mz-schedule-grid {
 			td {
-    		min-width: 100px;
+    		min-width: 20px;
     	}
 		}
-		.mz_schedule_filter {
-			border: 2px solid magenta'
-			}
+		
 /* Potentially nice select styling:
  Select Box Styles: bavotasan.com Method (with special adaptations by ericrasch.com) */
 /* -------------------- Source: http://bavotasan.com/2011/style-select-box-using-only-css/ */
