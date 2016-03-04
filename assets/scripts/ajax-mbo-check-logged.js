@@ -2,7 +2,7 @@
 	$(document).ready(function($) {
     setTimeout(checkVariableValue, 500);
     function checkVariableValue() {
-    			alert("here I am.");
+    			//alert("here I am.");
          $.ajax({
 					type : "post",
 					dataType : "json",

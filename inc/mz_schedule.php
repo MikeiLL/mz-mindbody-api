@@ -15,6 +15,7 @@ class MZ_Mindbody_Schedule_Display {
 	private $grid_class = '';
 	private $horizontal_class = '';
 	private $mode_select = 0;
+	private $is_current_week = 1;
 	
 	public function __construct(){
 		require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
@@ -29,6 +30,7 @@ class MZ_Mindbody_Schedule_Display {
 			'staff_preposition' => __('with', 'mz-mindbody-api'),
 			'initial' => $this->initial_button_text,
 			'mode_select' => $this->mode_select,
+			'is_current_week' => $this->is_current_week,
 			'swap' => $this->swap_button_text,
 			'today' => date_i18n($this->mz_mbo_globals->mz_date_display, strtotime('today'))
 			);
@@ -87,9 +89,11 @@ class MZ_Mindbody_Schedule_Display {
 			$mz_schedule_cache .= '_'.substr($key,1,1).'_'.$value;
 		}
 		//Add date to cache
-		if (!empty($_GET['mz_date']))
+		if (!empty($_GET['mz_date'])) {
 			$mz_schedule_cache .= '_'.$_GET['mz_date'];
-	
+			$this->is_current_week = 0;
+			}
+
 		if (($grid == 1) && ($type == 'day')) {
 			return '<div style="color:red"><h2>'.__('Grid Calendar Incompatible with Single Day Mode!', 'mz_mndbody_api').'</h2></div>';
 		}
