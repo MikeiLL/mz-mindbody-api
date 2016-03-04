@@ -231,8 +231,8 @@ class Single_event {
 			$manage_button_class = "fa fa-wrench visitMBO";
 		else:
 			$this->signup_button_class = "mz_add_to_class btn signup";
-			$manage_button_class = "signup visitMBO";
-			$this->sign_up_text = $this->sign_up_title;
+			$manage_button_class = "visitMBO";
+			$this->sign_up_text = '<span class="signup">'.$this->sign_up_title.'</span>';
 		endif;
 		
 		$signup_target = "_blank";

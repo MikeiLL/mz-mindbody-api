@@ -8,9 +8,11 @@
 		
 			$(this).closest(".mz_add_to_class").removeClass('mz_add_to_class');
 			$(this).closest("#mz_add_to_class").addClass('mz_add_to_class'+classID);
+			console.log($(this));
+			console.log($(this).closest("#mz_add_to_class"));
 			$(this).closest(".mz_description_holder").find('.visitMBO').removeClass('visitMBO');
 			$(this).closest(".mz_description_holder").find("#visitMBO").addClass('visitMBO'+classID);
-			$('.mz_add_to_class'+classID).text("MindBodyOnline...");
+			$('.mz_add_to_class'+classID).find(".signup").text("MindBodyOnline...");
 		
 			$.ajax({
 			 type : "post",
@@ -20,7 +22,7 @@
 			 success: function(json) {
 				if(json.type == "success") {
 					 console.log("json success");
-					 $(".mz_add_to_class"+classID).text(json.message);
+					 $(".mz_add_to_class"+classID).find(".signup").text(json.message);
 					 $(".mz_description_holder").find(".visitMBO"+classID).removeAttr("style");
 					 if ($(".mz_add_to_class"+classID).hasClass("fa-sign-in")){
 								$(".mz_add_to_class"+classID).removeClass("fa-sign-in").addClass("fa-check-square-o");
@@ -28,7 +30,7 @@
 							}
 				} else {
 					console.log("json error");
-					 $(".mz_add_to_class"+classID).text(json.message);
+					 $(".mz_add_to_class"+classID).find(".signup").text(json.message);
 					 $(".mz_description_holder").find(".visitMBO"+classID).removeAttr("style");
 					 if ($(".mz_add_to_class"+classID).hasClass("fa-sign-in")){
 								$(".mz_add_to_class"+classID).removeClass("fa-sign-in").addClass("fa-thumbs-o-down");
