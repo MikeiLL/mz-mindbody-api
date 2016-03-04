@@ -1171,7 +1171,7 @@ $(document).ready(function($) {
 		});
 		
 		//Start mode select
-		if (mz_mbo_bootstrap_script.mode_select !== 0) {
+		if (mz_mbo_bootstrap_script.mode_select !== '0') {
 			if (mz_mbo_bootstrap_script.mode_select == 1) {
 				$('.filter-table').last().addClass('mz_hidden');
 			} else { // Then assume it's 2

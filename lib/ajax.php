@@ -4,7 +4,8 @@
 
 //Force page protocol to match current
 $protocol = isset( $_SERVER["HTTPS"]) ? 'https://' : 'http://';
- 
+
+// Start Ajax Add to classes  
  function mZ_add_to_classes() {
  	wp_register_script('mZ_add_to_classes', plugins_url('/mz-mindbody-api/dist/scripts/ajax-mbo-add-to-classes.js'), array('jquery'), null, true);
  	wp_enqueue_script('mZ_add_to_classes');
@@ -28,9 +29,9 @@ $protocol = isset( $_SERVER["HTTPS"]) ? 'https://' : 'http://';
 	wp_localize_script( 'mZ_add_to_classes', 'mZ_add_to_classes', $params);
 
  	}
+// End Ajax Add to classes 
 
-// Ajax
-
+// Start Ajax Get Registrants 
  function mZ_get_registrants() {
  	wp_register_script('mZ_get_registrants', plugins_url('/mz-mindbody-api/dist/scripts/ajax-mbo-show-registrants.js'), array('jquery'), null, true);
  	wp_enqueue_script('mZ_get_registrants');
@@ -55,6 +56,30 @@ $protocol = isset( $_SERVER["HTTPS"]) ? 'https://' : 'http://';
 	wp_localize_script( 'mZ_get_registrants', 'mZ_get_registrants', $params);
 
  	}
+ // End Ajax Get Registrants 
+
+// Start Ajax Is Logged In  
+  function mZ_check_session_logged() {
+ 	wp_register_script('mZ_check_session_logged', plugins_url('/mz-mindbody-api/dist/scripts/ajax-mbo-check-logged.js'), array('jquery'), null, true);
+ 	wp_enqueue_script('mZ_check_session_logged');
+ 	}
+
+ //Enqueue script in footer
+ add_action('wp_footer', 'mZ_check_session_logged');
+ add_action('wp_footer', 'mz_mbo_check_session_logged');
+
+ function mz_mbo_check_session_logged() {
+
+	//Force page protocol to match current
+	$protocol = isset( $_SERVER["HTTPS"]) ? 'https://' : 'http://';
  
+ 	$params = array(
+		'ajaxurl' => admin_url( 'admin-ajax.php', $protocol )
+		);
+	
+	wp_localize_script( 'mZ_check_session_logged', 'mZ_check_session_logged', $params);
+
+ 	}
+// End Ajax Is Logged In 
 
  ?>

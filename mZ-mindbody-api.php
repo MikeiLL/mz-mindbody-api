@@ -193,11 +193,10 @@ class MZ_Mindbody_API {
 		foreach ( glob( plugin_dir_path( __FILE__ )."inc/*.php" ) as $file )
 			include_once $file;
 			
-			include_once(plugin_dir_path( __FILE__ ) . '/mindbody-php-api/MB_API.php');
-			include_once(plugin_dir_path( __FILE__ ) . '/lib/ajax.php');
-			include_once(plugin_dir_path( __FILE__ ) . '/lib/functions.php');
-			include_once(plugin_dir_path( __FILE__ ) . 'lib/html_table.class.php');
-			include_once(plugin_dir_path( __FILE__ ) . 'lib/schedule_objects.php');
+			include_once(MZ_MINDBODY_SCHEDULE_DIR . 'mindbody-php-api/MB_API.php');
+			include_once(MZ_MINDBODY_SCHEDULE_DIR . 'lib/functions.php');
+			include_once(MZ_MINDBODY_SCHEDULE_DIR . 'lib/html_table.class.php');
+			include_once(MZ_MINDBODY_SCHEDULE_DIR . 'lib/schedule_objects.php');
         	
         $this->loader = new MZ_Mindbody_API_Loader();
     }
@@ -414,6 +413,28 @@ if ( is_admin() )
     die();
  }
  //End Ajax Signup
+ 
+ 	//Start Ajax Check Signed In
+ add_action('wp_ajax_nopriv_mz_mbo_check_session_logged', 'mz_mbo_check_session_logged_callback');
+ add_action('wp_ajax_mz_mbo_check_session_logged', 'mz_mbo_check_session_logged_callback');	
+
+ function mz_mbo_check_session_logged_callback() {
+
+  //check_ajax_referer( $_REQUEST['nonce'], "mz_MBO_add_to_class_nonce", false);
+ 	if ((function_exists('session_status') && session_status() !== PHP_SESSION_ACTIVE) || !session_id()) {
+				  session_start();
+				}
+  mZ_write_to_file(array($_REQUEST, $_SESSION));
+ 	if (isset($_SESSION['GUID'])) {
+  	$result['logged_in'] = 'user_logged_in'; // $_SESSION['GUID'];
+  	} else {
+  	$result['logged_in'] = 'user_not_logged_in';
+  	}
+  $result = json_encode($result);
+ 
+    die();
+ }
+ //End Ajax Check Signed In
  
  
 

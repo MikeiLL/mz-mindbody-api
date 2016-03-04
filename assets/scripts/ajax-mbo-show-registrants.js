@@ -32,7 +32,7 @@
 			$.ajax({
 				type: "GET",
 				dataType: 'json',
-				url : mZ_add_to_classes.ajaxurl,
+				url : mZ_get_registrants.ajaxurl,
 				data : {action: 'mz_mbo_get_registrants', nonce: nonce, classID: classID},
 				success: function(json) {
 					if(json.type == "success") {
