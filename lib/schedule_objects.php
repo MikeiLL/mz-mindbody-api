@@ -230,8 +230,8 @@ class Single_event {
 			$this->signup_button_class = "mz_add_to_class fa fa-sign-in";
 			$manage_button_class = "fa fa-wrench visitMBO";
 		else:
-			$this->signup_button_class = "mz_add_to_class btn";
-			$manage_button_class = "fa fa-wrench visitMBO";
+			$this->signup_button_class = "mz_add_to_class btn signup";
+			$manage_button_class = "signup visitMBO";
 			$this->sign_up_text = $this->sign_up_title;
 		endif;
 		
