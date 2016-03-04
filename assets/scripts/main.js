@@ -1206,7 +1206,3 @@ $(document).ready(function($) {
 	}); // On doc ready
 	
 })(jQuery);
-
-
-
-
