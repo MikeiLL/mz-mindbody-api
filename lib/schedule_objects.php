@@ -196,12 +196,19 @@ class Single_event {
 			$teacher->set('text', $this->teacher);
 			$times = new html_element('h4');
 			$times->set('text', $this->event_start . ' - ' . $this->event_end);
-			$location = new html_element('h4');
-			$the_word_at = __('at', 'mz-mindbody-api');
-			$location->set('text', $the_word_at . ' ' . $this->locationNameDisplay . ' ');
+			
+			if (isset($this->locationNameDisplay) && $this->locationNameDisplay != ''):
+				$location = new html_element('h4');
+				$the_word_at = __('at', 'mz-mindbody-api');
+				$location->set('text', $the_word_at . ' ' . $this->locationNameDisplay . ' ');
+				$location_display = $location->build();
+			else: 
+				$location_display = '';
+			endif;
+			
 			$description = new html_element('p');
 			$description->set('text', $display_image->build() . $this->classDescription);
-			$event_details = $title->build() . $teacher->build() . $times->build() . $location->build() . $description->build() . $this->signupButton[0];
+			$event_details = $title->build() . $teacher->build() . $times->build() . $location_display . $description->build() . $this->signupButton[0];
 			$this->class_details .= $event_details . '<br />' .
 			$this->displayCancelled . '<hr style="clear:both"/>';
 		else:

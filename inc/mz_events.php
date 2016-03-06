@@ -57,6 +57,10 @@ class MZ_MBO_Events {
 			$locations = explode(', ', $atts['locations']);
 			}
 		
+		if ($advanced == 1) {
+			include_once(MZ_MINDBODY_SCHEDULE_DIR . 'lib/ajax.php');
+		}
+		
 		$options = get_option( 'mz_mindbody_options' );
 		// grab session type IDs for events
 		$mz_sessions = explode(',', $options['mz_mindbody_eventID']);
@@ -109,7 +113,7 @@ class MZ_MBO_Events {
 			{
 				$classes = $this->makeNumericArray($mz_event_data['GetClassesResult']['Classes']['Class']);
 				$classes = sortClassesByDate($classes, $this->mz_mbo_globals->time_format, $locations, 0, array(), 
-																	0, 0, 0, 'events','DropIn');
+																	$advanced, 0, 0, 'events','DropIn');
 				$number_of_events = count($classes);
 
 				$return .= '<p>' .$this->mz_mbo_globals->mz_event_calendar_duration .' '. __('Day Event Calendar');
@@ -134,11 +138,6 @@ class MZ_MBO_Events {
 						  
 						  
 							$event_container->set('text', $class->class_details );
-							/*$return .= $class->classDescription;
-							$return .= $class->staffName;
-							$return .= $class->startDateTime;
-							$return .= $class->startTime;
-							$return .= $class->endDateTime;*/
 							
 							$return .= $event_container->build();
 						}
