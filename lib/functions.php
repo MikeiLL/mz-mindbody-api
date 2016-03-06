@@ -212,9 +212,9 @@ function mz_sort_grid_times ($a, $b) {
 		}
 			
 function sortClassesByDate($mz_classes = array(), $time_format = "g:i a", 
-																	$locations=1, $hide_cancelled=0, $hide, 
-																	$advanced, $show_registrants, $registrants_count, 
-																	$calendar_format) {
+																	$locations=1, $hide_cancelled=0, $hide=array(), 
+																	$advanced=0, $show_registrants=0, $registrants_count=0, 
+																	$calendar_format='horizontal', $class_type='Enrollment') {
 	$mz_classesByDate = array();
 	
 	if(!is_array($locations)):
@@ -237,11 +237,11 @@ function sortClassesByDate($mz_classes = array(), $time_format = "g:i a",
 		$single_event = new Single_event($class, $daynum="", $hide=array(), $locations, $hide_cancelled=0, 
 																			$advanced, $show_registrants, $registrants_count, $calendar_format,
 																			$calendar_format);
-																			
+									
 		if(!empty($mz_classesByDate[$classDate])) {
 			if (
 				(!in_array($class['Location']['ID'], $locations)) || 
-				($class['ClassDescription']['Program']['ScheduleType'] == 'Enrollment')
+				($class['ClassDescription']['Program']['ScheduleType'] == $class_type)
 				) {
 					continue;
 				}
@@ -250,7 +250,7 @@ function sortClassesByDate($mz_classes = array(), $time_format = "g:i a",
 		} else {
 			if (
 				(!in_array($class['Location']['ID'], $locations)) || 
-				($class['ClassDescription']['Program']['ScheduleType'] == 'Enrollment')
+				($class['ClassDescription']['Program']['ScheduleType'] == $class_type)
 				) {
 					continue;
 				}

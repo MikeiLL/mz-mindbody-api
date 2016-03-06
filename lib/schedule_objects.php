@@ -2,6 +2,8 @@
 
 class Single_event {
 
+	private $mz_mbo_globals;
+	
 	public $sDate;
 	public $sLoc;
 	public $sTG;
@@ -39,7 +41,7 @@ class Single_event {
 	private $mbo_url;
 	private $sType = -7;
 	private $session_type_css;
-	private $class_name_css;
+	private $class_name_css; 
 	private $show_registrants;
 	private $totalBooked; 
 	private $maxCapacity;
@@ -50,10 +52,15 @@ class Single_event {
 	private $clientID;
 	private $signUpButtonID;
 	private $signup_button_class;
+	private $event_start;
+	private $event_end;
 	
 	public function __construct($class, $day_num='', $hide=array(), $locations, $hide_cancelled=0, $advanced, 
 															$show_registrants, $registrants_count, $calendar_format='horizontal'){
-
+		
+		require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
+		$this->mz_mbo_globals = new MZ_Mindbody_Init();
+		
 		$this->sign_up_title = __('Sign-Up', 'mz-mindbody-api');
 		$this->manage_text = __('Manage on MindBody Site', 'mz-mindbody-api');
 		$this->sDate = date_i18n('m/d/Y', strtotime($class['StartDateTime']));
@@ -91,6 +98,8 @@ class Single_event {
 		$this->calendar_format = $calendar_format;
 		$this->time_of_day = $this->time_of_day_maker($this->startTime);
 		$this->show_registrants = $show_registrants;
+		$this->event_start = date_i18n($this->mz_mbo_globals->date_format . ' ' .$this->mz_mbo_globals->time_format, strtotime($this->startDateTime));
+		$this->event_end = date_i18n($this->mz_mbo_globals->time_format, strtotime($this->endDateTime));
 		
 		$this->clientID = isset($_SESSION['GUID']) ? $_SESSION['client']['ID'] : '';
 
@@ -132,7 +141,7 @@ class Single_event {
 				$this->locationAddress = $class['Location']['Address'];
 				$this->locationAddress2 = $class['Location']['Address2'];
 				$this->url_encoded_address = urlencode($this->locationAddress.$this->locationAddress2);
-				$this->locationNameDisplay = '<div class="location_name '.$this->location_name_css.'"><a href="http://maps.google.com/maps?q='.$this->url_encoded_address.'" target="_blank" title="'. $this->locationAddress. '">' . 
+				$this->locationNameDisplay = '<span class="location_name '.$this->location_name_css.'"><a href="http://maps.google.com/maps?q='.$this->url_encoded_address.'" target="_blank" title="'. $this->locationAddress. '">' . 
 										$this->locationName . '</a>';
 			}
 
@@ -158,6 +167,43 @@ class Single_event {
 			$this->teacher . $sign_up_manage_links .
 			'<br/>' . $this->classLength . 
 			$this->displayCancelled . '<br/>' . $this->locationNameDisplay . '</div>';
+		elseif ($this->calendar_format == 'events'):
+			$image = new html_element('img');
+			$image->set('class', 'mz_event_image');
+			if (isset($this->classImage) && $this->classImage != '') {
+				$image->set('src', $this->classImage);
+			}
+			else if (isset($this->staffImage) && $this->staffImage != '') {
+				$image->set('src', $this->staffImage);
+			}
+			else {
+			$image = '';
+			$display_image = '';
+			}
+			if ($image != '') {
+				$image_container = new html_element('div');
+				$image_container->set('class', 'wp-caption mz_event_image_container');
+				$image_caption = new html_element('p');
+				$image_caption->set('class', 'wp-caption-text');
+				$image_caption->set('text', $this->className);
+				$image_container->set('text', $image->build() . $image_caption->build());
+				$display_image = $image_container;
+			}
+			$title = new html_element('h2');
+			$title->set('text', $this->className);
+			$title->set('class', 'event_title ' . $this->class_name_css);
+			$teacher = new html_element('h3');
+			$teacher->set('text', $this->teacher);
+			$times = new html_element('h4');
+			$times->set('text', $this->event_start . ' - ' . $this->event_end);
+			$location = new html_element('h4');
+			$the_word_at = __('at', 'mz-mindbody-api');
+			$location->set('text', $the_word_at . ' ' . $this->locationNameDisplay . ' ');
+			$description = new html_element('p');
+			$description->set('text', $display_image->build() . $this->classDescription);
+			$event_details = $title->build() . $teacher->build() . $times->build() . $location->build() . $description->build() . $this->signupButton[0];
+			$this->class_details .= $event_details . '<br />' .
+			$this->displayCancelled . '<hr style="clear:both"/>';
 		else:
 			$this->class_details .= $this->class_name_link->build() . 
 			'<br/><div id="visitMBO" class="btn visitMBO" style="display:none">' .
