@@ -54,6 +54,7 @@ class Single_event {
 	private $signup_button_class;
 	private $event_start;
 	private $event_end;
+	public $level; // accessing from another plugin
 	
 	public function __construct($class, $day_num='', $hide=array(), $locations, $hide_cancelled=0, $advanced, 
 															$show_registrants, $registrants_count, $calendar_format='horizontal'){
@@ -102,6 +103,7 @@ class Single_event {
 		$this->event_end = date_i18n($this->mz_mbo_globals->time_format, strtotime($this->endDateTime));
 		
 		$this->clientID = isset($_SESSION['GUID']) ? $_SESSION['client']['ID'] : '';
+		$this->level = isset($class['ClassDescription']['Level']['Name']) ? $class['ClassDescription']['Level']['Name'] : '';
 
 		if (($this->registrants_count == 1) && ($this->maxCapacity != ''))
 			$this->toward_capacity = $this->totalBooked . '/' . $this->maxCapacity;
@@ -187,7 +189,7 @@ class Single_event {
 				$image_caption->set('class', 'wp-caption-text');
 				$image_caption->set('text', $this->className);
 				$image_container->set('text', $image->build() . $image_caption->build());
-				$display_image = $image_container;
+				$display_image = $image_container->build();
 			}
 			$title = new html_element('h2');
 			$title->set('text', $this->className);
@@ -207,7 +209,7 @@ class Single_event {
 			endif;
 			
 			$description = new html_element('p');
-			$description->set('text', $display_image->build() . $this->classDescription);
+			$description->set('text', $display_image . $this->classDescription);
 			$event_details = $title->build() . $teacher->build() . $times->build() . $location_display . $description->build() . $this->signupButton[0];
 			$this->class_details .= $event_details . '<br />' .
 			$this->displayCancelled . '<hr style="clear:both"/>';

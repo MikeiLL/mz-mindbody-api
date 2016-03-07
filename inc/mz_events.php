@@ -98,8 +98,6 @@ class MZ_MBO_Events {
 				$mz_event_data = $mb->GetClasses($mz_timeframe);
 			}
 				
-			$mz_event_data = $mb->GetClasses($mz_timeframe);
-
 			//echo $mb->debug();
 
 			//Cache the mindbody call for 24 hour2

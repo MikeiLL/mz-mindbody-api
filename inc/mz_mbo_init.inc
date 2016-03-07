@@ -44,7 +44,7 @@ class MZ_Mindbody_Init {
 				$mbo_sandbox->load_sandbox();
 				$mbo_sandbox->run_sandbox("MBO Instantiation via " . $_SERVER['REQUEST_URI']);
 		endif;
-		
+		mz_pr("i ran");
 		$options = get_option( 'mz_mindbody_options','Error: Mindbody Credentials Not Set' );
 		if ($options != 'Error: Mindbody Credentials Not Set') {
 			$mb  = new MB_API(array(
