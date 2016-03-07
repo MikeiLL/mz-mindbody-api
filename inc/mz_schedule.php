@@ -16,6 +16,7 @@ class MZ_Mindbody_Schedule_Display {
 	private $horizontal_class = '';
 	private $mode_select = 0;
 	private $is_current_week = 1;
+	private $row_css_classes;
 	
 	public function __construct(){
 		require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
@@ -32,7 +33,7 @@ class MZ_Mindbody_Schedule_Display {
 			'mode_select' => $this->mode_select,
 			'is_current_week' => $this->is_current_week,
 			'swap' => $this->swap_button_text,
-			'today' => date_i18n($this->mz_mbo_globals->mz_date_display, strtotime('today'))
+			'today' => date_i18n($this->mz_mbo_globals->mz_date_display, current_time('timestamp'))
 			);
 
 		wp_localize_script( 'mz_mbo_bootstrap_script', 'mz_mbo_bootstrap_script', $main_js_params);
@@ -338,6 +339,7 @@ class MZ_Mindbody_Schedule_Display {
 	}//EOF mZ_show_schedule
 		
 	private function horizontal_schedule($mz_days_horizontal, $tbl_horizontal) {
+
 		foreach($mz_days_horizontal as $classDate => $mz_classes) {   
 		
 			$tbl_horizontal->addRow('header');
@@ -348,23 +350,21 @@ class MZ_Mindbody_Schedule_Display {
 			$tbl_horizontal->addCell(__('Class Name', 'mz-mindbody-api'), 'mz_classDetails', 'header', array('scope'=>'header'));
 			$tbl_horizontal->addCell(__('Instructor', 'mz-mindbody-api'), 'mz_staffName', 'header', array('scope'=>'header'));
 			$tbl_horizontal->addCell(__('Class Type', 'mz-mindbody-api'), 'mz_sessionTypeName', 'header', array('scope'=>'header'));
-										
+				
 			$tbl_horizontal->addTSection('tbody');
 			foreach($mz_classes['classes'] as $class)
 				{
 					// TODO Remove this which is URU specific
 					if ($class->className == 'Admin') {continue;}
-
+					
 					// start building table rows
-					$row_css_classes = 'mz_description_holder mz_schedule_table mz_location_'.$class->sLoc;
-					$tbl_horizontal->addRow($row_css_classes);
+					$this->row_css_classes = 'mz_description_holder mz_schedule_table mz_location_'.$class->sLoc;
+					$tbl_horizontal->addRow($this->row_css_classes);
 					$tbl_horizontal->addCell($class->time_of_day, 'hidden', 'data');
 					$tbl_horizontal->addCell(date_i18n($this->mz_mbo_globals->time_format, strtotime($class->startDateTime)) . ' - ' . 
 									date_i18n($this->mz_mbo_globals->time_format, strtotime($class->endDateTime)) .
 									'<br/>' . $class->signupButton[0] . ' ' . $class->toward_capacity , 'mz_date_display' );
 		
-					//class name link
-
 					$tbl_horizontal->addCell($class->class_details, "class_name_cell");
 
 					$tbl_horizontal->addCell($class->staffName, 'mz_staffName');
@@ -376,12 +376,13 @@ class MZ_Mindbody_Schedule_Display {
 					endif;
 					
 				}
+				
 			}
 			
-		$tbl_horizontal->addTSection('tfoot');
-		$tbl_horizontal->addRow();
-		$tbl_horizontal->addCell('','','', array('colspan' => '4'));
-	
+		//$tbl_horizontal->addTSection('tfoot');
+		//$tbl_horizontal->addRow();
+		//$tbl_horizontal->addCell('','','', array('colspan' => '4'));
+
 		return $tbl_horizontal->display();
 	}
 	
