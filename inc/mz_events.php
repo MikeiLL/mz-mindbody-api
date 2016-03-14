@@ -89,7 +89,7 @@ class MZ_MBO_Events {
 				delete_transient( $mz_events_cache );
 			}
 			
-			if (isset($_GET) || ( false === ( $mz_event_data = get_transient( $mz_events_cache ) ) ) ) {
+			if ( false === ( $mz_event_data = get_transient( $mz_events_cache ) ) ) {
 				$mb = MZ_Mindbody_Init::instantiate_mbo_API();
 				if ($account == 0) {
 				$mz_event_data = $mb->GetClasses($mz_timeframe);

@@ -1187,7 +1187,7 @@ $(document).ready(function($) {
 								return false;
 							}
 						}
-						$(cell).parent().remove();
+						//$(cell).parent().remove();
 					});
 				}
 			$('#mode-select').click(function(){

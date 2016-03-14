@@ -169,7 +169,7 @@ class Single_event {
 			$this->teacher . $sign_up_manage_links .
 			'<br/>' . $this->classLength . 
 			$this->displayCancelled . '<br/>' . $this->locationNameDisplay . '</div>';
-		elseif ($this->calendar_format == 'events'):
+		elseif ($this->calendar_format == 'events' || $this->calendar_format == 'overview'):
 			$image = new html_element('img');
 			$image->set('class', 'mz_event_image');
 			if (isset($this->classImage) && $this->classImage != '') {
@@ -210,10 +210,24 @@ class Single_event {
 			
 			$description = new html_element('p');
 			$description->set('text', $display_image . $this->classDescription);
-			$event_details = $title->build() . $teacher->build() . $times->build() . $location_display . $description->build() . $this->signupButton[0];
+			$event_details = $title->build();
+			$event_details_array[0] = $teacher->build();
+			$event_details_array[1] = $location_display;
+			$event_details_array[2] = $times->build();
+			$event_details_array[3] = $description->build();
+			if ($this->calendar_format !== 'overview'):
+				// Using "overview" for access by mz-mbo-pages plugin.
+				foreach($event_details_array as $detail){
+						$event_details .= $detail;
+					}
+			$this->displayCancelled . '<hr style="clear:both"/>';
+			else:
+				$event_details = $event_details_array[1] . $event_details_array[3];
+				$this->displayCancelled = '';
+			endif;
 			$this->class_details .= $event_details . '<br />' .
 			$this->displayCancelled . '<hr style="clear:both"/>';
-		else:
+		else: // This is just the title for the horizontal calendar.
 			$this->class_details .= $this->class_name_link->build() . 
 			'<br/><div id="visitMBO" class="btn visitMBO" style="display:none">' .
 			'<a class="btn" href="'.$this->mbo_url.'" target="_blank">' .
