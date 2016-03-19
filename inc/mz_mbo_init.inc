@@ -33,6 +33,8 @@ class MZ_Mindbody_Init {
 		$this->mz_event_calendar_duration = isset($options['mz_mindbody_eventsDuration']) ? $options['mz_mindbody_eventsDuration'] : '60';
 		$this->time_format = get_option('time_format');
 		$this->date_format = get_option('date_format');
+		// Include once in case called from dependent plugin
+		require_once(WP_PLUGIN_DIR . '/mz-mindbody-api/mindbody-php-api/MB_API.php');
 	}
 	
 	static function instantiate_mbo_API () {
@@ -44,7 +46,7 @@ class MZ_Mindbody_Init {
 				$mbo_sandbox->load_sandbox();
 				$mbo_sandbox->run_sandbox("MBO Instantiation via " . $_SERVER['REQUEST_URI']);
 		endif;
-		mz_pr("i ran");
+		//mz_pr("i ran");
 		$options = get_option( 'mz_mindbody_options','Error: Mindbody Credentials Not Set' );
 		if ($options != 'Error: Mindbody Credentials Not Set') {
 			$mb  = new MB_API(array(

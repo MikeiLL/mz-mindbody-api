@@ -142,6 +142,11 @@ Initial release.
 
 == Upgrade Notice ==
 
+= 2.3.5 =
+Allow special Characters in Event/Class Titles
+Add multiple account support in events
+Enable toggle between horizontal and grid calendar display
+
 = 2.2.7 =
 Wider Theme compatibility for Modal Pop-ups.
 Can display registrants on class pop-ups.
