@@ -35,6 +35,7 @@ class Single_event {
 	public $class_details;
 	public $toward_capacity = '';
 	public $time_of_day;
+	public $non_specified_class_times = array();
 	
 	private $classStartTime;
 	private $classEndTime;
@@ -105,6 +106,10 @@ class Single_event {
 		$this->clientID = isset($_SESSION['GUID']) ? $_SESSION['client']['ID'] : '';
 		$this->level = isset($class['ClassDescription']['Level']['Name']) ? $class['ClassDescription']['Level']['Name'] : '';
 
+		// Create a non-specific schedule time for use in mz-mbo-pages
+		$non_specific_class_time = date_i18n('l H:i a', strtotime($class['StartDateTime']));
+		array_push($this->non_specified_class_times, $non_specific_class_time);
+		
 		if (($this->registrants_count == 1) && ($this->maxCapacity != ''))
 			$this->toward_capacity = $this->totalBooked . '/' . $this->maxCapacity;
 						
@@ -220,13 +225,13 @@ class Single_event {
 				foreach($event_details_array as $detail){
 						$event_details .= $detail;
 					}
-			$this->displayCancelled . '<hr style="clear:both"/>';
+			$this->displayCancelled . '<hr  class="class_event_divider" style="clear:both"/>';
 			else:
 				$event_details = $event_details_array[1] . $event_details_array[3];
 				$this->displayCancelled = '';
 			endif;
 			$this->class_details .= $event_details . '<br />' .
-			$this->displayCancelled . '<hr style="clear:both"/>';
+			$this->displayCancelled;
 		else: // This is just the title for the horizontal calendar.
 			$this->class_details .= $this->class_name_link->build() . 
 			'<br/><div id="visitMBO" class="btn visitMBO" style="display:none">' .

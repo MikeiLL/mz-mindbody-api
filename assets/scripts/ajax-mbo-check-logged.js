@@ -1,7 +1,9 @@
 (function($) {
 	$(document).ready(function($) {
-    setTimeout(checkVariableValue, 500);
+    //setTimeout(checkVariableValue, 500);
+    checkVariableValue();
     function checkVariableValue() {
+    		console.log("this happened.");
 			 $.ajax({
 				type : "post",
 				dataType : "json",
@@ -11,7 +13,7 @@
 					if (json.logged_in == '1') {
 						$('.signup').text(mZ_check_session_logged.signup);
 						$('.mz_add_to_class').prop('title', mZ_check_session_logged.signup);
-						$('.mz_add_to_class').prop('id', 'mz_login');
+						$('.mz_add_to_class').prop('id', 'mz_add_to_class');
 						$('.mz_add_to_class').removeAttr("href");
 					} else {
 						$('.signup').text(mZ_check_session_logged.login);
