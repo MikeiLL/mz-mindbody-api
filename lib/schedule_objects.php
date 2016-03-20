@@ -107,7 +107,7 @@ class Single_event {
 		$this->level = isset($class['ClassDescription']['Level']['Name']) ? $class['ClassDescription']['Level']['Name'] : '';
 
 		// Create a non-specific schedule time for use in mz-mbo-pages
-		$non_specific_class_time = date_i18n('l H:i a', strtotime($class['StartDateTime']));
+		$non_specific_class_time = date_i18n('l g:i a', strtotime($class['StartDateTime']));
 		array_push($this->non_specified_class_times, $non_specific_class_time);
 		
 		if (($this->registrants_count == 1) && ($this->maxCapacity != ''))
