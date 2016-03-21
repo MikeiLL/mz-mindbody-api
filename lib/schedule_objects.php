@@ -107,8 +107,12 @@ class Single_event {
 		$this->level = isset($class['ClassDescription']['Level']['Name']) ? $class['ClassDescription']['Level']['Name'] : '';
 
 		// Create a non-specific schedule time for use in mz-mbo-pages
-		$non_specific_class_time = date_i18n('l g:i a', strtotime($class['StartDateTime']));
+		$non_specific_class_time = date_i18n('l g:i a', strtotime($class['StartDateTime'])). ' - ' .
+															 date_i18n('g:i a', strtotime($class['EndDateTime'])) . '&nbsp;' .
+																'<span class="schedule_location">(' . $this->locationName . ')</span>';
+																
 		array_push($this->non_specified_class_times, $non_specific_class_time);
+		
 		
 		if (($this->registrants_count == 1) && ($this->maxCapacity != ''))
 			$this->toward_capacity = $this->totalBooked . '/' . $this->maxCapacity;
@@ -124,7 +128,7 @@ class Single_event {
 		}
 
 		if(!in_array('teacher', $hide)){
-			$this->teacher = __('with', 'mz-mindbody-api') . '&nbsp;' . $class['Staff']['Name'] .
+			$this->teacher = __('with', 'mz-mindbody-api') . ' ' . $class['Staff']['Name'] .
 			'<br/>';
 			}
 			
@@ -240,7 +244,7 @@ class Single_event {
 			$this->displayCancelled;
 		endif;
 
-	}
+	} // Construct
 	
 	private function classLinkMaker($staffName, $className, $classDescription, $sclassidID, $staffImage, $show_registrants) {
 			/* Build and return an href object for each class/event
