@@ -134,7 +134,6 @@ class MZ_MBO_Events {
 						foreach($classes['classes'] as $class)
 						{
 						  
-						  
 							$event_container->set('text', $class->class_details );
 							
 							$return .= $event_container->build();

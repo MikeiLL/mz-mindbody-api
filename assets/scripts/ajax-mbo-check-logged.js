@@ -1,9 +1,7 @@
 (function($) {
 	$(document).ready(function($) {
-    //setTimeout(checkVariableValue, 500);
     checkVariableValue();
     function checkVariableValue() {
-    		console.log("this happened.");
 			 $.ajax({
 				type : "post",
 				dataType : "json",

@@ -162,7 +162,7 @@ class Single_event {
 		if(!in_array('signup', $hide)){
 				$this->signupButton = $this->makeSignupButton($this->advanced, $this->calendar_format);
 			}
-											
+
 		$this->class_name_link = $this->classLinkMaker($this->staffName, $this->className, 
 																							$this->classDescription, $this->sclassidID, 
 																							$this->staffImage, $this->show_registrants);
@@ -200,6 +200,8 @@ class Single_event {
 				$image_container->set('text', $image->build() . $image_caption->build());
 				$display_image = $image_container->build();
 			}
+			if ($this->calendar_format == 'events')
+				$this->class_details .= $sign_up_manage_links;
 			$title = new html_element('h2');
 			$title->set('text', $this->className);
 			$title->set('class', 'event_title ' . $this->class_name_css);
@@ -303,7 +305,7 @@ class Single_event {
 		if (($this->maxCapacity != "") && ($this->totalBooked == $this->maxCapacity)):
 			$this->sign_up_title = __('Sign-Up for waiting list', 'mz-mindbody-api');
 		endif;
-		
+
 		if ($calendar_format == 'grid'):
 			$this->signup_button_class = "mz_add_to_class fa fa-sign-in";
 			$manage_button_class = "fa fa-wrench visitMBO";
