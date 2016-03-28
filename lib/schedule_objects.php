@@ -200,8 +200,7 @@ class Single_event {
 				$image_container->set('text', $image->build() . $image_caption->build());
 				$display_image = $image_container->build();
 			}
-			if ($this->calendar_format == 'events')
-				$this->class_details .= $sign_up_manage_links;
+			
 			$title = new html_element('h2');
 			$title->set('text', $this->className);
 			$title->set('class', 'event_title ' . $this->class_name_css);
@@ -231,7 +230,7 @@ class Single_event {
 				foreach($event_details_array as $detail){
 						$event_details .= $detail;
 					}
-			$this->displayCancelled . '<hr  class="class_event_divider" style="clear:both"/>';
+			$this->displayCancelled . '<hr class="class-event-divider" style="clear:both" />';
 			else:
 				$event_details = $event_details_array[1] . $event_details_array[3];
 				$this->displayCancelled = '';
@@ -245,6 +244,9 @@ class Single_event {
 			$this->manage_text . '</a></div>' .
 			$this->displayCancelled;
 		endif;
+		
+		if ($this->calendar_format == 'events')
+			$this->class_details .= $sign_up_manage_links . '<hr class="class-event-divider" style="clear:both" />';
 
 	} // Construct
 	
