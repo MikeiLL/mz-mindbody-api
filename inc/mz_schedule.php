@@ -138,17 +138,17 @@ class MZ_Mindbody_Schedule_Display {
 		$mz_cache_reset = isset($this->mz_mbo_globals->options['mz_mindbody_clear_cache']) ? "on" : "off";
 		
 		$last_look = get_transient($mz_schedule_timer);
-		
+
 		// Insure that MBO info is up to date for each new day.
 		if ( $mz_cache_reset == "on" || $last_look != $this::$time_tracker){
 			// delete_transient( $mz_schedule_cache );
 			// Replaced above with the following so we could deal with multiple date ranges being called.
 			global $wpdb;
-			$wpdb->query( "DELETE FROM `$wpdb->options` WHERE `option_name` LIKE ('%mz_sched_che%')" );
+			$wpdb->query( "DELETE FROM `$wpdb->options` WHERE `option_name` LIKE ('%mz_sched_che%' OR '%mz_sched_tim%')" );
 		}
 		//Uncomment to look at transients
 		//global $wpdb;
-		//$all_of_us = $wpdb->get_results( "SELECT * FROM `$wpdb->options` WHERE `option_name` LIKE ('%mz_sched_che%')" );
+		//$all_of_us = $wpdb->get_results( "SELECT * FROM `$wpdb->options` WHERE `option_name` LIKE ('%mz_sched_che%' OR '%mz_sched_tim%')" );
 		//mz_pr($all_of_us);
 		
 		if ( false === get_transient( $mz_schedule_cache ) ) {
