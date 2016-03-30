@@ -36,6 +36,7 @@ class Single_event {
 	public $toward_capacity = '';
 	public $time_of_day;
 	public $non_specified_class_times = array();
+	public $scheduleType;
 	
 	private $classStartTime;
 	private $classEndTime;
@@ -95,6 +96,7 @@ class Single_event {
 		$this->session_type_css .' mz_'. $this->class_name_css .'">';
 		$this->totalBooked = $class['TotalBooked'];
 		$this->maxCapacity = $class['MaxCapacity'];
+		$this->scheduleType = $class['ClassDescription']['Program']['ScheduleType'];
 		
 		$this->advanced = $advanced;
 		$this->calendar_format = $calendar_format;
