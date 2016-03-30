@@ -73,12 +73,12 @@ class MZ_MBO_Events {
 		if (!empty($mz_sessions) && ($mz_sessions[0] != 0))
 		{
 			$mz_timeframe = array_slice(mz_getDateRange($mz_date, $this->mz_mbo_globals->mz_event_calendar_duration), 0, 1);
-		
+			
 			//While we still need to support php 5.2 and can't use [0] on above
 			$mz_timeframe = array_pop($mz_timeframe);
-		
+			
 			$mz_timeframe = array_merge($mz_timeframe, array('SessionTypeIDs'=>$mz_sessions));
-
+			
 			// START caching configuration
 			$mz_events_cache = "mz_events_cache";
 
@@ -89,7 +89,8 @@ class MZ_MBO_Events {
 				delete_transient( $mz_events_cache );
 			}
 			
-			if ( false === ( $mz_event_data = get_transient( $mz_events_cache ) ) ) {
+			if ( false === ( $mz_event_data = get_transient( $mz_events_cache ) ) || isset($_GET['mz_date']) ) {
+				// Since event pagination won't happen often we can run the API when it's used.
 				$mb = MZ_Mindbody_Init::instantiate_mbo_API();
 				if ($account == 0) {
 				$mz_event_data = $mb->GetClasses($mz_timeframe);
