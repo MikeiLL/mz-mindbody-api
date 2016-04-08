@@ -57,6 +57,8 @@ class Single_event {
 	private $event_start;
 	private $event_end;
 	public $level; // accessing from another plugin
+	public $startTimeStamp;
+	public $endTimeStamp;
 	
 	public function __construct($class, $day_num='', $hide=array(), $locations, $hide_cancelled=0, $advanced, 
 															$show_registrants, $registrants_count, $calendar_format='horizontal'){
@@ -81,6 +83,8 @@ class Single_event {
 								//mz_pr($className);
 		$this->startDateTime = date_i18n('Y-m-d H:i:s', strtotime($class['StartDateTime']));
 		$this->startTime = date_i18n('H:i:s', strtotime($class['StartDateTime']));
+		$this->startTimeStamp = strtotime($class['StartDateTime']);
+		$this->endTimeStamp = strtotime($class['EndDateTime']);
 								//mz_pr($startDateTime);
 								//echo "<hr/>";
 		$this->endDateTime = date_i18n('Y-m-d H:i:s', strtotime($class['EndDateTime']));

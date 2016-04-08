@@ -134,7 +134,6 @@ class MZ_Mindbody_Schedule_Display {
 		$mz_timeframe = array_shift($mz_timeframe);
 
 	  // START caching
-
 		$mz_cache_reset = isset($this->mz_mbo_globals->options['mz_mindbody_clear_cache']) ? "on" : "off";
 		
 		$last_look = get_transient($mz_schedule_timer);
