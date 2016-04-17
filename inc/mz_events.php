@@ -83,6 +83,14 @@ class MZ_MBO_Events {
 			$mz_events_cache = "mz_events_cache";
 
 			$mz_cache_reset = isset($this->mz_mbo_globals->options['mz_mindbody_clear_cache']) ? "on" : "off";
+			
+			//Add date to cache
+			if (!empty($_GET['mz_date'])) {
+					$mz_events_cache .= '_' . str_replace('-','_',$mz_date);
+					$this->is_current_week = 0;
+				} else {
+					$mz_events_cache .= '_' . str_replace('-','_',$mz_date);
+				}
 
 			if ( $mz_cache_reset == "on" )
 			{
@@ -101,10 +109,10 @@ class MZ_MBO_Events {
 				
 			//echo $mb->debug();
 
+
 			//Cache the mindbody call for 24 hours
 			// TODO make cache timeout configurable.
-			if( !isset($_GET['mz_date']) ) // Don't populate transient with future or past data
-				set_transient($mz_events_cache, $mz_event_data, 60 * 60 * 24);
+			set_transient($mz_events_cache, $mz_event_data, 60 * 60 * 24);
 			}
 			// END caching configuration
 				//mz_pr($mz_event_data['GetClassesResult']['Classes']['Class']);

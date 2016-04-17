@@ -1178,7 +1178,7 @@ $(document).ready(function($) {
 							return false;
 						}
 					}
-					$(cell).parent().hide();
+					$(cell).parent().remove();
 				});
 			}
 		//Start mode select
