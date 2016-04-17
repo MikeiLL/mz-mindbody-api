@@ -15,7 +15,7 @@
 						$('.mz_add_to_class').removeAttr("href");
 					} else {
 						$('.signup').text(mZ_check_session_logged.login);
-						$('.mz_add_to_class').prop('title', mZ_check_session_logged.login);
+						$('.mz_add_to_class').prop('title', mZ_check_session_logged.login_title);
 					}
 				} // End Ajax success
       }); // End Ajax
