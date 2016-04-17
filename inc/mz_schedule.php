@@ -91,12 +91,6 @@ class MZ_Mindbody_Schedule_Display {
 			$mz_schedule_cache .= '_'.substr($key,0,4).'_'.$value;
 		}
 
-		//Add date to cache
-		if (!empty($_GET['mz_date'])) {
-			$mz_schedule_cache .= '_'.$_GET['mz_date'];
-			$this->is_current_week = 0;
-			}
-
 		if (($grid == 1) && ($type == 'day')) {
 			return '<div style="color:red"><h2>'.__('Grid Calendar Incompatible with Single Day Mode!', 'mz_mndbody_api').'</h2></div>';
 		}
@@ -116,6 +110,15 @@ class MZ_Mindbody_Schedule_Display {
 		$this->locations_count = count($this->locations);
 		
 		$mz_date = empty($_GET['mz_date']) ? date_i18n('Y-m-d',current_time('timestamp')) : mz_validate_date($_GET['mz_date']);
+		
+		//Add date to cache
+		if (!empty($_GET['mz_date'])) {
+				$mz_schedule_cache .= '_' . str_replace('-','_',$mz_date);
+				$this->is_current_week = 0;
+			} else {
+				$mz_schedule_cache .= '_' . str_replace('-','_',$mz_date);
+			}
+
 		$hide = explode(', ', $atts['hide']);
 		$which_monday = (strtotime('this monday') > current_time('timestamp')) ? 'last monday' : 'this monday';
 		$this->mz_date_grid = empty($_GET['mz_date']) || ( $_GET['mz_date'] == date_i18n('Y-m-d',current_time('timestamp')) ) ? date_i18n('Y-m-d',strtotime($which_monday)) : mz_validate_date($_GET['mz_date']);
