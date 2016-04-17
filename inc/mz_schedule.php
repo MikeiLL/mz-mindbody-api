@@ -86,9 +86,11 @@ class MZ_Mindbody_Schedule_Display {
 		$mz_schedule_timer = 'mz_sched_tim';
 		
 		foreach ($atts as $key=>$value){
+			// Ensure cache object is unique to this shortcode instance based on attributes
 			if($value=='0' || $value=='') continue;
-			$mz_schedule_cache .= '_'.substr($key,1,1).'_'.$value;
+			$mz_schedule_cache .= '_'.substr($key,0,4).'_'.$value;
 		}
+
 		//Add date to cache
 		if (!empty($_GET['mz_date'])) {
 			$mz_schedule_cache .= '_'.$_GET['mz_date'];
