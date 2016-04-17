@@ -1169,7 +1169,18 @@ $(document).ready(function($) {
 					$("#mzStaffModal").colorbox();
 			});
 		});
-		
+			
+		if (mz_mbo_bootstrap_script.is_current_week == 1) {
+			// If in current week remove all days previous to today in horizontal mode
+			$('.mz_date_display').each(function(i, cell){
+				if (cell.scope == 'header') {
+					if ($(cell).text() == mz_mbo_bootstrap_script.today){
+							return false;
+						}
+					}
+					$(cell).parent().hide();
+				});
+			}
 		//Start mode select
 		if (mz_mbo_bootstrap_script.mode_select !== '0') {
 			if (mz_mbo_bootstrap_script.mode_select == 1) {
@@ -1179,17 +1190,6 @@ $(document).ready(function($) {
 				}
 			$('.mz_schedule_nav_holder').first().append($('<a id="mode-select" class="btn btn-xs mz-mode-select">'+ mz_mbo_bootstrap_script.initial +'</a>'));
 			//var showMe = $("th.mz_date_display:contains('"+mz_mbo_bootstrap_script.today+"')");
-			if (mz_mbo_bootstrap_script.is_current_week == 1) {
-			  // If in current week remove all days previous to today in horizontal mode
-				$('.mz_date_display').each(function(i, cell){
-					if (cell.scope == 'header') {
-						if ($(cell).text() == mz_mbo_bootstrap_script.today){
-								return false;
-							}
-						}
-						//$(cell).parent().remove();
-					});
-				}
 			$('#mode-select').click(function(){
 				$('.mz-schedule-display').each(function(i, item) {
 					$(item).toggleClass('mz_hidden');
