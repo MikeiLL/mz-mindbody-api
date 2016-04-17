@@ -69,7 +69,7 @@ class MZ_MBO_Events {
 	
 		$mz_date = empty($_GET['mz_date']) ? date_i18n('Y-m-d') : mz_validate_date($_GET['mz_date']);
 	
-		// only make API call if we have sessions set
+		// only make API call if we have array session types set in Admin
 		if (!empty($mz_sessions) && ($mz_sessions[0] != 0))
 		{
 			$mz_timeframe = array_slice(mz_getDateRange($mz_date, $this->mz_mbo_globals->mz_event_calendar_duration), 0, 1);
@@ -101,9 +101,10 @@ class MZ_MBO_Events {
 				
 			//echo $mb->debug();
 
-			//Cache the mindbody call for 24 hour2
+			//Cache the mindbody call for 24 hours
 			// TODO make cache timeout configurable.
-			set_transient($mz_events_cache, $mz_event_data, 60 * 60 * 24);
+			if( !isset($_GET['mz_date']) ) // Don't populate transient with future or past data
+				set_transient($mz_events_cache, $mz_event_data, 60 * 60 * 24);
 			}
 			// END caching configuration
 				//mz_pr($mz_event_data['GetClassesResult']['Classes']['Class']);
