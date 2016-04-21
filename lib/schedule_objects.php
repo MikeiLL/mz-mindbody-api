@@ -79,8 +79,8 @@ class Single_event {
 		$this->classDescription = $class['ClassDescription']['Description'];
 		$this->displayCancelled = ($class['IsCanceled'] == 1) ? '<div class="mz_cancelled_class">' .
 												__('Cancelled', 'mz-mindbody-api') . '</div>' : '';
-		$this->className = $class['ClassDescription']['Name'];
-								//mz_pr($className);
+		//htmlspecialchars ( string $string [, int $flags = ENT_COMPAT | ENT_HTML401 [, string $encoding = ini_get("default_charset") [, bool $double_encode = true ]]] )
+		$this->className = htmlspecialchars( $class['ClassDescription']['Name'] );
 		$this->startDateTime = date_i18n('Y-m-d H:i:s', strtotime($class['StartDateTime']));
 		$this->startTime = date_i18n('H:i:s', strtotime($class['StartDateTime']));
 		$this->startTimeStamp = strtotime($class['StartDateTime']);

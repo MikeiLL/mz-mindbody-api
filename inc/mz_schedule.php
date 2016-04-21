@@ -148,13 +148,13 @@ class MZ_Mindbody_Schedule_Display {
 			// delete_transient( $mz_schedule_cache );
 			// Replaced above with the following so we could deal with multiple date ranges being called.
 			global $wpdb;
-			$wpdb->query( "DELETE FROM `$wpdb->options` WHERE `option_name` LIKE ('%mz_sched_che%' OR '%mz_sched_tim%')" );
+			$wpdb->query( "DELETE FROM `$wpdb->options` WHERE (`option_name` LIKE '%mz_sched_che%' OR `option_name` LIKE '%mz_sched_tim%')" );
 		}
 		//Uncomment to look at transients
 		//global $wpdb;
-		//$all_of_us = $wpdb->get_results( "SELECT * FROM `$wpdb->options` WHERE `option_name` LIKE ('%mz_sched_che%' OR '%mz_sched_tim%')" );
+		//$all_of_us = $wpdb->get_results( "SELECT * FROM `$wpdb->options` WHERE (`option_name` LIKE '%mz_sched_che%' OR `option_name` LIKE '%mz_sched_tim%')" );
 		//mz_pr($all_of_us);
-		
+
 		if ( false === get_transient( $mz_schedule_cache ) ) {
 			/* If receiving parameters in $_GET or transient deleted we need to send a new date range to reset transient
 			 * uncomment line mz_pr("OKAY We ARE DOING IT."); in inc/mz_mbo_init.php
