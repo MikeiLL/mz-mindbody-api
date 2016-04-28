@@ -380,8 +380,10 @@ if ( is_admin() )
  			$result['message'] = '';
  			
  		if (!isset($signupData['AddClientsToClassesResult']['Classes']['Class']['Clients']['Client'])) :
- 		
- 			mZ_write_to_file($signupData['AddClientsToClassesResult']['ErrorCode']);
+ 			
+ 			if (function_exists(mZ_write_to_file)) {
+ 				mZ_write_to_file($signupData['AddClientsToClassesResult']['ErrorCode']);
+ 				}
  			$result['type'] = "error";
  			$result['message'] = __('Cannot add to class.', 'mz-mindbody-api');
  			
@@ -424,7 +426,10 @@ if ( is_admin() )
  	if ((function_exists('session_status') && session_status() !== PHP_SESSION_ACTIVE) || !session_id()) {
 				  session_start();
 				}
-  mZ_write_to_file(array($_REQUEST, $_SESSION));
+	if (function_exists(mZ_write_to_file)) {
+	// This function is contained in 
+  	mZ_write_to_file(array($_REQUEST, $_SESSION));
+  }
  	if (isset($_SESSION['GUID'])) {
   	$result['logged_in'] = 1; // 'user_logged_in'
   	} else {
