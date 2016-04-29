@@ -176,8 +176,8 @@ class MZ_Mindbody_Schedule_Display {
 			//But only if we are NOT loading for different week than current
 			// TODO make cache timeout configurable.
 			
-			set_transient($mz_schedule_timer, $this::$time_tracker, 60 * 60 * 24);
-			set_transient($mz_schedule_cache, $mz_schedule_data, 60 * 60 * 24);
+			set_transient($mz_schedule_timer, $this::$time_tracker, 60 * 60 * 12);
+			set_transient($mz_schedule_cache, $mz_schedule_data, 60 * 60 * 12);
 
 		   // END caching*/
 		}
