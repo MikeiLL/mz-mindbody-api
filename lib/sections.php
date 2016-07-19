@@ -328,7 +328,7 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 		echo "<br/>";
 		_e('but may end up costing more in API transfer fees.', 'mz-mindbody-api');
 		echo "<br/>";
-		_e('Class calendar cache is held for 1 day. Event calendar for 1 hour.', 'mz-mindbody-api');
+		_e('Class calendar cache is held for 12 hours. Event calendar for 1 hour.', 'mz-mindbody-api');
 		}
 		
 	// Display and fill the cache reset form field

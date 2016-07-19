@@ -209,7 +209,7 @@ class MZ_Mindbody_Schedule_Display {
 			mz_pr($this->locations_dictionary);
 		endif;
 		*/
-		if ($advanced == 1) {
+		if (($advanced == 1) || ($show_registrants == 1)) {
 			include_once(MZ_MINDBODY_SCHEDULE_DIR . 'lib/ajax.php');
 			}
 		//based on shortcode arguments, potentially remove array elements
