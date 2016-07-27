@@ -37,10 +37,14 @@ class Single_event {
 	public $time_of_day;
 	public $non_specified_class_times = array();
 	public $scheduleType;
+	public $mbo_url;
+	public $event_start_and_end;
+	public $level; // accessing from another plugin
+	public $startTimeStamp;
+	public $endTimeStamp;
 	
 	private $classStartTime;
 	private $classEndTime;
-	private $mbo_url;
 	private $sType = -7;
 	private $session_type_css;
 	private $class_name_css; 
@@ -56,9 +60,6 @@ class Single_event {
 	private $signup_button_class;
 	private $event_start;
 	private $event_end;
-	public $level; // accessing from another plugin
-	public $startTimeStamp;
-	public $endTimeStamp;
 	
 	public function __construct($class, $day_num='', $hide=array(), $locations, $hide_cancelled=0, $advanced, 
 															$show_registrants, $registrants_count, $calendar_format='horizontal'){
@@ -111,6 +112,8 @@ class Single_event {
 		
 		$this->clientID = isset($_SESSION['GUID']) ? $_SESSION['client']['ID'] : '';
 		$this->level = isset($class['ClassDescription']['Level']['Name']) ? $class['ClassDescription']['Level']['Name'] : '';
+		
+		$this->event_start_and_end = $this->event_start . ' - ' . $this->event_end;
 
 		// Create a non-specific schedule time for use in mz-mbo-pages
 		$non_specific_class_time = date_i18n('l g:i a', strtotime($class['StartDateTime'])). ' - ' .

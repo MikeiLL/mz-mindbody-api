@@ -35,11 +35,13 @@ class MZ_MBO_Events {
 		$atts = shortcode_atts( array(
 			'location' => '1',
 			'locations' => '',
+			'list' => 0,
 			'account' => '0',
 			'advanced' => '1',
 				), $atts );
 		$location = $atts['location'];
 		$locations = $atts['locations'];
+		$list_only = $atts['list'];
 		$account = $atts['account'];
 		$advanced = $atts['advanced'];
 		$clientID = isset($_SESSION['GUID']) ? $_SESSION['client']['ID'] : '';
@@ -134,21 +136,49 @@ class MZ_MBO_Events {
 					//$return .= ': ' . $number_of_events . ' '.__('event(s)').'</p>';
 
 					$return .= mz_mbo_schedule_nav($mz_date, "Events", $this->mz_mbo_globals->mz_event_calendar_duration);
-					$event_container = new html_element('div');
+					if ($list_only != 1):
+						$event_container = new html_element('div');
+					else:
+						$event_container = new HTML_Table('mz-events-listing');
+					endif;
 					$return .= '<div class="mz_mindbody_events">';
 					$globals = new Global_Strings();
 					$global_strings = $globals->translate_them();
-					
-					foreach($classes as $classDate => $classes)
-					{
-						foreach($classes['classes'] as $class)
+					if ($list_only != 1):
+						foreach($classes as $classDate => $classes)
 						{
-						  
-							$event_container->set('text', $class->class_details );
+							foreach($classes['classes'] as $class)
+							{
 							
-							$return .= $event_container->build();
+								$event_container->set('text', $class->class_details );
+							
+								$return .= $event_container->build();
+							}
 						}
-					}
+					else:
+					
+						$event_container->addRow('header');
+						$event_container->addCell(__('Event Name', 'mz-mindbody-api'), 'mz-event-name', 'header', array('scope'=>'header'));
+						$event_container->addCell(__('Staff Member', 'mz-mindbody-api'), 'mz-event-staff', 'header', array('scope'=>'header'));
+						$event_container->addCell(__('Date', 'mz-mindbody-api'), 'mz-event-date', 'header', array('scope'=>'header'));
+						$event_container->addTSection('tbody');
+						foreach($classes as $classDate => $classes)
+						{
+							foreach($classes['classes'] as $class)
+							{
+							
+								$event_container->addRow('mz-event-listing-row');
+								$event_link = '<a href="'.$class->mbo_url.'" target="_blank">'.$class->className.'</a>';
+								$event_container->addCell($event_link, 'mz-event-name');
+								$event_container->addCell($class->staffName, 'mz-event-staff');
+								$event_container->addCell($class->event_start_and_end, 'mz-event-date');
+							
+								
+							}
+						}
+						$return .= $event_container->display();
+					endif;
+
 					$return .=	'<hr />';
 				}
 				else

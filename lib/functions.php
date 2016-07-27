@@ -99,7 +99,9 @@ function mz_validate_date( $string ) {
 	}
 }
 
-/* create an html element, like in js */
+/* create an html element, like in js 
+ * Source: https://davidwalsh.name/create-html-elements-php-htmlelement-class
+ */
 class html_element
 {
 	/* vars */
