@@ -3,8 +3,8 @@ Contributors: mikeill, rtzee
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A95ZEELLHGECE
 Tags: mindbody, schedule, calendar, yoga, MBO, mindbodyonline, gym
 Requires at least: 3.0.1
-Tested up to: 4.4.1
-Stable tag: 2.3.7
+Tested up to: 4.5.3
+Stable tag: 2.3.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -53,6 +53,9 @@ You need to register a developer account with MindBody, which costs $5+ per webs
 4. Admin Page
 
 == Changelog ==
+
+= 2.3.8 =
+Fix issue with events duration length display and enable modal window on events list.
 
 = 2.3.7 =
 * New parameter for Events - "list=1" to display short list of events
@@ -147,6 +150,9 @@ Fix navigation on Schedule page when Force Cache not selected.
 Initial release.
 
 == Upgrade Notice ==
+
+= 2.3.8 =
+Now you can display Events (Enrollments) as a list with Modal Popup showing details.
 
 = 2.3.7 =
 * New parameter for Events - "list=1" to display short list of events
