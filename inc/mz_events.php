@@ -29,6 +29,9 @@ class MZ_MBO_Events {
 		wp_enqueue_script('modernizr', asset_path('scripts/modernizr.js'), array(), null, true);
 		wp_enqueue_script('mz_mbo_bootstrap_script', asset_path('scripts/main.js'), array('jquery'), null, true);
 		
+		$options = get_option( 'mz_mindbody_options',__('Option Not Set', 'mz-mindbody-api') );
+		$this->mz_mbo_globals->mz_event_calendar_duration = (isset($options['mz_mindbody_eventsDuration'])) ? $options['mz_mindbody_eventsDuration'] : '60';
+
 		add_action('wp_footer', array($this, 'mbo_localize_main_js'));
 		
 		// optionally pass in a type parameter. Defaults to week.
@@ -168,7 +171,7 @@ class MZ_MBO_Events {
 							{
 							
 								$event_container->addRow('mz-event-listing-row');
-								$event_link = '<a href="'.$class->mbo_url.'" target="_blank">'.$class->className.'</a>';
+								$event_link = $class->class_name_link->build();
 								$event_container->addCell($event_link, 'mz-event-name');
 								$event_container->addCell($class->staffName, 'mz-event-staff');
 								$event_container->addCell($class->event_start_and_end, 'mz-event-date');
@@ -178,7 +181,8 @@ class MZ_MBO_Events {
 						}
 						$return .= $event_container->display();
 					endif;
-
+					
+					$return .= '<div id="mzModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mzSmallModalLabel" aria-hidden="true"></div>';
 					$return .=	'<hr />';
 				}
 				else
@@ -195,7 +199,7 @@ class MZ_MBO_Events {
 				}
 				else
 				{
-					$return .= '<p>' . sprintf(_n('%1$s Day Event Calendar', '%1$s Day Event Calendar', 'mz-mindbody-api'), $this->mz_mbo_globals->mz_event_calendar_duration);
+					$return .= '<p>' . sprintf(_n('%1$s Day x Event Calendar', '%1$s Day  y Event Calendar', 'mz-mindbody-api'), $this->mz_mbo_globals->mz_event_calendar_duration);
 					$return .=  ' '. date_i18n($this->mz_mbo_globals->mz_date_display, strtotime($mz_timeframe['StartDateTime']));
 					$return .= ' - ';
 					$return .= date_i18n($this->mz_mbo_globals->mz_date_display, strtotime($mz_timeframe['EndDateTime']));
