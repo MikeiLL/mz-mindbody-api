@@ -199,7 +199,7 @@ class MZ_MBO_Events {
 				}
 				else
 				{
-					$return .= '<p>' . sprintf(_n('%1$s Day x Event Calendar', '%1$s Day  y Event Calendar', 'mz-mindbody-api'), $this->mz_mbo_globals->mz_event_calendar_duration);
+					$return .= '<p class="mz-events-duration">' . sprintf(_n('%1$s Day Event Calendar', '%1$s Day Event Calendar', 'mz-mindbody-api'), $this->mz_mbo_globals->mz_event_calendar_duration);
 					$return .=  ' '. date_i18n($this->mz_mbo_globals->mz_date_display, strtotime($mz_timeframe['StartDateTime']));
 					$return .= ' - ';
 					$return .= date_i18n($this->mz_mbo_globals->mz_date_display, strtotime($mz_timeframe['EndDateTime']));
