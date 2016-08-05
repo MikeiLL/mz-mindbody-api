@@ -39,12 +39,14 @@ class MZ_MBO_Events {
 			'location' => '1',
 			'locations' => '',
 			'list' => 0,
+			'event_count' => '0',
 			'account' => '0',
 			'advanced' => '1',
 				), $atts );
 		$location = $atts['location'];
 		$locations = $atts['locations'];
 		$list_only = $atts['list'];
+		$event_count = $atts['event_count'];
 		$account = $atts['account'];
 		$advanced = $atts['advanced'];
 		$clientID = isset($_SESSION['GUID']) ? $_SESSION['client']['ID'] : '';
@@ -71,9 +73,9 @@ class MZ_MBO_Events {
 		$mz_sessions = explode(',', $options['mz_mindbody_eventID']);
 
 		$return = '';
-	
+
 		$mz_date = empty($_GET['mz_date']) ? date_i18n('Y-m-d') : mz_validate_date($_GET['mz_date']);
-	
+		
 		// only make API call if we have array session types set in Admin
 		if (!empty($mz_sessions) && ($mz_sessions[0] != 0))
 		{
@@ -128,11 +130,15 @@ class MZ_MBO_Events {
 				$classes = sortClassesByDate($classes, $this->mz_mbo_globals->time_format, $locations, 0, array(), 
 																	$advanced, 0, 0, 'events','DropIn');
 				$number_of_events = count($classes);
-
-				$return .= '<p>' .$this->mz_mbo_globals->mz_event_calendar_duration .' '. __('Day Event Calendar');
-				$return .=  ' '. date_i18n($this->mz_mbo_globals->date_format, strtotime($mz_timeframe['StartDateTime']));
-				$return .= ' - ';
-				$return .= date_i18n($this->mz_mbo_globals->date_format, strtotime($mz_timeframe['EndDateTime'])).'</p>';
+				if ($event_count != 0) {
+					$return .= '<p class="mz-events-duration">' . _n('Upcomming Events', 'Upcomming Events', 'mz-mindbody-api');
+				} else {
+					$return .= '<p>' .$this->mz_mbo_globals->mz_event_calendar_duration .' '. __('Day Event Calendar');
+					$return .=  ' '. date_i18n($this->mz_mbo_globals->date_format, strtotime($mz_timeframe['StartDateTime']));
+					$return .= ' - ';
+					$return .= date_i18n($this->mz_mbo_globals->date_format, strtotime($mz_timeframe['EndDateTime'])).'</p>';
+				}
+				
 				if ($number_of_events >= 1)
 				{
 					//TODO Make this work - displaying number 20 with one event (correct on first page with 5 events).
@@ -147,6 +153,11 @@ class MZ_MBO_Events {
 					$return .= '<div class="mz_mindbody_events">';
 					$globals = new Global_Strings();
 					$global_strings = $globals->translate_them();
+					
+					if ($event_count != 0) {
+						$classes = array_slice($classes, 0, $event_count);
+					}
+					
 					if ($list_only != 1):
 						foreach($classes as $classDate => $classes)
 						{
