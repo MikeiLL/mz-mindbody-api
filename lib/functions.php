@@ -9,7 +9,8 @@
  *      previous week start date.
  *
  * @since 1.0
- * @source (adapted) http://stackoverflow.com/questions/186431/calculating-days-of-week-given-a-week-number
+ * @source (initially adapted) 
+ * http://stackoverflow.com/questions/186431/calculating-days-of-week-given-a-week-number
  * Used by mz_show_schedule(), mz_show_events(), mz_mindbody_debug_text()
  * also used by mZ_mbo_pages_pages() in Mz MBO Pages plugin
  *
@@ -25,6 +26,7 @@ function mz_getDateRange($date, $duration=7) {
         previous week start date
     adapted from http://stackoverflow.com/questions/186431/calculating-days-of-week-given-a-week-number
     */
+    $return = array();
 
     list($year, $month, $day) = explode("-", $date);
 
@@ -32,28 +34,30 @@ function mz_getDateRange($date, $duration=7) {
     $wkday = date_i18n('l',mktime('0','0','0', $month, $day, $year));
 
     switch($wkday) {
-        case __('Monday', 'mz-mindbody-api'): $numDaysFromMon = 0; break;
-        case __('Tuesday', 'mz-mindbody-api'): $numDaysFromMon = 1; break;
-        case __('Wednesday', 'mz-mindbody-api'): $numDaysFromMon = 2; break;
-        case __('Thursday', 'mz-mindbody-api'): $numDaysFromMon = 3; break;
-        case __('Friday', 'mz-mindbody-api'): $numDaysFromMon = 4; break;
-        case __('Saturday', 'mz-mindbody-api'): $numDaysFromMon = 5; break;
-        case __('Sunday', 'mz-mindbody-api'): $numDaysFromMon = 6; break;   
+        case __('Monday', 'mz-mindbody-api'): $numDaysSinceMon = 0; break;
+        case __('Tuesday', 'mz-mindbody-api'): $numDaysSinceMon = 1; break;
+        case __('Wednesday', 'mz-mindbody-api'): $numDaysSinceMon = 2; break;
+        case __('Thursday', 'mz-mindbody-api'): $numDaysSinceMon = 3; break;
+        case __('Friday', 'mz-mindbody-api'): $numDaysSinceMon = 4; break;
+        case __('Saturday', 'mz-mindbody-api'): $numDaysSinceMon = 5; break;
+        case __('Sunday', 'mz-mindbody-api'): $numDaysSinceMon = 6; break;   
     }
 
     // Timestamp of the monday for that week
     $seconds_in_a_day = 86400;
     
-    $monday = mktime('0','0','0', $month, $day-$numDaysFromMon, $year);
+    $monday = mktime('0','0','0', $month, $day-$numDaysSinceMon, $year);
     $today = mktime('0','0','0', $month, $day, $year);
 
-    if ($duration == 1){
+    if ($duration != 7){
         $rangeEnd = $today+($seconds_in_a_day*$duration);
     }else{
-        $rangeEnd = $today+($seconds_in_a_day*($duration - $numDaysFromMon));
+        $rangeEnd = $today+($seconds_in_a_day*($duration - $numDaysSinceMon));
     }
-    $previousRangeStart = $monday+($seconds_in_a_day*($numDaysFromMon - ($numDaysFromMon+$duration)));
+    $previousRangeStart = $monday+($seconds_in_a_day*($numDaysSinceMon - ($numDaysSinceMon+$duration)));
     $return[0] = array('StartDateTime'=>date('Y-m-d',$today), 'EndDateTime'=>date('Y-m-d',$rangeEnd-1));
+    
+    //Subesquent range start
     $return[1] = date('Y-m-d',$rangeEnd+1); 
     $return[2] = date('Y-m-d',$previousRangeStart);
     return $return;
