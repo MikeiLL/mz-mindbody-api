@@ -1,5 +1,22 @@
 <?php
-
+/**
+ * Summary.
+ *
+ * Gets a YYYY-mm-dd date and returns an array of four dates:
+ *      start of requested week
+ *      end of requested week 
+ *      following week start date
+ *      previous week start date.
+ *
+ * @since 1.0
+ * @source (adapted) http://stackoverflow.com/questions/186431/calculating-days-of-week-given-a-week-number
+ * Used by mz_show_schedule(), mz_show_events(), mz_mindbody_debug_text()
+ * also used by mZ_mbo_pages_pages() in Mz MBO Pages plugin
+ *
+ * @param var $date Start date for date range.
+ * @param var $duration Optional. Description. Default.
+ * @return array Start Date, End Date and Previous Range Start Date.
+ */
 function mz_getDateRange($date, $duration=7) {
     /*Gets a YYYY-mm-dd date and returns an array of four dates:
         start of requested week
