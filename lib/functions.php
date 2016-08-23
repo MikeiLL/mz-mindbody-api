@@ -334,8 +334,10 @@ function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a",
 		$locations = array($locations);
 	endif;
 	
+	// Note: $_GET['mz_date'] is always a Monday.
 	if (isset($_GET['mz_date'])):
-		$end_of_range = strtotime('next Monday');
+		$end_of_range = new DateTime($_GET['mz_date']);
+		$end_of_range->add(new DateInterval('P1W'));
 	else:
 		$end_of_range = strtotime('next Monday');
 	endif;
@@ -343,7 +345,7 @@ function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a",
 	foreach($mz_classes as $class)
 	{
 	  // Ignore classes that are not part of current week (ending Sunday)
-	  if (strtotime($class['StartDateTime']) >= strtotime('next Monday')):
+	  if (new DateTime($class['StartDateTime']) >= $end_of_range):
 			continue;
 		endif;
 		
