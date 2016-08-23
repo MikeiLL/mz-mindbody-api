@@ -1170,17 +1170,6 @@ $(document).ready(function($) {
 			});
 		});
 			
-		if (mz_mbo_bootstrap_script.is_current_week == 1) {
-			// If in current week remove all days previous to today in horizontal mode
-			$('.mz_date_display').each(function(i, cell){
-				if (cell.scope == 'header') {
-					if ($(cell).text() == mz_mbo_bootstrap_script.today){
-							return false;
-						}
-					}
-					$(cell).parent().remove();
-				});
-			}
 		//Start mode select
 		if (mz_mbo_bootstrap_script.mode_select !== '0') {
 			if (mz_mbo_bootstrap_script.mode_select == 1) {

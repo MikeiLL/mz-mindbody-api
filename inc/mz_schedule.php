@@ -15,7 +15,6 @@ class MZ_Mindbody_Schedule_Display {
 	private $grid_class = '';
 	private $horizontal_class = '';
 	private $mode_select = 0;
-	private $is_current_week = 1;
 	private $row_css_classes;
 	
 	public function __construct(){
@@ -31,7 +30,6 @@ class MZ_Mindbody_Schedule_Display {
 			'staff_preposition' => __('with', 'mz-mindbody-api'),
 			'initial' => $this->initial_button_text,
 			'mode_select' => $this->mode_select,
-			'is_current_week' => $this->is_current_week,
 			'swap' => $this->swap_button_text,
 			'today' => date_i18n($this->mz_mbo_globals->mz_date_display, current_time('timestamp'))
 			);
@@ -114,7 +112,6 @@ class MZ_Mindbody_Schedule_Display {
 		//Add date to cache
 		if (!empty($_GET['mz_date'])) {
 				$mz_schedule_cache .= '_' . str_replace('-','_',$mz_date);
-				$this->is_current_week = 0;
 			} else {
 				$mz_schedule_cache .= '_' . str_replace('-','_',$mz_date);
 			}
