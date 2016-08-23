@@ -247,35 +247,15 @@ function sortClassesByDate($mz_classes = array(), $time_format = "g:i a",
 	endif;
 	
 	if (isset($_GET['mz_date'])):
-		$current = new DateTime($_GET['mz_date']);
-		$today = new DateTime();
-		$days_of_the_week = array(
-			'Mon', 
-			'Tue', 
-			'Wed', 
-			'Thu', 
-			'Fri', 
-			'Sat', 
-			'Sun'
-		);
-		foreach($days_of_the_week as $day_name):
-			$clone_today = clone $today;
-			$current_day_name = $clone_today->format('D');
-
-			if ($current_day_name != $day_name):
-				$current->add(new DateInterval('P1D'));
-			else:
-				break;
-			endif;
-		endforeach;
+		list($current, $current_date_string) = current_to_day_of_week_today();
 	else:
 		$current = new DateTime();
-		$today='';
+		$current_date_string = (new DateTime())->format('Y-m-d');
 	endif;
 	
 	$end_of_week = clone $current;
-	$six_days_from_current = $end_of_week->add(new DateInterval('P6D'))->format('Y-m-d');
-		
+	$end_of_week = $end_of_week->add(new DateInterval('P6D'))->format('Y-m-d');
+
 	foreach($mz_classes as $class)
 	{
 		
@@ -286,11 +266,9 @@ function sortClassesByDate($mz_classes = array(), $time_format = "g:i a",
 		endif;
 		
 		$classDate = date("Y-m-d", strtotime($class['StartDateTime']));
-		$clone_current = clone $current;
-		$current_date = date("Y-m-d", strtotime($clone_current->format('y-m-d')));
 
-		// Ignore classes that are previous to beyond seven days from now
-		if ($classDate > $six_days_from_current ||  $classDate < $current_date):
+		// Ignore classes that are outside of seven day week starting today
+		if ($classDate < $current_date_string || $classDate > $end_of_week):
 			continue;
 		endif;
 		
@@ -355,13 +333,17 @@ function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a",
 	if(!is_array($locations)):
 		$locations = array($locations);
 	endif;
+	
+	if (isset($_GET['mz_date'])):
+		$end_of_range = strtotime('next Monday');
+	else:
+		$end_of_range = strtotime('next Monday');
+	endif;
 										
 	foreach($mz_classes as $class)
 	{
 	  // Ignore classes that are not part of current week (ending Sunday)
-	  if (isset($_GET['mz_date'])):
-	  	echo ".";
-		elseif (strtotime($class['StartDateTime']) >= strtotime('next Monday')):
+	  if (strtotime($class['StartDateTime']) >= strtotime('next Monday')):
 			continue;
 		endif;
 		
@@ -428,12 +410,12 @@ function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a",
 	return $mz_classesByTime;
 }
 
+/*
+Make a clean array with seven corresponding slots and populate 
+based on indicator (day) for each class. There may be more than
+one even for each day and empty arrays will represent empty time slots.
+*/
 function week_of_timeslot($array, $indicator){
-	/*
-	Make a clean array with seven corresponding slots and populate 
-	based on indicator (day) for each class. There may be more than
-	one even for each day and empty arrays will represent empty time slots.
-	*/
 	$seven_days = array_combine(range(1, 7), array(array(), array(), array(),
 											array(), array(), array(), array()));
 		foreach($seven_days as $key => $value){
@@ -445,5 +427,43 @@ function week_of_timeslot($array, $indicator){
 			}
 	return $seven_days;
 	}
+	
+/**
+ * Returns an array of two items:
+ *   
+ *
+ * @since 1.0
+ * @source (initially adapted) 
+ * http://stackoverflow.com/questions/186431/calculating-days-of-week-given-a-week-number
+ * Used by mz_show_schedule(), mz_show_events(), mz_mindbody_debug_text()
+ * also used by mZ_mbo_pages_pages() in Mz MBO Pages plugin
+ *
+ * @param var $date Start date for date range.
+ * @param var $duration Optional. Description. Default.
+ * @return array Start Date, End Date and Previous Range Start Date.
+ */	
+function current_to_day_of_week_today() {
+	$current = isset($_GET['mz_date']) ? new DateTime($_GET['mz_date']) : new DateTime();
+	$today = new DateTime();
+	$current_day_name = $today->format('D');
+	$days_of_the_week = array(
+		'Mon', 
+		'Tue', 
+		'Wed', 
+		'Thu', 
+		'Fri', 
+		'Sat', 
+		'Sun'
+	);
+	foreach($days_of_the_week as $day_name):
+		if ($current_day_name != $day_name):
+			$current->add(new DateInterval('P1D'));
+		else:
+			break;
+		endif;
+	endforeach;
+	$clone_current = clone $current;
+	return array( $current, date("Y-m-d", strtotime($clone_current->format('y-m-d'))));
+}
 
 ?>
