@@ -52,14 +52,16 @@ function mz_getDateRange($date, $duration=7) {
     if ($duration != 7){
         $rangeEnd = $today+($seconds_in_a_day*$duration);
     }else{
-        $rangeEnd = $today+($seconds_in_a_day*($duration - $numDaysSinceMon));
+    		$more_than_a_week_padding = $numDaysSinceMon * $seconds_in_a_day;
+        $rangeEnd = $today+($seconds_in_a_day*14);
     }
     $previousRangeStart = $monday+($seconds_in_a_day*($numDaysSinceMon - ($numDaysSinceMon+$duration)));
     $return[0] = array('StartDateTime'=>date('Y-m-d',$today), 'EndDateTime'=>date('Y-m-d',$rangeEnd-1));
     
     //Subesquent range start
-    $return[1] = date('Y-m-d',$rangeEnd+1); 
+    $return[1] = date('Y-m-d',$rangeEnd-$numDaysSinceMon*$seconds_in_a_day); 
     $return[2] = date('Y-m-d',$previousRangeStart);
+
     return $return;
 }
 
@@ -317,6 +319,11 @@ function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a",
 										
 	foreach($mz_classes as $class)
 	{
+	  // Ignore classes that are not part of current week (ending Sunday)
+		if (strtotime($class['StartDateTime']) >= strtotime('next Monday')):
+			continue;
+		endif;
+		
 		if ($hide_cancelled == 1):
 			if ($class['IsCanceled'] == 1):
 				continue;
