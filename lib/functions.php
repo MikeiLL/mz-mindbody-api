@@ -40,49 +40,6 @@ function mz_getDateRange($date, $duration=7) {
     $return[2] = $previous->modify('Monday this week')->format('Y-m-d');
 
     return $return;
-    
-    return $today+($seconds_in_a_day*$duration);
-    if ($duration != 7):
-    	return $today+($seconds_in_a_day*$duration);
-    endif;
-    
-    $return = array();
-mz_pr(debug_backtrace()[1]['function']);
-    list($year, $month, $day) = explode("-", $date);
-
-    // Get the weekday of the given date
-    $wkday = date_i18n('l',mktime('0','0','0', $month, $day, $year));
-
-    switch($wkday) {
-        case __('Monday', 'mz-mindbody-api'): $numDaysSinceMon = 0; break;
-        case __('Tuesday', 'mz-mindbody-api'): $numDaysSinceMon = 1; break;
-        case __('Wednesday', 'mz-mindbody-api'): $numDaysSinceMon = 2; break;
-        case __('Thursday', 'mz-mindbody-api'): $numDaysSinceMon = 3; break;
-        case __('Friday', 'mz-mindbody-api'): $numDaysSinceMon = 4; break;
-        case __('Saturday', 'mz-mindbody-api'): $numDaysSinceMon = 5; break;
-        case __('Sunday', 'mz-mindbody-api'): $numDaysSinceMon = 6; break;   
-    }
-
-    // Timestamp of the monday for that week
-    $seconds_in_a_day = 86400;
-    
-    $monday = mktime('0','0','0', $month, $day-$numDaysSinceMon, $year);
-    $today = mktime('0','0','0', $month, $day, $year);
-
-    if ($duration != 7){
-        $rangeEnd = $today+($seconds_in_a_day*$duration);
-    }else{
-    		$more_than_a_week_padding = $numDaysSinceMon * $seconds_in_a_day;
-        $rangeEnd = $today+($seconds_in_a_day*14);
-    }
-    $previousRangeStart = $monday+($seconds_in_a_day*($numDaysSinceMon - ($numDaysSinceMon+$duration)));
-    $return[0] = array('StartDateTime'=>date('Y-m-d',$today), 'EndDateTime'=>date('Y-m-d',$rangeEnd-1));
-    
-    //Subesquent range start
-    $return[1] = date('Y-m-d',strtotime('next Monday')); 
-    $return[2] = date('Y-m-d',$previousRangeStart);
-
-    return $return;
 }
 
 class Global_Strings {
