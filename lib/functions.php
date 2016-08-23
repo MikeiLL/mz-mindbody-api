@@ -246,6 +246,9 @@ function sortClassesByDate($mz_classes = array(), $time_format = "g:i a",
 		$locations = array($locations);
 	endif;
 	
+	$now = new DateTime();
+	$six_days_from_today = $now->add(new DateInterval('P6D'))->format('Y-m-d');
+		
 	foreach($mz_classes as $class)
 	{
 		
@@ -253,6 +256,11 @@ function sortClassesByDate($mz_classes = array(), $time_format = "g:i a",
 			if ($class['IsCanceled'] == 1):
 				continue;
 			endif;
+		endif;
+
+		// Ignore classes that are beyond seven days from now
+		if ($class['StartDateTime'] >= $six_days_from_today):
+			continue;
 		endif;
 		
 		/* Create a new array with a key for each date YYYY-MM-DD
@@ -306,6 +314,7 @@ function sortClassesByDate($mz_classes = array(), $time_format = "g:i a",
 	return $mz_classesByDate;
 }
 
+// For use in Grid View
 function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a", 
 																	$locations=1, $hide_cancelled=0, $hide, 
 																	$advanced, $show_registrants, $registrants_count, 
