@@ -59,7 +59,7 @@ function mz_getDateRange($date, $duration=7) {
     $return[0] = array('StartDateTime'=>date('Y-m-d',$today), 'EndDateTime'=>date('Y-m-d',$rangeEnd-1));
     
     //Subesquent range start
-    $return[1] = date('Y-m-d',$rangeEnd-$numDaysSinceMon*$seconds_in_a_day); 
+    $return[1] = date('Y-m-d',strtotime('next Monday')); 
     $return[2] = date('Y-m-d',$previousRangeStart);
 
     return $return;
@@ -246,8 +246,35 @@ function sortClassesByDate($mz_classes = array(), $time_format = "g:i a",
 		$locations = array($locations);
 	endif;
 	
-	$now = new DateTime();
-	$six_days_from_today = $now->add(new DateInterval('P6D'))->format('Y-m-d');
+	if (isset($_GET['mz_date'])):
+		$current = new DateTime($_GET['mz_date']);
+		$today = new DateTime();
+		$days_of_the_week = array(
+			'Mon', 
+			'Tue', 
+			'Wed', 
+			'Thu', 
+			'Fri', 
+			'Sat', 
+			'Sun'
+		);
+		foreach($days_of_the_week as $day_name):
+			$clone_today = clone $today;
+			$current_day_name = $clone_today->format('D');
+
+			if ($current_day_name != $day_name):
+				$current->add(new DateInterval('P1D'));
+			else:
+				break;
+			endif;
+		endforeach;
+	else:
+		$current = new DateTime();
+		$today='';
+	endif;
+	
+	$end_of_week = clone $current;
+	$six_days_from_current = $end_of_week->add(new DateInterval('P6D'))->format('Y-m-d');
 		
 	foreach($mz_classes as $class)
 	{
@@ -257,15 +284,18 @@ function sortClassesByDate($mz_classes = array(), $time_format = "g:i a",
 				continue;
 			endif;
 		endif;
+		
+		$classDate = date("Y-m-d", strtotime($class['StartDateTime']));
+		$clone_current = clone $current;
+		$current_date = date("Y-m-d", strtotime($clone_current->format('y-m-d')));
 
-		// Ignore classes that are beyond seven days from now
-		if ($class['StartDateTime'] >= $six_days_from_today):
+		// Ignore classes that are previous to beyond seven days from now
+		if ($classDate > $six_days_from_current ||  $classDate < $current_date):
 			continue;
 		endif;
 		
 		/* Create a new array with a key for each date YYYY-MM-DD
 		and corresponsing value an array of class details */ 
-		$classDate = date("Y-m-d", strtotime($class['StartDateTime']));
 
 		$single_event = new Single_event($class, $daynum="", $hide=array(), $locations, $hide_cancelled=0, 
 																			$advanced, $show_registrants, $registrants_count, $calendar_format,
@@ -329,7 +359,9 @@ function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a",
 	foreach($mz_classes as $class)
 	{
 	  // Ignore classes that are not part of current week (ending Sunday)
-		if (strtotime($class['StartDateTime']) >= strtotime('next Monday')):
+	  if (isset($_GET['mz_date'])):
+	  	echo ".";
+		elseif (strtotime($class['StartDateTime']) >= strtotime('next Monday')):
 			continue;
 		endif;
 		
