@@ -1159,7 +1159,7 @@ $(document).ready(function($) {
 													'&stype=-7&sView=week&sTrn='];
 			var staffImage = decodeURIComponent($(this).attr('data-staffImage'));
 			var popUpContent = '<div class="mz_staffName"><h3>' + staffName + '</h3>';
-			popUpContent += '<img class="mz-staffImage" src="' + staffImage + '">';
+			popUpContent += '<img class="mz-staffImage" src="' + staffImage + '" />';
 			popUpContent += '<div class="mz_staffBio">'  +  staffBio + '</div></div>';
 			popUpContent += '<br/><a href="' + mbo_url_parts[0] + siteID + mbo_url_parts[1] + staffID + '" ';
 			popUpContent += 'class="btn btn-info mz-btn-info mz-bio-button" target="_blank">See ' + staffName +'&apos;s Schedule</a>';
