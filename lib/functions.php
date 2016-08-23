@@ -12,7 +12,7 @@
  * @source (initially adapted) 
  * http://stackoverflow.com/questions/186431/calculating-days-of-week-given-a-week-number
  * Used by mz_show_schedule(), mz_show_events(), mz_mindbody_debug_text()
- * also used by mZ_mbo_pages_pages() in Mz MBO Pages plugin
+ * also used by mZ_mbo_pages_pages() in mZ MBO Pages plugin
  *
  * @param var $date Start date for date range.
  * @param var $duration Optional. Description. Default.
@@ -26,8 +26,28 @@ function mz_getDateRange($date, $duration=7) {
         previous week start date
     adapted from http://stackoverflow.com/questions/186431/calculating-days-of-week-given-a-week-number
     */
-    $return = array();
+    $seconds_in_a_day = 86400;
+    $start = new DateTime($date);
+    $end = clone $start;
+    $previous = clone $start;
+    $subsequent = clone $start;
+    $subsequent->add(new DateInterval('P'. ($duration) .'D'));
+    $end->add(new DateInterval('P'. $duration .'D'));
+    $previous->sub(new DateInterval('P'. $duration .'D'));
+    $return[0] = array('StartDateTime'=> $start->format('Y-m-d'), 'EndDateTime'=> $end->format('Y-m-d'));
 
+    $return[1] = $subsequent->modify('Monday this week')->format('Y-m-d'); 
+    $return[2] = $previous->modify('Monday this week')->format('Y-m-d');
+
+    return $return;
+    
+    return $today+($seconds_in_a_day*$duration);
+    if ($duration != 7):
+    	return $today+($seconds_in_a_day*$duration);
+    endif;
+    
+    $return = array();
+mz_pr(debug_backtrace()[1]['function']);
     list($year, $month, $day) = explode("-", $date);
 
     // Get the weekday of the given date
@@ -102,8 +122,11 @@ function mz_mbo_schedule_nav($date, $period, $duration=7)
 	$mz_nav_weeks_text_current = sprintf(__('Current %1$s','mz-mindbody-api'), $period);
 	$mz_nav_weeks_text_following = sprintf(__('Following %1$s','mz-mindbody-api'), $period);
 	$sched_nav .= ' <a href='.add_query_arg(array('mz_date' => ($mz_start_end_date[2]))).'>'.$mz_nav_weeks_text_prev.'</a> - ';
-	if (isset($_GET['mz_date']))
-	    $sched_nav .= ' <a href='.add_query_arg(array('mz_date' => (date_i18n('Y-m-d',current_time('timestamp'))))).'>'.$mz_nav_weeks_text_current.'</a>  - ';
+	if (isset($_GET['mz_date'])):
+		global $wp;
+		$current_url = home_url(add_query_arg(array(),$wp->request));
+	  $sched_nav .= ' <a href='.home_url(add_query_arg(array(),$wp->request)).'>'.$mz_nav_weeks_text_current.'</a>  - ';
+	endif;
 	$sched_nav .= '<a href='.add_query_arg(array('mz_date' => ($mz_start_end_date[1]))).'>'.$mz_nav_weeks_text_following.'</a>';
 	$sched_nav .= '</div>';
 
@@ -339,7 +362,8 @@ function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a",
 		$end_of_range = new DateTime($_GET['mz_date']);
 		$end_of_range->add(new DateInterval('P1W'));
 	else:
-		$end_of_range = strtotime('next Monday');
+		$end_of_range = new DateTime();
+		$end_of_range->add(new DateInterval('P1W'));
 	endif;
 										
 	foreach($mz_classes as $class)
