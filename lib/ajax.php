@@ -37,10 +37,6 @@ $protocol = isset( $_SERVER["HTTPS"]) ? 'https://' : 'http://';
  	wp_enqueue_script('mZ_get_registrants');
  	}
 
- //Enqueue script in footer
- add_action('wp_footer', 'mZ_get_registrants');
- add_action('wp_footer', 'ajax_mbo_get_registrants_js');
-
  function ajax_mbo_get_registrants_js() {
 
 	//Force page protocol to match current
@@ -56,6 +52,10 @@ $protocol = isset( $_SERVER["HTTPS"]) ? 'https://' : 'http://';
 	wp_localize_script( 'mZ_get_registrants', 'mZ_get_registrants', $params);
 
  	}
+ 	
+ //Enqueue script in footer
+ add_action('wp_footer', 'mZ_get_registrants');
+ add_action('wp_footer', 'ajax_mbo_get_registrants_js');
  // End Ajax Get Registrants 
  
 // Start Ajax Get Staff
@@ -88,10 +88,6 @@ $protocol = isset( $_SERVER["HTTPS"]) ? 'https://' : 'http://';
  	wp_enqueue_script('mZ_check_session_logged');
  	}
 
- //Enqueue script in footer
- add_action('wp_footer', 'mZ_check_session_logged');
- add_action('wp_footer', 'mz_mbo_check_session_logged');
-
  function mz_mbo_check_session_logged() {
 
 	//Force page protocol to match current
@@ -107,6 +103,11 @@ $protocol = isset( $_SERVER["HTTPS"]) ? 'https://' : 'http://';
 	wp_localize_script( 'mZ_check_session_logged', 'mZ_check_session_logged', $params);
 
  	}
+ 	
+ 	 //Enqueue script in footer
+ add_action('wp_footer', 'mZ_check_session_logged');
+ add_action('wp_footer', 'mz_mbo_check_session_logged');
+
 // End Ajax Is Logged In 
 
  ?>

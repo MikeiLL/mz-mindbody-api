@@ -62,7 +62,7 @@ EFD;
 	  else:
 	  	mz_pr($mbo_staff_data);
 	  endif;
-mz_pr($mz_staff_list);
+
 	  // trying to allow sort order from within MBO - not working
 	  //usort($mz_staff_list, $this->sortById());;
 

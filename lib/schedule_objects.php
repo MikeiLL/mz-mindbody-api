@@ -43,6 +43,7 @@ class Single_event {
 	public $startTimeStamp;
 	public $endTimeStamp;
 	public $sub_link = '';
+	public $staffModal;
 	
 	private $pluginoptions;
 	private $classStartTime;
@@ -71,7 +72,6 @@ class Single_event {
 		
 		require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
 		$this->mz_mbo_globals = new MZ_Mindbody_Init();
-		
 		$this->pluginoptions = get_option( 'mz_mindbody_options','Option Not Set' );
 		$this->sign_up_title = __('Sign-Up', 'mz-mindbody-api');
 		$this->manage_text = __('Manage on MindBody Site', 'mz-mindbody-api');
@@ -120,7 +120,7 @@ class Single_event {
 		
 		$this->clientID = isset($_SESSION['GUID']) ? $_SESSION['client']['ID'] : '';
 		$this->level = isset($class['ClassDescription']['Level']['Name']) ? $class['ClassDescription']['Level']['Name'] : '';
-		
+		$this->staffModal = $this->teacherLinkMaker($this->staffID,$this->staffName)->build();
 		$this->event_start_and_end = $this->event_start . ' - ' . $this->event_end;
 		
 
@@ -146,11 +146,9 @@ class Single_event {
 		}
 
 		if(!in_array('teacher', $hide)){
-			$this->teacher = __('with', 'mz-mindbody-api') . ' ' . $class['Staff']['Name'];
+			$this->teacher = __('with', 'mz-mindbody-api') . ' ' . $this->staffModal;
 			if ($this->is_substitute == 1):
-			mz_pr($this->staffID);
-			//die();
-				$this->sub_link = $this->teacherLinkMaker($this->staffID)->build();
+				$this->sub_link = $this->teacherLinkMaker($this->staffID,'s')->build();
 				$this->teacher .= $this->sub_link;
 			endif;
 			$this->teacher .= '<br />';
@@ -306,11 +304,14 @@ class Single_event {
 				return $class_name_link;
 	}
 	
-	private function teacherLinkMaker($staffID) {
+	private function teacherLinkMaker($staffID, $staffName) {
 			/* Build and return an href object for each class/event
 			to use in creating popup modal */
 			
-			$staff_name_css = 'modal-toggle mz_get_staff mz_staff_name mz-substitute';
+			$staff_name_css = 'modal-toggle mz_get_staff mz_staff_name ';
+			if ($staffName == 's'):
+				 $staff_name_css .= 'mz-substitute ';
+			endif;
 			
 			$linkArray = array(
 												'data-siteID'=>$this->pluginoptions['mz_mindbody_siteID'],
@@ -324,7 +325,7 @@ class Single_event {
 												$linkArray['data-classID'] = $this->sclassidID;
 						
 				$class_name_link = new html_element('a');
-				$class_name_link->set('text', 'S');
+				$class_name_link->set('text', $staffName);
 				$class_name_link->set('href', MZ_MINDBODY_SCHEDULE_URL . 'inc/modal_descriptions.php');
 				$class_name_link->set($linkArray);
 				return $class_name_link;

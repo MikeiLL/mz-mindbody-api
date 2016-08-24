@@ -55,6 +55,7 @@ class MZ_Mindbody_Schedule_Display {
 			'filter' => '0',
 			'grid' => '0',
 			'advanced' => '0',
+			'teacher_modals' => 0,
 			'hide' => '',
 			'class_types' => '',
 			'show_registrants' => '0',
@@ -69,6 +70,7 @@ class MZ_Mindbody_Schedule_Display {
 		$filter = $atts['filter'];
 		$grid = $atts['grid'];
 		$advanced = $atts['advanced'];
+		$teacher_modals = $atts['teacher_modals'];
 		$hide = $atts['hide'];
 		$class_types = $atts['class_types'];
 		// moved this to Class object class
@@ -182,11 +184,11 @@ class MZ_Mindbody_Schedule_Display {
 		$mz_schedule_data = get_transient( $mz_schedule_cache );
 
 		$return = '';
-
+		
 		if(!empty($mz_schedule_data['GetClassesResult']['Classes']['Class']))
 		{
 			$mz_days = $this->makeNumericArray($mz_schedule_data['GetClassesResult']['Classes']['Class']);
-			
+
 		// populate dictionary of locations with names 
 			foreach ($mz_days as $class) {
 				if (!in_array($class['Location']['ID'], $this->locations)) { continue; }
@@ -206,7 +208,7 @@ class MZ_Mindbody_Schedule_Display {
 			mz_pr($this->locations_dictionary);
 		endif;
 		*/
-		if (($advanced == 1) || ($show_registrants == 1)) {
+		if (($advanced == 1) || ($show_registrants == 1) || ($teacher_modals == 1)) {
 			include_once(MZ_MINDBODY_SCHEDULE_DIR . 'lib/ajax.php');
 			}
 		//based on shortcode arguments, potentially remove array elements
@@ -233,7 +235,7 @@ class MZ_Mindbody_Schedule_Display {
 						}
 					$mz_days = array_values($mz_days);
 			endif;
-			
+
 			$return .= '<div id="mz_mbo_schedule" class="mz_mbo_schedule">';
 			if ($type==__('week','mz-mindbody-api')){
 				$return .= mz_mbo_schedule_nav($mz_date, __('Week', 'mz-mindbody-api'));
@@ -372,7 +374,7 @@ class MZ_Mindbody_Schedule_Display {
 		
 					$tbl_horizontal->addCell($class->class_details, "class_name_cell");
 
-					$tbl_horizontal->addCell($class->staffName . ' ' . $class->sub_link, 'mz_staffName');
+					$tbl_horizontal->addCell($class->staffModal . ' ' . $class->sub_link, 'mz_staffName');
 					if (count($this->locations) > 1):
 						$tbl_horizontal->addCell($class->sessionTypeName . '<br/>' .__('at', 'mz_mbo_api') . ' ' 
 						. $class->locationNameDisplay, 'mz_locationName');
