@@ -219,9 +219,9 @@ function mz_sort_grid_times ($a, $b) {
 function sortClassesByDate($mz_classes = array(), $time_format = "g:i a", 
 																	$locations=1, $hide_cancelled=0, $hide=array(), 
 																	$advanced=0, $show_registrants=0, $registrants_count=0, 
-																	$calendar_format='horizontal', $class_owners, $class_type='Enrollment') {
+																	$calendar_format='horizontal', $class_owners, $delink, $class_type='Enrollment') {
 	$mz_classesByDate = array();
-	
+
 	if(!is_array($locations)):
 		$locations = array($locations);
 	endif;
@@ -256,8 +256,8 @@ function sortClassesByDate($mz_classes = array(), $time_format = "g:i a",
 		and corresponsing value an array of class details */ 
 
 		$single_event = new Single_event($class, $daynum="", $hide=array(), $locations, $hide_cancelled=0, 
-																			$advanced, $show_registrants, $registrants_count, $calendar_format,
-																			$calendar_format, $class_owners);
+																			$advanced, $show_registrants, $registrants_count, 
+																			$calendar_format, $class_owners, $delink);
 									
 		if(!empty($mz_classesByDate[$classDate])) {
 			if (
@@ -306,7 +306,7 @@ function sortClassesByDate($mz_classes = array(), $time_format = "g:i a",
 function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a", 
 																	$locations=1, $hide_cancelled=0, $hide, 
 																	$advanced, $show_registrants, $registrants_count, 
-																	$calendar_format, $class_owners) {
+																	$calendar_format, $class_owners, $delink) {
 																		
 	$mz_classesByTime = array();
 
@@ -344,7 +344,8 @@ function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a",
 		$class['day_num'] = date_i18n("N", strtotime($class['StartDateTime'])); // Weekday num 1-7
 
 		$single_event = new Single_event($class, $class['day_num'], $hide, $locations, $hide_cancelled, 
-																			$advanced, $show_registrants, $registrants_count, $calendar_format, $class_owners);
+																			$advanced, $show_registrants, $registrants_count, $calendar_format, 
+																			$class_owners, $delink);
 																			
 		if(!empty($mz_classesByTime[$classTime])) {
 			if (

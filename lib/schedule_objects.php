@@ -69,10 +69,12 @@ class Single_event {
 	private $is_substitute;
 	private $staffID;
 	private $siteID;
+	private $delink;
 	
 	public function __construct($class, $day_num='', $hide=array(), $locations, $hide_cancelled=0, $advanced, 
-															$show_registrants, $registrants_count, $calendar_format='horizontal', $class_owners){
-		
+															$show_registrants, $registrants_count, $calendar_format='horizontal', $class_owners,
+															$delink){
+
 		require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
 		$this->mz_mbo_globals = new MZ_Mindbody_Init();
 		$this->pluginoptions = get_option( 'mz_mindbody_options','Option Not Set' );
@@ -125,6 +127,7 @@ class Single_event {
 		$this->level = isset($class['ClassDescription']['Level']['Name']) ? $class['ClassDescription']['Level']['Name'] : '';
 		$this->staffModal = $this->teacherLinkMaker($this->staffID,$this->staffName)->build();
 		$this->event_start_and_end = $this->event_start . ' - ' . $this->event_end;
+		$this->delink = $delink;
 		
 		//if ($this->is_substitute):
 			//$this->staffModal = $this->teacherLinkMaker($class_owners[$this->class_title_ID][0], $class_owners[$this->class_title_ID][1])->build();
@@ -190,7 +193,8 @@ class Single_event {
 		if(!in_array('signup', $hide)){
 				$this->signupButton = $this->makeSignupButton($this->advanced, $this->calendar_format);
 			}
-
+		
+		
 		$this->class_name_link = $this->classLinkMaker($this->staffName, $this->className, 
 																							$this->classDescription, $this->class_title_ID, 
 																							$this->staffImage, $this->show_registrants);
@@ -200,10 +204,14 @@ class Single_event {
 		else:
 			$sign_up_manage_links = '';
 		endif;			
-											
-		if ($this->calendar_format == 'grid'):																					
-			$this->class_details .= $this->class_name_link->build() . '<br/>' .	 
-			$this->teacher . $sign_up_manage_links .
+		
+		if ($this->calendar_format == 'grid'):			
+			if (($this->delink != 1) && ($this->delink != 3)):																		
+				$this->class_details .= $this->class_name_link->build() . '<br/>';
+			else:
+				$this->class_details .= '<span class="mz_class_name">' . $this->className . '</span>';
+			endif; 
+			$this->class_details .= $this->teacher . $sign_up_manage_links .
 			'<br/>' . $this->classLength . 
 			$this->displayCancelled . '<br/>' . $this->locationNameDisplay . '</div>';
 		elseif ($this->calendar_format == 'events' || $this->calendar_format == 'overview'):
@@ -266,8 +274,12 @@ class Single_event {
 			$this->class_details .= $event_details . '<br />' .
 			$this->displayCancelled;
 		else: // This is just the title for the horizontal calendar.
-			$this->class_details .= $this->class_name_link->build() . 
-			'<br/><div id="visitMBO" class="btn visitMBO" style="display:none">' .
+			if (($this->delink != 1) && ($this->delink != 3)):																		
+				$this->class_details .= $this->class_name_link->build();
+			else:
+				$this->class_details .= '<span class="mz_class_name">' . $this->className . '</span>';
+			endif; 
+			$this->class_details .= '<br/><div id="visitMBO" class="btn visitMBO" style="display:none">' .
 			'<a class="btn" href="'.$this->mbo_url.'" target="_blank">' .
 			$this->manage_text . '</a></div>' .
 			$this->displayCancelled;
@@ -315,7 +327,11 @@ class Single_event {
 			to use in creating popup modal */
 			$staff_name_css = 'modal-toggle mz_get_staff mz_staff_name ';
 			if ($staffName == 's'):
-				 $staff_name_css .= 'mz-substitute ';
+				 //$staff_name_css .= 'mz-substitute ';
+				$substitute_button = new html_element('span');
+				$substitute_button->set('text', $staffName);
+				$substitute_button->set('class', 'mz-substitute ');
+				return $substitute_button;
 			endif;
 			
 			$linkArray = array(
@@ -429,32 +445,6 @@ class Single_event {
 		$manage_link->set('href', $this->mbo_url);
 		$manage_link->set($manageLinkArray);
 		$manage_display = $manage_link->build();
-			/*if ($advanced == 1){
-				if (isset($this->isAvailableisAvailable) && ($this->isAvailableisAvailable != 0)) {
-					$add_to_class_nonce = wp_create_nonce( 'mz_MBO_add_to_class_nonce');
-					if ($this->clientID == ''){
-					 return '<a class="btn mz_add_to_class fa fa-sign-in" href="'.home_url().'/login"' .
-					 'title="' . __('Login to Sign-up', 'mz-mindbody-api') . '"></a><br/>';
-						}else{
-						return '<br/><a id="mz_add_to_class" class="fa fa-sign-in mz_add_to_class"' 
-						. 'title="' . $sign_up_title . '"'
-						. ' data-nonce="' . $add_to_class_nonce 
-						. '" data-className="' . $className 
-						. '" data-classID="' . $class_title_ID  
-						. '" data-clientID="' . $clientID 
-						. '" data-staffName="' . $staffName 
-						. '"></a>' .
-						'&nbsp; <span class="signup"> ' .
-						'</span></a>&nbsp;' . 
-						'<a id="visitMBO" class="fa fa-wrench visitMBO" href="'.$this->mbo_url.'" target="_blank" ' . 
-						'style="display:none" title="' .
-						$this->manage_text . '"></a><br/>';
-						}
-				}
-			}else{
-				return '&nbsp;<a href="'.$this->mbo_url.'" target="_blank" title="'.
-								$this->sign_up_title. '"><i class="fa fa-sign-in"></i></a><br/>';
-					}*/
 					
 		return array($sign_up_display, $manage_display);
 	}
