@@ -314,6 +314,7 @@ class Single_event {
 			endif;
 			
 			$linkArray = array(
+												'data-staffName'=>$staffName,
 												'data-siteID'=>$this->pluginoptions['mz_mindbody_siteID'],
 												'data-staffID'=>$staffID,
 												'class'=> $staff_name_css

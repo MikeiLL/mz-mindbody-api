@@ -4,9 +4,10 @@
 			ev.preventDefault();
 			var target = $(this).attr("href");
 			var staffID = $(this).attr('data-staffID');
+			var staffName = $(this).attr('data-staffName');
 			var siteID = $(this).attr('data-siteID');
 			var nonce = $(this).attr("data-nonce");
-			var popUpContent = '<div class="mz-staffInfo" id="StaffInfo"></div>';
+			var popUpContent = '<h3>' + staffName + '</h3><div class="mz-staffInfo" id="StaffInfo"></div>';
 			var htmlStaffDescription = '<div class="mz_modalStaffDescription"></div>';
 			var mbo_url_parts = ['http://clients.mindbodyonline.com/ws.asp?studioid=',
 													'&stype=-7&sView=week&sTrn='];
@@ -23,10 +24,11 @@
 				data : {action: 'mz_mbo_get_staff', nonce: nonce, staffID: staffID, siteID: siteID},
 				success: function(json) {
 					if(json.type == "success") {
-						var staffDetails = '';
-									staffDetails += '<h3>' + json.message.Name + '</h3>';
-									staffDetails += '<img class="mz-staffImage" src="' + json.message.ImageURL + '">';
-									staffDetails += '<div class="mz_staffBio">' + json.message.Bio + '</div>';
+							var staffDetails = '';
+							var imageURL = ((json.message.ImageURL === null) || (json.message.ImageURL === '')) ? '' : '<img class="mz-staffImage" src="' + json.message.ImageURL + '">';
+							var bioGraphy = ((json.message.Bio === null) || (json.message.Bio === '')) ? mZ_get_staff.no_bio : '<div class="mz_staffBio">' + json.message.Bio + '</div>';
+							staffDetails += imageURL;
+							staffDetails += bioGraphy;
 							$('#StaffInfo').html(staffDetails);
 					}else{
 							$('#StaffInfo').html('ERROR FINDING STAFF INFO');
