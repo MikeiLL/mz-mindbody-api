@@ -428,7 +428,7 @@ if ( is_admin() )
 				}
 	if (function_exists(mZ_write_to_file)) {
 	// This function is contained in 
-  	mZ_write_to_file(array($_REQUEST, $_SESSION));
+  	//mZ_write_to_file(array($_REQUEST, $_SESSION));
   }
  	if (isset($_SESSION['GUID'])) {
   	$result['logged_in'] = 1; // 'user_logged_in'
@@ -506,6 +506,50 @@ if ( is_admin() )
     die();
  }
  //End Ajax Get Registrants
+ 
+ //Start Ajax Get Staff
+ add_action('wp_ajax_nopriv_mz_mbo_get_staff', 'mz_mbo_get_staff_callback');
+ add_action('wp_ajax_mz_mbo_get_staff', 'mz_mbo_get_staff_callback');	
+
+ function mz_mbo_get_staff_callback() {
+
+  check_ajax_referer( $_REQUEST['nonce'], "mz_MBO_get_registrants_nonce", false);
+  	
+ 	require_once(MZ_MINDBODY_SCHEDULE_DIR .'mindbody-php-api/MB_API.php');
+	require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
+	
+	$mb = MZ_Mindbody_Init::instantiate_mbo_API();
+ 
+ 	$classid = $_REQUEST['staffID'];
+ 	$result['type'] = "success";
+ 	$result['message'] = $classid;
+ 	$staff_details = $mb->GetStaff(array('StaffIDs'=>array($classid)));
+ 	if (isset($staff_details['GetStaffResult'])):
+ 		if ($staff_details['GetStaffResult']['Status'] != 'Success'):
+				$result['type'] = "error";
+ 				$result['message'] = __("Unable to retrieve staff details.", 'mz-mindbody-api');
+ 		else:
+	  	$staffMember = $staff_details['GetStaffResult']['StaffMembers']['Staff'];
+	  	$result['message'] = array();
+			$result['type'] = "success";
+				$result['message']['Name'] = $staffMember['Name'];
+				$result['message']['Bio'] = $staffMember['Bio'];
+				$result['message']['ImageURL'] = $staffMember['ImageURL'];
+				$result['message']['Full'] = $staffMember;
+		endif;
+	endif;
+ 		
+ 	if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+       $result = json_encode($result);
+       echo $result;
+    }
+    else {
+       header("Location: ".$_SERVER["HTTP_REFERER"]);
+    }
+ 
+    die();
+ }
+ //End Ajax Get Staff
 }
 else
 {// non-admin enqueues, actions, and filters

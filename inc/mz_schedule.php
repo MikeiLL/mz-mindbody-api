@@ -336,6 +336,10 @@ class MZ_Mindbody_Schedule_Display {
 		
 		endif;
 		
+		$return .= '<div class="modal fade" id="mzStaffScheduleModal" tabindex="-1" role="dialog" aria-labelledby="mzSmallModalLabel" aria-hidden="true">';
+
+		$return .= '</div>';
+		
 		return $return;
 	}//EOF mZ_show_schedule
 		
@@ -368,7 +372,7 @@ class MZ_Mindbody_Schedule_Display {
 		
 					$tbl_horizontal->addCell($class->class_details, "class_name_cell");
 
-					$tbl_horizontal->addCell($class->staffName, 'mz_staffName');
+					$tbl_horizontal->addCell($class->staffName . ' ' . $class->sub_link, 'mz_staffName');
 					if (count($this->locations) > 1):
 						$tbl_horizontal->addCell($class->sessionTypeName . '<br/>' .__('at', 'mz_mbo_api') . ' ' 
 						. $class->locationNameDisplay, 'mz_locationName');

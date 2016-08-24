@@ -30,6 +30,12 @@
       ],
       "main": true
     },
+    "ajax-mbo-get-staff.js": {
+    "files": [
+        "scripts/ajax-mbo-get-staff.js"
+      ],
+      "main": true
+    },
     "jquery.js": {
       "bower": ["jquery"]
     },

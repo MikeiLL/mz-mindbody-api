@@ -57,6 +57,30 @@ $protocol = isset( $_SERVER["HTTPS"]) ? 'https://' : 'http://';
 
  	}
  // End Ajax Get Registrants 
+ 
+// Start Ajax Get Staff
+ function mZ_get_staff() {
+ 	wp_register_script('mZ_get_staff', plugins_url('/mz-mindbody-api/dist/scripts/ajax-mbo-get-staff.js'), array('jquery'), null, true);
+ 	wp_enqueue_script('mZ_get_staff');
+ 	}
+ 	
+ //Enqueue script in footer
+ add_action('wp_footer', 'mZ_get_staff');
+ add_action('wp_footer', 'ajax_mbo_get_staff_js');
+ 
+ 	function ajax_mbo_get_staff_js() {
+
+	//Force page protocol to match current
+	$protocol = isset( $_SERVER["HTTPS"]) ? 'https://' : 'http://';
+ 
+ 	$params = array(
+		'ajaxurl' => admin_url( 'admin-ajax.php', $protocol ),
+		);
+	
+	wp_localize_script( 'mZ_get_staff', 'mZ_get_staff', $params);
+
+ 	}
+// End Ajax Get Staff
 
 // Start Ajax Is Logged In  
   function mZ_check_session_logged() {

@@ -42,7 +42,9 @@ class Single_event {
 	public $level; // accessing from another plugin
 	public $startTimeStamp;
 	public $endTimeStamp;
+	public $sub_link = '';
 	
+	private $pluginoptions;
 	private $classStartTime;
 	private $classEndTime;
 	private $sType = -7;
@@ -60,6 +62,9 @@ class Single_event {
 	private $signup_button_class;
 	private $event_start;
 	private $event_end;
+	private $is_substitute;
+	private $staffID;
+	private $siteID;
 	
 	public function __construct($class, $day_num='', $hide=array(), $locations, $hide_cancelled=0, $advanced, 
 															$show_registrants, $registrants_count, $calendar_format='horizontal'){
@@ -67,6 +72,7 @@ class Single_event {
 		require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
 		$this->mz_mbo_globals = new MZ_Mindbody_Init();
 		
+		$this->pluginoptions = get_option( 'mz_mindbody_options','Option Not Set' );
 		$this->sign_up_title = __('Sign-Up', 'mz-mindbody-api');
 		$this->manage_text = __('Manage on MindBody Site', 'mz-mindbody-api');
 		$this->sDate = date_i18n('m/d/Y', strtotime($class['StartDateTime']));
@@ -89,7 +95,9 @@ class Single_event {
 								//mz_pr($startDateTime);
 								//echo "<hr/>";
 		$this->endDateTime = date_i18n('Y-m-d H:i:s', strtotime($class['EndDateTime']));
+		$this->is_substitute = $class['Substitute'];
 		$this->staffName = $class['Staff']['Name'];
+		$this->staffID = $class['Staff']['ID'];
 		$this->isAvailable = $class['IsAvailable'];
 		$this->locationName = $class['Location']['Name'];
 		$this->staffImage = isset($class['Staff']['ImageURL']) ? $class['Staff']['ImageURL'] : '';
@@ -114,6 +122,7 @@ class Single_event {
 		$this->level = isset($class['ClassDescription']['Level']['Name']) ? $class['ClassDescription']['Level']['Name'] : '';
 		
 		$this->event_start_and_end = $this->event_start . ' - ' . $this->event_end;
+		
 
 		// Create a non-specific schedule time for use in mz-mbo-pages
 		$non_specific_class_time = date_i18n('l g:i a', strtotime($class['StartDateTime'])). ' - ' .
@@ -137,8 +146,14 @@ class Single_event {
 		}
 
 		if(!in_array('teacher', $hide)){
-			$this->teacher = __('with', 'mz-mindbody-api') . ' ' . $class['Staff']['Name'] .
-			'<br/>';
+			$this->teacher = __('with', 'mz-mindbody-api') . ' ' . $class['Staff']['Name'];
+			if ($this->is_substitute == 1):
+			mz_pr($this->staffID);
+			//die();
+				$this->sub_link = $this->teacherLinkMaker($this->staffID)->build();
+				$this->teacher .= $this->sub_link;
+			endif;
+			$this->teacher .= '<br />';
 			}
 			
 		if(!in_array('duration', $hide) && ($class['IsCanceled'] != 1)){
@@ -286,6 +301,30 @@ class Single_event {
 								endif;
 						
 				$class_name_link = new html_element('a');
+				$class_name_link->set('href', MZ_MINDBODY_SCHEDULE_URL . 'inc/modal_descriptions.php');
+				$class_name_link->set($linkArray);
+				return $class_name_link;
+	}
+	
+	private function teacherLinkMaker($staffID) {
+			/* Build and return an href object for each class/event
+			to use in creating popup modal */
+			
+			$staff_name_css = 'modal-toggle mz_get_staff mz_staff_name mz-substitute';
+			
+			$linkArray = array(
+												'data-siteID'=>$this->pluginoptions['mz_mindbody_siteID'],
+												'data-staffID'=>$staffID,
+												'class'=> $staff_name_css
+												);
+
+												$get_registrants_nonce = wp_create_nonce( 'mz_MBO_get_registrants_nonce');
+												$linkArray['data-nonce'] = $get_registrants_nonce;
+												$linkArray['data-target'] = "#mzStaffScheduleModal";  
+												$linkArray['data-classID'] = $this->sclassidID;
+						
+				$class_name_link = new html_element('a');
+				$class_name_link->set('text', 'S');
 				$class_name_link->set('href', MZ_MINDBODY_SCHEDULE_URL . 'inc/modal_descriptions.php');
 				$class_name_link->set($linkArray);
 				return $class_name_link;

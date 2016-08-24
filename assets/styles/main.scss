@@ -99,6 +99,12 @@ We want to do as little as possible here so CSS can be defined in theme.
     	}
 		}
 		
+		.mz-substitute {
+			padding: .1em .2em;
+			border: 1px solid #999;
+    	border-radius: 10px;
+    	font-size: .8em;
+		}
 /* Potentially nice select styling:
  Select Box Styles: bavotasan.com Method (with special adaptations by ericrasch.com) */
 /* -------------------- Source: http://bavotasan.com/2011/style-select-box-using-only-css/ */

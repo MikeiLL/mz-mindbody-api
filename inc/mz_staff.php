@@ -62,7 +62,7 @@ EFD;
 	  else:
 	  	mz_pr($mbo_staff_data);
 	  endif;
-
+mz_pr($mz_staff_list);
 	  // trying to allow sort order from within MBO - not working
 	  //usort($mz_staff_list, $this->sortById());;
 
@@ -80,6 +80,7 @@ EFD;
 	  {
 		if (!empty($staff_member['Bio']) && !empty($staff_member['ImageURL']))
 		{
+		
 			$mz_staff_name = $staff_member['Name'];
 			$mz_staff_bio = $staff_member['Bio'];
 			$mz_staff_bio = str_replace($mz_empty_tags_pattern, '', $mz_staff_bio);
