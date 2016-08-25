@@ -238,6 +238,7 @@ class MZ_Mindbody_API {
  		$mz_staff = new MZ_MBO_Staff();
  		$mz_events = new MZ_MBO_Events();
  		$mz_clients = new MZ_MBO_Clients();
+ 		$get_schedule = new MZ_Mindbody_Get_Schedule();
  		
         add_shortcode('mz-mindbody-show-schedule', array($schedule_display, 'mZ_mindbody_show_schedule'));
         add_shortcode('mz-mindbody-staff-list', array($mz_staff, 'mZ_mindbody_staff_listing'));
@@ -245,6 +246,7 @@ class MZ_Mindbody_API {
         add_shortcode('mz-mindbody-login', array($mz_clients, 'mZ_mindbody_login'));
         add_shortcode('mz-mindbody-signup', array($mz_clients, 'mZ_mindbody_signup'));
         add_shortcode('mz-mindbody-logout', array($mz_clients, 'mZ_mindbody_logout'));
+        add_shortcode('mz-mindbody-get-schedule', array($get_schedule, 'mZ_mindbody_get_schedule'));
 
     }
  
