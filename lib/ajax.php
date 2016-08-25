@@ -81,8 +81,7 @@ $protocol = isset( $_SERVER["HTTPS"]) ? 'https://' : 'http://';
  	}
  	
  	 //Enqueue script in footer
- add_action('wp_footer', 'mZ_check_session_logged');
- add_action('wp_footer', 'mz_mbo_check_session_logged');
+ 	 // MOVED to schedule script
 
 // End Ajax Is Logged In 
 

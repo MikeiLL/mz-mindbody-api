@@ -254,7 +254,11 @@ class MZ_Mindbody_Schedule_Display {
 		*/
 		if (($advanced == 1) || ($show_registrants == 1) ) {
 			include_once(MZ_MINDBODY_SCHEDULE_DIR . 'lib/ajax.php');
-			}
+			if ($advanced == 1){
+				 add_action('wp_footer', 'mZ_check_session_logged');
+				 add_action('wp_footer', 'mz_mbo_check_session_logged');
+			 }
+		}
 		//based on shortcode arguments, potentially remove array elements
 			if ($class_types != ''):
 				$class_types = explode(', ', $atts['class_types']);

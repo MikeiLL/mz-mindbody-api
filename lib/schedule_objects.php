@@ -409,7 +409,7 @@ class Single_event {
 		else:
 			$this->signup_button_class = "mz_add_to_class btn";
 			$manage_button_class = "visitMBO";
-			$this->sign_up_text = '<span class="signup">'. __('Login', 'mz-mindbody-api') .'</span>';
+			$this->sign_up_text = '<span class="signup">'. __('Sign-up', 'mz-mindbody-api') .'</span>';
 		endif;
 		
 		$signup_target = "_blank";
