@@ -132,6 +132,22 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 			'mz_mindbody_debug_text',
 			'mz_mindbody'
 		);
+		
+		
+		add_settings_section(
+			'reset_class_schedule',
+			__('Repopulate Basic MBO Schedule', 'mz-mindbody-api'),
+			'do_nothing',
+			'mz_mindbody'
+		);
+		
+		add_settings_field(
+			'mz_mindbody_reset_id',
+			__('Force Primary Class Teacher Reset ', 'mz-mindbody-api'),
+			'mz_mindbody_reset_class_schedule',
+			'mz_mindbody',
+			'reset_class_schedule'
+		);
 	}
 
 	// Draw the section header
@@ -340,6 +356,83 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 	    checked( isset($options['mz_mindbody_clear_cache']) , true, false )
 		);
 	}
+	
+
+// Start Ajax Main Schedule
+function mZ_reset_staff() {
+wp_register_script('mZ_reset_staff', plugins_url('/mz-mindbody-api/dist/scripts/ajax-mbo-reset-staff.js'), array('jquery'), null, true);
+wp_enqueue_script('mZ_reset_staff');
+}
+
+//Enqueue script in admin interface
+add_action('admin_enqueue_scripts', 'mZ_reset_staff');
+add_action('admin_enqueue_scripts', 'ajax_mbo_reset_staff_js');
+
+function ajax_mbo_reset_staff_js() {
+
+//Force page protocol to match current
+$protocol = isset( $_SERVER["HTTPS"]) ? 'https://' : 'http://';
+
+$params = array(
+	'ajaxurl' => admin_url( 'admin-ajax.php', $protocol ),
+	'in_process' => __('In Process&hellip;', 'mz-mindbody-api'),
+	'error' => __('Error', 'mz-mindbody-api'),
+	'success' => __('General schedule reset', 'mz-mindbody-api')
+	);
+
+wp_localize_script( 'mZ_reset_staff', 'mZ_reset_staff', $params);
+
+}
+// End Ajax Main Schedule
+
+	function make_schedule_reset_link(){
+		$linkArray = array(
+											'class'=> 'button button-secondary'
+											);
+		$nonce = wp_create_nonce( 'mz_MBO_reset_staff_nonce');
+		$linkArray['data-nonce'] = $nonce;
+		$linkArray['data-target'] = "#mzResetStaff"; 
+		$class_name_link = new html_element('a');
+		$class_name_link->set('text', 'Reset General Schedule');
+		$class_name_link->set('href', MZ_MINDBODY_SCHEDULE_URL . 'inc/modal_descriptions.php');
+		$class_name_link->set($linkArray);
+		return $class_name_link;
+	}
+
+	
+	function mz_mindbody_reset_class_schedule() {
+		echo '<p>' . __("This data is used to cross check teachers against subs in schedule classes.",  'mz-mindbody-api') . '</p>';
+		echo '<p>' . __("Resetting usually won't be necessary as it is automatically reset daily.",  'mz-mindbody-api') . '</p>';
+		?>
+		<div id="#mzResult" style="reset_class_schedule">
+			<?php
+			echo make_schedule_reset_link()->build();
+			?>
+		</div>
+		<?php
+	}
+	
+	function do_nothing() {
+		return;
+	}
+
+function reset_button_action()
+{
+  echo '<div id="message" class="updated fade"><p>'
+    .'Repopulating from MindBody&hellip;' . '</p></div>';
+    
+	require_once( MZ_MINDBODY_SCHEDULE_DIR .'inc/get_schedule.php' );
+  $classes_pages = new MZ_MBO_Pages_Pages();
+  $result = $classes_pages->mZ_mbo_pages_pages('message');
+  if(is_array($result)):
+  	echo array_shift($result) . '<br />';
+  	echo array_shift($result) . '<br />';
+  	var_dump(array_shift($result));
+  else:
+  	echo $result . '<br />';
+  endif;
+  
+}  
 
 	// Validate user input (we want text only)
 	function mz_mindbody_validate_options( $input ) {

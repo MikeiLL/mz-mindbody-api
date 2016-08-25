@@ -246,7 +246,6 @@ class MZ_Mindbody_API {
         add_shortcode('mz-mindbody-login', array($mz_clients, 'mZ_mindbody_login'));
         add_shortcode('mz-mindbody-signup', array($mz_clients, 'mZ_mindbody_signup'));
         add_shortcode('mz-mindbody-logout', array($mz_clients, 'mZ_mindbody_logout'));
-        add_shortcode('mz-mindbody-get-schedule', array($get_schedule, 'mZ_mindbody_get_schedule'));
 
     }
  
@@ -265,19 +264,26 @@ function mZ_MBO_load_plugin_textdomain() {
 	}
 add_action( 'plugins_loaded', 'mZ_MBO_load_plugin_textdomain' );
 
+require_once(MZ_MINDBODY_SCHEDULE_DIR . 'inc/get_schedule.php');
+$get_class_owners = new MZ_Mindbody_Get_Schedule();
+
+add_action('create_class_schedule_transient', array($get_class_owners, 'mZ_mindbody_get_schedule'));
+
 function mZ_mindbody_schedule_activation() {
-	//Don't know if there's anything we need to do here.
+	// Activate cron job to populate list of teachers
+	$half_a_second_from_now = time() + 500;
+	wp_schedule_event( $half_a_second_from_now, 'daily', 'create_class_schedule_transient');
 }
 
 function mZ_mindbody_schedule_deactivation() {
-	//Don't know if there's anything we need to do here.
+	wp_clear_scheduled_hook('make_pages_weekly');
 }
 
 //register uninstaller
 register_uninstall_hook(__FILE__, 'mZ_mindbody_schedule_uninstall');
 
 function mZ_mindbody_schedule_uninstall(){
-	//actions to perform once on plugin uninstall go here
+	wp_clear_scheduled_hook('make_pages_weekly');
 	delete_option('mz_mindbody_options');
 }
 
@@ -450,7 +456,42 @@ if ( is_admin() )
  }
  //End Ajax Check Signed In
  
- 
+//Start Ajax Reset Main Schedule
+ add_action('wp_ajax_nopriv_mz_mbo_reset_staff', 'mz_mbo_reset_staff_callback');
+ add_action('wp_ajax_mz_mbo_reset_staff', 'mz_mbo_reset_staff_callback');	
+
+function mz_mbo_reset_staff_callback() {
+	
+	require_once( MZ_MINDBODY_SCHEDULE_DIR .'inc/get_schedule.php' );
+  $classes_pages = new MZ_Mindbody_Get_Schedule();
+  $php_result = $classes_pages->mZ_mindbody_get_schedule('message');
+  if (function_exists(mZ_write_to_file)) {
+	// This function is contained in 
+		//mZ_write_to_file($result);
+	}
+  if(is_array($php_result)):
+  	$result['message'] = array_shift($result);
+  	$result['mbo_status'] =  array_shift($result);
+  	$result['return'] = array_shift($result);
+  	$result['type'] = "error";
+  else:
+  	$result['message'] = $php_result;
+  	$result['type'] = "success";
+  endif;
+  
+
+
+ 	if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+		 $result = json_encode($result);
+		 echo $result;
+	}
+	else {
+		 header("Location: ".$_SERVER["HTTP_REFERER"]);
+	}
+
+	die();
+ }
+ //End Ajax Reset Main Schedule
 
  require_once('lib/functions.php'); // for testing functions
  //Start Ajax Get Registrants

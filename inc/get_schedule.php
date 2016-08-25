@@ -8,19 +8,16 @@ class MZ_Mindbody_Get_Schedule {
 	}
 
 	
-	public function mZ_mindbody_get_schedule( $atts, $account=0 )
+	public function mZ_mindbody_get_schedule( $message='no message', $account=0 )
 	{
-		wp_enqueue_style('mZ_mindbody_schedule_bs', asset_path('styles/main.css'), false, null);
-		wp_enqueue_script('modernizr', asset_path('scripts/modernizr.js'), array(), null, true);
-		wp_enqueue_script('mz_mbo_bootstrap_script', asset_path('scripts/main.js'), array('jquery'), null, true);
-		
-		add_action('wp_footer', array($this, 'mbo_localize_main_js'));
+	
 		$mz_date = new DateTime();
 		$mz_date = $mz_date->format('Y-m-d H:i:s');
 		$mz_timeframe = array_slice(mz_getDateRange($mz_date, 30), 0, 1);
 		$mb = MZ_Mindbody_Init::instantiate_mbo_API();
 		if ($mb == 'NO_SOAP_SERVICE') {
-			mz_pr($mb);
+			//fill in second two parameters with space holders and return error.
+			return array($mb, '', array());
 			}
 		if ($account == 0) {
 			$mz_schedule_data = $mb->GetClassSchedules($mz_timeframe);
@@ -29,7 +26,9 @@ class MZ_Mindbody_Get_Schedule {
 			$mz_schedule_data = $mb->GetClassSchedules($mz_timeframe);
 			}
 		if ($mz_schedule_data['GetClassSchedulesResult']['Status'] != 'Success'):
-			mz_pr($mz_schedule_data['GetClassSchedulesResult']['Status']);
+			return array(__('There was an error populating schedule. Details below. Could be a network connection. Consider trying again.', 'mz-mindbody-api'),
+									$mz_schedule_data['GetClassSchedulesResult']['Status'],
+									$mz_schedule_data['GetClassSchedulesResult']);
 		else:
 			$schedules = $mz_schedule_data['GetClassSchedulesResult']['ClassSchedules'];
 		endif;
@@ -43,6 +42,9 @@ class MZ_Mindbody_Get_Schedule {
 		endforeach;
 		delete_transient('mz_class_owners');
 		set_transient('mz_class_owners', $class_owners, 60 * 60 * 24 * 7);
+		if($message == 'message'):
+			return __('Classes and teachers as regularly scheduled reloaded.', 'mz-mindbody-api');
+		endif;
 		} // EOF mZ_mindbody_get_schedule
 	
 	

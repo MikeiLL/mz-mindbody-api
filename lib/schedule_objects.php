@@ -348,12 +348,10 @@ class Single_event {
 											'class'=> $staff_name_css,
 											'title'=>$substituted_alert
 											);
-
-											$get_registrants_nonce = wp_create_nonce( 'mz_MBO_get_registrants_nonce');
-											$linkArray['data-nonce'] = $get_registrants_nonce;
-											$linkArray['data-target'] = "#mzStaffScheduleModal";  
-											$linkArray['data-classID'] = $this->class_title_ID;
-	
+				$get_registrants_nonce = wp_create_nonce( 'mz_MBO_get_registrants_nonce');
+				$linkArray['data-nonce'] = $get_registrants_nonce;
+				$linkArray['data-target'] = "#mzStaffScheduleModal";  
+				$linkArray['data-classID'] = $this->class_title_ID;
 				$substitute_link = new html_element('a');
 				$substitute_link->set('text', $staffName);
 				$substitute_link->set('href', MZ_MINDBODY_SCHEDULE_URL . 'inc/modal_descriptions.php');
@@ -368,16 +366,14 @@ class Single_event {
 												'data-staffID'=>$staffID,
 												'class'=> $staff_name_css
 												);
-
-												$get_registrants_nonce = wp_create_nonce( 'mz_MBO_get_registrants_nonce');
-												$linkArray['data-nonce'] = $get_registrants_nonce;
-												$linkArray['data-target'] = "#mzStaffScheduleModal";  
-												$linkArray['data-classID'] = $this->class_title_ID;
-						
-				$class_name_link = new html_element('a');
-				$class_name_link->set('text', $staffName);
-				$class_name_link->set('href', MZ_MINDBODY_SCHEDULE_URL . 'inc/modal_descriptions.php');
-				$class_name_link->set($linkArray);
+			$get_registrants_nonce = wp_create_nonce( 'mz_MBO_get_registrants_nonce');
+			$linkArray['data-nonce'] = $get_registrants_nonce;
+			$linkArray['data-target'] = "#mzStaffScheduleModal";  
+			$linkArray['data-classID'] = $this->class_title_ID;
+			$class_name_link = new html_element('a');
+			$class_name_link->set('text', $staffName);
+			$class_name_link->set('href', MZ_MINDBODY_SCHEDULE_URL . 'inc/modal_descriptions.php');
+			$class_name_link->set($linkArray);
 				return array($class_name_link, $substitute_link);
 	}
 	

@@ -36,6 +36,12 @@
       ],
       "main": true
     },
+    "ajax-mbo-reset-staff.js": {
+    "files": [
+        "scripts/ajax-mbo-reset-staff.js"
+      ],
+      "main": true
+    },
     "jquery.js": {
       "bower": ["jquery"]
     },
