@@ -472,7 +472,7 @@ function mz_mbo_reset_staff_callback() {
   if(is_array($php_result)):
   	$result['message'] = array_shift($result);
   	$result['mbo_status'] =  array_shift($result);
-  	$result['return'] = array_shift($result);
+  	$result['mbo_result'] = array_shift($result);
   	$result['type'] = "error";
   else:
   	$result['message'] = $php_result;

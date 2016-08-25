@@ -377,7 +377,8 @@ $params = array(
 	'ajaxurl' => admin_url( 'admin-ajax.php', $protocol ),
 	'in_process' => __('In Process&hellip;', 'mz-mindbody-api'),
 	'error' => __('Error', 'mz-mindbody-api'),
-	'success' => __('General schedule reset', 'mz-mindbody-api')
+	'success' => __('General schedule reset', 'mz-mindbody-api'),
+	'site_url' => site_url()
 	);
 
 wp_localize_script( 'mZ_reset_staff', 'mZ_reset_staff', $params);
@@ -387,7 +388,8 @@ wp_localize_script( 'mZ_reset_staff', 'mZ_reset_staff', $params);
 
 	function make_schedule_reset_link(){
 		$linkArray = array(
-											'class'=> 'button button-secondary'
+											'class'=> 'button button-secondary reset-button',
+											'style'=> 'margin:1em;'
 											);
 		$nonce = wp_create_nonce( 'mz_MBO_reset_staff_nonce');
 		$linkArray['data-nonce'] = $nonce;
@@ -403,11 +405,9 @@ wp_localize_script( 'mZ_reset_staff', 'mZ_reset_staff', $params);
 	function mz_mindbody_reset_class_schedule() {
 		echo '<p>' . __("This data is used to cross check teachers against subs in schedule classes.",  'mz-mindbody-api') . '</p>';
 		echo '<p>' . __("Resetting usually won't be necessary as it is automatically reset daily.",  'mz-mindbody-api') . '</p>';
+		echo make_schedule_reset_link()->build();
 		?>
-		<div id="#mzResult" style="reset_class_schedule">
-			<?php
-			echo make_schedule_reset_link()->build();
-			?>
+		<div id="#mzResult" class="reset_class_schedule" style="padding:1rem;">
 		</div>
 		<?php
 	}
