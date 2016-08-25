@@ -156,7 +156,7 @@ class Single_event {
 		}
 
 		if(!in_array('teacher', $hide)){
-			$this->teacher = __('with', 'mz-mindbody-api') . ' ' . $this->staffModal;
+			$this->teacher = ' ' . __('with', 'mz-mindbody-api') . ' ' . $this->staffModal;
 			if ($this->is_substitute == 1):
 				$class_owners = get_transient( 'mz_class_owners' );
 				foreach($class_owners as $id => $details):
@@ -169,7 +169,7 @@ class Single_event {
 				endforeach;
 				$substitute_button_object = $this->teacherLinkMaker($this->staffID,'s', $class_owner);
 				$this->sub_link = array_pop($substitute_button_object)->build();
-				$this->teacher .= $this->sub_link;
+				$this->teacher .= ' ' . $this->sub_link;
 			endif;
 			$this->teacher .= '<br />';
 			}
