@@ -218,7 +218,8 @@ class MZ_Mindbody_Schedule_Display {
  
 			$params = array(
 				'ajaxurl' => admin_url( 'admin-ajax.php', $protocol ),
-				'no_bio' => __('No biography listed for this staff member.', 'mz-mindbody-api')
+				'no_bio' => __('No biography listed for this staff member.', 'mz-mindbody-api'),
+				'sub_by_text' => __('Sub by', 'mz-mindbody-api')
 				);
 	
 			wp_localize_script( 'mZ_get_staff', 'mZ_get_staff', $params);
@@ -303,21 +304,21 @@ class MZ_Mindbody_Schedule_Display {
 		$tbl_horizontal = new HTML_Table('', $this->horizontal_class . ' ' . ' mz-schedule-horizontal mz-schedule-display');
 		$tbl_grid = new HTML_Table('', $this->grid_class . ' ' . ' mz-schedule-grid mz-schedule-display');
 
-		$class_owners = $this->assign_class_owners($mz_days);
+		$schedule_class_teachers = $this->assign_class_owners($mz_days);
 
 		if ($mode_select != 0) {
 			// If Mode Select is enabled we will return both displays
 			// Retrieve data for horizontal display
 			$mz_days_horizontal = sortClassesByDate($mz_days, $this->mz_mbo_globals->time_format, $this->locations, 
 																					$hide_cancelled, $hide, $advanced, $show_registrants,
-																					$registrants_count, 'horizontal', $class_owners, $this->delink);
+																					$registrants_count, 'horizontal', $this->delink);
 			// Display Horizontal schedule								
 			$return .= $this->horizontal_schedule($mz_days_horizontal, $tbl_horizontal);
 			
 			// Retrieve data for grid display
 			$mz_days_grid = sortClassesByTimeThenDay($mz_days, $this->mz_mbo_globals->time_format, $this->locations, 
 																					$hide_cancelled, $hide, $advanced, $show_registrants,
-																					$registrants_count, 'grid', $class_owners, $this->delink);
+																					$registrants_count, 'grid', $this->delink);
 			// Display Grid schedule																					
 			$return .= $this->grid_schedule($mz_days_grid, $tbl_grid, $return);
 			
@@ -326,7 +327,7 @@ class MZ_Mindbody_Schedule_Display {
 			// Retrieve data for grid display
 			$mz_days_grid = sortClassesByTimeThenDay($mz_days, $this->mz_mbo_globals->time_format, $this->locations, 
 																					$hide_cancelled, $hide, $advanced, $show_registrants,
-																					$registrants_count, 'grid', $class_owners, $this->delink);
+																					$registrants_count, 'grid', $this->delink);
 			// Display Grid schedule																					
 			$return .= $this->grid_schedule($mz_days_grid, $tbl_grid, $return);
 		} else {
@@ -334,7 +335,7 @@ class MZ_Mindbody_Schedule_Display {
 			// Retrieve data for horizontal display
 			$mz_days_horizontal = sortClassesByDate($mz_days, $this->mz_mbo_globals->time_format, $this->locations, 
 																					$hide_cancelled, $hide, $advanced, $show_registrants,
-																					$registrants_count, 'horizontal', $class_owners, $this->delink);
+																					$registrants_count, 'horizontal', $this->delink);
 			// Display Horizontal schedule								
 			$return .= $this->horizontal_schedule($mz_days_horizontal, $tbl_horizontal);
 			

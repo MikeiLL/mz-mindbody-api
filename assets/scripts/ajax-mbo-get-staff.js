@@ -7,7 +7,8 @@
 			var staffName = $(this).attr('data-staffName');
 			var siteID = $(this).attr('data-siteID');
 			var nonce = $(this).attr("data-nonce");
-			var popUpContent = '<h3>' + staffName + '</h3><div class="mz-staffInfo" id="StaffInfo"></div>';
+			var subText = ($(this).attr("data-sub") !== undefined) ? '<span class="sub-text">' + mZ_get_staff.sub_by_text + '</span>' + ' ' : ' ';
+			var popUpContent = '<h3>' + subText + staffName + '</h3><div class="mz-staffInfo" id="StaffInfo"></div>';
 			var htmlStaffDescription = '<div class="mz_modalStaffDescription"></div>';
 			var mbo_url_parts = ['http://clients.mindbodyonline.com/ws.asp?studioid=',
 													'&stype=-7&sView=week&sTrn='];

@@ -72,7 +72,7 @@ class Single_event {
 	private $delink;
 	
 	public function __construct($class, $day_num='', $hide=array(), $locations, $hide_cancelled=0, $advanced, 
-															$show_registrants, $registrants_count, $calendar_format='horizontal', $class_owners,
+															$show_registrants, $registrants_count, $calendar_format='horizontal', 
 															$delink){
 
 		require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
@@ -125,7 +125,8 @@ class Single_event {
 		
 		$this->clientID = isset($_SESSION['GUID']) ? $_SESSION['client']['ID'] : '';
 		$this->level = isset($class['ClassDescription']['Level']['Name']) ? $class['ClassDescription']['Level']['Name'] : '';
-		$this->staffModal = $this->teacherLinkMaker($this->staffID,$this->staffName)->build();
+		$teacherLink = $this->teacherLinkMaker($this->staffID,$this->staffName);
+		$this->staffModal = array_shift($teacherLink)->build();
 		$this->event_start_and_end = $this->event_start . ' - ' . $this->event_end;
 		$this->delink = $delink;
 		
@@ -157,7 +158,17 @@ class Single_event {
 		if(!in_array('teacher', $hide)){
 			$this->teacher = __('with', 'mz-mindbody-api') . ' ' . $this->staffModal;
 			if ($this->is_substitute == 1):
-				$this->sub_link = $this->teacherLinkMaker($this->staffID,'s')->build();
+				$class_owners = get_transient( 'mz_class_owners' );
+				foreach($class_owners as $id => $details):
+					if($details['class_name'] == $this->className):
+						$class_owner = $details;
+						break;
+					endif;
+						// or else if name not found 
+						$class_owner = '';
+				endforeach;
+				$substitute_button_object = $this->teacherLinkMaker($this->staffID,'s', $class_owner);
+				$this->sub_link = array_pop($substitute_button_object)->build();
 				$this->teacher .= $this->sub_link;
 			endif;
 			$this->teacher .= '<br />';
@@ -322,16 +333,33 @@ class Single_event {
 				return $class_name_link;
 	}
 	
-	private function teacherLinkMaker($staffID, $staffName) {
+	private function teacherLinkMaker($staffID, $staffName, $class_owner='') {
 			/* Build and return an href object for each class/event
 			to use in creating popup modal */
 			$staff_name_css = 'modal-toggle mz_get_staff mz_staff_name ';
 			if ($staffName == 's'):
-				 //$staff_name_css .= 'mz-substitute ';
-				$substitute_button = new html_element('span');
-				$substitute_button->set('text', $staffName);
-				$substitute_button->set('class', 'mz-substitute ');
-				return $substitute_button;
+				$substituted_alert = __('Substitute', 'mz-mindbody-api');
+				$staff_name_css .= 'mz-substitute ';
+				$linkArray = array(
+											'data-staffName'=>$class_owner['class_owner'],
+											'data-siteID'=>$this->pluginoptions['mz_mindbody_siteID'],
+											'data-staffID'=>$class_owner['class_owner_id'],
+											'data-sub'=>'sub',
+											'class'=> $staff_name_css,
+											'title'=>$substituted_alert
+											);
+
+											$get_registrants_nonce = wp_create_nonce( 'mz_MBO_get_registrants_nonce');
+											$linkArray['data-nonce'] = $get_registrants_nonce;
+											$linkArray['data-target'] = "#mzStaffScheduleModal";  
+											$linkArray['data-classID'] = $this->class_title_ID;
+	
+				$substitute_link = new html_element('a');
+				$substitute_link->set('text', $staffName);
+				$substitute_link->set('href', MZ_MINDBODY_SCHEDULE_URL . 'inc/modal_descriptions.php');
+				$substitute_link->set($linkArray);
+			else:
+				$substitute_link = '';
 			endif;
 			
 			$linkArray = array(
@@ -350,7 +378,7 @@ class Single_event {
 				$class_name_link->set('text', $staffName);
 				$class_name_link->set('href', MZ_MINDBODY_SCHEDULE_URL . 'inc/modal_descriptions.php');
 				$class_name_link->set($linkArray);
-				return $class_name_link;
+				return array($class_name_link, $substitute_link);
 	}
 	
 	private function time_of_day_maker($classDate) {

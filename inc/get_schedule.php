@@ -28,8 +28,21 @@ class MZ_Mindbody_Get_Schedule {
 			$mb->sourceCredentials['SiteIDs'][0] = $account; 
 			$mz_schedule_data = $mb->GetClassSchedules($mz_timeframe);
 			}
-
-		mz_pr($mz_schedule_data);
+		if ($mz_schedule_data['GetClassSchedulesResult']['Status'] != 'Success'):
+			mz_pr($mz_schedule_data['GetClassSchedulesResult']['Status']);
+		else:
+			$schedules = $mz_schedule_data['GetClassSchedulesResult']['ClassSchedules'];
+		endif;
+		$class_owners = array();
+		foreach($schedules as $schedule):
+			foreach($schedule as $class):
+				$class_owners[$class['ID']] = array('class_name' => $class['ClassDescription']['Name'],
+																								'class_owner' => $class['Staff']['Name'],
+																								'class_owner_id' => $class['Staff']['ID']);
+			endforeach;
+		endforeach;
+		delete_transient('mz_class_owners');
+		set_transient('mz_class_owners', $class_owners, 60 * 60 * 24 * 7);
 		} // EOF mZ_mindbody_get_schedule
 	
 	
