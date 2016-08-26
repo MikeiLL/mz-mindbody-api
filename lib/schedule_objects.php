@@ -149,7 +149,7 @@ class Single_event {
 
 		if (!isset($class['ClassDescription']['ImageURL'])) {
 			if (isset($class['ClassDescription']['AdditionalImageURLs']) && !empty($classImageArray)) {
-				$this->classImage = pop($classImageArray);
+				$this->classImage = array_pop($classImageArray);
 			}
 		} else {
 			$this->classImage = $class['ClassDescription']['ImageURL'];
@@ -161,7 +161,13 @@ class Single_event {
 			if ($this->is_substitute == 1):
 				if ( $class_owners = get_transient( 'mz_class_owners' ) ):
 					foreach($class_owners as $id => $details):
-						if($details['class_name'] == $this->className):
+					
+				$class_description_array = explode(" ", $this->classDescription);
+				$class_description_substring = implode(" ", array_splice($class_description_array, 0, 5));
+						if(($details['class_name'] == $this->className) && 
+								($details['class_description'] == $class_description_substring) &&
+							  ($this->classImage == $details['image_url'])):
+							
 							$class_owner = $details;
 							$substitute_button_object = $this->teacherLinkMaker($this->staffID,'s', $class_owner);
 							$this->sub_link = array_pop($substitute_button_object)->build();

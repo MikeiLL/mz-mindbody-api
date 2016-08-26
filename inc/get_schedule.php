@@ -35,9 +35,14 @@ class MZ_Mindbody_Get_Schedule {
 		$class_owners = array();
 		foreach($schedules as $schedule):
 			foreach($schedule as $class):
-				$class_owners[$class['ID']] = array('class_name' => $class['ClassDescription']['Name'],
-																								'class_owner' => $class['Staff']['Name'],
-																								'class_owner_id' => $class['Staff']['ID']);
+				$class_image = isset($class['ClassDescription']['ImageURL']) ? $class['ClassDescription']['ImageURL'] : '';
+				$class_description_array = explode(" ", $class['ClassDescription']['Description']);
+				$class_description_substring = implode(" ", array_splice($class_description_array, 0, 5));
+				$class_owners[$class['ID']] = array('class_name' => strip_tags($class['ClassDescription']['Name']),
+																								'class_description' => $class_description_substring,
+																								'class_owner' => strip_tags($class['Staff']['Name']),
+																								'class_owner_id' => strip_tags($class['Staff']['ID']),
+																								'image_url' => $class_image);
 			endforeach;
 		endforeach;
 		delete_transient('mz_class_owners');

@@ -246,6 +246,7 @@ class MZ_Mindbody_API {
         add_shortcode('mz-mindbody-login', array($mz_clients, 'mZ_mindbody_login'));
         add_shortcode('mz-mindbody-signup', array($mz_clients, 'mZ_mindbody_signup'));
         add_shortcode('mz-mindbody-logout', array($mz_clients, 'mZ_mindbody_logout'));
+        add_shortcode('mz-mindbody-get-schedule', array($get_schedule, 'mZ_mindbody_get_schedule'));
 
     }
  
