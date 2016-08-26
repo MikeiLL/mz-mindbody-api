@@ -157,18 +157,28 @@ class Single_event {
 
 		if(!in_array('teacher', $hide)){
 			$this->teacher = ' ' . __('with', 'mz-mindbody-api') . ' ' . $this->staffModal;
+
 			if ($this->is_substitute == 1):
-				$class_owners = get_transient( 'mz_class_owners' );
-				foreach($class_owners as $id => $details):
-					if($details['class_name'] == $this->className):
-						$class_owner = $details;
-						break;
-					endif;
-						// or else if name not found 
-						$class_owner = '';
-				endforeach;
-				$substitute_button_object = $this->teacherLinkMaker($this->staffID,'s', $class_owner);
-				$this->sub_link = array_pop($substitute_button_object)->build();
+				if ( $class_owners = get_transient( 'mz_class_owners' ) ):
+					foreach($class_owners as $id => $details):
+						if($details['class_name'] == $this->className):
+							$class_owner = $details;
+							$substitute_button_object = $this->teacherLinkMaker($this->staffID,'s', $class_owner);
+							$this->sub_link = array_pop($substitute_button_object)->build();
+							break;
+						endif;
+							// or else if name not found 
+							$class_owner = '';
+							$substitute_button_object = $this->teacherLinkMaker($this->staffID,'', $class_owner);
+							$this->sub_link = '<span class="mz-substitute">s</span>';
+					endforeach;
+				else:
+					$class_owner = '';
+					$substitute_button_object = $this->teacherLinkMaker($this->staffID,'', $class_owner);
+					$this->sub_link =  '<span class="mz-substitute">s</span>';
+				endif;
+				
+				
 				$this->teacher .= ' ' . $this->sub_link;
 			endif;
 			$this->teacher .= '<br />';
