@@ -56,9 +56,6 @@
         "styles/admin-style.scss"
       ]
     },
-    "modernizr.js": {
-      "bower": ["modernizr"]
-    },
   "config": {
     "devUrl": "http://uru.localhost"
   	}

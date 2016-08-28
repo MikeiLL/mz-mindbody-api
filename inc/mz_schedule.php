@@ -58,7 +58,6 @@ class MZ_Mindbody_Schedule_Display {
 	public function mZ_mindbody_show_schedule( $atts, $account=0 )
 	{
 		wp_enqueue_style('mZ_mindbody_schedule_bs', asset_path('styles/main.css'), false, null);
-		wp_enqueue_script('modernizr', asset_path('scripts/modernizr.js'), array(), null, true);
 		wp_enqueue_script('mz_mbo_bootstrap_script', asset_path('scripts/main.js'), array('jquery'), null, true);
 		
 		add_action('wp_footer', array($this, 'mbo_localize_main_js'));

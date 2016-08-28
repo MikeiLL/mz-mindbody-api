@@ -26,7 +26,6 @@ class MZ_MBO_Events {
 	public function mZ_mindbody_show_events ($atts, $account=0) {
 		
 		wp_enqueue_style('mZ_mindbody_schedule_bs', asset_path('styles/main.css'), false, null);
-		wp_enqueue_script('modernizr', asset_path('scripts/modernizr.js'), array(), null, true);
 		wp_enqueue_script('mz_mbo_bootstrap_script', asset_path('scripts/main.js'), array('jquery'), null, true);
 		
 		$options = get_option( 'mz_mindbody_options',__('Option Not Set', 'mz-mindbody-api') );
