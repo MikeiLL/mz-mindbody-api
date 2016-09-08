@@ -70,6 +70,7 @@ class Single_event {
 	private $staffID;
 	private $siteID;
 	private $delink;
+	private $haveTransient = 0;
 	
 	public function __construct($class, $day_num='', $hide=array(), $locations, $hide_cancelled=0, $advanced, 
 															$show_registrants, $registrants_count, $calendar_format='horizontal', 
@@ -166,8 +167,22 @@ class Single_event {
 				$class_description_substring = implode(" ", array_splice($class_description_array, 0, 5));
 						if(($details['class_name'] == $this->className) && 
 								($details['class_description'] == $class_description_substring) &&
-							  ($this->classImage == $details['image_url'])):
+							  //($this->classImage == $details['image_url']) &&
+							  (date('H:i', $this->startTimeStamp) == $details['time'])):
+							  
 							
+				/*mz_pr($details['class_name']);
+				mz_pr($this->className);
+				mz_pr($details['image_url']);
+				mz_pr($this->classImage);
+				mz_pr($details['class_description']);
+				mz_pr($class_description_substring);
+				mz_pr($details['time']);
+				mz_pr(date('H:i', $this->startTimeStamp));
+				mz_pr($details['day']);
+				mz_pr(date('l', $this->startTimeStamp));
+				mz_pr($details['class_owner']);
+				echo '<hr />'; */
 							$class_owner = $details;
 							$substitute_button_object = $this->teacherLinkMaker($this->staffID,'s', $class_owner);
 							$this->sub_link = array_pop($substitute_button_object)->build();
@@ -354,6 +369,9 @@ class Single_event {
 			to use in creating popup modal */
 			$staff_name_css = 'modal-toggle mz_get_staff mz_staff_name ';
 			if ($staffName == 's'):
+				$buttonLetter = __('s', 'mz-mindbody-api');
+	//echo "class owner is <br />";
+	//mz_pr($class_owner);
 				$substituted_alert = __('Substitute', 'mz-mindbody-api');
 				$staff_name_css .= 'mz-substitute ';
 				$linkArray = array(
@@ -362,14 +380,14 @@ class Single_event {
 											'data-staffID'=>$class_owner['class_owner_id'],
 											'data-sub'=>'sub',
 											'class'=> $staff_name_css,
-											'title'=>$substituted_alert
+											'title'=>$class_owner['class_owner']
 											);
 				$get_registrants_nonce = wp_create_nonce( 'mz_MBO_get_registrants_nonce');
 				$linkArray['data-nonce'] = $get_registrants_nonce;
 				$linkArray['data-target'] = "#mzStaffScheduleModal";  
 				$linkArray['data-classID'] = $this->class_title_ID;
 				$substitute_link = new html_element('a');
-				$substitute_link->set('text', $staffName);
+				$substitute_link->set('text', $buttonLetter);
 				$substitute_link->set('href', MZ_MINDBODY_SCHEDULE_URL . 'inc/modal_descriptions.php');
 				$substitute_link->set($linkArray);
 			else:

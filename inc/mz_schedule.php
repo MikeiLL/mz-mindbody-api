@@ -28,7 +28,7 @@ class MZ_Mindbody_Schedule_Display {
 	 * Get sorted list of classes and return array of staff id's for class_title "owner"
 	 * ie. not the substitute
 	 */
-	private function assign_class_owners($classes) {
+	private function get_non_substitute_teachers($classes) {
 		$return = array();
 		foreach($classes as $class):
 			if($class['Substitute'] != 1):
@@ -78,6 +78,7 @@ class MZ_Mindbody_Schedule_Display {
 			'hide_cancelled' => '1',
 			'registrants_count' => '0',
 			'mode_select' => '0',
+			'no_sub_link' => '0',
 			'unlink' => 0
 				), $atts );
 		$type = $atts['type'];
@@ -95,6 +96,7 @@ class MZ_Mindbody_Schedule_Display {
 		$hide_cancelled = $atts['hide_cancelled'];
 		$registrants_count = $atts['registrants_count'];
 		$mode_select = $atts['mode_select'];
+		$no_sub_link = $atts['no_sub_link'];
 		$this->delink = $atts['unlink'];
 		$this->mode_select = $mode_select;
 
@@ -218,7 +220,7 @@ class MZ_Mindbody_Schedule_Display {
 			$params = array(
 				'ajaxurl' => admin_url( 'admin-ajax.php', $protocol ),
 				'no_bio' => __('No biography listed for this staff member.', 'mz-mindbody-api'),
-				'sub_by_text' => __('Sub by', 'mz-mindbody-api')
+				'sub_by_text' => __('Sub for', 'mz-mindbody-api')
 				);
 	
 			wp_localize_script( 'mZ_get_staff', 'mZ_get_staff', $params);
@@ -307,7 +309,7 @@ class MZ_Mindbody_Schedule_Display {
 		$tbl_horizontal = new HTML_Table('', $this->horizontal_class . ' ' . ' mz-schedule-horizontal mz-schedule-display');
 		$tbl_grid = new HTML_Table('', $this->grid_class . ' ' . ' mz-schedule-grid mz-schedule-display');
 
-		$schedule_class_teachers = $this->assign_class_owners($mz_days);
+		$schedule_class_teachers = ($no_sub_link == 0 ) ? $this->get_non_substitute_teachers($mz_days) : array();
 
 		if ($mode_select != 0) {
 			// If Mode Select is enabled we will return both displays

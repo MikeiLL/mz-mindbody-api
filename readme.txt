@@ -54,6 +54,9 @@ You need to register a developer account with MindBody, which costs $5+ per webs
 
 == Changelog ==
 
+= 2.4.0 =
+Remove Modernizr.
+
 = 2.3.9 =
 Fix typo and add class.
 

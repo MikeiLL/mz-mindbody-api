@@ -7,7 +7,12 @@ class MZ_Mindbody_Get_Schedule {
 		$this->mz_mbo_globals = new MZ_Mindbody_Init();
 	}
 
-	
+	/*
+	 * This method creates a transient containing a hashed array assigning each
+	 * Class ID, which is for a Unique, recurring "class", to some details with
+	 * which we can disambiguate it from any other classes which might contain common data
+	 * like Name, Description, Image.
+	*/
 	public function mZ_mindbody_get_schedule( $message='no message', $account=0 )
 	{
 	
@@ -35,18 +40,23 @@ class MZ_Mindbody_Get_Schedule {
 		$class_owners = array();
 		foreach($schedules as $schedule):
 			foreach($schedule as $class):
-				$class_image = isset($class['ClassDescription']['ImageURL']) ? $class['ClassDescription']['ImageURL'] : '';
-				$class_description_array = explode(" ", $class['ClassDescription']['Description']);
-				$class_description_substring = implode(" ", array_splice($class_description_array, 0, 5));
-				$class_owners[$class['ID']] = array('class_name' => strip_tags($class['ClassDescription']['Name']),
-																								'class_description' => $class_description_substring,
-																								'class_owner' => strip_tags($class['Staff']['Name']),
-																								'class_owner_id' => strip_tags($class['Staff']['ID']),
-																								'image_url' => $class_image);
+			$classStartTime = new DateTime($class['StartTime']);
+			$classStartDate = new DateTime($class['StartDate']);
+			$class_image = isset($class['ClassDescription']['ImageURL']) ? $class['ClassDescription']['ImageURL'] : '';
+			$class_description_array = explode(" ", $class['ClassDescription']['Description']);
+			$class_description_substring = implode(" ", array_splice($class_description_array, 0, 5));
+			$class_owners[$class['ID']] = array('class_name' => strip_tags($class['ClassDescription']['Name']),
+																							'class_description' => $class_description_substring,
+																							'class_owner' => strip_tags($class['Staff']['Name']),
+																							'class_owner_id' => strip_tags($class['Staff']['ID']),
+																							'image_url' => $class_image,
+																							'time' => $classStartTime->format('H:i'),
+																							'day' => $classStartDate->format('l'));
 			endforeach;
 		endforeach;
 		delete_transient('mz_class_owners');
 		set_transient('mz_class_owners', $class_owners, 60 * 60 * 24 * 7);
+		//mz_pr($class_owners);
 		if($message == 'message'):
 			return __('Classes and teachers as regularly scheduled reloaded.', 'mz-mindbody-api');
 		endif;
