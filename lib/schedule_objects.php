@@ -164,13 +164,14 @@ class Single_event {
 					foreach($class_owners as $id => $details):
 					
 				$class_description_array = explode(" ", $this->classDescription);
+				$image_path_array = explode('?imageversion=', $this->classImage);
+				$just_image_path = array_shift($image_path_array);
 				$class_description_substring = implode(" ", array_splice($class_description_array, 0, 5));
 						if(($details['class_name'] == $this->className) && 
 								($details['class_description'] == $class_description_substring) &&
-							  //($this->classImage == $details['image_url']) &&
+							  ($details['image_url'] == $just_image_path) &&
 							  (date('H:i', $this->startTimeStamp) == $details['time'])):
 							  
-							
 				/*mz_pr($details['class_name']);
 				mz_pr($this->className);
 				mz_pr($details['image_url']);

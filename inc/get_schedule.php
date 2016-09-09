@@ -43,13 +43,14 @@ class MZ_Mindbody_Get_Schedule {
 			$classStartTime = new DateTime($class['StartTime']);
 			$classStartDate = new DateTime($class['StartDate']);
 			$class_image = isset($class['ClassDescription']['ImageURL']) ? $class['ClassDescription']['ImageURL'] : '';
+			$image_path_array = explode('?imageversion=', $class_image);
 			$class_description_array = explode(" ", $class['ClassDescription']['Description']);
 			$class_description_substring = implode(" ", array_splice($class_description_array, 0, 5));
 			$class_owners[$class['ID']] = array('class_name' => strip_tags($class['ClassDescription']['Name']),
 																							'class_description' => $class_description_substring,
 																							'class_owner' => strip_tags($class['Staff']['Name']),
 																							'class_owner_id' => strip_tags($class['Staff']['ID']),
-																							'image_url' => $class_image,
+																							'image_url' => array_shift($image_path_array),
 																							'time' => $classStartTime->format('H:i'),
 																							'day' => $classStartDate->format('l'));
 			endforeach;

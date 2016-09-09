@@ -28,11 +28,34 @@ function mz_getDateRange($date, $duration=7) {
     */
     $seconds_in_a_day = 86400;
     $start = new DateTime($date);
+    $now = new DateTime();
+    switch ($now->format('l')) {
+			case 'Tuesday':
+				$into_following_week = 1;
+			case 'Wednesday':
+				$into_following_week = 2;
+			case 'Thursday':
+				$into_following_week = 3;
+				break;
+			case 'Friday':
+				$into_following_week = 4;
+				break;
+			case 'Saturday':
+				$into_following_week = 5;
+				break;
+			case 'Sunday':
+				$into_following_week = 6;
+				break;
+			default:
+				$into_following_week = 0;
+				break;
+
+		}
     $end = clone $start;
     $previous = clone $start;
     $subsequent = clone $start;
     $subsequent->add(new DateInterval('P'. ($duration) .'D'));
-    $end->add(new DateInterval('P'. $duration .'D'));
+    $end->add(new DateInterval('P'. ($duration + $into_following_week) .'D'));
     $previous->sub(new DateInterval('P'. $duration .'D'));
     $return[0] = array('StartDateTime'=> $start->format('Y-m-d'), 'EndDateTime'=> $end->format('Y-m-d'));
 
