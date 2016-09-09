@@ -10,6 +10,7 @@ cp -r mz-mindbody-api/lib mz-mbo-plugin-temp
 cp -r mz-mindbody-api/inc mz-mbo-plugin-temp
 cp -r mz-mindbody-api/dist mz-mbo-plugin-temp
 cp mz-mindbody-api/*.php mz-mbo-plugin-temp
+cp mz-mindbody-api/readme.txt mz-mbo-plugin-temp
 echo "Files copied. Making zip file."
 zip -r "$ZIPPED_FILE" "$DIRECTORY_TO_COMPRESS"
 echo $DIRECTORY_TO_COMPRESS "compressed as" $ZIPPED_FILE
