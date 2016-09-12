@@ -52,12 +52,13 @@ class MZ_Mindbody_Get_Schedule {
 																							'class_owner_id' => strip_tags($class['Staff']['ID']),
 																							'image_url' => array_shift($image_path_array),
 																							'time' => $classStartTime->format('H:i'),
+																							'location' => $class['Location']['ID'],
 																							'day' => $classStartDate->format('l'));
 			endforeach;
 		endforeach;
 		delete_transient('mz_class_owners');
 		set_transient('mz_class_owners', $class_owners, 60 * 60 * 24 * 7);
-		//mz_pr($class_owners);
+		//mz_pr(array_shift($class_owners));
 		if($message == 'message'):
 			return __('Classes and teachers as regularly scheduled reloaded.', 'mz-mindbody-api');
 		endif;

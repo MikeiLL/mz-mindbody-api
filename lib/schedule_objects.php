@@ -162,28 +162,32 @@ class Single_event {
 			if ($this->is_substitute == 1):
 				if ( $class_owners = get_transient( 'mz_class_owners' ) ):
 					foreach($class_owners as $id => $details):
-					
 				$class_description_array = explode(" ", $this->classDescription);
 				$image_path_array = explode('?imageversion=', $this->classImage);
 				$just_image_path = array_shift($image_path_array);
+				$day_of_class = date('l', $this->startTimeStamp);
 				$class_description_substring = implode(" ", array_splice($class_description_array, 0, 5));
 						if(($details['class_name'] == $this->className) && 
 								($details['class_description'] == $class_description_substring) &&
 							  ($details['image_url'] == $just_image_path) &&
+							  ($details['day'] == $day_of_class) &&
+							  ($details['location'] == $this->sLoc) &&
 							  (date('H:i', $this->startTimeStamp) == $details['time'])):
 							  
-				/*mz_pr($details['class_name']);
-				mz_pr($this->className);
-				mz_pr($details['image_url']);
-				mz_pr($this->classImage);
-				mz_pr($details['class_description']);
-				mz_pr($class_description_substring);
-				mz_pr($details['time']);
-				mz_pr(date('H:i', $this->startTimeStamp));
-				mz_pr($details['day']);
-				mz_pr(date('l', $this->startTimeStamp));
-				mz_pr($details['class_owner']);
-				echo '<hr />'; */
+				//mz_pr($details['class_name']);
+				//mz_pr($this->className);
+				//mz_pr($details['image_url']);
+				//mz_pr($just_image_path);
+				//mz_pr($details['class_description']);
+				//mz_pr($class_description_substring);
+				//mz_pr($details['time']);
+				//mz_pr(date('H:i', $this->startTimeStamp));
+				//var_dump($details['day']);
+				//var_dump($day_of_class);
+				//var_dump(($details['day'] == $day_of_class));
+				//mz_pr($details['class_owner']);
+				//mz_pr($this->staffName);
+				//echo '<hr />'; 
 							$class_owner = $details;
 							$substitute_button_object = $this->teacherLinkMaker($this->staffID,'s', $class_owner);
 							$this->sub_link = array_pop($substitute_button_object)->build();

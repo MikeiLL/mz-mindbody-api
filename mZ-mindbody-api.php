@@ -265,15 +265,8 @@ function mZ_MBO_load_plugin_textdomain() {
 	}
 add_action( 'plugins_loaded', 'mZ_MBO_load_plugin_textdomain' );
 
-require_once(MZ_MINDBODY_SCHEDULE_DIR . 'inc/get_schedule.php');
-$get_class_owners = new MZ_Mindbody_Get_Schedule();
-
-add_action('create_class_schedule_transient', array($get_class_owners, 'mZ_mindbody_get_schedule'));
-
 function mZ_mindbody_schedule_activation() {
-	// Activate cron job to populate list of teachers
-	$half_a_second_from_now = time() + 500;
-	wp_schedule_event( $half_a_second_from_now, 'daily', 'create_class_schedule_transient');
+	// Nothing to see here, folks.
 }
 
 function mZ_mindbody_schedule_deactivation() {

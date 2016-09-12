@@ -78,7 +78,6 @@ class MZ_Mindbody_Schedule_Display {
 			'hide_cancelled' => '1',
 			'registrants_count' => '0',
 			'mode_select' => '0',
-			'no_sub_link' => '0',
 			'unlink' => 0
 				), $atts );
 		$type = $atts['type'];
@@ -96,14 +95,13 @@ class MZ_Mindbody_Schedule_Display {
 		$hide_cancelled = $atts['hide_cancelled'];
 		$registrants_count = $atts['registrants_count'];
 		$mode_select = $atts['mode_select'];
-		$no_sub_link = $atts['no_sub_link'];
 		$this->delink = $atts['unlink'];
 		$this->mode_select = $mode_select;
 
-		//Build caache based on shortcode attributes.
+		//Build cache based on shortcode attributes.
 		$mz_schedule_cache = 'mz_sched_che';
 		$mz_schedule_timer = 'mz_sched_tim';
-		
+				
 		foreach ($atts as $key=>$value){
 			// Ensure cache object is unique to this shortcode instance based on attributes
 			if($value=='0' || $value=='') continue;
@@ -309,7 +307,7 @@ class MZ_Mindbody_Schedule_Display {
 		$tbl_horizontal = new HTML_Table('', $this->horizontal_class . ' ' . ' mz-schedule-horizontal mz-schedule-display');
 		$tbl_grid = new HTML_Table('', $this->grid_class . ' ' . ' mz-schedule-grid mz-schedule-display');
 
-		$schedule_class_teachers = ($no_sub_link == 0 ) ? $this->get_non_substitute_teachers($mz_days) : array();
+		//$schedule_class_teachers = ($no_sub_link == 0 ) ? $this->get_non_substitute_teachers($mz_days) : array();
 
 		if ($mode_select != 0) {
 			// If Mode Select is enabled we will return both displays

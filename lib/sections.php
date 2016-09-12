@@ -125,6 +125,7 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 			'mz_mindbody',
 			'mz_mindbody_main'
 		);
+		
 
 		add_settings_section(
 			'mz_mindbody_secondary',
@@ -135,19 +136,37 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 		
 		
 		add_settings_section(
-			'reset_class_schedule',
-			__('Repopulate Basic MBO Schedule', 'mz-mindbody-api'),
-			'do_nothing',
+			'mz_mindbody_sub_details_text',
+			__('Show Sub Details (Beta)', 'mz-mindbody-api'),
+			'mz_mindbody_sub_details_text',
 			'mz_mindbody'
 		);
 		
 		add_settings_field(
-			'mz_mindbody_reset_id',
-			__('Force Primary Class Teacher Reset ', 'mz-mindbody-api'),
-			'mz_mindbody_reset_class_schedule',
+			'mz_mindbody_show_sub_details',
+			__('Display Sub Teacher Details ', 'mz-mindbody-api'),
+			'mz_mindbody_show_sub_details',
 			'mz_mindbody',
-			'reset_class_schedule'
+			'mz_mindbody_sub_details_text'
 		);
+		
+		add_settings_section(
+			'reset_class_schedule',
+			'',
+			'do_nothing',
+			'mz_mindbody'
+		);
+		
+		$options = get_option( 'mz_mindbody_options','Option Not Set' );
+		if (isset($options['mz_mindbody_show_sub_link'])):
+			add_settings_field(
+				'mz_mindbody_reset_id',
+				__('Force Primary Class Teacher Reset ', 'mz-mindbody-api'),
+				'mz_mindbody_reset_class_schedule',
+				'mz_mindbody',
+				'reset_class_schedule'
+			);
+		endif;
 	}
 
 	// Draw the section header
@@ -355,6 +374,37 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 	    'mz_mindbody_clear_cache',
 	    checked( isset($options['mz_mindbody_clear_cache']) , true, false )
 		);
+	}
+	
+		function mz_mindbody_sub_details_text() {
+		_e('Check this box to retrieve info about if a class has a substitute with a modal popup.', 'mz-mindbody-api');
+		echo "<br/>";
+		_e("This may or may not work, based on your MBO data. It's definitely BETA.", 'mz-mindbody-api');
+		echo "<br/>";
+		_e("If it doesn't work, just disable it.", 'mz-mindbody-api');
+		}
+		
+	// Display and fill the cache reset form field
+	function mz_mindbody_show_sub_details() {
+		$options = get_option( 'mz_mindbody_options','Option Not Set' );
+		printf(
+	    '<input id="%1$s" name="mz_mindbody_options[%1$s]" type="checkbox" %2$s />',
+	    'mz_mindbody_show_sub_link',
+	    checked( isset($options['mz_mindbody_show_sub_link']) , true, false )
+		);
+		if (isset($options['mz_mindbody_show_sub_link'])):
+			
+			require_once(MZ_MINDBODY_SCHEDULE_DIR . 'inc/get_schedule.php');
+			$get_class_owners = new MZ_Mindbody_Get_Schedule();
+			add_action('create_class_schedule_transient', array($get_class_owners, 'mZ_mindbody_get_schedule'));
+			// Activate cron job to populate list of teachers
+			// We delay it because of only one MBO call at a time being allowed.
+			$three_seconds_from_now = time() + 3000;
+			wp_schedule_event( $three_seconds_from_now, 'daily', 'create_class_schedule_transient');
+		else:
+			wp_clear_scheduled_hook('create_class_schedule_transient');
+			delete_transient( 'mz_class_owners' );
+		endif;
 	}
 	
 
