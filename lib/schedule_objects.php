@@ -167,12 +167,14 @@ class Single_event {
 				$just_image_path = array_shift($image_path_array);
 				$day_of_class = date('l', $this->startTimeStamp);
 				$class_description_substring = implode(" ", array_splice($class_description_array, 0, 5));
-						if(($details['class_name'] == $this->className) && 
+						if(
+								($details['class_name'] == $this->className) && 
 								($details['class_description'] == $class_description_substring) &&
 							  ($details['image_url'] == $just_image_path) &&
-							  ($details['day'] == $day_of_class) &&
+							  (array_key_exists($day_of_class, $details['day'])) &&
 							  ($details['location'] == $this->sLoc) &&
 							  (date('H:i', $this->startTimeStamp) == $details['time'])):
+							  //if (($this->className == 'Candlelight Restorative L1') &&  ($details['day'] == $day_of_class) && ($this->staffName == 'Susana')):
 							  
 				//mz_pr($details['class_name']);
 				//mz_pr($this->className);

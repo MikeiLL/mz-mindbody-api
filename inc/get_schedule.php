@@ -19,6 +19,7 @@ class MZ_Mindbody_Get_Schedule {
 		$mz_date = new DateTime();
 		$mz_date = $mz_date->format('Y-m-d H:i:s');
 		$mz_timeframe = array_slice(mz_getDateRange($mz_date, 30), 0, 1);
+
 		$mb = MZ_Mindbody_Init::instantiate_mbo_API();
 		if ($mb == 'NO_SOAP_SERVICE') {
 			//fill in second two parameters with space holders and return error.
@@ -38,10 +39,35 @@ class MZ_Mindbody_Get_Schedule {
 			$schedules = $mz_schedule_data['GetClassSchedulesResult']['ClassSchedules'];
 		endif;
 		$class_owners = array();
+			$class_count = 0;
 		foreach($schedules as $schedule):
 			foreach($schedule as $class):
+			$class_count++;
+			// Initialize array 
+			$day_of_class = array();
 			$classStartTime = new DateTime($class['StartTime']);
-			$classStartDate = new DateTime($class['StartDate']);
+			if (isset($class['DaySunday']) && ($class['DaySunday'] == 1)):
+				$day_of_class['Sunday'] = 1;
+			endif;
+			if (isset($class['DayMonday']) && ($class['DayMonday'] == 1)): 
+				$day_of_class['Monday'] = 1; 
+			endif;
+			if (isset($class['DayTuesday']) && ($class['DayTuesday'] == 1)):  
+				$day_of_class['Tuesday'] = 1;
+			endif;
+			if (isset($class['DayWednesday']) && ($class['DayWednesday'] == 1)):  
+				$day_of_class['Wednesday'] = 1;
+			endif;
+			if (isset($class['DayThursday']) && ($class['DayThursday'] == 1)): 
+				$day_of_class['Thursday'] = 1; 
+			endif;
+			if (isset($class['DayFriday']) && ($class['DayFriday'] == 1)):  
+				$day_of_class['Friday'] = 1;
+			endif;
+			if (isset($class['DaySaturday']) && ($class['DaySaturday'] == 1)):  
+				$day_of_class['Saturday'] = 1;
+			endif;
+			
 			$class_image = isset($class['ClassDescription']['ImageURL']) ? $class['ClassDescription']['ImageURL'] : '';
 			$image_path_array = explode('?imageversion=', $class_image);
 			$class_description_array = explode(" ", $class['ClassDescription']['Description']);
@@ -53,11 +79,13 @@ class MZ_Mindbody_Get_Schedule {
 																							'image_url' => array_shift($image_path_array),
 																							'time' => $classStartTime->format('H:i'),
 																							'location' => $class['Location']['ID'],
-																							'day' => $classStartDate->format('l'));
+																							'day' => $day_of_class);
+
 			endforeach;
 		endforeach;
 		delete_transient('mz_class_owners');
 		set_transient('mz_class_owners', $class_owners, 60 * 60 * 24 * 7);
+
 		//mz_pr(array_shift($class_owners));
 		if($message == 'message'):
 			return __('Classes and teachers as regularly scheduled reloaded.', 'mz-mindbody-api');
