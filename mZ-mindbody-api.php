@@ -179,7 +179,7 @@ class MZ_Mindbody_API {
     public function __construct() {
  
         $this->plugin_slug = 'mz-mindbody-api';
-        $this->version = '2.1.0';
+        $this->version = '2.4.0';
  
         $this->load_dependencies();
         $this->define_main_hooks();
@@ -296,18 +296,6 @@ add_action('widgets_init', 'mZ_mindbody_schedule_register_widget');
 
 function mZ_mindbody_schedule_register_widget() {
     register_widget( 'mZ_Mindbody_day_schedule');
-}
-
-if (!function_exists( 'mZ_latest_jquery' )){
-	function mZ_latest_jquery(){
-		//	Use latest jQuery release
-		if( !is_admin() ){
-			wp_deregister_script('jquery');
-			wp_register_script('jquery', ("http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"), false, '');
-			wp_enqueue_script('jquery');
-		}
-	}
-	add_action('wp_enqueue_scripts', 'mZ_latest_jquery');
 }
 
 
