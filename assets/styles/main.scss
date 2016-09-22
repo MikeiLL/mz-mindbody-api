@@ -3,23 +3,7 @@ We want to do as little as possible here so CSS can be defined in theme.
 */
 // Automatically injected Bower dependencies via wiredep (never manually edit this block)
 // bower:scss
-@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/mixins/_clearfix.scss";
-@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/mixins/_grid-framework.scss";
-@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/mixins/_vendor-prefixes.scss";
-@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/_variables.scss";
-@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/mixins/_grid.scss";
-@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/mixins/_image.scss";
-@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/_grid.scss";
-@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/_thumbnails.scss";
-@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/mixins/_buttons.scss";
-@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/mixins/_opacity.scss";
-@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/mixins/_tab-focus.scss";
-@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/mixins/_table-row.scss";
-@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/_buttons.scss";
-@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/_tables.scss";
-@import "../../bower_components/font-awesome/scss/_variables.scss";
-@import "../../bower_components/font-awesome/scss/_icons.scss";
-@import "../../bower_components/font-awesome/scss/font-awesome.scss";
+@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
 // endbower
 
 		table { border-collapse: collapse; }

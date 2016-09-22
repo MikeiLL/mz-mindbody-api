@@ -2,11 +2,11 @@
 
 class MZ_MBO_Staff {
 
-	private $mz_mbo_globals;
+	private $mz_mbo_object;
 	
 	public function __construct(){
 		require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
-		$this->mz_mbo_globals = new MZ_Mindbody_Init();
+		$this->mz_mbo_object = new MZ_Mindbody_Init();
 	}
 
 	

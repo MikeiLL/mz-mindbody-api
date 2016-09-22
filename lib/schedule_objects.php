@@ -1,11 +1,8 @@
 <?php
 
+require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
+
 class Single_event {
-
-	private static $subbed_classes = array();
-	private static $regular_title_staff = array();
-
-	private $mz_mbo_globals;
 	
 	public $sDate;
 	public $sLoc;
@@ -75,10 +72,7 @@ class Single_event {
 	public function __construct($class, $day_num='', $hide=array(), $locations, $hide_cancelled=0, $advanced, 
 															$show_registrants, $registrants_count, $calendar_format='horizontal', 
 															$delink){
-
-		require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
-		$this->mz_mbo_globals = new MZ_Mindbody_Init();
-		$this->pluginoptions = get_option( 'mz_mindbody_options','Option Not Set' );
+		$this->pluginoptions = MZ_MBO_shared::$mz_options;
 		$this->sign_up_title = __('Sign-Up', 'mz-mindbody-api');
 		$this->manage_text = __('Manage on MindBody Site', 'mz-mindbody-api');
 		$this->sDate = date_i18n('m/d/Y', strtotime($class['StartDateTime']));
@@ -121,8 +115,8 @@ class Single_event {
 		$this->calendar_format = $calendar_format;
 		$this->time_of_day = $this->time_of_day_maker($this->startTime);
 		$this->show_registrants = $show_registrants;
-		$this->event_start = date_i18n($this->mz_mbo_globals->date_format . ' ' .$this->mz_mbo_globals->time_format, strtotime($this->startDateTime));
-		$this->event_end = date_i18n($this->mz_mbo_globals->time_format, strtotime($this->endDateTime));
+		$this->event_start = date_i18n(MZ_MBO_shared::$date_format . ' ' .MZ_MBO_shared::$time_format, strtotime($this->startDateTime));
+		$this->event_end = date_i18n(MZ_MBO_shared::$time_format, strtotime($this->endDateTime));
 		
 		$this->clientID = isset($_SESSION['GUID']) ? $_SESSION['client']['ID'] : '';
 		$this->level = isset($class['ClassDescription']['Level']['Name']) ? $class['ClassDescription']['Level']['Name'] : '';
@@ -213,8 +207,8 @@ class Single_event {
 			}
 			
 		if(!in_array('duration', $hide) && ($class['IsCanceled'] != 1)){
-			$this->classStartTime = new DateTime($class['StartDateTime']);
-			$this->classEndTime = new DateTime($class['EndDateTime']);
+			$this->classStartTime = new DateTime($class['StartDateTime'], mz_mbo_198435_get_blog_timezone());
+			$this->classEndTime = new DateTime($class['EndDateTime'], mz_mbo_198435_get_blog_timezone());
 			if (phpversion() >= 5.3) {
 					$this->classLength = $this->classEndTime->diff($this->classStartTime);
 					$this->classLength = __('Duration:', 'mz-mindbody-api') . 

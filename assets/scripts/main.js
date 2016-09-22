@@ -1178,7 +1178,6 @@ $(document).ready(function($) {
 				$('.filter-table').first().addClass('mz_hidden');
 				}
 			$('.mz_schedule_nav_holder').first().append($('<a id="mode-select" class="btn btn-xs mz-mode-select">'+ mz_mbo_bootstrap_script.initial +'</a>'));
-			//var showMe = $("th.mz_date_display:contains('"+mz_mbo_bootstrap_script.today+"')");
 			$('#mode-select').click(function(){
 				$('.mz-schedule-display').each(function(i, item) {
 					$(item).toggleClass('mz_hidden');

@@ -28,7 +28,7 @@ function mz_getDateRange($date, $duration=7) {
     */
     $seconds_in_a_day = 86400;
     $start = new DateTime($date);
-    $now = new DateTime();
+    $now = new DateTime(null, mz_mbo_198435_get_blog_timezone());
     switch ($now->format('l')) {
 			case 'Tuesday':
 				$into_following_week = 1;
@@ -239,10 +239,15 @@ function mz_sort_grid_times ($a, $b) {
 			return $a->startDateTime < $b->startDateTime ? -1 : 1;
 		}
 			
+/*
+ * For use in Horizontal view
+*/
 function sortClassesByDate($mz_classes = array(), $time_format = "g:i a", 
 																	$locations=1, $hide_cancelled=0, $hide=array(), 
 																	$advanced=0, $show_registrants=0, $registrants_count=0, 
 																	$calendar_format='horizontal', $delink, $class_type='Enrollment') {
+
+	// This is the array that will hold the classes we want to display
 	$mz_classesByDate = array();
 
 	if(!is_array($locations)):
@@ -250,10 +255,11 @@ function sortClassesByDate($mz_classes = array(), $time_format = "g:i a",
 	endif;
 	
 	if (isset($_GET['mz_date'])):
+		// If user has requested a specific start date, return dates for that period
 		list($current, $current_date_string) = current_to_day_of_week_today();
 	else:
-		$current = new DateTime();
-		$current_date_string = (new DateTime())->format('Y-m-d');
+		$current = new DateTime(null, mz_mbo_198435_get_blog_timezone());
+		$current_date_string = (new DateTime(null, mz_mbo_198435_get_blog_timezone()))->format('Y-m-d');
 	endif;
 	
 	$end_of_week = clone $current;
@@ -281,7 +287,7 @@ function sortClassesByDate($mz_classes = array(), $time_format = "g:i a",
 		$single_event = new Single_event($class, $daynum="", $hide=array(), $locations, $hide_cancelled=0, 
 																			$advanced, $show_registrants, $registrants_count, 
 																			$calendar_format, $delink);
-									
+		
 		if(!empty($mz_classesByDate[$classDate])) {
 			if (
 				(!in_array($class['Location']['ID'], $locations)) || 
@@ -309,7 +315,10 @@ function sortClassesByDate($mz_classes = array(), $time_format = "g:i a",
 		/*
 		$mz_classes is an array of all classes for given date
 		Take each of the class arrays and order it by time
+		$mz_classesByDate sould have a length of seven, one for
+		each day of the week.
 		*/
+
 		if (phpversion() >= 5.3) {
 			usort($mz_classes['classes'], function($a, $b) {
 				if(strtotime($a->startDateTime) == strtotime($b->startDateTime)) {
@@ -339,17 +348,18 @@ function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a",
 	
 	// Note: $_GET['mz_date'] is always a Monday.
 	if (isset($_GET['mz_date'])):
-		$end_of_range = new DateTime($_GET['mz_date']);
+
+		$end_of_range = new DateTime($_GET['mz_date'], mz_mbo_198435_get_blog_timezone());
 		$end_of_range->add(new DateInterval('P1W'));
 	else:
-		$end_of_range = new DateTime();
+		$end_of_range = new DateTime(null, mz_mbo_198435_get_blog_timezone());
 		$end_of_range->add(new DateInterval('P1W'));
 	endif;
 										
 	foreach($mz_classes as $class)
 	{
 	  // Ignore classes that are not part of current week (ending Sunday)
-	  if (new DateTime($class['StartDateTime']) >= $end_of_range):
+	  if (new DateTime($class['StartDateTime'], mz_mbo_198435_get_blog_timezone()) >= $end_of_range):
 			continue;
 		endif;
 		
@@ -450,8 +460,8 @@ function week_of_timeslot($array, $indicator){
  * @return array Start Date, End Date and Previous Range Start Date.
  */	
 function current_to_day_of_week_today() {
-	$current = isset($_GET['mz_date']) ? new DateTime($_GET['mz_date']) : new DateTime();
-	$today = new DateTime();
+	$current = isset($_GET['mz_date']) ? new DateTime($_GET['mz_date'], mz_mbo_198435_get_blog_timezone()) : new DateTime(null, mz_mbo_198435_get_blog_timezone());
+	$today = new DateTime(null, mz_mbo_198435_get_blog_timezone());
 	$current_day_name = $today->format('D');
 	$days_of_the_week = array(
 		'Mon', 
@@ -473,4 +483,43 @@ function current_to_day_of_week_today() {
 	return array( $current, date("Y-m-d", strtotime($clone_current->format('y-m-d'))));
 }
 
+
+/*
+ *  Returns the blog timezone
+ *
+ * Gets timezone settings from the db. If a timezone identifier is used just turns
+ * it into a DateTimeZone. If an offset is used, it tries to find a suitable timezone.
+ * If all else fails it uses UTC.
+ *
+ * Source: http://wordpress.stackexchange.com/a/198453/48604
+ *
+ * @return DateTimeZone The blog timezone
+*/
+function mz_mbo_198435_get_blog_timezone() {
+
+    $tzstring = get_option( 'timezone_string' );
+    $offset   = get_option( 'gmt_offset' );
+
+    //Manual offset...
+    //@see http://us.php.net/manual/en/timezones.others.php
+    //@see https://bugs.php.net/bug.php?id=45543
+    //@see https://bugs.php.net/bug.php?id=45528
+    //IANA timezone database that provides PHP's timezone support uses POSIX (i.e. reversed) style signs
+    if( empty( $tzstring ) && 0 != $offset && floor( $offset ) == $offset ){
+        $offset_st = $offset > 0 ? "-$offset" : '+'.absint( $offset );
+        $tzstring  = 'Etc/GMT'.$offset_st;
+    }
+
+    //Issue with the timezone selected, set to 'UTC'
+    if( empty( $tzstring ) ){
+        $tzstring = 'UTC';
+    }
+
+    if( $tzstring instanceof DateTimeZone ){
+        return $tzstring;
+    }
+
+    $timezone = new DateTimeZone( $tzstring );
+    return $timezone; 
+}
 ?>

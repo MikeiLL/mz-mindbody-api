@@ -4,7 +4,7 @@ class MZ_Mindbody_Get_Schedule {
 	
 	public function __construct(){
 		require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
-		$this->mz_mbo_globals = new MZ_Mindbody_Init();
+		$this->mz_mbo_object = new MZ_Mindbody_Init();
 	}
 
 	/*
@@ -16,7 +16,7 @@ class MZ_Mindbody_Get_Schedule {
 	public function mZ_mindbody_get_schedule( $message='no message', $account=0 )
 	{
 	
-		$mz_date = new DateTime();
+		$mz_date = new DateTime(null, mz_mbo_198435_get_blog_timezone());
 		$mz_date = $mz_date->format('Y-m-d H:i:s');
 		$mz_timeframe = array_slice(mz_getDateRange($mz_date, 30), 0, 1);
 
@@ -45,7 +45,7 @@ class MZ_Mindbody_Get_Schedule {
 			$class_count++;
 			// Initialize array 
 			$day_of_class = array();
-			$classStartTime = new DateTime($class['StartTime']);
+			$classStartTime = new DateTime($class['StartTime'], mz_mbo_198435_get_blog_timezone());
 			if (isset($class['DaySunday']) && ($class['DaySunday'] == 1)):
 				$day_of_class['Sunday'] = 1;
 			endif;

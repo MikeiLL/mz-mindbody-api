@@ -180,7 +180,6 @@ class MZ_Mindbody_API {
  
         $this->plugin_slug = 'mz-mindbody-api';
         $this->version = '2.4.0';
- 
         $this->load_dependencies();
         $this->define_main_hooks();
         $this->add_shortcodes();
@@ -372,7 +371,7 @@ if ( is_admin() )
  		if (!isset($signupData['AddClientsToClassesResult']['Classes']['Class']['Clients']['Client'])) :
  			
  			if (function_exists(mZ_write_to_file)) {
- 				mZ_write_to_file($signupData['AddClientsToClassesResult']['ErrorCode']);
+ 				//mZ_write_to_file($signupData['AddClientsToClassesResult']['ErrorCode']);
  				}
  			$result['type'] = "error";
  			$result['message'] = __('Cannot add to class.', 'mz-mindbody-api');
@@ -583,7 +582,6 @@ function run_mz_mindbody_schedule_api() {
  
     $mz_mbo = new MZ_Mindbody_API();
     $mz_mbo->run();
- 
 }
  
 run_mz_mindbody_schedule_api();
