@@ -1,7 +1,5 @@
 <?php
 
-require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
-
 class Single_event {
 	
 	public $sDate;
@@ -72,6 +70,7 @@ class Single_event {
 	public function __construct($class, $day_num='', $hide=array(), $locations, $hide_cancelled=0, $advanced, 
 															$show_registrants, $registrants_count, $calendar_format='horizontal', 
 															$delink){
+		include_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
 		$this->pluginoptions = MZ_MBO_shared::$mz_options;
 		$this->sign_up_title = __('Sign-Up', 'mz-mindbody-api');
 		$this->manage_text = __('Manage on MindBody Site', 'mz-mindbody-api');

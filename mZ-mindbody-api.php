@@ -179,7 +179,7 @@ class MZ_Mindbody_API {
     public function __construct() {
  
         $this->plugin_slug = 'mz-mindbody-api';
-        $this->version = '2.4.0';
+        $this->version = '2.4.1';
         $this->load_dependencies();
         $this->define_main_hooks();
         $this->add_shortcodes();
