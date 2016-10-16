@@ -1,1 +1,1 @@
-{"version":3,"sources":["admin-style.scss"],"names":[],"mappings":"AAGkC,YAAA,eAAA,IAAA,GAAI,UAAA,IAAe,aAAA","file":"admin-style.css","sourcesContent":[],"sourceRoot":"/source/"}
+{"version":3,"sources":["../assets/styles/admin-style.scss"],"names":[],"mappings":"AAGA,YAAA,eAAA,IAAA,GAAsC,UAAA,IAAe,aAAA","file":"admin-style.css","sourcesContent":["/* \nWe want to do as little as possible here so CSS can be defined in theme.\n*/\n.form-table, .form-table td, .h3, .p {max-width:60%;margin-right:20px;}\n"],"sourceRoot":"/source/"}
