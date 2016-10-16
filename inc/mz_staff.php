@@ -2,11 +2,11 @@
 
 class MZ_MBO_Staff {
 
-	private $mz_mbo_globals;
+	private $mz_mbo_object;
 	
 	public function __construct(){
 		require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
-		$this->mz_mbo_globals = new MZ_Mindbody_Init();
+		$this->mz_mbo_object = new MZ_Mindbody_Init();
 	}
 
 	
@@ -25,7 +25,6 @@ class MZ_MBO_Staff {
 		$gallery = $atts['gallery'];
 		
 		wp_enqueue_style('mZ_mindbody_schedule_bs', asset_path('styles/main.css'), false, null);
-		wp_enqueue_script('modernizr', asset_path('scripts/modernizr.js'), array(), null, true);
 		
 		if ($gallery == 1)
 			wp_enqueue_script('mz_mbo_bootstrap_script', asset_path('scripts/main.js'), array('jquery'), null, true);
@@ -80,6 +79,7 @@ EFD;
 	  {
 		if (!empty($staff_member['Bio']) && !empty($staff_member['ImageURL']))
 		{
+		
 			$mz_staff_name = $staff_member['Name'];
 			$mz_staff_bio = $staff_member['Bio'];
 			$mz_staff_bio = str_replace($mz_empty_tags_pattern, '', $mz_staff_bio);

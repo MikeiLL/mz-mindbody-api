@@ -1159,7 +1159,7 @@ $(document).ready(function($) {
 													'&stype=-7&sView=week&sTrn='];
 			var staffImage = decodeURIComponent($(this).attr('data-staffImage'));
 			var popUpContent = '<div class="mz_staffName"><h3>' + staffName + '</h3>';
-			popUpContent += '<img class="mz-staffImage" src="' + staffImage + '">';
+			popUpContent += '<img class="mz-staffImage" src="' + staffImage + '" />';
 			popUpContent += '<div class="mz_staffBio">'  +  staffBio + '</div></div>';
 			popUpContent += '<br/><a href="' + mbo_url_parts[0] + siteID + mbo_url_parts[1] + staffID + '" ';
 			popUpContent += 'class="btn btn-info mz-btn-info mz-bio-button" target="_blank">See ' + staffName +'&apos;s Schedule</a>';
@@ -1170,17 +1170,6 @@ $(document).ready(function($) {
 			});
 		});
 			
-		if (mz_mbo_bootstrap_script.is_current_week == 1) {
-			// If in current week remove all days previous to today in horizontal mode
-			$('.mz_date_display').each(function(i, cell){
-				if (cell.scope == 'header') {
-					if ($(cell).text() == mz_mbo_bootstrap_script.today){
-							return false;
-						}
-					}
-					$(cell).parent().remove();
-				});
-			}
 		//Start mode select
 		if (mz_mbo_bootstrap_script.mode_select !== '0') {
 			if (mz_mbo_bootstrap_script.mode_select == 1) {
@@ -1189,7 +1178,6 @@ $(document).ready(function($) {
 				$('.filter-table').first().addClass('mz_hidden');
 				}
 			$('.mz_schedule_nav_holder').first().append($('<a id="mode-select" class="btn btn-xs mz-mode-select">'+ mz_mbo_bootstrap_script.initial +'</a>'));
-			//var showMe = $("th.mz_date_display:contains('"+mz_mbo_bootstrap_script.today+"')");
 			$('#mode-select').click(function(){
 				$('.mz-schedule-display').each(function(i, item) {
 					$(item).toggleClass('mz_hidden');

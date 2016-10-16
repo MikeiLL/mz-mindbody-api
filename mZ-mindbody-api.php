@@ -11,7 +11,7 @@
  * @wordpress-plugin
  * Plugin Name: 	mZoo Mindbody Interface - Schedule, Events, Staff Display
  * Description: 	Interface Wordpress with MindbodyOnline data with Bootstrap Responsive Layout.
- * Version: 		2.4
+ * Version: 		2.4.1
  * Author: 			mZoo.org
  * Author URI: 		http://www.mZoo.org/
  * Plugin URI: 		http://www.mzoo.org/mz-mindbody-wp
@@ -179,8 +179,7 @@ class MZ_Mindbody_API {
     public function __construct() {
  
         $this->plugin_slug = 'mz-mindbody-api';
-        $this->version = '2.1.0';
- 
+        $this->version = '2.4.1';
         $this->load_dependencies();
         $this->define_main_hooks();
         $this->add_shortcodes();
@@ -238,6 +237,7 @@ class MZ_Mindbody_API {
  		$mz_staff = new MZ_MBO_Staff();
  		$mz_events = new MZ_MBO_Events();
  		$mz_clients = new MZ_MBO_Clients();
+ 		$get_schedule = new MZ_Mindbody_Get_Schedule();
  		
         add_shortcode('mz-mindbody-show-schedule', array($schedule_display, 'mZ_mindbody_show_schedule'));
         add_shortcode('mz-mindbody-staff-list', array($mz_staff, 'mZ_mindbody_staff_listing'));
@@ -245,6 +245,7 @@ class MZ_Mindbody_API {
         add_shortcode('mz-mindbody-login', array($mz_clients, 'mZ_mindbody_login'));
         add_shortcode('mz-mindbody-signup', array($mz_clients, 'mZ_mindbody_signup'));
         add_shortcode('mz-mindbody-logout', array($mz_clients, 'mZ_mindbody_logout'));
+        add_shortcode('mz-mindbody-get-schedule', array($get_schedule, 'mZ_mindbody_get_schedule'));
 
     }
  
@@ -264,18 +265,18 @@ function mZ_MBO_load_plugin_textdomain() {
 add_action( 'plugins_loaded', 'mZ_MBO_load_plugin_textdomain' );
 
 function mZ_mindbody_schedule_activation() {
-	//Don't know if there's anything we need to do here.
+	// Nothing to see here, folks.
 }
 
 function mZ_mindbody_schedule_deactivation() {
-	//Don't know if there's anything we need to do here.
+	wp_clear_scheduled_hook('make_pages_weekly');
 }
 
 //register uninstaller
 register_uninstall_hook(__FILE__, 'mZ_mindbody_schedule_uninstall');
 
 function mZ_mindbody_schedule_uninstall(){
-	//actions to perform once on plugin uninstall go here
+	wp_clear_scheduled_hook('make_pages_weekly');
 	delete_option('mz_mindbody_options');
 }
 
@@ -294,18 +295,6 @@ add_action('widgets_init', 'mZ_mindbody_schedule_register_widget');
 
 function mZ_mindbody_schedule_register_widget() {
     register_widget( 'mZ_Mindbody_day_schedule');
-}
-
-if (!function_exists( 'mZ_latest_jquery' )){
-	function mZ_latest_jquery(){
-		//	Use latest jQuery release
-		if( !is_admin() ){
-			wp_deregister_script('jquery');
-			wp_register_script('jquery', ("http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"), false, '');
-			wp_enqueue_script('jquery');
-		}
-	}
-	add_action('wp_enqueue_scripts', 'mZ_latest_jquery');
 }
 
 
@@ -382,7 +371,7 @@ if ( is_admin() )
  		if (!isset($signupData['AddClientsToClassesResult']['Classes']['Class']['Clients']['Client'])) :
  			
  			if (function_exists(mZ_write_to_file)) {
- 				mZ_write_to_file($signupData['AddClientsToClassesResult']['ErrorCode']);
+ 				//mZ_write_to_file($signupData['AddClientsToClassesResult']['ErrorCode']);
  				}
  			$result['type'] = "error";
  			$result['message'] = __('Cannot add to class.', 'mz-mindbody-api');
@@ -428,7 +417,7 @@ if ( is_admin() )
 				}
 	if (function_exists(mZ_write_to_file)) {
 	// This function is contained in 
-  	mZ_write_to_file(array($_REQUEST, $_SESSION));
+  	//mZ_write_to_file(array($_REQUEST, $_SESSION));
   }
  	if (isset($_SESSION['GUID'])) {
   	$result['logged_in'] = 1; // 'user_logged_in'
@@ -448,7 +437,42 @@ if ( is_admin() )
  }
  //End Ajax Check Signed In
  
- 
+//Start Ajax Reset Main Schedule
+ add_action('wp_ajax_nopriv_mz_mbo_reset_staff', 'mz_mbo_reset_staff_callback');
+ add_action('wp_ajax_mz_mbo_reset_staff', 'mz_mbo_reset_staff_callback');	
+
+function mz_mbo_reset_staff_callback() {
+	
+	require_once( MZ_MINDBODY_SCHEDULE_DIR .'inc/get_schedule.php' );
+  $classes_pages = new MZ_Mindbody_Get_Schedule();
+  $php_result = $classes_pages->mZ_mindbody_get_schedule('message');
+  if (function_exists(mZ_write_to_file)) {
+	// This function is contained in 
+		//mZ_write_to_file($result);
+	}
+  if(is_array($php_result)):
+  	$result['message'] = array_shift($result);
+  	$result['mbo_status'] =  array_shift($result);
+  	$result['mbo_result'] = array_shift($result);
+  	$result['type'] = "error";
+  else:
+  	$result['message'] = $php_result;
+  	$result['type'] = "success";
+  endif;
+  
+
+
+ 	if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+		 $result = json_encode($result);
+		 echo $result;
+	}
+	else {
+		 header("Location: ".$_SERVER["HTTP_REFERER"]);
+	}
+
+	die();
+ }
+ //End Ajax Reset Main Schedule
 
  require_once('lib/functions.php'); // for testing functions
  //Start Ajax Get Registrants
@@ -506,6 +530,50 @@ if ( is_admin() )
     die();
  }
  //End Ajax Get Registrants
+ 
+ //Start Ajax Get Staff
+ add_action('wp_ajax_nopriv_mz_mbo_get_staff', 'mz_mbo_get_staff_callback');
+ add_action('wp_ajax_mz_mbo_get_staff', 'mz_mbo_get_staff_callback');	
+
+ function mz_mbo_get_staff_callback() {
+
+  check_ajax_referer( $_REQUEST['nonce'], "mz_MBO_get_registrants_nonce", false);
+  	
+ 	require_once(MZ_MINDBODY_SCHEDULE_DIR .'mindbody-php-api/MB_API.php');
+	require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
+	
+	$mb = MZ_Mindbody_Init::instantiate_mbo_API();
+ 
+ 	$classid = $_REQUEST['staffID'];
+ 	$result['type'] = "success";
+ 	$result['message'] = $classid;
+ 	$staff_details = $mb->GetStaff(array('StaffIDs'=>array($classid)));
+ 	if (isset($staff_details['GetStaffResult'])):
+ 		if ($staff_details['GetStaffResult']['Status'] != 'Success'):
+				$result['type'] = "error";
+ 				$result['message'] = __("Unable to retrieve staff details.", 'mz-mindbody-api');
+ 		else:
+	  	$staffMember = $staff_details['GetStaffResult']['StaffMembers']['Staff'];
+	  	$result['message'] = array();
+			$result['type'] = "success";
+				$result['message']['Name'] = $staffMember['Name'];
+				$result['message']['Bio'] = $staffMember['Bio'];
+				$result['message']['ImageURL'] = $staffMember['ImageURL'];
+				$result['message']['Full'] = $staffMember;
+		endif;
+	endif;
+ 		
+ 	if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+       $result = json_encode($result);
+       echo $result;
+    }
+    else {
+       header("Location: ".$_SERVER["HTTP_REFERER"]);
+    }
+ 
+    die();
+ }
+ //End Ajax Get Staff
 }
 else
 {// non-admin enqueues, actions, and filters
@@ -514,7 +582,6 @@ function run_mz_mindbody_schedule_api() {
  
     $mz_mbo = new MZ_Mindbody_API();
     $mz_mbo->run();
- 
 }
  
 run_mz_mindbody_schedule_api();

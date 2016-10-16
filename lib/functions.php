@@ -1,5 +1,23 @@
 <?php
-
+/**
+ * Summary.
+ *
+ * Gets a YYYY-mm-dd date and returns an array of four dates:
+ *      start of requested week
+ *      end of requested week 
+ *      following week start date
+ *      previous week start date.
+ *
+ * @since 1.0
+ * @source (initially adapted) 
+ * http://stackoverflow.com/questions/186431/calculating-days-of-week-given-a-week-number
+ * Used by mz_show_schedule(), mz_show_events(), mz_mindbody_debug_text()
+ * also used by mZ_mbo_pages_pages() in mZ MBO Pages plugin
+ *
+ * @param var $date Start date for date range.
+ * @param var $duration Optional. Description. Default.
+ * @return array Start Date, End Date and Previous Range Start Date.
+ */
 function mz_getDateRange($date, $duration=7) {
     /*Gets a YYYY-mm-dd date and returns an array of four dates:
         start of requested week
@@ -8,37 +26,42 @@ function mz_getDateRange($date, $duration=7) {
         previous week start date
     adapted from http://stackoverflow.com/questions/186431/calculating-days-of-week-given-a-week-number
     */
-
-    list($year, $month, $day) = explode("-", $date);
-
-    // Get the weekday of the given date
-    $wkday = date_i18n('l',mktime('0','0','0', $month, $day, $year));
-
-    switch($wkday) {
-        case __('Monday', 'mz-mindbody-api'): $numDaysFromMon = 0; break;
-        case __('Tuesday', 'mz-mindbody-api'): $numDaysFromMon = 1; break;
-        case __('Wednesday', 'mz-mindbody-api'): $numDaysFromMon = 2; break;
-        case __('Thursday', 'mz-mindbody-api'): $numDaysFromMon = 3; break;
-        case __('Friday', 'mz-mindbody-api'): $numDaysFromMon = 4; break;
-        case __('Saturday', 'mz-mindbody-api'): $numDaysFromMon = 5; break;
-        case __('Sunday', 'mz-mindbody-api'): $numDaysFromMon = 6; break;   
-    }
-
-    // Timestamp of the monday for that week
     $seconds_in_a_day = 86400;
-    
-    $monday = mktime('0','0','0', $month, $day-$numDaysFromMon, $year);
-    $today = mktime('0','0','0', $month, $day, $year);
+    $start = new DateTime($date);
+    $now = new DateTime(null, mz_mbo_198435_get_blog_timezone());
+    switch ($now->format('l')) {
+			case 'Tuesday':
+				$into_following_week = 1;
+			case 'Wednesday':
+				$into_following_week = 2;
+			case 'Thursday':
+				$into_following_week = 3;
+				break;
+			case 'Friday':
+				$into_following_week = 4;
+				break;
+			case 'Saturday':
+				$into_following_week = 5;
+				break;
+			case 'Sunday':
+				$into_following_week = 6;
+				break;
+			default:
+				$into_following_week = 0;
+				break;
 
-    if ($duration == 1){
-        $rangeEnd = $today+($seconds_in_a_day*$duration);
-    }else{
-        $rangeEnd = $today+($seconds_in_a_day*($duration - $numDaysFromMon));
-    }
-    $previousRangeStart = $monday+($seconds_in_a_day*($numDaysFromMon - ($numDaysFromMon+$duration)));
-    $return[0] = array('StartDateTime'=>date('Y-m-d',$today), 'EndDateTime'=>date('Y-m-d',$rangeEnd-1));
-    $return[1] = date('Y-m-d',$rangeEnd+1); 
-    $return[2] = date('Y-m-d',$previousRangeStart);
+		}
+    $end = clone $start;
+    $previous = clone $start;
+    $subsequent = clone $start;
+    $subsequent->add(new DateInterval('P'. ($duration) .'D'));
+    $end->add(new DateInterval('P'. ($duration + $into_following_week) .'D'));
+    $previous->sub(new DateInterval('P'. $duration .'D'));
+    $return[0] = array('StartDateTime'=> $start->format('Y-m-d'), 'EndDateTime'=> $end->format('Y-m-d'));
+
+    $return[1] = $subsequent->modify('Monday this week')->format('Y-m-d'); 
+    $return[2] = $previous->modify('Monday this week')->format('Y-m-d');
+
     return $return;
 }
 
@@ -79,8 +102,11 @@ function mz_mbo_schedule_nav($date, $period, $duration=7)
 	$mz_nav_weeks_text_current = sprintf(__('Current %1$s','mz-mindbody-api'), $period);
 	$mz_nav_weeks_text_following = sprintf(__('Following %1$s','mz-mindbody-api'), $period);
 	$sched_nav .= ' <a href='.add_query_arg(array('mz_date' => ($mz_start_end_date[2]))).'>'.$mz_nav_weeks_text_prev.'</a> - ';
-	if (isset($_GET['mz_date']))
-	    $sched_nav .= ' <a href='.add_query_arg(array('mz_date' => (date_i18n('Y-m-d',current_time('timestamp'))))).'>'.$mz_nav_weeks_text_current.'</a>  - ';
+	if (isset($_GET['mz_date'])):
+		global $wp;
+		$current_url = home_url(add_query_arg(array(),$wp->request));
+	  $sched_nav .= ' <a href='.home_url(add_query_arg(array(),$wp->request)).'>'.$mz_nav_weeks_text_current.'</a>  - ';
+	endif;
 	$sched_nav .= '<a href='.add_query_arg(array('mz_date' => ($mz_start_end_date[1]))).'>'.$mz_nav_weeks_text_following.'</a>';
 	$sched_nav .= '</div>';
 
@@ -213,16 +239,32 @@ function mz_sort_grid_times ($a, $b) {
 			return $a->startDateTime < $b->startDateTime ? -1 : 1;
 		}
 			
+/*
+ * For use in Horizontal view
+*/
 function sortClassesByDate($mz_classes = array(), $time_format = "g:i a", 
 																	$locations=1, $hide_cancelled=0, $hide=array(), 
 																	$advanced=0, $show_registrants=0, $registrants_count=0, 
-																	$calendar_format='horizontal', $class_type='Enrollment') {
+																	$calendar_format='horizontal', $delink, $class_type='Enrollment') {
+
+	// This is the array that will hold the classes we want to display
 	$mz_classesByDate = array();
-	
+
 	if(!is_array($locations)):
 		$locations = array($locations);
 	endif;
 	
+	if (isset($_GET['mz_date'])):
+		// If user has requested a specific start date, return dates for that period
+		list($current, $current_date_string) = current_to_day_of_week_today();
+	else:
+		$current = new DateTime(null, mz_mbo_198435_get_blog_timezone());
+		$current_date_string = (new DateTime(null, mz_mbo_198435_get_blog_timezone()))->format('Y-m-d');
+	endif;
+	
+	$end_of_week = clone $current;
+	$end_of_week = $end_of_week->add(new DateInterval('P6D'))->format('Y-m-d');
+
 	foreach($mz_classes as $class)
 	{
 		
@@ -232,14 +274,20 @@ function sortClassesByDate($mz_classes = array(), $time_format = "g:i a",
 			endif;
 		endif;
 		
-		/* Create a new array with a key for each date YYYY-MM-DD
-		and corresponsing value an array of class details */ 
 		$classDate = date("Y-m-d", strtotime($class['StartDateTime']));
 
+		// Ignore classes that are outside of seven day week starting today
+		if ($classDate < $current_date_string || $classDate > $end_of_week):
+			continue;
+		endif;
+		
+		/* Create a new array with a key for each date YYYY-MM-DD
+		and corresponsing value an array of class details */ 
+
 		$single_event = new Single_event($class, $daynum="", $hide=array(), $locations, $hide_cancelled=0, 
-																			$advanced, $show_registrants, $registrants_count, $calendar_format,
-																			$calendar_format);
-									
+																			$advanced, $show_registrants, $registrants_count, 
+																			$calendar_format, $delink);
+		
 		if(!empty($mz_classesByDate[$classDate])) {
 			if (
 				(!in_array($class['Location']['ID'], $locations)) || 
@@ -267,7 +315,10 @@ function sortClassesByDate($mz_classes = array(), $time_format = "g:i a",
 		/*
 		$mz_classes is an array of all classes for given date
 		Take each of the class arrays and order it by time
+		$mz_classesByDate sould have a length of seven, one for
+		each day of the week.
 		*/
+
 		if (phpversion() >= 5.3) {
 			usort($mz_classes['classes'], function($a, $b) {
 				if(strtotime($a->startDateTime) == strtotime($b->startDateTime)) {
@@ -283,19 +334,35 @@ function sortClassesByDate($mz_classes = array(), $time_format = "g:i a",
 	return $mz_classesByDate;
 }
 
+// For use in Grid View
 function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a", 
 																	$locations=1, $hide_cancelled=0, $hide, 
 																	$advanced, $show_registrants, $registrants_count, 
-																	$calendar_format) {
+																	$calendar_format, $delink) {
 																		
 	$mz_classesByTime = array();
 
 	if(!is_array($locations)):
 		$locations = array($locations);
 	endif;
+	
+	// Note: $_GET['mz_date'] is always a Monday.
+	if (isset($_GET['mz_date'])):
+
+		$end_of_range = new DateTime($_GET['mz_date'], mz_mbo_198435_get_blog_timezone());
+		$end_of_range->add(new DateInterval('P1W'));
+	else:
+		$end_of_range = new DateTime(null, mz_mbo_198435_get_blog_timezone());
+		$end_of_range->add(new DateInterval('P1W'));
+	endif;
 										
 	foreach($mz_classes as $class)
 	{
+	  // Ignore classes that are not part of current week (ending Sunday)
+	  if (new DateTime($class['StartDateTime'], mz_mbo_198435_get_blog_timezone()) >= $end_of_range):
+			continue;
+		endif;
+		
 		if ($hide_cancelled == 1):
 			if ($class['IsCanceled'] == 1):
 				continue;
@@ -310,7 +377,8 @@ function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a",
 		$class['day_num'] = date_i18n("N", strtotime($class['StartDateTime'])); // Weekday num 1-7
 
 		$single_event = new Single_event($class, $class['day_num'], $hide, $locations, $hide_cancelled, 
-																			$advanced, $show_registrants, $registrants_count, $calendar_format);
+																			$advanced, $show_registrants, $registrants_count, $calendar_format, 
+																			$delink);
 																			
 		if(!empty($mz_classesByTime[$classTime])) {
 			if (
@@ -359,12 +427,12 @@ function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a",
 	return $mz_classesByTime;
 }
 
+/*
+Make a clean array with seven corresponding slots and populate 
+based on indicator (day) for each class. There may be more than
+one even for each day and empty arrays will represent empty time slots.
+*/
 function week_of_timeslot($array, $indicator){
-	/*
-	Make a clean array with seven corresponding slots and populate 
-	based on indicator (day) for each class. There may be more than
-	one even for each day and empty arrays will represent empty time slots.
-	*/
 	$seven_days = array_combine(range(1, 7), array(array(), array(), array(),
 											array(), array(), array(), array()));
 		foreach($seven_days as $key => $value){
@@ -376,5 +444,82 @@ function week_of_timeslot($array, $indicator){
 			}
 	return $seven_days;
 	}
+	
+/**
+ * Returns an array of two items:
+ *   
+ *
+ * @since 1.0
+ * @source (initially adapted) 
+ * http://stackoverflow.com/questions/186431/calculating-days-of-week-given-a-week-number
+ * Used by mz_show_schedule(), mz_show_events(), mz_mindbody_debug_text()
+ * also used by mZ_mbo_pages_pages() in Mz MBO Pages plugin
+ *
+ * @param var $date Start date for date range.
+ * @param var $duration Optional. Description. Default.
+ * @return array Start Date, End Date and Previous Range Start Date.
+ */	
+function current_to_day_of_week_today() {
+	$current = isset($_GET['mz_date']) ? new DateTime($_GET['mz_date'], mz_mbo_198435_get_blog_timezone()) : new DateTime(null, mz_mbo_198435_get_blog_timezone());
+	$today = new DateTime(null, mz_mbo_198435_get_blog_timezone());
+	$current_day_name = $today->format('D');
+	$days_of_the_week = array(
+		'Mon', 
+		'Tue', 
+		'Wed', 
+		'Thu', 
+		'Fri', 
+		'Sat', 
+		'Sun'
+	);
+	foreach($days_of_the_week as $day_name):
+		if ($current_day_name != $day_name):
+			$current->add(new DateInterval('P1D'));
+		else:
+			break;
+		endif;
+	endforeach;
+	$clone_current = clone $current;
+	return array( $current, date("Y-m-d", strtotime($clone_current->format('y-m-d'))));
+}
 
+
+/*
+ *  Returns the blog timezone
+ *
+ * Gets timezone settings from the db. If a timezone identifier is used just turns
+ * it into a DateTimeZone. If an offset is used, it tries to find a suitable timezone.
+ * If all else fails it uses UTC.
+ *
+ * Source: http://wordpress.stackexchange.com/a/198453/48604
+ *
+ * @return DateTimeZone The blog timezone
+*/
+function mz_mbo_198435_get_blog_timezone() {
+
+    $tzstring = get_option( 'timezone_string' );
+    $offset   = get_option( 'gmt_offset' );
+
+    //Manual offset...
+    //@see http://us.php.net/manual/en/timezones.others.php
+    //@see https://bugs.php.net/bug.php?id=45543
+    //@see https://bugs.php.net/bug.php?id=45528
+    //IANA timezone database that provides PHP's timezone support uses POSIX (i.e. reversed) style signs
+    if( empty( $tzstring ) && 0 != $offset && floor( $offset ) == $offset ){
+        $offset_st = $offset > 0 ? "-$offset" : '+'.absint( $offset );
+        $tzstring  = 'Etc/GMT'.$offset_st;
+    }
+
+    //Issue with the timezone selected, set to 'UTC'
+    if( empty( $tzstring ) ){
+        $tzstring = 'UTC';
+    }
+
+    if( $tzstring instanceof DateTimeZone ){
+        return $tzstring;
+    }
+
+    $timezone = new DateTimeZone( $tzstring );
+    return $timezone; 
+}
 ?>

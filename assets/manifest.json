@@ -30,6 +30,18 @@
       ],
       "main": true
     },
+    "ajax-mbo-get-staff.js": {
+    "files": [
+        "scripts/ajax-mbo-get-staff.js"
+      ],
+      "main": true
+    },
+    "ajax-mbo-reset-staff.js": {
+    "files": [
+        "scripts/ajax-mbo-reset-staff.js"
+      ],
+      "main": true
+    },
     "jquery.js": {
       "bower": ["jquery"]
     },
@@ -43,9 +55,6 @@
       "files": [
         "styles/admin-style.scss"
       ]
-    },
-    "modernizr.js": {
-      "bower": ["modernizr"]
     },
   "config": {
     "devUrl": "http://uru.localhost"
