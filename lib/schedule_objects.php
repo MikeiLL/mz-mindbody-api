@@ -327,9 +327,9 @@ class Single_event {
 			$this->displayCancelled;
 		endif;
 		
-		if ($this->calendar_format == 'events')
-			$this->class_details .= $sign_up_manage_links . '<hr class="class-event-divider" style="clear:both" />';
-
+		if ($this->calendar_format == 'events') {
+					$this->class_details .= $sign_up_manage_links . '<hr class="class-event-divider" style="clear:both" />';
+			}
 	} // Construct
 	
 	private function classLinkMaker($staffName, $className, $classDescription, $class_title_ID, $staffImage, $show_registrants) {
@@ -423,7 +423,7 @@ class Single_event {
 	
 	
 	private function mbo_url($sDate, $sLoc, $sTG, $sType, $class_instance_ID, $studioid) {
-			$mbo_url = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;class_instance_ID={$class_instance_ID}&amp;studioid={$studioid}";
+			$mbo_url = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$class_instance_ID}&amp;studioid={$studioid}";
 			return $mbo_url;
 		}
 	

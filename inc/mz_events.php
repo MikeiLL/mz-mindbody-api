@@ -115,7 +115,6 @@ class MZ_MBO_Events {
 				
 			//echo $mb->debug();
 
-
 			//Cache the mindbody call for 24 hours
 			// TODO make cache timeout configurable.
 			set_transient($mz_events_cache, $mz_event_data, 60 * 60 * 24);
@@ -127,8 +126,9 @@ class MZ_MBO_Events {
 			{
 				$classes = $this->makeNumericArray($mz_event_data['GetClassesResult']['Classes']['Class']);
 				$classes = sortClassesByDate($classes, MZ_MBO_shared::$time_format, $locations, 0, array(), 
-																	$advanced, 0, 0, 'events','DropIn');
+																	$advanced, 0, 0, 'events','DropIn', '');
 				$number_of_events = count($classes);
+				
 				if ($event_count != 0) {
 					$return .= '<p class="mz-events-duration">' . _n('Upcomming Events', 'Upcomming Events', 'mz-mindbody-api');
 				} else {
@@ -156,13 +156,12 @@ class MZ_MBO_Events {
 					if ($event_count != 0) {
 						$classes = array_slice($classes, 0, $event_count);
 					}
-					
+
 					if ($list_only != 1):
 						foreach($classes as $classDate => $classes)
 						{
 							foreach($classes['classes'] as $class)
 							{
-							
 								$event_container->set('text', $class->class_details );
 							
 								$return .= $event_container->build();
