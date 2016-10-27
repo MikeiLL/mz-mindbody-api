@@ -423,7 +423,7 @@ class Single_event {
 	
 	
 	private function mbo_url($sDate, $sLoc, $sTG, $sType, $class_instance_ID, $studioid) {
-			$mbo_url = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;class_instance_ID={$class_instance_ID}&amp;studioid={$studioid}";
+			$mbo_url = "https://clients.mindbodyonline.com/ws.asp?sDate={$sDate}&amp;sLoc={$sLoc}&amp;sTG={$sTG}&amp;sType={$sType}&amp;sclassid={$class_instance_ID}&amp;studioid={$studioid}";
 			return $mbo_url;
 		}
 	
