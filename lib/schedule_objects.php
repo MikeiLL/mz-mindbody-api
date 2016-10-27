@@ -327,9 +327,9 @@ class Single_event {
 			$this->displayCancelled;
 		endif;
 		
-		if ($this->calendar_format == 'events')
-			$this->class_details .= $sign_up_manage_links . '<hr class="class-event-divider" style="clear:both" />';
-
+		if ($this->calendar_format == 'events') {
+					$this->class_details .= $sign_up_manage_links . '<hr class="class-event-divider" style="clear:both" />';
+			}
 	} // Construct
 	
 	private function classLinkMaker($staffName, $className, $classDescription, $class_title_ID, $staffImage, $show_registrants) {
