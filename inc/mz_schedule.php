@@ -16,6 +16,7 @@ class MZ_Mindbody_Schedule_Display {
 	private $horizontal_class = '';
 	private $mode_select = 0;
 	private $row_css_classes;
+	private $account;
 	public $delink = 0;
 	
 	public function __construct(){
@@ -84,7 +85,7 @@ class MZ_Mindbody_Schedule_Display {
 		$type = $atts['type'];
 		$location = $atts['location'];
 		$locations = $atts['locations'];
-		$account = $atts['account'];
+		$this->account = $atts['account'];
 		$filter = $atts['filter'];
 		$grid = $atts['grid'];
 		$advanced = $atts['advanced'];
@@ -326,35 +327,69 @@ class MZ_Mindbody_Schedule_Display {
 		if ($mode_select != 0) {
 			// If Mode Select is enabled we will return both displays
 			// Retrieve data for horizontal display
-			$mz_days_horizontal = sortClassesByDate($mz_days, MZ_MBO_shared::$time_format, $this->locations, 
-																					$hide_cancelled, $hide, $advanced, $show_registrants,
-																					$registrants_count, 'horizontal', $this->delink);
+
+			$mz_days_horizontal = sortClassesByDate($mz_days, 
+																							MZ_MBO_shared::$time_format, 
+																							$this->locations, 
+																							$hide_cancelled, 
+																							$hide, 
+																							$advanced, 
+																							$show_registrants,
+																							$registrants_count, 
+																							'horizontal', 
+																							$this->delink, 
+																							'Enrollment', 
+																							$this->account);
 			// Display Horizontal schedule								
 			$return .= $this->horizontal_schedule($mz_days_horizontal, $tbl_horizontal);
 			
 			// Retrieve data for grid display
-			$mz_days_grid = sortClassesByTimeThenDay($mz_days, MZ_MBO_shared::$time_format, $this->locations, 
-																					$hide_cancelled, $hide, $advanced, $show_registrants,
-																					$registrants_count, 'grid', $this->delink);
+			$mz_days_grid = sortClassesByTimeThenDay($mz_days, 
+																								MZ_MBO_shared::$time_format, 
+																								$this->locations, 
+																								$hide_cancelled, 
+																								$hide, 
+																								$advanced, 
+																								$show_registrants,
+																								$registrants_count, 
+																								'grid', 
+																								$this->delink, 
+																								'Enrollment', 
+																								$this->account);
 			// Display Grid schedule																					
 			$return .= $this->grid_schedule($mz_days_grid, $tbl_grid, $return);
 			
 		} else if ($grid == 1) {	
 			
 			// Retrieve data for grid display
-			$mz_days_grid = sortClassesByTimeThenDay($mz_days, MZ_MBO_shared::$time_format, $this->locations, 
-																					$hide_cancelled, $hide, $advanced, $show_registrants,
-																					$registrants_count, 'grid', $this->delink);
+			$mz_days_grid = sortClassesByTimeThenDay($mz_days, 
+																								MZ_MBO_shared::$time_format, 
+																								$this->locations, 
+																							  $hide_cancelled, 
+																							  $hide, $advanced, 
+																							  $show_registrants,
+																							  $registrants_count, 
+																							  'grid', 
+																							  $this->delink, 
+																							  'Enrollment', 
+																							  $this->account);
 			// Display Grid schedule																					
 			$return .= $this->grid_schedule($mz_days_grid, $tbl_grid, $return);
 		} else {
 			// If grid is not one and mode_select not enabled, just display horizontal schedule
 			// Retrieve data for horizontal display
 			
-			$mz_days_horizontal = sortClassesByDate($mz_days, MZ_MBO_shared::$time_format, $this->locations, 
-																					$hide_cancelled, $hide, $advanced, $show_registrants,
-																					$registrants_count, 'horizontal', $this->delink);
-			
+			$mz_days_horizontal = sortClassesByDate($mz_days, 
+																							MZ_MBO_shared::$time_format, 
+																							$this->locations, 
+																							$hide_cancelled, 
+																							$hide, $advanced, 
+																							$show_registrants,
+																							$registrants_count, 
+																							'horizontal', 
+																							$this->delink, 
+																							'Enrollment', 
+																							$this->account);
 			// Display Horizontal schedule								
 			$return .= $this->horizontal_schedule($mz_days_horizontal, $tbl_horizontal);
 			
@@ -451,7 +486,7 @@ class MZ_Mindbody_Schedule_Display {
 				}
 				
 			}
-			
+
 		//$tbl_horizontal->addTSection('tfoot');
 		//$tbl_horizontal->addRow();
 		//$tbl_horizontal->addCell('','','', array('colspan' => '4'));

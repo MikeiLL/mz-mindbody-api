@@ -42,6 +42,7 @@ class Single_event {
 	public $endTimeStamp;
 	public $sub_link = '';
 	public $staffModal;
+	public $account; // the MBO account in case multiple accounts are set
 	
 	private $pluginoptions;
 	private $classStartTime;
@@ -67,11 +68,22 @@ class Single_event {
 	private $delink;
 	private $haveTransient = 0;
 	
-	public function __construct($class, $day_num='', $hide=array(), $locations, $hide_cancelled=0, $advanced, 
-															$show_registrants, $registrants_count, $calendar_format='horizontal', 
-															$delink){
+	public function __construct($class, 
+															$day_num='', 
+															$hide=array(), 
+															$locations, 
+															$hide_cancelled=0, 
+															$advanced, 
+															$show_registrants, 
+															$registrants_count, 
+															$calendar_format='horizontal', 
+															$delink, 
+															$account){
+															
 		include_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
 		$this->pluginoptions = MZ_MBO_shared::$mz_options;
+		//mz_pr($account);
+		$this->account = isset($account) ? $account : $this->pluginoptions['mz_mindbody_siteID'];
 		$this->sign_up_title = __('Sign-Up', 'mz-mindbody-api');
 		$this->manage_text = __('Manage on MindBody Site', 'mz-mindbody-api');
 		$this->sDate = date_i18n('m/d/Y', strtotime($class['StartDateTime']));
@@ -376,7 +388,7 @@ class Single_event {
 				$staff_name_css .= 'mz-substitute ';
 				$linkArray = array(
 											'data-staffName'=>$class_owner['class_owner'],
-											'data-siteID'=>$this->pluginoptions['mz_mindbody_siteID'],
+											'data-siteID'=> $this->account,
 											'data-staffID'=>$class_owner['class_owner_id'],
 											'data-sub'=>'sub',
 											'class'=> $staff_name_css,

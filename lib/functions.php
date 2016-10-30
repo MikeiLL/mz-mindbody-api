@@ -239,13 +239,41 @@ function mz_sort_grid_times ($a, $b) {
 			return $a->startDateTime < $b->startDateTime ? -1 : 1;
 		}
 			
-/*
- * For use in Horizontal view
+/**
+ * Return an array of MBO Class Objects, ordered by date.
+ *
+ * This is used in Horizontal view. It gets the filtered results from the MBO API call and  builds an array of Class Event Objects,
+ * sequenced by date and time.
+ * 
+ *
+ * @param @type array $mz_classes
+ * @param @type string $time_format Format string for php strtotime function Default: "g:i a"
+ * @param @type array OR numeric $locations Single or list of MBO location numerals Default: 1
+ * @param @type boolean $hide_cancelled Whether or not to display cancelled classes. Default: 0
+ * @param @type array $hide Items to be removed from calendar
+ * @param @type boolean $advanced Whether or not allowing online class sign-up via plugin
+ * @param @type boolean $show_registrants Whether or not to display class registrants in modal popup
+ * @param @type boolean $registrants_count  Whether we want to show count of registrants in a class (TODO - finish) @default: 0
+ * @param @type string $calendar_format Depending on final display, we may create items in Single_event class differently. 
+ *																			Default: 'horizontal'
+ * @param @type boolean $delink Make class name NOT a link
+ * @param @type string $class_type MBO API has 'Enrollment' and 'DropIn'. 'Enrolment' is a "workdhop". Default: 'Enrollment'
+ * @param @type numeric $account Which MBO account is being interfaced with.
+ *
+ * @return @type array of Objects from Single_event class, in Date (and time) sequence.
 */
-function sortClassesByDate($mz_classes = array(), $time_format = "g:i a", 
-																	$locations=1, $hide_cancelled=0, $hide=array(), 
-																	$advanced=0, $show_registrants=0, $registrants_count=0, 
-																	$calendar_format='horizontal', $delink, $class_type='Enrollment') {
+function sortClassesByDate($mz_classes = array(), 
+													$time_format = "g:i a", 
+													$locations=1, 
+													$hide_cancelled=0, 
+													$hide=array(), 
+													$advanced=0, 
+													$show_registrants=0, 
+													$registrants_count=0, 
+													$calendar_format='horizontal', 
+													$delink, 
+													$class_type='Enrollment', 
+													$account) {
 
 	// This is the array that will hold the classes we want to display
 	$mz_classesByDate = array();
@@ -286,7 +314,7 @@ function sortClassesByDate($mz_classes = array(), $time_format = "g:i a",
 
 		$single_event = new Single_event($class, $daynum="", $hide=array(), $locations, $hide_cancelled=0, 
 																			$advanced, $show_registrants, $registrants_count, 
-																			$calendar_format, $delink);
+																			$calendar_format, $delink, $account);
 		
 		if(!empty($mz_classesByDate[$classDate])) {
 			if (
@@ -334,12 +362,41 @@ function sortClassesByDate($mz_classes = array(), $time_format = "g:i a",
 	return $mz_classesByDate;
 }
 
-// For use in Grid View
-function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a", 
-																	$locations=1, $hide_cancelled=0, $hide, 
-																	$advanced, $show_registrants, $registrants_count, 
-																	$calendar_format, $delink) {
-																		
+/**
+ * Return an array of MBO Class Objects, ordered by date.
+ *
+ * This is used in Grid view. It gets the filtered results from the MBO API call and builds a matrix, top level of which is
+ * seven arrays, one for each of seven days in a week (for a calendar column), each one of the Day columns contains an array
+ * of Class Event objects, sequenced by time of day, earliest to latest.
+ * 
+ *
+ * @param @type array $mz_classes
+ * @param @type string $time_format Format string for php strtotime function Default: "g:i a"
+ * @param @type array/numeric $locations Single or list of MBO location numerals Default: 1
+ * @param @type boolean $hide_cancelled Whether or not to display cancelled classes. Default: 0
+ * @param @type array $hide Items to be removed from calendar
+ * @param @type boolean $advanced Whether or not allowing online class sign-up via plugin
+ * @param @type boolean $show_registrants Whether or not to display class registrants in modal popup
+ * @param @type boolean $registrants_count  Whether we want to show count of registrants in a class (TODO - finish) @default: 0
+ * @param @type string $calendar_format Depending on final display, we may create items in Single_event class differently. 
+ * @param @type boolean $delink Make class name NOT a link
+ * @param @type string $class_type MBO API has 'Enrollment' and 'DropIn'. 'Enrolment' is a "workdhop". Default: 'Enrollment'
+ * @param @type numeric $account Which MBO account is being interfaced with.
+ *
+ * @return @type array of Objects from Single_event class, in Date (and time) sequence.
+*/
+function sortClassesByTimeThenDay($mz_classes = array(),
+																	$time_format = "g:i a", 
+																	$locations=1, 
+																	$hide_cancelled=0, 
+																	$hide, 
+																	$advanced, 
+																	$show_registrants, 
+																	$registrants_count, 
+																	$calendar_format, 
+																	$delink, 
+																	$class_type = 'Enrollment', 
+																	$account) {														
 	$mz_classesByTime = array();
 
 	if(!is_array($locations)):
@@ -376,9 +433,17 @@ function sortClassesByTimeThenDay($mz_classes = array(), $time_format = "g:i a",
 		// $class['day_num'] = '';
 		$class['day_num'] = date_i18n("N", strtotime($class['StartDateTime'])); // Weekday num 1-7
 
-		$single_event = new Single_event($class, $class['day_num'], $hide, $locations, $hide_cancelled, 
-																			$advanced, $show_registrants, $registrants_count, $calendar_format, 
-																			$delink);
+		$single_event = new Single_event($class, 
+																			$class['day_num'], 
+																			$hide, 
+																			$locations, 
+																			$hide_cancelled, 
+																			$advanced, 
+																			$show_registrants, 
+																			$registrants_count, 
+																			$calendar_format, 
+																			$delink, 
+																			$account);
 																			
 		if(!empty($mz_classesByTime[$classTime])) {
 			if (

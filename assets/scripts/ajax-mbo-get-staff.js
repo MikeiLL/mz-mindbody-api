@@ -14,6 +14,7 @@
 													'&stype=-7&sView=week&sTrn='];
 			//popUpContent += '<br/><a href="' + mbo_url_parts[0] + siteID + mbo_url_parts[1] + staffID + '" ';
 			//popUpContent += 'class="btn btn-info mz-btn-info mz-bio-button" target="_blank">See ' + staffName +'&apos;s Schedule</a>';
+			popUpContent += '<i class="fa fa-spinner fa-3x fa-spin" style="position: fixed; top: 50%; left: 50%;"></i>';
 			$("#mzStaffScheduleModal").load(target, function() { 
 				 $.colorbox({html: popUpContent, width:"75%", height:"80%", href:"inc/modal_descriptions.php"}); 
 				 $("#mzStaffScheduleModal").colorbox();
@@ -30,6 +31,7 @@
 							var bioGraphy = ((json.message.Bio === null) || (json.message.Bio === '')) ? mZ_get_staff.no_bio : '<div class="mz_staffBio">' + json.message.Bio + '</div>';
 							staffDetails += imageURL;
 							staffDetails += bioGraphy;
+							$('.fa-spinner').remove();
 							$('#StaffInfo').html(staffDetails);
 					}else{
 							$('#StaffInfo').html('ERROR FINDING STAFF INFO');
