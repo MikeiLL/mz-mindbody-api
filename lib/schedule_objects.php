@@ -82,8 +82,7 @@ class Single_event {
 															
 		include_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
 		$this->pluginoptions = MZ_MBO_shared::$mz_options;
-		//mz_pr($account);
-		$this->account = isset($account) ? $account : $this->pluginoptions['mz_mindbody_siteID'];
+		$this->account = (isset($account) && $account !== 0) ? $account : $this->pluginoptions['mz_mindbody_siteID'];
 		$this->sign_up_title = __('Sign-Up', 'mz-mindbody-api');
 		$this->manage_text = __('Manage on MindBody Site', 'mz-mindbody-api');
 		$this->sDate = date_i18n('m/d/Y', strtotime($class['StartDateTime']));
@@ -387,12 +386,12 @@ class Single_event {
 				$substituted_alert = __('Substitute', 'mz-mindbody-api');
 				$staff_name_css .= 'mz-substitute ';
 				$linkArray = array(
-											'data-staffName'=>$class_owner['class_owner'],
-											'data-siteID'=> $this->account,
-											'data-staffID'=>$class_owner['class_owner_id'],
-											'data-sub'=>'sub',
-											'class'=> $staff_name_css,
-											'title'=>$class_owner['class_owner']
+											'data-staffName' => $class_owner['class_owner'],
+											'data-accountNumber'=> $this->account,
+											'data-staffID' => $class_owner['class_owner_id'],
+											'data-sub' => 'sub',
+											'class' => $staff_name_css,
+											'title' => $class_owner['class_owner']
 											);
 				$get_registrants_nonce = wp_create_nonce( 'mz_MBO_get_registrants_nonce');
 				$linkArray['data-nonce'] = $get_registrants_nonce;
@@ -407,9 +406,9 @@ class Single_event {
 			endif;
 			
 			$linkArray = array(
-												'data-staffName'=>$staffName,
-												'data-siteID'=>$this->pluginoptions['mz_mindbody_siteID'],
-												'data-staffID'=>$staffID,
+												'data-staffName'=> $staffName,
+												'data-accountNumber'=> $this->account,
+												'data-staffID'=> $staffID,
 												'class'=> $staff_name_css
 												);
 			$get_registrants_nonce = wp_create_nonce( 'mz_MBO_get_registrants_nonce');

@@ -5,7 +5,7 @@
 			var target = $(this).attr("href");
 			var staffID = $(this).attr('data-staffID');
 			var staffName = $(this).attr('data-staffName');
-			var siteID = $(this).attr('data-siteID');
+			var accountNumber = $(this).attr('data-accountNumber');
 			var nonce = $(this).attr("data-nonce");
 			var subText = ($(this).attr("data-sub") !== undefined) ? '<span class="sub-text">' + mZ_get_staff.sub_by_text + '</span>' + ' ' : ' ';
 			var popUpContent = '<h3>' + subText + staffName + '</h3><div class="mz-staffInfo" id="StaffInfo"></div>';
@@ -23,7 +23,7 @@
 				type: "GET",
 				dataType: 'json',
 				url : mZ_get_staff.ajaxurl,
-				data : {action: 'mz_mbo_get_staff', nonce: nonce, staffID: staffID, siteID: siteID},
+				data : {action: 'mz_mbo_get_staff', nonce: nonce, staffID: staffID, accountNumber: accountNumber},
 				success: function(json) {
 					if(json.type == "success") {
 							var staffDetails = '';

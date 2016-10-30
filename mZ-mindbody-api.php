@@ -545,9 +545,16 @@ function mz_mbo_reset_staff_callback() {
 	$mb = MZ_Mindbody_Init::instantiate_mbo_API();
  
  	$classid = $_REQUEST['staffID'];
+ 	$account_number = $_REQUEST['accountNumber'];
  	$result['type'] = "success";
  	$result['message'] = $classid;
- 	$staff_details = $mb->GetStaff(array('StaffIDs'=>array($classid)));
+	if ($account_number == 0) {
+		$staff_details = $mb->GetStaff(array('StaffIDs'=>array($classid)));
+		}else{
+		$mb->sourceCredentials['SiteIDs'][0] = $account_number; 
+		$staff_details = $mb->GetStaff(array('StaffIDs'=>array($classid)));
+		}
+ 	
  	if (isset($staff_details['GetStaffResult'])):
  		if ($staff_details['GetStaffResult']['Status'] != 'Success'):
 				$result['type'] = "error";

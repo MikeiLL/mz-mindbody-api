@@ -184,10 +184,10 @@ class MZ_Mindbody_Schedule_Display {
 			if ($mb == 'NO_SOAP_SERVICE') {
 				mz_pr($mb);
 				}
-			if ($account == 0) {
+			if ($this->account == 0) {
 				$mz_schedule_data = $mb->GetClasses($mz_timeframe);
 				}else{
-				$mb->sourceCredentials['SiteIDs'][0] = $account; 
+				$mb->sourceCredentials['SiteIDs'][0] = $this->account; 
 				$mz_schedule_data = $mb->GetClasses($mz_timeframe);
 				}
 
