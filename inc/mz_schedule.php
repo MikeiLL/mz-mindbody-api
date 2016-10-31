@@ -543,8 +543,8 @@ class MZ_Mindbody_Schedule_Display {
 					if ($class->className == 'Admin') {continue;}
 
 					$class_separator = ($key == $num_classes_min_one) ? '' : '<hr/>';
-					
-					$signupButton = $class->signupButton;
+					//What is this doing?
+					$signupButton = '';//$class->signupButton;
 					
 					$class_details = $class->class_details . $class_separator;
 					$this->time_slot .= $class_details;

@@ -20,7 +20,7 @@
  
 new MZ_MBO_shared();
 class MZ_MBO_shared {
-	static $mz_date_display = "D F d";
+	static $mz_date_display = "l, F j";
 	static $mz_options;
 	static $mz_event_calendar_duration;
 	static $time_format;

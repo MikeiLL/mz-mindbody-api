@@ -450,13 +450,16 @@ class Single_event {
 
 		if ($calendar_format == 'grid'):
 			$this->signup_button_class = "mz_add_to_class fa fa-sign-in";
+			if ($this->startTimeStamp < current_time( 'timestamp' ))
+				$this->signup_button_class .= " disabled";
 			$manage_button_class = "fa fa-wrench visitMBO";
 		else:
 			$this->signup_button_class = "mz_add_to_class btn";
+			if ($this->startTimeStamp < current_time( 'timestamp' ))
+				$this->signup_button_class .= " disabled";
 			$manage_button_class = "visitMBO";
 			$this->sign_up_text = '<span class="signup">'. __('Sign-up', 'mz-mindbody-api') .'</span>';
 		endif;
-		
 		$signup_target = "_blank";
 		
 		$sign_up_link = new html_element('a');
