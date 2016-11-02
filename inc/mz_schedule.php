@@ -23,7 +23,6 @@ class MZ_Mindbody_Schedule_Display {
 		require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
 		$this->mz_mbo_object = new MZ_Mindbody_Init();
 		$this::$time_tracker = date('Fd', strtotime("today"));
-
 	}
 	
 	/**
