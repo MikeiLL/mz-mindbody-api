@@ -1,9 +1,7 @@
 <?php
+require_once('mz_activation.php');
 function mz_mindbody_add_to_classes() {
-	add_action('wp_loaded', function () {
-			require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
-			$mz_mbo = new MZ_MBO_Init();
-		});
+	add_action('wp_loaded', 'initializeMBO');
 	$clientIDs = array(100004590);
     $classIDs = array(20106);
     

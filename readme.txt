@@ -54,6 +54,9 @@ You need to register a developer account with MindBody, which costs $5+ per webs
 
 == Changelog ==
 
+= 2.4.3 =
+Disable signup button on class schedule when after start time.
+
 = 2.4.2 =
 Fix break with events listing that occurred in last release.
 Fix break in signup links also from recent updates.
@@ -166,14 +169,15 @@ Initial release.
 
 == Upgrade Notice ==
 
-<<<<<<< HEAD
+= 2.4.3 =
+Signup button disabled on class schedule when after start time.
+
 = 2.4 =
 New shortcode, event_limit to display limited number of events.
-=======
+
 = 2.4.1 =
 Horizontal schedule shows next seven days from current day.
 Also ability (beta) to show details about "class owner" for subbed classes.
->>>>>>> dev
 
 = 2.3.8 =
 Now you can display Events (Enrollments) as a list with Modal Popup showing details.
