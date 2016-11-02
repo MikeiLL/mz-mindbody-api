@@ -287,7 +287,8 @@ function sortClassesByDate($mz_classes = array(),
 		list($current, $current_date_string) = current_to_day_of_week_today();
 	else:
 		$current = new DateTime(null, mz_mbo_198435_get_blog_timezone());
-		$current_date_string = (new DateTime(null, mz_mbo_198435_get_blog_timezone()))->format('Y-m-d');
+		$blog_timezone = new DateTime(null, mz_mbo_198435_get_blog_timezone());
+		$current_date_string = $blog_timezone->format('Y-m-d');
 	endif;
 	
 	$end_of_week = clone $current;
