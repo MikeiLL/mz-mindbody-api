@@ -274,7 +274,10 @@ function sortClassesByDate($mz_classes = array(),
 													$delink, 
 													$class_type='Enrollment', 
 													$account) {
-
+	foreach(array($locations, $hide_cancelled, $hide, $advanced, $class_type, $account) as $item):
+		mz_pr($item);
+	endforeach;
+	
 	// This is the array that will hold the classes we want to display
 	$mz_classesByDate = array();
 
