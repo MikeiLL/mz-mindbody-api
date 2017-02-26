@@ -17,6 +17,7 @@ class MZ_Mindbody_Schedule_Display {
 	private $mode_select = 0;
 	private $row_css_classes;
 	private $account;
+	private $week_only;
 	public $delink = 0;
 	
 	public function __construct(){
@@ -339,7 +340,8 @@ class MZ_Mindbody_Schedule_Display {
 																							'horizontal', 
 																							$this->delink, 
 																							'Enrollment', 
-																							$this->account);
+																							$this->account,
+																							0);
 			// Display Horizontal schedule								
 			$return .= $this->horizontal_schedule($mz_days_horizontal, $tbl_horizontal);
 			
@@ -389,7 +391,8 @@ class MZ_Mindbody_Schedule_Display {
 																							'horizontal', 
 																							$this->delink, 
 																							'Enrollment', 
-																							$this->account);
+																							$this->account,
+																							0);
 			// Display Horizontal schedule								
 			$return .= $this->horizontal_schedule($mz_days_horizontal, $tbl_horizontal);
 			

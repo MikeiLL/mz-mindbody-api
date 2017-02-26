@@ -68,7 +68,7 @@ class MZ_Mindbody_Init {
 		$this->time_format = get_option('time_format');
 		$this->date_format = get_option('date_format');
 		// Include once in case called from dependent plugin
-		require_once(WP_PLUGIN_DIR . '/mz-mindbody-api/mindbody-php-api/MB_API.php');
+		require_once(MZ_MINDBODY_SCHEDULE_DIR . 'mindbody-php-api/MB_API.php');
 	}
 	
 	static function instantiate_mbo_API () {
