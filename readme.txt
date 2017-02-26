@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: mindbody, schedule, calendar, yoga, MBO, mindbodyonline, gym
 Requires at least: 3.0.1
 Tested up to: 4.6.1
-Stable tag: 2.4.2
+Stable tag: 2.4.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -53,6 +53,9 @@ You need to register a developer account with MindBody, which costs $5+ per webs
 4. Admin Page
 
 == Changelog ==
+
+= 2.4.4 =
+Fix error where only single week of events displayed.
 
 = 2.4.2 =
 Fix break with events listing that occurred in last release.
@@ -166,14 +169,12 @@ Initial release.
 
 == Upgrade Notice ==
 
-<<<<<<< HEAD
-= 2.4 =
-New shortcode, event_limit to display limited number of events.
-=======
+= 2.4.4 =
+No new features, just some bug fixes.
+
 = 2.4.1 =
 Horizontal schedule shows next seven days from current day.
 Also ability (beta) to show details about "class owner" for subbed classes.
->>>>>>> dev
 
 = 2.3.8 =
 Now you can display Events (Enrollments) as a list with Modal Popup showing details.
