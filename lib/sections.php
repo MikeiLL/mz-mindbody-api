@@ -253,7 +253,10 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 		
 		echo '</p>';
 		echo '<p>' . __('To remove hide any of the following elements from grid calendar:', 'mz-mindbody-api') . 
-		'&nbsp; hide="teacher, signup, duration"'
+		'&nbsp; hide="teacher, signup, duration"';
+		
+		echo '<p>' . __('Display only current week of events with shortcode attribute:', 'mz-mindbody-api') . 
+		'week-only=1'
 		
 		?>
 		

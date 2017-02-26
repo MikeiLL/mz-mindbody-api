@@ -259,6 +259,7 @@ function mz_sort_grid_times ($a, $b) {
  * @param @type boolean $delink Make class name NOT a link
  * @param @type string $class_type MBO API has 'Enrollment' and 'DropIn'. 'Enrolment' is a "workdhop". Default: 'Enrollment'
  * @param @type numeric $account Which MBO account is being interfaced with.
+ * @param @type boolean $this_week If true, show only week from today.
  *
  * @return @type array of Objects from Single_event class, in Date (and time) sequence.
 */
@@ -273,7 +274,8 @@ function sortClassesByDate($mz_classes = array(),
 													$calendar_format='horizontal', 
 													$delink, 
 													$class_type='Enrollment', 
-													$account) {
+													$account,
+													$this_week=0) {
 
 	// This is the array that will hold the classes we want to display
 	$mz_classesByDate = array();
@@ -296,7 +298,7 @@ function sortClassesByDate($mz_classes = array(),
 
 	foreach($mz_classes as $class)
 	{
-		
+		//mz_pr($class);
 		if ($hide_cancelled == 1):
 			if ($class['IsCanceled'] == 1):
 				continue;
@@ -304,10 +306,12 @@ function sortClassesByDate($mz_classes = array(),
 		endif;
 		
 		$classDate = date("Y-m-d", strtotime($class['StartDateTime']));
-
-		// Ignore classes that are outside of seven day week starting today
-		if ($classDate < $current_date_string || $classDate > $end_of_week):
-			continue;
+		
+		if($this_week):
+			// Ignore classes that are outside of seven day week starting today
+			if ($classDate < $current_date_string || $classDate > $end_of_week):
+				continue;
+			endif;
 		endif;
 		
 		/* Create a new array with a key for each date YYYY-MM-DD

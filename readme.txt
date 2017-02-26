@@ -3,8 +3,8 @@ Contributors: mikeill, rtzee
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A95ZEELLHGECE
 Tags: mindbody, schedule, calendar, yoga, MBO, mindbodyonline, gym
 Requires at least: 3.0.1
-Tested up to: 4.6.1
-Stable tag: 2.4.3
+Tested up to: 4.7.2
+Stable tag: 2.4.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -54,8 +54,13 @@ You need to register a developer account with MindBody, which costs $5+ per webs
 
 == Changelog ==
 
+<<<<<<< HEAD
 = 2.4.3 =
 Disable signup button on class schedule when after start time.
+=======
+= 2.4.4 =
+Fix error where only single week of events displayed.
+>>>>>>> dev
 
 = 2.4.2 =
 Fix break with events listing that occurred in last release.
@@ -169,11 +174,16 @@ Initial release.
 
 == Upgrade Notice ==
 
+<<<<<<< HEAD
 = 2.4.3 =
 Signup button disabled on class schedule when after start time.
 
 = 2.4 =
 New shortcode, event_limit to display limited number of events.
+=======
+= 2.4.4 =
+No new features, just some bug fixes.
+>>>>>>> dev
 
 = 2.4.1 =
 Horizontal schedule shows next seven days from current day.

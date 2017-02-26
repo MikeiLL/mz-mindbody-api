@@ -41,6 +41,7 @@ class MZ_MBO_Events {
 			'event_count' => '0',
 			'account' => '0',
 			'advanced' => '1',
+			'week-only' => 0
 				), $atts );
 		$location = $atts['location'];
 		$locations = $atts['locations'];
@@ -48,6 +49,7 @@ class MZ_MBO_Events {
 		$event_count = $atts['event_count'];
 		$account = $atts['account'];
 		$advanced = $atts['advanced'];
+		$week_only = $atts['week-only'];
 		$clientID = isset($_SESSION['GUID']) ? $_SESSION['client']['ID'] : '';
 		
 		/*
@@ -126,7 +128,7 @@ class MZ_MBO_Events {
 			{
 				$classes = $this->makeNumericArray($mz_event_data['GetClassesResult']['Classes']['Class']);
 				$classes = sortClassesByDate($classes, MZ_MBO_shared::$time_format, $locations, 0, array(), 
-																	$advanced, 0, 0, 'events','DropIn', '');
+																	$advanced, 0, 0, 'events', '', 'DropIn', '', $week_only);
 				$number_of_events = count($classes);
 				
 				if ($event_count != 0) {
