@@ -3,6 +3,7 @@
 class MZ_MBO_Events {
 
 	private $mz_mbo_object;
+	private $initial_button_text;
 	
 	public function __construct(){
 		require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
