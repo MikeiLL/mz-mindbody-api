@@ -136,7 +136,7 @@ class html_element
 	var $self_closers;
 	
 	/* constructor */
-	function html_element($type,$self_closers = array('input','img','hr','br','meta','link'))
+	function __construct($type,$self_closers = array('input','img','hr','br','meta','link'))
 	{
 		$this->type = strtolower($type);
 		$this->self_closers = $self_closers;
