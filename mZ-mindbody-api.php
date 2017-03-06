@@ -210,7 +210,7 @@ class MZ_Mindbody_API {
     
     private function define_main_hooks() {
  
-        $this->loader->add_action( 'init', $this, 'myStartSession' );
+        //$this->loader->add_action( 'init', $this, 'myStartSession' );
         $this->loader->add_action( 'wp_logout', $this, 'myStartSession' );
         $this->loader->add_action( 'wp_login', $this, 'myEndSession' );
         
@@ -301,7 +301,7 @@ function mZ_mindbody_schedule_register_widget() {
 
 class mZ_Mindbody_day_schedule extends WP_Widget {
 
-    function mZ_Mindbody_day_schedule() {
+    function __construct() {
         $widget_ops = array(
             'classname' => 'mZ_Mindbody_day_schedule_class',
             'description' => __('Display class schedule for current day.', 'mz-mindbody-api')
