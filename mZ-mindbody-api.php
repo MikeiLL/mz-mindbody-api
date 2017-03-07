@@ -11,7 +11,7 @@
  * @wordpress-plugin
  * Plugin Name: 	mZoo Mindbody Interface - Schedule, Events, Staff Display
  * Description: 	Interface Wordpress with MindbodyOnline data with Bootstrap Responsive Layout.
- * Version: 		2.4.5
+ * Version: 		2.4.6
  * Author: 			mZoo.org
  * Author URI: 		http://www.mZoo.org/
  * Plugin URI: 		http://www.mzoo.org/mz-mindbody-wp
@@ -180,7 +180,7 @@ class MZ_Mindbody_API {
     public function __construct() {
  
         $this->plugin_slug = 'mz-mindbody-api';
-        $this->version = '2.4.1';
+        $this->version = '2.4.6';
         $this->load_dependencies();
         $this->define_main_hooks();
         $this->add_shortcodes();
@@ -210,7 +210,7 @@ class MZ_Mindbody_API {
     
     private function define_main_hooks() {
  
-        //$this->loader->add_action( 'init', $this, 'myStartSession' );
+        $this->loader->add_action( 'init', $this, 'myStartSession' );
         $this->loader->add_action( 'wp_logout', $this, 'myStartSession' );
         $this->loader->add_action( 'wp_login', $this, 'myEndSession' );
         
