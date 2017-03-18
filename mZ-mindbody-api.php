@@ -210,7 +210,7 @@ class MZ_Mindbody_API {
     
     private function define_main_hooks() {
  
-        $this->loader->add_action( 'init', $this, 'myStartSession' );
+        //$this->loader->add_action( 'init', $this, 'myStartSession' );
         $this->loader->add_action( 'wp_logout', $this, 'myStartSession' );
         $this->loader->add_action( 'wp_login', $this, 'myEndSession' );
         
