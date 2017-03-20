@@ -81,7 +81,7 @@ class MZ_Events {
 		// only make API call if we have array session types set in Admin
 		if (!empty($mz_sessions) && ($mz_sessions[0] != 0))
 		{
-			$mz_timeframe = array_slice(mz_getDateRange($mz_date, MZ_MBO_shared::$mz_event_calendar_duration), 0, 1);
+			$mz_timeframe = array_slice(Schedule_Operations::mz_getDateRange($mz_date, MZ_MBO_shared::$mz_event_calendar_duration), 0, 1);
 			
 			//While we still need to support php 5.2 and can't use [0] on above
 			$mz_timeframe = array_pop($mz_timeframe);
@@ -128,7 +128,7 @@ class MZ_Events {
 			if(!empty($mz_event_data['GetClassesResult']['Classes']['Class']))
 			{
 				$classes = $this->makeNumericArray($mz_event_data['GetClassesResult']['Classes']['Class']);
-				$classes = sortClassesByDate($classes, MZ_MBO_shared::$time_format, $locations, 0, array(), 
+				$classes = Sorter::sortClassesByDate($classes, MZ_MBO_shared::$time_format, $locations, 0, array(), 
 																	$advanced, 0, 0, 'events', '', 'DropIn', '', $week_only);
 				$number_of_events = count($classes);
 				
@@ -148,7 +148,7 @@ class MZ_Events {
 
 					$return .= mz_mbo_schedule_nav($mz_date, "Events", MZ_MBO_shared::$mz_event_calendar_duration);
 					if ($list_only != 1):
-						$event_container = new html_element('div');
+						$event_container = new mZoo\MBOAPI\HTML_Element('div');
 					else:
 						$event_container = new HTML_Table('mz-events-listing');
 					endif;

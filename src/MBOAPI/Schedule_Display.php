@@ -143,15 +143,15 @@ class Schedule_Display {
 
 		if ($type=='day')
 			{
-				$mz_timeframe = array_slice(mz_getDateRange($mz_date, 1), 0, 1);
+				$mz_timeframe = array_slice(Schedule_Operations::mz_getDateRange($mz_date, 1), 0, 1);
 			}
 		else if (($mode_select != 0) || ($grid == 1))
 			{   
-				$mz_timeframe = array_slice(mz_getDateRange($this->mz_date_grid, 7), 0, 1);
+				$mz_timeframe = array_slice(Schedule_Operations::mz_getDateRange($this->mz_date_grid, 7), 0, 1);
 			} 
 		else 
 			{
-				$mz_timeframe = array_slice(mz_getDateRange($mz_date, 7), 0, 1);
+				$mz_timeframe = array_slice(Schedule_Operations::mz_getDateRange($mz_date, 7), 0, 1);
 			}
 		//While we still need to support php 5.2 and can't use [0] on above
 		$mz_timeframe = array_shift($mz_timeframe);
@@ -328,7 +328,7 @@ class Schedule_Display {
 			// If Mode Select is enabled we will return both displays
 			// Retrieve data for horizontal display
 
-			$mz_days_horizontal = sortClassesByDate($mz_days, 
+			$mz_days_horizontal = Sorter::sortClassesByDate($mz_days, 
 																							MZ_MBO_shared::$time_format, 
 																							$this->locations, 
 																							$hide_cancelled, 
@@ -345,7 +345,7 @@ class Schedule_Display {
 			$return .= $this->horizontal_schedule($mz_days_horizontal, $tbl_horizontal);
 			
 			// Retrieve data for grid display
-			$mz_days_grid = sortClassesByTimeThenDay($mz_days, 
+			$mz_days_grid = Sorter::sortClassesByTimeThenDay($mz_days, 
 																								MZ_MBO_shared::$time_format, 
 																								$this->locations, 
 																								$hide_cancelled, 
@@ -363,7 +363,7 @@ class Schedule_Display {
 		} else if ($grid == 1) {	
 			
 			// Retrieve data for grid display
-			$mz_days_grid = sortClassesByTimeThenDay($mz_days, 
+			$mz_days_grid = Sorter::sortClassesByTimeThenDay($mz_days, 
 																								MZ_MBO_shared::$time_format, 
 																								$this->locations, 
 																							  $hide_cancelled, 
@@ -380,7 +380,7 @@ class Schedule_Display {
 			// If grid is not one and mode_select not enabled, just display horizontal schedule
 			// Retrieve data for horizontal display
 			
-			$mz_days_horizontal = sortClassesByDate($mz_days, 
+			$mz_days_horizontal = Sorter::sortClassesByDate($mz_days, 
 																							MZ_MBO_shared::$time_format, 
 																							$this->locations, 
 																							$hide_cancelled, 

@@ -309,7 +309,7 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 	  GetClassesResponse box below to confirm settings are correct.',  'mz-mindbody-api'),
 	  '<code>&lt;ErrorCode&gt;200&lt;/ErrorCode&gt;</code>');
 	  echo "</p>";
-	  $mz_timeframe = array_slice(mz_getDateRange(date_i18n('Y-m-d'), 1), 0, 1);
+	  $mz_timeframe = array_slice(Schedule_Operations::mz_getDateRange(date_i18n('Y-m-d'), 1), 0, 1);
 	  $mb = MZ_Mindbody_Init::instantiate_mbo_API();
 	  $test = $mb->GetClasses($mz_timeframe);
 	  $mb->debug();
@@ -447,7 +447,7 @@ wp_localize_script( 'mZ_reset_staff', 'mZ_reset_staff', $params);
 		$nonce = wp_create_nonce( 'mz_MBO_reset_staff_nonce');
 		$linkArray['data-nonce'] = $nonce;
 		$linkArray['data-target'] = "#mzResetStaff"; 
-		$class_name_link = new html_element('a');
+		$class_name_link = new mZoo\MBOAPI\HTML_Element('a');
 		$class_name_link->set('text', 'Reset General Schedule');
 		$class_name_link->set('href', MZ_MINDBODY_SCHEDULE_URL . 'inc/modal_descriptions.php');
 		$class_name_link->set($linkArray);

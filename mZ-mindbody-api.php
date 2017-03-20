@@ -228,18 +228,17 @@ class MZ_Mindbody_API {
     when auto-logged out of WP admin session. */
     	if(!isset($_SESSION)) 
     		{ 
-        	session_destroy (); 
+        	session_destroy(); 
     		} 
 			
 		}
  
  	private function add_shortcodes() {
  	
- 		$schedule_display = new MBOAPI\Schedule_Display();
- 		$mz_staff = new mZoo\MBOAPI\MZ_Staff();
- 		$mz_events = new mZoo\MBOAPI\MZ_Events();
- 		$mz_clients = new mZoo\MBOAPI\MZ_Clients();
- 		$get_schedule = new mZoo\MBOAPI\MZ_Get_Schedule();
+ 		$mz_staff = new MBOAPI\MZ_Staff();
+ 		$mz_events = new MBOAPI\MZ_Events();
+ 		$mz_clients = new MBOAPI\MZ_Clients();
+ 		$get_schedule = new MBOAPI\MZ_Get_Schedule();
  		
         add_shortcode('mz-mindbody-show-schedule', array(new MBOAPI\Schedule_Display(), 'mZ_mindbody_show_schedule'));
         add_shortcode('mz-mindbody-staff-list', array($mz_staff, 'mZ_mindbody_staff_listing'));

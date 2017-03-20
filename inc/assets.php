@@ -1,7 +1,5 @@
 <?php
-if (phpversion() >= 5.3) {
-	require_once(MZ_MINDBODY_SCHEDULE_DIR . 'lib/namespace.php');
-	}
+namespace mZoo\MBOAPI;
 /**
  * Configuration values
  */

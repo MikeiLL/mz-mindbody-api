@@ -217,8 +217,8 @@ class Single_event {
 			}
 			
 		if(!in_array('duration', $hide) && ($class['IsCanceled'] != 1)){
-			$this->classStartTime = new DateTime($class['StartDateTime'], mz_mbo_198435_get_blog_timezone());
-			$this->classEndTime = new DateTime($class['EndDateTime'], mz_mbo_198435_get_blog_timezone());
+			$this->classStartTime = new DateTime($class['StartDateTime'], Schedule_Operations::get_blog_timezone());
+			$this->classEndTime = new DateTime($class['EndDateTime'], Schedule_Operations::get_blog_timezone());
 			if (phpversion() >= 5.3) {
 					$this->classLength = $this->classEndTime->diff($this->classStartTime);
 					$this->classLength = __('Duration:', 'mz-mindbody-api') . 
@@ -268,7 +268,7 @@ class Single_event {
 			'<br/>' . $this->classLength . 
 			$this->displayCancelled . '<br/>' . $this->locationNameDisplay . '</div>';
 		elseif ($this->calendar_format == 'events' || $this->calendar_format == 'overview'):
-			$image = new html_element('img');
+			$image = new mZoo\MBOAPI\HTML_Element('img');
 			$image->set('class', 'mz_event_image');
 			if (isset($this->classImage) && $this->classImage != '') {
 				$image->set('src', $this->classImage);
@@ -281,25 +281,25 @@ class Single_event {
 			$display_image = '';
 			}
 			if ($image != '') {
-				$image_container = new html_element('div');
+				$image_container = new mZoo\MBOAPI\HTML_Element('div');
 				$image_container->set('class', 'wp-caption mz_event_image_container');
-				$image_caption = new html_element('p');
+				$image_caption = new mZoo\MBOAPI\HTML_Element('p');
 				$image_caption->set('class', 'wp-caption-text');
 				$image_caption->set('text', $this->className);
 				$image_container->set('text', $image->build() . $image_caption->build());
 				$display_image = $image_container->build();
 			}
 			
-			$title = new html_element('h2');
+			$title = new mZoo\MBOAPI\HTML_Element('h2');
 			$title->set('text', $this->className);
 			$title->set('class', 'event_title ' . $this->class_name_css);
-			$teacher = new html_element('h3');
+			$teacher = new mZoo\MBOAPI\HTML_Element('h3');
 			$teacher->set('text', $this->teacher);
-			$times = new html_element('h4');
+			$times = new mZoo\MBOAPI\HTML_Element('h4');
 			$times->set('text', $this->event_start . ' - ' . $this->event_end);
 			
 			if (isset($this->locationNameDisplay) && $this->locationNameDisplay != ''):
-				$location = new html_element('h4');
+				$location = new mZoo\MBOAPI\HTML_Element('h4');
 				$the_word_at = __('at', 'mz-mindbody-api');
 				$location->set('text', $the_word_at . ' ' . $this->locationNameDisplay . ' ');
 				$location_display = $location->build();
@@ -307,7 +307,7 @@ class Single_event {
 				$location_display = '';
 			endif;
 			
-			$description = new html_element('p');
+			$description = new mZoo\MBOAPI\HTML_Element('p');
 			$description->set('text', $display_image . $this->classDescription);
 			$event_details = $title->build();
 			$event_details_array[0] = $teacher->build();
@@ -369,7 +369,7 @@ class Single_event {
 									$linkArray['data-staffImage'] = $this->staffImage;
 								endif;
 						
-				$class_name_link = new html_element('a');
+				$class_name_link = new mZoo\MBOAPI\HTML_Element('a');
 				$class_name_link->set('href', MZ_MINDBODY_SCHEDULE_URL . 'inc/modal_descriptions.php');
 				$class_name_link->set($linkArray);
 				return $class_name_link;
@@ -397,7 +397,7 @@ class Single_event {
 				$linkArray['data-nonce'] = $get_registrants_nonce;
 				$linkArray['data-target'] = "#mzStaffScheduleModal";  
 				$linkArray['data-classID'] = $this->class_title_ID;
-				$substitute_link = new html_element('a');
+				$substitute_link = new mZoo\MBOAPI\HTML_Element('a');
 				$substitute_link->set('text', $buttonLetter);
 				$substitute_link->set('href', MZ_MINDBODY_SCHEDULE_URL . 'inc/modal_descriptions.php');
 				$substitute_link->set($linkArray);
@@ -415,7 +415,7 @@ class Single_event {
 			$linkArray['data-nonce'] = $get_registrants_nonce;
 			$linkArray['data-target'] = "#mzStaffScheduleModal";  
 			$linkArray['data-classID'] = $this->class_title_ID;
-			$class_name_link = new html_element('a');
+			$class_name_link = new mZoo\MBOAPI\HTML_Element('a');
 			$class_name_link->set('text', $staffName);
 			$class_name_link->set('href', MZ_MINDBODY_SCHEDULE_URL . 'inc/modal_descriptions.php');
 			$class_name_link->set($linkArray);
@@ -462,8 +462,8 @@ class Single_event {
 		endif;
 		$signup_target = "_blank";
 		
-		$sign_up_link = new html_element('a');
-		$manage_link = new html_element('a');
+		$sign_up_link = new mZoo\MBOAPI\HTML_Element('a');
+		$manage_link = new mZoo\MBOAPI\HTML_Element('a');
 		
 		if ($advanced == 1):
 			$this->add_to_class_nonce = wp_create_nonce( 'mz_MBO_add_to_class_nonce');
@@ -475,7 +475,7 @@ class Single_event {
 				$this->signUpButtonID = 'mz_login';
 			else:
 				//$signupURL = '';
-				$sign_up_link = new html_element('a');
+				$sign_up_link = new mZoo\MBOAPI\HTML_Element('a');
 				//TODO figure out why next line is required to not break html_class
 				$sign_up_link->set('link', '');
 				$this->signUpButtonID = 'mz_add_to_class';
