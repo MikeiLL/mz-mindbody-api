@@ -398,8 +398,8 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 		if (isset($options['mz_mindbody_show_sub_link'])):
 			
 			require_once(MZ_MINDBODY_SCHEDULE_DIR . 'inc/get_schedule.php');
-			$get_class_owners = new MZ_Mindbody_Get_Schedule();
-			add_action('create_class_schedule_transient', array($get_class_owners, 'mZ_mindbody_get_schedule'));
+			$get_class_owners = new MZ_Get_Schedule();
+			add_action('create_class_schedule_transient', array($get_class_owners, 'MZ_Get_Schedule'));
 			// Activate cron job to populate list of teachers
 			// We delay it because of only one MBO call at a time being allowed.
 			$three_seconds_from_now = time() + 3000;

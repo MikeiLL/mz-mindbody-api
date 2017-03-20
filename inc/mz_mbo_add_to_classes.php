@@ -1,5 +1,5 @@
 <?php
-require_once('mz_activation.php');
+
 function mz_mindbody_add_to_classes() {
 	add_action('wp_loaded', 'initializeMBO');
 	$clientIDs = array(100004590);

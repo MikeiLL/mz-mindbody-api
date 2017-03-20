@@ -1,4 +1,5 @@
 <?php
+use mZoo\MBOAPI;
 /**
  * This file contains main plugin class and, defines and plugin loader.
  *
@@ -24,6 +25,9 @@
 if ( !defined( 'WPINC' ) ) {
     die;
 }
+
+require __DIR__ . "/src/Autoload.php";
+spl_autoload_register( [ new Loader\Autoload( 'mZoo', __DIR__ . '/src/' ), 'load' ] );
 
 //define plugin path and directory
 define( 'MZ_MINDBODY_SCHEDULE_DIR', plugin_dir_path( __FILE__ ) );
@@ -156,7 +160,7 @@ class MZ_Mindbody_API_Loader {
         }
  
         foreach ( $this->actions as $hook ) {
-        	if (($hook['callback'] == 'instantiate_mbo_API') && ($hook['component'] == 'MZ_Mindbody_Init')) {
+        	if (($hook['callback'] == 'mZoo\MBOAPI\instantiate_mbo_API') && ($hook['component'] == 'mZoo\MBOAPI\MZ_Mindbody_Init')) {
         		add_action( $hook['hook'], array( $hook['component'], $hook['callback'] ) );
         		//mz_pr(MZ_MBO_Instances::$instances_of_MBO);
         	}else{
@@ -193,10 +197,7 @@ class MZ_Mindbody_API {
 		foreach ( glob( plugin_dir_path( __FILE__ )."inc/*.php" ) as $file )
 			include_once $file;
 			
-			include_once(MZ_MINDBODY_SCHEDULE_DIR . 'mindbody-php-api/MB_API.php');
 			include_once(MZ_MINDBODY_SCHEDULE_DIR . 'lib/functions.php');
-			include_once(MZ_MINDBODY_SCHEDULE_DIR . 'lib/html_table.class.php');
-			include_once(MZ_MINDBODY_SCHEDULE_DIR . 'lib/schedule_objects.php');
         	
         $this->loader = new MZ_Mindbody_API_Loader();
     }
@@ -234,19 +235,19 @@ class MZ_Mindbody_API {
  
  	private function add_shortcodes() {
  	
- 		$schedule_display = new MZ_Mindbody_Schedule_Display();
- 		$mz_staff = new MZ_MBO_Staff();
- 		$mz_events = new MZ_MBO_Events();
- 		$mz_clients = new MZ_MBO_Clients();
- 		$get_schedule = new MZ_Mindbody_Get_Schedule();
+ 		$schedule_display = new MBOAPI\Schedule_Display();
+ 		$mz_staff = new mZoo\MBOAPI\MZ_Staff();
+ 		$mz_events = new mZoo\MBOAPI\MZ_Events();
+ 		$mz_clients = new mZoo\MBOAPI\MZ_Clients();
+ 		$get_schedule = new mZoo\MBOAPI\MZ_Get_Schedule();
  		
-        add_shortcode('mz-mindbody-show-schedule', array($schedule_display, 'mZ_mindbody_show_schedule'));
+        add_shortcode('mz-mindbody-show-schedule', array(new MBOAPI\Schedule_Display(), 'mZ_mindbody_show_schedule'));
         add_shortcode('mz-mindbody-staff-list', array($mz_staff, 'mZ_mindbody_staff_listing'));
         add_shortcode('mz-mindbody-show-events', array($mz_events, 'mZ_mindbody_show_events'));
         add_shortcode('mz-mindbody-login', array($mz_clients, 'mZ_mindbody_login'));
         add_shortcode('mz-mindbody-signup', array($mz_clients, 'mZ_mindbody_signup'));
         add_shortcode('mz-mindbody-logout', array($mz_clients, 'mZ_mindbody_logout'));
-        add_shortcode('mz-mindbody-get-schedule', array($get_schedule, 'mZ_mindbody_get_schedule'));
+        add_shortcode('mz-mindbody-get-schedule', array($get_schedule, 'MZ_Get_Schedule'));
 
     }
  
@@ -445,8 +446,8 @@ if ( is_admin() )
 function mz_mbo_reset_staff_callback() {
 	
 	require_once( MZ_MINDBODY_SCHEDULE_DIR .'inc/get_schedule.php' );
-  $classes_pages = new MZ_Mindbody_Get_Schedule();
-  $php_result = $classes_pages->mZ_mindbody_get_schedule('message');
+  $classes_pages = new MZ_Get_Schedule();
+  $php_result = $classes_pages->MZ_Get_Schedule('message');
   if (function_exists(mZ_write_to_file)) {
 	// This function is contained in 
 		//mZ_write_to_file($result);

@@ -1,12 +1,12 @@
 <?php
+namespace mZoo\MBOAPI;
 
-class MZ_MBO_Clients {
+class MZ_Clients {
 
 	private $mz_mbo_object;
 	private $mb;
 		
 	public function __construct(){
-		require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
 		$this->mz_mbo_object = new MZ_Mindbody_Init();
 	}
 
@@ -208,5 +208,5 @@ EOD;
 		return (isset($data[0])) ? $data : array($data);
 	}
 		
-}//EOF MZ_MBO_Clients
+}//EOF MZ_Clients
 ?>

@@ -1,11 +1,11 @@
 <?php
+namespace mZoo\MBOAPI;
 
-class MZ_MBO_Staff {
+class MZ_Staff {
 
 	private $mz_mbo_object;
 	
 	public function __construct(){
-		require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
 		$this->mz_mbo_object = new MZ_Mindbody_Init();
 	}
 
@@ -99,16 +99,16 @@ EFD;
 			$mz_staff_id = $staff_member['ID'];
 		  
 			if ($gallery == 0) {
-				$return .= '<div class="mz_mbo_staff_profile clearfix">';
-				$return .= '<div class="mz_mbo_staff_caption">';
+				$return .= '<div class="MZ_Staff_profile clearfix">';
+				$return .= '<div class="MZ_Staff_caption">';
 				$return .= '<h3>' . $mz_staff_name . '</h3>';
 				$return .= '</div>';
-				$return .= '<div class="mz_mbo_staff_bio">';
+				$return .= '<div class="MZ_Staff_bio">';
 				$return .= $mz_replace_dom_start . ' <img src="' . $mz_staff_image . '" alt="' . $mz_staff_name . '" class="img-responsive mz_modal_staff_image_body">';
 				$return .= $mz_staff_bio;
 				$return .= '</div>';
 				$return .= '</div>';
-				$return .= '<p class="mz_mbo_staff_schedule">';
+				$return .= '<p class="MZ_Staff_schedule">';
 				$return .= '<a href="'. $MBO_URL_PARTS[0] . $mz_site_id . $MBO_URL_PARTS[1] . $mz_staff_id . '" class="btn btn-info mz-btn-info" target="_blank">See ' . $mz_staff_name .'&apos;s Schedule</a>';
 				$return .= '</p>';
 				$return .= '<hr style="clear:both"/>';
@@ -155,5 +155,5 @@ EFD;
 	protected function sortById($a, $b) {
 		return $a['ID'] - $b['ID'];
 	}
-}//EOF MZ_MBO_Staff
+}//EOF MZ_Staff
 ?>

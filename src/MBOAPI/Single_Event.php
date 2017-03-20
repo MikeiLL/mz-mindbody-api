@@ -1,4 +1,5 @@
 <?php
+namespace mZoo\MBOAPI;
 
 class Single_event {
 	
@@ -80,7 +81,6 @@ class Single_event {
 															$delink, 
 															$account){
 															
-		include_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
 		$this->pluginoptions = MZ_MBO_shared::$mz_options;
 		$this->account = (isset($account) && $account !== 0) ? $account : $this->pluginoptions['mz_mindbody_siteID'];
 		$this->sign_up_title = __('Sign-Up', 'mz-mindbody-api');

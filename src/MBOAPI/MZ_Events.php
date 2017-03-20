@@ -1,12 +1,12 @@
-<?php 
+<?php
+namespace mZoo\MBOAPI;
 
-class MZ_MBO_Events {
+class MZ_Events {
 
 	private $mz_mbo_object;
 	private $initial_button_text;
 	
 	public function __construct(){
-		require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
 		$this->mz_mbo_object = new MZ_Mindbody_Init();
 	}
 	 	
@@ -235,5 +235,5 @@ class MZ_MBO_Events {
 		return (isset($data[0])) ? $data : array($data);
 	}
 
-}//EOF MZ_MBO_Events
+}//EOF MZ_Events
 ?>

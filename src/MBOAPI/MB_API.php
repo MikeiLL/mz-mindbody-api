@@ -1,4 +1,6 @@
 <?php
+namespace mZoo/MBOAPI;
+
 class MB_API {
 	protected $client;
 

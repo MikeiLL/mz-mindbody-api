@@ -1,9 +1,9 @@
 <?php
+namespace mZoo\MBOAPI;
 	
-class MZ_Mindbody_Get_Schedule {
+class MZ_Get_Schedule {
 	
 	public function __construct(){
-		require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
 		$this->mz_mbo_object = new MZ_Mindbody_Init();
 	}
 
@@ -13,7 +13,7 @@ class MZ_Mindbody_Get_Schedule {
 	 * which we can disambiguate it from any other classes which might contain common data
 	 * like Name, Description, Image.
 	*/
-	public function mZ_mindbody_get_schedule( $message='no message', $account=0 )
+	public function MZ_Get_Schedule( $message='no message', $account=0 )
 	{
 	
 		$mz_date = new DateTime(null, mz_mbo_198435_get_blog_timezone());
@@ -90,10 +90,10 @@ class MZ_Mindbody_Get_Schedule {
 		if($message == 'message'):
 			return __('Classes and teachers as regularly scheduled reloaded.', 'mz-mindbody-api');
 		endif;
-		} // EOF mZ_mindbody_get_schedule
+		} // EOF MZ_Get_Schedule
 	
 	
-}// EOF MZ_Mindbody_Get_Schedule Class
+}// EOF MZ_Get_Schedule Class
 
 
 

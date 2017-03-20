@@ -1,4 +1,5 @@
 <?php
+namespace mZoo\MBOAPI;
 /* 
     PHP Table Class from Dynamic Web Coding at dyn-web.com
     Copyright 2001-2014 by Sharon Paine

@@ -26,7 +26,6 @@ class Autoload
 	 */
 	public function __construct( $namespace, $dir )
 	{
-		echo $namespace . " ";
 		// Make sure it ends with a '\'.
 		$namespace       = rtrim( $namespace, '\\' ) . '\\';
 		$this->namespace = $namespace;
@@ -48,10 +47,5 @@ class Autoload
 		if ( is_readable( $path ) ) {
 			require $path;
 		}
-		echo "Search = " . $search . '<br/>';
-		echo "Namespace = " . $this->namespace . '<br/>';
-		echo "Length = " . $this->length . '<br/>';
-		echo "Path = " . $path . '<br/>';
-		echo "Dir = " . $this->dir . '<br/>';
 	}
 }

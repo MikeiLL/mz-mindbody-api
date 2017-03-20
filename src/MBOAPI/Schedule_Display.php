@@ -1,6 +1,7 @@
 <?php
+namespace mZoo\MBOAPI;
 	
-class MZ_Mindbody_Schedule_Display {
+class Schedule_Display {
 
 	private $mz_mbo_object;
 	private $locations_dictionary = array();
@@ -21,7 +22,6 @@ class MZ_Mindbody_Schedule_Display {
 	public $delink = 0;
 	
 	public function __construct(){
-		require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
 		$this->mz_mbo_object = new MZ_Mindbody_Init();
 		$this::$time_tracker = date('Fd', strtotime("today"));
 	}
@@ -641,7 +641,7 @@ class MZ_Mindbody_Schedule_Display {
 		print '<pre>$transients = ' . esc_html( var_export( $transients, TRUE ) ) . '</pre>';
 		}
 	
-}// EOF MZ_Mindbody_Schedule_Display Class
+}// EOF Schedule_Display Class
 
 
 

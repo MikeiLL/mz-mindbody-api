@@ -1,10 +1,9 @@
 <?php
+namespace mZoo\MBOAPI;
 /**
- * This file contains a class that holds some "global" variables and the class that instantiates the MBO object.
+ * This file contains a class that holds some "global" variables used throughout the plugin.
  *
- * This file contains global variables and the class that instantiates the MBO object. Possible it should be
- * moved into the lib directory instead of inc, as it's more of a library than an include file. The inc folder
- * mostly contains files which display something in the browser.
+ * This file contains global variables used throughout the plugin.
  *
  * @since 2.1.0
  *
@@ -18,7 +17,7 @@
  * @since    2.4.0
  */
  
-new MZ_MBO_shared();
+new __NAMESPACE__ . \MZ_MBO_shared();
 class MZ_MBO_shared {
 	static $mz_date_display = "l, F j";
 	static $mz_options;
