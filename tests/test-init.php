@@ -33,7 +33,6 @@ class InitilizationTest extends WP_UnitTestCase {
 					'mz_mindbody_eventID'=>''
 				);
 				add_option( 'mz_mindbody_options', $options, '', 'yes' );
-				$mb = mZoo\MBOAPI\MZ_Mindbody_Init::instantiate_mbo_API();
 				$timeframe = array_slice(mZoo\MBOAPI\Schedule_Operations::mz_getDateRange(date_i18n('Y-m-d'), 1), 0, 1);
 	  		$mb = mZoo\MBOAPI\MZ_Mindbody_Init::instantiate_mbo_API();
 	  		$test = $mb->GetClasses($timeframe);
