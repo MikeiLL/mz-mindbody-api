@@ -76,6 +76,7 @@ svn propset svn:ignore "deploy.sh
 README.md
 bower_components
 node_modules
+tests
 .DS_Store
 .gitmodules
 advanced
@@ -86,8 +87,6 @@ package.json
 .travis.yml
 bin/install-wp-tests.sh
 phpunit.xml.dist
-tests/bootstrap.php
-tests/test-sample.php
 .git
 .gitignore" "$SVNPATH/trunk/"
 
