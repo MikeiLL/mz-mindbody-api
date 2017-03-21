@@ -15,7 +15,7 @@ class InitilizationTest extends WP_UnitTestCase {
 	 */
 	function test_instantiate_api() {
 				$this->assertTrue( class_exists( 'mZoo\MBOAPI\MZ_Mindbody_Init' ) );
-				$mb = MZ_Mindbody_Init::instantiate_mbo_API();
+				$mb = mZoo\MBOAPI\MZ_Mindbody_Init::instantiate_mbo_API();
 	}
 	
 	
