@@ -1,5 +1,5 @@
 <?php
-namespace mZoo/MBOAPI;
+namespace mZoo\MBOAPI;
 
 class MB_API {
 	protected $client;
@@ -35,12 +35,17 @@ class MB_API {
 			'StaffService' => $this->staffServiceWSDL
 		);
 		// set apiMethods array with available methods from Mindbody services
-
-		if (phpversion() >= 5.3) {
-            include_once('php_variants/construct_newer.php');
-        }else{
-            include_once('php_variants/construct_older.php');
-        }
+		foreach($this->apiServices as $serviceName => $serviceWSDL) {
+			$this->client = new \SoapClient($serviceWSDL, $this->soapOptions);
+			$this->apiMethods = array_merge($this->apiMethods, array($serviceName=>array_map(
+				function($n){
+					$start = 1+strpos($n, ' ');
+					$end = strpos($n, '(');
+					$length = $end - $start;
+					return substr($n, $start, $length);
+				}, $this->client->__getFunctions()
+			)));	
+		}
 		
 		// set sourceCredentials
 		if(!empty($sourceCredentials)) {
