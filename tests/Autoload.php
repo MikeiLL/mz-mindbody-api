@@ -28,7 +28,6 @@ class Autoload
 		$this->namespace = $namespace;
 		$this->length    = strlen( $namespace );
 		$this->dir       = rtrim( $dir, '/' ) . '/';
-		var_dump($this);
 	}
 	/**
 	 * @param string $search
@@ -45,8 +44,6 @@ class Autoload
 		if ( is_readable( $path ) ) {
 			require $path;
 		}
-		echo $name . '\n';
-		echo $path;
 	}
 }
 ?>
