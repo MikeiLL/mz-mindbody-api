@@ -30,8 +30,8 @@ class Schedule_Operations {
 			adapted from http://stackoverflow.com/questions/186431/calculating-days-of-week-given-a-week-number
 			*/
 			$seconds_in_a_day = 86400;
-			$start = new DateTime($date);
-			$now = new DateTime(null, $self::get_blog_timezone());
+			$start = new \DateTime($date);
+			$now = new \DateTime(null, self::get_blog_timezone());
 			switch ($now->format('l')) {
 				case 'Tuesday':
 					$into_following_week = 1;
@@ -57,10 +57,10 @@ class Schedule_Operations {
 			$end = clone $start;
 			$previous = clone $start;
 			$subsequent = clone $start;
-			$subsequent->add(new DateInterval('P'. ($duration) .'D'));
-			$end->add(new DateInterval('P'. ($duration + $into_following_week) .'D'));
-			$previous->sub(new DateInterval('P'. $duration .'D'));
-			$return[0] = array('StartDateTime'=> $start->format('Y-m-d'), 'EndDateTime'=> $end->format('Y-m-d'));
+			$subsequent->add(new \DateInterval('P'. ($duration) .'D'));
+			$end->add(new \DateInterval('P'. ($duration + $into_following_week) .'D'));
+			$previous->sub(new \DateInterval('P'. $duration .'D'));
+			$return[0] = array('Start\DateTime'=> $start->format('Y-m-d'), 'End\DateTime'=> $end->format('Y-m-d'));
 
 			$return[1] = $subsequent->modify('Monday this week')->format('Y-m-d'); 
 			$return[2] = $previous->modify('Monday this week')->format('Y-m-d');
@@ -72,12 +72,12 @@ class Schedule_Operations {
 	 *  Returns the blog timezone
 	 *
 	 * Gets timezone settings from the db. If a timezone identifier is used just turns
-	 * it into a DateTimeZone. If an offset is used, it tries to find a suitable timezone.
+	 * it into a \DateTimeZone. If an offset is used, it tries to find a suitable timezone.
 	 * If all else fails it uses UTC.
 	 *
 	 * Source: http://wordpress.stackexchange.com/a/198453/48604
 	 *
-	 * @return DateTimeZone The blog timezone
+	 * @return \DateTimeZone The blog timezone
 	*/
 	public static function get_blog_timezone() {
 
@@ -99,11 +99,11 @@ class Schedule_Operations {
 					$tzstring = 'UTC';
 			}
 
-			if( $tzstring instanceof DateTimeZone ){
+			if( $tzstring instanceof \DateTimeZone ){
 					return $tzstring;
 			}
 
-			$timezone = new DateTimeZone( $tzstring );
+			$timezone = new \DateTimeZone( $tzstring );
 			return $timezone; 
 	}
 	
@@ -119,8 +119,8 @@ class Schedule_Operations {
 	 * @return array Start Date, End Date and Previous Range Start Date.
 	 */	
 	public static function current_to_day_of_week_today() {
-		$current = isset($_GET['mz_date']) ? new DateTime($_GET['mz_date'], $self::get_blog_timezone()) : new DateTime(null, $self::get_blog_timezone());
-		$today = new DateTime(null, $self::get_blog_timezone());
+		$current = isset($_GET['mz_date']) ? new \DateTime($_GET['mz_date'], self::get_blog_timezone()) : new \DateTime(null, self::get_blog_timezone());
+		$today = new \DateTime(null, self::get_blog_timezone());
 		$current_day_name = $today->format('D');
 		$days_of_the_week = array(
 			'Mon', 

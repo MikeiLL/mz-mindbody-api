@@ -107,7 +107,7 @@ class MB_API {
 		if(!empty($this->userCredentials)) {
 			$request = array_merge(array("UserCredentials"=>$this->userCredentials), $request);
 		}
-		$this->client = new SoapClient($this->apiServices[$serviceName], $this->soapOptions);
+		$this->client = new \SoapClient($this->apiServices[$serviceName], $this->soapOptions);
 		try {
 			$result = $this->client->$methodName(array("Request"=>$request));
 			if($returnObject) {

@@ -1,0 +1,9 @@
+<?php
+namespace MBOTests;
+//Save me as Test_Options.php in the tests directory.
+
+class Test_Options {
+	public static $_MYSOURCENAME='Your MBO API Source Name';
+	public static $_MYPASSWORD='Your MBO API Password';
+}
+?>

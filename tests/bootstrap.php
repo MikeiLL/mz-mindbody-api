@@ -13,6 +13,10 @@ if ( ! $_tests_dir ) {
 // Give access to tests_add_filter() function.
 require_once $_tests_dir . '/includes/functions.php';
 
+//Pull in our Autoloader
+require __DIR__ . "/Autoload.php";
+spl_autoload_register( [ new MBOLoader\Autoload( 'MBOTests', __DIR__ . '' ), 'load' ] );
+
 /**
  * Manually load the plugin being tested.
  */
