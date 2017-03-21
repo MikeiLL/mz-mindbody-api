@@ -1,9 +1,8 @@
 <?php
 /**
- * Class SampleTest
+ * Class InitilizationTest
  *
  * @package Mz_Mindbody_Api
- * Check https://github.com/rnagle/wordpress-unit-tests/blob/master/includes/factory.php for details on WP  unit test factory
  */
 
 /**
