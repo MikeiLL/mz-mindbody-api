@@ -155,6 +155,9 @@ class MZ_Mindbody_API_Loader {
      */
     public function run() {
      
+     		// Add Session actions for user login and logout MBO 
+     		// This seems like a bit of a hack. TODO, confirm this works and
+     		// figure out a more appropriate place to add these actions.
         add_action( 'init', $this, 'myStartSession' );
         add_action( 'wp_logout', $this, 'myStartSession' );
         add_action( 'wp_login', $this, 'myEndSession' );
@@ -166,7 +169,6 @@ class MZ_Mindbody_API_Loader {
         foreach ( $this->actions as $hook ) {
         	if (($hook['callback'] == 'mZoo\MBOAPI\instantiate_mbo_API') && ($hook['component'] == 'mZoo\MBOAPI\MZ_Mindbody_Init')) {
         		add_action( $hook['hook'], array( $hook['component'], $hook['callback'] ) );
-        		//mz_pr(MZ_MBO_Instances::$instances_of_MBO);
         	}else{
             	add_action( $hook['hook'], array( $hook['component'], $hook['callback'] ) );
             }
