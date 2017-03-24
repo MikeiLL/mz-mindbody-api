@@ -146,7 +146,7 @@ class MZ_Events {
 					//TODO Make this work - displaying number 20 with one event (correct on first page with 5 events).
 					//$return .= ': ' . $number_of_events . ' '.__('event(s)').'</p>';
 
-					$return .= mz_mbo_schedule_nav($mz_date, "Events", MZ_MBO_shared::$mz_event_calendar_duration);
+					$return .= render_schedule_navigation($mz_date, "Events", MZ_MBO_shared::$mz_event_calendar_duration);
 					if ($list_only != 1):
 						$event_container = new mZoo\MBOAPI\HTML_Element('div');
 					else:
@@ -226,7 +226,7 @@ class MZ_Events {
 		{
 			$return .= '<h2>'.__('Error: MBO Event Type IDs must be set in Admin Panel', 'mz-mindbody-api').'</h2>';
 		}
-		$return .= mz_mbo_schedule_nav($mz_date, _n("Event", "Events", 'mz-mindbody-api'), MZ_MBO_shared::$mz_event_calendar_duration);
+		$return .= render_schedule_navigation($mz_date, _n("Event", "Events", 'mz-mindbody-api'), MZ_MBO_shared::$mz_event_calendar_duration);
 		return $return;
 
 	}//EOF mZ_mindbody_show_events
