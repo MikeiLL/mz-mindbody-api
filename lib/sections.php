@@ -217,8 +217,7 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 	}
 
 	function mz_mindbody_section_text() { 
-		require_once(MZ_MINDBODY_SCHEDULE_DIR .'/lib/functions.php');
-		$globals = new Global_Strings();
+		$globals = new mZoo\MBOAPI\Global_Strings();
 		$global_strings = $globals->translate_them();
 		$password = $global_strings['password'];
 		$login_url = $global_strings['login_url'];
@@ -302,15 +301,13 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 	
 		add_action( 'wp_footer', 'mz_mindbody_debug_text' );
 	function mz_mindbody_debug_text() {
-	  require_once MZ_MINDBODY_SCHEDULE_DIR .'mindbody-php-api/MB_API.php';
-	  require_once MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc';
 	  echo "<p>";
 	  printf(__('Once credentials have been set and activated, look for %1$s in the 
 	  GetClassesResponse box below to confirm settings are correct.',  'mz-mindbody-api'),
 	  '<code>&lt;ErrorCode&gt;200&lt;/ErrorCode&gt;</code>');
 	  echo "</p>";
-	  $mz_timeframe = array_slice(Schedule_Operations::mz_getDateRange(date_i18n('Y-m-d'), 1), 0, 1);
-	  $mb = MZ_Mindbody_Init::instantiate_mbo_API();
+	  $mz_timeframe = array_slice(mZoo\MBOAPI\Schedule_Operations::mz_getDateRange(date_i18n('Y-m-d'), 1), 0, 1);
+	  $mb = mZoo\MBOAPI\MZ_Mindbody_Init::instantiate_mbo_API();
 	  $test = $mb->GetClasses($mz_timeframe);
 	  $mb->debug();
 	  echo "<br/>";
