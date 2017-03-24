@@ -30,7 +30,7 @@ class InitilizationTest extends WP_UnitTestCase {
 					'mz_source_name'=>MBOTests\Test_Options::$_MYSOURCENAME,
 					'mz_mindbody_password'=>MBOTests\Test_Options::$_MYPASSWORD,
 					'mz_mindbody_siteID'=>'-99',
-					'mz_mindbody_eventID'=>''
+					'mz_mindbody_eventID'=>MBOTests\Test_Options::$_MYEVENTIDS
 				);
 				add_option( 'mz_mindbody_options', $options, '', 'yes' );
 				$timeframe = array_slice(mZoo\MBOAPI\Schedule_Operations::mz_getDateRange(date_i18n('Y-m-d'), 1), 0, 1);
