@@ -154,6 +154,10 @@ class MZ_Mindbody_API_Loader {
      * Calls the add methods for above referenced filters and actions and registers them with WordPress.
      */
     public function run() {
+     
+        add_action( 'init', $this, 'myStartSession' );
+        add_action( 'wp_logout', $this, 'myStartSession' );
+        add_action( 'wp_login', $this, 'myEndSession' );
  		
         foreach ( $this->filters as $hook ) {
             add_filter( $hook['hook'], array( $hook['component'], $hook['callback'] ) );
@@ -169,6 +173,22 @@ class MZ_Mindbody_API_Loader {
         }
  
     }
+  	
+  	 public function myStartSession() {
+			if ((function_exists('session_status') && session_status() !== PHP_SESSION_ACTIVE) || !session_id()) {
+				  session_start();
+				}
+		}
+
+    public function myEndSession() {
+    /* Following line to deal with Warning: session_destroy(): Trying to destroy uninitialized session
+    when auto-logged out of WP admin session. */
+    	if(!isset($_SESSION)) 
+    		{ 
+        	session_destroy(); 
+    		} 
+			
+		}
  
 }
 
@@ -210,28 +230,8 @@ class MZ_Mindbody_API {
     }
     
     private function define_main_hooks() {
- 
-        //$this->loader->add_action( 'init', $this, 'myStartSession' );
-        $this->loader->add_action( 'wp_logout', $this, 'myStartSession' );
-        $this->loader->add_action( 'wp_login', $this, 'myEndSession' );
         
         }
-
-    public function myStartSession() {
-			if ((function_exists('session_status') && session_status() !== PHP_SESSION_ACTIVE) || !session_id()) {
-				  session_start();
-				}
-		}
-
-    public function myEndSession() {
-    /* Following line to deal with Warning: session_destroy(): Trying to destroy uninitialized session
-    when auto-logged out of WP admin session. */
-    	if(!isset($_SESSION)) 
-    		{ 
-        	session_destroy(); 
-    		} 
-			
-		}
  
  	private function add_shortcodes() {
  	
