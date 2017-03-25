@@ -473,7 +473,6 @@ function mz_mbo_reset_staff_callback() {
  }
  //End Ajax Reset Main Schedule
 
- require_once('lib/functions.php'); // for testing functions
  //Start Ajax Get Registrants
  add_action('wp_ajax_nopriv_mz_mbo_get_registrants', 'mz_mbo_get_registrants_callback');
  add_action('wp_ajax_mz_mbo_get_registrants', 'mz_mbo_get_registrants_callback');	
