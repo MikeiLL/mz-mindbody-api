@@ -49,10 +49,10 @@ class Sorter {
 	
 		if (isset($_GET['mz_date'])):
 			// If user has requested a specific start date, return dates for that period
-			list($current, $current_date_string) = Schedule_Operations::Schedule_Operations::current_to_day_of_week_today();
+			list($current, $current_date_string) = Schedule_Operations::current_to_day_of_week_today();
 		else:
-			$current = new \DateTime(null, Schedule_Operations::Schedule_Operations::get_blog_timezone());
-			$blog_timezone = new \DateTime(null, Schedule_Operations::Schedule_Operations::get_blog_timezone());
+			$current = new \DateTime(null, Schedule_Operations::get_blog_timezone());
+			$blog_timezone = new \DateTime(null, Schedule_Operations::get_blog_timezone());
 			$current_date_string = $blog_timezone->format('Y-m-d');
 		endif;
 	
@@ -169,17 +169,17 @@ class Sorter {
 		// Note: $_GET['mz_date'] is always a Monday.
 		if (isset($_GET['mz_date'])):
 
-			$end_of_range = new \DateTime($_GET['mz_date'], Schedule_Operations::Schedule_Operations::get_blog_timezone());
+			$end_of_range = new \DateTime($_GET['mz_date'], Schedule_Operations::get_blog_timezone());
 			$end_of_range->add(new \DateInterval('P1W'));
 		else:
-			$end_of_range = new \DateTime(null, Schedule_Operations::Schedule_Operations::get_blog_timezone());
+			$end_of_range = new \DateTime(null, Schedule_Operations::get_blog_timezone());
 			$end_of_range->add(new \DateInterval('P1W'));
 		endif;
 										
 		foreach($mz_classes as $class)
 		{
 			// Ignore classes that are not part of current week (ending Sunday)
-			if (new \DateTime($class['StartDateTime'], Schedule_Operations::Schedule_Operations::get_blog_timezone()) >= $end_of_range):
+			if (new \DateTime($class['StartDateTime'], Schedule_Operations::get_blog_timezone()) >= $end_of_range):
 				continue;
 			endif;
 		
@@ -245,7 +245,7 @@ class Sorter {
 					}
 					return $a->startDateTime < $b->startDateTime ? -1 : 1;
 				}); 
-			$mz_classes['classes'] = Schedule_Operations::Schedule_Operations::week_of_timeslot($mz_classes['classes'], 'day_num');
+			$mz_classes['classes'] = Schedule_Operations::week_of_timeslot($mz_classes['classes'], 'day_num');
 		}
 		return $mz_classesByTime;
 	}

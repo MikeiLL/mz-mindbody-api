@@ -31,7 +31,7 @@ class Schedule_Operations {
 			*/
 			$seconds_in_a_day = 86400;
 			$start = new \DateTime($date);
-			$now = new \DateTime(null, self::Schedule_Operations::get_blog_timezone());
+			$now = new \DateTime(null, self::get_blog_timezone());
 			switch ($now->format('l')) {
 				case 'Tuesday':
 					$into_following_week = 1;
@@ -119,8 +119,8 @@ class Schedule_Operations {
 	 * @return array Start Date, End Date and Previous Range Start Date.
 	 */	
 	public static function current_to_day_of_week_today() {
-		$current = isset($_GET['mz_date']) ? new \DateTime($_GET['mz_date'], self::Schedule_Operations::get_blog_timezone()) : new \DateTime(null, self::Schedule_Operations::get_blog_timezone());
-		$today = new \DateTime(null, self::Schedule_Operations::get_blog_timezone());
+		$current = isset($_GET['mz_date']) ? new \DateTime($_GET['mz_date'], self::get_blog_timezone()) : new \DateTime(null, self::get_blog_timezone());
+		$today = new \DateTime(null, self::get_blog_timezone());
 		$current_day_name = $today->format('D');
 		$days_of_the_week = array(
 			'Mon', 
@@ -133,7 +133,7 @@ class Schedule_Operations {
 		);
 		foreach($days_of_the_week as $day_name):
 			if ($current_day_name != $day_name):
-				$current->add(new DateInterval('P1D'));
+				$current->add(new \DateInterval('P1D'));
 			else:
 				break;
 			endif;
