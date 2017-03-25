@@ -208,6 +208,8 @@ class MZ_Mindbody_API {
     
     private function define_main_hooks() {
         // Add Session actions for user login and logout MBO 
+        //TODO Avoid Sessions Entirely if possible
+        // see: https://pressjitsu.com/blog/wordpress-sessions-performance/
         add_action( 'template_redirect', $this, 'StartSession', 1 );
         add_action( 'wp_logout', $this, 'StartSession' );
         add_action( 'wp_login', $this, 'EndSession' );
