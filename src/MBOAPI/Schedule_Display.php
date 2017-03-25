@@ -55,6 +55,29 @@ class Schedule_Display {
 			
 		wp_localize_script( 'mz_mbo_bootstrap_script', 'mz_mbo_bootstrap_script', $main_js_params);
  	}
+ 	
+ 			// Start Ajax Get Staff Functions
+		 public function mZ_get_staff() {
+			wp_register_script('mZ_get_staff', plugins_url('/mz-mindbody-api/dist/scripts/ajax-mbo-get-staff.js'), array('jquery'), null, true);
+			wp_enqueue_script('mZ_get_staff');
+			}
+ 
+			public function ajax_mbo_get_staff_js() {
+
+			//Force page protocol to match current
+			$protocol = isset( $_SERVER["HTTPS"]) ? 'https://' : 'http://';
+ 
+			$params = array(
+				'ajaxurl' => admin_url( 'admin-ajax.php', $protocol ),
+				'no_bio' => __('No biography listed for this staff member.', 'mz-mindbody-api'),
+				'sub_by_text' => __('Sub for', 'mz-mindbody-api')
+				);
+	
+			wp_localize_script( 'mZ_get_staff', 'mZ_get_staff', $params);
+
+			}
+		 
+		// End Ajax Get Staff Functions
 	
 	public function mZ_mindbody_show_schedule( $atts, $account=0 )
 	{
@@ -202,32 +225,11 @@ class Schedule_Display {
 		}
 		
 		$mz_schedule_data = get_transient( $mz_schedule_cache );
-
-		// Start Ajax Get Staff
-		 function mZ_get_staff() {
-			wp_register_script('mZ_get_staff', plugins_url('/mz-mindbody-api/dist/scripts/ajax-mbo-get-staff.js'), array('jquery'), null, true);
-			wp_enqueue_script('mZ_get_staff');
-			}
-	
+		
 		 //Enqueue script in footer
-		 add_action('wp_footer', 'mZ_get_staff');
-		 add_action('wp_footer', 'ajax_mbo_get_staff_js');
- 
-			function ajax_mbo_get_staff_js() {
-
-			//Force page protocol to match current
-			$protocol = isset( $_SERVER["HTTPS"]) ? 'https://' : 'http://';
- 
-			$params = array(
-				'ajaxurl' => admin_url( 'admin-ajax.php', $protocol ),
-				'no_bio' => __('No biography listed for this staff member.', 'mz-mindbody-api'),
-				'sub_by_text' => __('Sub for', 'mz-mindbody-api')
-				);
-	
-			wp_localize_script( 'mZ_get_staff', 'mZ_get_staff', $params);
-
-			}
-		// End Ajax Get Staff
+		 add_action('wp_footer', array( $this, 'mZ_get_staff'));
+		 add_action('wp_footer', array( $this, 'ajax_mbo_get_staff_js'));
+		 
 		$return = '';
 		
 		if(!empty($mz_schedule_data['GetClassesResult']['Classes']['Class']))
