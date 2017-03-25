@@ -87,6 +87,7 @@ package.json
 .travis.yml
 bin/install-wp-tests.sh
 phpunit.xml.dist
+phpcs.ruleset.xml
 .git
 .gitignore" "$SVNPATH/trunk/"
 
