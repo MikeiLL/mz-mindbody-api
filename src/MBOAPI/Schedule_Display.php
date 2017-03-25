@@ -151,7 +151,7 @@ class Schedule_Display {
 		}
 		$this->locations_count = count($this->locations);
 		
-		$mz_date = empty($_GET['mz_date']) ? date_i18n('Y-m-d',current_time('timestamp')) : mz_validate_date($_GET['mz_date']);
+		$mz_date = empty($_GET['mz_date']) ? date_i18n('Y-m-d',current_time('timestamp')) : Schedule_Operations::mz_validate_date($_GET['mz_date']);
 		
 		//Add date to cache
 		if (!empty($_GET['mz_date'])) {
@@ -162,7 +162,7 @@ class Schedule_Display {
 
 		$hide = explode(', ', $atts['hide']);
 		$which_monday = (strtotime('this monday') > current_time('timestamp')) ? 'last monday' : 'this monday';
-		$this->mz_date_grid = empty($_GET['mz_date']) || ( $_GET['mz_date'] == date_i18n('Y-m-d',current_time('timestamp')) ) ? date_i18n('Y-m-d',strtotime($which_monday)) : mz_validate_date($_GET['mz_date']);
+		$this->mz_date_grid = empty($_GET['mz_date']) || ( $_GET['mz_date'] == date_i18n('Y-m-d',current_time('timestamp')) ) ? date_i18n('Y-m-d',strtotime($which_monday)) : Schedule_Operations::mz_validate_date($_GET['mz_date']);
 
 		if ($type=='day')
 			{

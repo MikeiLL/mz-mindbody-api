@@ -76,7 +76,7 @@ class MZ_Events {
 
 		$return = '';
 
-		$mz_date = empty($_GET['mz_date']) ? date_i18n('Y-m-d') : mz_validate_date($_GET['mz_date']);
+		$mz_date = empty($_GET['mz_date']) ? date_i18n('Y-m-d') : Schedule_Operations::mz_validate_date($_GET['mz_date']);
 		
 		// only make API call if we have array session types set in Admin
 		if (!empty($mz_sessions) && ($mz_sessions[0] != 0))

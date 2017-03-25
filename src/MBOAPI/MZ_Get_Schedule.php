@@ -16,7 +16,7 @@ class MZ_Get_Schedule {
 	public function MZ_Get_Schedule( $message='no message', $account=0 )
 	{
 	
-		$mz_date = new \DateTime(null, Schedule_Operations::get_blog_timezone());
+		$mz_date = new \DateTime(null, Schedule_Operations::Schedule_Operations::get_blog_timezone());
 		$mz_date = $mz_date->format('Y-m-d H:i:s');
 		$mz_timeframe = array_slice(Schedule_Operations::mz_getDateRange($mz_date, 30), 0, 1);
 
@@ -45,7 +45,7 @@ class MZ_Get_Schedule {
 			$class_count++;
 			// Initialize array 
 			$day_of_class = array();
-			$classStartTime = new \DateTime($class['StartTime'], Schedule_Operations::get_blog_timezone());
+			$classStartTime = new \DateTime($class['StartTime'], Schedule_Operations::Schedule_Operations::get_blog_timezone());
 			if (isset($class['DaySunday']) && ($class['DaySunday'] == 1)):
 				$day_of_class['Sunday'] = 1;
 			endif;
