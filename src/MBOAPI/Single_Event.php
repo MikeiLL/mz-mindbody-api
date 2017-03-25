@@ -217,8 +217,8 @@ class Single_event {
 			}
 			
 		if(!in_array('duration', $hide) && ($class['IsCanceled'] != 1)){
-			$this->classStartTime = new DateTime($class['StartDateTime'], Schedule_Operations::get_blog_timezone());
-			$this->classEndTime = new DateTime($class['EndDateTime'], Schedule_Operations::get_blog_timezone());
+			$this->classStartTime = new \DateTime($class['StartDateTime'], Schedule_Operations::get_blog_timezone());
+			$this->classEndTime = new \DateTime($class['EndDateTime'], Schedule_Operations::get_blog_timezone());
 			if (phpversion() >= 5.3) {
 					$this->classLength = $this->classEndTime->diff($this->classStartTime);
 					$this->classLength = __('Duration:', 'mz-mindbody-api') . 
