@@ -1,7 +1,14 @@
 <?php
 namespace mZoo\MBOAPI;
 
-class Navigation () {
+class Navigation {
+	/*
+	 * Static Class to Contain Schedule Page Navigation
+	 */
+	 
+	/*
+	 * TODO Document Me
+	 */
 	public static function render_schedule_navigation($date, $period, $duration=7)
 	{
 		$sched_nav = '<div class="mz_schedule_nav_holder">';
