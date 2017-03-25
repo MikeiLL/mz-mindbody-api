@@ -218,9 +218,7 @@ class MZ_Mindbody_API {
 
 		foreach ( glob( plugin_dir_path( __FILE__ )."inc/*.php" ) as $file )
 			include_once $file;
-			
-			include_once(MZ_MINDBODY_SCHEDULE_DIR . 'lib/functions.php');
-        	
+			        	
         $this->loader = new MZ_Mindbody_API_Loader();
     }
  
