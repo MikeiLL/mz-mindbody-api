@@ -300,7 +300,7 @@ class Schedule_Display {
 
 			$return .= '<div id="mz_mbo_schedule" class="mz_mbo_schedule">';
 			if ($type==__('week','mz-mindbody-api')){
-				$return .= render_schedule_navigation($mz_date, __('Week', 'mz-mindbody-api'));
+				$return .= Navigation::render_schedule_navigation($mz_date, __('Week', 'mz-mindbody-api'));
 			}
 
 		$table_class = ($filter == 1) ? 'mz-schedule-filter' : 'mz-schedule-table';
@@ -402,7 +402,7 @@ class Schedule_Display {
 		// Add "footer" Items
 		if ($type=='week'):
 				// schedule navigation
-				$return .= render_schedule_navigation($mz_date, __('Week', 'mz-mindbody-api'));
+				$return .= Navigation::render_schedule_navigation($mz_date, __('Week', 'mz-mindbody-api'));
 		endif;
 			
 			$return .= '<div id="mzModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mzSmallModalLabel" aria-hidden="true"></div>';
@@ -419,7 +419,7 @@ class Schedule_Display {
 			else
 			{
 				if ($type=='week'):
-					$return = render_schedule_navigation($mz_date, __('Week', 'mz-mindbody-api'));
+					$return = Navigation::render_schedule_navigation($mz_date, __('Week', 'mz-mindbody-api'));
 					$return .= '<br/>';
 				endif;
 				$return .= __('Error getting classes. Try re-loading the page.',' mz-mindbody-api') . '<br />';
