@@ -3,7 +3,7 @@ namespace mZoo\MBOAPI;
 /* create an html element, like in js 
  * Source: https://davidwalsh.name/create-html-elements-php-htmlelement-class
  */
-class mZoo\MBOAPI\HTML_Element
+class HTML_Element
 {
 	/* vars */
 	var $type;
