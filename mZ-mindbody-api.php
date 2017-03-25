@@ -154,13 +154,6 @@ class MZ_Mindbody_API_Loader {
      * Calls the add methods for above referenced filters and actions and registers them with WordPress.
      */
     public function run() {
-     
-     		// Add Session actions for user login and logout MBO 
-     		// This seems like a bit of a hack. TODO, confirm this works and
-     		// figure out a more appropriate place to add these actions.
-        add_action( 'init', $this, 'myStartSession' );
-        add_action( 'wp_logout', $this, 'myStartSession' );
-        add_action( 'wp_login', $this, 'myEndSession' );
  		
         foreach ( $this->filters as $hook ) {
             add_filter( $hook['hook'], array( $hook['component'], $hook['callback'] ) );
@@ -175,22 +168,6 @@ class MZ_Mindbody_API_Loader {
         }
  
     }
-  	
-  	 public function myStartSession() {
-			if ((function_exists('session_status') && session_status() !== PHP_SESSION_ACTIVE) || !session_id()) {
-				  session_start();
-				}
-		}
-
-    public function myEndSession() {
-    /* Following line to deal with Warning: session_destroy(): Trying to destroy uninitialized session
-    when auto-logged out of WP admin session. */
-    	if(!isset($_SESSION)) 
-    		{ 
-        	session_destroy(); 
-    		} 
-			
-		}
  
 }
 
@@ -230,9 +207,28 @@ class MZ_Mindbody_API {
     }
     
     private function define_main_hooks() {
-        
+        // Add Session actions for user login and logout MBO 
+        add_action( 'template_redirect', $this, 'StartSession', 1 );
+        add_action( 'wp_logout', $this, 'StartSession' );
+        add_action( 'wp_login', $this, 'EndSession' );
         }
- 
+        
+  	public function StartSession() {
+			if ((function_exists('session_status') && session_status() !== PHP_SESSION_ACTIVE) || !session_id()) {
+				  session_start();
+				}
+		}
+
+		public function EndSession() {
+		/* Following line to deal with Warning: session_destroy(): Trying to destroy uninitialized session
+		when auto-logged out of WP admin session. */
+    	if(!isset($_SESSION)) 
+    		{ 
+        	session_destroy(); 
+    		} 
+			
+		}
+		
  	private function add_shortcodes() {
  	
  		$mz_staff = new MBOAPI\MZ_Staff();
@@ -240,13 +236,13 @@ class MZ_Mindbody_API {
  		$mz_clients = new MBOAPI\MZ_Clients();
  		$get_schedule = new MBOAPI\MZ_Get_Schedule();
  		
-        add_shortcode('mz-mindbody-show-schedule', array(new MBOAPI\Schedule_Display(), 'mZ_mindbody_show_schedule'));
-        add_shortcode('mz-mindbody-staff-list', array($mz_staff, 'mZ_mindbody_staff_listing'));
-        add_shortcode('mz-mindbody-show-events', array($mz_events, 'mZ_mindbody_show_events'));
-        add_shortcode('mz-mindbody-login', array($mz_clients, 'mZ_mindbody_login'));
-        add_shortcode('mz-mindbody-signup', array($mz_clients, 'mZ_mindbody_signup'));
-        add_shortcode('mz-mindbody-logout', array($mz_clients, 'mZ_mindbody_logout'));
-        add_shortcode('mz-mindbody-get-schedule', array($get_schedule, 'MZ_Get_Schedule'));
+		add_shortcode('mz-mindbody-show-schedule', array(new MBOAPI\Schedule_Display(), 'mZ_mindbody_show_schedule'));
+		add_shortcode('mz-mindbody-staff-list', array($mz_staff, 'mZ_mindbody_staff_listing'));
+		add_shortcode('mz-mindbody-show-events', array($mz_events, 'mZ_mindbody_show_events'));
+		add_shortcode('mz-mindbody-login', array($mz_clients, 'mZ_mindbody_login'));
+		add_shortcode('mz-mindbody-signup', array($mz_clients, 'mZ_mindbody_signup'));
+		add_shortcode('mz-mindbody-logout', array($mz_clients, 'mZ_mindbody_logout'));
+		add_shortcode('mz-mindbody-get-schedule', array($get_schedule, 'MZ_Get_Schedule'));
 
     }
  
@@ -551,19 +547,19 @@ function mz_mbo_reset_staff_callback() {
  	$result['message'] = $classid;
 	if ($account_number == 0) {
 		$staff_details = $mb->GetStaff(array('StaffIDs'=>array($classid)));
-		}else{
+	}else{
 		$mb->sourceCredentials['SiteIDs'][0] = $account_number; 
 		$staff_details = $mb->GetStaff(array('StaffIDs'=>array($classid)));
-		}
+	}
  	
  	if (isset($staff_details['GetStaffResult'])):
  		if ($staff_details['GetStaffResult']['Status'] != 'Success'):
 				$result['type'] = "error";
  				$result['message'] = __("Unable to retrieve staff details.", 'mz-mindbody-api');
  		else:
-	  	$staffMember = $staff_details['GetStaffResult']['StaffMembers']['Staff'];
-	  	$result['message'] = array();
-			$result['type'] = "success";
+				$staffMember = $staff_details['GetStaffResult']['StaffMembers']['Staff'];
+				$result['message'] = array();
+				$result['type'] = "success";
 				$result['message']['Name'] = $staffMember['Name'];
 				$result['message']['Bio'] = $staffMember['Bio'];
 				$result['message']['ImageURL'] = $staffMember['ImageURL'];
