@@ -33,6 +33,9 @@ spl_autoload_register( [ new Loader\Autoload( 'mZoo', __DIR__ . '/src/' ), 'load
 define( 'MZ_MINDBODY_SCHEDULE_DIR', plugin_dir_path( __FILE__ ) );
 define( 'MZ_MINDBODY_SCHEDULE_URL', plugin_dir_url( __FILE__ ) );
 
+// Initialize our db-based sessions.
+MBOAPI\WPDB_Sessions::init();
+
 //register activation and deactivation hooks
 register_activation_hook(__FILE__, 'mZ_mindbody_schedule_activation');
 register_deactivation_hook(__FILE__, 'mZ_mindbody_schedule_deactivation');
@@ -208,27 +211,11 @@ class MZ_Mindbody_API {
     
     private function define_main_hooks() {
         // Add Session actions for user login and logout MBO 
-        //TODO Avoid Sessions Entirely if possible
-        // see: https://pressjitsu.com/blog/wordpress-sessions-performance/
         //add_action( 'template_redirect', $this, 'StartSession', 1 );
-        add_action( 'wp_logout', $this, 'StartSession' );
-        add_action( 'wp_login', $this, 'EndSession' );
         }
         
   	public function StartSession() {
-			if ((function_exists('session_status') && session_status() !== PHP_SESSION_ACTIVE) || !session_id()) {
-				  session_start();
-				}
-		}
-
-		public function EndSession() {
-		/* Following line to deal with Warning: session_destroy(): Trying to destroy uninitialized session
-		when auto-logged out of WP admin session. */
-    	if(!isset($_SESSION)) 
-    		{ 
-        	session_destroy(); 
-    		} 
-			
+			MBOAPI\WPDB_Sessions::open();
 		}
 		
  	private function add_shortcodes() {
