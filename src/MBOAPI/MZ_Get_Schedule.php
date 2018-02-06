@@ -19,7 +19,7 @@ class MZ_Get_Schedule {
 		$mz_date = new \DateTime(null, Schedule_Operations::get_blog_timezone());
 		$mz_date = $mz_date->format('Y-m-d H:i:s');
 		$mz_timeframe = array_slice(Schedule_Operations::mz_getDateRange($mz_date, 30), 0, 1);
-
+		
 		$mb = MZ_Mindbody_Init::instantiate_mbo_API();
 		if ($mb == 'NO_SOAP_SERVICE') {
 			//fill in second two parameters with space holders and return error.

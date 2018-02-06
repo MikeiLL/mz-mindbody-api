@@ -1,6 +1,9 @@
 <?php
 namespace mZoo\MBOAPI;
-	
+
+/*
+ * This is the class that is instantiated by the mz-mindbody-show-schedule shortcode
+ */
 class Schedule_Display {
 
 	private $mz_mbo_object;
@@ -84,7 +87,7 @@ class Schedule_Display {
 		wp_enqueue_style('mZ_mindbody_schedule_bs', asset_path('styles/main.css'), false, null);
 		wp_enqueue_script('mz_mbo_bootstrap_script', asset_path('scripts/main.js'), array('jquery'), null, true);
 		
-		//echo '<br />time: '. current_time('l, F jS, Y \a\t g:i A'); 
+		// echo '<br />time: '. current_time('l, F jS, Y \a\t g:i A'); 
 		add_action('wp_footer', array($this, 'mbo_localize_main_js'));
 
 		    
@@ -151,8 +154,9 @@ class Schedule_Display {
 		}
 		$this->locations_count = count($this->locations);
 		
+		// Initialize $mz_date variable with current wordpress time or time sent via $_GET variable
 		$mz_date = empty($_GET['mz_date']) ? date_i18n('Y-m-d',current_time('timestamp')) : Schedule_Operations::mz_validate_date($_GET['mz_date']);
-		
+
 		//Add date to cache
 		if (!empty($_GET['mz_date'])) {
 				$mz_schedule_cache .= '_' . str_replace('-','_',$mz_date);
@@ -166,18 +170,20 @@ class Schedule_Display {
 
 		if ($type=='day')
 			{
-				$mz_timeframe = array_slice(Schedule_Operations::mz_getDateRange($mz_date, 1), 0, 1);
+				// Return date range for current day
+				$mz_timeframe = Schedule_Operations::mz_getDateRange($mz_date, 1);
 			}
 		else if (($mode_select != 0) || ($grid == 1))
 			{   
-				$mz_timeframe = array_slice(Schedule_Operations::mz_getDateRange($this->mz_date_grid, 7), 0, 1);
+				// In either case we want the week to start at the beginning of the current week
+				// TODO pull day for start of week from WP config
+				$mz_timeframe = Schedule_Operations::mz_getDateRange($this->mz_date_grid, 7);
 			} 
 		else 
 			{
-				$mz_timeframe = array_slice(Schedule_Operations::mz_getDateRange($mz_date, 7), 0, 1);
+				// Get date range between today and seven days from now
+				$mz_timeframe = Schedule_Operations::mz_getDateRange($mz_date, 7);
 			}
-		//While we still need to support php 5.2 and can't use [0] on above
-		$mz_timeframe = array_shift($mz_timeframe);
 
 	  // START caching
 		$mz_cache_reset = isset($this->mz_mbo_object->options['mz_mindbody_clear_cache']) ? "on" : "off";
@@ -208,11 +214,12 @@ class Schedule_Display {
 				mz_pr($mb);
 				}
 			if ($this->account == 0) {
-				$mz_schedule_data = $mb->GetClasses($mz_timeframe);
+				$mz_schedule_data = $mb->GetClasses($mz_timeframe[0]);
 				}else{
 				$mb->sourceCredentials['SiteIDs'][0] = $this->account; 
 				$mz_schedule_data = $mb->GetClasses($mz_timeframe);
 				}
+			mz_pr($mz_timeframe[0]);
 
 			//Cache the mindbody call for 24 hours
 			//But only if we are NOT loading for different week than current

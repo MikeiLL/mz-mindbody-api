@@ -5,9 +5,8 @@ class Schedule_Operations {
 	/**
 	 * Summary.
 	 *
-	 * Gets a YYYY-mm-dd date and returns an array of four dates:
-	 *      start of requested week
-	 *      end of requested week 
+	 * Gets a YYYY-mm-dd date and returns an array of three elements:
+	 *      array(start of requested week, end of requested week)
 	 *      following week start date
 	 *      previous week start date.
 	 *
@@ -19,16 +18,9 @@ class Schedule_Operations {
 	 *
 	 * @param var $date Start date for date range.
 	 * @param var $duration Optional. Description. Default.
-	 * @return array Start Date, End Date and Previous Range Start Date.
+	 * @return matrix: array(Start Date, End Date) and Previous Range Start Date.
 	 */
 	public static function mz_getDateRange($date, $duration=7) {
-			/*Gets a YYYY-mm-dd date and returns an array of four dates:
-					start of requested week
-					end of requested week 
-					following week start date
-					previous week start date
-			adapted from http://stackoverflow.com/questions/186431/calculating-days-of-week-given-a-week-number
-			*/
 			$seconds_in_a_day = 86400;
 			$start = new \DateTime($date);
 			$now = new \DateTime(null, self::get_blog_timezone());
@@ -60,11 +52,11 @@ class Schedule_Operations {
 			$subsequent->add(new \DateInterval('P'. ($duration) .'D'));
 			$end->add(new \DateInterval('P'. ($duration + $into_following_week) .'D'));
 			$previous->sub(new \DateInterval('P'. $duration .'D'));
-			$return[0] = array('Start\DateTime'=> $start->format('Y-m-d'), 'End\DateTime'=> $end->format('Y-m-d'));
+			$return[0] = array('StartDateTime'=> $start->format('Y-m-d'), 'EndDateTime'=> $end->format('Y-m-d'));
 
 			$return[1] = $subsequent->modify('Monday this week')->format('Y-m-d'); 
 			$return[2] = $previous->modify('Monday this week')->format('Y-m-d');
-
+			//mz_pr($return);
 			return $return;
 	}
 	
