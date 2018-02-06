@@ -1,4 +1,5 @@
 <?php
+use MBOTests;
 /**
  * Class InitilizationTest
  *

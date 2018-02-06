@@ -219,7 +219,6 @@ class Schedule_Display {
 				$mb->sourceCredentials['SiteIDs'][0] = $this->account; 
 				$mz_schedule_data = $mb->GetClasses($mz_timeframe);
 				}
-			mz_pr($mz_timeframe[0]);
 
 			//Cache the mindbody call for 24 hours
 			//But only if we are NOT loading for different week than current

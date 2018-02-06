@@ -50,6 +50,7 @@ class Schedule_Operations {
 			$previous = clone $start;
 			$subsequent = clone $start;
 			$subsequent->add(new \DateInterval('P'. ($duration) .'D'));
+			$temp = new \DateInterval('P'. ($duration + $into_following_week) .'D');
 			$end->add(new \DateInterval('P'. ($duration + $into_following_week) .'D'));
 			$previous->sub(new \DateInterval('P'. $duration .'D'));
 			$return[0] = array('StartDateTime'=> $start->format('Y-m-d'), 'EndDateTime'=> $end->format('Y-m-d'));
@@ -59,6 +60,31 @@ class Schedule_Operations {
 			//mz_pr($return);
 			return $return;
 	}
+	
+	/*
+	 * Retrieve name of Start of Week for current WP install
+	 */
+	 private function week_start_day(){
+	 	switch (get_option('start_of_week')){
+	 		case 0:
+	 			return 'Sunday';
+	 		case 1:
+	 			return 'Monday';
+	 		case 2:
+	 			return 'Tuesday';
+	 		case 3:
+	 			return 'Wednesday';
+	 		case 4:
+	 			return 'Thursday';
+	 		case 5:
+	 			return 'Friday';
+	 		case 6:
+	 			return 'Saturday';
+	 		// Shouldn't be necessary but just in case
+	 		default:
+	 			return 'Monday';
+	 	}
+	 }
 	
 	/*
 	 *  Returns the blog timezone
