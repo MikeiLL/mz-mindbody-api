@@ -1,5 +1,4 @@
 <?php
-use MBOTests;
 /**
  * Class InitilizationTest
  *
@@ -26,19 +25,19 @@ class InitilizationTest extends WP_UnitTestCase {
 	 * Test connection with MBO Sandbox account
 	 */
 	function test_connect_api() {			
-				parent::setUp();	
-				$options = array(
-					'mz_source_name'=>MBOTests\Test_Options::$_MYSOURCENAME,
-					'mz_mindbody_password'=>MBOTests\Test_Options::$_MYPASSWORD,
-					'mz_mindbody_siteID'=>'-99',
-					'mz_mindbody_eventID'=>MBOTests\Test_Options::$_MYEVENTIDS
-				);
-				add_option( 'mz_mindbody_options', $options, '', 'yes' );
-				$timeframe = array_slice(mZoo\MBOAPI\Schedule_Operations::mz_getDateRange(date_i18n('Y-m-d'), 1), 0, 1);
+			parent::setUp();	
+			$options = array(
+				'mz_source_name'=>MBOTests\Test_Options::$_MYSOURCENAME,
+				'mz_mindbody_password'=>MBOTests\Test_Options::$_MYPASSWORD,
+				'mz_mindbody_siteID'=>'-99',
+				'mz_mindbody_eventID'=>MBOTests\Test_Options::$_MYEVENTIDS
+			);
+			add_option( 'mz_mindbody_options', $options, '', 'yes' );
+			$timeframe = array_slice(mZoo\MBOAPI\Schedule_Operations::mz_getDateRange(date_i18n('Y-m-d'), 1), 0, 1);
 	  		$mb = mZoo\MBOAPI\MZ_Mindbody_Init::instantiate_mbo_API();
 	  		$test = $mb->GetClasses($timeframe);
-				$this->assertTrue($test['GetClassesResult']['ErrorCode'] == 200);
-				parent::tearDown();
+			$this->assertTrue($test['GetClassesResult']['ErrorCode'] == 200);
+			parent::tearDown();
 	}
 	
 }
