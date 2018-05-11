@@ -1,28 +1,28 @@
 <?php
 /**
- * The plugin bootstrap file
+ * This file contains main plugin class and, defines and plugin loader.
  *
- * This file is read by WordPress to generate the plugin information in the plugin
- * admin area. This file also includes all of the dependencies used by the plugin,
- * registers the activation and deactivation functions, and defines a function
- * that starts the plugin.
+ * The mZoo Mindbody Interface plugin utilizes the Devin Crossman Mindbody API
+ * to interface with mindbody's SOAP API. This particular file is responsible for
+ * including the necessary dependencies and starting the plugin.
+ *
  *
  * @link              http://mzoo.org
  * @since             1.0.0
  * @package           MZ_Mindbody
  *
  * @wordpress-plugin
- * Plugin Name:       WordPress Plugin Boilerplate
- * Plugin URI:        http://somedomain.com/my-awesome-plugin-uri/
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
- * Version:           1.0.0
- * Author:            Mike iLL/mZoo.org
- * Author URI:        http://mzoo.org/
- * License:           GPL-2.0+
- * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain:       mz-mindbody-api
- * Domain Path:       /languages
- */
+ * Plugin Name: 	mZoo Mindbody Interface - Schedule, Events, Staff Display
+ * Description: 	Interface Wordpress with MindbodyOnline data with Bootstrap Responsive Layout.
+ * Version: 		2.4.6
+ * Author: 			mZoo.org
+ * Author URI: 		http://www.mZoo.org/
+ * Plugin URI: 		http://www.mzoo.org/mz-mindbody-wp
+ * License:         GPL-2.0+
+ * License URI:     http://www.gnu.org/licenses/gpl-2.0.txt
+ * Text Domain: 	mz-mindbody-api
+ * Domain Path: 	/languages
+*/
 
 namespace MZ_Mindbody;
 

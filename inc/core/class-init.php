@@ -4,6 +4,7 @@ namespace MZ_Mindbody\Inc\Core;
 use MZ_Mindbody as NS;
 use MZ_Mindbody\Inc\Admin as Admin;
 use MZ_Mindbody\Inc\Frontend as Frontend;
+use MZ_Mindbody\Inc\Schedule as Schedule;
 
 /**
  * The core plugin class.
@@ -65,6 +66,7 @@ class Init {
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
+		$this->register_shortcodes();
 	}
 
 	/**
@@ -182,6 +184,25 @@ class Init {
 	 */
 	public function get_plugin_text_domain() {
 		return $this->plugin_text_domain;
+	}
+	
+	/**
+	 * Registers all the plugins shortcodes.
+	 *
+	 * - Events - The Events Class which displays events and loads necessary assets.
+	 *
+	 * @access    private
+	 */
+	private function register_shortcodes() {
+        $schedule_display = new Schedule\Display();
+        $schedule_display->register('mz-mindbody-show-schedule');
+        // add_shortcode('mz-mindbody-show-schedule', array(new MBOAPI\Schedule_Display(), 'mZ_mindbody_show_schedule'));
+		// add_shortcode('mz-mindbody-staff-list', array($mz_staff, 'mZ_mindbody_staff_listing'));
+		// add_shortcode('mz-mindbody-show-events', array($mz_events, 'mZ_mindbody_show_events'));
+		// add_shortcode('mz-mindbody-login', array($mz_clients, 'mZ_mindbody_login'));
+		// add_shortcode('mz-mindbody-signup', array($mz_clients, 'mZ_mindbody_signup'));
+		// add_shortcode('mz-mindbody-logout', array($mz_clients, 'mZ_mindbody_logout'));
+		// add_shortcode('mz-mindbody-get-schedule', array($get_schedule, 'MZ_Get_Schedule'));
 	}
 
 }
