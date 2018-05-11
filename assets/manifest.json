@@ -1,0 +1,63 @@
+{
+  "dependencies": {
+    "main.js": {
+      "files": [
+        "scripts/main.js"
+      ],
+      "main": true
+    },
+    "mz_filtertable.js": {
+    "files": [
+        "scripts/jquery.filtertable.mz.js"
+      ],
+      "main": true
+    },
+    "add-to-classes.js": {
+    "files": [
+        "scripts/add-to-classes.js"
+      ],
+      "main": true
+    },
+    "show-registrants.js": {
+    "files": [
+        "scripts/show-registrants.js"
+      ],
+      "main": true
+    },
+    "check-logged.js": {
+    "files": [
+        "scripts/check-logged.js"
+      ],
+      "main": true
+    },
+    "get-staff.js": {
+    "files": [
+        "scripts/get-staff.js"
+      ],
+      "main": true
+    },
+    "reset-staff.js": {
+    "files": [
+        "scripts/reset-staff.js"
+      ],
+      "main": true
+    },
+    "jquery.js": {
+      "bower": ["jquery"]
+    },
+    "main.css": {
+      "files": [
+        "styles/main.scss"
+      ],
+      "main": true
+    },
+    "admin-style.css": {
+      "files": [
+        "styles/admin-style.scss"
+      ]
+    },
+  "config": {
+    "devUrl": "http://project.test"
+  	}
+  }
+}

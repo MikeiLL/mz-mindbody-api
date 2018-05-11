@@ -1,0 +1,64 @@
+{
+  "name": "mz-mindbody-api",
+  "version": "2.4.1",
+  "authors": [
+    "Mike iLL Kilmer <mike@mzoo.org>"
+  ],
+  "description": "Wordpress MBO API Integration Plugin.",
+  "keywords": [
+    "mindbody",
+    "wordpress",
+    "api"
+  ],
+  "license": "MIT",
+  "homepage": "www.mZoo.org",
+  "dependencies": {
+    "bootstrap-sass-official": "~3.3.4",
+    "font-awesome": "~4.3.0"
+  },
+  "ignore": [
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "overrides": {
+    "bootstrap-sass-official": {
+      "main": [
+        "./assets/stylesheets/bootstrap/mixins/_clearfix.scss",
+        "./assets/stylesheets/bootstrap/mixins/_grid-framework.scss",
+        "./assets/stylesheets/bootstrap/mixins/_vendor-prefixes.scss",
+        "./assets/stylesheets/bootstrap/_variables.scss",
+        "./assets/stylesheets/bootstrap/mixins/_grid.scss",
+        "./assets/stylesheets/bootstrap/mixins/_image.scss",
+        "./assets/stylesheets/bootstrap/_grid.scss",
+        "./assets/stylesheets/bootstrap/_thumbnails.scss",
+        "./assets/stylesheets/bootstrap/mixins/_buttons.scss",
+        "./assets/stylesheets/bootstrap/mixins/_clearfix.scss",
+        "./assets/stylesheets/bootstrap/mixins/_opacity.scss",
+        "./assets/stylesheets/bootstrap/mixins/_tab-focus.scss",
+        "./assets/stylesheets/bootstrap/mixins/_table-row.scss",
+        "./assets/stylesheets/bootstrap/mixins/_vendor-prefixes.scss",
+        "./assets/stylesheets/bootstrap/_buttons.scss",
+        "./assets/stylesheets/bootstrap/_tables.scss",
+        "./assets/javascripts/bootstrap/button.js"
+      ]
+    },
+    "font-awesome": {
+      "main": [
+        "scss/_variables.scss",
+        "scss/_icons.scss",
+        "scss/font-awesome.scss",
+        "fonts/FontAwesome.otf",
+        "fonts/fontawesome-webfont.eot",
+        "fonts/fontawesome-webfont.svg",
+        "fonts/fontawesome-webfont.ttf",
+        "fonts/fontawesome-webfont.woff",
+        "fonts/fontawesome-webfont.woff2"
+      ]
+    },
+    "jQuery.FilterTable": {
+      "main": "./jquery.filtertable.js"
+    }
+  }
+}
