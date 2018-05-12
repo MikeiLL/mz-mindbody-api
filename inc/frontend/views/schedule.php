@@ -14,3 +14,5 @@
 ?>
 
 <h2>Hi there</h2>
+
+<?php mz_pr($data->schedule); ?>

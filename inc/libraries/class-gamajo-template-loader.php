@@ -26,7 +26,7 @@ class Gamajo_Template_Loader {
     /**
      * Prefix for filter names.
      *
-     * @since 1.0.0
+     * @since 2.4.7
      *
      * @var string
      */
@@ -37,7 +37,7 @@ class Gamajo_Template_Loader {
      *
      * For example: 'your-plugin-templates'.
      *
-     * @since 1.0.0
+     * @since 2.4.7
      *
      * @var string
      */
@@ -50,7 +50,7 @@ class Gamajo_Template_Loader {
      *
      * e.g. YOUR_PLUGIN_TEMPLATE or plugin_dir_path( dirname( __FILE__ ) ); etc.
      *
-     * @since 1.0.0
+     * @since 2.4.7
      *
      * @var string
      */
@@ -99,7 +99,7 @@ class Gamajo_Template_Loader {
     /**
      * Retrieve a template part.
      *
-     * @since 1.0.0
+     * @since 2.4.7
      *
      * @param string $slug Template slug.
      * @param string $name Optional. Template variation name. Default null.
@@ -176,7 +176,7 @@ class Gamajo_Template_Loader {
     /**
      * Given a slug and optional name, create the file names of templates.
      *
-     * @since 1.0.0
+     * @since 2.4.7
      *
      * @param string $slug Template slug.
      * @param string $name Template variation name.
@@ -196,7 +196,7 @@ class Gamajo_Template_Loader {
          * The resulting array should be in the order of most specific first, to least specific last.
          * e.g. 0 => recipe-instructions.php, 1 => recipe.php
          *
-         * @since 1.0.0
+         * @since 2.4.7
          *
          * @param array  $templates Names of template files that should be looked for, for given slug and name.
          * @param string $slug      Template slug.
@@ -212,7 +212,7 @@ class Gamajo_Template_Loader {
      * inherit from a parent theme can just overload one file. If the template is
      * not found in either of those, it looks in the theme-compat folder last.
      *
-     * @since 1.0.0
+     * @since 2.4.7
      *
      * @param string|array $template_names Template file(s) to search for, in order.
      * @param bool         $load           If true the template file will be loaded if it is found.
@@ -269,7 +269,7 @@ class Gamajo_Template_Loader {
      * parent theme can just overload one file. If the template is not found in either of those, it looks in the
      * theme-compat folder last.
      *
-     * @since 1.0.0
+     * @since 2.4.7
      *
      * @return mixed|void
      */
@@ -289,7 +289,7 @@ class Gamajo_Template_Loader {
         /**
          * Allow ordered list of template paths to be amended.
          *
-         * @since 1.0.0
+         * @since 2.4.7
          *
          * @param array $var Default is directory in child theme at index 1, parent theme at 10, and plugin at 100.
          */
@@ -306,7 +306,7 @@ class Gamajo_Template_Loader {
      *
      * May be overridden in subclass.
      *
-     * @since 1.0.0
+     * @since 2.4.7
      *
      * @return string
      */

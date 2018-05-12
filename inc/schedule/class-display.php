@@ -1,8 +1,10 @@
 <?php
 namespace MZ_Mindbody\Inc\Schedule;
 
-use MZ_Mindbody\Inc\Common\Interfaces as Interfaces;
 use MZ_Mindbody;
+use MZ_Mindbody\Inc\Core as Core;
+use MZ_Mindbody\Inc\Common as Common;
+use MZ_Mindbody\Inc\Common\Interfaces as Interfaces;
 
 class Display extends Interfaces\ShortCode_Script_Loader {
 
@@ -33,7 +35,24 @@ class Display extends Interfaces\ShortCode_Script_Loader {
 
         ob_start();
         $template_loader = new Core\Template_Loader();
-        $template_loader->set_template_data( $atts );
+        $mz_timeframe = Common\Schedule_Operations::mz_getDateRange($mz_date, 7);
+        $schedule_object = new Retrieve_Schedule;
+        $mb = $schedule_object->instantiate_mbo_API();
+        echo date('M d, Y', $schedule_object->seven_days_from_now());
+        
+		if ($mb == 'NO_SOAP_SERVICE') {
+			return $mb;
+			}
+		if ($this->account == 0) {
+			$mz_schedule_data = $mb->GetClasses($mz_timeframe[0]);
+			}else{
+			$mb->sourceCredentials['SiteIDs'][0] = $this->account; 
+			$mz_schedule_data = $mb->GetClasses($mz_timeframe);
+			}
+		$data = array(
+			'schedule' => $mz_schedule_data
+		);
+        $template_loader->set_template_data( $data );
         $template_loader->get_template_part( 'schedule' );
 
         return ob_get_clean();

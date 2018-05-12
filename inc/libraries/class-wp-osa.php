@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * WP Settings API Class.
  *
- * @since 1.0.0
+ * @since 2.4.7
  */
 
 
@@ -33,7 +33,7 @@ class WP_OSA {
 	 * Sections array.
 	 *
 	 * @var   array
-	 * @since 1.0.0
+	 * @since 2.4.7
 	 */
 	private $sections_array = array();
 
@@ -41,7 +41,7 @@ class WP_OSA {
 	 * Fields array.
 	 *
 	 * @var   array
-	 * @since 1.0.0
+	 * @since 2.4.7
 	 */
 	private $fields_array = array();
 
@@ -65,7 +65,7 @@ class WP_OSA {
 	/**
 	 * Admin Scripts.
 	 *
-	 * @since 1.0.0
+	 * @since 2.4.7
 	 */
 	public function admin_scripts() {
 		// jQuery is needed.
@@ -89,7 +89,7 @@ class WP_OSA {
 	 * Set Sections.
 	 *
 	 * @param array $sections
-	 * @since 1.0.0
+	 * @since 2.4.7
 	 */
 	public function set_sections( $sections ) {
 		// Bail if not array.
@@ -108,7 +108,7 @@ class WP_OSA {
 	 * Add a single section.
 	 *
 	 * @param array $section
-	 * @since 1.0.0
+	 * @since 2.4.7
 	 */
 	public function add_section( $section ) {
 		// Bail if not array.
@@ -126,7 +126,7 @@ class WP_OSA {
 	/**
 	 * Set Fields.
 	 *
-	 * @since 1.0.0
+	 * @since 2.4.7
 	 */
 	public function set_fields( $fields ) {
 		// Bail if not array.
@@ -145,7 +145,7 @@ class WP_OSA {
 	/**
 	 * Add a single field.
 	 *
-	 * @since 1.0.0
+	 * @since 2.4.7
 	 */
 	public function add_field( $section, $field_array ) {
 		// Set the defaults
@@ -194,7 +194,7 @@ class WP_OSA {
 		 *   'title' => 'Section Title'
 		 * );
 		 *
-		 * @since 1.0.0
+		 * @since 2.4.7
 		 */
 		foreach ( $this->sections_array as $section ) {
 			if ( false == get_option( $section['id'] ) ) {
@@ -225,7 +225,7 @@ class WP_OSA {
 			 * @param string $title
 			 * @param callable $callback
 			 * @param string $page | Page is same as section ID.
-			 * @since 1.0.0
+			 * @since 2.4.7
 			 */
 			add_settings_section( $section['id'], $section['title'], $callback, $section['id'] );
 		} // foreach ended.
@@ -250,7 +250,7 @@ class WP_OSA {
 		 *   'type' => 'text',
 		 * );
 		 *
-		 * @since 1.0.0
+		 * @since 2.4.7
 		 */
 		foreach ( $this->fields_array as $section => $field_array ) {
 			foreach ( $field_array as $field ) {
@@ -307,7 +307,7 @@ class WP_OSA {
 				 * @param string   $page
 				 * @param string   $section = 'default'
 				 * @param array    $args = array()
-				 * @since 1.0.0
+				 * @since 2.4.7
 				 */
 
 				// @param string 	$id
@@ -332,7 +332,7 @@ class WP_OSA {
 			 * @param string $field_group   | A settings group name.
 			 * @param string $field_name    | The name of an option to sanitize and save.
 			 * @param callable  $sanitize_callback = ''
-			 * @since 1.0.0
+			 * @since 2.4.7
 			 */
 			register_setting( $section['id'], $section['id'], array( $this, 'sanitize_fields' ) );
 		} // foreach ended.
@@ -343,7 +343,7 @@ class WP_OSA {
 	/**
 	 * Sanitize callback for Settings API fields.
 	 *
-	 * @since 1.0.0
+	 * @since 2.4.7
 	 */
 	public function sanitize_fields( $fields ) {
 		foreach ( $fields as $field_slug => $field_value ) {
