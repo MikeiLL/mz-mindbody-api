@@ -19,7 +19,7 @@ class Activator {
 	 *
 	 * Long Description.
 	 *
-	 * @since    1.0.0
+	 * @since    2.4.7
 	 */
 	public static function activate() {
 

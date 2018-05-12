@@ -47,7 +47,7 @@ class Loader {
 	/**
 	 * Add a new action to the collection to be registered with WordPress.
 	 *
-	 * @since    1.0.0
+	 * @since    2.4.7
 	 * @param    string $hook             The name of the WordPress action that is being registered.
 	 * @param    object $component        A reference to the instance of the object on which the action is defined.
 	 * @param    string $callback         The name of the function definition on the $component.
@@ -61,7 +61,7 @@ class Loader {
 	/**
 	 * Add a new filter to the collection to be registered with WordPress.
 	 *
-	 * @since    1.0.0
+	 * @since    2.4.7
 	 * @param    string $hook             The name of the WordPress filter that is being registered.
 	 * @param    object $component        A reference to the instance of the object on which the filter is defined.
 	 * @param    string $callback         The name of the function definition on the $component.
@@ -76,7 +76,7 @@ class Loader {
 	 * A utility function that is used to register the actions and hooks into a single
 	 * collection.
 	 *
-	 * @since    1.0.0
+	 * @since    2.4.7
 	 * @access   private
 	 * @param    array  $hooks            The collection of hooks that is being registered (that is, actions or filters).
 	 * @param    string $hook             The name of the WordPress filter that is being registered.
@@ -103,7 +103,7 @@ class Loader {
 	/**
 	 * Register the filters and actions with WordPress.
 	 *
-	 * @since    1.0.0
+	 * @since    2.4.7
 	 */
 	public function run() {
 

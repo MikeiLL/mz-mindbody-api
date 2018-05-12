@@ -76,14 +76,14 @@ register_deactivation_hook( __FILE__, array( NS . 'Inc\Core\Deactivator', 'deact
  *
  * Maintains a single copy of the plugin app object
  *
- * @since    1.0.0
+ * @since    2.4.7
  */
 class MZ_Mindbody {
 
 	/**
 	 * The instance of the plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    2.4.7
 	 * @var      Init $init Instance of the plugin.
 	 */
 	private static $init;
@@ -114,7 +114,7 @@ class MZ_Mindbody {
  * Also returns copy of the app object so 3rd party developers
  * can interact with the plugin's hooks contained within.
  **/
-function wp_plugin_name_init() {
+function mz_mindbody_init() {
 		return MZ_Mindbody::init();
 }
 
@@ -122,5 +122,5 @@ $min_php = '5.6.0';
 
 // Check the minimum required PHP version and run the plugin.
 if ( version_compare( PHP_VERSION, $min_php, '>=' ) ) {
-		wp_plugin_name_init();
+		mz_mindbody_init();
 }

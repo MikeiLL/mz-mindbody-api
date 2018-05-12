@@ -557,7 +557,7 @@ class WP_OSA {
 	}
 
 	/**
-	 * Displays a textarea for a settings field
+	 * Displays HTML for a settings field
 	 *
 	 * @param array $args settings field args.
 	 * @return string

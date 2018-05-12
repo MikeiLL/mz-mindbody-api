@@ -18,7 +18,7 @@ class Frontend {
 	/**
 	 * The ID of this plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    2.4.7
 	 * @access   private
 	 * @var      string    $plugin_name    The ID of this plugin.
 	 */
@@ -27,7 +27,7 @@ class Frontend {
 	/**
 	 * The version of this plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    2.4.7
 	 * @access   private
 	 * @var      string    $version    The current version of this plugin.
 	 */
@@ -36,7 +36,7 @@ class Frontend {
 	/**
 	 * The text domain of this plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    2.4.7
 	 * @access   private
 	 * @var      string    $plugin_text_domain    The text domain of this plugin.
 	 */
@@ -61,7 +61,7 @@ class Frontend {
 	/**
 	 * Register the stylesheets for the public-facing side of the site.
 	 *
-	 * @since    1.0.0
+	 * @since    2.4.7
 	 */
 	public function enqueue_styles() {
 
@@ -84,7 +84,7 @@ class Frontend {
 	/**
 	 * Register the JavaScript for the public-facing side of the site.
 	 *
-	 * @since    1.0.0
+	 * @since    2.4.7
 	 */
 	public function enqueue_scripts() {
 
