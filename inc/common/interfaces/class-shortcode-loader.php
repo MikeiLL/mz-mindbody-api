@@ -1,5 +1,5 @@
 <?php
-namespace MZ_Mindbody\Inc\Core;
+namespace MZ_Mindbody\Inc\Common\Interfaces;
 /*
     "WordPress Plugin Template" Copyright (C) 2018 Michael Simpson  (email : michael.d.simpson@gmail.com)
 

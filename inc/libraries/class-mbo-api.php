@@ -143,10 +143,10 @@ class MBO_API {
 
 	public function debug() {
 
-		echo "<textarea rows='6' cols='90'>".print_r($this->getXMLRequest(),1)."</textarea>";
-		echo "<br/>";
-		echo "<textarea rows='6' cols='90'>".print_r($this->getXMLResponse(),1)."</textarea>";
-
+		$return = "<textarea rows='6' cols='90'>".print_r($this->getXMLRequest(),1)."</textarea>";
+		$return .= "<br/>";
+		$return .= "<textarea rows='6' cols='90'>".print_r($this->getXMLResponse(),1)."</textarea>";
+		return $return;
 	}
 
 	public function makeNumericArray($data) {

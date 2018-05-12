@@ -1,8 +1,5 @@
 <?php
-namespace MZ_Mindbody\Inc\Core;
-
-use MZ_Mindbody\Inc\Core as Core;
-
+namespace MZ_Mindbody\Inc\Common\Interfaces;
 
 /**
  * "WordPress Plugin Template" Copyright (C) 2018 Michael Simpson  (email : michael.d.simpson@gmail.com)
@@ -12,7 +9,7 @@ use MZ_Mindbody\Inc\Core as Core;
  * The idea is you have a shortcode that needs a script loaded, but you only
  * want to load it if the shortcode is actually called.
  */
-abstract class ShortCode_Script_Loader extends Core\ShortCode_Loader {
+abstract class ShortCode_Script_Loader extends ShortCode_Loader {
 
     var $doAddScript;
 

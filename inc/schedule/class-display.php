@@ -1,10 +1,10 @@
 <?php
 namespace MZ_Mindbody\Inc\Schedule;
 
-use MZ_Mindbody\Inc\Core as Core;
+use MZ_Mindbody\Inc\Common\Interfaces as Interfaces;
 use MZ_Mindbody;
 
-class Display extends Core\ShortCode_Script_Loader {
+class Display extends Interfaces\ShortCode_Script_Loader {
 
     static $addedAlready = false;
 
