@@ -11,9 +11,34 @@ class Retrieve_Schedule extends Interfaces\Retrieve {
 	/*
 	 * Return Time Frame for request to MBO API
 	 *
+	 * @since 2.4.7
 	 */
-	public function time_frame($start_time){
-		return get_weekstartend(current_time( 'mysql' ), $this->start_of_week);
+	public function time_frame(){
+		$current_week = $this->current_week();
+		$seven_days_from_now = $this->seven_days_from_now();
+		$start_time = new \Datetime( date_i18n('Y-m-d', $current_week['start']) );
+		$end_time = new \Datetime( date_i18n('Y-m-d', $seven_days_from_now) );
+		return array('StartDateTime'=> $start_time->format('Y-m-d'), 'EndDateTime'=> $end_time->format('Y-m-d'));
+	}
+	
+	/*
+	 * Get data from MBO apiVersion
+	 *
+	 * @since 2.4.7
+	 * @return array of MBO schedule data
+	 */
+	public function get_mbo_results(){
+
+        $mb = $this->instantiate_mbo_API();        
+		if ($mb == 'NO_SOAP_SERVICE') {
+				return $mb;
+			}
+		if ($this->account == 0) {
+			return $mb->GetClasses($this->time_frame());
+		} else {
+			$mb->sourceCredentials['SiteIDs'][0] = $this->account; 
+			return $mb->GetClasses($this->time_frame());
+		}
 	}
 	
 	

@@ -19,6 +19,7 @@ abstract class Retrieve {
 		$this->time_format = get_option('time_format');
 		$this->date_format = get_option('date_format');
 		$this->start_of_week = get_option('start_of_week');
+		$this->account = 0;
 	}
 	
 	/*
@@ -85,7 +86,7 @@ abstract class Retrieve {
 	 *
 	 * @since 2.4.7
 	 */
-	//abstract public function get_mbo_results();
+	abstract public function get_mbo_results();
     
     /*
      * Log via Sanbox dev plugin
@@ -103,5 +104,5 @@ abstract class Retrieve {
 		endif;
     }
 
-	abstract public function time_frame($start_time);
+	abstract public function time_frame();
 }
