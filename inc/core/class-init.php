@@ -4,6 +4,7 @@ namespace MZ_Mindbody\Inc\Core;
 use MZ_Mindbody as NS;
 use MZ_Mindbody\Inc\Admin as Admin;
 use MZ_Mindbody\Inc\Frontend as Frontend;
+use MZ_Mindbody\Inc\Backend as Backend;
 use MZ_Mindbody\Inc\Schedule as Schedule;
 
 /**
@@ -67,6 +68,7 @@ class Init {
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 		$this->register_shortcodes();
+		$this->add_settings_page();
 	}
 
 	/**
@@ -184,6 +186,16 @@ class Init {
 	 */
 	public function get_plugin_text_domain() {
 		return $this->plugin_text_domain;
+	}
+	
+	/**
+	 * Add our settings page
+	 *
+	 * @since     1.0.0
+	 */
+	public function add_settings_page() {
+		$settings_page = new Backend\Settings_Page();
+		$settings_page->addSections();
 	}
 	
 	/**
