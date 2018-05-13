@@ -192,4 +192,3 @@ class Schedule_Operations {
 			}
 		}
 }
-?>

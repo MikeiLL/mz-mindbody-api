@@ -37,11 +37,9 @@ class Display extends Interfaces\ShortCode_Script_Loader {
         $template_loader = new Core\Template_Loader();
         $mz_timeframe = Common\Schedule_Operations::mz_getDateRange($mz_date, 7);
         $schedule_object = new Retrieve_Schedule;
-        $mz_schedule_data = $schedule_object->get_mbo_results();
-        echo date('M d, Y', $schedule_object->seven_days_from_now());
         
 		$data = array(
-			'schedule' => $mz_schedule_data
+			'schedule' => $schedule_object->get_mbo_results()
 		);
         $template_loader->set_template_data( $data );
         $template_loader->get_template_part( 'schedule' );

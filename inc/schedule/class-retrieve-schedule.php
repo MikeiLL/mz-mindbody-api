@@ -12,6 +12,10 @@ class Retrieve_Schedule extends Interfaces\Retrieve {
 	 * Return Time Frame for request to MBO API
 	 *
 	 * @since 2.4.7
+	 *
+	 * Default time_frame is two dates, start of current week as set in WP, and seven days from "now.
+	 *
+	 * @return array or start and end dates as required for MBO API
 	 */
 	public function time_frame(){
 		$current_week = $this->current_week();
