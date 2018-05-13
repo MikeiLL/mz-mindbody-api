@@ -23,40 +23,6 @@ abstract class Retrieve {
 	}
 	
 	/*
-	 * Return current week start and end timestamps.
-	 *
-	 * @since 2.4.7
-	 * @return array 'start', 'end' of current week in timestamps
-	 */
-	public function current_week(){
-		return get_weekstartend(current_time( 'mysql' ), $this->start_of_week);
-	}
-	
-	/*
-	 * Return timestamp of seven days from now.
-	 *
-	 * @since 2.4.7
-	 *
-	 * @return timestamp of seven days from now
-	 */
-	public function seven_days_from_now(){
-		return strtotime("+7 day", current_time( 'timestamp' ));
-	}
-	
-	/*
-	 * Displayable current week start and end timestamps.
-	 *
-	 * @since 2.4.7
-	 * @return html string of start and end of current week
-	 */
-	public function current_week_display(){
-		$time_frame = $this->current_week();
-		$return = 'Week start: ' . date('M d, Y', $time_frame[start]) . '<br/>';
-		$return .= 'Week end: ' . date('M d, Y', $time_frame[end]);
-		return $return;
-	}
-	
-	/*
 	 * Configure the MBO API object with Credentails from DB
 	 *
 	 * @since 2.4.7
@@ -80,13 +46,6 @@ abstract class Retrieve {
 
 		return $mb;
 	}
-	
-	/*
-	 * Get results from MBO
-	 *
-	 * @since 2.4.7
-	 */
-	abstract public function get_mbo_results();
     
     /*
      * Log via Sanbox dev plugin
@@ -104,5 +63,12 @@ abstract class Retrieve {
 		endif;
     }
 
-	abstract public function time_frame();
+
+    /*
+     * Get results from MBO
+     *
+     * @since 2.4.7
+     */
+    abstract public function get_mbo_results();
+
 }

@@ -6,7 +6,7 @@ use MZ_Mindbody\Inc\Core as Core;
 use MZ_Mindbody\Inc\Common as Common;
 use MZ_Mindbody\Inc\Common\Interfaces as Interfaces;
 
-class Retrieve_Schedule extends Interfaces\Retrieve {
+class Retrieve_Schedule extends Interfaces\Retrieve_Classes {
 
 	/*
 	 * Return Time Frame for request to MBO API
@@ -24,26 +24,7 @@ class Retrieve_Schedule extends Interfaces\Retrieve {
 		$end_time = new \Datetime( date_i18n('Y-m-d', $seven_days_from_now) );
 		return array('StartDateTime'=> $start_time->format('Y-m-d'), 'EndDateTime'=> $end_time->format('Y-m-d'));
 	}
-	
-	/*
-	 * Get data from MBO apiVersion
-	 *
-	 * @since 2.4.7
-	 * @return array of MBO schedule data
-	 */
-	public function get_mbo_results(){
 
-        $mb = $this->instantiate_mbo_API();        
-		if ($mb == 'NO_SOAP_SERVICE') {
-				return $mb;
-			}
-		if ($this->account == 0) {
-			return $mb->GetClasses($this->time_frame());
-		} else {
-			$mb->sourceCredentials['SiteIDs'][0] = $this->account; 
-			return $mb->GetClasses($this->time_frame());
-		}
-	}
 	
 	
 }
