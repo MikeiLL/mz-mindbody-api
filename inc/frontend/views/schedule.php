@@ -15,4 +15,4 @@
 
 <h2>Hi there</h2>
 
-<?php mz_pr($data->schedule); ?>
+<?php mz_pr($data->schedule['GetClassesResult']['Classes'][0]); ?>

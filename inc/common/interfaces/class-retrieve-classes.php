@@ -17,11 +17,16 @@ abstract class Retrieve_Classes extends Retrieve {
         if ($mb == 'NO_SOAP_SERVICE') {
             return $mb;
         }
-        if ($this->account == 0) {
-            return $mb->GetClasses($this->time_frame());
+        if ( false === get_transient( $mz_mb_cache ) ) {
+            if ($this->account == 0) {
+                return $mb->GetClasses($this->time_frame());
+            } else {
+                $mb->sourceCredentials['SiteIDs'][0] = $this->account;
+                return $mb->GetClasses($this->time_frame());
+            }
+            set_transient($mz_mb_cache, $mb, 60 * 60 * 12);
         } else {
-            $mb->sourceCredentials['SiteIDs'][0] = $this->account;
-            return $mb->GetClasses($this->time_frame());
+            return get_transient( $mz_mb_cache );
         }
     }
 	

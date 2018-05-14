@@ -49,9 +49,27 @@ class Init {
 	 *
 	 * @since    2.4.7
 	 * @access   protected
-	 * @var      string    $version    The current version of the plugin.
+	 * @var      string    $plugin_text_domain    The plugin i18n text domain.
 	 */
 	protected $plugin_text_domain;
+
+    /**
+     * Saved Options for the Plugin.
+     *
+     * @since    2.4.7
+     * @access   protected
+     * @var      string    $options    The current version of the plugin.
+     */
+    protected static $options;
+
+    /**
+     * Format for date display.
+     *
+     * @since    2.4.7
+     * @access   protected
+     * @var      string    $options    PHP Date formatting string.
+     */
+    protected static $date_display;
 
 	/**
 	 * Initialize and define the core functionality of the plugin.
@@ -60,8 +78,8 @@ class Init {
 
 		$this->plugin_name = NS\PLUGIN_NAME;
 		$this->version = NS\PLUGIN_VERSION;
-				$this->plugin_basename = NS\PLUGIN_BASENAME;
-				$this->plugin_text_domain = NS\PLUGIN_TEXT_DOMAIN;
+		$this->plugin_basename = NS\PLUGIN_BASENAME;
+		$this->plugin_text_domain = NS\PLUGIN_TEXT_DOMAIN;
 
 		$this->load_dependencies();
 		$this->set_locale();
@@ -69,6 +87,9 @@ class Init {
 		$this->define_public_hooks();
 		$this->register_shortcodes();
 		$this->add_settings_page();
+
+		self::$options = isset(self::$options) ? self::$options : get_option('mz_mindbody_options');
+        self::$date_display = "l, F j";
 	}
 
 	/**
