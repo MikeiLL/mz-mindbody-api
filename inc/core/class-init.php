@@ -60,7 +60,27 @@ class Init {
      * @access   protected
      * @var      string    $options    The current version of the plugin.
      */
-    protected static $options;
+    public static $options;
+
+    /**
+     * Format for date display, specific to MBO API Plugin.
+     *
+     * TO BE IMPLEMENTED
+     *
+     * @since    2.4.7
+     * @access   protected
+     * @var      string    $options    PHP Date formatting string.
+     */
+    protected static $plugin_date_format;
+
+    /**
+     * Number of days to retrieve Events for at a time.
+     *
+     * @since    2.4.7
+     * @access   protected
+     * @var      integer    $event_calendar_duration    How many days ahead to retrieve Events for.
+     */
+    protected static $event_calendar_duration;
 
     /**
      * Format for date display.
@@ -69,7 +89,25 @@ class Init {
      * @access   protected
      * @var      string    $options    PHP Date formatting string.
      */
-    protected static $date_display;
+    protected static $time_format;
+
+    /**
+     * Wordpress for date format option.
+     *
+     * @since    2.4.7
+     * @access   protected
+     * @var      string    $date_format    WP date format option.
+     */
+    protected static $date_format;
+
+    /**
+     * Wordpress option for start of week.
+     *
+     * @since    2.4.7
+     * @access   protected
+     * @var      integer    $options    PHP Date formatting string.
+     */
+    public static $start_of_week;
 
 	/**
 	 * Initialize and define the core functionality of the plugin.
@@ -88,8 +126,12 @@ class Init {
 		$this->register_shortcodes();
 		$this->add_settings_page();
 
-		self::$options = isset(self::$options) ? self::$options : get_option('mz_mindbody_options');
-        self::$date_display = "l, F j";
+		// self::$options = get_option('mz_mindbody_options','Error: No Options');
+        self::$plugin_date_format = "l, F j";
+        self::$event_calendar_duration = isset(self::$options['mz_mindbody_eventsDuration']) ? self::$options['mz_mindbody_eventsDuration'] : '60';
+        self::$time_format = get_option('time_format');
+        self::$date_format = get_option('date_format');
+        self::$start_of_week = get_option('start_of_week');
 	}
 
 	/**

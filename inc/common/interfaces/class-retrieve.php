@@ -1,54 +1,66 @@
 <?php
 namespace MZ_Mindbody\Inc\Common\Interfaces;
 
+use MZ_Mindbody\Inc\Core as Core;
 use MZ_Mindbody\Inc\Libraries as Libraries;
 
 abstract class Retrieve {
 
-	public $mz_date_display = "D F d";
-	public $options;
-	public $mz_event_calendar_duration;
-	public $time_format;
-	public $date_format;
-	public $start_of_week;
-	public $mbo_account;
+	protected $mbo_account;
 	
 	public function __construct(){
-		$this->options = get_option('mz_mindbody_options','Error: No Options');
-		$this->mz_event_calendar_duration = isset($this->options['mz_mindbody_eventsDuration']) ? $this->options['mz_mindbody_eventsDuration'] : '60';
-		$this->time_format = get_option('time_format');
-		$this->date_format = get_option('date_format');
-		$this->start_of_week = get_option('start_of_week');
-		$this->account = 0;
+		$this->mbo_account = 0;
 	}
 	
 	/*
-	 * Configure the MBO API object with Credentails from DB
+	 * Configure the MBO API object with Credentials stored in DB
 	 *
 	 * @since 2.4.7
 	 */
 	public function instantiate_mbo_API () {
+	    var_dump(Core\Init::$options);
 
-		if ($this->options != 'Error: No Options') {
-			$mb  = new Libraries\MBO_API(array(
-								"SourceName" => $this->options['mz_source_name'],
-								'Password' => $this->options['mz_mindbody_password'],
-								'SiteIDs' => array($this->options['mz_mindbody_siteID'])
-							)); 
-			} else {
-				echo '<div class="error">Mindbody Credentials Not Set</div>';
-				$mb  = new Libraries\MBO_API(array(
-								"SourceName" => '',
-								'Password' => '',
-								'SiteIDs' => array('')
-							)); 
-			}
+		if (Core\Init::$options != 'Error: No Options') {
+            $mb  = new Libraries\MBO_API(array(
+                "SourceName" => Core\Init::$options['mz_source_name'],
+                'Password' => Core\Init::$options['mz_mindbody_password'],
+                'SiteIDs' => array(Core\Init::$options['mz_mindbody_siteID'])
+            ));
+        } else {
+            $mb  = new Libraries\MBO_API(array(
+                            "SourceName" => '',
+                            'Password' => '',
+                            'SiteIDs' => array('')
+                        ));
+        }
 
 		return $mb;
 	}
+
+    /*
+     * Generate a name for transient
+     *
+     * Name will include whatever strings are needed to
+     * differentiate it from other transients storing
+     * MBO results
+     *
+     * Used by $this->get_mbo_results
+     *
+     * @param $attributes array stores attributes that will make
+     * transient name unique.
+     *
+     * @since 2.4.7
+     */
+    protected function generate_transient_name ( $attributes = array() ) {
+        $transient_string = 'mz_mindbody';
+        foreach ($attributes as $k => $attr) {
+            $transient_string .= '_' . $attr ;
+        }
+        return $transient_string;
+    }
     
     /*
-     * Log via Sanbox dev plugin
+     * Log via Sandbox dev plugin
      * 
      * If sandbox plugin located at
      * https://github.com/MikeiLL/mz-mbo-sandbox
