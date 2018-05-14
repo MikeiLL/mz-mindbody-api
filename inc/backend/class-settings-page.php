@@ -58,7 +58,7 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
 				'title' => __( 'Events', 'mz-mindbody-api' ),
 			)
 		);
-		
+
 		// Field: Server Check HTML.
 		self::$wposa_obj->add_field(
 			'mz_mbo_basic',
@@ -69,7 +69,7 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
 				'desc'    => $this->server_check()
 			)
 		);
-		
+
 		// Field: Credentials Intro HTML.
 		self::$wposa_obj->add_field(
 			'mz_mbo_basic',
@@ -116,7 +116,7 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
 				'default' => __('-99', 'mz-mindbody-api')
 			)
 		);
-		
+
 		// Field: Event IDs.
 		self::$wposa_obj->add_field(
 			'mz_mbo_events',
@@ -128,7 +128,7 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
 				'default' => __('12345, 34, 64', 'mz-mindbody-api')
 			)
 		);
-		
+
 		// Field: Events Duration Display.
 		self::$wposa_obj->add_field(
 			'mz_mbo_events',
@@ -160,7 +160,7 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
 				'name' => '<h1>Credentials Test</h1>',
 			)
 		);
-		
+
 		// Field: Credentials Test Intro HTML.
 		self::$wposa_obj->add_field(
 			'mz_mbo_basic',
@@ -183,7 +183,7 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
 				'desc' => $this->mz_mindbody_debug_text()
 			)
 		);
-		
+
 
 		// Field: Checkbox.
 		self::$wposa_obj->add_field(
@@ -367,10 +367,10 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
 	}
 	
 	private function mz_mindbody_debug_text() {
-	  $mz_timeframe = array_slice(Common\Schedule_Operations::mz_getDateRange(date_i18n('Y-m-d'), 1), 0, 1);
-	  $mb = Core\MBO_Init::instantiate_mbo_API();
-	  $test = $mb->GetClasses($mz_timeframe);
-	  return $mb->debug();
+        $mz_timeframe = array_slice(Common\Schedule_Operations::mz_getDateRange(date_i18n('Y-m-d'), 1), 0, 1);
+        $mb_api = new Retrieve_Debug;
+        $mb = $mb_api->instantiate_mbo_API();
+        return $mb->debug();
 	}
 
 }

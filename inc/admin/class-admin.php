@@ -2,6 +2,8 @@
 
 namespace MZ_Mindbody\Inc\Admin;
 
+use MZ_Mindbody as NS;
+
 /**
  * The admin-specific functionality of the plugin.
  *
@@ -80,6 +82,43 @@ class Admin {
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/mz-mindbody-api-admin.css', array(), $this->version, 'all' );
 
 	}
+
+    /**
+     * Check if we are on a new version of plugin.
+     *
+     * @since    2.4.7
+     */
+    public function check_version() {
+            // If not set or current version return
+            if (get_site_option( 'mz_mbo_version' ) === NS\PLUGIN_VERSION) {
+                return false;
+            }
+            // Otherwise create an option to hold it and set it.
+            add_option('mz_mbo_version', NS\PLUGIN_VERSION);
+            $this->mz_mbo_upgrade();
+        }
+
+    /**
+     * If this is a new version of the plugin, perform actions.
+     *
+     * @since    2.4.7
+     */
+    public function mz_mbo_upgrade() {
+        // If version is previous to 2.4.7
+        if (get_site_option( 'mz_mbo_version' ) < '2.4.7') {
+            // Copy the old options to the new options
+            $old_options = get_option('mz_mindbody_options');
+            $mz_mbo_basic = array();
+            $mz_mbo_basic['mz_source_name'] = $old_options['mz_source_name'];
+            $mz_mbo_basic['mz_mindbody_password'] = $old_options['mz_mindbody_password'];
+            $mz_mbo_basic['mz_mindbody_show_sub_link'] = $old_options['mz_mindbody_show_sub_link'];
+            $mz_mbo_events['mz_mindbody_siteID'] = $old_options['mz_mindbody_siteID'];
+            $mz_mbo_events['mz_mindbody_eventIDs'] = $old_options['mz_mindbody_eventID'];
+            $mz_mbo_events['mz_mindbody_eventsDuration'] = $old_options['mz_mindbody_eventsDuration'];
+            add_option('mz_mbo_basic', $mz_mbo_basic);
+            add_option('mz_mbo_events', $mz_mbo_events);
+        }
+    }
 
 	/**
 	 * Register the JavaScript for the admin area.

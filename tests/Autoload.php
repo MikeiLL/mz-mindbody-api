@@ -35,7 +35,6 @@ class Autoload
 	 */
 	public function load( $search )
 	{
-		
 		if ( strncmp( $this->namespace, $search, $this->length ) !== 0 ) {
 			return;
 		}

@@ -1,6 +1,6 @@
 <?php
-
 namespace MZ_Mindbody\Inc\Core;
+
 use MZ_Mindbody as NS;
 use MZ_Mindbody\Inc\Admin as Admin;
 use MZ_Mindbody\Inc\Frontend as Frontend;
@@ -54,13 +54,22 @@ class Init {
 	protected $plugin_text_domain;
 
     /**
-     * Saved Options for the Plugin.
+     * Saved Basic Options for the Plugin.
      *
      * @since    2.4.7
      * @access   protected
-     * @var      string    $options    The current version of the plugin.
+     * @var      string    $basic_options    The current version of the plugin.
      */
-    public static $options;
+    public static $basic_options;
+
+    /**
+     * Saved Events Options for the Plugin.
+     *
+     * @since    2.4.7
+     * @access   protected
+     * @var      string    $events_options    The current version of the plugin.
+     */
+    public static $events_options;
 
     /**
      * Format for date display, specific to MBO API Plugin.
@@ -126,9 +135,9 @@ class Init {
 		$this->register_shortcodes();
 		$this->add_settings_page();
 
-		// self::$options = get_option('mz_mindbody_options','Error: No Options');
+		self::$basic_options = get_option('mz_mbo_basic','Error: No Options');
         self::$plugin_date_format = "l, F j";
-        self::$event_calendar_duration = isset(self::$options['mz_mindbody_eventsDuration']) ? self::$options['mz_mindbody_eventsDuration'] : '60';
+        self::$event_calendar_duration = isset(self::$events_options['mz_mindbody_eventsDuration']) ? self::$events_options['mz_mindbody_eventsDuration'] : '60';
         self::$time_format = get_option('time_format');
         self::$date_format = get_option('date_format');
         self::$start_of_week = get_option('start_of_week');
@@ -176,7 +185,9 @@ class Init {
 		$plugin_admin = new Admin\Admin( $this->get_plugin_name(), $this->get_version(), $this->get_plugin_text_domain() );
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+        $this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+        $this->loader->add_action( 'plugins_loaded', $plugin_admin, 'check_version' );
+
 
 		/*
 		 * Additional Hooks go here

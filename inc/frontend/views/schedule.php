@@ -1,4 +1,5 @@
 <?php
+use MZ_Mindbody\Inc\Core;
 
 /**
  * Provide a public-facing view for the plugin
@@ -16,3 +17,12 @@
 <h2>Hi there</h2>
 
 <?php mz_pr($data->schedule['GetClassesResult']['Classes']['Class'][0]); ?>
+
+<?php
+
+
+$temp = get_option('mz_mindbody_options','Error: No Options');
+mz_pr($temp);
+mz_pr(MZ_Mindbody\Inc\Core\Init::$basic_options);
+die();
+?>

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Class SampleTest
  *
@@ -15,21 +16,21 @@ class ScheduleDisplayTest extends WP_UnitTestCase {
 	 * Test Results from MBO Sandbox account
 	 */
 	function test_get_classes_result() {			
-		parent::setUp();	
+		parent::setUp();
 		$options = array(
-			'mz_source_name'=>MBOTests\Test_Options::$_MYSOURCENAME,
-			'mz_mindbody_password'=>MBOTests\Test_Options::$_MYPASSWORD,
-			'mz_mindbody_siteID'=>'-99',
-			'mz_mindbody_eventID'=>''
+			'mz_source_name' => MBOTests\Test_Options::$_MYSOURCENAME,
+			'mz_mindbody_password' => MBOTests\Test_Options::$_MYPASSWORD,
+			'mz_mindbody_siteID' => '-99',
+			'mz_mindbody_eventID' => ''
 		);
 		add_option( 'mz_mindbody_options', $options, '', 'yes' );
-		var_dump(MZ_Mindbody\Inc\Core\Init::$options);
+		var_dump(MZ_Mindbody\Inc\Core\Init::$basic_options);
 		$schedule_object = new MZ_Mindbody\Inc\Schedule\Retrieve_Schedule;
 		$time_frame = $schedule_object->time_frame();
         $this->assertTrue(count($time_frame) === 2);
 	  	$response = $schedule_object->get_mbo_results();
 		$this->assertTrue(is_array($response));
-		var_dump($response);
+		//var_dump($response);
         $this->assertTrue($response['GetClassesResult']['ErrorCode'] == 200);
 		//$this->assertTrue(is_array($mbo['GetClassesResult']['Classes']));
 		//$this->assertTrue(is_array($mbo['GetClassesResult']['Classes']['Class']));

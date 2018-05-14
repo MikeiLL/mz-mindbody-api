@@ -18,13 +18,12 @@ abstract class Retrieve {
 	 * @since 2.4.7
 	 */
 	public function instantiate_mbo_API () {
-	    var_dump(Core\Init::$options);
 
-		if (Core\Init::$options != 'Error: No Options') {
+		if (Core\Init::$basic_options != 'Error: No Options') {
             $mb  = new Libraries\MBO_API(array(
-                "SourceName" => Core\Init::$options['mz_source_name'],
-                'Password' => Core\Init::$options['mz_mindbody_password'],
-                'SiteIDs' => array(Core\Init::$options['mz_mindbody_siteID'])
+                "SourceName" => Core\Init::$basic_options['mz_source_name'],
+                'Password' => Core\Init::$basic_options['mz_mindbody_password'],
+                'SiteIDs' => array(Core\Init::$basic_options['mz_mindbody_siteID'])
             ));
         } else {
             $mb  = new Libraries\MBO_API(array(

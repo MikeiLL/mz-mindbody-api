@@ -722,7 +722,7 @@ class WP_OSA {
 			'MZ Mindbody Settings',
 			'MZ Mindbody Settings',
 			'manage_options',
-			'wp_osa_settings',
+			'mz_mindbody_settings',
 			array( $this, 'plugin_page' )
 		);
 	}
