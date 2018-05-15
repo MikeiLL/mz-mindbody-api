@@ -36,6 +36,8 @@ abstract class Retrieve_Classes extends Retrieve {
     public $class_type;
     public $account;
     public $this_week;
+    public $classesByDate;
+    public $classes;
 
     public function __construct(){
 
@@ -51,6 +53,8 @@ abstract class Retrieve_Classes extends Retrieve {
         $this->class_type = 'Enrollment';
         $this->account = 0;
         $this->this_week = 0;
+        $this->classesByDate = array();
+        $this->classes = array();
         
     }
 
@@ -66,7 +70,8 @@ abstract class Retrieve_Classes extends Retrieve {
         $mb = $this->instantiate_mbo_API();
 
         if ($mb == 'NO_SOAP_SERVICE') {
-            return $mb;
+            $this->classes = $mb;
+            return false;
         }
 
         $transient_string = $this->generate_transient_name(array($this->mbo_account));
@@ -83,7 +88,8 @@ abstract class Retrieve_Classes extends Retrieve {
         } else {
             $mb = get_transient( $transient_string );
         }
-        return $mb->GetClasses($this->time_frame());
+        $this->classes = $mb->GetClasses($this->time_frame());
+        return $this->classes;
     }
 
 	/*
@@ -131,14 +137,15 @@ abstract class Retrieve_Classes extends Retrieve {
      *
      * @return @type array of Objects from Single_event class, in Date (and time) sequence.
      */
-    public static function sort_classes_by_date_and_time($classes = array()) {
+    public function sort_classes_by_date_and_time() {
 
         // This is the array that will hold the classes we want to display
-        $classesByDate = array();
-        foreach($classes as $class)
+        // $this->classesByDate;
+
+        foreach($this->classes['GetClassesResult']['Classes']['Class'] as $class)
         {//
             // Skip classes that are cancelled
-            if ($hide_cancelled == 1):
+            if ($this->hide_cancelled == 1):
                 if ($class['IsCanceled'] == 1):
                     continue;
                 endif;
@@ -151,7 +158,7 @@ abstract class Retrieve_Classes extends Retrieve {
 
             $single_event = new Schedule\Schedule_Item($class);
 
-            if(!empty($classesByDate[$classDate])) {
+            if(!empty($this->classesByDate[$classDate])) {
                 // if (
                 //     // Filter out events that who's location isn't in location list.
                 //     // Currently this list doesn't exist here.
@@ -161,7 +168,7 @@ abstract class Retrieve_Classes extends Retrieve {
                 //     continue;
                 // }
                 //$mz_classesByDate[$classDate] = array_merge($mz_classesByDate[$classDate], array($class));
-                array_push($classesByDate[$classDate]['classes'], $single_event);
+                array_push($this->classesByDate[$classDate]['classes'], $single_event);
             } else {
                 // if (
                 //     (!in_array($class['Location']['ID'], $locations)) ||
@@ -170,12 +177,12 @@ abstract class Retrieve_Classes extends Retrieve {
                 //     continue;
                 // }
                 //$mz_classesByDate[$classDate]['classes'] = $single_event;
-                $classesByDate[$classDate] = array('classes' => array($single_event));
+                $this->classesByDate[$classDate] = array('classes' => array($single_event));
             }
         }
         /* They are not ordered by date so order them by date */
-        ksort($classesByDate);
-        foreach($classesByDate as $classDate => &$classes)
+        ksort($this->classesByDate);
+        foreach($this->classesByDate as $classDate => &$classes)
         {
             /*
              * $classes is an array of all classes for given date
@@ -191,7 +198,7 @@ abstract class Retrieve_Classes extends Retrieve {
             });
         }
 
-        return $classesByDate;
+        return $this->classesByDate;
     }
 
     /*

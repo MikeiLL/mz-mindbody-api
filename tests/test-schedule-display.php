@@ -23,8 +23,10 @@ class ScheduleDisplayTest extends WP_UnitTestCase {
 			'mz_mindbody_siteID' => '-99'
 		);
         add_option( 'mz_mbo_basic', $basic_options, '', 'yes' );
+        $this->assertTrue(class_exists('MZ_Mindbody\Inc\Core\Init'));
         // Manually initialize static variable.
 		MZ_Mindbody\Inc\Core\Init::$basic_options = get_option('mz_mbo_basic');
+        $this->assertTrue(class_exists('MZ_Mindbody\Inc\Schedule\Retrieve_Schedule'));
 		$schedule_object = new MZ_Mindbody\Inc\Schedule\Retrieve_Schedule;
 		$time_frame = $schedule_object->time_frame();
         $this->assertTrue(count($time_frame) === 2);
@@ -40,14 +42,12 @@ class ScheduleDisplayTest extends WP_UnitTestCase {
     /**
      * Confirm that schedule display method is operational
      */
-    function test_schedule_sequence() {
+    function test_sort_classes_by_date_and_time() {
         parent::setUp();
-        $this->assertTrue(class_exists('mZoo\MBOAPI\Schedule_Display'));
-        $schedule_display = new mZoo\MBOAPI\Schedule_Display();
         $schedule_object = new MZ_Mindbody\Inc\Schedule\Retrieve_Schedule;
         $response = $schedule_object->get_mbo_results();
         $classes = $response['GetClassesResult']['Classes']['Class'];
-        $sequenced_classes = $schedule_object::sortClassesByDate($classes);
+        $sequenced_classes = $schedule_object->sort_classes_by_date_and_time($classes);
         /*
          * Each subsequent date should be equal to or greater than current,
          * which is set according to first date in the matrix.
