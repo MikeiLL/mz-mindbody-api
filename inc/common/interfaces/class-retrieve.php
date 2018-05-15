@@ -80,6 +80,6 @@ abstract class Retrieve {
      *
      * @since 2.4.7
      */
-    abstract public function get_mbo_results();
+    abstract public function get_mbo_results($timestamp);
 
 }

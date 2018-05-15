@@ -6,35 +6,40 @@ use MZ_Mindbody\Inc\Common\Interfaces as Interfaces;
 class Retrieve_Debug extends Interfaces\Retrieve {
 
     /*
-     * Get data from MBO api
+     * Get a timestamp, return data from MBO api
      *
      * @since 2.4.7
+     *
+     * @param @timestamp defaults to current time
+     *
      * @return array of MBO schedule data
      */
-    public function get_mbo_results(){
+    public function get_mbo_results($timestamp = null){
 
+        $timestamp = isset($timestamp) ? $timestamp : current_time( 'timestamp' );
         $mb = $this->instantiate_mbo_API();
 
         if ($mb == 'NO_SOAP_SERVICE') {
-            return $mb;
+            $this->classes = $mb;
+            return false;
         }
 
-        $transient_string = ''; // $this->generate_transient_name(array($this->account));
+        $transient_string = $this->generate_transient_name(array($this->mbo_account));
 
         if ( false === get_transient( $transient_string ) ) {
             // If there's not a transient already, call the API and create one
 
-            if ($this->account !== 0) {
+            if ($this->mbo_account !== 0) {
                 // If account has been specified in shortcode, update credentials
-                $response->sourceCredentials['SiteIDs'][0] = $this->account;
+                $mb->sourceCredentials['SiteIDs'][0] = $this->mbo_account;
             }
-            set_transient($transient_string, $response, 60 * 60 * 12);
+            set_transient($transient_string, $mb, 60 * 60 * 12);
 
         } else {
-            $response = get_transient( $transient_string );
+            $mb = get_transient( $transient_string );
         }
-
-        return $response->GetClasses($this->time_frame());
+        $this->classes = $mb->GetClasses($this->time_frame());
+        return $this->classes;
     }
 
 }

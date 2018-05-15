@@ -60,13 +60,17 @@ abstract class Retrieve_Classes extends Retrieve {
 
 
     /*
-     * Get data from MBO api
+     * Get a timestamp, return data from MBO api
      *
      * @since 2.4.7
+     *
+     * @param @timestamp defaults to current time
+     *
      * @return array of MBO schedule data
      */
-    public function get_mbo_results(){
+    public function get_mbo_results($timestamp = null){
 
+        $timestamp = isset($timestamp) ? $timestamp : current_time( 'timestamp' );
         $mb = $this->instantiate_mbo_API();
 
         if ($mb == 'NO_SOAP_SERVICE') {
@@ -93,13 +97,17 @@ abstract class Retrieve_Classes extends Retrieve {
     }
 
 	/*
-	 * Return current week start and end timestamps.
+	 * Get timestamp, return week start and end timestamps based
+	 * on wordpress start of week config.
 	 *
 	 * @since 2.4.7
+	 *
+	 * @param @timestamp which date to return week start and end of
+	 *
 	 * @return array 'start', 'end' of current week in timestamps
 	 */
-	public function current_week(){
-		return get_weekstartend(current_time( 'mysql' ), Core\Init::$start_of_week);
+	public function single_week($timestamp){
+		return get_weekstartend(date("Y-m-d H:i:s", $timestamp), Core\Init::$start_of_week);
 	}
 
 	/*
@@ -109,8 +117,8 @@ abstract class Retrieve_Classes extends Retrieve {
 	 *
 	 * @return timestamp of seven days from now
 	 */
-	public function seven_days_from_now(){
-		return strtotime("+7 day", current_time( 'timestamp' ));
+	public function seven_days_later($timestamp){
+		return strtotime("+7 day", $timestamp);
 	}
 
 	/*
@@ -120,7 +128,7 @@ abstract class Retrieve_Classes extends Retrieve {
 	 * @return html string of start and end of current week
 	 */
 	public function current_week_display(){
-		$time_frame = $this->current_week();
+		$time_frame = $this->single_week();
 		$return = 'Week start: ' . date('M d, Y', $time_frame[start]) . '<br/>';
 		$return .= 'Week end: ' . date('M d, Y', $time_frame[end]);
 		return $return;
@@ -206,6 +214,6 @@ abstract class Retrieve_Classes extends Retrieve {
      *
      * @since 2.4.7
      */
-        abstract public function time_frame();
+        abstract public function time_frame($timestamp);
 
 }
