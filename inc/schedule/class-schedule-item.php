@@ -15,6 +15,11 @@ class Schedule_Item {
     private $schedule_item; // holder for item itself
 
     // All of the attributes from MBO
+    protected $startTimeStamp;
+    protected $endTimeStamp;
+    protected $className;
+    public $startDateTime;
+    protected $endDateTime;
     protected $sDate;
     protected $sLoc;
     protected $sTG;
@@ -26,9 +31,6 @@ class Schedule_Item {
     protected $classImage = '';
     protected $classImageArray;
     protected $displayCancelled;
-    protected $className;
-    protected $startDateTime;
-    protected $endDateTime;
     protected $staffName;
     protected $isAvailable;
     protected $locationName;
@@ -51,8 +53,6 @@ class Schedule_Item {
     protected $mbo_url;
     protected $event_start_and_end;
     protected $level; // accessing from another plugin
-    protected $startTimeStamp;
-    protected $endTimeStamp;
     protected $sub_link = '';
     protected $staffModal;
     protected $mbo_account; // the MBO account in case multiple accounts are set
@@ -61,7 +61,9 @@ class Schedule_Item {
      * @param $schedule_item array of item attributes. See class description.
      */
     public function __construct($schedule_item) {
-        $this->schedule_item = $schedule_item;
+        // $this->schedule_item = $schedule_item;
+        $this->className = $schedule_item['ClassDescription']['SessionType']['Name'];
+        $this->startDateTime = $schedule_item['StartDateTime'];
     }
 
     public function get_schedule_item(){

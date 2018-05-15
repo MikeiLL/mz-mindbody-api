@@ -3,6 +3,7 @@ namespace MZ_Mindbody\Inc\Common\Interfaces;
 
 use MZ_Mindbody\Inc\Core as Core;
 use MZ_Mindbody\Inc\Libraries as Libraries;
+use MZ_Mindbody\Inc\Schedule as Schedule;
 
 /*
  * Class that is extended for Schedule Display Shortcode(s)
@@ -130,11 +131,10 @@ abstract class Retrieve_Classes extends Retrieve {
      *
      * @return @type array of Objects from Single_event class, in Date (and time) sequence.
      */
-    public static function sortClassesByDate($classes = array()) {
+    public static function sort_classes_by_date_and_time($classes = array()) {
 
         // This is the array that will hold the classes we want to display
         $classesByDate = array();
-
         foreach($classes as $class)
         {//
             // Skip classes that are cancelled
@@ -149,7 +149,7 @@ abstract class Retrieve_Classes extends Retrieve {
             /* Create a new array with a key for each date YYYY-MM-DD
             and corresponding value an array of class details */
 
-            $single_event = new Single_event($class);
+            $single_event = new Schedule\Schedule_Item($class);
 
             if(!empty($classesByDate[$classDate])) {
                 // if (
@@ -163,12 +163,12 @@ abstract class Retrieve_Classes extends Retrieve {
                 //$mz_classesByDate[$classDate] = array_merge($mz_classesByDate[$classDate], array($class));
                 array_push($classesByDate[$classDate]['classes'], $single_event);
             } else {
-                if (
-                    (!in_array($class['Location']['ID'], $locations)) ||
-                    ($class['ClassDescription']['Program']['ScheduleType'] == $class_type)
-                ) {
-                    continue;
-                }
+                // if (
+                //     (!in_array($class['Location']['ID'], $locations)) ||
+                //     ($class['ClassDescription']['Program']['ScheduleType'] == $class_type)
+                // ) {
+                //     continue;
+                // }
                 //$mz_classesByDate[$classDate]['classes'] = $single_event;
                 $classesByDate[$classDate] = array('classes' => array($single_event));
             }
