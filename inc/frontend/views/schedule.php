@@ -14,6 +14,20 @@ use MZ_Mindbody\Inc\Core;
 
 ?>
 
-<h2>Hi there</h2>
+<table>
+    <?php foreach ($data->horizontal_schedule as $day => $classes): ?>
+    <tr>
+        <td>
+            <?php echo date_i18n('Y-m-d H:i:s', strtotime($day)); ?>
+        </td>
+    </tr>
+        <?php foreach ($classes as $k => $class): ?>
+    <tr>
+        <td>
+            <?php mz_pr($class); ?>
+        </td>
+    </tr>
+        <?php endforeach; ?>
+    <?php endforeach; ?>
+</table>
 
-<?php mz_pr($data->schedule); ?>

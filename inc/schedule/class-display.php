@@ -38,9 +38,9 @@ class Display extends Interfaces\ShortCode_Script_Loader {
         $mz_timeframe = Common\Schedule_Operations::mz_getDateRange($mz_date, 7);
         $schedule_object = new Retrieve_Schedule;
         $schedule_object->get_mbo_results();
-        $sequenced_classes = $schedule_object->sort_classes_by_date_and_time();
+        $horizontal_schedule = $schedule_object->sort_classes_by_date_and_time();
 		$data = array(
-			'schedule' => $sequenced_classes
+			'horizontal_schedule' => $horizontal_schedule
 		);
         $template_loader->set_template_data( $data );
         $template_loader->get_template_part( 'schedule' );

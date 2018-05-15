@@ -159,14 +159,15 @@ abstract class Retrieve_Classes extends Retrieve {
                 endif;
             endif;
 
-            $classDate = $class['StartDateTime'];
+            $dt = new \DateTime($class['StartDateTime']);
+            $just_date =  $dt->format('Y-m-d');
 
             /* Create a new array with a key for each date YYYY-MM-DD
             and corresponding value an array of class details */
 
             $single_event = new Schedule\Schedule_Item($class);
 
-            if(!empty($this->classesByDate[$classDate])) {
+            if(!empty($this->classesByDate[$just_date])) {
                 // if (
                 //     // Filter out events that who's location isn't in location list.
                 //     // Currently this list doesn't exist here.
@@ -176,7 +177,7 @@ abstract class Retrieve_Classes extends Retrieve {
                 //     continue;
                 // }
                 //$mz_classesByDate[$classDate] = array_merge($mz_classesByDate[$classDate], array($class));
-                array_push($this->classesByDate[$classDate]['classes'], $single_event);
+                array_push($this->classesByDate[$just_date]['classes'], $single_event);
             } else {
                 // if (
                 //     (!in_array($class['Location']['ID'], $locations)) ||
@@ -185,7 +186,7 @@ abstract class Retrieve_Classes extends Retrieve {
                 //     continue;
                 // }
                 //$mz_classesByDate[$classDate]['classes'] = $single_event;
-                $this->classesByDate[$classDate] = array('classes' => array($single_event));
+                $this->classesByDate[$just_date] = array('classes' => array($single_event));
             }
         }
         /* They are not ordered by date so order them by date */
