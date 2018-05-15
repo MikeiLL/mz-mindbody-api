@@ -36,17 +36,27 @@ class ScheduleDisplayTest extends WP_UnitTestCase {
 		$this->assertTrue($response['GetClassesResult']['Classes']['Class'][0]['Location']['SiteID'] == '-99');
 		parent::tearDown();
 	}
-	
-	/**
-	 * Confirm that schedule display method is operational
-	 */
-	//function test_schedule_display() {			
-	//	parent::setUp();	
-	//	$this->assertTrue(class_exists('mZoo\MBOAPI\Schedule_Display'));
-	//	$schedule_display = new mZoo\MBOAPI\Schedule_Display();
-	//	$something_else = $schedule_display->mZ_mindbody_show_schedule(array('type' => 'week'));
-	//	print_r($something_else);
-	//	parent::tearDown();
-	//}
+
+    /**
+     * Confirm that schedule display method is operational
+     */
+    function test_schedule_sequence() {
+        parent::setUp();
+        $this->assertTrue(class_exists('mZoo\MBOAPI\Schedule_Display'));
+        $schedule_display = new mZoo\MBOAPI\Schedule_Display();
+        $schedule_object = new MZ_Mindbody\Inc\Schedule\Retrieve_Schedule;
+        $response = $schedule_object->get_mbo_results();
+        $classes = $response['GetClassesResult']['Classes']['Class'];
+        $sequenced_classes = $schedule_object::sortClassesByDate($classes);
+        /*
+         * Each subsequent date should be equal to or greater than current,
+         * which is set according to first date in the matrix.
+         */
+        foreach ($sequenced_classes as $date => $class){
+            $current = isset($current) ? $current : $date;
+            $this->assertTrue( $date >= $current );
+        }
+        parent::tearDown();
+    }
 }
 

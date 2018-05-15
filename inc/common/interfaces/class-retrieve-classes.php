@@ -4,7 +4,54 @@ namespace MZ_Mindbody\Inc\Common\Interfaces;
 use MZ_Mindbody\Inc\Core as Core;
 use MZ_Mindbody\Inc\Libraries as Libraries;
 
+/*
+ * Class that is extended for Schedule Display Shortcode(s)
+ *
+ * @param @type string $time_format Format string for php strtotime function Default: "g:i a"
+ * @param @type array OR numeric $locations Single or list of MBO location numerals Default: 1
+ * @param @type boolean $hide_cancelled Whether or not to display cancelled classes. Default: 0
+ * @param @type array $hide Items to be removed from calendar
+ * @param @type boolean $advanced Whether or not allowing online class sign-up via plugin
+ * @param @type boolean $show_registrants Whether or not to display class registrants in modal popup
+ * @param @type boolean $registrants_count  Whether we want to show count of registrants in a class (TODO - finish) @default: 0
+ * @param @type string $calendar_format Depending on final display, we may create items in Single_event class differently.
+ *																			Default: 'horizontal'
+ * @param @type boolean $delink Make class name NOT a link
+ * @param @type string $class_type MBO API has 'Enrollment' and 'DropIn'. 'Enrolment' is a "workdhop". Default: 'Enrollment'
+ * @param @type numeric $account Which MBO account is being interfaced with.
+ * @param @type boolean $this_week If true, show only week from today.
+ */
 abstract class Retrieve_Classes extends Retrieve {
+
+    public $time_format;
+    public $locations;
+    public $hide_cancelled;
+    public $hide;
+    public $advanced;
+    public $show_registrants;
+    public $registrants_count;
+    public $calendar_format;
+    public $delink;
+    public $class_type;
+    public $account;
+    public $this_week;
+
+    public function __construct(){
+
+        parent::__construct();
+        $this->time_format = "g:i a";
+        $this->locations = array(1);
+        $this->hide_cancelled = 0;
+        $this->hide = array();
+        $this->advanced = 0;
+        $this->show_registrants = 0;
+        $this->registrants_count = 0;
+        $this->calendar_format = 'horizontal';
+        $this->class_type = 'Enrollment';
+        $this->account = 0;
+        $this->this_week = 0;
+        
+    }
 
 
     /*
@@ -37,7 +84,7 @@ abstract class Retrieve_Classes extends Retrieve {
         }
         return $mb->GetClasses($this->time_frame());
     }
-	
+
 	/*
 	 * Return current week start and end timestamps.
 	 *
@@ -47,7 +94,7 @@ abstract class Retrieve_Classes extends Retrieve {
 	public function current_week(){
 		return get_weekstartend(current_time( 'mysql' ), Core\Init::$start_of_week);
 	}
-	
+
 	/*
 	 * Return timestamp of seven days from now.
 	 *
@@ -58,7 +105,7 @@ abstract class Retrieve_Classes extends Retrieve {
 	public function seven_days_from_now(){
 		return strtotime("+7 day", current_time( 'timestamp' ));
 	}
-	
+
 	/*
 	 * Displayable current week start and end timestamps.
 	 *
@@ -71,6 +118,81 @@ abstract class Retrieve_Classes extends Retrieve {
 		$return .= 'Week end: ' . date('M d, Y', $time_frame[end]);
 		return $return;
 	}
+
+    /*
+     * Return an array of MBO Class Objects, ordered by date.
+     *
+     * This is used in Horizontal view. It receives the filtered results from the MBO API call ($mz_classes)
+     * and builds an array of Class Event Objects, sequenced by date and time.
+     *
+     *
+     * @param @type array $mz_classes
+     *
+     * @return @type array of Objects from Single_event class, in Date (and time) sequence.
+     */
+    public static function sortClassesByDate($classes = array()) {
+
+        // This is the array that will hold the classes we want to display
+        $classesByDate = array();
+
+        foreach($classes as $class)
+        {//
+            // Skip classes that are cancelled
+            if ($hide_cancelled == 1):
+                if ($class['IsCanceled'] == 1):
+                    continue;
+                endif;
+            endif;
+
+            $classDate = $class['StartDateTime'];
+
+            /* Create a new array with a key for each date YYYY-MM-DD
+            and corresponding value an array of class details */
+
+            $single_event = new Single_event($class);
+
+            if(!empty($classesByDate[$classDate])) {
+                // if (
+                //     // Filter out events that who's location isn't in location list.
+                //     // Currently this list doesn't exist here.
+                //     (!in_array($class['Location']['ID'], $locations)) ||
+                //     ($class['ClassDescription']['Program']['ScheduleType'] == $class_type)
+                // ) {
+                //     continue;
+                // }
+                //$mz_classesByDate[$classDate] = array_merge($mz_classesByDate[$classDate], array($class));
+                array_push($classesByDate[$classDate]['classes'], $single_event);
+            } else {
+                if (
+                    (!in_array($class['Location']['ID'], $locations)) ||
+                    ($class['ClassDescription']['Program']['ScheduleType'] == $class_type)
+                ) {
+                    continue;
+                }
+                //$mz_classesByDate[$classDate]['classes'] = $single_event;
+                $classesByDate[$classDate] = array('classes' => array($single_event));
+            }
+        }
+        /* They are not ordered by date so order them by date */
+        ksort($classesByDate);
+        foreach($classesByDate as $classDate => &$classes)
+        {
+            /*
+             * $classes is an array of all classes for given date
+             * Take each of the class arrays and order it by time
+             * $classesByDate should have a length of seven, one for
+             * each day of the week.
+             */
+            usort($classes['classes'], function($a, $b) {
+                if($a->startDateTime == $b->startDateTime) {
+                    return 0;
+                }
+                return $a->startDateTime < $b->startDateTime ? -1 : 1;
+            });
+        }
+
+        return $classesByDate;
+    }
 
     /*
      * Set up Time Frame with Start and End times for Schedule Request
