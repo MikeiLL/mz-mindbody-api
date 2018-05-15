@@ -40,7 +40,9 @@ class Display extends Interfaces\ShortCode_Script_Loader {
         $schedule_object->get_mbo_results();
         $horizontal_schedule = $schedule_object->sort_classes_by_date_and_time();
 		$data = array(
-			'horizontal_schedule' => $horizontal_schedule
+            'horizontal_schedule' => $horizontal_schedule,
+            'time_format' => $schedule_object->time_format,
+            'date_format' => $schedule_object->date_format
 		);
         $template_loader->set_template_data( $data );
         $template_loader->get_template_part( 'schedule' );

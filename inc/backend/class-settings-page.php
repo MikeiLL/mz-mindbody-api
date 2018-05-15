@@ -51,7 +51,15 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
 			)
 		);
 
-		// Section: Default Settings.
+        // Section: Advanced.
+        self::$wposa_obj->add_section(
+            array(
+                'id'    => 'mz_mbo_advanced',
+                'title' => __( 'Advanced', 'mz-mindbody-api' ),
+            )
+        );
+
+		// Section: Event Settings.
 		self::$wposa_obj->add_section(
 			array(
 				'id'    => 'mz_mbo_events',
@@ -262,6 +270,32 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
 				'desc'    => $this->staff_codes()
 			)
 		);
+
+
+
+        // Field: Date Format.
+        self::$wposa_obj->add_field(
+            'mz_mbo_advanced',
+            array(
+                'id'      => 'date_format',
+                'type'    => 'text',
+                'name'    => __( 'Date Format', 'mz-mindbody-api' ),
+                'desc'    => 'PHP Date Format for calendar display',
+                'default' => __('l, F j', 'mz-mindbody-api')
+            )
+        );
+
+        // Field: Time Format.
+        self::$wposa_obj->add_field(
+            'mz_mbo_advanced',
+            array(
+                'id'      => 'time_format',
+                'type'    => 'text',
+                'name'    => __( 'Date Format', 'mz-mindbody-api' ),
+                'desc'    => 'PHP Date Format for calendar display',
+                'default' => __('g:i a', 'mz-mindbody-api')
+            )
+        );
 	
 	}
 	

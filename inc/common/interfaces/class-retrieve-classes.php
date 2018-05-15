@@ -25,6 +25,7 @@ use MZ_Mindbody\Inc\Schedule as Schedule;
 abstract class Retrieve_Classes extends Retrieve {
 
     public $time_format;
+    public $date_format;
     public $locations;
     public $hide_cancelled;
     public $hide;
@@ -42,7 +43,9 @@ abstract class Retrieve_Classes extends Retrieve {
     public function __construct(){
 
         parent::__construct();
-        $this->time_format = "g:i a";
+        $advanced_settings = get_option('mz_mbo_advanced');
+        $this->date_format = isset($advanced_settings['date_format']) ? $advanced_settings['date_format'] : get_option('date_format');
+        $this->time_format = isset($advanced_settings['time_format']) ? $advanced_settings['time_format'] : get_option('time_format');
         $this->locations = array(1);
         $this->hide_cancelled = 0;
         $this->hide = array();

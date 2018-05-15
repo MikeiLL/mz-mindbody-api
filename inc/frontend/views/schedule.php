@@ -18,7 +18,7 @@ use MZ_Mindbody\Inc\Core;
     <?php foreach ($data->horizontal_schedule as $day => $classes): ?>
     <tr>
         <td>
-            <?php echo date_i18n('Y-m-d H:i:s', strtotime($day)); ?>
+            <?php echo date_i18n($data->date_format, strtotime($day)); ?>
         </td>
     </tr>
         <?php foreach ($classes as $k => $class): ?>
