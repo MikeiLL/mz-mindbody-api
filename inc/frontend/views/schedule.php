@@ -18,7 +18,7 @@ use MZ_Mindbody\Inc\Core;
 // How many columns do we need?
 $key = reset($data->horizontal_schedule);
 mz_pr(array_filter ((array) (array_shift($key)))); ?>
-<table>
+<table id="mz_horizontal_schedule">
     <?php foreach ($data->horizontal_schedule as $day => $classes): ?>
     <tr class="header visible striped" style="display: table-row">
         <th class="mz_date_display" scope="header">
