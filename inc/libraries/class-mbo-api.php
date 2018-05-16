@@ -165,16 +165,6 @@ class MBO_API {
 		}
 		return $array;
 	}
-	
-  	/*
-	** Used by versions of php < 5.3
-	*/
-    private function extract_client($n){
-					$start = 1+strpos($n, ' ');
-					$end = strpos($n, '(');
-					$length = $end - $start;
-					return substr($n, $start, $length);
-				    }
 				
   	/*
 	** overrides SelectDataXml method to remove some invalid XML element names
