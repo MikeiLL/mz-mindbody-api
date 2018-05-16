@@ -23,6 +23,7 @@ class Retrieve_Schedule extends Interfaces\Retrieve_Classes {
 		$seven_days_from_now = $this->seven_days_later($timestamp);
 		$start_time = new \Datetime( date_i18n('Y-m-d', $current_week['start']) );
 		$end_time = new \Datetime( date_i18n('Y-m-d', $seven_days_from_now) );
+		mz_pr($this->offset);
 		return array('StartDateTime'=> $start_time->format('Y-m-d'), 'EndDateTime'=> $end_time->format('Y-m-d'));
 	}
 

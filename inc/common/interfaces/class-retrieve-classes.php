@@ -39,6 +39,7 @@ abstract class Retrieve_Classes extends Retrieve {
     public $this_week;
     public $classesByDate;
     public $classes;
+    public $offset;
 
     public function __construct(){
 
@@ -58,6 +59,7 @@ abstract class Retrieve_Classes extends Retrieve {
         $this->this_week = 0;
         $this->classesByDate = array();
         $this->classes = array();
+        $this->offset = 0;
         
     }
 
@@ -76,6 +78,8 @@ abstract class Retrieve_Classes extends Retrieve {
         $timestamp = isset($timestamp) ? $timestamp : current_time( 'timestamp' );
 
         $mb = $this->instantiate_mbo_API();
+
+        if (!$mb) return false;
 
         if ($mb == 'NO_SOAP_SERVICE') {
             $this->classes = $mb;

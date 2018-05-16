@@ -26,7 +26,8 @@ class Display extends Interfaces\ShortCode_Script_Loader {
 			'hide_cancelled' => '1',
 			'registrants_count' => '0',
 			'mode_select' => '0',
-			'unlink' => 0
+			'unlink' => 0,
+            'offset' => 0
 				), $atts );
 
         // Add Style with script adder
@@ -36,7 +37,10 @@ class Display extends Interfaces\ShortCode_Script_Loader {
         ob_start();
         $template_loader = new Core\Template_Loader();
         $schedule_object = new Retrieve_Schedule;
-        $schedule_object->get_mbo_results();
+
+        // Call the API and if fails, return error message.
+        if (false == $schedule_object->get_mbo_results()) return "<div>" . __("Mindbody Pplugin settings error.", 'mz-mindbody-api') . "</div>";
+
         $horizontal_schedule = $schedule_object->sort_classes_by_date_and_time();
 		$data = array(
             'horizontal_schedule' => $horizontal_schedule,
