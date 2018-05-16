@@ -121,7 +121,7 @@ abstract class Retrieve_Classes extends Retrieve {
 	 * @return timestamp of seven days from now
 	 */
 	public function seven_days_later($timestamp){
-		return strtotime("+7 day", $timestamp);
+		return strtotime("+6 day", $timestamp);
 	}
 
 	/*
@@ -162,8 +162,13 @@ abstract class Retrieve_Classes extends Retrieve {
                 endif;
             endif;
 
+            // Make a timestamp of just the day to use as key for that day's classes
             $dt = new \DateTime($class['StartDateTime']);
             $just_date =  $dt->format('Y-m-d');
+
+
+            // If class was previous to today ignore it
+            if ($just_date < date('Y-m-d', current_time( 'timestamp'))) continue;
 
             /* Create a new array with a key for each date YYYY-MM-DD
             and corresponding value an array of class details */
