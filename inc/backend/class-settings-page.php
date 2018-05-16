@@ -43,6 +43,14 @@ class Settings_Page {
             )
         );
 
+        // Section: Event Settings.
+        self::$wposa_obj->add_section(
+            array(
+                'id'    => 'mz_mbo_events',
+                'title' => __( 'Events', 'mz-mindbody-api' ),
+            )
+        );
+
         // Section: Shortcodes.
         self::$wposa_obj->add_section(
             array(
@@ -56,14 +64,6 @@ class Settings_Page {
             array(
                 'id'    => 'mz_mbo_advanced',
                 'title' => __( 'Advanced', 'mz-mindbody-api' ),
-            )
-        );
-
-        // Section: Event Settings.
-        self::$wposa_obj->add_section(
-            array(
-                'id'    => 'mz_mbo_events',
-                'title' => __( 'Events', 'mz-mindbody-api' ),
             )
         );
 
@@ -125,30 +125,6 @@ class Settings_Page {
             )
         );
 
-        // Field: Event IDs.
-        self::$wposa_obj->add_field(
-            'mz_mbo_events',
-            array(
-                'id'      => 'mz_mindbody_eventID',
-                'type'    => 'text',
-                'name'    => __( 'Event IDs', 'mz-mindbody-api' ),
-                'desc'    => 'Event Type IDs to return',
-                'default' => __('12345, 34, 64', 'mz-mindbody-api')
-            )
-        );
-
-        // Field: Events Duration Display.
-        self::$wposa_obj->add_field(
-            'mz_mbo_events',
-            array(
-                'id'      => 'mz_mindbody_eventsDuration',
-                'type'    => 'text',
-                'name'    => __( 'Event Display Duration', 'mz-mindbody-api' ),
-                'desc'    => 'How many days from today to display events for',
-                'default' => __('60', 'mz-mindbody-api')
-            )
-        );
-
         // Field: Separator.
         self::$wposa_obj->add_field(
             'mz_mbo_basic',
@@ -166,17 +142,6 @@ class Settings_Page {
                 'id'   => 'credentials_test',
                 'type' => 'title',
                 'name' => '<h1>Credentials Test</h1>',
-            )
-        );
-
-        // Field: Credentials Test Intro HTML.
-        self::$wposa_obj->add_field(
-            'mz_mbo_basic',
-            array(
-                'id'      => 'credentials_test_intro',
-                'type'    => 'html',
-                'name'    => __( 'Test MBO credentials.', 'mz-mindbody-api' ),
-                'desc'    => $this->credentials_test_intro()
             )
         );
 
@@ -249,6 +214,30 @@ class Settings_Page {
             )
         );
 
+        // Field: Event IDs.
+        self::$wposa_obj->add_field(
+            'mz_mbo_events',
+            array(
+                'id'      => 'mz_mindbody_eventID',
+                'type'    => 'text',
+                'name'    => __( 'Event IDs', 'mz-mindbody-api' ),
+                'desc'    => 'Event Type IDs to return',
+                'default' => __('12345, 34, 64', 'mz-mindbody-api')
+            )
+        );
+
+        // Field: Events Duration Display.
+        self::$wposa_obj->add_field(
+            'mz_mbo_events',
+            array(
+                'id'      => 'mz_mindbody_eventsDuration',
+                'type'    => 'text',
+                'name'    => __( 'Event Display Duration', 'mz-mindbody-api' ),
+                'desc'    => 'How many days from today to display events for',
+                'default' => __('60', 'mz-mindbody-api')
+            )
+        );
+
         // Field: Schedule Codes.
         self::$wposa_obj->add_field(
             'mz_mbo_shortcodes',
@@ -270,7 +259,6 @@ class Settings_Page {
                 'desc'    => $this->staff_codes()
             )
         );
-
 
 
         // Field: Date Format.
@@ -397,18 +385,15 @@ class Settings_Page {
     }
 
 
-    private function credentials_test_intro(){
-        $return = sprintf(__('Once credentials have been set and activated, look for %1$s in the
-	  GetClassesResponse box below to confirm settings are correct.',  'mz-mindbody-api'),
-            '<code>&lt;ErrorCode&gt;200&lt;/ErrorCode&gt;</code>');
-        return $return;
-    }
-
     private function mz_mindbody_debug_text() {
-        $mz_timeframe = array_slice(Common\Schedule_Operations::mz_getDateRange(date_i18n('Y-m-d'), 1), 0, 1);
-        $mb_api = new Retrieve_Debug;
-        $mb = $mb_api->instantiate_mbo_API();
-        return $mb->debug();
+        $return =  "<p>";
+        $return .= sprintf(__('Once credentials have been set and activated, look for %1$s in the 
+	                            GetClassesResponse box below to confirm settings are correct.',  'mz-mindbody-api'),
+            '<code>&lt;ErrorCode&gt;200&lt;/ErrorCode&gt;</code>');
+        $return .=  "</p>";
+        $schedule_object = new Retrieve_Debug;
+        $mb = $schedule_object->get_mbo_results();
+        return $return . $mb->debug();
     }
 
 }

@@ -74,6 +74,7 @@ abstract class Retrieve_Classes extends Retrieve {
     public function get_mbo_results($timestamp = null){
 
         $timestamp = isset($timestamp) ? $timestamp : current_time( 'timestamp' );
+
         $mb = $this->instantiate_mbo_API();
 
         if ($mb == 'NO_SOAP_SERVICE') {
