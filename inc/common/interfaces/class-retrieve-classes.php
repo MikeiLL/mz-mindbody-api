@@ -180,7 +180,7 @@ abstract class Retrieve_Classes extends Retrieve {
                 //     continue;
                 // }
                 //$mz_classesByDate[$classDate] = array_merge($mz_classesByDate[$classDate], array($class));
-                array_push($this->classesByDate[$just_date]['classes'], $single_event);
+                array_push($this->classesByDate[$just_date], $single_event);
             } else {
                 // if (
                 //     (!in_array($class['Location']['ID'], $locations)) ||
@@ -189,7 +189,7 @@ abstract class Retrieve_Classes extends Retrieve {
                 //     continue;
                 // }
                 //$mz_classesByDate[$classDate]['classes'] = $single_event;
-                $this->classesByDate[$just_date] = array('classes' => array($single_event));
+                $this->classesByDate[$just_date] = array($single_event);
             }
         }
         /* They are not ordered by date so order them by date */
@@ -202,14 +202,13 @@ abstract class Retrieve_Classes extends Retrieve {
              * $classesByDate should have a length of seven, one for
              * each day of the week.
              */
-            usort($classes['classes'], function($a, $b) {
+            usort($classes, function($a, $b) {
                 if($a->startDateTime == $b->startDateTime) {
                     return 0;
                 }
                 return $a->startDateTime < $b->startDateTime ? -1 : 1;
             });
         }
-
         return $this->classesByDate;
     }
 
