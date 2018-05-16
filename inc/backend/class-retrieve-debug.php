@@ -31,13 +31,10 @@ class Retrieve_Debug extends Interfaces\Retrieve {
      */
     public function get_mbo_results($timestamp = null){
 
-        $timestamp = isset($timestamp) ? $timestamp : current_time( 'timestamp' );
-
         $mb = $this->instantiate_mbo_API();
 
         if ($mb == 'NO_SOAP_SERVICE') {
-            $this->classes = $mb;
-            return false;
+            return $mb;
         }
 
         $transient_string = $this->generate_transient_name(array($this->mbo_account));
@@ -45,17 +42,13 @@ class Retrieve_Debug extends Interfaces\Retrieve {
         if ( false === get_transient( $transient_string ) ) {
             // If there's not a transient already, call the API and create one
 
-            if ($this->mbo_account !== 0) {
-                // If account has been specified in shortcode, update credentials
-                $mb->sourceCredentials['SiteIDs'][0] = $this->mbo_account;
-            }
             set_transient($transient_string, $mb, 60 * 60 * 12);
 
         } else {
             $mb = get_transient( $transient_string );
         }
         $this->classes = $mb->GetClasses($this->time_frame());
-        return $mb;
+        return $mb->debug();
     }
 
 }

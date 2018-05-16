@@ -393,7 +393,7 @@ class Settings_Page {
         $return .=  "</p>";
         $schedule_object = new Retrieve_Debug;
         $mb = $schedule_object->get_mbo_results();
-        return $return . $mb->debug();
+        return $return . $mb;
     }
 
 }
