@@ -55,6 +55,8 @@ abstract class Retrieve {
         foreach ($attributes as $k => $attr) {
             $transient_string .= '_' . $attr ;
         }
+        // append today's date
+        $transient_string .= date('Y-m-d', current_time( 'timestamp'));
         return $transient_string;
     }
     
