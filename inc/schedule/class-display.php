@@ -35,7 +35,6 @@ class Display extends Interfaces\ShortCode_Script_Loader {
 
         ob_start();
         $template_loader = new Core\Template_Loader();
-        $mz_timeframe = Common\Schedule_Operations::mz_getDateRange($mz_date, 7);
         $schedule_object = new Retrieve_Schedule;
         $schedule_object->get_mbo_results();
         $horizontal_schedule = $schedule_object->sort_classes_by_date_and_time();
