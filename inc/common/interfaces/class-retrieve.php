@@ -19,13 +19,15 @@ abstract class Retrieve {
 	 */
 	public function instantiate_mbo_API () {
 
-        if (Core\Init::$basic_options == 'Error: No Options' || empty(Core\Init::$basic_options)) {
+        $basic_options = get_option('mz_mbo_basic','Error: No Options');
+
+        if ($basic_options == 'Error: No Options' || empty($basic_options)) {
             return false;
         } else {
             return new Libraries\MBO_API(array(
-                "SourceName" => Core\Init::$basic_options['mz_source_name'],
-                'Password' => Core\Init::$basic_options['mz_mindbody_password'],
-                'SiteIDs' => array(Core\Init::$basic_options['mz_mindbody_siteID'])
+                "SourceName" => $basic_options['mz_source_name'],
+                'Password' => $basic_options['mz_mindbody_password'],
+                'SiteIDs' => array($basic_options['mz_mindbody_siteID'])
             ));
         }
 	}

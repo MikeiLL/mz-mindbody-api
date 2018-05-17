@@ -30,22 +30,13 @@ class Retrieve_Debug extends Interfaces\Retrieve {
      * @return array of MBO schedule data
      */
     public function get_mbo_results($timestamp = null){
-return false;
+
         $mb = $this->instantiate_mbo_API();
+
+        if (!$mb) return false;
 
         if ($mb == 'NO_SOAP_SERVICE') {
             return $mb;
-        }
-
-        $transient_string = $this->generate_transient_name(array('debug'));
-
-        if ( false === get_transient( $transient_string ) ) {
-            // If there's not a transient already, call the API and create one
-
-            set_transient($transient_string, $mb, 60 * 60 * 12);
-
-        } else {
-            $mb = get_transient( $transient_string );
         }
         $this->classes = $mb->GetClasses($this->time_frame());
         return $mb->debug();

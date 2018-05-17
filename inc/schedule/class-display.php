@@ -39,7 +39,7 @@ class Display extends Interfaces\ShortCode_Script_Loader {
         $schedule_object = new Retrieve_Schedule;
 
         // Call the API and if fails, return error message.
-        if (false == $schedule_object->get_mbo_results()) return "<div>" . __("Mindbody Pplugin settings error.", 'mz-mindbody-api') . "</div>";
+        if (false == $schedule_object->get_mbo_results()) return "<div>" . __("Mindbody plugin settings error.", 'mz-mindbody-api') . "</div>";
 
         $horizontal_schedule = $schedule_object->sort_classes_by_date_and_time();
 		$data = array(
