@@ -12,9 +12,9 @@
       ],
       "main": true
     },
-    "add-to-classes.js": {
-    "files": [
-        "scripts/add-to-classes.js"
+    "schedule-display.js": {
+      "files": [
+        "scripts/schedule-display.js"
       ],
       "main": true
     },
