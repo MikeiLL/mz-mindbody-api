@@ -43,7 +43,7 @@ class ScheduleDisplayTest extends WP_UnitTestCase {
      * Confirm that schedule display method is operational
      */
     function test_sort_classes_by_date_and_time() {
-        
+
         parent::setUp();
 
         $basic_options = array(

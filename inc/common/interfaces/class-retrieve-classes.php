@@ -59,15 +59,15 @@ abstract class Retrieve_Classes extends Retrieve {
      */
     public $current_day_offset;
 
-    public function __construct($atts = array()){
+    public function __construct($atts = array('key' => 'val')){
+
+        parent::__construct();
         $this->date_format = Core\Init::$date_format;
         $this->time_format = Core\Init::$time_format;
         $this->classesByDate = array();
         $this->classes = array();
         $this->atts = $atts;
         $this->time_frame = $this->time_frame();
-
-        parent::__construct();
         
     }
 
@@ -91,7 +91,7 @@ abstract class Retrieve_Classes extends Retrieve {
 
         if ( !$mb || $mb == 'NO_SOAP_SERVICE' ) return false;
 
-        $transient_string = $this->generate_transient_name($this->atts);
+        $transient_string = $this->generate_transient_name();
 
         // global $wpdb;
         // $wpdb->query( "DELETE FROM `$wpdb->options` WHERE `option_name` LIKE '%transient_mz_mindbody%'" );
