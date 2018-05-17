@@ -23,7 +23,7 @@ class Retrieve_Schedule extends Interfaces\Retrieve_Classes {
 		$seven_days_from_now = $this->seven_days_later($timestamp);
 		$start_time = new \Datetime( date_i18n('Y-m-d', $current_week['start']) );
 		$end_time = new \Datetime( date_i18n('Y-m-d', $seven_days_from_now) );
-
+        $current_day_offset = new \Datetime( date_i18n('Y-m-d') );
 
 		// If we are going in future or past based on offset
 		if ( $this->atts['offset'] ) {
@@ -34,11 +34,11 @@ class Retrieve_Schedule extends Interfaces\Retrieve_Classes {
             if ($this->atts['offset'] < 0) $di->invert = 1;
             $start_time->add($di);
             $end_time->add($di);
+            $current_day_offset->add($di);
         }
 
         // Set current_day_offset for filtering by sort_classes_by_date_and_time().
-        $start_time_formatted = $start_time->format('Y-m-d');
-        $this->current_day_offset = $start_time_formatted;
+        $this->current_day_offset = $current_day_offset;
 
 		return array('StartDateTime'=> $start_time->format('Y-m-d'), 'EndDateTime'=> $end_time->format('Y-m-d'));
 	}

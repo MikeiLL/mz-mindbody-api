@@ -49,21 +49,24 @@ abstract class Retrieve_Classes extends Retrieve {
     public $time_frame;
 
     /**
-     * Following attribute holds the current day, with offset,
+     * Holds the current day, with offset, based on "offset" attribute/parameter.
      *
      * set by time_frame() and used by sort_classes_by_date_and_time()
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      string    $current_day_offset    Formatted Datetime object.
      */
     public $current_day_offset;
 
     public function __construct($atts = array()){
 
         parent::__construct();
-        $this->date_format = isset($advanced_settings['date_format']) ? $advanced_settings['date_format'] : get_option('date_format');
-        $this->time_format = isset($advanced_settings['time_format']) ? $advanced_settings['time_format'] : get_option('time_format');
+        $this->date_format = Core\Init::$advanced_options['date_format'];
+        $this->time_format = Core\Init::$advanced_options['time_format'];
         $this->classesByDate = array();
         $this->classes = array();
-        $this->atts = $atts;//
-        $this->current_day_offset = date('Y-m-d', current_time( 'timestamp'));
+        $this->atts = $atts;
         $this->time_frame = $this->time_frame();
         
     }
@@ -178,9 +181,9 @@ abstract class Retrieve_Classes extends Retrieve {
             // Make a timestamp of just the day to use as key for that day's classes
             $dt = new \DateTime($class['StartDateTime']);
             $just_date =  $dt->format('Y-m-d');
-
+            
             // If class was previous to today ignore it
-            if ( $just_date < $this->current_day_offset ) continue;
+            if ( $just_date < $this->current_day_offset->format('Y-m-d') ) continue;
 
             /* Create a new array with a key for each date YYYY-MM-DD
             and corresponding value an array of class details */
