@@ -58,7 +58,7 @@ class Init {
      *
      * @since    2.4.7
      * @access   protected
-     * @var      string    $basic_options    The current version of the plugin.
+     * @var      string    $basic_options    Basic configurations for the plugin.
      */
     public static $basic_options;
 
@@ -67,9 +67,18 @@ class Init {
      *
      * @since    2.4.7
      * @access   protected
-     * @var      string    $events_options    The current version of the plugin.
+     * @var      string    $events_options    Configuration for event display.
      */
     public static $events_options;
+
+    /**
+     * Saved Advanced Options for the Plugin.
+     *
+     * @since    2.4.7
+     * @access   protected
+     * @var      string    $advanced_options    Configuration of advanced options.
+     */
+    public static $advanced_options;
 
     /**
      * Format for date display, specific to MBO API Plugin.
@@ -136,6 +145,8 @@ class Init {
 		$this->add_settings_page();
 
 		self::$basic_options = get_option('mz_mbo_basic','Error: No Options');
+        self::$events_options = get_option('mz_mbo_events');
+        self::$advanced_options = get_option('mz_mbo_advanced');
         self::$plugin_date_format = "l, F j";
         self::$event_calendar_duration = isset(self::$events_options['mz_mindbody_eventsDuration']) ? self::$events_options['mz_mindbody_eventsDuration'] : '60';
         self::$time_format = get_option('time_format');

@@ -15,17 +15,24 @@ class Display extends Interfaces\ShortCode_Script_Loader {
         $atts = shortcode_atts( array(
 			'type' => 'week',
 			'location' => '', // stop using this eventually, in preference "int, int" format
-			'locations' => '',
+			'locations' => array(1),
 			'account' => '0',
-			'filter' => '0',
+            'filter' => '0',
+            'hide_cancelled' => '0',
 			'grid' => '0',
-			'advanced' => '0',
-			'hide' => '',
+            'advanced' => '0',
+            'this_week' => '0',
+			'hide' => array(),
 			'class_types' => '',
-			'show_registrants' => '0',
-			'hide_cancelled' => '1',
+            'show_registrants' => 0,
+            'calendar_format' => 'horizontal',
+            'class_type' => 'Enrollment',
+            'show_registrants' => 0,
+			'hide_cancelled' => 1,
 			'registrants_count' => '0',
-			'mode_select' => '0',
+            'mode_select' => '0',
+            'classesByDate' => array(),
+            'mode_select' => '0',
 			'unlink' => 0,
             'offset' => 0
 				), $atts );
@@ -36,11 +43,10 @@ class Display extends Interfaces\ShortCode_Script_Loader {
 
         ob_start();
         $template_loader = new Core\Template_Loader();
-        $schedule_object = new Retrieve_Schedule;
+        $schedule_object = new Retrieve_Schedule($atts);
 
         // Call the API and if fails, return error message.
         if (false == $schedule_object->get_mbo_results()) return "<div>" . __("Mindbody plugin settings error.", 'mz-mindbody-api') . "</div>";
-
         $horizontal_schedule = $schedule_object->sort_classes_by_date_and_time();
 		$data = array(
             'horizontal_schedule' => $horizontal_schedule,

@@ -7,9 +7,11 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
 abstract class Retrieve {
 
 	protected $mbo_account;
+	public $atts;
 	
-	public function __construct(){
+	public function __construct($atts = array()){
 		$this->mbo_account = 0;
+		$this->atts = $atts;
 	}
 	
 	/*

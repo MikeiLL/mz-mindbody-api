@@ -26,40 +26,45 @@ abstract class Retrieve_Classes extends Retrieve {
 
     public $time_format;
     public $date_format;
-    public $locations;
-    public $hide_cancelled;
-    public $hide;
-    public $advanced;
-    public $show_registrants;
-    public $registrants_count;
-    public $calendar_format;
-    public $delink;
-    public $class_type;
-    public $account;
     public $this_week;
     public $classesByDate;
     public $classes;
-    public $offset;
 
-    public function __construct(){
+    /**
+     * Attributes sent to shortcode.
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      array    $atts    Shortcode attributes filtered via shortcode_atts().
+     */
+    public $atts;
+
+    /**
+     * Holds the time frame for the instance.
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      array    $time_frame    StartDateTime and endDateTime for MBO API call.
+     */
+    public $time_frame;
+
+    /**
+     * Following attribute holds the current day, with offset,
+     *
+     * set by time_frame() and used by sort_classes_by_date_and_time()
+     */
+    public $current_day_offset;
+
+    public function __construct($atts = array()){
 
         parent::__construct();
-        $advanced_settings = get_option('mz_mbo_advanced');
         $this->date_format = isset($advanced_settings['date_format']) ? $advanced_settings['date_format'] : get_option('date_format');
         $this->time_format = isset($advanced_settings['time_format']) ? $advanced_settings['time_format'] : get_option('time_format');
-        $this->locations = array(1);
-        $this->hide_cancelled = 0;
-        $this->hide = array();
-        $this->advanced = 0;
-        $this->show_registrants = 0;
-        $this->registrants_count = 0;
-        $this->calendar_format = 'horizontal';
-        $this->class_type = 'Enrollment';
-        $this->account = 0;
-        $this->this_week = 0;
         $this->classesByDate = array();
         $this->classes = array();
-        $this->offset = 0;
+        $this->atts = $atts;//
+        $this->current_day_offset = date('Y-m-d', current_time( 'timestamp'));
+        $this->time_frame = $this->time_frame();
         
     }
 
@@ -83,10 +88,10 @@ abstract class Retrieve_Classes extends Retrieve {
 
         if ( !$mb || $mb == 'NO_SOAP_SERVICE' ) return false;
 
-        $transient_string = $this->generate_transient_name(array($this->mbo_account));
+        $transient_string = $this->generate_transient_name($this->atts);
 
-        //global $wpdb;
-        //$wpdb->query( "DELETE FROM `$wpdb->options` WHERE `option_name` LIKE '%transient_mz_mindbody%'" );
+        // global $wpdb;
+        // $wpdb->query( "DELETE FROM `$wpdb->options` WHERE `option_name` LIKE '%transient_mz_mindbody%'" );
 
         if ( false === get_transient( $transient_string ) ) {
             // If there's not a transient already, call the API and create one
@@ -96,7 +101,7 @@ abstract class Retrieve_Classes extends Retrieve {
                 $mb->sourceCredentials['SiteIDs'][0] = $this->mbo_account;
             }
 
-            $this->classes = $mb->GetClasses($this->time_frame());
+            $this->classes = $mb->GetClasses($this->time_frame);
 
             set_transient($transient_string, $this->classes, 60 * 60 * 12);
 
@@ -174,9 +179,8 @@ abstract class Retrieve_Classes extends Retrieve {
             $dt = new \DateTime($class['StartDateTime']);
             $just_date =  $dt->format('Y-m-d');
 
-
             // If class was previous to today ignore it
-            if ($just_date < date('Y-m-d', current_time( 'timestamp'))) continue;
+            if ( $just_date < $this->current_day_offset ) continue;
 
             /* Create a new array with a key for each date YYYY-MM-DD
             and corresponding value an array of class details */
