@@ -50,8 +50,8 @@ mz_pr(array_filter ((array) (array_shift($key)))); ?>
                 <?php echo $class->sessionTypeName; ?>
             </td>
         </tr>
-    </tbody>
         <?php endforeach; ?>
+    </tbody>
     <?php endforeach; ?>
 </table>
 
