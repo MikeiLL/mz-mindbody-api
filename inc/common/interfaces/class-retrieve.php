@@ -51,6 +51,7 @@ abstract class Retrieve {
     protected function generate_transient_name () {
         $transient_string = 'mz_mindbody';
         foreach ($this->atts as $k => $attr) {
+            if (is_array($attr)) $attr = implode('_', $attr);
             $transient_string .= '_' . $k . '_' . $attr;
         }
         // append today's date
