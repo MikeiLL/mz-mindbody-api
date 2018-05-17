@@ -44,6 +44,13 @@ class ScheduleDisplayTest extends WP_UnitTestCase {
      */
     function test_sort_classes_by_date_and_time() {
         parent::setUp();
+        $basic_options = array(
+            'mz_source_name' => MBOTests\Test_Options::$_MYSOURCENAME,
+            'mz_mindbody_password' => MBOTests\Test_Options::$_MYPASSWORD,
+            'mz_mindbody_siteID' => '-99'
+        );
+        add_option( 'mz_mbo_basic', $basic_options, '', 'yes' );
+        $this->assertTrue(class_exists('MZ_Mindbody\Inc\Schedule\Retrieve_Schedule'));
         $schedule_object = new MZ_Mindbody\Inc\Schedule\Retrieve_Schedule;
         $response = $schedule_object->get_mbo_results();
         $classes = $response['GetClassesResult']['Classes']['Class'];

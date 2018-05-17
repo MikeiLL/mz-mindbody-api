@@ -171,17 +171,13 @@ abstract class Retrieve_Classes extends Retrieve {
 
         foreach($this->classes['GetClassesResult']['Classes']['Class'] as $class)
         {//
-            // Skip classes that are cancelled
-            if ($this->hide_cancelled == 1):
-                if ($class['IsCanceled'] == 1):
-                    continue;
-                endif;
-            endif;
+            // If configured to do so in shortcode, skip classes that are cancelled.
+            if ( ( !empty($this->atts['hide_cancelled']) ) && ( $class['IsCanceled'] == 1 ) ) continue;
 
             // Make a timestamp of just the day to use as key for that day's classes
             $dt = new \DateTime($class['StartDateTime']);
             $just_date =  $dt->format('Y-m-d');
-            
+
             // If class was previous to today ignore it
             if ( $just_date < $this->current_day_offset->format('Y-m-d') ) continue;
 

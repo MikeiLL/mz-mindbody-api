@@ -26,7 +26,7 @@ class Retrieve_Schedule extends Interfaces\Retrieve_Classes {
         $current_day_offset = new \Datetime( date_i18n('Y-m-d') );
 
 		// If we are going in future or past based on offset
-		if ( $this->atts['offset'] ) {
+		if ( !empty($this->atts['offset']) ) {
 		    // Insure that we have an absolute number, because attr may be negative
 		    $abs = abs($this->atts['offset']);
 		    $di = new \DateInterval('P'.$abs.'W');
