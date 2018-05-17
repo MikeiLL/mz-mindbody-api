@@ -279,8 +279,8 @@ class Settings_Page {
             array(
                 'id'      => 'time_format',
                 'type'    => 'text',
-                'name'    => __( 'Date Format', 'mz-mindbody-api' ),
-                'desc'    => 'PHP Date Format for calendar display',
+                'name'    => __( 'Time Format', 'mz-mindbody-api' ),
+                'desc'    => 'PHP Time Format for calendar display',
                 'default' => __('g:i a', 'mz-mindbody-api')
             )
         );

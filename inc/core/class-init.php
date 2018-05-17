@@ -81,33 +81,13 @@ class Init {
     public static $advanced_options;
 
     /**
-     * Format for date display, specific to MBO API Plugin.
-     *
-     * TO BE IMPLEMENTED
-     *
-     * @since    2.4.7
-     * @access   protected
-     * @var      string    $options    PHP Date formatting string.
-     */
-    protected static $plugin_date_format;
-
-    /**
      * Number of days to retrieve Events for at a time.
      *
      * @since    2.4.7
      * @access   protected
      * @var      integer    $event_calendar_duration    How many days ahead to retrieve Events for.
      */
-    protected static $event_calendar_duration;
-
-    /**
-     * Format for date display.
-     *
-     * @since    2.4.7
-     * @access   protected
-     * @var      string    $options    PHP Date formatting string.
-     */
-    protected static $time_format;
+    public static $event_calendar_duration;
 
     /**
      * Wordpress for date format option.
@@ -116,7 +96,16 @@ class Init {
      * @access   protected
      * @var      string    $date_format    WP date format option.
      */
-    protected static $date_format;
+    public static $date_format;
+
+    /**
+     * Format for date display, specific to MBO API Plugin.
+     *
+     * @since    2.4.7
+     * @access   protected
+     * @var      string    $options    PHP Date formatting string.
+     */
+    public static $time_format;
 
     /**
      * Wordpress option for start of week.
@@ -147,10 +136,9 @@ class Init {
 		self::$basic_options = get_option('mz_mbo_basic','Error: No Options');
         self::$events_options = get_option('mz_mbo_events');
         self::$advanced_options = get_option('mz_mbo_advanced');
-        self::$plugin_date_format = "l, F j";
         self::$event_calendar_duration = isset(self::$events_options['mz_mindbody_eventsDuration']) ? self::$events_options['mz_mindbody_eventsDuration'] : '60';
-        self::$time_format = isset(self::$advanced_options['time_format']) ? self::$advanced_options['time_format'] : get_option('time_format');
-        self::$date_format = isset(self::$advanced_options['date_format']) ? self::$advanced_options['date_format'] : get_option('date_format');
+        self::$date_format = empty(self::$advanced_options['date_format']) ? get_option('date_format') : self::$advanced_options['date_format'];
+        self::$time_format = empty(self::$advanced_options['time_format']) ? get_option('time_format') : self::$advanced_options['time_format'];
         self::$start_of_week = get_option('start_of_week');
 	}
 

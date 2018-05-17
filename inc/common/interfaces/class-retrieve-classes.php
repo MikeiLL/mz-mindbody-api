@@ -24,8 +24,8 @@ use MZ_Mindbody\Inc\Schedule as Schedule;
  */
 abstract class Retrieve_Classes extends Retrieve {
 
-    public $time_format;
     public $date_format;
+    public $time_format;
     public $this_week;
     public $classesByDate;
     public $classes;
@@ -60,14 +60,14 @@ abstract class Retrieve_Classes extends Retrieve {
     public $current_day_offset;
 
     public function __construct($atts = array()){
-
-        parent::__construct();
-        $this->date_format = Core\Init::$advanced_options['date_format'];
-        $this->time_format = Core\Init::$advanced_options['time_format'];
+        $this->date_format = Core\Init::$date_format;
+        $this->time_format = Core\Init::$time_format;
         $this->classesByDate = array();
         $this->classes = array();
         $this->atts = $atts;
         $this->time_frame = $this->time_frame();
+
+        parent::__construct();
         
     }
 
