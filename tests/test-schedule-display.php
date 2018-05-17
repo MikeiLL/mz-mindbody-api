@@ -43,18 +43,33 @@ class ScheduleDisplayTest extends WP_UnitTestCase {
      * Confirm that schedule display method is operational
      */
     function test_sort_classes_by_date_and_time() {
+        
         parent::setUp();
+
         $basic_options = array(
             'mz_source_name' => MBOTests\Test_Options::$_MYSOURCENAME,
             'mz_mindbody_password' => MBOTests\Test_Options::$_MYPASSWORD,
             'mz_mindbody_siteID' => '-99'
         );
         add_option( 'mz_mbo_basic', $basic_options, '', 'yes' );
+
         $this->assertTrue(class_exists('MZ_Mindbody\Inc\Schedule\Retrieve_Schedule'));
+
         $schedule_object = new MZ_Mindbody\Inc\Schedule\Retrieve_Schedule;
+
         $response = $schedule_object->get_mbo_results();
-        $classes = $response['GetClassesResult']['Classes']['Class'];
-        $sequenced_classes = $schedule_object->sort_classes_by_date_and_time($classes);
+
+        $sequenced_classes = $schedule_object->sort_classes_by_date_and_time();
+
+        /*
+         * Test that first date is today
+         */
+        $key = reset($sequenced_classes);
+        $first = array_shift($key);
+        $first_event_date = date('Y-m-d', strtotime($first->startDateTime));
+        $now = date('Y-m-d', current_time( 'timestamp' ));
+        $this->assertTrue($first_event_date == $now);
+
         /*
          * Each subsequent date should be equal to or greater than current,
          * which is set according to first date in the matrix.
@@ -63,6 +78,7 @@ class ScheduleDisplayTest extends WP_UnitTestCase {
             $current = isset($current) ? $current : $date;
             $this->assertTrue( $date >= $current );
         }
+
         parent::tearDown();
     }
 }
