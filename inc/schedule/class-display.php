@@ -23,12 +23,23 @@ class Display extends Interfaces\ShortCode_Script_Loader {
      * Instance of Retrieve_Schedule.
      *
      * @since    2.4.7
-     * @access   protected
+     * @access   public
      * @populated in handleShortcode
      * @used in handleShortcode, localizeScript, display_schedule
      * @var      object    $schedule_object    Instance of Retrieve_Schedule.
      */
-     public $schedule_object;
+    public $schedule_object;
+     
+     /**
+     * Data to send to template
+     *
+     * @since    2.4.7
+     * @access   public
+     * 
+     * @used in handleShortcode, display_schedule
+     * @var      @array    $data    array to send template.
+     */
+    public $template_data;
 
     public function handleShortcode($atts, $content = null) {
 
@@ -96,7 +107,7 @@ class Display extends Interfaces\ShortCode_Script_Loader {
                 
         $horizontal_schedule = $this->schedule_object->sort_classes_by_date_and_time();
 
-        $data = array(
+        $this->template_data = array(
 						'atts' => $atts,
 						'data_target' => $this->data_target,
 						'grid_class' => $this->grid_class,
@@ -111,7 +122,7 @@ class Display extends Interfaces\ShortCode_Script_Loader {
             'class_modal_link' => $this->class_modal_link
         );
 
-        $template_loader->set_template_data( $data );
+        $template_loader->set_template_data( $this->template_data );
         $template_loader->get_template_part( 'schedule_container' );
 
         return ob_get_clean();
@@ -190,16 +201,10 @@ class Display extends Interfaces\ShortCode_Script_Loader {
         
         $horizontal_schedule = $this->schedule_object->sort_classes_by_date_and_time();
 
-        $data = array(
-            'horizontal_schedule' => $horizontal_schedule,
-            'time_format' => $this->schedule_object->time_format,
-            'date_format' => $this->schedule_object->date_format,
-            'data_nonce' => wp_create_nonce( 'mz_MBO_get_registrants_nonce'),
-            'data_target' => 'test',//$this->data_target,
-            'class_modal_link' => 'test'//$this->class_modal_link
-        );
+				// Update the data array
+        $this->template_data['horizontal_schedule'] = $horizontal_schedule;
 				
-        $template_loader->set_template_data( $data );
+        $template_loader->set_template_data( $this->template_data );
         $template_loader->get_template_part( 'schedule' );
 
         $result['message'] = ob_get_clean();

@@ -102,6 +102,7 @@ abstract class Retrieve_Classes extends Retrieve {
 
         $transient_string = $this->generate_transient_name();
 
+				// Delete all transients for this plugin
         // global $wpdb;
         // $wpdb->query( "DELETE FROM `$wpdb->options` WHERE `option_name` LIKE '%transient_mz_mindbody%'" );
 
