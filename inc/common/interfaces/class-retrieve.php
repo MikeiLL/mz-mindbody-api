@@ -49,7 +49,7 @@ abstract class Retrieve {
      * @since 2.4.7
      */
     protected function generate_transient_name () {
-        $transient_string = 'mz_mindbody';
+        $transient_string = 'mz_mindbody_' . get_class();
         foreach ($this->atts as $k => $attr) {
             if (is_array($attr)) $attr = implode('_', $attr);
             $transient_string .= '_' . $k . '_' . $attr;
