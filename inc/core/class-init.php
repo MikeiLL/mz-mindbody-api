@@ -216,9 +216,14 @@ class Init {
 		// $this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
 		$schedule_object = new Schedule\Display;
+		$registrant_object = new Schedule\Retrieve_Registrants;
 
         $this->loader->add_action( 'wp_ajax_nopriv_mz_display_schedule', $schedule_object, 'display_schedule' );
         $this->loader->add_action( 'wp_ajax_mz_display_schedule', $schedule_object, 'display_schedule' );
+
+        //Start Ajax Get Registrants
+        $this->loader->add_action('wp_ajax_nopriv_mz_mbo_get_registrants', $registrant_object, 'get_registrants');
+        $this->loader->add_action('wp_ajax_mz_mbo_get_registrants', $registrant_object, 'get_registrants');
 
 	}
 

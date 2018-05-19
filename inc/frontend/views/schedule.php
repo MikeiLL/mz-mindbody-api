@@ -37,13 +37,30 @@ use MZ_Mindbody\Inc\Core;
                 <?php echo date_i18n($data->time_format, strtotime($class->startDateTime)); ?>
             </td>
             <td class="mz_classDetails">
-                <?php echo $class->className; ?>
+                <a href="<?php
+                		echo $data->class_modal_link;
+                		?>" data-classID="<?php
+                    echo $class->class_title_ID;
+                    ?>" data-target="<?php
+                    echo $data->data_target;
+                    ?>" data-classDescription="<?php
+                    echo $class->classDescription;
+                    ?>" data-staffName="<?php
+                    echo $class->staffName;
+                    if ($class->staffImage != ''){
+                    	?>" data-staffImage="<?php
+                    echo $class->staffImage;
+                    }?>" data-nonce="<?php
+                    echo $data->data_nonce; ?>"><?php
+
+                    echo $class->className; ?></a>
             </td>
             <td class="mz_staffName">
                 <?php echo $class->staffName; ?>
             </td>
             <td class="mz_sessionTypeName">
                 <?php echo $class->sessionTypeName; ?>
+                <?php // echo $class->classDescription; ?>
             </td>
         </tr>
         <?php endforeach; ?>

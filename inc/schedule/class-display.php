@@ -9,50 +9,108 @@ use MZ_Mindbody\Inc\Common\Interfaces as Interfaces;
 class Display extends Interfaces\ShortCode_Script_Loader {
 
     static $addedAlready = false;
+       // Table styling option holders
+    public $table_class;
+    public $horizontal_class;
+		public $grid_class;
+		public $initial_button_text;
+		public $swap_button_text;
+    public $data_target; // Which modal target to use for modal pop-up,
+    public $class_modal_link; // which modal include display file to select
+    		
+    
+    /**
+     * Instance of Retrieve_Schedule.
+     *
+     * @since    2.4.7
+     * @access   protected
+     * @populated in handleShortcode
+     * @used in handleShortcode, localizeScript, display_schedule
+     * @var      object    $schedule_object    Instance of Retrieve_Schedule.
+     */
+     public $schedule_object;
 
     public function handleShortcode($atts, $content = null) {
 
         $atts = shortcode_atts( array(
-			'type' => 'week',
-			'location' => '', // stop using this eventually, in preference "int, int" format
-			'locations' => array(1),
-			'account' => '0',
-            'filter' => '0',
-            'hide_cancelled' => '0',
-			'grid' => '0',
-            'advanced' => '0',
-            'this_week' => '0',
-			'hide' => array(),
-			'class_types' => '',
-            'show_registrants' => 0,
-            'calendar_format' => 'horizontal',
-            'class_type' => 'Enrollment',
-            'show_registrants' => 0,
-			'hide_cancelled' => 1,
-			'registrants_count' => '0',
-            'mode_select' => '0',
-            'classesByDate' => array(),
-            'mode_select' => '0',
-			'unlink' => 0,
-            'offset' => 0
+					'type' => 'week',
+					'location' => '', // stop using this eventually, in preference "int, int" format
+					'locations' => array(1),
+					'account' => '0',
+					'filter' => '0',
+					'hide_cancelled' => '0',
+					'grid' => '0',
+					'advanced' => '0',
+					'this_week' => '0',
+					'hide' => array(),
+					'class_types' => '',
+					'show_registrants' => 0,
+					'calendar_format' => 'horizontal',
+					'class_type' => 'Enrollment',
+					'show_registrants' => 0,
+					'hide_cancelled' => 1,
+					'registrants_count' => '0',
+					'mode_select' => '0',
+					'classesByDate' => array(),
+					'mode_select' => '0',
+					'unlink' => 0,
+					'offset' => 0
 				), $atts );
+				
+				// Define styling variables based on shortcode attribute values
+				$this->table_class = ($this->atts['filter'] == 1) ? 'mz-schedule-filter' : 'mz-schedule-table';
+     
+				if ($this->atts['mode_select'] == 1):
+					$this->grid_class = 'mz_hidden '.$this->table_class;
+					$this->horizontal_class = $this->table_class;
+					$this->initial_button_text = __('Grid View', 'mz-mindbody-api');
+					$this->swap_button_text = __('Horizontal View', 'mz-mindbody-api');
+				elseif ($this->atts['mode_select'] == 2):
+					$this->horizontal_class = 'mz_hidden '.$this->table_class;
+					$this->grid_class = $this->table_class;
+					$this->initial_button_text = __('Horizontal View', 'mz-mindbody-api');
+					$this->swap_button_text = __('Grid View', 'mz-mindbody-api');
+				else:
+					$this->horizontal_class = $this->table_class;
+					$this->grid_class = $this->table_class;
+					$this->initial_button_text = 0;
+					$this->swap_button_text = 0;
+				endif;
+        
+        $show_registrants = ( $atts['show_registrants'] == 1 ) ? true : false;
+        // Are we displaying registrants?
+        $this->data_target = $show_registrants ? 'registrantModal' : 'mzModal';
+        $this->class_modal_link = MZ_Mindbody\PLUGIN_NAME_URL . '/inc/frontend/views/modals/modal_descriptions.php';
+        
+        ob_start();
 
+        $template_loader = new Core\Template_Loader();
+        $this->schedule_object = new Retrieve_Schedule($atts);
+        
+        // Call the API and if fails, return error message.
+        if (false == $this->schedule_object->get_mbo_results()) return "<div>" . __("Mindbody plugin settings error.", 'mz-mindbody-api') . "</div>";
+        
         // Add Style with script adder
         self::addScript();
-        self::localizeScript($atts);
+        $this->localizeScript($atts);
+                
+        $horizontal_schedule = $this->schedule_object->sort_classes_by_date_and_time();
 
-        ob_start();
-        $template_loader = new Core\Template_Loader();
-        $schedule_object = new Retrieve_Schedule($atts);
-
-        // Call the API and if fails, return error message.
-        if (false == $schedule_object->get_mbo_results()) return "<div>" . __("Mindbody plugin settings error.", 'mz-mindbody-api') . "</div>";
-        $horizontal_schedule = $schedule_object->sort_classes_by_date_and_time();
-		$data = array(
+        $data = array(
+						'atts' => $atts,
+						'data_target' => $this->data_target,
+						'grid_class' => $this->grid_class,
+						'horizontal_class' => $this->horizontal_class,
+						'initial_button_text' => $this->initial_button_text,
+						'swap_button_text' => $this->swap_button_text,
             'horizontal_schedule' => $horizontal_schedule,
-            'time_format' => $schedule_object->time_format,
-            'date_format' => $schedule_object->date_format
-		);
+            'time_format' => $this->schedule_object->time_format,
+            'date_format' => $this->schedule_object->date_format,
+            'data_nonce' => wp_create_nonce( 'mz_MBO_get_registrants_nonce'),
+            'data_target' => $this->data_target,
+            'class_modal_link' => $this->class_modal_link
+        );
+
         $template_loader->set_template_data( $data );
         $template_loader->get_template_part( 'schedule_container' );
 
@@ -62,25 +120,46 @@ class Display extends Interfaces\ShortCode_Script_Loader {
     public function addScript() {
         if (!self::$addedAlready) {
             self::$addedAlready = true;
-            wp_register_script('mz_display_schedule_script', MZ_Mindbody\PLUGIN_NAME_URL . 'dist/scripts/schedule-display.js', array('jquery'), 1.0, true );
-            wp_enqueue_script('mz_display_schedule_script');
-            // wp_register_script('mz_mindbody_show_registrants', MZ_Mindbody\PLUGIN_NAME_URL . 'dist/scripts/show-registrants.js', array('jquery'), 1.0, true );
-            // wp_enqueue_script('mz_mindbody_show_registrants');
+            
             wp_register_style( 'mz_mindbody_style', MZ_Mindbody\PLUGIN_NAME_URL . 'dist/styles/main.css');
             wp_enqueue_style('mz_mindbody_style');
+            
+            wp_register_script('mz_display_schedule_script', MZ_Mindbody\PLUGIN_NAME_URL . 'dist/scripts/schedule-display.js', array('jquery'), 1.0, true );
+            wp_enqueue_script('mz_display_schedule_script');
+            
+            wp_register_script('mz_mbo_bootstrap_script', MZ_Mindbody\PLUGIN_NAME_URL . 'dist/scripts/main.js', array('jquery'), 1.0, true );
+            wp_enqueue_script('mz_mbo_bootstrap_script');
+            
+            // wp_register_script('mz_mindbody_show_registrants', MZ_Mindbody\PLUGIN_NAME_URL . 'dist/scripts/show-registrants.js', array('jquery'), 1.0, true );
+            // wp_enqueue_script('mz_mindbody_show_registrants');
+          	
+						wp_register_script('filterTable', MZ_Mindbody\PLUGIN_NAME_URL . 'dist/scripts/mz_filtertable.js', array('jquery'), null, true);
+            wp_enqueue_script('filterTable');
         }
     }
 
-    public static function localizeScript($atts = []) {
-
+    public function localizeScript($atts = []) {
         $protocol = isset( $_SERVER["HTTPS"]) ? 'https://' : 'http://';
         $nonce = wp_create_nonce( 'mz_schedule_display_nonce');
         $params = array(
             'ajaxurl' => admin_url( 'admin-ajax.php', $protocol ),
             'nonce' => $nonce,
-            'atts' => $atts
+            'atts' => $atts,
+						'filter_default' => __('by teacher, class type', 'mz-mindbody-api'),
+						'quick_1' => __('morning', 'mz-mindbody-api'),
+						'quick_2' => __('afternoon', 'mz-mindbody-api'),
+						'quick_3' => __('evening', 'mz-mindbody-api'),
+						'label' => __('Filter', 'mz-mindbody-api'),
+						'selector' => __('All Locations', 'mz-mindbody-api'),
+						'Locations_dict' => $this->schedule_object->locations_dictionary,
+						'staff_preposition' => __('with', 'mz-mindbody-api'),
+						'initial' => $this->initial_button_text,
+						'mode_select' => $this->mode_select,
+						'swap' => $this->swap_button_text,
+            'error' => __('Sorry but there was an error retrieving the schedule.', 'mz-mindbody-api')
             );
         wp_localize_script( 'mz_display_schedule_script', 'mz_mindbody_schedule', $params);
+        
     }
 
     /**
@@ -103,16 +182,23 @@ class Display extends Interfaces\ShortCode_Script_Loader {
         ob_start();
 
         $template_loader = new Core\Template_Loader();
-        $schedule_object = new Retrieve_Schedule($atts);
-//
+        
+        $this->schedule_object = new Retrieve_Schedule($atts);
+        
         // Call the API and if fails, return error message.
-        if (false == $schedule_object->get_mbo_results()) return "<div>" . __("Mindbody plugin settings error.", 'mz-mindbody-api') . "</div>";
-        $horizontal_schedule = $schedule_object->sort_classes_by_date_and_time();
+        if (false == $this->schedule_object->get_mbo_results()) return "<div>" . __("Mindbody plugin settings error.", 'mz-mindbody-api') . "</div>";
+        
+        $horizontal_schedule = $this->schedule_object->sort_classes_by_date_and_time();
+
         $data = array(
             'horizontal_schedule' => $horizontal_schedule,
-            'time_format' => $schedule_object->time_format,
-            'date_format' => $schedule_object->date_format
+            'time_format' => $this->schedule_object->time_format,
+            'date_format' => $this->schedule_object->date_format,
+            'data_nonce' => wp_create_nonce( 'mz_MBO_get_registrants_nonce'),
+            'data_target' => 'test',//$this->data_target,
+            'class_modal_link' => 'test'//$this->class_modal_link
         );
+				
         $template_loader->set_template_data( $data );
         $template_loader->get_template_part( 'schedule' );
 

@@ -19,11 +19,11 @@ class Retrieve_Schedule extends Interfaces\Retrieve_Classes {
 	 */
 	public function time_frame($timestamp = null){
 	    $timestamp = isset($timestamp) ? $timestamp : current_time( 'timestamp' );
-		$current_week = $this->single_week($timestamp);
-		$seven_days_from_now = $this->seven_days_later($timestamp);
-		$start_time = new \Datetime( date_i18n('Y-m-d', $current_week['start']) );
-		$end_time = new \Datetime( date_i18n('Y-m-d', $seven_days_from_now) );
-        $current_day_offset = new \Datetime( date_i18n('Y-m-d') );
+			$current_week = $this->single_week($timestamp);
+			$seven_days_from_now = $this->seven_days_later($timestamp);
+			$start_time = new \Datetime( date_i18n('Y-m-d', $current_week['start']) );
+			$end_time = new \Datetime( date_i18n('Y-m-d', $seven_days_from_now) );
+      $current_day_offset = new \Datetime( date_i18n('Y-m-d') );
 
 		// If we are going in future or past based on offset
 		if ( !empty($this->atts['offset']) ) {

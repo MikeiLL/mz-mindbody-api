@@ -12,8 +12,6 @@ namespace MZ_Mindbody\Inc\Schedule;
  */
 class Schedule_Item {
 
-    private $schedule_item; // holder for item itself
-
     // All of the attributes from MBO
     public $startTimeStamp;
     public $endTimeStamp;
@@ -30,14 +28,6 @@ class Schedule_Item {
     public $classDescription;
     public $classImage = '';
     public $classImageArray;
-    public $displayCancelled;
-    public $staffName;
-    public $isAvailable;
-    public $locationName;
-    public $staffImage;
-    public $day_num; //for use in grid schedule display
-    public $teacher = '';
-    public $classLength = '';
     public $signupButton = '';
     public $locationAddress = '';
     public $locationAddress2 = '';
@@ -47,9 +37,19 @@ class Schedule_Item {
     public $manage_text;
     public $class_details;
     public $toward_capacity = '';
+    public $scheduleType;
+    public $staffName;
+    public $isAvailable;
+    public $locationName;
+    public $staffImage;
+
+    // Attributes we create
+    public $displayCancelled;
+    public $day_num; //for use in grid schedule display
+    public $teacher = '';
+    public $classLength = '';
     public $time_of_day;
     public $non_specified_class_times = array();
-    public $scheduleType;
     public $mbo_url;
     public $event_start_and_end;
     public $level; // accessing from another plugin
@@ -61,11 +61,14 @@ class Schedule_Item {
      * @param $schedule_item array of item attributes. See class description.
      */
     public function __construct($schedule_item) {
-        // $this->schedule_item = $schedule_item;
-        $this->className = $schedule_item['ClassDescription']['SessionType']['Name'];
+
+        $this->className = $schedule_item['ClassDescription']['Name'];
         $this->startDateTime = $schedule_item['StartDateTime'];
         $this->sessionTypeName = $schedule_item['ClassDescription']['SessionType']['Name'];
         $this->staffName = $schedule_item['Staff']['Name'];
+        $this->classDescription = $schedule_item['ClassDescription']['Description'];
+        $this->staffImage = isset($schedule_item['Staff']['ImageURL']) ? $schedule_item['Staff']['ImageURL'] : '';
+        $this->class_title_ID = $schedule_item['ID'];
     }
 
     public function get_schedule_item(){

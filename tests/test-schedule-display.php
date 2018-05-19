@@ -81,5 +81,28 @@ class ScheduleDisplayTest extends WP_UnitTestCase {
 
         parent::tearDown();
     }
+    
+    /**
+     * Confirm that schedule display method is operational
+     *
+    function test_display_schedule() {
+
+        parent::setUp();
+
+        $basic_options = array(
+            'mz_source_name' => MBOTests\Test_Options::$_MYSOURCENAME,
+            'mz_mindbody_password' => MBOTests\Test_Options::$_MYPASSWORD,
+            'mz_mindbody_siteID' => '-99'
+        );
+        add_option( 'mz_mbo_basic', $basic_options, '', 'yes' );
+
+        $this->assertTrue(class_exists('MZ_Mindbody\Inc\Schedule\Display'));
+
+        $shortcode_obj = new MZ_Mindbody\Inc\Schedule\Display;
+
+        $result = $shortcode_obj->display_schedule();
+
+        parent::tearDown();
+    }*/
 }
 

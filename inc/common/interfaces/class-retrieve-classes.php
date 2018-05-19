@@ -4,6 +4,7 @@ namespace MZ_Mindbody\Inc\Common\Interfaces;
 use MZ_Mindbody\Inc\Core as Core;
 use MZ_Mindbody\Inc\Libraries as Libraries;
 use MZ_Mindbody\Inc\Schedule as Schedule;
+use MZ_Mindbody as NS;
 
 /*
  * Class that is extended for Schedule Display Shortcode(s)
@@ -29,6 +30,11 @@ abstract class Retrieve_Classes extends Retrieve {
     public $this_week;
     public $classesByDate;
     public $classes;
+    public $locations_dictionary; // all locations included in current schedule
+    public $locations; // Defaults to the number one which is the default MBO location
+    
+
+
 
     /**
      * Attributes sent to shortcode.
@@ -62,12 +68,15 @@ abstract class Retrieve_Classes extends Retrieve {
     public function __construct($atts = array('key' => 'val')){
 
         parent::__construct();
+        
         $this->date_format = Core\Init::$date_format;
         $this->time_format = Core\Init::$time_format;
         $this->classesByDate = array();
         $this->classes = array();
         $this->atts = $atts;
-        $this->time_frame = $this->time_frame();
+        $this->time_frame = $this->time_frame(); 
+        $this->locations = array(1);
+    		$this->locations_dictionary = array();
         
     }
 
@@ -93,8 +102,8 @@ abstract class Retrieve_Classes extends Retrieve {
 
         $transient_string = $this->generate_transient_name();
 
-        // global $wpdb;
-        // $wpdb->query( "DELETE FROM `$wpdb->options` WHERE `option_name` LIKE '%transient_mz_mindbody%'" );
+        global $wpdb;
+        $wpdb->query( "DELETE FROM `$wpdb->options` WHERE `option_name` LIKE '%transient_mz_mindbody%'" );
 
         if ( false === get_transient( $transient_string ) ) {
             // If there's not a transient already, call the API and create one
@@ -166,17 +175,21 @@ abstract class Retrieve_Classes extends Retrieve {
      */
     public function sort_classes_by_date_and_time() {
 
-        // This is the array that will hold the classes we want to display
-        // $this->classesByDate;
-
         foreach($this->classes['GetClassesResult']['Classes']['Class'] as $class)
-        {//
+        {
             // If configured to do so in shortcode, skip classes that are cancelled.
             if ( ( !empty($this->atts['hide_cancelled']) ) && ( $class['IsCanceled'] == 1 ) ) continue;
 
             // Make a timestamp of just the day to use as key for that day's classes
             $dt = new \DateTime($class['StartDateTime']);
             $just_date =  $dt->format('Y-m-d');
+            
+            // Populate the Locations Dictionary
+            if (!in_array($class['Location']['ID'], $this->locations)) { continue; }
+            
+						if (!array_key_exists($class['Location']['ID'], $this->locations_dictionary)):
+							$this->locations_dictionary[$class['Location']['ID']] = $class['Location']['Name'];
+						endif;
 
             // If class was previous to today ignore it
             if ( $just_date < $this->current_day_offset->format('Y-m-d') ) continue;
