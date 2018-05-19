@@ -1,3 +1,6 @@
+<?php
+use MZ_Mindbody\Inc\Libraries as Libraries;
+?>
 <div id="mzScheduleNavHolder">
     <a href="#" class="previous" data-offset="-1"><?php _e('Previous Week', 'mz-mindbody-api'); ?></a> -
     <a href="#" class="following" data-offset="1"><?php _e('Following Week', 'mz-mindbody-api'); ?></a>
@@ -30,30 +33,37 @@
 									<?php echo date_i18n($data->time_format, strtotime($class->startDateTime)); ?>
 							</td>
 							<td class="mz_classDetails">
-									<a href="<?php
-											echo $data->class_modal_link;
-											?>" data-classID="<?php
-											echo $class->class_title_ID;
-											?>" data-target="<?php
-											echo $data->data_target;
-											?>" data-classDescription="<?php
-											echo $class->classDescription;
-											?>" data-staffName="<?php
-											echo $class->staffName;
-											if ($class->staffImage != ''){
-												?>" data-staffImage="<?php
-											echo $class->staffImage;
-											}?>" data-nonce="<?php
-											echo $data->data_nonce; ?>"><?php
+							
+							<?php 
+							$linkArray = array(
+												'data-staffName' => $class->staffName,
+												'data-className' => $class->className,
+												'data-classDescription' => rawUrlEncode($class->classDescription),
+												'class' => $class_name_css = 'modal-toggle mz_get_registrants ' . sanitize_html_class($class->className, 'mz_class_name'),
+												'text' => $class->className,
+												'data-target' => $data->data_target
+												);
 
-											echo $class->className; ?></a>
+							if ($data->atts['show_registrants'] == 1) {
+											$get_registrants_nonce = wp_create_nonce( 'mz_MBO_get_registrants_nonce');
+											$linkArray['data-nonce'] = $get_registrants_nonce;
+											$linkArray['data-classID'] = $class->class_title_ID;
+							}
+							if ($class->staffImage != ''):
+								$linkArray['data-staffImage'] = $class->staffImage;
+							endif;
+							$class_name_link = new Libraries\HTML_Element('a');
+							$class_name_link->set('href', $data->class_modal_link);
+							$class_name_link->set($linkArray);
+							$class_name_link->output();
+							?>
+									
 							</td>
 							<td class="mz_staffName">
 									<?php echo $class->staffName; ?>
 							</td>
 							<td class="mz_sessionTypeName">
 									<?php echo $class->sessionTypeName; ?>
-									<?php // echo $class->classDescription; ?>
 							</td>
 					</tr>
 					<?php endforeach; ?>
