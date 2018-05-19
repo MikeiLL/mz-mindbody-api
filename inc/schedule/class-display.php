@@ -134,12 +134,12 @@ class Display extends Interfaces\ShortCode_Script_Loader {
             
             wp_register_style( 'mz_mindbody_style', MZ_Mindbody\PLUGIN_NAME_URL . 'dist/styles/main.css');
             wp_enqueue_style('mz_mindbody_style');
-            
-            wp_register_script('mz_display_schedule_script', MZ_Mindbody\PLUGIN_NAME_URL . 'dist/scripts/schedule-display.js', array('jquery'), 1.0, true );
-            wp_enqueue_script('mz_display_schedule_script');
-            
+                        
             wp_register_script('mz_mbo_bootstrap_script', MZ_Mindbody\PLUGIN_NAME_URL . 'dist/scripts/main.js', array('jquery'), 1.0, true );
             wp_enqueue_script('mz_mbo_bootstrap_script');
+            
+            wp_register_script('mz_display_schedule_script', MZ_Mindbody\PLUGIN_NAME_URL . 'dist/scripts/schedule-display.js', array('jquery', 'mz_mbo_bootstrap_script'), 1.0, true );
+            wp_enqueue_script('mz_display_schedule_script');
             
             // wp_register_script('mz_mindbody_show_registrants', MZ_Mindbody\PLUGIN_NAME_URL . 'dist/scripts/show-registrants.js', array('jquery'), 1.0, true );
             // wp_enqueue_script('mz_mindbody_show_registrants');
@@ -203,6 +203,8 @@ class Display extends Interfaces\ShortCode_Script_Loader {
 
 				// Update the data array
         $this->template_data['horizontal_schedule'] = $horizontal_schedule;
+        $this->template_data['time_format'] = $this->schedule_object->time_format;
+        $this->template_data['date_format'] = $this->schedule_object->date_format;
 				
         $template_loader->set_template_data( $this->template_data );
         $template_loader->get_template_part( 'schedule' );
