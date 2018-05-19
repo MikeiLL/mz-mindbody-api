@@ -1,6 +1,6 @@
 (function($) {
   $(document).ready(function($) {
-  
+  	
   	// Initialize some variables
     var nonce = mz_mindbody_schedule.nonce,
     atts = mz_mindbody_schedule.atts,
@@ -39,14 +39,14 @@
                     container.toggleClass('loader');
                     container.html(json.message);
                 } else {
-                    reset_navigation(this);
+                    reset_navigation(this, buttons);
                     container.toggleClass('loader');
                     container.html(json.message);
                 }
             }
         })
         .fail( function( json ) {
-            reset_navigation(this);
+            reset_navigation(this, buttons);
             console.log('fail');
             console.log(json);
             container.toggleClass('loader');
@@ -54,7 +54,7 @@
         }); // End Ajax
     }); // End click navigation
     
-      function reset_navigation(el){
+      function reset_navigation(el, buttons){
           // Reset nav link "offset" data attribute
           if (el.className == 'previous') {
               buttons.forEach( function(button) {
@@ -75,16 +75,19 @@
        *
        */
       $(document).on('click', "a[data-target=mzModal]", function(ev) {
-			ev.preventDefault();
-			var target = $(this).attr("href");
-			// load the url and show modal on success
-			$("#mzModal").load(target, function() { 
-				 $("#mzModal").modal({show:true});  
-			});
-			// kill modal contents on hide
-						$('body').on('hidden.bs.modal', '#mzModal', function () {
-						 $(this).removeData('bs.modal');
-					 });	
+				ev.preventDefault();
+				var target = $(this).attr("href"),
+				staffName = this.getAttribute('data-staffName'),
+				classDescription = decodeURIComponent(this.getAttribute('data-classDescription')),
+				popUpContent = '<h3>' + this.innerHTML + ' ' + mz_mindbody_schedule.staff_preposition + ' ' + staffName + '</h3>';
+			
+				popUpContent += '<div class="mz-staffInfo" id="StaffInfo">' + classDescription + '</div>';
+			
+				// load the url and show modal on success
+				$("#mzModal").load(target, function() { 
+					 $.colorbox({html: popUpContent, width:"75%", height:"80%", href: target}); 
+					 $("#mzModal").colorbox();
+				});
 			});
 			
 			/*
@@ -171,26 +174,44 @@
        *
        *
        */
-      $("a[data-target=mzStaffModal]").click(function(ev) {
+      $("a[data-target=mzStaffScheduleModal]").click(function(ev) {
 			ev.preventDefault();
 			var target = $(this).attr("href");
-			var staffBio = decodeURIComponent($(this).attr('data-staffBio'));
-			var staffName = $(this).attr('data-staffName');
-			var siteID = $(this).attr('data-siteID');
 			var staffID = $(this).attr('data-staffID');
+			var staffName = $(this).attr('data-staffName');
+			var accountNumber = $(this).attr('data-accountNumber');
+			var nonce = $(this).attr("data-nonce");
+			var subText = ($(this).attr("data-sub") !== undefined) ? '<span class="sub-text">' + mZ_get_staff.sub_by_text + '</span>' + ' ' : ' ';
+			var popUpContent = '<h3>' + subText + staffName + '</h3><div class="mz-staffInfo" id="StaffInfo"></div>';
+			var htmlStaffDescription = '<div class="mz_modalStaffDescription"></div>';
 			var mbo_url_parts = ['http://clients.mindbodyonline.com/ws.asp?studioid=',
 													'&stype=-7&sView=week&sTrn='];
-			var staffImage = decodeURIComponent($(this).attr('data-staffImage'));
-			var popUpContent = '<div class="mz_staffName"><h3>' + staffName + '</h3>';
-			popUpContent += '<img class="mz-staffImage" src="' + staffImage + '" />';
-			popUpContent += '<div class="mz_staffBio">'  +  staffBio + '</div></div>';
-			popUpContent += '<br/><a href="' + mbo_url_parts[0] + siteID + mbo_url_parts[1] + staffID + '" ';
-			popUpContent += 'class="btn btn-info mz-btn-info mz-bio-button" target="_blank">See ' + staffName +'&apos;s Schedule</a>';
-			// load the url and show modal on success
-			$("#mzStaffModal").load(target, function() { 
-					$.colorbox({html: popUpContent, width:"75%"}); 
-					$("#mzStaffModal").colorbox();
+			//popUpContent += '<br/><a href="' + mbo_url_parts[0] + siteID + mbo_url_parts[1] + staffID + '" ';
+			//popUpContent += 'class="btn btn-info mz-btn-info mz-bio-button" target="_blank">See ' + staffName +'&apos;s Schedule</a>';
+			popUpContent += '<i class="fa fa-spinner fa-3x fa-spin" style="position: fixed; top: 50%; left: 50%;"></i>';
+			$("#mzStaffScheduleModal").load(target, function() { 
+				 $.colorbox({html: popUpContent, width:"75%", height:"80%", href:target}); 
+				 $("#mzStaffScheduleModal").colorbox();
 			});
+			$.ajax({
+				type: "GET",
+				dataType: 'json',
+				url : mZ_get_staff.ajaxurl,
+				data : {action: 'mz_mbo_get_staff', nonce: nonce, staffID: staffID, accountNumber: accountNumber},
+				success: function(json) {
+					if(json.type == "success") {
+							var staffDetails = '';
+							var imageURL = ((json.message.ImageURL === null) || (json.message.ImageURL === '')) ? '' : '<img class="mz-staffImage" src="' + json.message.ImageURL + '">';
+							var bioGraphy = ((json.message.Bio === null) || (json.message.Bio === '')) ? mZ_get_staff.no_bio : '<div class="mz_staffBio">' + json.message.Bio + '</div>';
+							staffDetails += imageURL;
+							staffDetails += bioGraphy;
+							$('.fa-spinner').remove();
+							$('#StaffInfo').html(staffDetails);
+					}else{
+							$('#StaffInfo').html('ERROR FINDING STAFF INFO');
+					}
+				} // ./ Ajax Success
+			}); // ./Ajax
 		});
 			
 		  /**
