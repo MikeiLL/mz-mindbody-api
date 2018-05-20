@@ -284,6 +284,17 @@ class Settings_Page {
                 'default' => __('g:i a', 'mz-mindbody-api')
             )
         );
+        
+        // Field: Clear Transients
+        self::$wposa_obj->add_field(
+            'mz_mbo_advanced',
+            array(
+                'id'      => 'clear_transients',
+                'type'    => 'html',
+                'name'    => __( 'Clear Transients', 'mz-mindbody-api' ),
+                'desc'    => $this->clear_transients()
+            )
+        );
 
     }
 
@@ -381,6 +392,11 @@ class Settings_Page {
         $return .= '<p>'.sprintf('[%1$s]', 'mz-mindbody-staff-list').'</p>';
         $return .= __('To display staff page as a responsive gallery of images with pop-up biographies, use ', 'mz-mindbody-api');
         $return .= sprintf('[%1$s %2$s]<br/>', 'mz-mindbody-staff-list', 'gallery=1');
+        return $return;
+    }
+    
+    private function clear_transients(){
+        $return = '<a href="#" class="button" id="mzClearTransients">' . __('Clear Transients', 'mz-mindbody-api') . '</a>';
         return $return;
     }
 

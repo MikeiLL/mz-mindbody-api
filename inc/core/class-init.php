@@ -183,7 +183,6 @@ class Init {
 
 		$plugin_admin = new Admin\Admin( $this->get_plugin_name(), $this->get_version(), $this->get_plugin_text_domain() );
 
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
         $this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
         $this->loader->add_action( 'plugins_loaded', $plugin_admin, 'check_version' );
 
@@ -217,6 +216,7 @@ class Init {
 
 		$schedule_object = new Schedule\Display;
 		$registrant_object = new Schedule\Retrieve_Registrants;
+		$admin_object = new Admin\Admin($this->get_plugin_name(), $this->get_version(), $this->get_plugin_text_domain());
 
         $this->loader->add_action( 'wp_ajax_nopriv_mz_display_schedule', $schedule_object, 'display_schedule' );
         $this->loader->add_action( 'wp_ajax_mz_display_schedule', $schedule_object, 'display_schedule' );
@@ -224,6 +224,10 @@ class Init {
         //Start Ajax Get Registrants
         $this->loader->add_action('wp_ajax_nopriv_mz_mbo_get_registrants', $registrant_object, 'get_registrants');
         $this->loader->add_action('wp_ajax_mz_mbo_get_registrants', $registrant_object, 'get_registrants');
+        
+        //Start Ajax Clear Transients
+        $this->loader->add_action('wp_ajax_nopriv_mz_mbo_clear_transients', $admin_object, 'clear_plugin_transients');
+        $this->loader->add_action('wp_ajax_mz_mbo_clear_transients', $admin_object, 'clear_plugin_transients');
 
 	}
 

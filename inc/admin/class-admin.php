@@ -59,7 +59,7 @@ class Admin {
 		$this->plugin_text_domain = $plugin_text_domain;
 
 	}
-
+	
 	/**
 	 * Register the stylesheets for the admin area.
 	 *
@@ -67,21 +67,44 @@ class Admin {
 	 */
 	public function enqueue_styles() {
 
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
-
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/mz-mindbody-api-admin.css', array(), $this->version, 'all' );
 
 	}
+	
+	/**
+	 * Register the JavaScript for the admin area.
+	 *
+	 * @since    2.4.7
+	 */
+	public function enqueue_scripts() {
+                        
+		wp_register_script('mz_mbo_admin_script', NS\PLUGIN_NAME_URL . 'dist/scripts/admin.js', array('jquery'), 1.0, true );
+		wp_enqueue_script('mz_mbo_admin_script');
+		
+		$this->localizeScript();
+
+	}
+
+	
+	/**
+	 * Localize admin script.
+	 *
+	 * @since       2.4.7
+	 *
+	 */
+	public function localizeScript() {
+	
+        $protocol = isset( $_SERVER["HTTPS"]) ? 'https://' : 'http://';
+        
+        $nonce = wp_create_nonce( 'mz_admin_nonce');
+        
+        $params = array(
+            'ajaxurl' => admin_url( 'admin-ajax.php', $protocol ),
+            );
+            
+        wp_localize_script( 'mz_mbo_admin_script', 'mz_mindbody_schedule', $params);
+        
+    }
 
     /**
      * Check if we are on a new version of plugin.
@@ -119,27 +142,32 @@ class Admin {
             add_option('mz_mbo_events', $mz_mbo_events);
         }
     }
+    
+    /*
+     * Clear all plugin transients 
+     *
+     * Called via ajax in admin
+     *
+     *
+     * @since 2.4.7
+     */
+    public function clear_plugin_transients () {
+    
+        global $wpdb;
+        $wpdb->query( "DELETE FROM `$wpdb->options` WHERE `option_name` LIKE '%transient_mz_mindbody%'" );
+        $result['type'] = "success";
+        $result['message'] = __("Transients cleared. Page reloads will re-set them.", 'mz-mindbody-api');
+        		
+        if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+            $result = json_encode($result);
+            echo $result;
+        }
+        else {
+            header("Location: ".$_SERVER["HTTP_REFERER"]);
+        }
 
-	/**
-	 * Register the JavaScript for the admin area.
-	 *
-	 * @since    2.4.7
-	 */
-	public function enqueue_scripts() {
-		/*
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
+        die();
+    }
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/mz-mindbody-api-admin.js', array( 'jquery' ), $this->version, false );
-
-	}
 
 }
