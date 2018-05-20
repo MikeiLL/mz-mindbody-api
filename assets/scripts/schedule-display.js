@@ -118,35 +118,45 @@
            popUpContent += htmlClassDescription;
            popUpContent += '</div>';
 // 
-           // popUpContent += '<h3>' + mz_mindbody_schedule.registrants_header + '</h3>';
+           popUpContent += '<h3>' + mz_mindbody_schedule.registrants_header + '</h3>';
            popUpContent += '<div id="modalRegistrants"><div id="ClassRegistrants" style="min-height:90px;">';
            popUpContent += '<i class="fa fa-spinner fa-3x fa-spin"></i></div></div>';
            $("#registrantModal").load(target, function() {
                $.colorbox({html: popUpContent, width:"75%", height:"80%", href: target});
                $("#registrantModal").colorbox();
            });
-           // $.ajax({
-           //     type: "GET",
-           //     dataType: 'json',
-           //     url : mZ_get_registrants.ajaxurl,
-           //     data : {action: 'mz_mbo_get_registrants', nonce: nonce, classID: classID},
-           //     success: function(json) {
-           //         if(json.type == "success") {
-           //             htmlRegistrants = '<ul class="mz-classRegistrants">';
-           //             if ( $.isArray(json.message)  ) {
-           //                 json.message.forEach( function(name) {
-           //                     htmlRegistrants += '<li>' + name.replace('_', ' ') + '</li>';
-           //                 });
-           //             } else {
-           //                 htmlRegistrants += '<li>' + json.message + '</li>';
-           //             }
-           //             htmlRegistrants += '</ul>';
-           //             $('#modalRegistrants').find('#ClassRegistrants')[0].innerHTML = htmlRegistrants;
-           //         }else{
-           //             $('#modalRegistrants').find('#class-description-modal-body')[0].innerHTML = mZ_get_registrants.get_registrants_error;
-           //         }
-           //     } // ./ Ajax Success
-           // }); // ./Ajax
+           console.log(nonce);
+           console.log(classID);
+           $.ajax({
+               type: "GET",
+               dataType: 'json',
+               url : mz_mindbody_schedule.ajaxurl,
+               data : {action: 'mz_mbo_get_registrants', nonce: nonce, classID: classID},
+               success: function(json) {
+               		console.log(json);
+                   if(json.type == "success") {
+                       htmlRegistrants = '<ul class="mz-classRegistrants">';
+                       if ( $.isArray(json.message)  ) {
+                           json.message.forEach( function(name) {
+                               htmlRegistrants += '<li>' + name.replace('_', ' ') + '</li>';
+                           });
+                       } else {
+                           htmlRegistrants += '<li>' + json.message + '</li>';
+                       }
+                       htmlRegistrants += '</ul>';
+                       $('#modalRegistrants').find('#ClassRegistrants')[0].innerHTML = htmlRegistrants;
+                   }else{
+                       $('#modalRegistrants').find('#class-description-modal-body')[0].innerHTML = mz_mindbody_schedule.get_registrants_error;
+                   }
+               } // ./ Ajax Success
+               
+			}) // End Ajax
+			.fail( function( json ) {
+				reset_navigation(this, buttons);
+				console.log('fail');
+				console.log(json);
+				$('#modalRegistrants').find('#class-description-modal-body')[0].innerHTML = mz_mindbody_schedule.get_registrants_error;
+			}); // End Fail
            return false;
        }); // End click
       

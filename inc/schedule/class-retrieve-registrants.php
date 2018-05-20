@@ -26,7 +26,17 @@ use MZ_Mindbody\Inc\Common\Interfaces as Interfaces;
 class Retrieve_Registrants extends Interfaces\Retrieve {
 
 
-    /*
+    /**
+     * Holds the registrants for a given class.
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      array    $registrants    Array of names of class registrants.
+     */
+     public $registrants;
+
+
+    /**
      * Get a timestamp, return data from MBO api, store it in a transient and
      * as object attribute.
      *
@@ -37,39 +47,25 @@ class Retrieve_Registrants extends Interfaces\Retrieve {
      *
      * @return array of MBO schedule data
      */
-    public function get_mbo_results($timestamp = null){
+    public function get_mbo_results($classid = 0){
 
-        $timestamp = isset($timestamp) ? $timestamp : current_time( 'timestamp' );
-
+		if ( empty( $classid ) ) return false;
+		
         $mb = $this->instantiate_mbo_API();
 
         if ( !$mb || $mb == 'NO_SOAP_SERVICE' ) return false;
-
-        $transient_string = $this->generate_transient_name();
-
-        // global $wpdb;
-        // $wpdb->query( "DELETE FROM `$wpdb->options` WHERE `option_name` LIKE '%transient_mz_mindbody%'" );
-
-        if ( false === get_transient( $transient_string ) ) {
-            // If there's not a transient already, call the API and create one
 
             if ($this->mbo_account !== 0) {
                 // If account has been specified in shortcode, update credentials
                 $mb->sourceCredentials['SiteIDs'][0] = $this->mbo_account;
             }
 
-            $this->classes = $mb->GetClasses($this->time_frame);
+            $this->registrants = $mb->GetClassVisits( array( 'ClassID' => $classid ) );
 
-            set_transient($transient_string, $this->classes, 60 * 60 * 12);
-
-        } else {
-            $this->classes = get_transient( $transient_string );
-        }
-
-        return $this->classes;
+        return $this->registrants;
     }
 
-    /*
+    /**
      * Get Registrants called via Ajax
      *
      *
@@ -77,17 +73,15 @@ class Retrieve_Registrants extends Interfaces\Retrieve {
 
     function get_registrants() {
 
-        check_ajax_referer( $_REQUEST['nonce'], "mz_MBO_get_registrants_nonce", false);
-
-        require_once(MZ_MINDBODY_SCHEDULE_DIR .'mindbody-php-api/MB_API.php');
-        require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
-
-        $mb = MZ_Mindbody_Init::instantiate_mbo_API();
+        check_ajax_referer( $_REQUEST['nonce'], "mz_schedule_display_nonce", false);
 
         $classid = $_REQUEST['classID'];
+        
         $result['type'] = "success";
         $result['message'] = $classid;
-        $class_visits = $mb->GetClassVisits(array('ClassID'=> $classid));
+        // ob_start();
+        $class_visits = $this->get_mbo_results($classid);
+        // var_dump($class_visits);
         if ($class_visits['GetClassVisitsResult']['Status'] != 'Success'):
             $result['type'] = "error";
             $result['message'] = __("Unable to retrieve registrants.", 'mz-mindbody-api');
@@ -114,7 +108,8 @@ class Retrieve_Registrants extends Interfaces\Retrieve {
                 }
             endif;
         endif;
-
+		// $result['message'] = ob_get_clean();
+		
         if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
             $result = json_encode($result);
             echo $result;

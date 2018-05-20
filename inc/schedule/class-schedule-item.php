@@ -69,6 +69,7 @@ class Schedule_Item {
         $this->classDescription = isset($schedule_item['ClassDescription']['Description']) ? $schedule_item['ClassDescription']['Description'] : '';
         $this->staffImage = isset($schedule_item['Staff']['ImageURL']) ? $schedule_item['Staff']['ImageURL'] : '';
         $this->class_title_ID = isset($schedule_item['ID']) ? $schedule_item['ID'] : '';
+        $this->class_instance_ID = isset($schedule_item['ClassScheduleID']) ? $schedule_item['ClassScheduleID'] : '';
     }
 
     public function get_schedule_item(){
