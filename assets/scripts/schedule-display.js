@@ -90,35 +90,14 @@
 				});
 				return false;
 			});
-			
-			/*
-			 * Filter Table Init
-			 *
-			 */
-			var stripeTable = function(table) { //stripe the table (jQuery selector)
-						table.find('tr').removeClass('striped').filter(':visible:even').addClass('striped');
-					};
-
-			$('table.mz-schedule-filter').filterTable({
-				callback: function(term, table) { stripeTable(table); }, //call the striping after every change to the filter term
-				placeholder: mz_mindbody_schedule.filter_default,
-				highlightClass: 'alt',
-				inputType: 'search',
-				label: mz_mindbody_schedule.label,
-				selector: mz_mindbody_schedule.selector,
-				quickListClass: 'mz_quick_filter',
-				quickList: [mz_mindbody_schedule.quick_1, mz_mindbody_schedule.quick_2, mz_mindbody_schedule.quick_3],
-				locations: mz_mindbody_schedule.Locations_dict
-			});
-			stripeTable($('table.mz-schedule-filter')); //stripe the table for the first time
 
       /**
        * Show Registrants
        *
        *
        */
-       $(document).on('click', "a[data-target=registrantModal]").click(function(ev) {
-           ev.preventDefault();
+       $(document).on('click', "a[data-target=registrantModal]", function(e) {
+           e.preventDefault();
            var target = $(this).attr("href");
            var classDescription = $(this).attr('data-classDescription');
            var staffName = $(this).attr('data-staffName');
@@ -128,46 +107,46 @@
            var nonce = $(this).attr("data-nonce");
            var popUpContent = '<div class="mz-classInfo">';
            popUpContent += '<h3>' + className + '</h3>';
-           popUpContent += '<h4>' + mZ_get_registrants.staff_preposition + ' ' + staffName + '</h4>';
-
+           popUpContent += '<h4>' + mz_mindbody_schedule.staff_preposition + ' ' + staffName + '</h4>';
+// 
            if (typeof staffImage != 'undefined') {
                popUpContent += '<img class="mz-staffImage" src="' + staffImage + '" />';
            }
-
+// 
            var htmlClassDescription = '<div class="mz_modalClassDescription">';
            htmlClassDescription += "<div class='class-description'>"  +  decodeURIComponent(classDescription) + "</div></div>";
            popUpContent += htmlClassDescription;
            popUpContent += '</div>';
-
-           popUpContent += '<h3>' + mZ_get_registrants.registrants_header + '</h3>';
+// 
+           // popUpContent += '<h3>' + mz_mindbody_schedule.registrants_header + '</h3>';
            popUpContent += '<div id="modalRegistrants"><div id="ClassRegistrants" style="min-height:90px;">';
            popUpContent += '<i class="fa fa-spinner fa-3x fa-spin"></i></div></div>';
            $(this).load(target, function() {
                $.colorbox({html: popUpContent, width:"75%", height:"80%", href: target});
                $("this").colorbox();
            });
-           $.ajax({
-               type: "GET",
-               dataType: 'json',
-               url : mZ_get_registrants.ajaxurl,
-               data : {action: 'mz_mbo_get_registrants', nonce: nonce, classID: classID},
-               success: function(json) {
-                   if(json.type == "success") {
-                       htmlRegistrants = '<ul class="mz-classRegistrants">';
-                       if ( $.isArray(json.message)  ) {
-                           json.message.forEach( function(name) {
-                               htmlRegistrants += '<li>' + name.replace('_', ' ') + '</li>';
-                           });
-                       } else {
-                           htmlRegistrants += '<li>' + json.message + '</li>';
-                       }
-                       htmlRegistrants += '</ul>';
-                       $('#modalRegistrants').find('#ClassRegistrants')[0].innerHTML = htmlRegistrants;
-                   }else{
-                       $('#modalRegistrants').find('#class-description-modal-body')[0].innerHTML = mZ_get_registrants.get_registrants_error;
-                   }
-               } // ./ Ajax Success
-           }); // ./Ajax
+           // $.ajax({
+           //     type: "GET",
+           //     dataType: 'json',
+           //     url : mZ_get_registrants.ajaxurl,
+           //     data : {action: 'mz_mbo_get_registrants', nonce: nonce, classID: classID},
+           //     success: function(json) {
+           //         if(json.type == "success") {
+           //             htmlRegistrants = '<ul class="mz-classRegistrants">';
+           //             if ( $.isArray(json.message)  ) {
+           //                 json.message.forEach( function(name) {
+           //                     htmlRegistrants += '<li>' + name.replace('_', ' ') + '</li>';
+           //                 });
+           //             } else {
+           //                 htmlRegistrants += '<li>' + json.message + '</li>';
+           //             }
+           //             htmlRegistrants += '</ul>';
+           //             $('#modalRegistrants').find('#ClassRegistrants')[0].innerHTML = htmlRegistrants;
+           //         }else{
+           //             $('#modalRegistrants').find('#class-description-modal-body')[0].innerHTML = mZ_get_registrants.get_registrants_error;
+           //         }
+           //     } // ./ Ajax Success
+           // }); // ./Ajax
            return false;
        }); // End click
       
@@ -214,7 +193,28 @@
 					}
 				} // ./ Ajax Success
 			}); // ./Ajax
-		});
+		});		
+			
+			/*
+			 * Filter Table Init
+			 *
+			 */
+			var stripeTable = function(table) { //stripe the table (jQuery selector)
+						table.find('tr').removeClass('striped').filter(':visible:even').addClass('striped');
+					};
+
+			$('table.mz-schedule-filter').filterTable({
+				callback: function(term, table) { stripeTable(table); }, //call the striping after every change to the filter term
+				placeholder: mz_mindbody_schedule.filter_default,
+				highlightClass: 'alt',
+				inputType: 'search',
+				label: mz_mindbody_schedule.label,
+				selector: mz_mindbody_schedule.selector,
+				quickListClass: 'mz_quick_filter',
+				quickList: [mz_mindbody_schedule.quick_1, mz_mindbody_schedule.quick_2, mz_mindbody_schedule.quick_3],
+				locations: mz_mindbody_schedule.Locations_dict
+			});
+			stripeTable($('table.mz-schedule-filter')); //stripe the table for the first time
 			
 		  /**
        * Mode Select
