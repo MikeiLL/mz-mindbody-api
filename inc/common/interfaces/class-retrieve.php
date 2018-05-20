@@ -48,11 +48,12 @@ abstract class Retrieve {
      *
      * @since 2.4.7
      */
-    protected function generate_transient_name () {
-        $transient_string = 'mz_mindbody_' . get_class();
+    protected function generate_transient_name ($shortcode = 'sc') {
+        $transient_string = 'mz_mindbody_' . $shortcode .'_';
         foreach ($this->atts as $k => $attr) {
+        		if (empty($attr)) continue;
             if (is_array($attr)) $attr = implode('_', $attr);
-            $transient_string .= '_' . $k . '_' . $attr;
+            $transient_string .= '_' . $k . '_' .substr($attr,0,4).'_'.$value;
         }
         // append today's date
         $transient_string .= date('Y-m-d', current_time( 'timestamp'));
