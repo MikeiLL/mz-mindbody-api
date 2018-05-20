@@ -12,6 +12,12 @@
       ],
       "main": true
     },
+    "admin.js": {
+    "files": [
+        "scripts/admin.js"
+      ],
+      "main": true
+    },
     "schedule-display.js": {
       "files": [
         "scripts/schedule-display.js"
