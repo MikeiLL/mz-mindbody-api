@@ -121,9 +121,9 @@
            // popUpContent += '<h3>' + mz_mindbody_schedule.registrants_header + '</h3>';
            popUpContent += '<div id="modalRegistrants"><div id="ClassRegistrants" style="min-height:90px;">';
            popUpContent += '<i class="fa fa-spinner fa-3x fa-spin"></i></div></div>';
-           $(this).load(target, function() {
+           $("#registrantModal").load(target, function() {
                $.colorbox({html: popUpContent, width:"75%", height:"80%", href: target});
-               $("this").colorbox();
+               $("#registrantModal").colorbox();
            });
            // $.ajax({
            //     type: "GET",
@@ -155,7 +155,7 @@
        *
        *
        */
-      $("a[data-target=mzStaffScheduleModal]").click(function(ev) {
+      $(document).on('click', "a[data-target=mzStaffScheduleModal]", function(ev) {
 			ev.preventDefault();
 			var target = $(this).attr("href");
 			var staffID = $(this).attr('data-staffID');
