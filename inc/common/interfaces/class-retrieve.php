@@ -39,7 +39,8 @@ abstract class Retrieve {
      *
      * Name will include whatever strings are needed to
      * differentiate it from other transients storing
-     * MBO results
+     * MBO results. Attr values are substringed to limit
+     * length of string.
      *
      * Used by $this->get_mbo_results
      *
@@ -53,7 +54,7 @@ abstract class Retrieve {
         foreach ($this->atts as $k => $attr) {
         		if (empty($attr)) continue;
             if (is_array($attr)) $attr = implode('_', $attr);
-            $transient_string .= '_' . $k . '_' .substr($attr,0,4).'_'.$value;
+            $transient_string .= '_' . $k . '_' .substr($attr,0,4);
         }
         // append today's date
         $transient_string .= date('Y-m-d', current_time( 'timestamp'));
