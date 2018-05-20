@@ -216,7 +216,7 @@ class Display extends Interfaces\ShortCode_Script_Loader {
         // Register attributes
         $this->handleShortcode($atts);
                 
-				// Update the data array
+		// Update the data array
         $this->template_data['horizontal_schedule'] = $horizontal_schedule;
         $this->template_data['time_format'] = $this->schedule_object->time_format;
         $this->template_data['date_format'] = $this->schedule_object->date_format;
