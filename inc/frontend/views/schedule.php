@@ -1,5 +1,6 @@
 <?php
 use MZ_Mindbody\Inc\Core;
+use MZ_Mindbody\Inc\Libraries as Libraries;
 
 /**
  * Provide a public-facing view for the plugin

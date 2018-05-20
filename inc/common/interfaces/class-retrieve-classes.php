@@ -32,9 +32,6 @@ abstract class Retrieve_Classes extends Retrieve {
     public $classes;
     public $locations_dictionary; // all locations included in current schedule
     public $locations; // Defaults to the number one which is the default MBO location
-    
-
-
 
     /**
      * Attributes sent to shortcode.
@@ -100,7 +97,7 @@ abstract class Retrieve_Classes extends Retrieve {
 
         if ( !$mb || $mb == 'NO_SOAP_SERVICE' ) return false;
 
-        $transient_string = $this->generate_transient_name();
+        $transient_string = $this->generate_transient_name('get_schedule');
 
 				// Delete all transients for this plugin
         // global $wpdb;

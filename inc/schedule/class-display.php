@@ -29,6 +29,17 @@ class Display extends Interfaces\ShortCode_Script_Loader {
      * @var      object    $schedule_object    Instance of Retrieve_Schedule.
      */
     public $schedule_object;
+    
+    /**
+     * Shortcode attributes.
+     *
+     * @since    2.4.7
+     * @access   public
+     * 
+     * @used in handleShortcode, localizeScript, display_schedule
+     * @var      array    $atts    Shortcode attributes function called with.
+     */
+    public $atts;
      
      /**
      * Data to send to template
@@ -43,16 +54,16 @@ class Display extends Interfaces\ShortCode_Script_Loader {
 
     public function handleShortcode($atts, $content = null) {
 
-        $atts = shortcode_atts( array(
+        $this->atts = shortcode_atts( array(
 					'type' => 'week',
 					'location' => '', // stop using this eventually, in preference "int, int" format
 					'locations' => array(1),
 					'account' => '0',
 					'filter' => '0',
-					'hide_cancelled' => '0',
-					'grid' => '0',
-					'advanced' => '0',
-					'this_week' => '0',
+					'hide_cancelled' => 0,
+					'grid' => 0,
+					'advanced' => 0,
+					'this_week' => 0,
 					'hide' => array(),
 					'class_types' => '',
 					'show_registrants' => 0,
@@ -61,9 +72,8 @@ class Display extends Interfaces\ShortCode_Script_Loader {
 					'show_registrants' => 0,
 					'hide_cancelled' => 1,
 					'registrants_count' => '0',
-					'mode_select' => '0',
 					'classesByDate' => array(),
-					'mode_select' => '0',
+					'mode_select' => 0,
 					'unlink' => 0,
 					'offset' => 0
 				), $atts );
@@ -88,27 +98,26 @@ class Display extends Interfaces\ShortCode_Script_Loader {
 					$this->swap_button_text = 0;
 				endif;
         
-        $show_registrants = ( $atts['show_registrants'] == 1 ) ? true : false;
+        $show_registrants = ( $this->atts['show_registrants'] == 1 ) ? true : false;
         // Are we displaying registrants?
         $this->data_target = $show_registrants ? 'registrantModal' : 'mzModal';
-        $this->class_modal_link = MZ_Mindbody\PLUGIN_NAME_URL . '/inc/frontend/views/modals/modal_descriptions.php';
+        $this->class_modal_link = MZ_Mindbody\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php';
         
         ob_start();
 
         $template_loader = new Core\Template_Loader();
-        $this->schedule_object = new Retrieve_Schedule($atts);
+        $this->schedule_object = new Retrieve_Schedule($this->atts);
         
         // Call the API and if fails, return error message.
         if (false == $this->schedule_object->get_mbo_results()) return "<div>" . __("Mindbody plugin settings error.", 'mz-mindbody-api') . "</div>";
         
         // Add Style with script adder
         self::addScript();
-        $this->localizeScript($atts);
                 
         $horizontal_schedule = $this->schedule_object->sort_classes_by_date_and_time();
 
         $this->template_data = array(
-						'atts' => $atts,
+						'atts' => $this->atts,
 						'data_target' => $this->data_target,
 						'grid_class' => $this->grid_class,
 						'horizontal_class' => $this->horizontal_class,
@@ -146,16 +155,19 @@ class Display extends Interfaces\ShortCode_Script_Loader {
           	
 						wp_register_script('filterTable', MZ_Mindbody\PLUGIN_NAME_URL . 'dist/scripts/mz_filtertable.js', array('jquery'), null, true);
             wp_enqueue_script('filterTable');
+            
+        		$this->localizeScript();
+        		
         }
     }
 
-    public function localizeScript($atts = []) {
+    public function localizeScript() {
         $protocol = isset( $_SERVER["HTTPS"]) ? 'https://' : 'http://';
         $nonce = wp_create_nonce( 'mz_schedule_display_nonce');
         $params = array(
             'ajaxurl' => admin_url( 'admin-ajax.php', $protocol ),
             'nonce' => $nonce,
-            'atts' => $atts,
+            'atts' => $this->atts,
 						'filter_default' => __('by teacher, class type', 'mz-mindbody-api'),
 						'quick_1' => __('morning', 'mz-mindbody-api'),
 						'quick_2' => __('afternoon', 'mz-mindbody-api'),
@@ -165,7 +177,7 @@ class Display extends Interfaces\ShortCode_Script_Loader {
 						'Locations_dict' => $this->schedule_object->locations_dictionary,
 						'staff_preposition' => __('with', 'mz-mindbody-api'),
 						'initial' => $this->initial_button_text,
-						'mode_select' => $this->mode_select,
+						'mode_select' => $this->atts['mode_select'],
 						'swap' => $this->swap_button_text,
             'error' => __('Sorry but there was an error retrieving the schedule.', 'mz-mindbody-api')
             );
@@ -200,12 +212,15 @@ class Display extends Interfaces\ShortCode_Script_Loader {
         if (false == $this->schedule_object->get_mbo_results()) return "<div>" . __("Mindbody plugin settings error.", 'mz-mindbody-api') . "</div>";
         
         $horizontal_schedule = $this->schedule_object->sort_classes_by_date_and_time();
-
+        
+        // Register attributes
+        $this->handleShortcode($atts);
+                
 				// Update the data array
         $this->template_data['horizontal_schedule'] = $horizontal_schedule;
         $this->template_data['time_format'] = $this->schedule_object->time_format;
         $this->template_data['date_format'] = $this->schedule_object->date_format;
-				
+
         $template_loader->set_template_data( $this->template_data );
         $template_loader->get_template_part( 'schedule' );
 

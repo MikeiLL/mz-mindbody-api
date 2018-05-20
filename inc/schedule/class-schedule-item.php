@@ -42,7 +42,7 @@ class Schedule_Item {
     public $isAvailable;
     public $locationName;
     public $staffImage;
-
+    
     // Attributes we create
     public $displayCancelled;
     public $day_num; //for use in grid schedule display
@@ -62,13 +62,13 @@ class Schedule_Item {
      */
     public function __construct($schedule_item) {
 
-        $this->className = $schedule_item['ClassDescription']['Name'];
-        $this->startDateTime = $schedule_item['StartDateTime'];
-        $this->sessionTypeName = $schedule_item['ClassDescription']['SessionType']['Name'];
-        $this->staffName = $schedule_item['Staff']['Name'];
-        $this->classDescription = $schedule_item['ClassDescription']['Description'];
+        $this->className = isset($schedule_item['ClassDescription']['Name']) ? $schedule_item['ClassDescription']['Name']: '';
+        $this->startDateTime = isset($schedule_item['StartDateTime']) ? $schedule_item['StartDateTime'] : '';
+        $this->sessionTypeName = isset($schedule_item['ClassDescription']['SessionType']['Name']) ? $schedule_item['ClassDescription']['SessionType']['Name'] : '';
+        $this->staffName = isset($schedule_item['Staff']['Name']) ? $schedule_item['Staff']['Name'] : '';
+        $this->classDescription = isset($schedule_item['ClassDescription']['Description']) ? $schedule_item['ClassDescription']['Description'] : '';
         $this->staffImage = isset($schedule_item['Staff']['ImageURL']) ? $schedule_item['Staff']['ImageURL'] : '';
-        $this->class_title_ID = $schedule_item['ID'];
+        $this->class_title_ID = isset($schedule_item['ID']) ? $schedule_item['ID'] : '';
     }
 
     public function get_schedule_item(){
