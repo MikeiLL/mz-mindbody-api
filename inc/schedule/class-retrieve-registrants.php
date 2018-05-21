@@ -7,21 +7,8 @@ use MZ_Mindbody\Inc\Schedule as Schedule;
 use MZ_Mindbody\Inc\Common\Interfaces as Interfaces;
 
 /*
- * Class that is extended for Schedule Display Shortcode(s)
+ * Class that is extended for Schedule Display Ajax Retrieve Registrants (s)
  *
- * @param @type string $time_format Format string for php strtotime function Default: "g:i a"
- * @param @type array OR numeric $locations Single or list of MBO location numerals Default: 1
- * @param @type boolean $hide_cancelled Whether or not to display cancelled classes. Default: 0
- * @param @type array $hide Items to be removed from calendar
- * @param @type boolean $advanced Whether or not allowing online class sign-up via plugin
- * @param @type boolean $show_registrants Whether or not to display class registrants in modal popup
- * @param @type boolean $registrants_count  Whether we want to show count of registrants in a class (TODO - finish) @default: 0
- * @param @type string $calendar_format Depending on final display, we may create items in Single_event class differently.
- *																			Default: 'horizontal'
- * @param @type boolean $delink Make class name NOT a link
- * @param @type string $class_type MBO API has 'Enrollment' and 'DropIn'. 'Enrolment' is a "workdhop". Default: 'Enrollment'
- * @param @type numeric $account Which MBO account is being interfaced with.
- * @param @type boolean $this_week If true, show only week from today.
  */
 class Retrieve_Registrants extends Interfaces\Retrieve {
 
@@ -70,10 +57,9 @@ class Retrieve_Registrants extends Interfaces\Retrieve {
      *
      *
      */
-
     function get_registrants() {
 
-        check_ajax_referer( $_REQUEST['nonce'], "mz_schedule_display_nonce", false);
+        check_ajax_referer( $_REQUEST['nonce'], "mz_admin_nonce", false);
 
         $classid = $_REQUEST['classID'];
         
