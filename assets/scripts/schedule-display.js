@@ -107,16 +107,16 @@
             var popUpContent = '<div class="mz-classInfo">';
             popUpContent += '<h3>' + className + '</h3>';
             popUpContent += '<h4>' + mz_mindbody_schedule.staff_preposition + ' ' + staffName + '</h4>';
-// 
+
             if (typeof staffImage != 'undefined') {
                 popUpContent += '<img class="mz-staffImage" src="' + staffImage + '" />';
             }
-// 
+
             var htmlClassDescription = '<div class="mz_modalClassDescription">';
             htmlClassDescription += "<div class='class-description'>" + decodeURIComponent(classDescription) + "</div></div>";
             popUpContent += htmlClassDescription;
             popUpContent += '</div>';
-// 
+
             popUpContent += '<h3>' + mz_mindbody_schedule.registrants_header + '</h3>';
             popUpContent += '<div id="modalRegistrants"><div id="ClassRegistrants" style="min-height:90px;">';
             popUpContent += '<i class="fa fa-spinner fa-3x fa-spin"></i></div></div>';
@@ -124,8 +124,6 @@
                 $.colorbox({html: popUpContent, width: "75%", height: "80%", href: target});
                 $("#registrantModal").colorbox();
             });
-            console.log(nonce);
-            console.log(classID);
             $.ajax({
                 type: "GET",
                 dataType: 'json',
