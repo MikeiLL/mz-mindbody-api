@@ -36,7 +36,8 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
         <?php foreach ($classes as $k => $class): ?>
             <tr>
                 <td class="mz_date_display">
-                    <?php echo date_i18n($data->time_format, strtotime($class->startDateTime)); ?>
+                    <?php echo date_i18n($data->time_format, strtotime($class->startDateTime)); ?><br />
+                    <a class="btn" href="<?php echo $class->mbo_url; ?>" target="_blank"><?php _e('Sign-Up', 'mz-mindbody-api'); ?></a>
                 </td>
                 <td class="mz_classDetails">
 

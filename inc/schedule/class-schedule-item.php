@@ -312,11 +312,11 @@ class Schedule_Item {
     public $non_specified_class_times = array();
 
     /**
-     * 
+     * Holder for MBO Url
      *
      * @since    2.4.7
      * @access   public
-     * @var      string $mbo_url
+     * @var      urlstring $mbo_url the url that links to MBO interface for class
      */
     public $mbo_url;
 
@@ -398,6 +398,7 @@ class Schedule_Item {
         $this->sTG = $schedule_item['ClassScheduleID'];
         $this->sign_up_title = __('Sign-Up', 'mz-mindbody-api');
         $this->manage_text = __('Manage on MindBody Site', 'mz-mindbody-api');
+        $this->mbo_url = $this->mbo_url();
     }
 
     public function get_schedule_item(){
