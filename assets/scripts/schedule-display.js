@@ -146,7 +146,7 @@
                        htmlRegistrants += '</ul>';
                        $('#modalRegistrants').find('#ClassRegistrants')[0].innerHTML = htmlRegistrants;
                    }else{
-                       $('#modalRegistrants').find('#class-description-modal-body')[0].innerHTML = mz_mindbody_schedule.get_registrants_error;
+                       $('#modalRegistrants').find('#ClassRegistrants')[0].innerHTML = mz_mindbody_schedule.get_registrants_error;
                    }
                } // ./ Ajax Success
                
@@ -155,7 +155,7 @@
 				reset_navigation(this, buttons);
 				console.log('fail');
 				console.log(json);
-				$('#modalRegistrants').find('#class-description-modal-body')[0].innerHTML = mz_mindbody_schedule.get_registrants_error;
+				$('#modalRegistrants').find('#ClassRegistrants')[0].innerHTML = mz_mindbody_schedule.get_registrants_error;
 			}); // End Fail
            return false;
        }); // End click
