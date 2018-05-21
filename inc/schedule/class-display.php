@@ -9,14 +9,85 @@ use MZ_Mindbody\Inc\Common\Interfaces as Interfaces;
 class Display extends Interfaces\ShortCode_Script_Loader
 {
 
+    /**
+     * If shortcode script has been enqueued.
+     *
+     * @since    2.4.7
+     * @access   public
+     *
+     * @used in handleShortcode, addScript
+     * @var      boolean $addedAlready True if shorcdoe scripts have been enqueued.
+     */
     static $addedAlready = false;
+
     // Table styling option holders
+    /**
+     *
+     *
+     * @since    2.4.7
+     * @access   public
+     *
+     * @var      string
+     */
     public $table_class;
+    /**
+     *
+     *
+     * @since    2.4.7
+     * @access   public
+     *
+     * @var      string
+     */
     public $horizontal_class;
+
+    /**
+     *
+     *
+     * @since    2.4.7
+     * @access   public
+     *
+     * @var      string
+     */
     public $grid_class;
+
+    /**
+     *
+     *
+     * @since    2.4.7
+     * @access   public
+     *
+     * @var      string
+     */
     public $initial_button_text;
+
+    /**
+     *
+     *
+     * @since    2.4.7
+     * @access   public
+     *
+     * @var      string
+     */
     public $swap_button_text;
+
+    /**
+     *
+     *
+     * @since    2.4.7
+     * @access   public
+     *
+     * @var      string
+     */
     public $data_target; // Which modal target to use for modal pop-up,
+
+    /**
+     *
+     *
+     * @since    2.4.7
+     * @access   public
+     *
+     * @var      string
+     */
     public $class_modal_link; // which modal include display file to select
 
 

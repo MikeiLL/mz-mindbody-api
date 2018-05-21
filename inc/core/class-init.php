@@ -7,6 +7,7 @@ use MZ_Mindbody\Inc\Admin as Admin;
 use MZ_Mindbody\Inc\Frontend as Frontend;
 use MZ_Mindbody\Inc\Backend as Backend;
 use MZ_Mindbody\Inc\Schedule as Schedule;
+use MZ_Mindbody\Inc\Staff as Staff;
 
 /**
  * The core plugin class.
@@ -221,20 +222,27 @@ class Init
         // $this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
         // $this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
+        $admin_object = new Admin\Admin($this->get_plugin_name(), $this->get_version(), $this->get_plugin_text_domain());
         $schedule_object = new Schedule\Display;
         $registrant_object = new Schedule\Retrieve_Registrants;
-        $admin_object = new Admin\Admin($this->get_plugin_name(), $this->get_version(), $this->get_plugin_text_domain());
+        $staff_object = new Staff\Display;
 
+
+        // Start Ajax Clear Transients
+        $this->loader->add_action('wp_ajax_nopriv_mz_mbo_clear_transients', $admin_object, 'clear_plugin_transients');
+        $this->loader->add_action('wp_ajax_mz_mbo_clear_transients', $admin_object, 'clear_plugin_transients');
+
+        // Start Ajax Display Schedule
         $this->loader->add_action('wp_ajax_nopriv_mz_display_schedule', $schedule_object, 'display_schedule');
         $this->loader->add_action('wp_ajax_mz_display_schedule', $schedule_object, 'display_schedule');
 
-        //Start Ajax Get Registrants
+        // Start Ajax Get Registrants
         $this->loader->add_action('wp_ajax_nopriv_mz_mbo_get_registrants', $registrant_object, 'get_registrants');
         $this->loader->add_action('wp_ajax_mz_mbo_get_registrants', $registrant_object, 'get_registrants');
 
-        //Start Ajax Clear Transients
-        $this->loader->add_action('wp_ajax_nopriv_mz_mbo_clear_transients', $admin_object, 'clear_plugin_transients');
-        $this->loader->add_action('wp_ajax_mz_mbo_clear_transients', $admin_object, 'clear_plugin_transients');
+        // Start Ajax Get Staff
+        $this->loader->add_action('wp_ajax_nopriv_mz_mbo_get_staff', $staff_object, 'get_staff_modal');
+        $this->loader->add_action('wp_ajax_mz_mbo_get_staff', $staff_object, 'get_staff_modal');
 
     }
 
@@ -309,6 +317,9 @@ class Init
     {
         $schedule_display = new Schedule\Display();
         $schedule_display->register('mz-mindbody-show-schedule');
+        $staff_display = new Staff\Display();
+        $staff_display->register('mz-mindbody-staff-list');
+
         // add_shortcode('mz-mindbody-show-schedule', array(new MBOAPI\Schedule_Display(), 'mZ_mindbody_show_schedule'));
         // add_shortcode('mz-mindbody-staff-list', array($mz_staff, 'mZ_mindbody_staff_listing'));
         // add_shortcode('mz-mindbody-show-events', array($mz_events, 'mZ_mindbody_show_events'));

@@ -267,6 +267,19 @@ class Schedule_Item {
     public $displayCancelled;
 
     /**
+     * MBO url TAB
+     *
+     * Which "tab" in the MBO interface the URL in link opens to.
+     *
+     * I'm not sure what this is. We set it to -7, which is the "classes" tab.
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      int Which MBO interface tab link leads to.
+     */
+    public $sType;
+
+    /**
      * 
      *
      * @since    2.4.7
@@ -393,12 +406,14 @@ class Schedule_Item {
         $this->class_instance_ID = $schedule_item['ClassScheduleID'];
         $this->sLoc = $schedule_item['Location']['ID'];
         $this->studioid = $schedule_item['Location']['SiteID'];
-        $this->sDate = date_i18n('m/d/Y', strtotime($class['StartDateTime']));
+        $this->sDate = date_i18n('m/d/Y', strtotime($schedule_item['StartDateTime']));
         $this->sTG = $schedule_item['ClassDescription']['Program']['ID'];
         $this->sTG = $schedule_item['ClassScheduleID'];
         $this->sign_up_title = __('Sign-Up', 'mz-mindbody-api');
         $this->manage_text = __('Manage on MindBody Site', 'mz-mindbody-api');
         $this->mbo_url = $this->mbo_url();
+        $this->sType = -7;
+
     }
 
     public function get_schedule_item(){

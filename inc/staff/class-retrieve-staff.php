@@ -1,5 +1,5 @@
 <?php
-namespace MZ_Mindbody\Inc\Schedule;
+namespace MZ_Mindbody\Inc\Staff;
 
 use MZ_Mindbody\Inc\Core as Core;
 use MZ_Mindbody\Inc\Libraries as Libraries;
@@ -23,11 +23,19 @@ use MZ_Mindbody\Inc\Common\Interfaces as Interfaces;
  * @param @type numeric $account Which MBO account is being interfaced with.
  * @param @type boolean $this_week If true, show only week from today.
  */
-class Retrieve_Registrants extends Interfaces\Retrieve {
+class Retrieve_Staff extends Interfaces\Retrieve {
 
+    /**
+     * Holder for staff array returned by MBO API
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      array $staff Array of staff returned from MBO API
+     */
+    public $staff_result;
 
-    /*
-     * Get a timestamp, return data from MBO api, store it in a transient and
+    /**
+     * Return data from MBO api, store it in a transient and
      * as object attribute.
      *
      * @since 2.4.7
@@ -37,18 +45,13 @@ class Retrieve_Registrants extends Interfaces\Retrieve {
      *
      * @return array of MBO schedule data
      */
-    public function get_mbo_results($timestamp = null){
-
-        $timestamp = isset($timestamp) ? $timestamp : current_time( 'timestamp' );
+    public function get_mbo_results(){
 
         $mb = $this->instantiate_mbo_API();
 
         if ( !$mb || $mb == 'NO_SOAP_SERVICE' ) return false;
 
-        $transient_string = $this->generate_transient_name();
-
-        // global $wpdb;
-        // $wpdb->query( "DELETE FROM `$wpdb->options` WHERE `option_name` LIKE '%transient_mz_mindbody%'" );
+        $transient_string = $this->generate_transient_name('staff');
 
         if ( false === get_transient( $transient_string ) ) {
             // If there's not a transient already, call the API and create one
@@ -58,74 +61,46 @@ class Retrieve_Registrants extends Interfaces\Retrieve {
                 $mb->sourceCredentials['SiteIDs'][0] = $this->mbo_account;
             }
 
-            $this->classes = $mb->GetClasses($this->time_frame);
+            $this->staff_result = $mb->GetStaff();
 
-            set_transient($transient_string, $this->classes, 60 * 60 * 12);
+            set_transient($transient_string, $this->staff_result, 60 * 60 * 12);
 
         } else {
-            $this->classes = get_transient( $transient_string );
+            $this->staff_result = get_transient( $transient_string );
         }
-
-        return $this->classes;
+        return $this->staff_result;
     }
 
-    /*
-     * Get Registrants called via Ajax
+    /**
+     * Sort Staff array by MBO SortOrder, then by LastName
+     *
+     * @since 2.4.7
+     *
+     * @param @timestamp defaults to current time
+     * @source https://stackoverflow.com/a/2875637/2223106
      *
      *
+     * @return array of MBO schedule data, sorted by SortOrder, then LastName
      */
+    public function sort_staff_by_sort_order(){
+        // usort($this->staff_result['GetStaffResult']['StaffMembers']['Staff'], function ($a, $b){
+        //     if($a['SortOrder'] == $b['SortOrder']) {
+        //         return 0;
+        //     }
+        //     return $a['SortOrder'] < $b['SortOrder'] ? -1 : 1;
+        // });
 
-    function get_registrants() {
-
-        check_ajax_referer( $_REQUEST['nonce'], "mz_MBO_get_registrants_nonce", false);
-
-        require_once(MZ_MINDBODY_SCHEDULE_DIR .'mindbody-php-api/MB_API.php');
-        require_once(MZ_MINDBODY_SCHEDULE_DIR .'inc/mz_mbo_init.inc');
-
-        $mb = MZ_Mindbody_Init::instantiate_mbo_API();
-
-        $classid = $_REQUEST['classID'];
-        $result['type'] = "success";
-        $result['message'] = $classid;
-        $class_visits = $mb->GetClassVisits(array('ClassID'=> $classid));
-        if ($class_visits['GetClassVisitsResult']['Status'] != 'Success'):
-            $result['type'] = "error";
-            $result['message'] = __("Unable to retrieve registrants.", 'mz-mindbody-api');
-        else:
-            if (empty($class_visits['GetClassVisitsResult']['Class']['Visits'])) :
-                $result['type'] = "success";
-                $result['message'] = __("No registrants yet.", 'mz-mindbody-api');
-            //mZ_write_to_file($class_visits['GetClassVisitsResult']['Class']['Visits']);
-            else:
-                $result['message'] = array();
-                $result['type'] = "success";
-                foreach($class_visits['GetClassVisitsResult']['Class']['Visits'] as $registrants) {
-                    if (!isset($registrants['Client']['FirstName'])):
-                        foreach ($registrants as $key => $registrant) {
-                            if (isset($registrant['Client'])):
-                                $result['message'][] = $registrant['Client']['FirstName'] . '_'
-                                    . substr($registrant['Client']['LastName'], 0, 1);
-                            endif;
-                        }
-                    else:
-                        $result['message'][] = $registrants['Client']['FirstName'] . '_'
-                            . substr($registrants['Client']['LastName'], 0, 1);
-                    endif;
-                }
-            endif;
-        endif;
-
-        if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-            $result = json_encode($result);
-            echo $result;
-        }
-        else {
-            header("Location: ".$_SERVER["HTTP_REFERER"]);
+        // Obtain a list of columns
+        foreach ($this->staff_result['GetStaffResult']['StaffMembers']['Staff'] as $key => $row) {
+            $important[$key]  = $row['SortOrder'];
+            $basic[$key] = $row['LastName'];
         }
 
-        die();
+        array_multisort($important, SORT_NUMERIC, SORT_ASC,
+            $basic, SORT_REGULAR, SORT_ASC,
+            $this->staff_result['GetStaffResult']['StaffMembers']['Staff']);
+
+        return $this->staff_result;
     }
-    //End Ajax Get Registrants
-
 
 }

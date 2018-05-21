@@ -73,7 +73,7 @@ abstract class Retrieve_Classes extends Retrieve {
         $this->atts = $atts;
         $this->time_frame = $this->time_frame(); 
         $this->locations = array(1);
-    		$this->locations_dictionary = array();
+        $this->locations_dictionary = array();
         
     }
 
