@@ -116,42 +116,19 @@ class Display extends Interfaces\ShortCode_Script_Loader
     function get_staff_modal()
     {
 
-        check_ajax_referer($_REQUEST['nonce'], "mz_staff_nonce", false);
+        check_ajax_referer($_REQUEST['nonce'], "mz_schedule_display_nonce", false);
 
-        $classid = $_REQUEST['classID'];
+        ob_start();
+
+        $staffID = $_REQUEST['staffID'];
+        $account_number = $_REQUEST['accountNumber'];
 
         $result['type'] = "success";
-        $result['message'] = $classid;
-        // ob_start();
-        $class_visits = $this->get_mbo_results($classid);
-        // var_dump($class_visits);
-        if ($class_visits['GetClassVisitsResult']['Status'] != 'Success'):
-            $result['type'] = "error";
-            $result['message'] = __("Unable to retrieve registrants.", 'mz-mindbody-api');
-        else:
-            if (empty($class_visits['GetClassVisitsResult']['Class']['Visits'])) :
-                $result['type'] = "success";
-                $result['message'] = __("No registrants yet.", 'mz-mindbody-api');
-            //mZ_write_to_file($class_visits['GetClassVisitsResult']['Class']['Visits']);
-            else:
-                $result['message'] = array();
-                $result['type'] = "success";
-                foreach ($class_visits['GetClassVisitsResult']['Class']['Visits'] as $registrants) {
-                    if (!isset($registrants['Client']['FirstName'])):
-                        foreach ($registrants as $key => $registrant) {
-                            if (isset($registrant['Client'])):
-                                $result['message'][] = $registrant['Client']['FirstName'] . '_'
-                                    . substr($registrant['Client']['LastName'], 0, 1);
-                            endif;
-                        }
-                    else:
-                        $result['message'][] = $registrants['Client']['FirstName'] . '_'
-                            . substr($registrants['Client']['LastName'], 0, 1);
-                    endif;
-                }
-            endif;
-        endif;
-        // $result['message'] = ob_get_clean();
+        $result['message'] = $staffID;
+
+        echo "biography!";
+
+        $result['message'] = ob_get_clean();
 
         if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
             $result = json_encode($result);
