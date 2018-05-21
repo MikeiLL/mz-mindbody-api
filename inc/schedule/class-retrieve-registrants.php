@@ -1,4 +1,5 @@
 <?php
+
 namespace MZ_Mindbody\Inc\Schedule;
 
 use MZ_Mindbody\Inc\Core as Core;
@@ -10,7 +11,9 @@ use MZ_Mindbody\Inc\Common\Interfaces as Interfaces;
  * Class that is extended for Schedule Display Ajax Retrieve Registrants (s)
  *
  */
-class Retrieve_Registrants extends Interfaces\Retrieve {
+
+class Retrieve_Registrants extends Interfaces\Retrieve
+{
 
 
     /**
@@ -18,9 +21,9 @@ class Retrieve_Registrants extends Interfaces\Retrieve {
      *
      * @since    2.4.7
      * @access   public
-     * @var      array    $registrants    Array of names of class registrants.
+     * @var      array $registrants Array of names of class registrants.
      */
-     public $registrants;
+    public $registrants;
 
 
     /**
@@ -34,20 +37,21 @@ class Retrieve_Registrants extends Interfaces\Retrieve {
      *
      * @return array of MBO schedule data
      */
-    public function get_mbo_results($classid = 0){
+    public function get_mbo_results($classid = 0)
+    {
 
-		if ( empty( $classid ) ) return false;
-		
+        if (empty($classid)) return false;
+
         $mb = $this->instantiate_mbo_API();
 
-        if ( !$mb || $mb == 'NO_SOAP_SERVICE' ) return false;
+        if (!$mb || $mb == 'NO_SOAP_SERVICE') return false;
 
-            if ($this->mbo_account !== 0) {
-                // If account has been specified in shortcode, update credentials
-                $mb->sourceCredentials['SiteIDs'][0] = $this->mbo_account;
-            }
+        if ($this->mbo_account !== 0) {
+            // If account has been specified in shortcode, update credentials
+            $mb->sourceCredentials['SiteIDs'][0] = $this->mbo_account;
+        }
 
-            $this->registrants = $mb->GetClassVisits( array( 'ClassID' => $classid ) );
+        $this->registrants = $mb->GetClassVisits(array('ClassID' => $classid));
 
         return $this->registrants;
     }
@@ -57,12 +61,13 @@ class Retrieve_Registrants extends Interfaces\Retrieve {
      *
      *
      */
-    function get_registrants() {
+    function get_registrants()
+    {
 
-        check_ajax_referer( $_REQUEST['nonce'], "mz_admin_nonce", false);
+        check_ajax_referer($_REQUEST['nonce'], "mz_admin_nonce", false);
 
         $classid = $_REQUEST['classID'];
-        
+
         $result['type'] = "success";
         $result['message'] = $classid;
         // ob_start();
@@ -79,7 +84,7 @@ class Retrieve_Registrants extends Interfaces\Retrieve {
             else:
                 $result['message'] = array();
                 $result['type'] = "success";
-                foreach($class_visits['GetClassVisitsResult']['Class']['Visits'] as $registrants) {
+                foreach ($class_visits['GetClassVisitsResult']['Class']['Visits'] as $registrants) {
                     if (!isset($registrants['Client']['FirstName'])):
                         foreach ($registrants as $key => $registrant) {
                             if (isset($registrant['Client'])):
@@ -94,14 +99,13 @@ class Retrieve_Registrants extends Interfaces\Retrieve {
                 }
             endif;
         endif;
-		// $result['message'] = ob_get_clean();
-		
-        if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+        // $result['message'] = ob_get_clean();
+
+        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
             $result = json_encode($result);
             echo $result;
-        }
-        else {
-            header("Location: ".$_SERVER["HTTP_REFERER"]);
+        } else {
+            header("Location: " . $_SERVER["HTTP_REFERER"]);
         }
 
         die();
