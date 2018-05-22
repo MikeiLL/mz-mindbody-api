@@ -130,21 +130,6 @@ class Display extends Interfaces\ShortCode_Script_Loader
         // Send an array of staffID
         $staff_details = $this->staff_object->get_mbo_results( array($staffID) );
 
-        // if (isset($staff_details['GetStaffResult'])):
-        //     if ($staff_details['GetStaffResult']['Status'] != 'Success'):
-        //         $result['type'] = "error";
-        //         $result['message'] = __("Unable to retrieve staff details.", 'mz-mindbody-api');
-        //     else:
-        //         $staffMember = $staff_details['GetStaffResult']['StaffMembers']['Staff'];
-        //         $result['message'] = array();
-        //         $result['type'] = "success";
-        //         $result['message']['Name'] = $staffMember['Name'];
-        //         $result['message']['Bio'] = $staffMember['Bio'];
-        //         $result['message']['ImageURL'] = $staffMember['ImageURL'];
-        //         $result['message']['Full'] = $staffMember;
-        //     endif;
-        // endif;
-
         $this->template_data = array(
             'staff_details' => $staff_details['GetStaffResult']['StaffMembers']['Staff'],
             'staffID' => $staffID,

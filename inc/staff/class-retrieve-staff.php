@@ -1,5 +1,5 @@
 <?php
-namespace MZ_Mindbody\Inc\Events;
+namespace MZ_Mindbody\Inc\Staff;
 
 use MZ_Mindbody\Inc\Core as Core;
 use MZ_Mindbody\Inc\Libraries as Libraries;
@@ -7,18 +7,18 @@ use MZ_Mindbody\Inc\Schedule as Schedule;
 use MZ_Mindbody\Inc\Common\Interfaces as Interfaces;
 
 /**
- * Class that is extended for Events Display Shortcode(s)
+ * Class that is extended for Staff Display Shortcode(s)
  */
-class Retrieve_Events extends Interfaces\Retrieve {
+class Retrieve_Staff extends Interfaces\Retrieve {
 
     /**
-     * Holder for events array returned by MBO API
+     * Holder for staff array returned by MBO API
      *
      * @since    2.4.7
      * @access   public
-     * @var      array $events Array of events returned from MBO API
+     * @var      array $staff Array of staff returned from MBO API
      */
-    public $events_result;
+    public $staff_result;
 
     /**
      * Return data from MBO api, store it in a transient and
@@ -26,22 +26,22 @@ class Retrieve_Events extends Interfaces\Retrieve {
      *
      * @since 2.4.7
      *
-     * @param @eventsIDs array of Events IDs to return info for
+     * @param @staffIDs array of Staff IDs to return info for
      *
      *
      * @return array of MBO schedule data
      */
-    public function get_mbo_results( $eventsIDs = array() ){
+    public function get_mbo_results( $staffIDs = array() ){
 
         $mb = $this->instantiate_mbo_API();
 
         if ( !$mb || $mb == 'NO_SOAP_SERVICE' ) return false;
 
-        // All events members?
-        $all = (0 == count($eventsIDs));
+        // All staff members?
+        $all = (0 == count($staffIDs));
 
-        // Make specific transient for specific events members
-        $transient_string = ($all) ? 'events' : 'events' . implode('_', $eventsIDs );
+        // Make specific transient for specific staff members
+        $transient_string = ($all) ? 'staff' : 'staff' . implode('_', $staffIDs );
 
         $transient_string = $this->generate_transient_name($transient_string);
 
@@ -54,21 +54,21 @@ class Retrieve_Events extends Interfaces\Retrieve {
             }
 
             if ($all) {
-                $this->events_result = $mb->GetEvents();
+                $this->staff_result = $mb->GetStaff();
             } else {
-                $this->events_result = $mb->GetEvents( array('EventsIDs'=> $eventsIDs ));
+                $this->staff_result = $mb->GetStaff( array('StaffIDs'=> $staffIDs ));
             }
 
-            set_transient($transient_string, $this->events_result, 60 * 60 * 12);
+            set_transient($transient_string, $this->staff_result, 60 * 60 * 12);
 
         } else {
-            $this->events_result = get_transient( $transient_string );
+            $this->staff_result = get_transient( $transient_string );
         }
-        return $this->events_result;
+        return $this->staff_result;
     }
 
     /**
-     * Sort Events array by MBO SortOrder, then by LastName
+     * Sort Staff array by MBO SortOrder, then by LastName
      *
      * @since 2.4.7
      *
@@ -78,19 +78,19 @@ class Retrieve_Events extends Interfaces\Retrieve {
      *
      * @return array of MBO schedule data, sorted by SortOrder, then LastName
      */
-    public function sort_events_by_sort_order(){
+    public function sort_staff_by_sort_order(){
 
         // Obtain a list of columns
-        foreach ($this->events_result['GetEventsResult']['EventsMembers']['Events'] as $key => $row) {
+        foreach ($this->staff_result['GetStaffResult']['StaffMembers']['Staff'] as $key => $row) {
             $important[$key]  = $row['SortOrder'];
             $basic[$key] = $row['LastName'];
         }
 
         array_multisort($important, SORT_NUMERIC, SORT_ASC,
             $basic, SORT_REGULAR, SORT_ASC,
-            $this->events_result['GetEventsResult']['EventsMembers']['Events']);
+            $this->staff_result['GetStaffResult']['StaffMembers']['Staff']);
 
-        return $this->events_result;
+        return $this->staff_result;
     }
 
 }
