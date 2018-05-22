@@ -72,11 +72,8 @@ class Retrieve_Staff extends Interfaces\Retrieve {
      *
      * @since 2.4.7
      *
-     * @param @timestamp defaults to current time
-     * @source https://stackoverflow.com/a/2875637/2223106
      *
-     *
-     * @return array of MBO schedule data, sorted by SortOrder, then LastName
+     * @return array of MBO staff members, sorted by SortOrder, then LastName
      */
     public function sort_staff_by_sort_order(){
 

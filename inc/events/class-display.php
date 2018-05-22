@@ -82,7 +82,8 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'event_count' => '0',
             'account' => '0',
             'advanced' => '1',
-            'week-only' => 0
+            'week-only' => 0,
+            'offset' => 0
         ), $atts );
 
         /*
@@ -98,36 +99,24 @@ class Display extends Interfaces\ShortCode_Script_Loader
             $this->locations = explode(', ', $atts['locations']);
         }
 
-        $this->class_modal_link = MZ_Mindbody\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php';
-
         ob_start();
 
         $template_loader = new Core\Template_Loader();
+
         $this->events_object = new Retrieve_Events($this->atts);
 
         // Call the API and if fails, return error message.
-        if (false === $this->events_object->get_mbo_results()) return "<div>" . __("Mindbody plugin settings error.", 'mz-mindbody-api') . "</div>";
-
-        $mbo_events = $this->events_object->sort_events_by_sort_order();
-
-        if (isset($this->events_object->events_result['GetEventsResult'])):
-            $mz_events_list = $this->events_object->events_result['GetEventsResult']['EventsMembers']['Events'];
-        else:
-            mz_pr($this->events_object);
-            die('Something went wrong.');
-        endif;
-
-
+        if ($events === $this->events_object->get_mbo_results()) return "<div>" . __("Mindbody plugin settings error.", 'mz-mindbody-api') . "</div>";
         // Add Style with script adder
         self::addScript();
 
         $this->template_data = array(
             'atts' => $this->atts,
-            'events' => $mz_events_list
+            'events' => $events
         );
 
         $template_loader->set_template_data($this->template_data);
-        $template_loader->get_template_part('events_list');
+        $template_loader->get_template_part('event_list');
 
         return ob_get_clean();
     }

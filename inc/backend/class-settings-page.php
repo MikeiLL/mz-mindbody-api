@@ -203,6 +203,17 @@ class Settings_Page {
             )
         );
 
+        // Field: Event Codes.
+        self::$wposa_obj->add_field(
+            'mz_mbo_shortcodes',
+            array(
+                'id'      => 'event_codes',
+                'type'    => 'html',
+                'name'    => __( 'Events Display', 'mz-mindbody-api' ),
+                'desc'    => $this->event_codes()
+            )
+        );
+
 
         // Field: Date Format.
         self::$wposa_obj->add_field(
@@ -341,7 +352,21 @@ class Settings_Page {
         $return .= sprintf('[%1$s %2$s]<br/>', 'mz-mindbody-staff-list', 'gallery=1');
         return $return;
     }
-    
+
+    private function event_codes(){
+        $return = '';
+        $return .= '<p>'.sprintf('[%1$s]', 'mz-mindbody-show-events').'</p>';
+        $return .= "<ul>";
+        $return .= "<li><strong>account</strong>: " . __("(int) Which MBO account to display events for.", 'mz-mindbody-api')."</li>";
+        $return .= "<li><strong>locations</strong>: " . __("List of (int) MBO locations to display events for.", 'mz-mindbody-api')."</li>";
+        $return .= "<li><strong>list</strong>: " . __("(boolean) Set to `1` to display events as a list.", 'mz-mindbody-api')."</li>";
+        $return .= "<li><strong>event_count</strong>: " . __("(int) Limit the number of events to display.", 'mz-mindbody-api')."</li>";
+        $return .= "<li><strong>advanced</strong>: " . __("(boolean) Set to `1` to allow users to register directly if logged in.", 'mz-mindbody-api')."</li>";
+        $return .= "<li><strong>week-only</strong>: " . __("(boolean) Set to `1` to display events for current week only.", 'mz-mindbody-api')."</li>";
+        $return .= "</ul>";
+        return $return;
+    }
+
     private function clear_transients(){
         $return = '<a href="#" class="button" id="mzClearTransients">' . __('Clear Transients', 'mz-mindbody-api') . '</a>';
         return $return;
