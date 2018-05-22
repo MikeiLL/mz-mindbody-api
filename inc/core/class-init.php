@@ -218,11 +218,6 @@ class Init
     private function define_public_hooks()
     {
 
-        // $plugin_public = new Frontend\Frontend( $this->get_plugin_name(), $this->get_version(), $this->get_plugin_text_domain() );
-
-        // $this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
-        // $this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
-
         $admin_object = new Admin\Admin($this->get_plugin_name(), $this->get_version(), $this->get_plugin_text_domain());
         $schedule_object = new Schedule\Display;
         $registrant_object = new Schedule\Retrieve_Registrants;
