@@ -146,7 +146,9 @@ class Display extends Interfaces\ShortCode_Script_Loader
         // endif;
 
         $this->template_data = array(
-            'staff_details' => $staff_details['GetStaffResult']['StaffMembers']['Staff']
+            'staff_details' => $staff_details['GetStaffResult']['StaffMembers']['Staff'],
+            'staffID' => $staffID,
+            'siteID' => $_REQUEST['siteID']
         );
 
         $template_loader->set_template_data($this->template_data);

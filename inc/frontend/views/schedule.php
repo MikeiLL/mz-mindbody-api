@@ -71,15 +71,15 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
                     <?php
                     $linkArray = array(
 
-// 'data-accountNumber');
-// "data-sub")
-
+                        // 'data-accountNumber');
+                        // "data-sub")
                         'data-staffName' => $class->staffName,
                         'data-staffID' => $class->staffID,
                         'class' => 'modal-toggle ' . sanitize_html_class($class->staffName, 'mz_staff_name'),
                         'text' => $class->staffName,
                         'data-target' => 'mzStaffScheduleModal',
-                        'data-nonce' => wp_create_nonce('mz_staff_retrieve_nonce')
+                        'data-nonce' => wp_create_nonce('mz_staff_retrieve_nonce'),
+                        'data-siteID' => $data->siteID
                     );
 
                     if ($class->staffImage != ''):

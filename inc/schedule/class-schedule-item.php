@@ -247,13 +247,22 @@ class Schedule_Item {
     public $locationName;
 
     /**
-     * 
+     *
      *
      * @since    2.4.7
      * @access   public
-     * @var      string 
+     * @var      string
      */
     public $staffImage;
+
+    /**
+     * Location ID
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      string $studioID ID of location associated with class
+     */
+    public $siteID;
     
     // Attributes we create
 
@@ -423,6 +432,7 @@ class Schedule_Item {
         $this->mbo_url = $this->mbo_url();
         $this->sType = -7;
         $this->staffID = $schedule_item['Staff']['ID'];
+        $this->siteID = $schedule_item['Location']['SiteID'];
 
     }
 

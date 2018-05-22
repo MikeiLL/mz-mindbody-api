@@ -157,63 +157,6 @@ class Settings_Page {
             )
         );
 
-
-        // Field: Checkbox.
-        self::$wposa_obj->add_field(
-            'mz_mbo_basic',
-            array(
-                'id'   => 'checkbox',
-                'type' => 'checkbox',
-                'name' => __( 'Checkbox', 'mz-mindbody-api' ),
-                'desc' => __( 'Checkbox Label', 'mz-mindbody-api' ),
-            )
-        );
-
-        // Field: Radio.
-        self::$wposa_obj->add_field(
-            'mz_mbo_basic',
-            array(
-                'id'      => 'radio',
-                'type'    => 'radio',
-                'name'    => __( 'Radio', 'mz-mindbody-api' ),
-                'desc'    => __( 'Radio Button', 'mz-mindbody-api' ),
-                'options' => array(
-                    'yes' => 'Yes',
-                    'no'  => 'No',
-                ),
-            )
-        );
-
-        // Field: Multicheck.
-        self::$wposa_obj->add_field(
-            'mz_mbo_basic',
-            array(
-                'id'      => 'multicheck',
-                'type'    => 'multicheck',
-                'name'    => __( 'Multile checkbox', 'mz-mindbody-api' ),
-                'desc'    => __( 'Multile checkbox description', 'mz-mindbody-api' ),
-                'options' => array(
-                    'yes' => 'Yes',
-                    'no'  => 'No',
-                ),
-            )
-        );
-
-        // Field: Select.
-        self::$wposa_obj->add_field(
-            'mz_mbo_basic',
-            array(
-                'id'      => 'select',
-                'type'    => 'select',
-                'name'    => __( 'A Dropdown', 'mz-mindbody-api' ),
-                'desc'    => __( 'A Dropdown description', 'mz-mindbody-api' ),
-                'options' => array(
-                    'yes' => 'Yes',
-                    'no'  => 'No',
-                ),
-            )
-        );
-
         // Field: Event IDs.
         self::$wposa_obj->add_field(
             'mz_mbo_events',

@@ -25,12 +25,68 @@ use MZ_Mindbody as NS;
  */
 abstract class Retrieve_Classes extends Retrieve {
 
+    /**
+     *
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var
+     */
+
     public $date_format;
+
+    /**
+     *
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var
+     */
     public $time_format;
+
+    /**
+     *
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var
+     */
     public $this_week;
+
+    /**
+     *
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var
+     */
     public $classesByDate;
+
+    /**
+     *
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var
+     */
     public $classes;
+
+    /**
+     *
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var
+     */
     public $locations_dictionary; // all locations included in current schedule
+
+    /**
+     *
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var
+     */
     public $locations; // Defaults to the number one which is the default MBO location
 
     /**

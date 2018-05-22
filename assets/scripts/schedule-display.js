@@ -166,15 +166,12 @@
             ev.preventDefault();
             var target = $(this).attr("href");
             var staffID = $(this).attr('data-staffID');
+            var siteID = $(this).attr('data-siteID');
             var staffName = $(this).attr('data-staffName');
             var nonce = $(this).attr("data-nonce");
             var subText = ($(this).attr("data-sub") !== undefined) ? '<span class="sub-text">' + mz_mindbody_schedule.sub_by_text + '</span>' + ' ' : ' ';
             var popUpContent = '<h3>' + subText + staffName + '</h3><div class="mz-staffInfo" id="StaffInfo"></div>';
-            var htmlStaffDescription = '<div class="mz_modalStaffDescription"></div>';
-            var mbo_url_parts = ['http://clients.mindbodyonline.com/ws.asp?studioid=',
-                '&stype=-7&sView=week&sTrn='];
-            //popUpContent += '<br/><a href="' + mbo_url_parts[0] + siteID + mbo_url_parts[1] + staffID + '" ';
-            //popUpContent += 'class="btn btn-info mz-btn-info mz-bio-button" target="_blank">See ' + staffName +'&apos;s Schedule</a>';
+
             popUpContent += '<i class="fa fa-spinner fa-3x fa-spin" style="position: fixed; top: 50%; left: 50%;"></i>';
             $("#mzStaffScheduleModal").load(target, function () {
                 $.colorbox({html: popUpContent, width: "75%", height: "80%", href: target});
@@ -184,25 +181,17 @@
                 type: "GET",
                 dataType: 'json',
                 url: mz_mindbody_schedule.ajaxurl,
-                data: {action: 'mz_mbo_get_staff', nonce: nonce, staffID: staffID},
+                data: {action: 'mz_mbo_get_staff', nonce: nonce, staffID: staffID, siteID: siteID},
                 success: function (json) {
                     if (json.type == "success") {
-                        // var staffDetails = '';
-                        // var imageURL = ((json.message.ImageURL === null) || (json.message.ImageURL === '')) ? '' : '<img class="mz-staffImage" src="' + json.message.ImageURL + '">';
-                        // var bioGraphy = ((json.message.Bio === null) || (json.message.Bio === '')) ? mz_mindbody_schedule.no_bio : '<div class="mz_staffBio">' + json.message.Bio + '</div>';
-                        // staffDetails += imageURL;
-                        // staffDetails += bioGraphy;
                         $('.fa-spinner').remove();
                         $('#StaffInfo').html(json.message);
                     } else {
                         $('#StaffInfo').html('ERROR FINDING STAFF INFO');
-                        console.log(json);
                     }
                 } // ./ Ajax Success
             }) // End Ajax
             .fail(function (json) {
-                console.log('fail');
-                console.log(json);
                 $('#StaffInfo').html('ERROR RETURNING STAFF INFO');
             }); // End Fail
         });

@@ -103,6 +103,18 @@ class Display extends Interfaces\ShortCode_Script_Loader
     public $schedule_object;
 
     /**
+     * Site ID
+     *
+     * Used in Display Schedule sent to studioID in show schedule button in teacher modal.
+     * Might be same as account.
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      int $siteID
+     */
+    public $siteID;
+
+    /**
      * Shortcode attributes.
      *
      * @since    2.4.7
@@ -171,6 +183,9 @@ class Display extends Interfaces\ShortCode_Script_Loader
             $this->swap_button_text = 0;
         endif;
 
+        // Set siteID to option if not set explicitly in shortcode
+        $this->siteID = (isset($atts['account'])) ? $atts['account'] : Core\Init::$basic_options['mz_mindbody_siteID'];
+        
         $show_registrants = ($this->atts['show_registrants'] == 1) ? true : false;
         // Are we displaying registrants?
         $this->data_target = $show_registrants ? 'registrantModal' : 'mzModal';
@@ -201,7 +216,8 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'date_format' => $this->schedule_object->date_format,
             'data_nonce' => wp_create_nonce('mz_schedule_display_nonce'),
             'data_target' => $this->data_target,
-            'class_modal_link' => $this->class_modal_link
+            'class_modal_link' => $this->class_modal_link,
+            'siteID' => $this->siteID
         );
 
         $template_loader->set_template_data($this->template_data);
