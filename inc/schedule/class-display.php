@@ -185,7 +185,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
 
         // Set siteID to option if not set explicitly in shortcode
         $this->siteID = (isset($atts['account'])) ? $atts['account'] : Core\Init::$basic_options['mz_mindbody_siteID'];
-        
+
         $show_registrants = ($this->atts['show_registrants'] == 1) ? true : false;
         // Are we displaying registrants?
         $this->data_target = $show_registrants ? 'registrantModal' : 'mzModal';

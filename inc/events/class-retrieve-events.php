@@ -16,9 +16,9 @@ class Retrieve_Events extends Interfaces\Retrieve_Classes {
      *
      * @since    2.4.7
      * @access   public
-     * @var      array $events Array of events returned from MBO API
+     * @var      array $classes Array of events returned from MBO API
      */
-    public $events_result;
+    public $classes;
 
     /**
      * Attributes sent to shortcode.
@@ -66,6 +66,8 @@ class Retrieve_Events extends Interfaces\Retrieve_Classes {
 
         $end_time = new \Datetime( date_i18n('Y-m-d', $timestamp) );
 
+        $session_types = explode(',', Core\Init::$events_options['mz_mindbody_eventID']);
+
         $di = new \DateInterval('P'.Core\Init::$event_calendar_duration.'D');
 
         $end_time->add($di);
@@ -73,21 +75,66 @@ class Retrieve_Events extends Interfaces\Retrieve_Classes {
         $current_day_offset = new \Datetime( date_i18n('Y-m-d') );
 
         // If we are going in future or past based on offset
-        // if ( !empty($this->atts['offset']) ) {
-        //     // Insure that we have an absolute number, because attr may be negative
-        //     $abs = abs($this->atts['offset']);
-        //     $di = new \DateInterval('P'.$abs.'W');
-        //     // If it's a negative number, invert the interval
-        //     if ($this->atts['offset'] < 0) $di->invert = 1;
-        //     $start_time->add($di);
-        //     $end_time->add($di);
-        //     $current_day_offset->add($di);
-        // }
+        if ( !empty($this->atts['offset']) ) {
+            // Insure that we have an absolute number, because attr may be negative
+            $abs = abs($this->atts['offset']);
+            $di = new \DateInterval('P'.$abs.'W');
+            // If it's a negative number, invert the interval
+            if ($this->atts['offset'] < 0) $di->invert = 1;
+            $start_time->add($di);
+            $end_time->add($di);
+            $current_day_offset->add($di);
+        }
 
         // Set current_day_offset for filtering by sort_classes_by_date_and_time().
         $this->current_day_offset = $current_day_offset;
 
-        return array('StartDateTime'=> $start_time->format('Y-m-d'), 'EndDateTime'=> $end_time->format('Y-m-d'));
+        $simple_timeframe = array('StartDateTime'=> $start_time->format('Y-m-d'), 'EndDateTime'=> $end_time->format('Y-m-d'));
+
+        $full_call = array_merge($simple_timeframe, array('SessionTypeIDs'=>$session_types));
+
+        return $full_call;
+    }
+
+    /**
+     * Get a timestamp, return data from MBO api, store it in a transient and
+     * as object attribute.
+     *
+     * @since 2.4.7
+     *
+     * @param @timestamp defaults to current time
+     *
+     *
+     * @return array of MBO schedule data
+     */
+    public function get_mbo_results($timestamp = null){
+
+        $timestamp = isset($timestamp) ? $timestamp : current_time( 'timestamp' );
+
+        $mb = $this->instantiate_mbo_API();
+
+        if ( !$mb || $mb == 'NO_SOAP_SERVICE' ) return false;
+
+        $transient_string = $this->generate_transient_name('get_schedule');
+
+        if ( false === get_transient( $transient_string ) ) {
+            // If there's not a transient already, call the API and create one
+
+            if ($this->mbo_account !== 0) {
+                // If account has been specified in shortcode, update credentials
+                $mb->sourceCredentials['SiteIDs'][0] = $this->mbo_account;
+            }
+            var_dump($this->time_frame);
+            die("gtf");
+            $this->classes = $mb->GetClasses($this->time_frame);
+
+            set_transient($transient_string, $this->classes, 60 * 60 * 12);
+
+        } else {
+            $this->classes = get_transient( $transient_string );
+        }
+
+        return $this->classes;
     }
 
     /**

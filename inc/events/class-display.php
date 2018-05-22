@@ -106,10 +106,13 @@ class Display extends Interfaces\ShortCode_Script_Loader
         $this->events_object = new Retrieve_Events($this->atts);
 
         // Call the API and if fails, return error message.
-        if ($events === $this->events_object->get_mbo_results()) return "<div>" . __("Mindbody plugin settings error.", 'mz-mindbody-api') . "</div>";
+        //if ($events === $this->events_object->get_mbo_results()) return "<div>" . __("Mindbody plugin settings error.", 'mz-mindbody-api') . "</div>";
         // Add Style with script adder
         self::addScript();
 
+
+        var_dump($this->events_object);
+        $this->events_object->get_mbo_results();
         $this->template_data = array(
             'atts' => $this->atts,
             'events' => $events

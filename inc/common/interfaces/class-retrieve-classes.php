@@ -157,7 +157,12 @@ abstract class Retrieve_Classes extends Retrieve {
 
         if ( !$mb || $mb == 'NO_SOAP_SERVICE' ) return false;
 
-        $transient_string = $this->generate_transient_name('get_schedule');
+        /* Set array string based on if called from Events Object
+         * or Schedule Object
+         */
+        $sc_string = (array_key_exists('SessionTypeIDs', $this->time_frame )) ? 'get_events' : 'get_schedule';
+
+        $transient_string = $this->generate_transient_name($sc_string);
 
         if ( false === get_transient( $transient_string ) ) {
             // If there's not a transient already, call the API and create one
@@ -174,6 +179,8 @@ abstract class Retrieve_Classes extends Retrieve {
         } else {
             $this->classes = get_transient( $transient_string );
         }
+
+        var_dump($this->classes);
 
         return $this->classes;
     }
