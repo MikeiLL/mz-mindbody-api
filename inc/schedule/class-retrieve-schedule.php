@@ -8,7 +8,7 @@ use MZ_Mindbody\Inc\Common\Interfaces as Interfaces;
 
 class Retrieve_Schedule extends Interfaces\Retrieve_Classes {
 
-	/*
+	/**
 	 * Return Time Frame for request to MBO API
 	 *
 	 * @since 2.4.7

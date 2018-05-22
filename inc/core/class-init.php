@@ -8,6 +8,7 @@ use MZ_Mindbody\Inc\Frontend as Frontend;
 use MZ_Mindbody\Inc\Backend as Backend;
 use MZ_Mindbody\Inc\Schedule as Schedule;
 use MZ_Mindbody\Inc\Staff as Staff;
+use MZ_Mindbody\Inc\Events as Events;
 
 /**
  * The core plugin class.
@@ -319,10 +320,9 @@ class Init
         $schedule_display->register('mz-mindbody-show-schedule');
         $staff_display = new Staff\Display();
         $staff_display->register('mz-mindbody-staff-list');
+        $events_display = new Events\Display();
+        $events_display->register('mz-mindbody-show-events');
 
-        // add_shortcode('mz-mindbody-show-schedule', array(new MBOAPI\Schedule_Display(), 'mZ_mindbody_show_schedule'));
-        // add_shortcode('mz-mindbody-staff-list', array($mz_staff, 'mZ_mindbody_staff_listing'));
-        // add_shortcode('mz-mindbody-show-events', array($mz_events, 'mZ_mindbody_show_events'));
         // add_shortcode('mz-mindbody-login', array($mz_clients, 'mZ_mindbody_login'));
         // add_shortcode('mz-mindbody-signup', array($mz_clients, 'mZ_mindbody_signup'));
         // add_shortcode('mz-mindbody-logout', array($mz_clients, 'mZ_mindbody_logout'));
