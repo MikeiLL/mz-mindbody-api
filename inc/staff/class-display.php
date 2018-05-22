@@ -116,17 +116,41 @@ class Display extends Interfaces\ShortCode_Script_Loader
     function get_staff_modal()
     {
 
-        check_ajax_referer($_REQUEST['nonce'], "mz_schedule_display_nonce", false);
+        check_ajax_referer($_REQUEST['nonce'], "mz_staff_retrieve_nonce", false);
 
         ob_start();
+        $template_loader = new Core\Template_Loader();
 
         $staffID = $_REQUEST['staffID'];
-        $account_number = $_REQUEST['accountNumber'];
 
         $result['type'] = "success";
-        $result['message'] = $staffID;
 
-        echo "biography!";
+        $this->staff_object = new Retrieve_Staff();
+
+        // Send an array of staffID
+        $staff_details = $this->staff_object->get_mbo_results( array($staffID) );
+
+        // if (isset($staff_details['GetStaffResult'])):
+        //     if ($staff_details['GetStaffResult']['Status'] != 'Success'):
+        //         $result['type'] = "error";
+        //         $result['message'] = __("Unable to retrieve staff details.", 'mz-mindbody-api');
+        //     else:
+        //         $staffMember = $staff_details['GetStaffResult']['StaffMembers']['Staff'];
+        //         $result['message'] = array();
+        //         $result['type'] = "success";
+        //         $result['message']['Name'] = $staffMember['Name'];
+        //         $result['message']['Bio'] = $staffMember['Bio'];
+        //         $result['message']['ImageURL'] = $staffMember['ImageURL'];
+        //         $result['message']['Full'] = $staffMember;
+        //     endif;
+        // endif;
+
+        $this->template_data = array(
+            'staff_details' => $staff_details['GetStaffResult']['StaffMembers']['Staff']
+        );
+
+        $template_loader->set_template_data($this->template_data);
+        $template_loader->get_template_part('staff_modal');
 
         $result['message'] = ob_get_clean();
 

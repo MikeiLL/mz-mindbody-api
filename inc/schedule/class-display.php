@@ -199,7 +199,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'horizontal_schedule' => $horizontal_schedule,
             'time_format' => $this->schedule_object->time_format,
             'date_format' => $this->schedule_object->date_format,
-            'data_nonce' => wp_create_nonce('mz_MBO_get_registrants_nonce'),
+            'data_nonce' => wp_create_nonce('mz_schedule_display_nonce'),
             'data_target' => $this->data_target,
             'class_modal_link' => $this->class_modal_link
         );
@@ -256,7 +256,9 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'swap' => $this->swap_button_text,
             'registrants_header' => __('Registrants', 'mz-mindbody-api'),
             'get_registrants_error' => __('Error retreiving class details.', 'mz-mindbody-api'),
-            'error' => __('Sorry but there was an error retrieving the schedule.', 'mz-mindbody-api')
+            'error' => __('Sorry but there was an error retrieving the schedule.', 'mz-mindbody-api'),
+            'sub_by_text' => __('(Substitute)', 'mz-mindbody-api'),
+            'no_bio' => __('No biography listed for this staff member.', 'mz-mindbody-api')
         );
         wp_localize_script('mz_display_schedule_script', 'mz_mindbody_schedule', $params);
 

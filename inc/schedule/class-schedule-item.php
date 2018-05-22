@@ -271,13 +271,22 @@ class Schedule_Item {
      *
      * Which "tab" in the MBO interface the URL in link opens to.
      *
-     * I'm not sure what this is. We set it to -7, which is the "classes" tab.
-     *
      * @since    2.4.7
      * @access   public
      * @var      int Which MBO interface tab link leads to.
      */
     public $sType;
+
+    /**
+     * MBO Staff ID
+     *
+     * Each staff member is assigned a unique ID in MBO
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      int Unique ID for staff member.
+     */
+    public $staffID;
 
     /**
      * 
@@ -413,6 +422,7 @@ class Schedule_Item {
         $this->manage_text = __('Manage on MindBody Site', 'mz-mindbody-api');
         $this->mbo_url = $this->mbo_url();
         $this->sType = -7;
+        $this->staffID = $schedule_item['Staff']['ID'];
 
     }
 

@@ -167,9 +167,8 @@
             var target = $(this).attr("href");
             var staffID = $(this).attr('data-staffID');
             var staffName = $(this).attr('data-staffName');
-            var accountNumber = $(this).attr('data-accountNumber');
             var nonce = $(this).attr("data-nonce");
-            var subText = ($(this).attr("data-sub") !== undefined) ? '<span class="sub-text">' + mZ_get_staff.sub_by_text + '</span>' + ' ' : ' ';
+            var subText = ($(this).attr("data-sub") !== undefined) ? '<span class="sub-text">' + mz_mindbody_schedule.sub_by_text + '</span>' + ' ' : ' ';
             var popUpContent = '<h3>' + subText + staffName + '</h3><div class="mz-staffInfo" id="StaffInfo"></div>';
             var htmlStaffDescription = '<div class="mz_modalStaffDescription"></div>';
             var mbo_url_parts = ['http://clients.mindbodyonline.com/ws.asp?studioid=',
@@ -184,22 +183,28 @@
             $.ajax({
                 type: "GET",
                 dataType: 'json',
-                url: mZ_get_staff.ajaxurl,
-                data: {action: 'mz_mbo_get_staff', nonce: nonce, staffID: staffID, accountNumber: accountNumber},
+                url: mz_mindbody_schedule.ajaxurl,
+                data: {action: 'mz_mbo_get_staff', nonce: nonce, staffID: staffID},
                 success: function (json) {
                     if (json.type == "success") {
-                        var staffDetails = '';
-                        var imageURL = ((json.message.ImageURL === null) || (json.message.ImageURL === '')) ? '' : '<img class="mz-staffImage" src="' + json.message.ImageURL + '">';
-                        var bioGraphy = ((json.message.Bio === null) || (json.message.Bio === '')) ? mZ_get_staff.no_bio : '<div class="mz_staffBio">' + json.message.Bio + '</div>';
-                        staffDetails += imageURL;
-                        staffDetails += bioGraphy;
+                        // var staffDetails = '';
+                        // var imageURL = ((json.message.ImageURL === null) || (json.message.ImageURL === '')) ? '' : '<img class="mz-staffImage" src="' + json.message.ImageURL + '">';
+                        // var bioGraphy = ((json.message.Bio === null) || (json.message.Bio === '')) ? mz_mindbody_schedule.no_bio : '<div class="mz_staffBio">' + json.message.Bio + '</div>';
+                        // staffDetails += imageURL;
+                        // staffDetails += bioGraphy;
                         $('.fa-spinner').remove();
-                        $('#StaffInfo').html(staffDetails);
+                        $('#StaffInfo').html(json.message);
                     } else {
                         $('#StaffInfo').html('ERROR FINDING STAFF INFO');
+                        console.log(json);
                     }
                 } // ./ Ajax Success
-            }); // ./Ajax
+            }) // End Ajax
+            .fail(function (json) {
+                console.log('fail');
+                console.log(json);
+                $('#StaffInfo').html('ERROR RETURNING STAFF INFO');
+            }); // End Fail
         });
 
         /*
