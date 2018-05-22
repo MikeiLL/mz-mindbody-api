@@ -180,8 +180,6 @@ abstract class Retrieve_Classes extends Retrieve {
             $this->classes = get_transient( $transient_string );
         }
 
-        var_dump($this->classes);
-
         return $this->classes;
     }
 

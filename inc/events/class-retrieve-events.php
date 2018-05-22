@@ -96,46 +96,6 @@ class Retrieve_Events extends Interfaces\Retrieve_Classes {
         return $full_call;
     }
 
-    /**
-     * Get a timestamp, return data from MBO api, store it in a transient and
-     * as object attribute.
-     *
-     * @since 2.4.7
-     *
-     * @param @timestamp defaults to current time
-     *
-     *
-     * @return array of MBO schedule data
-     */
-    public function get_mbo_results($timestamp = null){
-
-        $timestamp = isset($timestamp) ? $timestamp : current_time( 'timestamp' );
-
-        $mb = $this->instantiate_mbo_API();
-
-        if ( !$mb || $mb == 'NO_SOAP_SERVICE' ) return false;
-
-        $transient_string = $this->generate_transient_name('get_schedule');
-
-        if ( false === get_transient( $transient_string ) ) {
-            // If there's not a transient already, call the API and create one
-
-            if ($this->mbo_account !== 0) {
-                // If account has been specified in shortcode, update credentials
-                $mb->sourceCredentials['SiteIDs'][0] = $this->mbo_account;
-            }
-            var_dump($this->time_frame);
-            die("gtf");
-            $this->classes = $mb->GetClasses($this->time_frame);
-
-            set_transient($transient_string, $this->classes, 60 * 60 * 12);
-
-        } else {
-            $this->classes = get_transient( $transient_string );
-        }
-
-        return $this->classes;
-    }
 
     /**
      * Sort Events array by MBO time
