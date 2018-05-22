@@ -72,22 +72,26 @@ abstract class Retrieve_Classes extends Retrieve {
     public $classes;
 
     /**
+     * All locations included in current schedule
      *
+     * Used to filter by location via jQuery in display
      *
      * @since    2.4.7
      * @access   public
-     * @var
+     * @var      TODO comfirm type $locations_dictionary
      */
-    public $locations_dictionary; // all locations included in current schedule
+    public $locations_dictionary;
 
     /**
+     * Locations array
      *
+     * Defaults to the number one which is the default MBO location
      *
      * @since    2.4.7
      * @access   public
-     * @var
+     * @var      array $locations
      */
-    public $locations; // Defaults to the number one which is the default MBO location
+    public $locations;
 
     /**
      * Attributes sent to shortcode.
@@ -134,7 +138,7 @@ abstract class Retrieve_Classes extends Retrieve {
     }
 
 
-    /*
+    /**
      * Get a timestamp, return data from MBO api, store it in a transient and
      * as object attribute.
      *
@@ -174,7 +178,7 @@ abstract class Retrieve_Classes extends Retrieve {
         return $this->classes;
     }
 
-	/*
+	/**
 	 * Get timestamp, return week start and end timestamps based
 	 * on wordpress start of week config.
 	 *
@@ -188,7 +192,7 @@ abstract class Retrieve_Classes extends Retrieve {
 		return get_weekstartend(date("Y-m-d H:i:s", $timestamp), Core\Init::$start_of_week);
 	}
 
-	/*
+	/**
 	 * Return timestamp of seven days from now.
 	 *
 	 * @since 2.4.7
@@ -199,7 +203,7 @@ abstract class Retrieve_Classes extends Retrieve {
 		return strtotime("+6 day", $timestamp);
 	}
 
-	/*
+	/**
 	 * Displayable current week start and end timestamps.
 	 *
 	 * @since 2.4.7
@@ -212,7 +216,7 @@ abstract class Retrieve_Classes extends Retrieve {
 		return $return;
 	}
 
-    /*
+    /**
      * Return an array of MBO Class Objects, ordered by date.
      *
      * This is used in Horizontal view. It receives the filtered results from the MBO API call ($mz_classes)
