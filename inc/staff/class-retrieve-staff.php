@@ -29,7 +29,7 @@ class Retrieve_Staff extends Interfaces\Retrieve {
      * @param @staffIDs array of Staff IDs to return info for
      *
      *
-     * @return array of MBO schedule data
+     * @return array of MBO Staff data
      */
     public function get_mbo_results( $staffIDs = array() ){
 
