@@ -40,7 +40,7 @@ class ScheduleDisplayTest extends WP_UnitTestCase {
 	}
 
     /**
-     * Confirm that schedule display method is operational
+     * Confirm that horizontal schedule display method is operational
      */
     function test_sort_classes_by_date_then_time() {
 
@@ -81,11 +81,11 @@ class ScheduleDisplayTest extends WP_UnitTestCase {
 
         parent::tearDown();
     }
-    
+
     /**
-     * Confirm that schedule display method is operational
-     *
-    function test_display_schedule() {
+     * Confirm that grid schedule display method is operational
+     */
+    function test_sort_classes_by_time_then_date() {
 
         parent::setUp();
 
@@ -96,13 +96,24 @@ class ScheduleDisplayTest extends WP_UnitTestCase {
         );
         add_option( 'mz_mbo_basic', $basic_options, '', 'yes' );
 
-        $this->assertTrue(class_exists('MZ_Mindbody\Inc\Schedule\Display'));
+        $this->assertTrue(class_exists('MZ_Mindbody\Inc\Schedule\Retrieve_Schedule'));
 
-        $shortcode_obj = new MZ_Mindbody\Inc\Schedule\Display;
+        $schedule_object = new MZ_Mindbody\Inc\Schedule\Retrieve_Schedule;
 
-        $result = $shortcode_obj->display_schedule();
+        $response = $schedule_object->get_mbo_results();
+
+        $sequenced_classes = $schedule_object->sort_classes_by_time_then_date();
+
+        /*
+         * Each subsequent time slot should be equal to or greater than current,
+         * which is set according to first time-like key in the matrix.
+         */
+        foreach ($sequenced_classes as $time_like_key => $class){
+            $time_like_key = isset($time_like_key) ? $time_like_key : $time_like_key;
+            $this->assertTrue( $time_like_key >= $time_like_key );
+        }
 
         parent::tearDown();
-    }*/
+    }
 }
 

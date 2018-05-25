@@ -26,7 +26,7 @@ use MZ_Mindbody as NS;
 abstract class Retrieve_Classes extends Retrieve {
 
     /**
-     *
+     * Date Format for php date display
      *
      * @since    2.4.7
      * @access   public
@@ -36,7 +36,7 @@ abstract class Retrieve_Classes extends Retrieve {
     public $date_format;
 
     /**
-     *
+     * Time format for php time display
      *
      * @since    2.4.7
      * @access   public
@@ -135,6 +135,17 @@ abstract class Retrieve_Classes extends Retrieve {
      */
     public $current_day_offset;
 
+    /**
+     * Holds the MBO "class type".
+     *
+     * $class_type MBO API has 'Enrollment' and 'DropIn'. 'Enrolment' is a "workdhop". Default: 'Enrollment'
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      string    $class_type    String containing MBO "class type".
+     */
+    public $class_type;
+
     public function __construct($atts = array('key' => 'val')){
 
         parent::__construct();
@@ -147,6 +158,7 @@ abstract class Retrieve_Classes extends Retrieve {
         $this->time_frame = $this->time_frame();
         $this->locations = array(1);
         $this->locations_dictionary = array();
+        $this->class_type = 'Enrollment';
         
     }
 
@@ -272,23 +284,23 @@ abstract class Retrieve_Classes extends Retrieve {
             $single_event = new Schedule\Schedule_Item($class);
 
             if(!empty($this->classesByDateThenTime[$just_date])) {
-                // if (
-                //     // Filter out events that who's location isn't in location list.
-                //     // Currently this list doesn't exist here.
-                //     (!in_array($class['Location']['ID'], $locations)) ||
-                //     ($class['ClassDescription']['Program']['ScheduleType'] == $class_type)
-                // ) {
-                //     continue;
-                // }
+                 if (
+                     // Filter out events that who's location isn't in location list.
+                     // Currently this list doesn't exist here.
+                     (!in_array($class['Location']['ID'], $this->locations)) ||
+                     ($class['ClassDescription']['Program']['ScheduleType'] == $this->class_type)
+                 ) {
+                     continue;
+                 }
                 //$mz_classesByDateThenTime[$classDate] = array_merge($mz_classesByDateThenTime[$classDate], array($class));
                 array_push($this->classesByDateThenTime[$just_date], $single_event);
             } else {
-                // if (
-                //     (!in_array($class['Location']['ID'], $locations)) ||
-                //     ($class['ClassDescription']['Program']['ScheduleType'] == $class_type)
-                // ) {
-                //     continue;
-                // }
+                if (
+                    (!in_array($class['Location']['ID'], $this->locations)) ||
+                    ($class['ClassDescription']['Program']['ScheduleType'] == $this->class_type)
+                ) {
+                    continue;
+                }
                 //$mz_classesByDateThenTime[$classDate]['classes'] = $single_event;
                 $this->classesByDateThenTime[$just_date] = array($single_event);
             }
@@ -338,11 +350,8 @@ abstract class Retrieve_Classes extends Retrieve {
                 continue;
             endif;
 
-            if ($this->hide_cancelled == 1):
-                if ($class['IsCanceled'] == 1):
-                    continue;
-                endif;
-            endif;
+            // If configured to do so in shortcode, skip classes that are cancelled.
+            if ( ( !empty($this->atts['hide_cancelled']) ) && ( $class['IsCanceled'] == 1 ) ) continue;
 
             /* Create a new array with a key for each time
             and corresponding value an array of class details
@@ -352,21 +361,21 @@ abstract class Retrieve_Classes extends Retrieve {
             $single_event = new Schedule\Schedule_Item($class);
 
             if(!empty($this->classesByTimeThenDate[$classTime])) {
-                //if (
-                //    (!in_array($class['Location']['ID'], $locations)) ||
-                //    ($class['ClassDescription']['Program']['ScheduleType'] == 'Enrollment')
-                //) {
-                //    continue;
-                //}
+                if (
+                    (!in_array($class['Location']['ID'], $this->locations)) ||
+                    ($class['ClassDescription']['Program']['ScheduleType'] == $this->class_type)
+                ) {
+                    continue;
+                }
                 array_push($this->classesByTimeThenDate[$classTime]['classes'], $single_event);
             } else {
+                if (
+                    (!in_array($class['Location']['ID'], $this->locations)) ||
+                    ($class['ClassDescription']['Program']['ScheduleType'] == $this->class_type)
+                ) {
+                    continue;
+                }
                 // Assign the first element ( of this time slot ?).
-                //if (
-                //    (!in_array($class['Location']['ID'], $locations)) ||
-                //    ($class['ClassDescription']['Program']['ScheduleType'] == 'Enrollment')
-                //) {
-                //    continue;
-                //}
                 $display_time = (date_i18n(Core\Init::$advanced_options['time_format'], strtotime($class['StartDateTime'])));
                 $this->classesByTimeThenDate[$classTime] = array('display_time' => $display_time,
                     'classes' => array($single_event));
