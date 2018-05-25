@@ -109,8 +109,11 @@ class ScheduleDisplayTest extends WP_UnitTestCase {
          * which is set according to first time-like key in the matrix.
          */
         foreach ($sequenced_classes as $time_like_key => $class){
-            $time_like_key = isset($time_like_key) ? $time_like_key : $time_like_key;
+            $current = isset($current) ? $current : $time_like_key;
             $this->assertTrue( $time_like_key >= $time_like_key );
+            $this->assertTrue( is_array($class['classes']) );
+            // Is it an array of seven days?
+            $this->assertTrue( count($class['classes']) === 7 );
         }
 
         parent::tearDown();
