@@ -131,7 +131,7 @@ class Schedule_Operations {
 	 * @since 1.0
 	 * @source (initially adapted) 
 	 * http://stackoverflow.com/questions/186431/calculating-days-of-week-given-a-week-number
-	 * Used by Sorter::sortClassesByDate function
+	 * Used by Sorter::sortclassesByDateThenTime function
 	 * also used by mZ_mbo_pages_pages() in Mz MBO Pages plugin
 	 *
 	 * @return array Start Date, End Date and Previous Range Start Date.

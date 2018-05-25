@@ -41,7 +41,7 @@ class Retrieve_Events extends Interfaces\Retrieve_Classes {
     /**
      * Holds the current day, with offset, based on "offset" attribute/parameter.
      *
-     * set by time_frame() and used by sort_classes_by_date_and_time()
+     * set by time_frame() and used by sort_classes_by_date_then_time()
      *
      * @since    2.4.7
      * @access   public
@@ -86,7 +86,7 @@ class Retrieve_Events extends Interfaces\Retrieve_Classes {
             $current_day_offset->add($di);
         }
 
-        // Set current_day_offset for filtering by sort_classes_by_date_and_time().
+        // Set current_day_offset for filtering by sort_classes_by_date_then_time().
         $this->current_day_offset = $current_day_offset;
 
         $simple_timeframe = array('StartDateTime'=> $start_time->format('Y-m-d'), 'EndDateTime'=> $end_time->format('Y-m-d'));

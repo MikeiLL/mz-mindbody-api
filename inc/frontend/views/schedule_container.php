@@ -12,7 +12,8 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
 <?php // mz_pr($data); ?>
 
 <div id="mzScheduleDisplay" class="">
-    <?php include 'schedule.php' ?>
+    <?php include 'grid_schedule.php' ?>
+    <?php include 'horizontal_schedule.php' ?>
 </div>
 
 <div id="mzModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mzSmallModalLabel"

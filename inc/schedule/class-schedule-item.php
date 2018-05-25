@@ -298,13 +298,15 @@ class Schedule_Item {
     public $staffID;
 
     /**
-     * 
+     * Weekday Number 1-7 from php's date function
+     *
+     * This is used in the grid schedule display to know which weekday schedule event is associated with.
      *
      * @since    2.4.7
      * @access   public
-     * @var      string $day_num
+     * @var      int $day_num
      */
-    public $day_num; //for use in grid schedule display
+    public $day_num;
 
     /**
      * 
@@ -433,6 +435,7 @@ class Schedule_Item {
         $this->sType = -7;
         $this->staffID = $schedule_item['Staff']['ID'];
         $this->siteID = $schedule_item['Location']['SiteID'];
+        $this->day_num = date_i18n("N", strtotime($schedule_item['StartDateTime']));
 
     }
 

@@ -157,7 +157,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'show_registrants' => 0,
             'hide_cancelled' => 1,
             'registrants_count' => '0',
-            'classesByDate' => array(),
+            'classesByDateThenTime' => array(),
             'mode_select' => 0,
             'unlink' => 0,
             'offset' => 0

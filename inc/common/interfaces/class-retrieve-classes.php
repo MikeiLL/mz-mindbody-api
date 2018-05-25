@@ -54,13 +54,26 @@ abstract class Retrieve_Classes extends Retrieve {
     public $this_week;
 
     /**
+     * Schedule array sorted by first date then time.
      *
+     * Used in horizontal schedule display
      *
      * @since    2.4.7
      * @access   public
-     * @var
+     * @var      arrray $classesByDateThenTime
      */
-    public $classesByDate;
+    public $classesByDateThenTime;
+
+    /**
+     * Schedule array sorted by time, then date
+     *
+     * Used in grid schedule display
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      array $classesByTimeThenDate
+     */
+    public $classesByTimeThenDate;
 
     /**
      *
@@ -128,7 +141,7 @@ abstract class Retrieve_Classes extends Retrieve {
         
         $this->date_format = Core\Init::$date_format;
         $this->time_format = Core\Init::$time_format;
-        $this->classesByDate = array();
+        $this->classesByDateThenTime = array();
         $this->classes = array();
         $this->atts = $atts;
         $this->time_frame = $this->time_frame();
@@ -258,7 +271,7 @@ abstract class Retrieve_Classes extends Retrieve {
 
             $single_event = new Schedule\Schedule_Item($class);
 
-            if(!empty($this->classesByDate[$just_date])) {
+            if(!empty($this->classesByDateThenTime[$just_date])) {
                 // if (
                 //     // Filter out events that who's location isn't in location list.
                 //     // Currently this list doesn't exist here.
@@ -267,8 +280,8 @@ abstract class Retrieve_Classes extends Retrieve {
                 // ) {
                 //     continue;
                 // }
-                //$mz_classesByDate[$classDate] = array_merge($mz_classesByDate[$classDate], array($class));
-                array_push($this->classesByDate[$just_date], $single_event);
+                //$mz_classesByDateThenTime[$classDate] = array_merge($mz_classesByDateThenTime[$classDate], array($class));
+                array_push($this->classesByDateThenTime[$just_date], $single_event);
             } else {
                 // if (
                 //     (!in_array($class['Location']['ID'], $locations)) ||
@@ -276,18 +289,18 @@ abstract class Retrieve_Classes extends Retrieve {
                 // ) {
                 //     continue;
                 // }
-                //$mz_classesByDate[$classDate]['classes'] = $single_event;
-                $this->classesByDate[$just_date] = array($single_event);
+                //$mz_classesByDateThenTime[$classDate]['classes'] = $single_event;
+                $this->classesByDateThenTime[$just_date] = array($single_event);
             }
         }
         /* They are not ordered by date so order them by date */
-        ksort($this->classesByDate);
-        foreach($this->classesByDate as $classDate => &$classes)
+        ksort($this->classesByDateThenTime);
+        foreach($this->classesByDateThenTime as $classDate => &$classes)
         {
             /*
              * $classes is an array of all classes for given date
              * Take each of the class arrays and order it by time
-             * $classesByDate should have a length of seven, one for
+             * $classesByDateThenTime should have a length of seven, one for
              * each day of the week.
              */
             usort($classes, function($a, $b) {
@@ -297,7 +310,7 @@ abstract class Retrieve_Classes extends Retrieve {
                 return $a->startDateTime < $b->startDateTime ? -1 : 1;
             });
         }
-        return $this->classesByDate;
+        return $this->classesByDateThenTime;
     }
 
     /**
@@ -332,54 +345,51 @@ abstract class Retrieve_Classes extends Retrieve {
             endif;
 
             /* Create a new array with a key for each time
-            and corresponsing value an array of class details
+            and corresponding value an array of class details
             for classes at that time. */
             $classTime = date_i18n("G.i", strtotime($class['StartDateTime'])); // for numerical sorting
-            // $class['day_num'] = '';
-            $class['day_num'] = date_i18n("N", strtotime($class['StartDateTime'])); // Weekday num 1-7
 
             $single_event = new Schedule\Schedule_Item($class);
 
-            if(!empty($classesByTime[$classTime])) {
-                if (
-                    (!in_array($class['Location']['ID'], $locations)) ||
-                    ($class['ClassDescription']['Program']['ScheduleType'] == 'Enrollment')
-                ) {
-                    continue;
-                }
-                array_push($classesByTime[$classTime]['classes'], $single_event);
+            if(!empty($this->classesByTimeThenDate[$classTime])) {
+                //if (
+                //    (!in_array($class['Location']['ID'], $locations)) ||
+                //    ($class['ClassDescription']['Program']['ScheduleType'] == 'Enrollment')
+                //) {
+                //    continue;
+                //}
+                array_push($this->classesByTimeThenDate[$classTime]['classes'], $single_event);
             } else {
                 // Assign the first element ( of this time slot ?).
-                if (
-                    (!in_array($class['Location']['ID'], $locations)) ||
-                    ($class['ClassDescription']['Program']['ScheduleType'] == 'Enrollment')
-                ) {
-                    continue;
-                }
-                $display_time = (date_i18n($time_format, strtotime($class['StartDateTime'])));
-                $classesByTime[$classTime] = array('display_time' => $display_time,
+                //if (
+                //    (!in_array($class['Location']['ID'], $locations)) ||
+                //    ($class['ClassDescription']['Program']['ScheduleType'] == 'Enrollment')
+                //) {
+                //    continue;
+                //}
+                $display_time = (date_i18n(Core\Init::$advanced_options['time_format'], strtotime($class['StartDateTime'])));
+                $this->classesByTimeThenDate[$classTime] = array('display_time' => $display_time,
                     'classes' => array($single_event));
 
             }
         }
-
         /* Timeslot keys in new array are not time-sequenced so do so*/
-        ksort($classesByTime);
-        foreach($classesByTime as $scheduleTime => &$mz_classes)
+        ksort($this->classesByTimeThenDate);
+        foreach($this->classesByTimeThenDate as $scheduleTime => &$classes)
         {
             /*
             $mz_classes is an array of all class_event objects for given time
             Take each of the class arrays and order it by days 1-7
             */
-            usort($mz_classes['classes'], function($a, $b) {
+            usort($classes['classes'], function($a, $b) {
                 if(date_i18n("N", strtotime($a->startDateTime)) == date_i18n("N", strtotime($b->startDateTime))) {
                     return 0;
                 }
                 return $a->startDateTime < $b->startDateTime ? -1 : 1;
             });
-            $mz_classes['classes'] = $this->week_of_timeslot($mz_classes['classes'], 'day_num');
+            $classes['classes'] = $this->week_of_timeslot($classes['classes'], 'day_num');
         }
-        return $classesByTime;
+        return $this->classesByTimeThenDate;
     }
 
 
