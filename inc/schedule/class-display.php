@@ -202,7 +202,9 @@ class Display extends Interfaces\ShortCode_Script_Loader
         // Add Style with script adder
         self::addScript();
 
-        $horizontal_schedule = $this->schedule_object->sort_classes_by_date_and_time();
+        $horizontal_schedule = $this->schedule_object->sort_classes_by_date_then_time();
+
+        $grid_schedule = $this->schedule_object->sort_classes_by_time_then_date();
 
         $this->template_data = array(
             'atts' => $this->atts,
@@ -212,6 +214,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'initial_button_text' => $this->initial_button_text,
             'swap_button_text' => $this->swap_button_text,
             'horizontal_schedule' => $horizontal_schedule,
+            'grid_schedule' => $grid_schedule,
             'time_format' => $this->schedule_object->time_format,
             'date_format' => $this->schedule_object->date_format,
             'data_nonce' => wp_create_nonce('mz_schedule_display_nonce'),
@@ -307,7 +310,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
         // Call the API and if fails, return error message.
         if (false == $this->schedule_object->get_mbo_results()) return "<div>" . __("Mindbody plugin settings error.", 'mz-mindbody-api') . "</div>";
 
-        $horizontal_schedule = $this->schedule_object->sort_classes_by_date_and_time();
+        $horizontal_schedule = $this->schedule_object->sort_classes_by_date_then_time();
 
         // Register attributes
         $this->handleShortcode($atts);

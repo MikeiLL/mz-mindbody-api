@@ -114,7 +114,7 @@ abstract class Retrieve_Classes extends Retrieve {
     /**
      * Holds the current day, with offset, based on "offset" attribute/parameter.
      *
-     * set by time_frame() and used by sort_classes_by_date_and_time()
+     * set by time_frame() and used by sort_classes_by_date_then_time()
      *
      * @since    2.4.7
      * @access   public
@@ -222,7 +222,7 @@ abstract class Retrieve_Classes extends Retrieve {
 	}
 
     /**
-     * Return an array of MBO Class Objects, ordered by date.
+     * Return an array of MBO Class Objects, ordered by date, then time.
      *
      * This is used in Horizontal view. It receives the filtered results from the MBO API call ($mz_classes)
      * and builds an array of Class Event Objects, sequenced by date and time.
@@ -232,7 +232,7 @@ abstract class Retrieve_Classes extends Retrieve {
      *
      * @return @type array of Objects from Single_event class, in Date (and time) sequence.
      */
-    public function sort_classes_by_date_and_time() {
+    public function sort_classes_by_date_then_time() {
 
         foreach($this->classes['GetClassesResult']['Classes']['Class'] as $class)
         {
@@ -300,6 +300,106 @@ abstract class Retrieve_Classes extends Retrieve {
         return $this->classesByDate;
     }
 
+    /**
+     * Return an array of MBO Class Objects, ordered by date.
+     *
+     * This is used in Grid view. It gets the filtered results from the MBO API call and builds a matrix, top level of which is
+     * seven arrays, one for each of seven days in a week (for a calendar column), each one of the Day columns contains an array
+     * of Class Event objects, sequenced by time of day, earliest to latest.
+     *
+     *
+     *
+     * @return @type array of Objects from Single_event class, in Date (and time) sequence.
+     */
+    public function sort_classes_by_time_then_date() {
+
+        $classesByTime = array();
+
+        $end_of_range = new \DateTime();
+        $end_of_range->add(new \DateInterval('P1W'));
+
+        foreach($this->classes['GetClassesResult']['Classes']['Class'] as $class)
+        {
+            // Ignore classes that are not part of current week (ending Sunday)
+            if (new \DateTime($class['StartDateTime']) >= $end_of_range):
+                continue;
+            endif;
+
+            if ($this->hide_cancelled == 1):
+                if ($class['IsCanceled'] == 1):
+                    continue;
+                endif;
+            endif;
+
+            /* Create a new array with a key for each time
+            and corresponsing value an array of class details
+            for classes at that time. */
+            $classTime = date_i18n("G.i", strtotime($class['StartDateTime'])); // for numerical sorting
+            // $class['day_num'] = '';
+            $class['day_num'] = date_i18n("N", strtotime($class['StartDateTime'])); // Weekday num 1-7
+
+            $single_event = new Schedule\Schedule_Item($class);
+
+            if(!empty($classesByTime[$classTime])) {
+                if (
+                    (!in_array($class['Location']['ID'], $locations)) ||
+                    ($class['ClassDescription']['Program']['ScheduleType'] == 'Enrollment')
+                ) {
+                    continue;
+                }
+                array_push($classesByTime[$classTime]['classes'], $single_event);
+            } else {
+                // Assign the first element ( of this time slot ?).
+                if (
+                    (!in_array($class['Location']['ID'], $locations)) ||
+                    ($class['ClassDescription']['Program']['ScheduleType'] == 'Enrollment')
+                ) {
+                    continue;
+                }
+                $display_time = (date_i18n($time_format, strtotime($class['StartDateTime'])));
+                $classesByTime[$classTime] = array('display_time' => $display_time,
+                    'classes' => array($single_event));
+
+            }
+        }
+
+        /* Timeslot keys in new array are not time-sequenced so do so*/
+        ksort($classesByTime);
+        foreach($classesByTime as $scheduleTime => &$mz_classes)
+        {
+            /*
+            $mz_classes is an array of all class_event objects for given time
+            Take each of the class arrays and order it by days 1-7
+            */
+            usort($mz_classes['classes'], function($a, $b) {
+                if(date_i18n("N", strtotime($a->startDateTime)) == date_i18n("N", strtotime($b->startDateTime))) {
+                    return 0;
+                }
+                return $a->startDateTime < $b->startDateTime ? -1 : 1;
+            });
+            $mz_classes['classes'] = $this->week_of_timeslot($mz_classes['classes'], 'day_num');
+        }
+        return $classesByTime;
+    }
+
+
+    /**
+     * Make a clean array with seven corresponding slots and populate
+     * based on indicator (day) for each class. There may be more than
+     * one even for each day and empty arrays will represent empty time slots.
+     */
+    private function week_of_timeslot($array, $indicator){
+        $seven_days = array_combine(range(1, 7), array(array(), array(), array(),
+            array(), array(), array(), array()));
+        foreach($seven_days as $key => $value){
+            foreach ($array as $class) {
+                if ($class->$indicator == $key){
+                    array_push($seven_days[$key], $class);
+                }
+            }
+        }
+        return $seven_days;
+    }
     /*
      * Set up Time Frame with Start and End times for Schedule Request
      *

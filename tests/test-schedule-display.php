@@ -42,7 +42,7 @@ class ScheduleDisplayTest extends WP_UnitTestCase {
     /**
      * Confirm that schedule display method is operational
      */
-    function test_sort_classes_by_date_and_time() {
+    function test_sort_classes_by_date_then_time() {
 
         parent::setUp();
 
@@ -59,7 +59,7 @@ class ScheduleDisplayTest extends WP_UnitTestCase {
 
         $response = $schedule_object->get_mbo_results();
 
-        $sequenced_classes = $schedule_object->sort_classes_by_date_and_time();
+        $sequenced_classes = $schedule_object->sort_classes_by_date_then_time();
 
         /*
          * Test that first date is today

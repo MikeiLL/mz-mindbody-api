@@ -37,7 +37,7 @@ class Retrieve_Schedule extends Interfaces\Retrieve_Classes {
             $current_day_offset->add($di);
         }
 
-        // Set current_day_offset for filtering by sort_classes_by_date_and_time().
+        // Set current_day_offset for filtering by sort_classes_by_date_then_time().
         $this->current_day_offset = $current_day_offset;
 
 		return array('StartDateTime'=> $start_time->format('Y-m-d'), 'EndDateTime'=> $end_time->format('Y-m-d'));
