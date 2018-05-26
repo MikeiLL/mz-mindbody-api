@@ -40,6 +40,9 @@ class Retrieve_Schedule extends Interfaces\Retrieve_Classes {
         // Set current_day_offset for filtering by sort_classes_by_date_then_time().
         $this->current_day_offset = $current_day_offset;
 
+		// Assign start_date to instance so can be accessed in grid schedule display
+        $this->start_date = $start_time;
+
 		return array('StartDateTime'=> $start_time->format('Y-m-d'), 'EndDateTime'=> $end_time->format('Y-m-d'));
 	}
 

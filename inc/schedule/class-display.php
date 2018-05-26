@@ -143,8 +143,8 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'type' => 'week',
             'location' => '', // stop using this eventually, in preference "int, int" format
             'locations' => array(1),
-            'account' => '0',
-            'filter' => '0',
+            'account' => 0,
+            'filter' => 0,
             'hide_cancelled' => 0,
             'grid' => 0,
             'advanced' => 0,
@@ -156,7 +156,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'class_type' => 'Enrollment',
             'show_registrants' => 0,
             'hide_cancelled' => 1,
-            'registrants_count' => '0',
+            'registrants_count' => 0,
             'classesByDateThenTime' => array(),
             'mode_select' => 0,
             'unlink' => 0,
@@ -231,7 +231,8 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'data_target' => $this->data_target,
             'class_modal_link' => $this->class_modal_link,
             'siteID' => $this->siteID,
-            'week_names' => $week_names
+            'week_names' => $week_names,
+            'start_date' => $this->schedule_object->start_date
         );
 
         $template_loader->set_template_data($this->template_data);
@@ -254,11 +255,10 @@ class Display extends Interfaces\ShortCode_Script_Loader
             wp_register_script('mz_display_schedule_script', MZ_Mindbody\PLUGIN_NAME_URL . 'dist/scripts/schedule-display.js', array('jquery', 'mz_mbo_bootstrap_script'), 1.0, true);
             wp_enqueue_script('mz_display_schedule_script');
 
-            // wp_register_script('mz_mindbody_show_registrants', MZ_Mindbody\PLUGIN_NAME_URL . 'dist/scripts/show-registrants.js', array('jquery'), 1.0, true );
-            // wp_enqueue_script('mz_mindbody_show_registrants');
-
-            wp_register_script('filterTable', MZ_Mindbody\PLUGIN_NAME_URL . 'dist/scripts/mz_filtertable.js', array('jquery'), null, true);
-            wp_enqueue_script('filterTable');
+            if ($this->filter === 1):
+                wp_register_script('filterTable', MZ_Mindbody\PLUGIN_NAME_URL . 'dist/scripts/mz_filtertable.js', array('jquery'), null, true);
+                wp_enqueue_script('filterTable');
+            endif;
 
             $this->localizeScript();
 
@@ -323,11 +323,14 @@ class Display extends Interfaces\ShortCode_Script_Loader
 
         $horizontal_schedule = $this->schedule_object->sort_classes_by_date_then_time();
 
+        $grid_schedule = $this->schedule_object->sort_classes_by_time_then_date();
+
         // Register attributes
         $this->handleShortcode($atts);
 
         // Update the data array
         $this->template_data['horizontal_schedule'] = $horizontal_schedule;
+        $this->template_data['grid_schedule'] = $grid_schedule;
         $this->template_data['time_format'] = $this->schedule_object->time_format;
         $this->template_data['date_format'] = $this->schedule_object->date_format;
 

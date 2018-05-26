@@ -146,6 +146,19 @@ abstract class Retrieve_Classes extends Retrieve {
      */
     public $class_type;
 
+    /**
+     * Holds the first date of current results.
+     *
+     * This is used to display current week in grid schedule.
+     *
+     * @assigned in time_frame() method
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      Datetime object    $start_date    Datetime containing start of week requested.
+     */
+    public $start_date;
+
     public function __construct($atts = array('key' => 'val')){
 
         parent::__construct();
@@ -240,9 +253,9 @@ abstract class Retrieve_Classes extends Retrieve {
 	 * @return html string of start and end of current week
 	 */
 	public function current_week_display(){
-		$time_frame = $this->single_week();
-		$return = 'Week start: ' . date('M d, Y', $time_frame[start]) . '<br/>';
-		$return .= 'Week end: ' . date('M d, Y', $time_frame[end]);
+		$time_frame = $this->single_week(current_time( 'timestamp' ));
+		$return = 'Week start: ' . date('l, M d, Y', $time_frame[start]) . '<br/>';
+		$return .= 'Week end: ' . date('l, M d, Y', $time_frame[end]);
 		return $return;
 	}
 
@@ -271,9 +284,9 @@ abstract class Retrieve_Classes extends Retrieve {
             // Populate the Locations Dictionary
             if (!in_array($class['Location']['ID'], $this->locations)) { continue; }
             
-						if (!array_key_exists($class['Location']['ID'], $this->locations_dictionary)):
-							$this->locations_dictionary[$class['Location']['ID']] = $class['Location']['Name'];
-						endif;
+            if (!array_key_exists($class['Location']['ID'], $this->locations_dictionary)):
+                $this->locations_dictionary[$class['Location']['ID']] = $class['Location']['Name'];
+            endif;
 
             // If class was previous to today ignore it
             if ( $just_date < $this->current_day_offset->format('Y-m-d') ) continue;

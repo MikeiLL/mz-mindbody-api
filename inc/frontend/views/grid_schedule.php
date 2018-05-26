@@ -15,27 +15,39 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
  */
 
 ?>
+<h4 class="mz_grid_date <?php echo $data->grid_class; ?>">
+    <?php
+    $this_week_start = date_i18n($data->date_format, $data->start_date->getTimestamp());
+    ?>
+    <?php printf(__('Week of %1$s', 'mz-mindbody-api'), $this_week_start); ?>
+</h4>
 <table class="<?php echo $data->grid_class; ?>">
-    <tr>
-        <th scope="header"></th>
-        <?php foreach($data->week_names as $name): ?>
-        <th scope="header"><?php echo $name; ?></th>
-        <?php endforeach; ?>
-    </tr>
-    <?php foreach($data->grid_schedule as $time => $days): ?>
-    <tr>
-
-        <td><?php echo $days['display_time']; ?><span style="display:none"><?php echo $days['part_of_day']; ?></span></td>
-        <?php foreach($days['classes'] as $day_slot): ?>
-            <td>
-            <?php foreach($day_slot as $class): ?>
-                <div class="mz_schedule_table mz_description_holder mz_location_1 <?php echo $class->session_type_css; echo $class->class_name_css; ?>"><?php echo $class->className; ?></div>
+    <thead>
+        <tr>
+            <th scope="header"></th>
+            <?php foreach($data->week_names as $name): ?>
+                <th scope="header"><?php echo $name; ?></th>
             <?php endforeach; ?>
-            </td>
-        <?php endforeach; ?>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach($data->grid_schedule as $time => $days): ?>
+        <tr>
 
-    </tr>
-    <?php endforeach; ?>
+            <td><?php echo $days['display_time']; ?><span style="display:none"><?php echo $days['part_of_day']; ?></span></td>
+            <?php foreach($days['classes'] as $day_slot): ?>
+                <td>
+                <?php foreach($day_slot as $class): ?>
+                    <div class="mz_schedule_table mz_description_holder mz_location_1 <?php echo $class->session_type_css; echo $class->class_name_css; ?>">
+                        <?php //echo $class->className; ?>
+                        <?php echo date_i18n('l, m-d', strtotime($class->startDateTime)); ?>
+                    </div>
+                <?php endforeach; ?>
+                </td>
+            <?php endforeach; ?>
+
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
 </table>
-<?php mz_pr($data->week_names); ?>
 <?php mz_pr($data->grid_schedule); ?>

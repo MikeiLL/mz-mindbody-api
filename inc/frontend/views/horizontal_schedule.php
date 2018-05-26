@@ -18,20 +18,22 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
 
 <table id="mz_horizontal_schedule">
     <?php foreach ($data->horizontal_schedule as $day => $classes): ?>
-        <tr class="header visible striped" style="display: table-row">
-            <th class="mz_date_display" scope="header">
-                <?php echo date_i18n($data->date_format, strtotime($day)); ?>
-            </th>
-            <th class="mz_classDetails" scope="header">
-                <?php _e('Class Name', 'mz-mindbody-api'); ?>
-            </th>
-            <th class="mz_staffName" scope="header">
-                <?php _e('Instructor', 'mz-mindbody-api'); ?>
-            </th>
-            <th class="mz_sessionTypeName" scope="header">
-                <?php _e('Class Type', 'mz-mindbody-api'); ?>
-            </th>
-        </tr>
+        <thead>
+            <tr class="header visible striped" style="display: table-row">
+                <th class="mz_date_display" scope="header">
+                    <?php echo date_i18n($data->date_format, strtotime($day)); ?>
+                </th>
+                <th class="mz_classDetails" scope="header">
+                    <?php _e('Class Name', 'mz-mindbody-api'); ?>
+                </th>
+                <th class="mz_staffName" scope="header">
+                    <?php _e('Instructor', 'mz-mindbody-api'); ?>
+                </th>
+                <th class="mz_sessionTypeName" scope="header">
+                    <?php _e('Class Type', 'mz-mindbody-api'); ?>
+                </th>
+            </tr>
+        </thead>
         <tbody>
         <?php foreach ($classes as $k => $class): ?>
             <tr>
