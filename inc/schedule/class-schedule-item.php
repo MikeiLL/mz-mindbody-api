@@ -408,11 +408,29 @@ class Schedule_Item {
     public $sDate;
 
     /**
+     * CSS-ready name of schedule item Session Type Name
+     *
+     * @since 2.4.7
+     *
+     * @param string $session_type_css.
+     */
+    public $session_type_css;
+
+    /**
+     * CSS-ready name of schedule item Class Name
+     *
+     * @since 2.4.7
+     *
+     * @param string $class_name_css
+     */
+    public $class_name_css;
+
+    /**
      * Populate attributes with data from MBO
      *
      * @since 2.4.7
      *
-     * @param $schedule_item array of item attributes. See class description.
+     * @param array $schedule_item array of item attributes. See class description.
      */
     public function __construct($schedule_item) {
 
@@ -436,6 +454,8 @@ class Schedule_Item {
         $this->staffID = $schedule_item['Staff']['ID'];
         $this->siteID = $schedule_item['Location']['SiteID'];
         $this->day_num = date_i18n("N", strtotime($schedule_item['StartDateTime']));
+        $this->session_type_css = 'mz_' . sanitize_html_class($this->sessionTypeName, 'mz_session_type');
+        $this->class_name_css = 'mz_' . sanitize_html_class($this->className, 'mz_class_name');
 
     }
 
