@@ -411,7 +411,8 @@ abstract class Retrieve_Classes extends Retrieve {
                                                             );
             }
         }
-
+        // Timeslot keys in new array are not time-sequenced so do so.
+        ksort($this->classesByTimeThenDate);
         foreach($this->classesByTimeThenDate as $scheduleTime => &$classes)
         {
             /*
@@ -425,10 +426,7 @@ abstract class Retrieve_Classes extends Retrieve {
                 return $a->startDateTime < $b->startDateTime ? -1 : 1;
             });
             $classes['classes'] = $this->week_of_timeslot($classes['classes'], 'day_num');
-
         }
-        /* Timeslot keys in new array are not time-sequenced so do so*/
-        // ksort($this->classesByTimeThenDate);
         return $this->classesByTimeThenDate;
     }
 
@@ -438,11 +436,11 @@ abstract class Retrieve_Classes extends Retrieve {
      * based on indicator (day) for each class. There may be more than
      * one event for each day and empty arrays will represent empty time slots.
      */
-    private function week_of_timeslot($array, $indicator){
+    private function week_of_timeslot($classes, $indicator){
         $seven_days = array_combine(range(1, 7), array(array(), array(), array(),
             array(), array(), array(), array()));
         foreach($seven_days as $key => $value){
-            foreach ($array as $class) {
+            foreach ($classes as $class) {
                 if ($class->$indicator == $key){
                     array_push($seven_days[$key], $class);
                 }

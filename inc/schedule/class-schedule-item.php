@@ -1,6 +1,8 @@
 <?php
 namespace MZ_Mindbody\Inc\Schedule;
 
+use MZ_Mindbody\Inc\Core as Core;
+
 /*
  * Class that holds and formats a single item from MBO API Schedule
  * for display.
@@ -464,11 +466,34 @@ class Schedule_Item {
         $this->sType = -7;
         $this->staffID = $schedule_item['Staff']['ID'];
         $this->siteID = $schedule_item['Location']['SiteID'];
-        $this->day_num = date_i18n("N", strtotime($schedule_item['StartDateTime']));
+        $this->day_num = $this->get_day_number(date_i18n("N", strtotime($schedule_item['StartDateTime'])));
         $this->session_type_css = 'mz_' . sanitize_html_class($this->sessionTypeName, 'mz_session_type');
         $this->class_name_css = 'mz_' . sanitize_html_class($this->className, 'mz_class_name');
         $this->part_of_day = $this->part_of_day();
+    }
 
+    /**
+     * Get Day Number
+     *
+     * PHP numbers days of the week starting on Monday at 1. If our week starts on Sunday,
+     * then we need to shift so that Sunday is 1 and Saturday is 7.
+     *
+     * @param $php_day_number int a number from 1 - 7 for which day of week php assigns based on date().
+     *
+     * @return int 1 - 7 for assigning to specific shedule item to display in grid schedule
+     */
+    private function get_day_number($php_day_number){
+        /*
+         * If week starts on Monday we're same as php,
+         * and for now we're ignoring week starts aside from
+         * Sunday or Monday. Sorry.
+         */
+        if (Core\Init::$start_of_week != 0) return $php_day_number;
+        switch ($php_day_number) {
+            case 7: return 0;
+            break;
+            default: return $php_day_number + 1;
+        }
     }
 
     /**

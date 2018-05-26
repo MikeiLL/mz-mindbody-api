@@ -207,14 +207,22 @@ class Display extends Interfaces\ShortCode_Script_Loader
         $grid_schedule = $this->schedule_object->sort_classes_by_time_then_date();
 
         $week_names = array(
+            __('Sunday', 'mz-mindbody-api'),
             __('Monday', 'mz-mindbody-api'),
             __('Tuesday', 'mz-mindbody-api'),
             __('Wednesday', 'mz-mindbody-api'),
             __('Thursday', 'mz-mindbody-api'),
             __('Friday', 'mz-mindbody-api'),
             __('Saturday', 'mz-mindbody-api'),
-            __('Sunday', 'mz-mindbody-api')
         );
+
+        /*
+         * If wordpress-configured week starts on Monday instead of Sunday,
+         * we shift our week names array
+         */
+        if ( Core\Init::$start_of_week != 0 ) {
+            array_push($week_names, array_shift($week_names));
+        }
 
         $this->template_data = array(
             'atts' => $this->atts,
