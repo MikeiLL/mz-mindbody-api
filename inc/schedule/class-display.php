@@ -178,13 +178,32 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'offset' => 0
         ), $atts);
 
+        // Set siteID to option if not set explicitly in shortcode
+        $this->siteID = (isset($atts['account'])) ? $atts['account'] : Core\Init::$basic_options['mz_mindbody_siteID'];
+
+        $show_registrants = ($this->atts['show_registrants'] == 1) ? true : false;
+        // Are we displaying registrants?
+        $this->data_target = $show_registrants ? 'registrantModal' : 'mzModal';
+        $this->class_modal_link = MZ_Mindbody\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php';
+
+        ob_start();
+
+        $template_loader = new Core\Template_Loader();
+        $this->schedule_object = new Retrieve_Schedule($this->atts);
+
+        // Call the API and if fails, return error message.
+        if (false == $this->schedule_object->get_mbo_results()) return "<div>" . __("Mindbody plugin settings error.", 'mz-mindbody-api') . "</div>";
+
+        // Add Style with script adder
+        self::addScript();
+
         /*
          * Configure the display type based on shortcode atts.
          */
         $this->display_type = (!empty($atts['grid'])) ? 'grid' : 'horizontal';
 
         // If mode_select is on, render both grid and horizontal
-        if ($atts['mode_select'] == 1) $this->display_type = 'both';
+        if (!empty($atts['mode_select'])) $this->display_type = 'both';
 
         // Define styling variables based on shortcode attribute values
         $this->table_class = ($this->atts['filter'] == 1) ? 'mz-schedule-filter' : 'mz-schedule-table';
@@ -206,28 +225,25 @@ class Display extends Interfaces\ShortCode_Script_Loader
             $this->swap_button_text = 0;
         endif;
 
-        // Set siteID to option if not set explicitly in shortcode
-        $this->siteID = (isset($atts['account'])) ? $atts['account'] : Core\Init::$basic_options['mz_mindbody_siteID'];
+        /*
+         *
+         * Determine which type(s) of schedule(s) need to be configured
+         *
+         * The schedules are not class objects because they change depending on
+         * (date) offset value when they are called.
+         */
 
-        $show_registrants = ($this->atts['show_registrants'] == 1) ? true : false;
-        // Are we displaying registrants?
-        $this->data_target = $show_registrants ? 'registrantModal' : 'mzModal';
-        $this->class_modal_link = MZ_Mindbody\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php';
+        // Initialize the variables, so won't be un-set:
+        $horizontal_schedule = '';
+        $grid_schedule = '';
 
-        ob_start();
-
-        $template_loader = new Core\Template_Loader();
-        $this->schedule_object = new Retrieve_Schedule($this->atts);
-
-        // Call the API and if fails, return error message.
-        if (false == $this->schedule_object->get_mbo_results()) return "<div>" . __("Mindbody plugin settings error.", 'mz-mindbody-api') . "</div>";
-
-        // Add Style with script adder
-        self::addScript();
-
-        $horizontal_schedule = $this->schedule_object->sort_classes_by_date_then_time();
-
-        $grid_schedule = $this->schedule_object->sort_classes_by_time_then_date();
+        if ($this->display_type == 'grid' || $this->display_type == 'both'):
+            // Update the data array
+            $grid_schedule = $this->schedule_object->sort_classes_by_time_then_date();
+        elseif ($this->display_type == 'horizontal' || $this->display_type == 'both'):
+            $horizontal_schedule = $this->schedule_object->sort_classes_by_date_then_time();
+            // Update the data array
+        endif;
 
         $week_names = array(
             __('Sunday', 'mz-mindbody-api'),
@@ -371,22 +387,30 @@ class Display extends Interfaces\ShortCode_Script_Loader
         // Call the API and if fails, return error message.
         if (false == $this->schedule_object->get_mbo_results()) return "<div>" . __("Mindbody plugin settings error.", 'mz-mindbody-api') . "</div>";
 
-        $horizontal_schedule = $this->schedule_object->sort_classes_by_date_then_time();
-
-        $grid_schedule = $this->schedule_object->sort_classes_by_time_then_date();
-
         // Register attributes
         $this->handleShortcode($atts);
 
-        // Update the data array//
-        $this->template_data['horizontal_schedule'] = $horizontal_schedule;
-        $this->template_data['grid_schedule'] = $grid_schedule;
+        // Update the data array
         $this->template_data['time_format'] = $this->schedule_object->time_format;
         $this->template_data['date_format'] = $this->schedule_object->date_format;
 
         $template_loader->set_template_data($this->template_data);
-        $template_loader->get_template_part('grid_schedule');
-        $template_loader->get_template_part('horizontal_schedule');
+
+        // Initialize the variables, so won't be un-set:
+        $horizontal_schedule = '';
+        $grid_schedule = '';
+
+        if ($this->display_type == 'grid' || $this->display_type == 'both'):
+            $grid_schedule = $this->schedule_object->sort_classes_by_time_then_date();
+            // Update the data array
+            $template_loader->get_template_part('grid_schedule');
+            $this->template_data['grid_schedule'] = $grid_schedule;
+        elseif ($this->display_type == 'horizontal' || $this->display_type == 'both'):
+            $horizontal_schedule = $this->schedule_object->sort_classes_by_date_then_time();
+            // Update the data array
+            $this->template_data['horizontal_schedule'] = $horizontal_schedule;
+            $template_loader->get_template_part('horizontal_schedule');
+        endif;
 
         $result['message'] = ob_get_clean();
 
