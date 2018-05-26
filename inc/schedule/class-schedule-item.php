@@ -426,6 +426,17 @@ class Schedule_Item {
     public $class_name_css;
 
     /**
+     * Part of Day
+     *
+     * Morning, Afternoon, Evening
+     *
+     * @since 2.4.7
+     *
+     * @param string $part_of_day
+     */
+    public $part_of_day;
+
+    /**
      * Populate attributes with data from MBO
      *
      * @since 2.4.7
@@ -456,11 +467,27 @@ class Schedule_Item {
         $this->day_num = date_i18n("N", strtotime($schedule_item['StartDateTime']));
         $this->session_type_css = 'mz_' . sanitize_html_class($this->sessionTypeName, 'mz_session_type');
         $this->class_name_css = 'mz_' . sanitize_html_class($this->className, 'mz_class_name');
+        $this->part_of_day = $this->part_of_day();
 
     }
 
-    public function get_schedule_item(){
-        return $this->schedule_item['ClassDescription']['SessionType']['Name'];
+    /**
+     * Generate MBO URL
+     *
+     * Note the part of day class occurs in. Used to filter in display table for schedules
+     *
+     *
+     * @return string "morning", "afternoon" or "night", translated
+     */
+    private function part_of_day(){
+        $time_by_integer = date_i18n("G.i", strtotime($this->startDateTime));
+        if ($time_by_integer < 12) {
+            return __('morning', 'mz-mindbody-api');
+        }else if ($time_by_integer > 16) {
+            return __('evening', 'mz-mindbody-api');
+        }else{
+            return __('afternoon', 'mz-mindbody-api');
+        }
     }
 
     /**

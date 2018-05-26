@@ -377,9 +377,12 @@ abstract class Retrieve_Classes extends Retrieve {
                 }
                 // Assign the first element ( of this time slot ?).
                 $display_time = (date_i18n(Core\Init::$advanced_options['time_format'], strtotime($class['StartDateTime'])));
-                $this->classesByTimeThenDate[$classTime] = array('display_time' => $display_time,
-                    'classes' => array($single_event));
-
+                $this->classesByTimeThenDate[$classTime] = array(
+                                                                'display_time' => $display_time,
+                                                                // Add part_of_day for filter as well
+                                                                'part_of_day' => $single_event->part_of_day,
+                                                                'classes' => array($single_event)
+                                                            );
             }
         }
         /* Timeslot keys in new array are not time-sequenced so do so*/

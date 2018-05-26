@@ -25,7 +25,7 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
     <?php foreach($data->grid_schedule as $time => $days): ?>
     <tr>
 
-        <td><?php echo $days['display_time']; ?></td>
+        <td><?php echo $days['display_time']; ?><span style="display:none"><?php echo $days['part_of_day']; ?></span></td>
         <?php foreach($days['classes'] as $day_slot): ?>
             <td>
             <?php foreach($day_slot as $class): ?>
