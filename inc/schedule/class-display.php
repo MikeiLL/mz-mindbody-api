@@ -206,6 +206,16 @@ class Display extends Interfaces\ShortCode_Script_Loader
 
         $grid_schedule = $this->schedule_object->sort_classes_by_time_then_date();
 
+        $week_names = array(
+            __('Monday', 'mz-mindbody-api'),
+            __('Tuesday', 'mz-mindbody-api'),
+            __('Wednesday', 'mz-mindbody-api'),
+            __('Thursday', 'mz-mindbody-api'),
+            __('Friday', 'mz-mindbody-api'),
+            __('Saturday', 'mz-mindbody-api'),
+            __('Sunday', 'mz-mindbody-api')
+        );
+
         $this->template_data = array(
             'atts' => $this->atts,
             'data_target' => $this->data_target,
@@ -220,7 +230,8 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'data_nonce' => wp_create_nonce('mz_schedule_display_nonce'),
             'data_target' => $this->data_target,
             'class_modal_link' => $this->class_modal_link,
-            'siteID' => $this->siteID
+            'siteID' => $this->siteID,
+            'week_names' => $week_names
         );
 
         $template_loader->set_template_data($this->template_data);
