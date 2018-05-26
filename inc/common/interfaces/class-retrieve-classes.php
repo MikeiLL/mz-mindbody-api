@@ -356,7 +356,8 @@ abstract class Retrieve_Classes extends Retrieve {
      *
      * This is used in Grid view. It gets the filtered results from the MBO API call and builds a matrix, top level of which is
      * seven arrays, one for each of seven days in a week (for a calendar column), each one of the Day columns contains an array
-     * of Class Event objects, sequenced by time of day, earliest to latest.
+     * of Class Event objects, sequenced by time of day, earliest to latest. There may be multiple classes occurring at same time,
+     * which are contained in another sub-array.
      *
      *
      *
@@ -369,14 +370,15 @@ abstract class Retrieve_Classes extends Retrieve {
         foreach($this->classes['GetClassesResult']['Classes']['Class'] as $class)
         {
             // Ignore classes that are not part of current week (ending Sunday)
-            if (new \DateTime($class['StartDateTime']) >= $this->current_week_end):
+            $class_datetime = new \DateTime($class['StartDateTime']);
+            if ($class_datetime->format('Y-m-d') > $this->current_week_end->format('Y-m-d')):
                 continue;
             endif;
 
             // If configured to do so in shortcode, skip classes that are cancelled.
             if ( ( !empty($this->atts['hide_cancelled']) ) && ( $class['IsCanceled'] == 1 ) ) continue;
 
-            /* Create a new array with a key for each time
+            /* Create a new array with a key for each TIME (time of day, not date)
             and corresponding value an array of class details
             for classes at that time. */
             $classTime = date_i18n("G.i", strtotime($class['StartDateTime'])); // for numerical sorting
@@ -398,8 +400,9 @@ abstract class Retrieve_Classes extends Retrieve {
                 ) {
                     continue;
                 }
-                // Assign the first element ( of this time slot ?).
+                // Assign the first element of this time slot.
                 $display_time = (date_i18n(Core\Init::$advanced_options['time_format'], strtotime($class['StartDateTime'])));
+
                 $this->classesByTimeThenDate[$classTime] = array(
                                                                 'display_time' => $display_time,
                                                                 // Add part_of_day for filter as well
@@ -408,14 +411,13 @@ abstract class Retrieve_Classes extends Retrieve {
                                                             );
             }
         }
-        /* Timeslot keys in new array are not time-sequenced so do so*/
-        ksort($this->classesByTimeThenDate);
+
         foreach($this->classesByTimeThenDate as $scheduleTime => &$classes)
         {
             /*
-            $mz_classes is an array of all class_event objects for given time
-            Take each of the class arrays and order it by days 1-7
-            */
+             * $classes is an array of all class_event objects for given time
+             * Take each of the class arrays and order it by days 1-7
+             */
             usort($classes['classes'], function($a, $b) {
                 if(date_i18n("N", strtotime($a->startDateTime)) == date_i18n("N", strtotime($b->startDateTime))) {
                     return 0;
@@ -423,7 +425,10 @@ abstract class Retrieve_Classes extends Retrieve {
                 return $a->startDateTime < $b->startDateTime ? -1 : 1;
             });
             $classes['classes'] = $this->week_of_timeslot($classes['classes'], 'day_num');
+
         }
+        /* Timeslot keys in new array are not time-sequenced so do so*/
+        // ksort($this->classesByTimeThenDate);
         return $this->classesByTimeThenDate;
     }
 
@@ -431,7 +436,7 @@ abstract class Retrieve_Classes extends Retrieve {
     /**
      * Make a clean array with seven corresponding slots and populate
      * based on indicator (day) for each class. There may be more than
-     * one even for each day and empty arrays will represent empty time slots.
+     * one event for each day and empty arrays will represent empty time slots.
      */
     private function week_of_timeslot($array, $indicator){
         $seven_days = array_combine(range(1, 7), array(array(), array(), array(),
