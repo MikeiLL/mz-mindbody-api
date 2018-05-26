@@ -207,7 +207,7 @@
             } else { // Then assume it's 2
                 $('.filter-table').first().addClass('mz_hidden');
             }
-            $('.mz_schedule_nav_holder').first().append($('<a id="mode-select" class="btn btn-xs mz-mode-select">' + mz_mindbody_schedule.initial + '</a>'));
+            $('#mzScheduleNavHolder').first().append($('<a id="mode-select" class="btn btn-xs mz-mode-select">' + mz_mindbody_schedule.initial + '</a>'));
             $('#mode-select').click(function () {
                 $('.mz-schedule-display').each(function (i, item) {
                     $(item).toggleClass('mz_hidden');

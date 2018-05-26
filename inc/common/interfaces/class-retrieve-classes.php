@@ -378,9 +378,13 @@ abstract class Retrieve_Classes extends Retrieve {
             // If configured to do so in shortcode, skip classes that are cancelled.
             if ( ( !empty($this->atts['hide_cancelled']) ) && ( $class['IsCanceled'] == 1 ) ) continue;
 
-            /* Create a new array with a key for each TIME (time of day, not date)
-            and corresponding value an array of class details
-            for classes at that time. */
+            /*
+             * Create a new array with a key for each TIME (time of day, not date)
+             * and corresponding value an array of class details
+             * for classes at that time.
+             *
+             */
+
             $classTime = date_i18n("G.i", strtotime($class['StartDateTime'])); // for numerical sorting
 
             $single_event = new Schedule\Schedule_Item($class);
@@ -409,6 +413,9 @@ abstract class Retrieve_Classes extends Retrieve {
                                                                 'part_of_day' => $single_event->part_of_day,
                                                                 'classes' => array($single_event)
                                                             );
+                // if($display_time == '9:15 am'){
+                //     mz_pr($this->classesByTimeThenDate[$classTime]);
+                // }
             }
         }
         // Timeslot keys in new array are not time-sequenced so do so.

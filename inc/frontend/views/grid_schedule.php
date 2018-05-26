@@ -36,7 +36,7 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
 
             <td><?php echo $days['display_time']; ?><span class="mz_hidden"><?php echo $days['part_of_day']; ?></span></td>
             <?php foreach($days['classes'] as $day_slot): ?>
-                <td>
+                <td><?php // var_dump( $day_slot ); ?>
                 <?php foreach($day_slot as $class): ?>
                     <div class="mz_schedule_table mz_description_holder mz_location_1 <?php echo $class->session_type_css; echo $class->class_name_css; ?>">
                         <?php //echo $class->className; ?>

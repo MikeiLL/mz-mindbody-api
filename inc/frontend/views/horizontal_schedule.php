@@ -16,7 +16,7 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
 
 ?>
 
-<table id="mz_horizontal_schedule">
+<table id="mz_horizontal_schedule" class="<?php echo $data->horizontal_class; ?>">
     <?php foreach ($data->horizontal_schedule as $day => $classes): ?>
         <thead>
             <tr class="header visible striped" style="display: table-row">

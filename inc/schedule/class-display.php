@@ -51,22 +51,22 @@ class Display extends Interfaces\ShortCode_Script_Loader
     public $grid_class;
 
     /**
-     *
+     * Text for Mode Select Button when not yet toggled
      *
      * @since    2.4.7
      * @access   public
      *
-     * @var      string
+     * @var      string $initial_button_text
      */
     public $initial_button_text;
 
     /**
-     *
+     * Text for Mode Select Button when toggled
      *
      * @since    2.4.7
      * @access   public
      *
-     * @var      string
+     * @var      string $swap_button_text
      */
     public $swap_button_text;
 
@@ -194,9 +194,6 @@ class Display extends Interfaces\ShortCode_Script_Loader
         // Call the API and if fails, return error message.
         if (false == $this->schedule_object->get_mbo_results()) return "<div>" . __("Mindbody plugin settings error.", 'mz-mindbody-api') . "</div>";
 
-        // Add Style with script adder
-        self::addScript();
-
         /*
          * Configure the display type based on shortcode atts.
          */
@@ -224,6 +221,9 @@ class Display extends Interfaces\ShortCode_Script_Loader
             $this->initial_button_text = 0;
             $this->swap_button_text = 0;
         endif;
+
+        // Add Style with script adder
+        self::addScript();
 
         /*
          *
@@ -322,13 +322,6 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'ajaxurl' => admin_url('admin-ajax.php', $protocol),
             'nonce' => $nonce,
             'atts' => $this->atts,
-            'filter_default' => __('by teacher, class type', 'mz-mindbody-api'),
-            'quick_1' => __('morning', 'mz-mindbody-api'),
-            'quick_2' => __('afternoon', 'mz-mindbody-api'),
-            'quick_3' => __('evening', 'mz-mindbody-api'),
-            'label' => __('Filter', 'mz-mindbody-api'),
-            'selector' => __('All Locations', 'mz-mindbody-api'),
-            'Locations_dict' => $this->schedule_object->locations_dictionary,
             'staff_preposition' => __('with', 'mz-mindbody-api'),
             'initial' => $this->initial_button_text,
             'mode_select' => $this->atts['mode_select'],
