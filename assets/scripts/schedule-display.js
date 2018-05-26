@@ -202,18 +202,12 @@
          *
          */
         if (mz_mindbody_schedule.mode_select !== '0') {
-            if (mz_mindbody_schedule.mode_select == 1) {
-                $('.filter-table').last().addClass('mz_hidden');
-            } else { // Then assume it's 2
-                $('.filter-table').first().addClass('mz_hidden');
-            }
             $('#mzScheduleNavHolder').first().append($('<a id="mode-select" class="btn btn-xs mz-mode-select">' + mz_mindbody_schedule.initial + '</a>'));
             $('#mode-select').click(function () {
                 $('.mz-schedule-display').each(function (i, item) {
                     $(item).toggleClass('mz_hidden');
                     $(item).toggleClass('mz_schedule_filter');
                 });
-                $('.mz_grid_date').toggleClass('mz_hidden');
                 $('.filter-table').toggleClass('mz_hidden');
                 $('#mode-select').text(function (i, text) {
                     return text == mz_mindbody_schedule.initial ? mz_mindbody_schedule.swap : mz_mindbody_schedule.initial;

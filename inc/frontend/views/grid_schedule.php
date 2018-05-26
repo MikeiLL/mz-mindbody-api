@@ -50,4 +50,3 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
         <?php endforeach; ?>
     </tbody>
 </table>
-<?php //mz_pr($data->grid_schedule); ?>

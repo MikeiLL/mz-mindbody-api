@@ -203,7 +203,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
         if (!empty($atts['mode_select'])) $this->display_type = 'both';
 
         // Define styling variables based on shortcode attribute values
-        $this->table_class = ($this->atts['filter'] == 1) ? 'mz-schedule-filter' : 'mz-schedule-table';
+        $this->table_class = ($this->atts['filter'] == 1) ? 'mz-schedule-display mz-schedule-filter' : 'mz-schedule-display mz-schedule-table';
 
         if ($this->atts['mode_select'] == 1):
             $this->grid_class = 'mz_hidden ' . $this->table_class;
@@ -238,11 +238,10 @@ class Display extends Interfaces\ShortCode_Script_Loader
         $grid_schedule = '';
 
         if ($this->display_type == 'grid' || $this->display_type == 'both'):
-            // Update the data array
             $grid_schedule = $this->schedule_object->sort_classes_by_time_then_date();
-        elseif ($this->display_type == 'horizontal' || $this->display_type == 'both'):
+        endif;
+        if ($this->display_type == 'horizontal' || $this->display_type == 'both'):
             $horizontal_schedule = $this->schedule_object->sort_classes_by_date_then_time();
-            // Update the data array
         endif;
 
         $week_names = array(
@@ -398,7 +397,8 @@ class Display extends Interfaces\ShortCode_Script_Loader
             // Update the data array
             $template_loader->get_template_part('grid_schedule');
             $this->template_data['grid_schedule'] = $grid_schedule;
-        elseif ($this->display_type == 'horizontal' || $this->display_type == 'both'):
+        endif;
+        if ($this->display_type == 'horizontal' || $this->display_type == 'both'):
             $horizontal_schedule = $this->schedule_object->sort_classes_by_date_then_time();
             // Update the data array
             $this->template_data['horizontal_schedule'] = $horizontal_schedule;
