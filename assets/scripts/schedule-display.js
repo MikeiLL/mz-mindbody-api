@@ -196,29 +196,6 @@
             }); // End Fail
         });
 
-        /*
-         * Filter Table Init
-         *
-         */
-        var stripeTable = function (table) { //stripe the table (jQuery selector)
-            table.find('tr').removeClass('striped').filter(':visible:even').addClass('striped');
-        };
-
-        $('table.mz-schedule-filter').filterTable({
-            callback: function (term, table) {
-                stripeTable(table);
-            }, //call the striping after every change to the filter term
-            placeholder: mz_mindbody_schedule.filter_default,
-            highlightClass: 'alt',
-            inputType: 'search',
-            label: mz_mindbody_schedule.label,
-            selector: mz_mindbody_schedule.selector,
-            quickListClass: 'mz_quick_filter',
-            quickList: [mz_mindbody_schedule.quick_1, mz_mindbody_schedule.quick_2, mz_mindbody_schedule.quick_3],
-            locations: mz_mindbody_schedule.Locations_dict
-        });
-        stripeTable($('table.mz-schedule-filter')); //stripe the table for the first time
-
         /**
          * Mode Select
          *
