@@ -13,7 +13,9 @@
          */
         $('#mzScheduleNavHolder .following, #mzScheduleNavHolder .previous').on('click', function (e) {
             e.preventDefault();
-            container.html("");
+            container.children().each( function (e){
+                $(this).html('');
+            });
             container.toggleClass('loader');
             var buttons = [].slice.call(document.getElementById('mzScheduleNavHolder').children);
             // Update attributes
@@ -37,7 +39,14 @@
                 success: function (json) {
                     if (json.type == "success") {
                         container.toggleClass('loader');
-                        container.html(json.message);
+                        if (json.grid && json.horizontal) {
+                            document.getElementById("gridDisplay").innerHTML = json.grid;
+                            document.getElementById("horizontalDisplay").innerHTML = json.horizontal;
+                        } else if (json.grid) {
+                            document.getElementById("gridDisplay").innerHTML = json.grid;
+                        } else {
+                            document.getElementById("horizontalDisplay").innerHTML = json.horizontal;
+                        }
                     } else {
                         reset_navigation(this, buttons);
                         container.toggleClass('loader');
@@ -206,7 +215,7 @@
             $('#mode-select').click(function () {
                 $('.mz-schedule-display').each(function (i, item) {
                     $(item).toggleClass('mz_hidden');
-                    $(item).toggleClass('mz_schedule_filter');
+                    // $(item).toggleClass('mz_schedule_filter');
                 });
                 $('.filter-table').toggleClass('mz_hidden');
                 $('#mode-select').text(function (i, text) {

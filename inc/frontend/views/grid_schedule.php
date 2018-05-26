@@ -15,13 +15,13 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
  */
 
 ?>
-<h4 class="mz_grid_date <?php echo $data->grid_class; ?>">
+<h4 class="mz_grid_date">
     <?php
     $this_week_start = date_i18n($data->date_format, $data->start_date->getTimestamp());
     ?>
     <?php printf(__('Week of %1$s', 'mz-mindbody-api'), $this_week_start); ?>
 </h4>
-<table class="<?php echo $data->grid_class; ?>">
+<table class="<?php echo $data->table_class; ?>">
     <thead>
         <tr>
             <th scope="header"></th>

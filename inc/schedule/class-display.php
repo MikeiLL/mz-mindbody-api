@@ -203,21 +203,20 @@ class Display extends Interfaces\ShortCode_Script_Loader
         if (!empty($atts['mode_select'])) $this->display_type = 'both';
 
         // Define styling variables based on shortcode attribute values
-        $this->table_class = ($this->atts['filter'] == 1) ? 'mz-schedule-display mz-schedule-filter' : 'mz-schedule-display mz-schedule-table';
+        $this->table_class = ($this->atts['filter'] == 1) ? 'mz-schedule-filter' : 'mz-schedule-table';
 
         if ($this->atts['mode_select'] == 1):
-            $this->grid_class = 'mz_hidden ' . $this->table_class;
-            $this->horizontal_class = $this->table_class;
+            $this->grid_class = ' mz_hidden';
+            $this->horizontal_class = '';
             $this->initial_button_text = __('Grid View', 'mz-mindbody-api');
             $this->swap_button_text = __('Horizontal View', 'mz-mindbody-api');
         elseif ($this->atts['mode_select'] == 2):
-            $this->horizontal_class = 'mz_hidden ' . $this->table_class;
-            $this->grid_class = $this->table_class;
+            $this->horizontal_class = ' mz_hidden';
+            $this->grid_class = '';
             $this->initial_button_text = __('Horizontal View', 'mz-mindbody-api');
             $this->swap_button_text = __('Grid View', 'mz-mindbody-api');
         else:
-            $this->horizontal_class = $this->table_class;
-            $this->grid_class = $this->table_class;
+            $this->horizontal_class = $this->grid_class = '';
             $this->initial_button_text = 0;
             $this->swap_button_text = 0;
         endif;
@@ -269,8 +268,6 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'horizontal_class' => $this->horizontal_class,
             'initial_button_text' => $this->initial_button_text,
             'swap_button_text' => $this->swap_button_text,
-            'horizontal_schedule' => $horizontal_schedule,
-            'grid_schedule' => $grid_schedule,
             'time_format' => $this->schedule_object->time_format,
             'date_format' => $this->schedule_object->date_format,
             'data_nonce' => wp_create_nonce('mz_schedule_display_nonce'),
@@ -279,7 +276,10 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'siteID' => $this->siteID,
             'week_names' => $week_names,
             'start_date' => $this->schedule_object->start_date,
-            'display_type' => $this->display_type
+            'display_type' => $this->display_type,
+            'table_class' => $this->table_class,
+            'horizontal_schedule' => $horizontal_schedule,
+            'grid_schedule' => $grid_schedule
         );
 
         $template_loader->set_template_data($this->template_data);
@@ -370,8 +370,6 @@ class Display extends Interfaces\ShortCode_Script_Loader
 
         $result['type'] = "success";
 
-        ob_start();
-
         $template_loader = new Core\Template_Loader();
 
         $this->schedule_object = new Retrieve_Schedule($atts);
@@ -393,19 +391,24 @@ class Display extends Interfaces\ShortCode_Script_Loader
         $grid_schedule = '';
 
         if ($this->display_type == 'grid' || $this->display_type == 'both'):
+            ob_start();
             $grid_schedule = $this->schedule_object->sort_classes_by_time_then_date();
             // Update the data array
             $template_loader->get_template_part('grid_schedule');
             $this->template_data['grid_schedule'] = $grid_schedule;
+            $result['grid'] = ob_get_clean();
         endif;
+
         if ($this->display_type == 'horizontal' || $this->display_type == 'both'):
+            ob_start();
             $horizontal_schedule = $this->schedule_object->sort_classes_by_date_then_time();
             // Update the data array
             $this->template_data['horizontal_schedule'] = $horizontal_schedule;
             $template_loader->get_template_part('horizontal_schedule');
+            $result['horizontal'] = ob_get_clean();
         endif;
 
-        $result['message'] = ob_get_clean();
+        $result['message'] = __('Error. Please try again.', 'mz-mindbody-api');
 
         if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
             $result = json_encode($result);

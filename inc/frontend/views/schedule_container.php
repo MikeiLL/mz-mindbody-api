@@ -14,17 +14,17 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
 <div id="mzScheduleDisplay" class="">
     <?php
     if ($data->display_type == 'grid' || $data->display_type == 'both'): ?>
-
+    <div id="gridDisplay" class="mz-schedule-display<?php echo $data->grid_class; ?>">
     <?
         include 'grid_schedule.php';?>
-
+    </div>
     <?
     endif;
-    if ($data->display_type = 'horizontal' || $data->display_type == 'both'):?>
-
+    if ($data->display_type == 'horizontal' || $data->display_type == 'both'):?>
+    <div id="horizontalDisplay" class="mz-schedule-display<?php echo $data->horizontal_class; ?>">
         <?
         include 'horizontal_schedule.php';?>
-
+    </div>
     <?
     endif;
     ?>
