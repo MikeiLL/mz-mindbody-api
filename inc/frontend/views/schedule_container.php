@@ -12,8 +12,13 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
 <?php // mz_pr($data); ?>
 
 <div id="mzScheduleDisplay" class="">
-    <?php include 'grid_schedule.php' ?>
-    <?php include 'horizontal_schedule.php' ?>
+    <?php
+    if ($data->display_type == 'grid' || $data->display_type == 'both'):
+        include 'grid_schedule.php';
+    elseif ($data->display_type = 'horizontal' || $data->display_type == 'both'):
+        include 'horizontal_schedule.php';
+    endif;
+    ?>
 </div>
 
 <div id="mzModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mzSmallModalLabel"

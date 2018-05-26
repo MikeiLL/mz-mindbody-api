@@ -136,6 +136,21 @@ class Display extends Interfaces\ShortCode_Script_Loader
      */
     public $template_data;
 
+    /**
+     * Which type of schedule to display
+     *
+     * Will be 'horizontal' (default), 'grid' or 'both'.
+     *
+     * @since    2.4.7
+     * @access   public
+     *
+     * @used in handleShortcode, display_schedule
+     * @var      @astring    $display_type    Which type of schedule to display.
+     */
+    public $display_type;
+
+
+
     public function handleShortcode($atts, $content = null)
     {
 
@@ -162,6 +177,14 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'unlink' => 0,
             'offset' => 0
         ), $atts);
+
+        /*
+         * Configure the display type based on shortcode atts.
+         */
+        $this->display_type = (!empty($atts['grid'])) ? 'grid' : 'horizontal';
+
+        // If mode_select is on, render both grid and horizontal
+        if ($atts['mode_select'] == 1) $this->display_type = 'both';
 
         // Define styling variables based on shortcode attribute values
         $this->table_class = ($this->atts['filter'] == 1) ? 'mz-schedule-filter' : 'mz-schedule-table';
@@ -240,7 +263,8 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'class_modal_link' => $this->class_modal_link,
             'siteID' => $this->siteID,
             'week_names' => $week_names,
-            'start_date' => $this->schedule_object->start_date
+            'start_date' => $this->schedule_object->start_date,
+            'display_type' => $this->display_type
         );
 
         $template_loader->set_template_data($this->template_data);

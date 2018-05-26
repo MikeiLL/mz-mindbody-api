@@ -328,7 +328,7 @@ class Settings_Page {
         $return .= "<li><strong>show_registrants</strong>: " . __("(boolean) If true, modal pop-up window will display registrants of class", 'mz-mindbody-api')."</li>";
         $return .= "<li><strong>hide_cancelled</strong>: " . __("(boolean) True will hide cancelled classes", 'mz-mindbody-api')."</li>";
         $return .= "<li><strong>registrants_count</strong>: " . __("(boolean) Display number of registrants in class", 'mz-mindbody-api')."</li>";
-        $return .= "<li><strong>mode_select</strong>: " . __("(boolean) Allow user to select between grid and list view", 'mz-mindbody-api')."</li>";
+        $return .= "<li><strong>mode_select</strong>: " . __("(int) Allow user to select between grid and list view. 1 defaults to horizontal, 2 to grid.", 'mz-mindbody-api')."</li>";
         $return .= "<li><strong>unlink</strong>: " . __(" ", 'mz-mindbody-api')."</li>";
         $return .= "</ul>";
 
