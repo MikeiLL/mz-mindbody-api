@@ -159,6 +159,19 @@ abstract class Retrieve_Classes extends Retrieve {
      */
     public $start_date;
 
+    /**
+     * Holds the last date of current week.
+     *
+     * This is used to set end of current week in grid array sorting in sort_classes_by_time_then_date() method.
+     *
+     * @assigned in time_frame() method
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      Datetime object    $current_week_end    Datetime containing start of week requested.
+     */
+    public $current_week_end;
+
     public function __construct($atts = array('key' => 'val')){
 
         parent::__construct();
@@ -353,13 +366,10 @@ abstract class Retrieve_Classes extends Retrieve {
 
         $classesByTime = array();
 
-        $end_of_range = new \DateTime();
-        $end_of_range->add(new \DateInterval('P1W'));
-
         foreach($this->classes['GetClassesResult']['Classes']['Class'] as $class)
         {
             // Ignore classes that are not part of current week (ending Sunday)
-            if (new \DateTime($class['StartDateTime']) >= $end_of_range):
+            if (new \DateTime($class['StartDateTime']) >= $this->current_week_end):
                 continue;
             endif;
 

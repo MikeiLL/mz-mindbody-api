@@ -24,6 +24,7 @@ class Retrieve_Schedule extends Interfaces\Retrieve_Classes {
 		$start_time = new \Datetime( date_i18n('Y-m-d', $current_week['start']) );
 		$end_time = new \Datetime( date_i18n('Y-m-d', $seven_days_from_now) );
       	$current_day_offset = new \Datetime( date_i18n('Y-m-d') );
+      	$current_week_end = new \Datetime( date_i18n('Y-m-d', $current_week['end']) );
 
 		// If we are going in future or past based on offset
 		if ( !empty($this->atts['offset']) ) {
@@ -33,15 +34,17 @@ class Retrieve_Schedule extends Interfaces\Retrieve_Classes {
 		    // If it's a negative number, invert the interval
             if ($this->atts['offset'] < 0) $di->invert = 1;
             $start_time->add($di);
-            $end_time->add($di);
+            $end_time->add($di);;
+            $current_week_end->add($di);
             $current_day_offset->add($di);
         }
 
         // Set current_day_offset for filtering by sort_classes_by_date_then_time().
         $this->current_day_offset = $current_day_offset;
 
-		// Assign start_date to instance so can be accessed in grid schedule display
+		// Assign start_date & end_date to instance so can be accessed in grid schedule display
         $this->start_date = $start_time;
+        $this->current_week_end = $current_week_end;
 
 		return array('StartDateTime'=> $start_time->format('Y-m-d'), 'EndDateTime'=> $end_time->format('Y-m-d'));
 	}
