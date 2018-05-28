@@ -301,12 +301,7 @@ abstract class Retrieve_Classes extends Retrieve {
                 $this->locations_dictionary[$class['Location']['ID']] = $class['Location']['Name'];
             endif;
 
-            // If class was previous to today ignore it
-            if ( $just_date < $this->current_day_offset->format('Y-m-d') ) continue;
-
-            /* Create a new array with a key for each date YYYY-MM-DD
-            and corresponding value an array of class details */
-
+            // Filter out some items
             if (
                 (!in_array($class['Location']['ID'], $this->locations)) ||
                 ($class['ClassDescription']['Program']['ScheduleType'] == $this->class_type)
@@ -316,6 +311,12 @@ abstract class Retrieve_Classes extends Retrieve {
             if (!empty($this->atts['session_types'])) {
                 if (!in_array($class['ClassDescription']['SessionType']['Name'], $this->atts['session_types'])) continue;
             }
+
+            // If class was previous to today ignore it
+            if ( $just_date < $this->current_day_offset->format('Y-m-d') ) continue;
+
+            /* Create a new array with a key for each date YYYY-MM-DD
+            and corresponding value an array of class details */
 
             $single_event = new Schedule\Schedule_Item($class);
 
@@ -371,18 +372,14 @@ abstract class Retrieve_Classes extends Retrieve {
                 continue;
             endif;
 
-            // If configured to do so in shortcode, skip classes that are cancelled.
-            // if ( ( !empty($this->atts['hide_cancelled']) ) && ( $class['IsCanceled'] == 1 ) ) continue;
+            // Populate the Locations Dictionary
+            if (!in_array($class['Location']['ID'], $this->locations)) { continue; }
 
-            /*
-             * Create a new array with a key for each TIME (time of day, not date)
-             * and corresponding value an array of class details
-             * for classes at that time.
-             *
-             */
+            if (!array_key_exists($class['Location']['ID'], $this->locations_dictionary)):
+                $this->locations_dictionary[$class['Location']['ID']] = $class['Location']['Name'];
+            endif;
 
-            $classTime = date_i18n("G.i", strtotime($class['StartDateTime'])); // for numerical sorting
-
+            // Filter out some items
             if (
                 (!in_array($class['Location']['ID'], $this->locations)) ||
                 ($class['ClassDescription']['Program']['ScheduleType'] == $this->class_type)
@@ -393,11 +390,25 @@ abstract class Retrieve_Classes extends Retrieve {
                 if (!in_array($class['ClassDescription']['SessionType']['Name'], $this->atts['session_types'])) continue;
             }
 
+            // If configured to do so in shortcode, skip classes that are cancelled.
+            if ( ( !empty($this->atts['hide_cancelled']) ) && ( $class['IsCanceled'] == 1 ) ) continue;
+
+            /*
+             * Create a new array with a key for each TIME (time of day, not date)
+             * and corresponding value an array of class details
+             * for classes at that time.
+             *
+             */
+
+            $classTime = date_i18n("G.i", strtotime($class['StartDateTime'])); // for numerical sorting
+
             $single_event = new Schedule\Schedule_Item($class);
 
+            // If there's is already an array for this time slot, add to it.
             if(!empty($this->classesByTimeThenDate[$classTime])) {
                 // Create a $single_event which is a "class" object, and start the classes array with it.
                 array_push($this->classesByTimeThenDate[$classTime]['classes'], $single_event);
+
             } else {
                 // Assign the first element of this time slot.
                 $display_time = (date_i18n(Core\Init::$advanced_options['time_format'], strtotime($class['StartDateTime'])));
@@ -407,9 +418,6 @@ abstract class Retrieve_Classes extends Retrieve {
                                                                 'part_of_day' => $single_event->part_of_day,
                                                                 'classes' => array($single_event)
                                                             );
-                // if($display_time == '9:15 am'){
-                //     mz_pr($this->classesByTimeThenDate[$classTime]);
-                // }
             }
         }
         // Timeslot keys in new array are not time-sequenced so do so.
@@ -428,6 +436,7 @@ abstract class Retrieve_Classes extends Retrieve {
             });
             $classes['classes'] = $this->week_of_timeslot($classes['classes'], 'day_num');
         }
+
         return $this->classesByTimeThenDate;
     }
 

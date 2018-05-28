@@ -507,7 +507,7 @@ class Schedule_Item {
          */
         if (Core\Init::$start_of_week != 0) return $php_day_number;
         switch ($php_day_number) {
-            case 7: return 0;
+            case 7: return 1;
             break;
             default: return $php_day_number + 1;
         }
