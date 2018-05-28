@@ -156,7 +156,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
         $this->atts = shortcode_atts(array(
             'type' => 'week',
             'location' => '', // stop using this eventually, in preference "int, int" format
-            'locations' => array(1),
+            'locations' => '',
             'account' => 0,
             'filter' => 0,
             'hide_cancelled' => 0,
@@ -194,6 +194,11 @@ class Display extends Interfaces\ShortCode_Script_Loader
         } else {
             $this->atts['session_types'] == '';
         }
+
+        // Break locations up into array
+        $this->atts['locations'] = explode(',', trim($this->atts['locations'], ' '));
+
+        // Begin generating output
         ob_start();
 
         $template_loader = new Core\Template_Loader();

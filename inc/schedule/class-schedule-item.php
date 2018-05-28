@@ -169,7 +169,7 @@ class Schedule_Item {
     public $locationAddress2 = '';
 
     /**
-     * 
+     *
      *
      * @since    2.4.7
      * @access   public
@@ -250,7 +250,7 @@ class Schedule_Item {
     public $isAvailable;
 
     /**
-     * 
+     * Name of Location as defined in MBO and associated with MBO location ID
      *
      * @since    2.4.7
      * @access   public
@@ -471,6 +471,7 @@ class Schedule_Item {
         $this->class_title_ID = $schedule_item['ID'];
         $this->class_instance_ID = $schedule_item['ClassScheduleID'];
         $this->sLoc = $schedule_item['Location']['ID'];
+        $this->locationName = $schedule_item['Location']['Name'];
         $this->studioid = $schedule_item['Location']['SiteID'];
         $this->sDate = date_i18n('m/d/Y', strtotime($schedule_item['StartDateTime']));
         $this->sTG = $schedule_item['ClassDescription']['Program']['ID'];

@@ -87,11 +87,13 @@ abstract class Retrieve_Classes extends Retrieve {
     /**
      * All locations included in current schedule
      *
-     * Used to filter by location via jQuery in display
+     * Used to filter by location via jQuery in display, also to
+     * print location name if multiple locations shown in same schedule.
+     * Key is MBO location ID and value is location name.
      *
      * @since    2.4.7
      * @access   public
-     * @var      TODO comfirm type $locations_dictionary
+     * @var      array $locations_dictionary
      */
     public $locations_dictionary;
 
@@ -287,28 +289,14 @@ abstract class Retrieve_Classes extends Retrieve {
 
         foreach($this->classes['GetClassesResult']['Classes']['Class'] as $class)
         {
-            // If configured to do so in shortcode, skip classes that are cancelled.
-            if ( ( !empty($this->atts['hide_cancelled']) ) && ( $class['IsCanceled'] == 1 ) ) continue;
+
+            // TODO Don't do this twice. Filter once for BOTH schedule displays
+            // Filter out some items
+            if ($this->filter_class($class) === false) continue;
 
             // Make a timestamp of just the day to use as key for that day's classes
             $dt = new \DateTime($class['StartDateTime']);
             $just_date =  $dt->format('Y-m-d');
-            
-            // Populate the Locations Dictionary
-            if (!array_key_exists($class['Location']['ID'], $this->locations_dictionary)):
-                $this->locations_dictionary[$class['Location']['ID']] = $class['Location']['Name'];
-            endif;
-
-            // Filter out some items
-            if (
-                (!in_array($class['Location']['ID'], $this->locations)) ||
-                ($class['ClassDescription']['Program']['ScheduleType'] == $this->class_type)
-            ) {
-                continue;
-            }
-            if (!empty($this->atts['session_types'])) {
-                if (!in_array($class['ClassDescription']['SessionType']['Name'], $this->atts['session_types'])) continue;
-            }
 
             // If class was previous to today ignore it
             if ( $just_date < $this->current_day_offset->format('Y-m-d') ) continue;
@@ -319,10 +307,8 @@ abstract class Retrieve_Classes extends Retrieve {
             $single_event = new Schedule\Schedule_Item($class);
 
             if(!empty($this->classesByDateThenTime[$just_date])) {
-                //$mz_classesByDateThenTime[$classDate] = array_merge($mz_classesByDateThenTime[$classDate], array($class));
                 array_push($this->classesByDateThenTime[$just_date], $single_event);
             } else {
-                //$mz_classesByDateThenTime[$classDate]['classes'] = $single_event;
                 $this->classesByDateThenTime[$just_date] = array($single_event);
             }
         }
@@ -343,6 +329,7 @@ abstract class Retrieve_Classes extends Retrieve {
                 return $a->startDateTime < $b->startDateTime ? -1 : 1;
             });
         }
+        mz_pr( $this->locations_dictionary );
         return $this->classesByDateThenTime;
     }
 
@@ -364,30 +351,15 @@ abstract class Retrieve_Classes extends Retrieve {
 
         foreach($this->classes['GetClassesResult']['Classes']['Class'] as $class)
         {
+
+            // Filter out some items
+            if ($this->filter_class($class) === false) continue;
+
             // Ignore classes that are not part of current week (ending Sunday)
             $class_datetime = new \DateTime($class['StartDateTime']);
             if ($class_datetime->format('Y-m-d') > $this->current_week_end->format('Y-m-d')):
                 continue;
             endif;
-
-            // Populate the Locations Dictionary
-            if (!array_key_exists($class['Location']['ID'], $this->locations_dictionary)):
-                $this->locations_dictionary[$class['Location']['ID']] = $class['Location']['Name'];
-            endif;
-
-            // Filter out some items
-            if (
-                (!in_array($class['Location']['ID'], $this->locations)) ||
-                ($class['ClassDescription']['Program']['ScheduleType'] == $this->class_type)
-            ) {
-                continue;
-            }
-            if (!empty($this->atts['session_types'])) {
-                if (!in_array($class['ClassDescription']['SessionType']['Name'], $this->atts['session_types'])) continue;
-            }
-
-            // If configured to do so in shortcode, skip classes that are cancelled.
-            if ( ( !empty($this->atts['hide_cancelled']) ) && ( $class['IsCanceled'] == 1 ) ) continue;
 
             /*
              * Create a new array with a key for each TIME (time of day, not date)
@@ -454,6 +426,42 @@ abstract class Retrieve_Classes extends Retrieve {
         }
         return $seven_days;
     }
+
+    /**
+     * Filter out Classes that we don't want.
+     *
+     * @param array $class
+     * @return boolean
+     */
+
+    protected function filter_class($class){
+        if (
+            (!in_array($class['Location']['ID'], $this->atts['locations']))
+            // ($class['ClassDescription']['Program']['ScheduleType'] == $this->class_type)
+        ) {
+            return false;
+        }
+        if (!empty($this->atts['session_types'])) {
+            if (!in_array($class['ClassDescription']['SessionType']['Name'], $this->atts['session_types'])) return false;
+        }
+
+        // If configured to do so in shortcode, skip classes that are cancelled.
+        if ( ( !empty($this->atts['hide_cancelled']) ) && ( $class['IsCanceled'] == 1 ) ) return false;
+
+        // Populate the Locations Dictionary
+        if (!array_key_exists($class['Location']['ID'], $this->locations_dictionary)):
+            $this->locations_dictionary[$class['Location']['ID']] = $class['Location']['Name'];
+        endif;
+        // $this->location_name_css = sanitize_html_class($this->locationName, 'mz_location_class');
+        // $this->locationAddress = $class['Location']['Address'];
+        // $this->locationAddress2 = $class['Location']['Address2'];
+        // $this->url_encoded_address = urlencode($this->locationAddress.$this->locationAddress2);
+        // $this->locationNameDisplay = '<span class="location_name '.$this->location_name_css.'"><a href="http://maps.google.com/maps?q='.$this->url_encoded_address.'" target="_blank" title="'. $this->locationAddress. '">' .
+        //     $this->locationName . '</a>';
+
+        return true;
+    }
+
     /*
      * Set up Time Frame with Start and End times for Schedule Request
      *
