@@ -2,6 +2,7 @@
 namespace MZ_Mindbody\Inc\Schedule;
 
 use MZ_Mindbody\Inc\Core as Core;
+use MZ_Mindbody\Inc\Libraries\Rarst\WordPress\DateTime as DateTime;
 
 /*
  * Class that holds and formats a single item from MBO API Schedule
@@ -439,6 +440,18 @@ class Schedule_Item {
     public $part_of_day;
 
     /**
+     * Class duration
+     *
+     * Difference between ClassStartTime and ClassEndTime
+     * Format it like this $class_duration->format('%H:%I');
+     *
+     * @since 2.4.7
+     *
+     * @param Datetime $class_duration
+     */
+    public $class_duration;
+
+    /**
      * Populate attributes with data from MBO
      *
      * @since 2.4.7
@@ -449,6 +462,7 @@ class Schedule_Item {
 
         $this->className = isset($schedule_item['ClassDescription']['Name']) ? $schedule_item['ClassDescription']['Name']: '';
         $this->startDateTime = $schedule_item['StartDateTime'];
+        $this->endDateTime = $schedule_item['EndDateTime'];
         $this->sessionTypeName = isset($schedule_item['ClassDescription']['SessionType']['Name']) ? $schedule_item['ClassDescription']['SessionType']['Name'] : '';
         $this->staffName = isset($schedule_item['Staff']['Name']) ? $schedule_item['Staff']['Name'] : '';
         $this->classDescription = isset($schedule_item['ClassDescription']['Description']) ? $schedule_item['ClassDescription']['Description'] : '';
@@ -470,6 +484,7 @@ class Schedule_Item {
         $this->session_type_css = 'mz_' . sanitize_html_class($this->sessionTypeName, 'mz_session_type');
         $this->class_name_css = 'mz_' . sanitize_html_class($this->className, 'mz_class_name');
         $this->part_of_day = $this->part_of_day();
+        $this->class_duration = $this->get_schedule_event_duration();
     }
 
     /**
@@ -513,6 +528,20 @@ class Schedule_Item {
         }else{
             return __('afternoon', 'mz-mindbody-api');
         }
+    }
+
+    /**
+     * Generate MBO URL
+     *
+     * Note the part of day class occurs in. Used to filter in display table for schedules
+     *
+     *
+     * @return string "morning", "afternoon" or "night", translated
+     */
+    private function get_schedule_event_duration(){
+        $start = new DateTime\WpDateTime($this->startDateTime);
+        $end = new DateTime\WpDateTime($this->endDateTime);
+        return $start->diff($end);
     }
 
     /**

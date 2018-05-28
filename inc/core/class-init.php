@@ -9,6 +9,7 @@ use MZ_Mindbody\Inc\Backend as Backend;
 use MZ_Mindbody\Inc\Schedule as Schedule;
 use MZ_Mindbody\Inc\Staff as Staff;
 use MZ_Mindbody\Inc\Events as Events;
+use MZ_Mindbody\Inc\Libraries\Rarst\WordPress\DateTime as DateTime;
 
 /**
  * The core plugin class.
@@ -107,16 +108,27 @@ class Init
      *
      * @since    2.4.7
      * @access   protected
-     * @var      string $options PHP Date formatting string.
+     * @var      string $time_format
      */
     public static $time_format;
+
+    /**
+     * Timezone string returned by wordpress get_timezone function.
+     *
+     * For example 'US/Eastern'
+     *
+     * @since    2.4.7
+     * @access   protected
+     * @var      string $timezone PHP Date formatting string.
+     */
+    public static $timezone;
 
     /**
      * Wordpress option for start of week.
      *
      * @since    2.4.7
      * @access   protected
-     * @var      integer $options PHP Date formatting string.
+     * @var      integer $start_of_week.
      */
     public static $start_of_week;
 
@@ -141,6 +153,7 @@ class Init
         self::$basic_options = get_option('mz_mbo_basic', 'Error: No Options');
         self::$events_options = get_option('mz_mbo_events');
         self::$advanced_options = get_option('mz_mbo_advanced');
+        self::$timezone = DateTime\WpDateTimeZone::getWpTimezone();
         self::$event_calendar_duration = isset(self::$events_options['mz_mindbody_eventsDuration']) ? self::$events_options['mz_mindbody_eventsDuration'] : '60';
         self::$date_format = empty(self::$advanced_options['date_format']) ? get_option('date_format') : self::$advanced_options['date_format'];
         self::$time_format = empty(self::$advanced_options['time_format']) ? get_option('time_format') : self::$advanced_options['time_format'];

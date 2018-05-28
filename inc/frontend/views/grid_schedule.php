@@ -39,8 +39,14 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
                 <td><?php // var_dump( $day_slot ); ?>
                 <?php foreach($day_slot as $class): ?>
                     <div class="mz_schedule_table mz_description_holder mz_location_1 <?php echo $class->session_type_css; echo $class->class_name_css; ?>">
-                        <?php //echo $class->className; ?>
-                        <?php echo date_i18n('l, m-d', strtotime($class->startDateTime)); ?>
+                        <?php echo $class->className; ?>
+                        <?php _e('with', 'mz-mindbody-api'); echo $class->staffName; ?><br />
+                        <a href="<?php echo $class->mbo_url; ?>" target="_blank">
+                            <svg height="20" width="20">
+                                <path d="M550 0h400q165 0 257.5 92.5T1300 350v400q0 165-92.5 257.5T950 1100H550q-21 0-35.5-14.5T500 1050V950q0-21 14.5-35.5T550 900h450q41 0 70.5-29.5T1100 800V300q0-41-29.5-70.5T1000 200H550q-21 0-35.5-14.5T500 150V50q0-21 14.5-35.5T550 0zM338 233l324 284q16 14 16 33t-16 33L338 867q-16 14-27 9t-11-26V700H50q-21 0-35.5-14.5T0 650V450q0-21 14.5-35.5T50 400h250V250q0-21 11-26t27 9z"/>
+                            </svg>
+                        </a>
+                        <?php _e('Duration:', 'mz-mindbody-api'); ?> <br/>&nbsp;<?php echo $class->class_duration->format('%H:%I'); ?>
                     </div>
                 <?php endforeach; ?>
                 </td>
