@@ -295,8 +295,6 @@ abstract class Retrieve_Classes extends Retrieve {
             $just_date =  $dt->format('Y-m-d');
             
             // Populate the Locations Dictionary
-            if (!in_array($class['Location']['ID'], $this->locations)) { continue; }
-            
             if (!array_key_exists($class['Location']['ID'], $this->locations_dictionary)):
                 $this->locations_dictionary[$class['Location']['ID']] = $class['Location']['Name'];
             endif;
@@ -373,8 +371,6 @@ abstract class Retrieve_Classes extends Retrieve {
             endif;
 
             // Populate the Locations Dictionary
-            if (!in_array($class['Location']['ID'], $this->locations)) { continue; }
-
             if (!array_key_exists($class['Location']['ID'], $this->locations_dictionary)):
                 $this->locations_dictionary[$class['Location']['ID']] = $class['Location']['Name'];
             endif;

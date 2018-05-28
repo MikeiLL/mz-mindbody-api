@@ -9,7 +9,7 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
 </div>
 
 
-<?php // mz_pr($data); ?>
+<?php //mz_pr($data); ?>
 
 <div id="mzScheduleDisplay" class="">
     <?php

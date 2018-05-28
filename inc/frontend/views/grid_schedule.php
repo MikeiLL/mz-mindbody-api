@@ -55,7 +55,6 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
                 <?php foreach($day_slot as $class): $classes--; ?>
                     <div class="mz_schedule_table mz_description_holder mz_location_1 <?php echo $class->session_type_css; echo $class->class_name_css; ?>">
                         <?php
-                        echo date_i18n('l, F j g:i a', strtotime($class->startDateTime)). ' ' ;
                         $linkArray = array(
                             'data-staffName' => $class->staffName,
                             'data-className' => $class->className,

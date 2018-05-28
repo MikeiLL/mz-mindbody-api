@@ -188,9 +188,12 @@ class Display extends Interfaces\ShortCode_Script_Loader
 
         $session_types = !empty($this->atts['session_types']) ? $this->atts['session_types'] : $this->atts['class_types'];
 
-        // Turn Session/Class Types into an Array and call it session_types
-        $this->atts['session_types'] = $this->atts['class_types'] = explode(',', trim($session_types, ' '));
-
+        // If set, turn Session/Class Types into an Array and call it session_types
+        if ($session_types !== '') {
+            $this->atts['session_types'] = $this->atts['class_types'] = explode(',', trim($session_types, ' '));
+        } else {
+            $this->atts['session_types'] == '';
+        }
         ob_start();
 
         $template_loader = new Core\Template_Loader();

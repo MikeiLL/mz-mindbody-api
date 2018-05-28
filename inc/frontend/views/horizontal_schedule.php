@@ -15,7 +15,7 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
  */
 
 ?>
-
+<?php if (empty($data->horizontal_schedule)) _e('Error Retrieving Schedule', 'mz-mindbody-api'); ?>
 <table id="mz_horizontal_schedule" class="<?php echo $data->table_class; ?>">
     <?php foreach ($data->horizontal_schedule as $day => $classes): ?>
         <thead>
@@ -45,7 +45,6 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
                 <td class="mz_classDetails">
 
                     <?php
-                    echo date_i18n('l, F j g:i a', strtotime($class->startDateTime)). ' ' ;
                     $linkArray = array(
                         'data-staffName' => $class->staffName,
                         'data-className' => $class->className,
