@@ -38,13 +38,14 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
         <?php foreach ($classes as $k => $class): ?>
             <tr>
                 <td class="mz_date_display">
-                    <?php echo date_i18n($data->time_format, strtotime($class->startDateTime)); ?><br />
+                    <?php echo date_i18n($data->time_format, strtotime($class->startDateTime)) . ' - ' . date_i18n($data->time_format, strtotime($class->endDateTime)); ?><br />
                     <span class="mz_hidden mz_time_of_day"><?php echo $class->part_of_day; ?></span>
                     <a class="btn" href="<?php echo $class->mbo_url; ?>" target="_blank"><?php _e('Sign-Up', 'mz-mindbody-api'); ?></a>
                 </td>
                 <td class="mz_classDetails">
 
                     <?php
+                    echo date_i18n('l, F j g:i a', strtotime($class->startDateTime)). ' ' ;
                     $linkArray = array(
                         'data-staffName' => $class->staffName,
                         'data-className' => $class->className,

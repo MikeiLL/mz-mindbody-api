@@ -150,7 +150,6 @@ class Display extends Interfaces\ShortCode_Script_Loader
     public $display_type;
 
 
-
     public function handleShortcode($atts, $content = null)
     {
 
@@ -165,7 +164,8 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'advanced' => 0,
             'this_week' => 0,
             'hide' => array(),
-            'class_types' => '',
+            'class_types' => '', // migrating to session_types
+            'session_types' => '',
             'show_registrants' => 0,
             'calendar_format' => 'horizontal',
             'class_type' => 'Enrollment',
@@ -185,6 +185,9 @@ class Display extends Interfaces\ShortCode_Script_Loader
         // Are we displaying registrants?
         $this->data_target = $show_registrants ? 'registrantModal' : 'mzModal';
         $this->class_modal_link = MZ_Mindbody\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php';
+
+        // Turn Session/Class Types into an Array and call it session_types
+        $this->atts['session_types'] = $this->atts['class_types'] = explode(',', trim($this->atts['class_types'], ' '));
 
         ob_start();
 

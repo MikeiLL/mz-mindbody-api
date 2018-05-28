@@ -136,9 +136,9 @@ abstract class Retrieve_Classes extends Retrieve {
     public $current_day_offset;
 
     /**
-     * Holds the MBO "class type".
+     * Holds the native MBO "class type".
      *
-     * $class_type MBO API has 'Enrollment' and 'DropIn'. 'Enrolment' is a "workdhop". Default: 'Enrollment'
+     * $class_type MBO API has native 'Enrollment' and 'DropIn'. 'Enrolment' is a "workdhop". Default: 'Enrollment'
      *
      * @since    2.4.7
      * @access   public
@@ -314,7 +314,8 @@ abstract class Retrieve_Classes extends Retrieve {
                      // Filter out events that who's location isn't in location list.
                      // Currently this list doesn't exist here.
                      (!in_array($class['Location']['ID'], $this->locations)) ||
-                     ($class['ClassDescription']['Program']['ScheduleType'] == $this->class_type)
+                     ($class['ClassDescription']['Program']['ScheduleType'] == $this->class_type) ||
+                     !in_array($class['ClassDescription']['SessionType']['Name'], $this->atts['session_types'])
                  ) {
                      continue;
                  }
@@ -323,7 +324,8 @@ abstract class Retrieve_Classes extends Retrieve {
             } else {
                 if (
                     (!in_array($class['Location']['ID'], $this->locations)) ||
-                    ($class['ClassDescription']['Program']['ScheduleType'] == $this->class_type)
+                    ($class['ClassDescription']['Program']['ScheduleType'] == $this->class_type) ||
+                    !in_array($class['ClassDescription']['SessionType']['Name'], $this->atts['session_types'])
                 ) {
                     continue;
                 }
@@ -376,7 +378,7 @@ abstract class Retrieve_Classes extends Retrieve {
             endif;
 
             // If configured to do so in shortcode, skip classes that are cancelled.
-            if ( ( !empty($this->atts['hide_cancelled']) ) && ( $class['IsCanceled'] == 1 ) ) continue;
+            // if ( ( !empty($this->atts['hide_cancelled']) ) && ( $class['IsCanceled'] == 1 ) ) continue;
 
             /*
              * Create a new array with a key for each TIME (time of day, not date)
@@ -392,7 +394,8 @@ abstract class Retrieve_Classes extends Retrieve {
             if(!empty($this->classesByTimeThenDate[$classTime])) {
                 if (
                     (!in_array($class['Location']['ID'], $this->locations)) ||
-                    ($class['ClassDescription']['Program']['ScheduleType'] == $this->class_type)
+                    ($class['ClassDescription']['Program']['ScheduleType'] == $this->class_type) ||
+                    !in_array($class['ClassDescription']['SessionType']['Name'], $this->atts['session_types'])
                 ) {
                     continue;
                 }
@@ -400,7 +403,8 @@ abstract class Retrieve_Classes extends Retrieve {
             } else {
                 if (
                     (!in_array($class['Location']['ID'], $this->locations)) ||
-                    ($class['ClassDescription']['Program']['ScheduleType'] == $this->class_type)
+                    ($class['ClassDescription']['Program']['ScheduleType'] == $this->class_type) ||
+                    !in_array($class['ClassDescription']['SessionType']['Name'], $this->atts['session_types'])
                 ) {
                     continue;
                 }

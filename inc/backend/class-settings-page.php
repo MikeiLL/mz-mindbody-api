@@ -324,7 +324,7 @@ class Settings_Page {
         $return .= "<li><strong>grid</strong>: " . __("(boolean) Display schedule in grid format as opposed to list", 'mz-mindbody-api')."</li>";
         $return .= "<li><strong>advanced</strong>: " . __("(boolean) Allow users to sign in directory from wordpress site", 'mz-mindbody-api')."</li>";
         $return .= "<li><strong>hide</strong>: " . __("Remove any of following from display: teacher, signup, duration", 'mz-mindbody-api')."</li>";
-        $return .= "<li><strong>class_types</strong>: " . __("List of MBO-registered class types to display", 'mz-mindbody-api')."</li>";
+        $return .= "<li><strong>session_types</strong>: " . __("List of MBO-registered session types to display. (Previously attribute was called 'class_types'", 'mz-mindbody-api')."</li>";
         $return .= "<li><strong>show_registrants</strong>: " . __("(boolean) If true, modal pop-up window will display registrants of class", 'mz-mindbody-api')."</li>";
         $return .= "<li><strong>hide_cancelled</strong>: " . __("(boolean) True will hide cancelled classes", 'mz-mindbody-api')."</li>";
         $return .= "<li><strong>registrants_count</strong>: " . __("(boolean) Display number of registrants in class", 'mz-mindbody-api')."</li>";
