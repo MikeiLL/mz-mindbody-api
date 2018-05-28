@@ -436,8 +436,9 @@ abstract class Retrieve_Classes extends Retrieve {
 
     protected function filter_class($class){
         if (
-            (!in_array($class['Location']['ID'], $this->atts['locations']))
-            // ($class['ClassDescription']['Program']['ScheduleType'] == $this->class_type)
+            (!in_array($class['Location']['ID'], $this->atts['locations'])) ||
+            // TODO what is this next link all about?
+            ($class['ClassDescription']['Program']['ScheduleType'] == $this->class_type)
         ) {
             return false;
         }

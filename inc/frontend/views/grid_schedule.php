@@ -107,6 +107,12 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
                             <svg class="icon sign-up"><use xlink:href="#si-bootstrap-log-in"/></use></svg>
                         </a><br/>
                         <?php _e('Duration:', 'mz-mindbody-api'); ?> &nbsp;<?php echo $class->class_duration->format('%H:%I'); ?>
+                        <?php
+                        // Display location if showing schedule for more than one location
+                        if(count($data->locations) >= 2):
+                            echo '<br/>' . $data->locations[$class->sLoc]['link'];
+                        endif;
+                        ?>
                     </div>
                 <?php if ($classes >= 1): ?>
                     <hr/>

@@ -291,6 +291,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'start_date' => $this->schedule_object->start_date,
             'display_type' => $this->display_type,
             'table_class' => $this->table_class,
+            'locations' => $this->schedule_object->locations_dictionary,
             'horizontal_schedule' => $horizontal_schedule,
             'grid_schedule' => $grid_schedule
         );
