@@ -449,9 +449,8 @@ abstract class Retrieve_Classes extends Retrieve {
         if ( ( !empty($this->atts['hide_cancelled']) ) && ( $class['IsCanceled'] == 1 ) ) return false;
 
         // Populate the Locations Dictionary
-        if (!array_key_exists($class['Location']['ID'], $this->locations_dictionary)):
-            $this->locations_dictionary[$class['Location']['ID']] = $class['Location']['Name'];
-        endif;
+        $this->populate_locations_dictionary($class);
+
         // $this->location_name_css = sanitize_html_class($this->locationName, 'mz_location_class');
         // $this->locationAddress = $class['Location']['Address'];
         // $this->locationAddress2 = $class['Location']['Address2'];
@@ -462,7 +461,24 @@ abstract class Retrieve_Classes extends Retrieve {
         return true;
     }
 
-    /*
+    /**
+     * Populate Locations Dictionary
+     *
+     * Populate the objects Locations Dictionary, which will be used to create Location links
+     * as well as to populate the Filter on schedules which filter multiple locations.
+     *
+     * @param array $class a single "class" returned from MBO API
+     */
+    protected function populate_locations_dictionary($class){
+        // We only need to do this once for each location.
+        if (count($this->locations_dictionary) === count($this->atts['locations'])) return;
+        
+        if (!array_key_exists($class['Location']['ID'], $this->locations_dictionary)):
+            $this->locations_dictionary[$class['Location']['ID']] = $class['Location']['Name'];
+        endif;
+    }
+
+    /**
      * Set up Time Frame with Start and End times for Schedule Request
      *
      * @since 2.4.7
