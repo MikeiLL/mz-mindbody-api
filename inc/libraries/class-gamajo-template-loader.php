@@ -30,7 +30,7 @@ class Gamajo_Template_Loader {
      *
      * @var string
      */
-    protected $filter_prefix = 'your_plugin';
+    protected $filter_prefix = 'mz_mindbody_api';
 
     /**
      * Directory name where custom templates for this plugin should be found in the theme.
@@ -41,7 +41,7 @@ class Gamajo_Template_Loader {
      *
      * @var string
      */
-    protected $theme_template_directory = 'plugin-templates';
+    protected $theme_template_directory = 'templates/mindbody';
 
     /**
      * Reference to the root directory path of this plugin.

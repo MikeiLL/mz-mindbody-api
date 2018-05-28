@@ -15,6 +15,21 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
  */
 
 ?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" style="width:0;height:0;position:absolute;overflow:hidden;">
+    <defs>
+        <symbol viewBox="0 0 1300 1100" aria-labelledby="essi-bootstrap-log-in-title" id="si-bootstrap-log-in">
+            <title id="essi-bootstrap-log-in-title">icon log-in</title>
+            <path d="M550 0h400q165 0 257.5 92.5T1300 350v400q0 165-92.5 257.5T950 1100H550q-21 0-35.5-14.5T500 1050V950q0-21 14.5-35.5T550 900h450q41 0 70.5-29.5T1100 800V300q0-41-29.5-70.5T1000 200H550q-21 0-35.5-14.5T500 150V50q0-21 14.5-35.5T550 0zM338 233l324 284q16 14 16 33t-16 33L338 867q-16 14-27 9t-11-26V700H50q-21 0-35.5-14.5T0 650V450q0-21 14.5-35.5T50 400h250V250q0-21 11-26t27 9z"/>
+        </symbol>
+        <symbol viewBox="0 0 1218 1012" aria-labelledby="fpsi-bootstrap-ok-title" id="si-bootstrap-ok"><title id="fpsi-bootstrap-ok-title">icon ok</title><path d="M427 579L998 8q8-8 18-8t17 8l177 177q8 7 8 17t-8 18l-783 784q-7 8-17.5 8t-17.5-8L8 620q-8-8-8-18t8-17l177-177q7-8 17-8t18 8l171 171q7 7 18 7t18-7z"/></symbol>
+        <symbol viewBox="0 0 1203 1216.333251953125" aria-labelledby="jusi-bootstrap-wrench-title" id="si-bootstrap-wrench"><title id="jusi-bootstrap-wrench-title">icon wrench</title><path d="M756 61.333q164-92 306 9l-259 138 145 232 251-126q6 89-34 156.5t-117 110.5q-60 34-127 39.5t-126-16.5l-596 596q-15 16-36.5 16t-36.5-16l-111-110q-15-15-15-36.5t15-37.5l600-599q-34-101 5.5-201.5T756 61.333z"/></symbol>
+    </defs>
+</svg>
+<style type="text/css">
+    .icon {width:12px;height:12px;fill:#959ea9}
+    a, a.icon-link, a.icon-link:hover, a.icon-link:visited, a.icon-link:link, a.icon-link:active { text-decoration:none !important;}
+    a.icon-link:hover .icon {fill: indianRed}
+</style>
 <h4 class="mz_grid_date">
     <?php
     $this_week_start = date_i18n($data->date_format, $data->start_date->getTimestamp());
@@ -36,18 +51,65 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
 
             <td><?php echo $days['display_time']; ?><span class="mz_hidden"><?php echo $days['part_of_day']; ?></span></td>
             <?php foreach($days['classes'] as $day_slot): ?>
-                <td><?php // var_dump( $day_slot ); ?>
-                <?php foreach($day_slot as $class): ?>
+                <td><?php $classes = count( $day_slot ); ?>
+                <?php foreach($day_slot as $class): $classes--; ?>
                     <div class="mz_schedule_table mz_description_holder mz_location_1 <?php echo $class->session_type_css; echo $class->class_name_css; ?>">
-                        <?php echo $class->className; ?>
-                        <?php _e('with', 'mz-mindbody-api'); echo $class->staffName; ?><br />
-                        <a href="<?php echo $class->mbo_url; ?>" target="_blank">
-                            <svg height="20" width="20">
-                                <path d="M550 0h400q165 0 257.5 92.5T1300 350v400q0 165-92.5 257.5T950 1100H550q-21 0-35.5-14.5T500 1050V950q0-21 14.5-35.5T550 900h450q41 0 70.5-29.5T1100 800V300q0-41-29.5-70.5T1000 200H550q-21 0-35.5-14.5T500 150V50q0-21 14.5-35.5T550 0zM338 233l324 284q16 14 16 33t-16 33L338 867q-16 14-27 9t-11-26V700H50q-21 0-35.5-14.5T0 650V450q0-21 14.5-35.5T50 400h250V250q0-21 11-26t27 9z"/>
-                            </svg>
-                        </a>
-                        <?php _e('Duration:', 'mz-mindbody-api'); ?> <br/>&nbsp;<?php echo $class->class_duration->format('%H:%I'); ?>
+                        <?php
+                        $linkArray = array(
+                            'data-staffName' => $class->staffName,
+                            'data-className' => $class->className,
+                            'data-classDescription' => rawUrlEncode($class->classDescription),
+                            'class' => 'modal-toggle mz_get_registrants ' . sanitize_html_class($class->className, 'mz_class_name'),
+                            'text' => $class->className,
+                            'data-target' => $data->data_target
+                        );
+
+                        if ($data->atts['show_registrants'] == 1) {
+                            $get_registrants_nonce = wp_create_nonce('mz_MBO_get_registrants_nonce');
+                            $linkArray['data-nonce'] = $get_registrants_nonce;
+                            $linkArray['data-classID'] = $class->class_instance_ID;
+                        }
+                        if ($class->staffImage != ''):
+                            $linkArray['data-staffImage'] = $class->staffImage;
+                        endif;
+                        $class_name_link = new Libraries\HTML_Element('a');
+                        $class_name_link->set('href', $data->class_modal_link);
+                        $class_name_link->set($linkArray);
+                        $class_name_link->output();
+                        ?>
+                        <?php _e('with', 'mz-mindbody-api'); ?>
+                        <?php
+                        $linkArray = array(
+
+                            // 'data-accountNumber');
+                            // "data-sub")
+                            'data-staffName' => $class->staffName,
+                            'data-staffID' => $class->staffID,
+                            'class' => 'modal-toggle ' . sanitize_html_class($class->staffName, 'mz_staff_name'),
+                            'text' => $class->staffName,
+                            'data-target' => 'mzStaffScheduleModal',
+                            'data-nonce' => wp_create_nonce('mz_staff_retrieve_nonce'),
+                            'data-siteID' => $data->siteID
+                        );
+
+                        if ($class->staffImage != ''):
+                            $linkArray['data-staffImage'] = $class->staffImage;
+                        endif;
+
+                        $class_name_link = new Libraries\HTML_Element('a');
+                        $class_name_link->set('href', $data->class_modal_link);
+                        $class_name_link->set($linkArray);
+                        $class_name_link->output();
+                        ?>
+                        <br />
+                        <a class="icon-link" title="<?php _e('Sign-Up', 'mz-mindbody-api'); ?>" href="<?php echo $class->mbo_url; ?>" target="_blank">
+                            <svg class="icon sign-up"><use xlink:href="#si-bootstrap-log-in"/></use></svg>
+                        </a><br/>
+                        <?php _e('Duration:', 'mz-mindbody-api'); ?> &nbsp;<?php echo $class->class_duration->format('%H:%I'); ?>
                     </div>
+                <?php if ($classes >= 1): ?>
+                    <hr/>
+                <?php endif; ?>
                 <?php endforeach; ?>
                 </td>
             <?php endforeach; ?>
