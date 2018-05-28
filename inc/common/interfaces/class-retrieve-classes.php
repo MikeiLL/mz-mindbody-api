@@ -294,6 +294,9 @@ abstract class Retrieve_Classes extends Retrieve {
             // Filter out some items
             if ($this->filter_class($class) === false) continue;
 
+            // Populate the Locations Dictionary
+            $this->populate_locations_dictionary($class);
+
             // Make a timestamp of just the day to use as key for that day's classes
             $dt = new \DateTime($class['StartDateTime']);
             $just_date =  $dt->format('Y-m-d');
@@ -354,6 +357,9 @@ abstract class Retrieve_Classes extends Retrieve {
 
             // Filter out some items
             if ($this->filter_class($class) === false) continue;
+
+            // Populate the Locations Dictionary
+            $this->populate_locations_dictionary($class);
 
             // Ignore classes that are not part of current week (ending Sunday)
             $class_datetime = new \DateTime($class['StartDateTime']);
@@ -448,9 +454,6 @@ abstract class Retrieve_Classes extends Retrieve {
 
         // If configured to do so in shortcode, skip classes that are cancelled.
         if ( ( !empty($this->atts['hide_cancelled']) ) && ( $class['IsCanceled'] == 1 ) ) return false;
-
-        // Populate the Locations Dictionary
-        $this->populate_locations_dictionary($class);
 
         return true;
     }

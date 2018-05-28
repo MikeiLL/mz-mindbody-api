@@ -195,8 +195,8 @@ class Display extends Interfaces\ShortCode_Script_Loader
             $this->atts['session_types'] == '';
         }
 
-        // Break locations up into array
-        $this->atts['locations'] = explode(',', trim($this->atts['locations'], ' '));
+        // Break locations up into array, if it hasn't already been.
+        $this->atts['locations'] = (!is_array($this->atts['locations'])) ? explode(',', trim($this->atts['locations'], ' ')) : $this->atts['locations'];
 
         // Begin generating output
         ob_start();
@@ -291,7 +291,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'start_date' => $this->schedule_object->start_date,
             'display_type' => $this->display_type,
             'table_class' => $this->table_class,
-            'locations' => $this->schedule_object->locations_dictionary,
+            'locations_dictionary' => $this->schedule_object->locations_dictionary,
             'horizontal_schedule' => $horizontal_schedule,
             'grid_schedule' => $grid_schedule
         );
@@ -389,7 +389,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
         $this->schedule_object = new Retrieve_Schedule($atts);
 
         // Call the API and if fails, return error message.
-        if (false == $this->schedule_object->get_mbo_results()) return "<div>" . __("Mindbody plugin settings error.", 'mz-mindbody-api') . "</div>";
+        if (false == $this->schedule_object->get_mbo_results()) echo "<div>" . __("Mindbody plugin settings error.", 'mz-mindbody-api') . "</div>";
 
         // Register attributes
         $this->handleShortcode($atts);
@@ -408,8 +408,8 @@ class Display extends Interfaces\ShortCode_Script_Loader
             ob_start();
             $grid_schedule = $this->schedule_object->sort_classes_by_time_then_date();
             // Update the data array
-            $template_loader->get_template_part('grid_schedule');
             $this->template_data['grid_schedule'] = $grid_schedule;
+            $template_loader->get_template_part('grid_schedule');
             $result['grid'] = ob_get_clean();
         endif;
 

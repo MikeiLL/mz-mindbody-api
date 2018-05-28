@@ -100,9 +100,9 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
                     <?php echo $class->sessionTypeName; ?>
                     <?php
                     // Display location if showing schedule for more than one location
-                    if(count($data->locations) >= 2):
+                    if(count($data->locations_dictionary) >= 2):
                         _e('at', 'mz-mindbody-api');
-                        echo $data->locations[$class->sLoc]['link'];
+                        echo ' ' . $data->locations_dictionary[$class->sLoc]['link'];
                     endif;
                     ?>
                 </td>

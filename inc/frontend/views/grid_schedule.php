@@ -109,8 +109,8 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
                         <?php _e('Duration:', 'mz-mindbody-api'); ?> &nbsp;<?php echo $class->class_duration->format('%H:%I'); ?>
                         <?php
                         // Display location if showing schedule for more than one location
-                        if(count($data->locations) >= 2):
-                            echo '<br/>' . $data->locations[$class->sLoc]['link'];
+                        if(count($data->locations_dictionary) >= 2):
+                            echo '<br/>' . $data->locations_dictionary[$class->sLoc]['link'];
                         endif;
                         ?>
                     </div>
