@@ -133,6 +133,15 @@ class Schedule_Item {
     public $classImageArray;
 
     /**
+     * Display Class as Cancelled.
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      html $displayCancelled String to display if class is cancelled.
+     */
+    public $displayCancelled;
+
+    /**
      * 
      *
      * @since    2.4.7
@@ -269,14 +278,6 @@ class Schedule_Item {
     
     // Attributes we create
 
-    /**
-     * 
-     *
-     * @since    2.4.7
-     * @access   public
-     * @var      string 
-     */
-    public $displayCancelled;
 
     /**
      * MBO url TAB
@@ -485,6 +486,7 @@ class Schedule_Item {
         $this->class_name_css = 'mz_' . sanitize_html_class($this->className, 'mz_class_name');
         $this->part_of_day = $this->part_of_day();
         $this->class_duration = $this->get_schedule_event_duration();
+        $this->dislayCancelled = ($schedule_item['IsCanceled'] == 1) ? '<div class="mz_cancelled_class">' . __('Cancelled', 'mz-mindbody-api') . '</div>' : '';
     }
 
     /**

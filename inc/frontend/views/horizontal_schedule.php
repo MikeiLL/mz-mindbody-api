@@ -68,6 +68,7 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
                     $class_name_link->set($linkArray);
                     $class_name_link->output();
                     ?>
+                    <?php echo $class->displayCancelled; ?>
 
                 </td>
                 <td class="mz_staffName">

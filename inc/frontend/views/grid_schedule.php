@@ -102,6 +102,7 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
                         $class_name_link->set($linkArray);
                         $class_name_link->output();
                         ?>
+                        <?php echo $class->displayCancelled; ?>
                         <br />
                         <a class="icon-link" title="<?php _e('Sign-Up', 'mz-mindbody-api'); ?>" href="<?php echo $class->mbo_url; ?>" target="_blank">
                             <svg class="icon sign-up"><use xlink:href="#si-bootstrap-log-in"/></use></svg>

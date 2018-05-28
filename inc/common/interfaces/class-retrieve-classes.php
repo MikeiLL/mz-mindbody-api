@@ -388,9 +388,7 @@ abstract class Retrieve_Classes extends Retrieve {
              */
 
             $classTime = date_i18n("G.i", strtotime($class['StartDateTime'])); // for numerical sorting
-
-            $single_event = new Schedule\Schedule_Item($class);
-
+            
             if(!empty($this->classesByTimeThenDate[$classTime])) {
                 if (
                     (!in_array($class['Location']['ID'], $this->locations)) ||
@@ -399,7 +397,7 @@ abstract class Retrieve_Classes extends Retrieve {
                 ) {
                     continue;
                 }
-                array_push($this->classesByTimeThenDate[$classTime]['classes'], $single_event);
+                array_push($this->classesByTimeThenDate[$classTime]['classes'], new Schedule\Schedule_Item($class));
             } else {
                 if (
                     (!in_array($class['Location']['ID'], $this->locations)) ||
@@ -415,7 +413,7 @@ abstract class Retrieve_Classes extends Retrieve {
                                                                 'display_time' => $display_time,
                                                                 // Add part_of_day for filter as well
                                                                 'part_of_day' => $single_event->part_of_day,
-                                                                'classes' => array($single_event)
+                                                                'classes' => array(new Schedule\Schedule_Item($class))
                                                             );
                 // if($display_time == '9:15 am'){
                 //     mz_pr($this->classesByTimeThenDate[$classTime]);
