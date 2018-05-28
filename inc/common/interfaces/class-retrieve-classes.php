@@ -329,7 +329,7 @@ abstract class Retrieve_Classes extends Retrieve {
                 return $a->startDateTime < $b->startDateTime ? -1 : 1;
             });
         }
-        mz_pr( $this->locations_dictionary );
+
         return $this->classesByDateThenTime;
     }
 
@@ -451,13 +451,6 @@ abstract class Retrieve_Classes extends Retrieve {
         // Populate the Locations Dictionary
         $this->populate_locations_dictionary($class);
 
-        // $this->location_name_css = sanitize_html_class($this->locationName, 'mz_location_class');
-        // $this->locationAddress = $class['Location']['Address'];
-        // $this->locationAddress2 = $class['Location']['Address2'];
-        // $this->url_encoded_address = urlencode($this->locationAddress.$this->locationAddress2);
-        // $this->locationNameDisplay = '<span class="location_name '.$this->location_name_css.'"><a href="http://maps.google.com/maps?q='.$this->url_encoded_address.'" target="_blank" title="'. $this->locationAddress. '">' .
-        //     $this->locationName . '</a>';
-
         return true;
     }
 
@@ -472,9 +465,20 @@ abstract class Retrieve_Classes extends Retrieve {
     protected function populate_locations_dictionary($class){
         // We only need to do this once for each location.
         if (count($this->locations_dictionary) === count($this->atts['locations'])) return;
-        
+
+        // Build a link TODO use HTML Element Class
+        $locationName = $class['Location']['Name'];
+        $location_name_css = sanitize_html_class($locationName, 'mz_location_class');
+        $locationAddress = $class['Location']['Address'];
+        $locationAddress2 = $class['Location']['Address2'];
+        $url_encoded_address = urlencode($locationAddress.$locationAddress2);
+        $locationNameDisplay = '<span class="location_name '.$location_name_css.'"><a href="http://maps.google.com/maps?q='.$url_encoded_address.'" target="_blank" title="'. $locationAddress. '">' . $locationName . '</a>';
+
         if (!array_key_exists($class['Location']['ID'], $this->locations_dictionary)):
-            $this->locations_dictionary[$class['Location']['ID']] = $class['Location']['Name'];
+            $this->locations_dictionary[$class['Location']['ID']] = array(
+                                                                        'name' => $locationName,
+                                                                        'link' => $locationNameDisplay
+                                                                    );
         endif;
     }
 
