@@ -530,6 +530,7 @@ class Schedule_Item {
         }else{
             return __('afternoon', 'mz-mindbody-api');
         }
+        return '';
     }
 
     /**

@@ -307,28 +307,22 @@ abstract class Retrieve_Classes extends Retrieve {
             /* Create a new array with a key for each date YYYY-MM-DD
             and corresponding value an array of class details */
 
+            if (
+                (!in_array($class['Location']['ID'], $this->locations)) ||
+                ($class['ClassDescription']['Program']['ScheduleType'] == $this->class_type)
+            ) {
+                continue;
+            }
+            if (!empty($this->atts['session_types'])) {
+                if (!in_array($class['ClassDescription']['SessionType']['Name'], $this->atts['session_types'])) continue;
+            }
+
             $single_event = new Schedule\Schedule_Item($class);
 
             if(!empty($this->classesByDateThenTime[$just_date])) {
-                 if (
-                     // Filter out events that who's location isn't in location list.
-                     // Currently this list doesn't exist here.
-                     (!in_array($class['Location']['ID'], $this->locations)) ||
-                     ($class['ClassDescription']['Program']['ScheduleType'] == $this->class_type) ||
-                     !in_array($class['ClassDescription']['SessionType']['Name'], $this->atts['session_types'])
-                 ) {
-                     continue;
-                 }
                 //$mz_classesByDateThenTime[$classDate] = array_merge($mz_classesByDateThenTime[$classDate], array($class));
                 array_push($this->classesByDateThenTime[$just_date], $single_event);
             } else {
-                if (
-                    (!in_array($class['Location']['ID'], $this->locations)) ||
-                    ($class['ClassDescription']['Program']['ScheduleType'] == $this->class_type) ||
-                    !in_array($class['ClassDescription']['SessionType']['Name'], $this->atts['session_types'])
-                ) {
-                    continue;
-                }
                 //$mz_classesByDateThenTime[$classDate]['classes'] = $single_event;
                 $this->classesByDateThenTime[$just_date] = array($single_event);
             }
@@ -388,32 +382,30 @@ abstract class Retrieve_Classes extends Retrieve {
              */
 
             $classTime = date_i18n("G.i", strtotime($class['StartDateTime'])); // for numerical sorting
-            
+
+            if (
+                (!in_array($class['Location']['ID'], $this->locations)) ||
+                ($class['ClassDescription']['Program']['ScheduleType'] == $this->class_type)
+            ) {
+                continue;
+            }
+            if (!empty($this->atts['session_types'])) {
+                if (!in_array($class['ClassDescription']['SessionType']['Name'], $this->atts['session_types'])) continue;
+            }
+
+            $single_event = new Schedule\Schedule_Item($class);
+
             if(!empty($this->classesByTimeThenDate[$classTime])) {
-                if (
-                    (!in_array($class['Location']['ID'], $this->locations)) ||
-                    ($class['ClassDescription']['Program']['ScheduleType'] == $this->class_type) ||
-                    !in_array($class['ClassDescription']['SessionType']['Name'], $this->atts['session_types'])
-                ) {
-                    continue;
-                }
-                array_push($this->classesByTimeThenDate[$classTime]['classes'], new Schedule\Schedule_Item($class));
+                // Create a $single_event which is a "class" object, and start the classes array with it.
+                array_push($this->classesByTimeThenDate[$classTime]['classes'], $single_event);
             } else {
-                if (
-                    (!in_array($class['Location']['ID'], $this->locations)) ||
-                    ($class['ClassDescription']['Program']['ScheduleType'] == $this->class_type) ||
-                    !in_array($class['ClassDescription']['SessionType']['Name'], $this->atts['session_types'])
-                ) {
-                    continue;
-                }
                 // Assign the first element of this time slot.
                 $display_time = (date_i18n(Core\Init::$advanced_options['time_format'], strtotime($class['StartDateTime'])));
-
                 $this->classesByTimeThenDate[$classTime] = array(
                                                                 'display_time' => $display_time,
                                                                 // Add part_of_day for filter as well
                                                                 'part_of_day' => $single_event->part_of_day,
-                                                                'classes' => array(new Schedule\Schedule_Item($class))
+                                                                'classes' => array($single_event)
                                                             );
                 // if($display_time == '9:15 am'){
                 //     mz_pr($this->classesByTimeThenDate[$classTime]);

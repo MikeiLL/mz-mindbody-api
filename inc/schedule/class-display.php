@@ -186,8 +186,10 @@ class Display extends Interfaces\ShortCode_Script_Loader
         $this->data_target = $show_registrants ? 'registrantModal' : 'mzModal';
         $this->class_modal_link = MZ_Mindbody\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php';
 
+        $session_types = !empty($this->atts['session_types']) ? $this->atts['session_types'] : $this->atts['class_types'];
+
         // Turn Session/Class Types into an Array and call it session_types
-        $this->atts['session_types'] = $this->atts['class_types'] = explode(',', trim($this->atts['class_types'], ' '));
+        $this->atts['session_types'] = $this->atts['class_types'] = explode(',', trim($session_types, ' '));
 
         ob_start();
 
