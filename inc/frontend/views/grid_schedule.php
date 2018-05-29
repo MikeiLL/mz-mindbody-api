@@ -30,7 +30,7 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
     a, a.icon-link, a.icon-link:hover, a.icon-link:visited, a.icon-link:link, a.icon-link:active { text-decoration:none !important;}
     a.icon-link:hover .icon {fill: indianRed}
 </style>
-<?php mz_pr($data->hide); ?>
+<?php // mz_pr($data->hide); ?>
 <h4 class="mz_grid_date">
     <?php
     $this_week_start = date_i18n($data->date_format, $data->start_date->getTimestamp());

@@ -26,12 +26,16 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
                 <th class="mz_classDetails" scope="header">
                     <?php _e('Class Name', 'mz-mindbody-api'); ?>
                 </th>
+                <?php if ( !in_array('teacher', $data->hide ) ): ?>
                 <th class="mz_staffName" scope="header">
                     <?php _e('Instructor', 'mz-mindbody-api'); ?>
                 </th>
+                <?php endif; ?>
+                <?php if ( !in_array('session-type', $data->hide ) ): ?>
                 <th class="mz_sessionTypeName" scope="header">
                     <?php _e('Class Type', 'mz-mindbody-api'); ?>
                 </th>
+                <?php endif; ?>
             </tr>
         </thead>
         <tbody>
@@ -40,7 +44,9 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
                 <td class="mz_date_display">
                     <?php echo date_i18n($data->time_format, strtotime($class->startDateTime)) . ' - ' . date_i18n($data->time_format, strtotime($class->endDateTime)); ?><br />
                     <span class="mz_hidden mz_time_of_day"><?php echo $class->part_of_day; ?></span>
+                    <?php if ( !in_array('signup', $data->hide ) ): ?>
                     <a class="btn" href="<?php echo $class->mbo_url; ?>" target="_blank"><?php _e('Sign-Up', 'mz-mindbody-api'); ?></a>
+                    <?php endif; ?>
                 </td>
                 <td class="mz_classDetails">
 
@@ -70,6 +76,7 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
                     <?php echo $class->displayCancelled; ?>
 
                 </td>
+                <?php if ( !in_array('teacher', $data->hide ) ): ?>
                 <td class="mz_staffName">
 
                     <?php
@@ -96,6 +103,8 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
                     $class_name_link->output();
                     ?>
                 </td>
+                <?php endif; ?>
+                <?php if ( !in_array('session-type', $data->hide ) ): ?>
                 <td class="mz_sessionTypeName">
                     <?php echo $class->sessionTypeName; ?>
                     <?php
@@ -106,6 +115,7 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
                     endif;
                     ?>
                 </td>
+                <?php endif; ?>
             </tr>
         <?php endforeach; ?>
         </tbody>
