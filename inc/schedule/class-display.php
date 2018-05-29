@@ -145,9 +145,22 @@ class Display extends Interfaces\ShortCode_Script_Loader
      * @access   public
      *
      * @used in handleShortcode, display_schedule
-     * @var      @astring    $display_type    Which type of schedule to display.
+     * @var      string    $display_type    Which type of schedule to display.
      */
     public $display_type;
+
+    /**
+     * Which schedule_event items not to display
+     *
+     * Teacher, Location, Sign-up, Duration
+     *
+     * @since    2.4.7
+     * @access   public
+     *
+     * @used in handleShortcode, display_schedule
+     * @var      array    $hide    Which elements to not display in schedule.
+     */
+    public $hide;
 
 
     public function handleShortcode($atts, $content = null)
@@ -163,7 +176,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'grid' => 0,
             'advanced' => 0,
             'this_week' => 0,
-            'hide' => array(),
+            'hide' => '',
             'class_types' => '', // migrating to session_types
             'session_types' => '',
             'show_registrants' => 0,
@@ -196,7 +209,10 @@ class Display extends Interfaces\ShortCode_Script_Loader
         }
 
         // Break locations up into array, if it hasn't already been.
-        $this->atts['locations'] = (!is_array($this->atts['locations'])) ? explode(',', trim($this->atts['locations'], ' ')) : $this->atts['locations'];
+        $this->atts['locations'] = (!is_array($this->atts['locations'])) ? explode(',', str_replace(' ', '', $this->atts['locations'])) : $this->atts['locations'];
+
+        // Break hide up into array, if it hasn't already been.
+        $this->atts['hide'] = (!is_array($this->atts['hide'])) ? explode(',', str_replace(' ', '', strtolower($this->atts['hide']))) : $this->atts['hide'];
 
         // Begin generating output
         ob_start();
@@ -290,6 +306,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'week_names' => $week_names,
             'start_date' => $this->schedule_object->start_date,
             'display_type' => $this->display_type,
+            'hide' => $this->atts['hide'],
             'table_class' => $this->table_class,
             'locations_dictionary' => $this->schedule_object->locations_dictionary,
             'horizontal_schedule' => $horizontal_schedule,

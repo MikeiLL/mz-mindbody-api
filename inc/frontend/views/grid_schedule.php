@@ -30,6 +30,7 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
     a, a.icon-link, a.icon-link:hover, a.icon-link:visited, a.icon-link:link, a.icon-link:active { text-decoration:none !important;}
     a.icon-link:hover .icon {fill: indianRed}
 </style>
+<?php mz_pr($data->hide); ?>
 <h4 class="mz_grid_date">
     <?php
     $this_week_start = date_i18n($data->date_format, $data->start_date->getTimestamp());
@@ -77,40 +78,54 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
                         $class_name_link->set($linkArray);
                         $class_name_link->output();
                         ?>
-                        <?php _e('with', 'mz-mindbody-api'); ?>
                         <?php
-                        $linkArray = array(
+                        if ( !in_array('teacher', $data->hide ) ):
 
-                            // 'data-accountNumber');
-                            // "data-sub")
-                            'data-staffName' => $class->staffName,
-                            'data-staffID' => $class->staffID,
-                            'class' => 'modal-toggle ' . sanitize_html_class($class->staffName, 'mz_staff_name'),
-                            'text' => $class->staffName,
-                            'data-target' => 'mzStaffScheduleModal',
-                            'data-nonce' => wp_create_nonce('mz_staff_retrieve_nonce'),
-                            'data-siteID' => $data->siteID
-                        );
+                            _e('with', 'mz-mindbody-api');
 
-                        if ($class->staffImage != ''):
-                            $linkArray['data-staffImage'] = $class->staffImage;
+                            $linkArray = array(
+
+                                // 'data-accountNumber');
+                                // "data-sub")
+                                'data-staffName' => $class->staffName,
+                                'data-staffID' => $class->staffID,
+                                'class' => 'modal-toggle ' . sanitize_html_class($class->staffName, 'mz_staff_name'),
+                                'text' => $class->staffName,
+                                'data-target' => 'mzStaffScheduleModal',
+                                'data-nonce' => wp_create_nonce('mz_staff_retrieve_nonce'),
+                                'data-siteID' => $data->siteID
+                            );
+
+                            if ($class->staffImage != ''):
+                                $linkArray['data-staffImage'] = $class->staffImage;
+                            endif;
+
+                            $class_name_link = new Libraries\HTML_Element('a');
+                            $class_name_link->set('href', $data->class_modal_link);
+                            $class_name_link->set($linkArray);
+                            $class_name_link->output();
                         endif;
-
-                        $class_name_link = new Libraries\HTML_Element('a');
-                        $class_name_link->set('href', $data->class_modal_link);
-                        $class_name_link->set($linkArray);
-                        $class_name_link->output();
                         ?>
                         <?php echo $class->displayCancelled; ?>
                         <br />
+                        <?php
+                        if ( !in_array('signup', $data->hide ) ):
+                        ?>
                         <a class="icon-link" title="<?php _e('Sign-Up', 'mz-mindbody-api'); ?>" href="<?php echo $class->mbo_url; ?>" target="_blank">
                             <svg class="icon sign-up"><use xlink:href="#si-bootstrap-log-in"/></use></svg>
                         </a><br/>
-                        <?php _e('Duration:', 'mz-mindbody-api'); ?> &nbsp;<?php echo $class->class_duration->format('%H:%I'); ?>
+                        <?php endif; ?>
                         <?php
-                        // Display location if showing schedule for more than one location
-                        if(count($data->locations_dictionary) >= 2):
-                            echo '<br/>' . $data->locations_dictionary[$class->sLoc]['link'];
+                        if  (!in_array('duration', $data->hide ) ):
+                            _e('Duration:', 'mz-mindbody-api'); ?> &nbsp;<?php echo $class->class_duration->format('%H:%I');
+                        endif;
+                        ?>
+                        <?php
+                        if(!in_array('location', $data->hide ) ):
+                            // Display location if showing schedule for more than one location
+                            if(count($data->locations_dictionary) >= 2):
+                                echo '<br/>' . $data->locations_dictionary[$class->sLoc]['link'];
+                            endif;
                         endif;
                         ?>
                     </div>
