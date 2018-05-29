@@ -319,7 +319,6 @@ class Display extends Interfaces\ShortCode_Script_Loader
             if ($this->atts['filter'] == 1):
                 wp_register_script('filterTable', MZ_Mindbody\PLUGIN_NAME_URL . 'dist/scripts/mz_filtertable.js', array('jquery'), null, true);
                 wp_enqueue_script('filterTable');
-                $this->localizeFilterScript();
             endif;
 
             $this->localizeScript();
@@ -343,17 +342,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'get_registrants_error' => __('Error retreiving class details.', 'mz-mindbody-api'),
             'error' => __('Sorry but there was an error retrieving the schedule.', 'mz-mindbody-api'),
             'sub_by_text' => __('(Substitute)', 'mz-mindbody-api'),
-            'no_bio' => __('No biography listed for this staff member.', 'mz-mindbody-api')
-        );
-        wp_localize_script('mz_display_schedule_script', 'mz_mindbody_schedule', $params);
-
-    }
-
-    public function localizeFilterScript()
-    {
-        $protocol = isset($_SERVER["HTTPS"]) ? 'https://' : 'http://';
-        $nonce = wp_create_nonce('mz_schedule_display_nonce');
-        $params = array(
+            'no_bio' => __('No biography listed for this staff member.', 'mz-mindbody-api'),
             'filter_default' => __('by teacher, class type', 'mz-mindbody-api'),
             'quick_1' => __('morning', 'mz-mindbody-api'),
             'quick_2' => __('afternoon', 'mz-mindbody-api'),
@@ -362,7 +351,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'selector' => __('All Locations', 'mz-mindbody-api'),
             'Locations_dict' => $this->schedule_object->locations_dictionary
         );
-        wp_localize_script('filterTable', 'mz_filter_script', $params);
+        wp_localize_script('mz_display_schedule_script', 'mz_mindbody_schedule', $params);
 
     }
 

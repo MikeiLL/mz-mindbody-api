@@ -6,6 +6,9 @@
             atts = mz_mindbody_schedule.atts,
             container = $('#mzScheduleDisplay');
 
+        // Run our Init function
+        stripe_and_filter();
+
         /*
          * Navigate Schedule
          *
@@ -47,17 +50,17 @@
                         } else {
                             document.getElementById("horizontalDisplay").innerHTML = json.horizontal;
                         }
+                        stripe_and_filter();
                     } else {
                         reset_navigation(this, buttons);
                         container.toggleClass('loader');
                         container.html(json.message);
+                        stripe_and_filter();
                     }
                 }
             })
                 .fail(function (json) {
                     reset_navigation(this, buttons);
-                    console.log('fail');
-                    console.log(json);
                     container.toggleClass('loader');
                     container.html('Sorry but there was an error retrieving schedule.');
                 }); // End Ajax
@@ -215,14 +218,45 @@
             $('#mode-select').click(function () {
                 $('.mz-schedule-display').each(function (i, item) {
                     $(item).toggleClass('mz_hidden');
-                    // $(item).toggleClass('mz_schedule_filter');
+                    $(item).toggleClass('mz_schedule_filter');
                 });
-                $('.filter-table').toggleClass('mz_hidden');
+                stripe_and_filter();
                 $('#mode-select').text(function (i, text) {
                     return text == mz_mindbody_schedule.initial ? mz_mindbody_schedule.swap : mz_mindbody_schedule.initial;
                 });
             });
         } // if mode button = 1
+
+    function stripe_and_filter() {
+        /*
+         * Filter Table Init
+         *
+         */
+        var stripeTable = function (table) { //stripe the table (jQuery selector)
+            table.find('tr').removeClass('striped').filter(':visible:even').addClass('striped');
+        };
+
+        if ($('table.mz-schedule-filter').length) {
+            $('table.mz-schedule-filter').filterTable({
+                callback: function (term, table) {
+                    stripeTable(table);
+                }, // call the striping after every change to the filter term
+                placeholder: mz_mindbody_schedule.filter_default,
+                highlightClass: 'alt',
+                inputType: 'search',
+                label: mz_mindbody_schedule.label,
+                selector: mz_mindbody_schedule.selector,
+                quickListClass: 'mz_quick_filter',
+                quickList: [mz_mindbody_schedule.quick_1, mz_mindbody_schedule.quick_2, mz_mindbody_schedule.quick_3],
+                locations: mz_mindbody_schedule.Locations_dict
+            });
+        stripeTable($('table.mz-schedule-filter')); //stripe the table for the first time
+        } else {
+            // No filter
+            stripeTable($('table.mz-schedule-table')); //stripe the table for the first time
+        }
+
+    }
 
     }); // End document ready
 })(jQuery);
