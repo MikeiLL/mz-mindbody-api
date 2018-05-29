@@ -1,0 +1,590 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Advanced mZoo Mindbody Interface - Schedule, Events, "
+"Staff Display\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-02-29 10:45-0600\n"
+"PO-Revision-Date: 2016-02-29 10:47-0600\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Loco-Source-Locale: pt_BR\n"
+"X-Generator: Poedit 1.8.7\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-WPHeader: mZ-mindbody-api.php\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Loco-Parser: loco_parse_po\n"
+"X-Loco-Target-Locale: en_GB\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: advanced/ajax.php:24 mZ-mindbody-api.php:439
+msgid "Registered via MindBody"
+msgstr "Registrado pela Mindbody"
+
+#: advanced/ajax.php:25
+msgid "Problem with MindBody Registration"
+msgstr "Problema com o registo de MindBody"
+
+#: advanced/ajax.php:50
+msgid "Error retreiving class details."
+msgstr "Rastrear detalhes do erro"
+
+#: advanced/ajax.php:51
+msgid "Registrants"
+msgstr "Registantes"
+
+#: advanced/ajax.php:52 inc/mz_schedule.php:22 lib/functions.php:62
+#: lib/schedule_objects.php:110
+msgid "with"
+msgstr "com"
+
+#: inc/mz_events.php:96
+msgid "Day Event Calendar"
+msgstr "Calendário diário"
+
+#: inc/mz_events.php:146 lib/schedule_objects.php:248
+msgid "Login to Sign-up"
+msgstr "Login para inscrever-se"
+
+#: inc/mz_events.php:158 lib/schedule_objects.php:57
+msgid "Sign-Up"
+msgstr "Inscrever-se"
+
+#: inc/mz_events.php:177
+msgid "No events published this period."
+msgstr "Não há nenhum evento nesse período"
+
+#: inc/mz_events.php:189
+#, php-format
+msgid "%1$s Day Event Calendar"
+msgid_plural "%1$s Day Event Calendar"
+msgstr[0] "Calendario de eventos do día %1$s"
+msgstr[1] "Calendario de eventos dos días %1$ss"
+
+#: inc/mz_events.php:193
+msgid "No events published"
+msgstr "Não há eventos publicados"
+
+#: inc/mz_events.php:202
+msgid "Error: MBO Event Type IDs must be set in Admin Panel"
+msgstr "Error: IDs dos tipos de evento devem ser configurados no painel do MBO"
+
+#: inc/mz_events.php:204
+msgid "Event"
+msgid_plural "Events"
+msgstr[0] "Evento"
+msgstr[1] "Eventos"
+
+#: inc/mz_mbo_clients.php:38
+msgid "Invalid Login"
+msgstr "Login inválido"
+
+#: inc/mz_mbo_clients.php:58
+msgid "Register with MindBodyOnline"
+msgstr "Registrar-se no Mindbody"
+
+#: inc/mz_mbo_clients.php:77
+msgid "Welcome"
+msgstr "Bem vindo"
+
+#: inc/mz_mbo_clients.php:110
+msgid "Unable to retrieve registrants"
+msgstr "Não é possível recuperar os registrastes"
+
+#: inc/mz_mbo_clients.php:135
+msgid "User Logged Out."
+msgstr "O usuário deu logoff."
+
+#: inc/mz_mbo_clients.php:153
+msgid "Die Robot Spam!"
+msgstr "Morre, robôs spammer!"
+
+#: inc/mz_mbo_clients.php:180
+msgid "Congratulations. You are now logged in with your new Mindbody account."
+msgstr "Muito bem! Agora você está logado com sua conta no mindbody."
+
+#: inc/mz_mbo_clients.php:182
+msgid "Sign-up for some classes."
+msgstr "Inscrever-se nas aulas"
+
+#: inc/mz_mbo_clients.php:219
+msgid "Leave this empty-slash-blank"
+msgstr "Deixe esse espaço vazio"
+
+#: inc/mz_mbo_clients.php:220
+msgid "First Name"
+msgstr "Primeiro Nome"
+
+#: inc/mz_mbo_clients.php:221
+msgid "Last Name"
+msgstr "Sobrenome"
+
+#: inc/mz_mbo_clients.php:222
+msgid "Sign up"
+msgstr "Inscrever-se"
+
+#: inc/mz_schedule.php:82
+msgid "Grid Calendar Incompatible with Single Day Mode!"
+msgstr "Calendário diário é incompatível com visualização diária!"
+
+#: inc/mz_schedule.php:198
+msgid "week"
+msgstr "semana"
+
+#: inc/mz_schedule.php:199 inc/mz_schedule.php:356 inc/mz_schedule.php:373
+#: lib/functions.php:73
+msgid "Week"
+msgstr "Semana"
+
+#: inc/mz_schedule.php:229
+msgid "Class Name"
+msgstr "Nome da aula"
+
+#: inc/mz_schedule.php:230
+msgid "Instructor"
+msgstr "Instrutor"
+
+#: inc/mz_schedule.php:231
+msgid "Class Type"
+msgstr "Tipo de aula"
+
+#: inc/mz_schedule.php:262
+msgid "at"
+msgstr "às"
+
+#: inc/mz_schedule.php:282
+#, php-format
+msgid "Week of %1$s"
+msgstr "Semana de %1$s"
+
+#: inc/mz_schedule.php:291 lib/functions.php:18
+msgid "Monday"
+msgstr "Segunda-feira"
+
+#: inc/mz_schedule.php:292 lib/functions.php:19
+msgid "Tuesday"
+msgstr "Terça-feira"
+
+#: inc/mz_schedule.php:293 lib/functions.php:20
+msgid "Wednesday"
+msgstr "Quarta-feira"
+
+#: inc/mz_schedule.php:294 lib/functions.php:21
+msgid "Thursday"
+msgstr "Quinta-feira"
+
+#: inc/mz_schedule.php:295 lib/functions.php:22
+msgid "Friday"
+msgstr "Sexta-feira"
+
+#: inc/mz_schedule.php:296 lib/functions.php:23
+msgid "Saturday"
+msgstr "Sábado"
+
+#: inc/mz_schedule.php:297 lib/functions.php:24
+msgid "Sunday"
+msgstr "Domingo"
+
+#: inc/mz_schedule.php:309 inc/mz_schedule.php:409 lib/schedule_objects.php:204
+msgid "morning"
+msgstr "manhã"
+
+#: inc/mz_schedule.php:311 inc/mz_schedule.php:411 lib/schedule_objects.php:206
+msgid "evening"
+msgstr "noite"
+
+#: inc/mz_schedule.php:313 inc/mz_schedule.php:410 lib/schedule_objects.php:208
+msgid "afternoon"
+msgstr "tarde"
+
+#: inc/mz_schedule.php:376
+msgid "Error getting classes. Try re-loading the page."
+msgstr "Erro ao carregar as aulas. Tente recarregar a página."
+
+#: inc/mz_schedule.php:408
+msgid "by teacher, class type"
+msgstr "por instrutor, tipo de aula "
+
+#: inc/mz_schedule.php:412
+msgid "Filter"
+msgstr "Filtrar"
+
+#: inc/mz_schedule.php:413
+msgid "All Locations"
+msgstr "Todos os Locais"
+
+#: lib/functions.php:50
+msgid "Username"
+msgstr "Username"
+
+#: lib/functions.php:51
+msgid "Password"
+msgstr "Senha"
+
+#: lib/functions.php:52
+msgid "Login"
+msgstr "Entrar"
+
+#: lib/functions.php:53
+msgid "Log Out"
+msgstr "Encerrar sessão"
+
+#: lib/functions.php:54
+msgid "Sign Up"
+msgstr "Inscrever-se"
+
+#: lib/functions.php:55
+msgid "Log in to Sign up"
+msgstr "Faça login para se inscrever"
+
+#: lib/functions.php:56 lib/schedule_objects.php:58
+msgid "Manage on MindBody Site"
+msgstr "Administrar no site do mindbody"
+
+#: lib/functions.php:57
+msgid "login"
+msgstr "Entrar"
+
+#: lib/functions.php:58
+msgid "logout"
+msgstr "Sair"
+
+#: lib/functions.php:59
+msgid "signup"
+msgstr "Registrar-se"
+
+#: lib/functions.php:60
+msgid "create-account"
+msgstr "Criar login"
+
+#: lib/functions.php:61
+msgid "or"
+msgstr "ou"
+
+#: lib/functions.php:63 mZ-mindbody-api.php:379
+msgid "day"
+msgstr "día"
+
+#: lib/functions.php:64
+msgid "shortcode"
+msgstr "shortcode (atalho)"
+
+#: lib/functions.php:78
+#, php-format
+msgid "Previous %1$s"
+msgstr "< %1$s Anterior"
+
+#: lib/functions.php:79
+#, php-format
+msgid "Current %1$s"
+msgstr "%1$s atual"
+
+#: lib/functions.php:80
+#, php-format
+msgid "Following %1$s"
+msgstr "Próxima %1$s >"
+
+#: lib/schedule_objects.php:69
+msgid "Cancelled"
+msgstr "Cancelada"
+
+#: lib/schedule_objects.php:119 lib/schedule_objects.php:123
+msgid "Duration:"
+msgstr "Duração:"
+
+#: lib/schedule_objects.php:225
+msgid "Sign-Up for waiting list"
+msgstr "Inscreva-se para lista de espera"
+
+#: lib/sections.php:18
+msgid "MZ Mindbody"
+msgstr "MZ Mindbody"
+
+#: lib/sections.php:29
+msgid "Save Changes"
+msgstr "Salvar alterações"
+
+#: lib/sections.php:68
+msgid "Mindbody Credentials"
+msgstr "Credenciais Mindbody"
+
+#: lib/sections.php:76
+msgid "Source Name: "
+msgstr "Nome da fonte:"
+
+#: lib/sections.php:84
+msgid "Key: "
+msgstr "Chave:"
+
+#: lib/sections.php:92
+msgid "Site ID: "
+msgstr "ID do site:"
+
+#: lib/sections.php:100
+msgid "Event IDs: "
+msgstr "IDs de Eventos:"
+
+#: lib/sections.php:108
+msgid "Event Schedule Duration"
+msgstr "Duração do agendamento do evento"
+
+#: lib/sections.php:123
+msgid "Force Cache Reset "
+msgstr "Forçar atualização de cache"
+
+#: lib/sections.php:131
+msgid "Debug"
+msgstr "Debug"
+
+#: lib/sections.php:150
+msgid "SOAP installed! "
+msgstr "SOAP Instalado!"
+
+#: lib/sections.php:154
+msgid "SOAP is not installed. "
+msgstr "SOAP não está instalado."
+
+#: lib/sections.php:160
+msgid "PEAR installed! "
+msgstr "PEAR instalado!"
+
+#: lib/sections.php:164
+msgid "PEAR is not installed. "
+msgstr "PEAR não está instalado."
+
+#: lib/sections.php:172
+msgid ""
+"MZ Mindbody API requires SOAP and PEAR. Please contact your hosting provider "
+"or enable via your CPANEL of php.ini file."
+msgstr ""
+"MZ Mindbody API requer PEAR e SOAP. Por favor, contacte seu provedor de "
+"hospedagem ou habilite via painel de controle ou arquivo php.ini."
+
+#: lib/sections.php:179
+msgid ""
+"Congratulations. Your server appears to be configured to integrate with "
+"mindbodyonline."
+msgstr ""
+"Parabéns! Seu servidor parece estar configurado para se integrar com "
+"mindbody online."
+
+#: lib/sections.php:195
+msgid "Enter your mindbody credentials below."
+msgstr "Entre com suas credenciais do mindbody abaixo."
+
+#: lib/sections.php:196
+#, php-format
+msgid ""
+"If you do not have them yet, visit the %1$s MindBodyOnline developers "
+"website %2$s \n"
+"\t\tand register for developer credentials."
+msgstr ""
+"Se ainda não tem, acesse %1$s o site MindBody Developers %2$s  \n"
+"\t\t e regitstre-se para credenciais de desenvolvedor."
+
+#: lib/sections.php:199
+msgid "Detailed instructions here"
+msgstr "Instruções detalhadas aqui"
+
+#: lib/sections.php:202
+msgid "Add to page or post with shortcode:"
+msgstr "Adicionar a uma página ou post com o código:"
+
+#: lib/sections.php:207
+msgid "-99 is the MBO sandbox/testing account"
+msgstr "-99 é a conta de testes/sandbox do MBO"
+
+#: lib/sections.php:209
+msgid "Grid and Filter can be added like this:"
+msgstr "Grade e filtro podem ser adicionados assim:"
+
+#: lib/sections.php:216
+msgid ""
+"To display staff page as a responsive gallery of images with pop-up "
+"biographies, use "
+msgstr ""
+"Para exibir a página pessoal como uma responsava Galeria de imagens com "
+"biografias de pop-up, use"
+
+#: lib/sections.php:220
+msgid "To remove hide any of the following elements from grid calendar:"
+msgstr "Para ocultar algum dos elementos do calendário de grade:"
+
+#: lib/sections.php:225
+msgid "Additional shortcodes:"
+msgstr "Shortcodes adicionais:"
+
+#: lib/sections.php:229
+msgid ""
+"!!! In order for these to work correctly, the permalinks for those pages "
+"need to be:"
+msgstr ""
+"¡¡¡ Em ordem para que estes funcionem corretamente, os permalinks para essas "
+"páginas precisam ser:"
+
+#: lib/sections.php:239
+msgid "Contact"
+msgstr "Contato"
+
+#: lib/sections.php:242
+#, php-format
+msgid ""
+"Email welcome, but please also post in the %1$s support forum %2$s for the "
+"benefit of others."
+msgstr ""
+"Emails são bem vindos, mas por favor poste também no %1$s forum de suporte "
+"%2$s para beneficiar os outros. foro de soporte para el beneficio de otros."
+
+#: lib/sections.php:246
+#, php-format
+msgid "%1$s Small donations %2$s and %3$s reviews %4$s welcome."
+msgstr "%1$s Pequenas doações %2$s e %3$s comentários %4$s são bem vindos."
+
+#: lib/sections.php:256
+msgid "News"
+msgstr "Notícias"
+
+#: lib/sections.php:257
+msgid "Now supports multiple locations and MBO accounts."
+msgstr "Agora com suporte a mútiplos endereços e contas do MBO."
+
+#: lib/sections.php:260
+msgid ""
+"Customization requests invited, and there's an ADVANCED VERSION of the "
+"plugin which integrates MBO class registration without leaving the WP site."
+msgstr ""
+"Pedidos de customização são bem vindos, e há uma VERSÃO AVANÇADA do plugin "
+"que integra agendamento de aula sem sair o seu site."
+
+#: lib/sections.php:270
+#, php-format
+msgid ""
+"Once credentials have been set and activated, look for %1$s in the \n"
+"\t  GetClassesResponse box below to confirm settings are correct."
+msgstr ""
+"Assim que as credenciais forem configuradas e ativadas, procure por %1$s na "
+"caixa GetClassesResponse abaixo para confirmar que as configurações estão "
+"corretas."
+
+#: lib/sections.php:285 lib/sections.php:294 lib/sections.php:303
+#: lib/sections.php:312 lib/sections.php:320
+msgid "Option Not Set"
+msgstr "Opção não configurada"
+
+#: lib/sections.php:286
+msgid "YOUR SOURCE NAME"
+msgstr "NOME DA SUA FONTE"
+
+#: lib/sections.php:295
+msgid "YOUR MINDBODY PASSWORD"
+msgstr "SUA SENHA DO MINDBODY"
+
+#: lib/sections.php:304
+msgid "YOUR SITE ID"
+msgstr "SEU ID DO SITE"
+
+#: lib/sections.php:313
+msgid "Event Category IDs"
+msgstr "IDs de Categorias de Eventos"
+
+#: lib/sections.php:327
+msgid "Having this checked will allow you to see immediate changes in MBO"
+msgstr ""
+"Habilitar essa opção permite que veja as modificações imediatas no Mindbody."
+
+#: lib/sections.php:329
+msgid "but may end up costing more in API transfer fees."
+msgstr "mas pode acabar custando mais transferências de dados da API."
+
+#: lib/sections.php:331
+msgid "Class calendar cache is held for 1 day. Event calendar for 1 hour."
+msgstr "Cache de calendário se mantem por 1 día. Agenda de eventos por 1 hora."
+
+#: mZ-mindbody-api.php:352
+msgid "Display class schedule for current day."
+msgstr "Mostrar horários de aula para hoje."
+
+#: mZ-mindbody-api.php:354
+msgid "Today's MindBody Schedule"
+msgstr "Calendário do Mindbody de hoje"
+
+#: mZ-mindbody-api.php:359
+msgid "Today's Classes"
+msgstr "Aulas de hoje"
+
+#: mZ-mindbody-api.php:379
+msgid "type"
+msgstr "tipo"
+
+#: mZ-mindbody-api.php:421
+msgid "Cannot add to class."
+msgstr "Não é possível adicionar a classe."
+
+#: mZ-mindbody-api.php:427
+msgid "Already registered."
+msgstr "Já registrado."
+
+#: mZ-mindbody-api.php:478
+msgid "Unable to retrieve registrants."
+msgstr "Não é possível recuperar os registrastes"
+
+#: mZ-mindbody-api.php:482
+msgid "No registrants yet."
+msgstr "Ainda não os registrastes."
+
+#. Plugin Name of the plugin/theme
+msgid "mZoo Mindbody Interface - Schedule, Events, Staff Display"
+msgstr "Interface mZoo Mindbody - Agendamentos, Eventos, Exibição de Equipe"
+
+#. Plugin URI of the plugin/theme
+msgid "http://www.mzoo.org/mz-mindbody-wp"
+msgstr "http://www.mzoo.org/mz-mindbody-wp"
+
+#. Description of the plugin/theme
+msgid ""
+"Interface Wordpress with MindbodyOnline data with Bootstrap Responsive "
+"Layout."
+msgstr ""
+"Interface wordpress com dados do MindbodyOnline com Bootstrap e layout "
+"responsivo"
+
+#. Author of the plugin/theme
+msgid "mZoo.org"
+msgstr "mZoo.org"
+
+#. Author URI of the plugin/theme
+msgid "http://www.mZoo.org/"
+msgstr "http://www.mZoo.org/"
+
+#~ msgid ""
+#~ "In order for these to work correctly, the permalinks for those pages need "
+#~ "to be:"
+#~ msgstr ""
+#~ "Para que funcionem corretamente, os permalinks dessas páginas devem ser:"
+
+#~ msgid "MZ Mindbody Credentials"
+#~ msgstr "Credenciais Mindbody"
+
+#~ msgid ""
+#~ "Interface Wordpress with MindbodyOnline data with Bootstrap Responsive "
+#~ "Layout"
+#~ msgstr ""
+#~ "Interface wordpress com dados do MindbodyOnline com Bootstrap e layout "
+#~ "responsivo"
+
+#~ msgid "Previous"
+#~ msgstr "Anteriores"
+
+#~ msgid "Current"
+#~ msgstr "Atual"
+
+#~ msgid "Following"
+#~ msgstr "Próximos"
