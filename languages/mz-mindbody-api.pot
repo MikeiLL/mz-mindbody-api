@@ -1,18 +1,20 @@
 #, fuzzy
 msgid ""
 msgstr ""
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: mZoo Mindbody Interface - Schedule, Events, Staff "
 "Display\n"
-"POT-Creation-Date: 2016-02-29 10:45-0600\n"
-"PO-Revision-Date: 2015-07-23 01:06-0500\n"
+"POT-Creation-Date: 2018-05-29 21:12-0500\n"
+"PO-Revision-Date: 2018-05-29 21:09-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 2.0.6\n"
 "X-Poedit-Basepath: ..\n"
-"X-Poedit-WPHeader: mZ-mindbody-api.php\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: mz-mindbody.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
 "esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
@@ -20,501 +22,434 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: advanced/ajax.php:24 mZ-mindbody-api.php:439
-msgid "Registered via MindBody"
+#: inc/admin/class-admin.php:159
+msgid "Transients cleared. Page reloads will re-set them."
 msgstr ""
 
-#: advanced/ajax.php:25
-msgid "Problem with MindBody Registration"
+#: inc/backend/class-settings-page.php:42
+msgid "Basic Settings"
 msgstr ""
 
-#: advanced/ajax.php:50
-msgid "Error retreiving class details."
+#: inc/backend/class-settings-page.php:50
+msgid "Events"
 msgstr ""
 
-#: advanced/ajax.php:51
-msgid "Registrants"
+#: inc/backend/class-settings-page.php:58
+msgid "Shortcodes"
 msgstr ""
 
-#: advanced/ajax.php:52 inc/mz_schedule.php:22 lib/functions.php:62
-#: lib/schedule_objects.php:110
-msgid "with"
+#: inc/backend/class-settings-page.php:66
+msgid "Advanced"
 msgstr ""
 
-#: inc/mz_events.php:96
-msgid "Day Event Calendar"
+#: inc/backend/class-settings-page.php:76
+msgid "Server Check"
 msgstr ""
 
-#: inc/mz_events.php:146 lib/schedule_objects.php:248
-msgid "Login to Sign-up"
+#: inc/backend/class-settings-page.php:87
+msgid "Enter your mindbody credentials below."
 msgstr ""
 
-#: inc/mz_events.php:158 lib/schedule_objects.php:57
-msgid "Sign-Up"
+#: inc/backend/class-settings-page.php:98
+msgid "Source Name"
 msgstr ""
 
-#: inc/mz_events.php:177
-msgid "No events published this period."
+#: inc/backend/class-settings-page.php:100
+msgid "YOUR SOURCE NAME"
 msgstr ""
 
-#: inc/mz_events.php:189
-#, php-format
-msgid "%1$s Day Event Calendar"
-msgid_plural "%1$s Day Event Calendar"
-msgstr[0] ""
-msgstr[1] ""
-
-#: inc/mz_events.php:193
-msgid "No events published"
-msgstr ""
-
-#: inc/mz_events.php:202
-msgid "Error: MBO Event Type IDs must be set in Admin Panel"
-msgstr ""
-
-#: inc/mz_events.php:204
-msgid "Event"
-msgid_plural "Events"
-msgstr[0] ""
-msgstr[1] ""
-
-#: inc/mz_mbo_clients.php:38
-msgid "Invalid Login"
-msgstr ""
-
-#: inc/mz_mbo_clients.php:58
-msgid "Register with MindBodyOnline"
-msgstr ""
-
-#: inc/mz_mbo_clients.php:77
-msgid "Welcome"
-msgstr ""
-
-#: inc/mz_mbo_clients.php:110
-msgid "Unable to retrieve registrants"
-msgstr ""
-
-#: inc/mz_mbo_clients.php:135
-msgid "User Logged Out."
-msgstr ""
-
-#: inc/mz_mbo_clients.php:153
-msgid "Die Robot Spam!"
-msgstr ""
-
-#: inc/mz_mbo_clients.php:180
-msgid "Congratulations. You are now logged in with your new Mindbody account."
-msgstr ""
-
-#: inc/mz_mbo_clients.php:182
-msgid "Sign-up for some classes."
-msgstr ""
-
-#: inc/mz_mbo_clients.php:219
-msgid "Leave this empty-slash-blank"
-msgstr ""
-
-#: inc/mz_mbo_clients.php:220
-msgid "First Name"
-msgstr ""
-
-#: inc/mz_mbo_clients.php:221
-msgid "Last Name"
-msgstr ""
-
-#: inc/mz_mbo_clients.php:222
-msgid "Sign up"
-msgstr ""
-
-#: inc/mz_schedule.php:82
-msgid "Grid Calendar Incompatible with Single Day Mode!"
-msgstr ""
-
-#: inc/mz_schedule.php:198
-msgid "week"
-msgstr ""
-
-#: inc/mz_schedule.php:199 inc/mz_schedule.php:356 inc/mz_schedule.php:373
-#: lib/functions.php:73
-msgid "Week"
-msgstr ""
-
-#: inc/mz_schedule.php:229
-msgid "Class Name"
-msgstr ""
-
-#: inc/mz_schedule.php:230
-msgid "Instructor"
-msgstr ""
-
-#: inc/mz_schedule.php:231
-msgid "Class Type"
-msgstr ""
-
-#: inc/mz_schedule.php:262
-msgid "at"
-msgstr ""
-
-#: inc/mz_schedule.php:282
-#, php-format
-msgid "Week of %1$s"
-msgstr ""
-
-#: inc/mz_schedule.php:291 lib/functions.php:18
-msgid "Monday"
-msgstr ""
-
-#: inc/mz_schedule.php:292 lib/functions.php:19
-msgid "Tuesday"
-msgstr ""
-
-#: inc/mz_schedule.php:293 lib/functions.php:20
-msgid "Wednesday"
-msgstr ""
-
-#: inc/mz_schedule.php:294 lib/functions.php:21
-msgid "Thursday"
-msgstr ""
-
-#: inc/mz_schedule.php:295 lib/functions.php:22
-msgid "Friday"
-msgstr ""
-
-#: inc/mz_schedule.php:296 lib/functions.php:23
-msgid "Saturday"
-msgstr ""
-
-#: inc/mz_schedule.php:297 lib/functions.php:24
-msgid "Sunday"
-msgstr ""
-
-#: inc/mz_schedule.php:309 inc/mz_schedule.php:409 lib/schedule_objects.php:204
-msgid "morning"
-msgstr ""
-
-#: inc/mz_schedule.php:311 inc/mz_schedule.php:411 lib/schedule_objects.php:206
-msgid "evening"
-msgstr ""
-
-#: inc/mz_schedule.php:313 inc/mz_schedule.php:410 lib/schedule_objects.php:208
-msgid "afternoon"
-msgstr ""
-
-#: inc/mz_schedule.php:376
-msgid "Error getting classes. Try re-loading the page."
-msgstr ""
-
-#: inc/mz_schedule.php:408
-msgid "by teacher, class type"
-msgstr ""
-
-#: inc/mz_schedule.php:412
-msgid "Filter"
-msgstr ""
-
-#: inc/mz_schedule.php:413
-msgid "All Locations"
-msgstr ""
-
-#: lib/functions.php:50
-msgid "Username"
-msgstr ""
-
-#: lib/functions.php:51
+#: inc/backend/class-settings-page.php:110
 msgid "Password"
 msgstr ""
 
-#: lib/functions.php:52
-msgid "Login"
+#: inc/backend/class-settings-page.php:112
+msgid "YOUR MINDBODY PASSWORD"
 msgstr ""
 
-#: lib/functions.php:53
-msgid "Log Out"
+#: inc/backend/class-settings-page.php:122
+msgid "Primary (default) MBO Site ID"
 msgstr ""
 
-#: lib/functions.php:54
-msgid "Sign Up"
+#: inc/backend/class-settings-page.php:124
+msgid "-99"
 msgstr ""
 
-#: lib/functions.php:55
-msgid "Log in to Sign up"
+#: inc/backend/class-settings-page.php:155
+msgid "Debug Output"
 msgstr ""
 
-#: lib/functions.php:56 lib/schedule_objects.php:58
-msgid "Manage on MindBody Site"
+#: inc/backend/class-settings-page.php:166
+msgid "Event IDs"
 msgstr ""
 
-#: lib/functions.php:57
-msgid "login"
+#: inc/backend/class-settings-page.php:168
+msgid "12345, 34, 64"
 msgstr ""
 
-#: lib/functions.php:58
-msgid "logout"
+#: inc/backend/class-settings-page.php:178
+msgid "Event Display Duration"
 msgstr ""
 
-#: lib/functions.php:59
-msgid "signup"
+#: inc/backend/class-settings-page.php:180
+msgid "60"
 msgstr ""
 
-#: lib/functions.php:60
-msgid "create-account"
+#: inc/backend/class-settings-page.php:190
+msgid "Schedule Display"
 msgstr ""
 
-#: lib/functions.php:61
-msgid "or"
+#: inc/backend/class-settings-page.php:201
+msgid "Staff Display"
 msgstr ""
 
-#: lib/functions.php:63 mZ-mindbody-api.php:379
-msgid "day"
+#: inc/backend/class-settings-page.php:212
+msgid "Events Display"
 msgstr ""
 
-#: lib/functions.php:64
-msgid "shortcode"
+#: inc/backend/class-settings-page.php:224
+msgid "Date Format"
 msgstr ""
 
-#: lib/functions.php:78
-#, php-format
-msgid "Previous %1$s"
+#: inc/backend/class-settings-page.php:226
+msgid "l, F j"
 msgstr ""
 
-#: lib/functions.php:79
-#, php-format
-msgid "Current %1$s"
+#: inc/backend/class-settings-page.php:236
+msgid "Time Format"
 msgstr ""
 
-#: lib/functions.php:80
-#, php-format
-msgid "Following %1$s"
+#: inc/backend/class-settings-page.php:238
+msgid "g:i a"
 msgstr ""
 
-#: lib/schedule_objects.php:69
-msgid "Cancelled"
+#: inc/backend/class-settings-page.php:248
+#: inc/backend/class-settings-page.php:371
+msgid "Clear Transients"
 msgstr ""
 
-#: lib/schedule_objects.php:119 lib/schedule_objects.php:123
-msgid "Duration:"
-msgstr ""
-
-#: lib/schedule_objects.php:225
-msgid "Sign-Up for waiting list"
-msgstr ""
-
-#: lib/sections.php:18
-msgid "MZ Mindbody"
-msgstr ""
-
-#: lib/sections.php:29
-msgid "Save Changes"
-msgstr ""
-
-#: lib/sections.php:68
-msgid "Mindbody Credentials"
-msgstr ""
-
-#: lib/sections.php:76
-msgid "Source Name: "
-msgstr ""
-
-#: lib/sections.php:84
-msgid "Key: "
-msgstr ""
-
-#: lib/sections.php:92
-msgid "Site ID: "
-msgstr ""
-
-#: lib/sections.php:100
-msgid "Event IDs: "
-msgstr ""
-
-#: lib/sections.php:108
-msgid "Event Schedule Duration"
-msgstr ""
-
-#: lib/sections.php:123
-msgid "Force Cache Reset "
-msgstr ""
-
-#: lib/sections.php:131
-msgid "Debug"
-msgstr ""
-
-#: lib/sections.php:150
+#: inc/backend/class-settings-page.php:270
 msgid "SOAP installed! "
 msgstr ""
 
-#: lib/sections.php:154
+#: inc/backend/class-settings-page.php:274
 msgid "SOAP is not installed. "
 msgstr ""
 
-#: lib/sections.php:160
+#: inc/backend/class-settings-page.php:281
 msgid "PEAR installed! "
 msgstr ""
 
-#: lib/sections.php:164
+#: inc/backend/class-settings-page.php:285
 msgid "PEAR is not installed. "
 msgstr ""
 
-#: lib/sections.php:172
+#: inc/backend/class-settings-page.php:293
 msgid ""
 "MZ Mindbody API requires SOAP and PEAR. Please contact your hosting provider "
 "or enable via your CPANEL of php.ini file."
 msgstr ""
 
-#: lib/sections.php:179
+#: inc/backend/class-settings-page.php:300
 msgid ""
 "Congratulations. Your server appears to be configured to integrate with "
 "mindbodyonline."
 msgstr ""
 
-#: lib/sections.php:195
-msgid "Enter your mindbody credentials below."
-msgstr ""
-
-#: lib/sections.php:196
+#: inc/backend/class-settings-page.php:308
 #, php-format
 msgid ""
 "If you do not have them yet, visit the %1$s MindBodyOnline developers "
-"website %2$s \n"
-"\t\tand register for developer credentials."
+"website %2$s and register for developer credentials."
 msgstr ""
 
-#: lib/sections.php:199
+#: inc/backend/class-settings-page.php:311
 msgid "Detailed instructions here"
 msgstr ""
 
-#: lib/sections.php:202
-msgid "Add to page or post with shortcode:"
+#: inc/backend/class-settings-page.php:318
+msgid ""
+"Attributes for schedule shortcodes. For boolean attributes use numeral 1 for "
+"true. Lists should be separated with commas"
 msgstr ""
 
-#: lib/sections.php:207
-msgid "-99 is the MBO sandbox/testing account"
+#: inc/backend/class-settings-page.php:320
+msgid "'week' or 'day'. Defaults to 'week'"
 msgstr ""
 
-#: lib/sections.php:209
+#: inc/backend/class-settings-page.php:321
+msgid "(numeric) List of IDs of MBO locations to display"
+msgstr ""
+
+#: inc/backend/class-settings-page.php:322
+msgid "(numeric) Which MBO account to display schedule for"
+msgstr ""
+
+#: inc/backend/class-settings-page.php:323
+msgid "(boolean) Option to show a filter by class type, teacher."
+msgstr ""
+
+#: inc/backend/class-settings-page.php:324
+msgid "(boolean) Display schedule in grid format as opposed to list"
+msgstr ""
+
+#: inc/backend/class-settings-page.php:325
+msgid "(boolean) Allow users to sign in directory from wordpress site"
+msgstr ""
+
+#: inc/backend/class-settings-page.php:326
+msgid ""
+"Remove any of following from display: teacher, signup, duration, session-type"
+msgstr ""
+
+#: inc/backend/class-settings-page.php:327
+msgid ""
+"List of MBO-registered session types to display. (Previously attribute was "
+"called 'class_types'"
+msgstr ""
+
+#: inc/backend/class-settings-page.php:328
+msgid ""
+"(boolean) If true, modal pop-up window will display registrants of class"
+msgstr ""
+
+#: inc/backend/class-settings-page.php:329
+msgid "(boolean) True will hide cancelled classes"
+msgstr ""
+
+#: inc/backend/class-settings-page.php:330
+msgid "(boolean) Display number of registrants in class"
+msgstr ""
+
+#: inc/backend/class-settings-page.php:331
+msgid ""
+"(int) Allow user to select between grid and list view. 1 defaults to "
+"horizontal, 2 to grid."
+msgstr ""
+
+#: inc/backend/class-settings-page.php:332
+msgid " "
+msgstr ""
+
+#: inc/backend/class-settings-page.php:338
 msgid "Grid and Filter can be added like this:"
 msgstr ""
 
-#: lib/sections.php:216
+#: inc/backend/class-settings-page.php:348
+msgid "(int) Which MBO account to display staff for."
+msgstr ""
+
+#: inc/backend/class-settings-page.php:349
+msgid "(boolean) Set to `1` to display as responsive grid."
+msgstr ""
+
+#: inc/backend/class-settings-page.php:351
 msgid ""
 "To display staff page as a responsive gallery of images with pop-up "
 "biographies, use "
 msgstr ""
 
-#: lib/sections.php:220
-msgid "To remove hide any of the following elements from grid calendar:"
+#: inc/backend/class-settings-page.php:360
+msgid "(int) Which MBO account to display events for."
 msgstr ""
 
-#: lib/sections.php:225
-msgid "Additional shortcodes:"
+#: inc/backend/class-settings-page.php:361
+msgid "List of (int) MBO locations to display events for."
 msgstr ""
 
-#: lib/sections.php:229
-msgid ""
-"!!! In order for these to work correctly, the permalinks for those pages "
-"need to be:"
+#: inc/backend/class-settings-page.php:362
+msgid "(boolean) Set to `1` to display events as a list."
 msgstr ""
 
-#: lib/sections.php:239
-msgid "Contact"
+#: inc/backend/class-settings-page.php:363
+msgid "(int) Limit the number of events to display."
 msgstr ""
 
-#: lib/sections.php:242
-#, php-format
-msgid ""
-"Email welcome, but please also post in the %1$s support forum %2$s for the "
-"benefit of others."
+#: inc/backend/class-settings-page.php:364
+msgid "(boolean) Set to `1` to allow users to register directly if logged in."
 msgstr ""
 
-#: lib/sections.php:246
-#, php-format
-msgid "%1$s Small donations %2$s and %3$s reviews %4$s welcome."
+#: inc/backend/class-settings-page.php:365
+msgid "(boolean) Set to `1` to display events for current week only."
 msgstr ""
 
-#: lib/sections.php:256
-msgid "News"
-msgstr ""
-
-#: lib/sections.php:257
-msgid "Now supports multiple locations and MBO accounts."
-msgstr ""
-
-#: lib/sections.php:260
-msgid ""
-"Customization requests invited, and there's an ADVANCED VERSION of the "
-"plugin which integrates MBO class registration without leaving the WP site."
-msgstr ""
-
-#: lib/sections.php:270
+#: inc/backend/class-settings-page.php:378
 #, php-format
 msgid ""
 "Once credentials have been set and activated, look for %1$s in the \n"
-"\t  GetClassesResponse box below to confirm settings are correct."
+"\t                            GetClassesResponse box below to confirm "
+"settings are correct."
 msgstr ""
 
-#: lib/sections.php:285 lib/sections.php:294 lib/sections.php:303
-#: lib/sections.php:312 lib/sections.php:320
-msgid "Option Not Set"
+#: inc/events/class-display.php:109 inc/schedule/class-display.php:224
+#: inc/schedule/class-display.php:398 inc/staff/class-display.php:71
+msgid "Mindbody plugin settings error."
 msgstr ""
 
-#: lib/sections.php:286
-msgid "YOUR SOURCE NAME"
+#: inc/events/class-display.php:115
+msgid "No Events in current cycle"
 msgstr ""
 
-#: lib/sections.php:295
-msgid "YOUR MINDBODY PASSWORD"
+#: inc/frontend/views/grid_schedule.php:38
+#, php-format
+msgid "Week of %1$s"
 msgstr ""
 
-#: lib/sections.php:304
-msgid "YOUR SITE ID"
+#: inc/frontend/views/grid_schedule.php:84 inc/schedule/class-display.php:354
+msgid "with"
 msgstr ""
 
-#: lib/sections.php:313
-msgid "Event Category IDs"
+#: inc/frontend/views/grid_schedule.php:116
+#: inc/frontend/views/horizontal_schedule.php:48
+#: inc/schedule/class-schedule-item.php:479
+msgid "Sign-Up"
 msgstr ""
 
-#: lib/sections.php:327
-msgid "Having this checked will allow you to see immediate changes in MBO"
+#: inc/frontend/views/grid_schedule.php:122
+msgid "Duration:"
 msgstr ""
 
-#: lib/sections.php:329
-msgid "but may end up costing more in API transfer fees."
+#: inc/frontend/views/horizontal_schedule.php:18
+msgid "Error Retrieving Schedule"
 msgstr ""
 
-#: lib/sections.php:331
-msgid "Class calendar cache is held for 1 day. Event calendar for 1 hour."
+#: inc/frontend/views/horizontal_schedule.php:27
+msgid "Class Name"
 msgstr ""
 
-#: mZ-mindbody-api.php:352
-msgid "Display class schedule for current day."
+#: inc/frontend/views/horizontal_schedule.php:31
+msgid "Instructor"
 msgstr ""
 
-#: mZ-mindbody-api.php:354
-msgid "Today's MindBody Schedule"
+#: inc/frontend/views/horizontal_schedule.php:36
+msgid "Class Type"
 msgstr ""
 
-#: mZ-mindbody-api.php:359
-msgid "Today's Classes"
+#: inc/frontend/views/horizontal_schedule.php:113
+msgid "at"
 msgstr ""
 
-#: mZ-mindbody-api.php:379
-msgid "type"
+#: inc/frontend/views/schedule_container.php:7
+msgid "Previous Week"
 msgstr ""
 
-#: mZ-mindbody-api.php:421
-msgid "Cannot add to class."
+#: inc/frontend/views/schedule_container.php:8
+msgid "Following Week"
 msgstr ""
 
-#: mZ-mindbody-api.php:427
-msgid "Already registered."
+#: inc/frontend/views/staff_modal.php:15
+msgid "No biography for this staff member yet."
 msgstr ""
 
-#: mZ-mindbody-api.php:478
+#: inc/libraries/class-wp-osa.php:609
+msgid "Choose File"
+msgstr ""
+
+#: inc/libraries/class-wp-osa.php:630
+msgid "Choose Image"
+msgstr ""
+
+#: inc/schedule/class-display.php:240 inc/schedule/class-display.php:246
+msgid "Grid View"
+msgstr ""
+
+#: inc/schedule/class-display.php:241 inc/schedule/class-display.php:245
+msgid "Horizontal View"
+msgstr ""
+
+#: inc/schedule/class-display.php:276
+msgid "Sunday"
+msgstr ""
+
+#: inc/schedule/class-display.php:277
+msgid "Monday"
+msgstr ""
+
+#: inc/schedule/class-display.php:278
+msgid "Tuesday"
+msgstr ""
+
+#: inc/schedule/class-display.php:279
+msgid "Wednesday"
+msgstr ""
+
+#: inc/schedule/class-display.php:280
+msgid "Thursday"
+msgstr ""
+
+#: inc/schedule/class-display.php:281
+msgid "Friday"
+msgstr ""
+
+#: inc/schedule/class-display.php:282
+msgid "Saturday"
+msgstr ""
+
+#: inc/schedule/class-display.php:358
+msgid "Registrants"
+msgstr ""
+
+#: inc/schedule/class-display.php:359
+msgid "Error retreiving class details."
+msgstr ""
+
+#: inc/schedule/class-display.php:360
+msgid "Sorry but there was an error retrieving the schedule."
+msgstr ""
+
+#: inc/schedule/class-display.php:361
+msgid "(Substitute)"
+msgstr ""
+
+#: inc/schedule/class-display.php:362
+msgid "No biography listed for this staff member."
+msgstr ""
+
+#: inc/schedule/class-display.php:363
+msgid "by teacher, class type"
+msgstr ""
+
+#: inc/schedule/class-display.php:364 inc/schedule/class-schedule-item.php:528
+msgid "morning"
+msgstr ""
+
+#: inc/schedule/class-display.php:365 inc/schedule/class-schedule-item.php:532
+msgid "afternoon"
+msgstr ""
+
+#: inc/schedule/class-display.php:366 inc/schedule/class-schedule-item.php:530
+msgid "evening"
+msgstr ""
+
+#: inc/schedule/class-display.php:367
+msgid "Filter"
+msgstr ""
+
+#: inc/schedule/class-display.php:368
+msgid "All Locations"
+msgstr ""
+
+#: inc/schedule/class-display.php:431
+msgid "Error. Please try again."
+msgstr ""
+
+#: inc/schedule/class-retrieve-registrants.php:78
 msgid "Unable to retrieve registrants."
 msgstr ""
 
-#: mZ-mindbody-api.php:482
+#: inc/schedule/class-retrieve-registrants.php:82
 msgid "No registrants yet."
+msgstr ""
+
+#: inc/schedule/class-schedule-item.php:480
+msgid "Manage on MindBody Site"
+msgstr ""
+
+#: inc/schedule/class-schedule-item.php:490
+msgid "Cancelled"
+msgstr ""
+
+#: tests/test-init.php:22
+msgid "Option Not Set"
 msgstr ""
 
 #. Plugin Name of the plugin/theme
