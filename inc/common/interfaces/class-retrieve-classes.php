@@ -385,7 +385,7 @@ abstract class Retrieve_Classes extends Retrieve {
 
             } else {
                 // Assign the first element of this time slot.
-                $display_time = (date_i18n(Core\Init::$advanced_options['time_format'], strtotime($class['StartDateTime'])));
+                $display_time = (date_i18n(Core\Init::$time_format, strtotime($class['StartDateTime'])));
                 $this->classesByTimeThenDate[$classTime] = array(
                                                                 'display_time' => $display_time,
                                                                 // Add part_of_day for filter as well

@@ -77,11 +77,13 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
                         $class_name_link->set('href', $data->class_modal_link);
                         $class_name_link->set($linkArray);
                         $class_name_link->output();
-                        ?>
+                        ?>&nbsp;
                         <?php
                         if ( !in_array('teacher', $data->hide ) ):
 
-                            _e('with', 'mz-mindbody-api');
+                            _e('with', 'mz-mindbody-api'); ?>
+                        &nbsp;
+                        <?php
 
                             $linkArray = array(
 
