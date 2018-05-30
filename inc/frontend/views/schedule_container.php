@@ -11,7 +11,7 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
 
 <?php //mz_pr($data); ?>
 
-<div id="mzScheduleDisplay" class="">
+<div id="mzScheduleDisplay" class="mz_mbo_schedule">
     <?php
     if ($data->display_type == 'grid' || $data->display_type == 'both'): ?>
     <div id="gridDisplay" class="mz-schedule-display<?php echo $data->grid_class; ?>">

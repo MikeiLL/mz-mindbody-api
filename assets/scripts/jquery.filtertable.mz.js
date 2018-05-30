@@ -98,8 +98,9 @@
                 styled_select = $("<div></div>").attr("class", 'mz_mbo_styled_select');
             selector = $("<select></select>").attr("id", 'location_selector').attr("class", 'mz_mbo_selector');
             selector.append('<option value="0">' + settings.selector + '</option>');
-            $.each(settings.locations, function (i, el) {
-                selector.append('<option value="' + i + '">' + el['name'] + '</option>');
+            locations = JSON.parse(settings.locations);
+            $.each(locations, function (i, el) {
+                selector.append('<option value="' + i + '">' + el.name + '</option>');
             });
             styled_select.append(selector);
             created_filter = true; // was the filter created or chosen from an existing element?

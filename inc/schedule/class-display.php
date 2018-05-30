@@ -345,6 +345,12 @@ class Display extends Interfaces\ShortCode_Script_Loader
 
     public function localizeScript()
     {
+        // Clean out unneeded strings from Locations Dictionary
+        $locations_dictionary = $this->schedule_object->locations_dictionary;
+        foreach($locations_dictionary as $k => $v){
+            unset($locations_dictionary[$k]['link']);
+        }
+
         $protocol = isset($_SERVER["HTTPS"]) ? 'https://' : 'http://';
         $nonce = wp_create_nonce('mz_schedule_display_nonce');
         $params = array(
@@ -366,7 +372,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'quick_3' => __('evening', 'mz-mindbody-api'),
             'label' => __('Filter', 'mz-mindbody-api'),
             'selector' => __('All Locations', 'mz-mindbody-api'),
-            'Locations_dict' => $this->schedule_object->locations_dictionary
+            'Locations_dict' => json_encode($locations_dictionary)
         );
         wp_localize_script('mz_display_schedule_script', 'mz_mindbody_schedule', $params);
     }

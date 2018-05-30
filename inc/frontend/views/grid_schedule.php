@@ -49,7 +49,6 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
     <tbody>
         <?php foreach($data->grid_schedule as $time => $days): ?>
         <tr>
-
             <td><?php echo $days['display_time']; ?><span class="mz_hidden"><?php echo $days['part_of_day']; ?></span></td>
             <?php foreach($days['classes'] as $day_slot): ?>
                 <td><?php $classes = count( $day_slot ); ?>
@@ -77,13 +76,10 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
                         $class_name_link->set('href', $data->class_modal_link);
                         $class_name_link->set($linkArray);
                         $class_name_link->output();
-                        ?>&nbsp;
-                        <?php
+                        ?>&nbsp;<?php
                         if ( !in_array('teacher', $data->hide ) ):
 
-                            _e('with', 'mz-mindbody-api'); ?>
-                        &nbsp;
-                        <?php
+                            _e('with', 'mz-mindbody-api'); ?> <?php
 
                             $linkArray = array(
 
@@ -107,8 +103,7 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
                             $class_name_link->set($linkArray);
                             $class_name_link->output();
                         endif;
-                        ?>
-                        <?php echo $class->displayCancelled; ?>
+                        ?> <?php echo $class->displayCancelled; ?>
                         <br />
                         <?php
                         if ( !in_array('signup', $data->hide ) ):
