@@ -250,9 +250,6 @@ class Display extends Interfaces\ShortCode_Script_Loader
             $this->swap_button_text = 0;
         endif;
 
-        // Add Style with script adder
-        self::addScript();
-
         /*
          *
          * Determine which type(s) of schedule(s) need to be configured
@@ -271,6 +268,9 @@ class Display extends Interfaces\ShortCode_Script_Loader
         if ($this->display_type == 'horizontal' || $this->display_type == 'both'):
             $horizontal_schedule = $this->schedule_object->sort_classes_by_date_then_time();
         endif;
+
+        // Add Style with script adder
+        self::addScript();
 
         $week_names = array(
             __('Sunday', 'mz-mindbody-api'),
@@ -334,7 +334,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
             wp_enqueue_script('mz_display_schedule_script');
 
             if ($this->atts['filter'] == 1):
-                wp_register_script('filterTable', MZ_Mindbody\PLUGIN_NAME_URL . 'dist/scripts/mz_filtertable.js', array('jquery'), null, true);
+                wp_register_script('filterTable', MZ_Mindbody\PLUGIN_NAME_URL . 'dist/scripts/mz_filtertable.js', array('jquery', 'mz_display_schedule_script'), null, true);
                 wp_enqueue_script('filterTable');
             endif;
 
@@ -369,7 +369,6 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'Locations_dict' => $this->schedule_object->locations_dictionary
         );
         wp_localize_script('mz_display_schedule_script', 'mz_mindbody_schedule', $params);
-
     }
 
     /**

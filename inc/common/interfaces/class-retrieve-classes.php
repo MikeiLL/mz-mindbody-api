@@ -469,7 +469,6 @@ abstract class Retrieve_Classes extends Retrieve {
     protected function populate_locations_dictionary($class){
         // We only need to do this once for each location.
         if (count($this->locations_dictionary) === count($this->atts['locations'])) return;
-
         // Build a link TODO use HTML Element Class
         $locationName = $class['Location']['Name'];
         $location_name_css = sanitize_html_class($locationName, 'mz_location_class');

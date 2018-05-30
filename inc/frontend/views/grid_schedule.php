@@ -54,7 +54,7 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
             <?php foreach($days['classes'] as $day_slot): ?>
                 <td><?php $classes = count( $day_slot ); ?>
                 <?php foreach($day_slot as $class): $classes--; ?>
-                    <div class="mz_schedule_table mz_description_holder mz_location_ <?php echo $class->sLoc . ' ' . $class->session_type_css . ' ' . $class->class_name_css; ?>">
+                    <div class="mz_schedule_table mz_description_holder mz_location_<?php echo $class->sLoc . ' ' . $class->session_type_css . ' ' . $class->class_name_css; ?>">
                         <?php
                         $linkArray = array(
                             'data-staffName' => $class->staffName,
