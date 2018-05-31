@@ -238,7 +238,22 @@ class Settings_Page {
                 'default' => __('g:i a', 'mz-mindbody-api')
             )
         );
-        
+
+        // Field: Clear Transients
+        self::$wposa_obj->add_field(
+            'mz_mbo_advanced',
+            array(
+                'id'      => 'class_types',
+                'type'    => 'multicheck',
+                'name'    => __( 'Class Types', 'mz-mindbody-api' ),
+                'desc'    => __('Which types of MBO classes to display', 'mz-mindbody-api'),
+                'options' => array(
+                                    'Enrollment' => 'Enrollment',
+                                    'DropIn' => 'DropIn'
+                                )
+            )
+        );
+
         // Field: Clear Transients
         self::$wposa_obj->add_field(
             'mz_mbo_advanced',

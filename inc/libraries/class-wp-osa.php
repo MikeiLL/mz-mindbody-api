@@ -770,9 +770,11 @@ class WP_OSA {
 						do_settings_sections( $form['id'] );
 						do_action( 'wsa_form_bottom_' . $form['id'], $form );
 						?>
+                        <? if ($form['id'] !== 'mz_mbo_shortcodes'): ?>
 						<div style="padding-left: 10px">
-							<?php submit_button(); ?>
+							<?php submit_button(null, 'primary', 'submit_'.$form['id']); ?>
 						</div>
+                        <?php endif; ?>
 					</form>
 				</div>
 			<?php } ?>

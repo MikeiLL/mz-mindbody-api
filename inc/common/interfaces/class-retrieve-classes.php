@@ -129,13 +129,13 @@ abstract class Retrieve_Classes extends Retrieve {
     /**
      * Holds the native MBO "class type".
      *
-     * $class_type MBO API has native 'Enrollment' and 'DropIn'. 'Enrolment' is a "workdhop". Default: 'Enrollment'
+     * $class_type MBO API has native 'Enrollment' and 'DropIn'. 'Enrolment' is a "workshop". Default: 'Enrollment'
      *
      * @since    2.4.7
      * @access   public
-     * @var      string    $class_type    String containing MBO "class type".
+     * @var      array    $class_types    Array containing MBO "class types" to display.
      */
-    public $class_type;
+    public $class_types;
 
     /**
      * Holds the first date of current results.
@@ -174,7 +174,7 @@ abstract class Retrieve_Classes extends Retrieve {
         $this->atts = $atts;
         $this->time_frame = $this->time_frame();
         $this->locations_dictionary = array();
-        $this->class_type = 'Enrollment';
+        $this->class_types = !empty(Core\Init::$advanced_options['class_types']) ? Core\Init::$advanced_options['class_types'] : array('DropIn');
 
     }
 
@@ -431,8 +431,7 @@ abstract class Retrieve_Classes extends Retrieve {
     protected function filter_class($class){
         if (
             (!in_array($class['Location']['ID'], $this->atts['locations'])) ||
-            // TODO what is this next link all about?
-            ($class['ClassDescription']['Program']['ScheduleType'] == $this->class_type)
+            (!in_array($class['ClassDescription']['Program']['ScheduleType'], $this->class_types))
         ) {
             return false;
         }
