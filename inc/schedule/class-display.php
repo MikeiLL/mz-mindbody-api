@@ -181,7 +181,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'session_types' => '',
             'show_registrants' => 0,
             'calendar_format' => 'horizontal',
-            'class_type' => 'Enrollment',
+            'schedule_type' => null, // allow over-ridding of global setting
             'show_registrants' => 0,
             'hide_cancelled' => 1,
             'registrants_count' => 0,
@@ -199,11 +199,13 @@ class Display extends Interfaces\ShortCode_Script_Loader
         $this->data_target = $show_registrants ? 'registrantModal' : 'mzModal';
         $this->class_modal_link = MZ_Mindbody\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php';
 
-        $session_types = !empty($this->atts['session_types']) ? $this->atts['session_types'] : $this->atts['class_types'];
+        // Support the old 'class_types' shortcode attr
+        $this->atts['session_types'] = !empty($this->atts['class_types']) ? $this->atts['class_types'] : $this->atts['session_types'];
 
         // If set, turn Session/Class Types into an Array and call it session_types
-        if ($session_types !== '') {
-            $this->atts['session_types'] = $this->atts['class_types'] = explode(',', trim($session_types, ' '));
+        if ($this->atts['session_types'] !== '') {
+            if (!is_array($this->atts['session_types'])) // f not already an array
+                $this->atts['session_types'] = explode(',', trim($this->atts['session_types'], ' '));
         } else {
             $this->atts['session_types'] == '';
         }
@@ -269,9 +271,6 @@ class Display extends Interfaces\ShortCode_Script_Loader
             $horizontal_schedule = $this->schedule_object->sort_classes_by_date_then_time();
         endif;
 
-        // Add Style with script adder
-        self::addScript();
-
         $week_names = array(
             __('Sunday', 'mz-mindbody-api'),
             __('Monday', 'mz-mindbody-api'),
@@ -315,6 +314,10 @@ class Display extends Interfaces\ShortCode_Script_Loader
 
         $template_loader->set_template_data($this->template_data);
         $template_loader->get_template_part('schedule_container');
+
+
+        // Add Style with script adder
+        self::addScript();
 
         return ob_get_clean();
     }

@@ -243,10 +243,10 @@ class Settings_Page {
         self::$wposa_obj->add_field(
             'mz_mbo_advanced',
             array(
-                'id'      => 'class_types',
+                'id'      => 'schedule_types',
                 'type'    => 'multicheck',
-                'name'    => __( 'Class Types', 'mz-mindbody-api' ),
-                'desc'    => __('Which types of MBO classes to display', 'mz-mindbody-api'),
+                'name'    => __( 'Schedule Types Types', 'mz-mindbody-api' ),
+                'desc'    => __('Which MBO schedule types to display', 'mz-mindbody-api'),
                 'options' => array(
                                     'Enrollment' => 'Enrollment',
                                     'DropIn' => 'DropIn'

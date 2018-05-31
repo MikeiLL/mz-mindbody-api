@@ -127,15 +127,15 @@ abstract class Retrieve_Classes extends Retrieve {
     public $current_day_offset;
 
     /**
-     * Holds the native MBO "class type".
+     * Holds the native MBO "schedule type".
      *
      * $class_type MBO API has native 'Enrollment' and 'DropIn'. 'Enrolment' is a "workshop". Default: 'Enrollment'
      *
      * @since    2.4.7
      * @access   public
-     * @var      array    $class_types    Array containing MBO "class types" to display.
+     * @var      array    $schedule_types    Array containing MBO "class types" to display.
      */
-    public $class_types;
+    public $schedule_types;
 
     /**
      * Holds the first date of current results.
@@ -174,7 +174,9 @@ abstract class Retrieve_Classes extends Retrieve {
         $this->atts = $atts;
         $this->time_frame = $this->time_frame();
         $this->locations_dictionary = array();
-        $this->class_types = !empty(Core\Init::$advanced_options['class_types']) ? Core\Init::$advanced_options['class_types'] : array('DropIn');
+        $this->schedule_types = !empty(Core\Init::$advanced_options['schedule_types']) ? Core\Init::$advanced_options['schedule_types'] : array('DropIn');
+        // Allow shortcode to override global setting for schedule_types
+        if (!empty($this->atts['schedule_types'])) $this->schedule_types = $this->atts['schedule_types'];
 
     }
 
@@ -431,7 +433,7 @@ abstract class Retrieve_Classes extends Retrieve {
     protected function filter_class($class){
         if (
             (!in_array($class['Location']['ID'], $this->atts['locations'])) ||
-            (!in_array($class['ClassDescription']['Program']['ScheduleType'], $this->class_types))
+            (!in_array($class['ClassDescription']['Program']['ScheduleType'], $this->schedule_types))
         ) {
             return false;
         }
