@@ -95,14 +95,33 @@
                 container = null, // placeholder for the filter field container DOM node
                 quicks = null, // placeholder for the quick list items
                 filter = null, // placeholder for the field field DOM node
-                styled_select = $("<div></div>").attr("class", 'mz_mbo_styled_select');
-            selector = $("<select></select>").attr("id", 'location_selector').attr("class", 'mz_mbo_selector');
-            selector.append('<option value="0">' + settings.selector + '</option>');
-            locations = JSON.parse(settings.locations);
-            $.each(locations, function (i, el) {
-                selector.append('<option value="' + i + '">' + el.name + '</option>');
-            });
-            styled_select.append(selector);
+                styled_select = $("<div></div>").attr("class", 'mz_mbo_styled_select'),
+                locations = JSON.parse(settings.locations);
+            if (locations.lengh >= 2) {
+                selector = $("<select></select>").attr("id", 'location_selector').attr("class", 'mz_mbo_selector');
+                selector.append('<option value="0">' + settings.selector + '</option>');
+
+                $.each(locations, function (i, el) {
+                    selector.append('<option value="' + i + '">' + el.name + '</option>');
+                });
+                styled_select.append(selector);
+
+                selector.bind('change', function () { // bind doFiltering() to click and search events
+                    window.mz_mbo_selectValue = $(this).val();
+                    if ($(this).val() != '0') {
+                        $(".mz_schedule_table").hide(); // hide all the divs in the schedule
+                        $(".mz_location_" + $(this).val()).show();
+                    } else {
+                        $(".mz_schedule_table").show();
+                        Object.keys(settings.locations).forEach(function (value) {
+                            $(".mz_location_" + value).show();
+                        });
+                    }
+                });
+                if ((selector !== container) && (Object.keys(settings.locations).length > 1)) {
+                    container.append(styled_select); // add the selector container to the DOM if it isn't already there
+                }
+            }
             created_filter = true; // was the filter created or chosen from an existing element?
             if (t[0].nodeName === 'TABLE' && tbody.length > 0 && (settings.minRows === 0 || (settings.minRows > 0 && tbody.find('tr').length > settings.minRows)) && !t.prev().hasClass(settings.containerClass)) { // only if object is a table and there's a tbody and at least minRows trs and hasn't already had a filter added
                 if (settings.inputSelector && $(settings.inputSelector).length === 1) { // use a single existing field as the filter input field
@@ -143,18 +162,6 @@
                 if (created_filter) { // add the filter field to the container if it was created by the plugin
                     container.append(filter);
                 }
-                selector.bind('change', function () { // bind doFiltering() to click and search events
-                    window.mz_mbo_selectValue = $(this).val();
-                    if ($(this).val() != '0') {
-                        $(".mz_schedule_table").hide(); // hide all the divs in the schedule
-                        $(".mz_location_" + $(this).val()).show();
-                    } else {
-                        $(".mz_schedule_table").show();
-                        Object.keys(settings.locations).forEach(function (value) {
-                            $(".mz_location_" + value).show();
-                        });
-                    }
-                });
                 if (settings.quickList.length > 0) { // are there any quick list items to add?
                     quicks = settings.quickListGroupTag ? $('<' + settings.quickListGroupTag + ' />') : container;
                     $.each(settings.quickList, function (index, value) { // for each quick list item...
@@ -173,9 +180,6 @@
                         container.append(quicks); // add the quick list groups container to the DOM if it isn't already there
                     }
                 } // if quick list items
-                if ((selector !== container) && (Object.keys(settings.locations).length > 1)) {
-                    container.append(styled_select); // add the selector container to the DOM if it isn't already there
-                }
                 if (created_filter) { // add the filter field and quick list container to just before the table if it was created by the plugin
                     t.before(container);
                 }
