@@ -169,7 +169,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
         $this->atts = shortcode_atts(array(
             'type' => 'week',
             'location' => '', // stop using this eventually, in preference "int, int" format
-            'locations' => '',
+            'locations' => 1,
             'account' => 0,
             'filter' => 0,
             'hide_cancelled' => 0,
@@ -414,7 +414,6 @@ class Display extends Interfaces\ShortCode_Script_Loader
         // Initialize the variables, so won't be un-set:
         $horizontal_schedule = '';
         $grid_schedule = '';
-
         if ($this->display_type == 'grid' || $this->display_type == 'both'):
             ob_start();
             $grid_schedule = $this->schedule_object->sort_classes_by_time_then_date();

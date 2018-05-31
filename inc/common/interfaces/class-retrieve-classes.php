@@ -98,17 +98,6 @@ abstract class Retrieve_Classes extends Retrieve {
     public $locations_dictionary;
 
     /**
-     * Locations array
-     *
-     * Defaults to the number one which is the default MBO location
-     *
-     * @since    2.4.7
-     * @access   public
-     * @var      array $locations
-     */
-    public $locations;
-
-    /**
      * Attributes sent to shortcode.
      *
      * @since    2.4.7
@@ -184,10 +173,9 @@ abstract class Retrieve_Classes extends Retrieve {
         $this->classes = array();
         $this->atts = $atts;
         $this->time_frame = $this->time_frame();
-        $this->locations = array(1);
         $this->locations_dictionary = array();
         $this->class_type = 'Enrollment';
-        
+
     }
 
 
