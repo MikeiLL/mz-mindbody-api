@@ -49,7 +49,8 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
     <tbody>
         <?php foreach($data->grid_schedule as $time => $days): ?>
         <tr>
-            <td><?php echo $days['display_time']; ?><span class="mz_hidden"><?php echo $days['part_of_day']; ?></span></td>
+            <td class="mz_hidden"><?php echo $days['part_of_day']; ?></td>
+            <td><?php echo $days['display_time']; ?></td>
             <?php foreach($days['classes'] as $day_slot): ?>
                 <td><?php $classes = count( $day_slot ); ?>
                 <?php foreach($day_slot as $class): $classes--; ?>
