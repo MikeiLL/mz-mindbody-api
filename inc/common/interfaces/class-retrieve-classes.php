@@ -163,7 +163,9 @@ abstract class Retrieve_Classes extends Retrieve {
      */
     public $current_week_end;
 
-    public function __construct($atts = array('key' => 'val')){
+    public function __construct($atts = array(
+                                'locations' => array(1)
+                                )){
 
         parent::__construct();
         
