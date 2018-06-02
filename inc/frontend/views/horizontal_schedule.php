@@ -41,11 +41,11 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
         <tbody>
         <?php foreach ($classes as $k => $class): ?>
             <tr class="mz_schedule_table mz_description_holder mz_location_<?php echo $class->sLoc . ' ' . $class->session_type_css . ' ' . $class->class_name_css; ?>">
-                <td class="mz_date_display">
+                <td class="mz_date_display" data-time="<?php echo $class->startDateTime; ?>">
                     <?php echo date_i18n($data->time_format, strtotime($class->startDateTime)) . ' - ' . date_i18n($data->time_format, strtotime($class->endDateTime)); ?><br />
                     <span class="mz_hidden mz_time_of_day"><?php echo $class->part_of_day; ?></span>
                     <?php if ( !in_array('signup', $data->hide ) ): ?>
-                    <a class="btn" href="<?php echo $class->mbo_url; ?>" target="_blank"><?php _e('Sign-Up', 'mz-mindbody-api'); ?></a>
+                    <a class="btn btn-primary" href="<?php echo $class->mbo_url; ?>" target="_blank"><?php _e('Sign-Up', 'mz-mindbody-api'); ?></a>
                     <?php endif; ?>
                 </td>
                 <td class="mz_classDetails">

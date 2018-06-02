@@ -227,36 +227,48 @@
             });
         } // if mode button = 1
 
-    function stripe_and_filter() {
-        /*
-         * Filter Table Init
-         *
+        /**
+         * Stripe the Table and if Filter is enabled, init the filter.
          */
-        var stripeTable = function (table) { //stripe the table (jQuery selector)
-            table.find('tr').removeClass('striped').filter(':visible:even').addClass('striped');
-        };
+        function stripe_and_filter() {
+            /*
+             * Filter Table Init
+             *
+             */
+            var stripeTable = function (table) { //stripe the table (jQuery selector)
+                table.find('tr').removeClass('striped').filter(':visible:even').addClass('striped');
+            };
 
-        if ($('table.mz-schedule-filter').length) {
-            $('table.mz-schedule-filter').filterTable({
-                callback: function (term, table) {
-                    stripeTable(table);
-                }, // call the striping after every change to the filter term
-                placeholder: mz_mindbody_schedule.filter_default,
-                highlightClass: 'alt',
-                inputType: 'search',
-                label: mz_mindbody_schedule.label,
-                selector: mz_mindbody_schedule.selector,
-                quickListClass: 'mz_quick_filter',
-                quickList: [mz_mindbody_schedule.quick_1, mz_mindbody_schedule.quick_2, mz_mindbody_schedule.quick_3],
-                locations: mz_mindbody_schedule.Locations_dict
-            });
-        stripeTable($('table.mz-schedule-filter')); //stripe the table for the first time
-        } else {
-            // No filter
-            stripeTable($('table.mz-schedule-table')); //stripe the table for the first time
+            if ($('table.mz-schedule-filter').length) {
+                $('table.mz-schedule-filter').filterTable({
+                    callback: function (term, table) {
+                        stripeTable(table);
+                    }, // call the striping after every change to the filter term
+                    placeholder: mz_mindbody_schedule.filter_default,
+                    highlightClass: 'alt',
+                    inputType: 'search',
+                    label: mz_mindbody_schedule.label,
+                    selector: mz_mindbody_schedule.selector,
+                    quickListClass: 'mz_quick_filter',
+                    quickList: [mz_mindbody_schedule.quick_1, mz_mindbody_schedule.quick_2, mz_mindbody_schedule.quick_3],
+                    locations: mz_mindbody_schedule.Locations_dict
+                });
+                stripeTable($('table.mz-schedule-filter')); //stripe the table for the first time
+            } else {
+                // No filter
+                stripeTable($('table.mz-schedule-table')); //stripe the table for the first time
+            }
+
         }
 
-    }
+        /**
+         * Disable sign-up buttons that occur prior to present time
+         */
+        $('.mz_date_display').each(function(key, value){
+            if (Date.parse(this.dataset.time) < Date.now()){
+                $(this).find('a').addClass('disabled');
+            }
+        });
 
     }); // End document ready
 })(jQuery);
