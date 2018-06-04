@@ -91,6 +91,7 @@
                 staffName = this.getAttribute('data-staffName'),
                 classDescription = decodeURIComponent(this.getAttribute('data-classDescription')),
                 popUpContent = '<h3>' + this.innerHTML + ' ' + mz_mindbody_schedule.staff_preposition + ' ' + staffName + '</h3>';
+            var subText = ($(this).attr("data-sub") !== undefined) ? '<span class="sub-text">' + mz_mindbody_schedule.sub_by_text + '</span>' + ' ' : ' ';
 
             popUpContent += '<div class="mz-staffInfo" id="StaffInfo">' + classDescription + '</div>';
 
@@ -117,6 +118,7 @@
             var classID = $(this).attr("data-classID");
             var nonce = $(this).attr("data-nonce");
             var popUpContent = '<div class="mz-classInfo">';
+            var subText = ($(this).attr("data-sub") !== undefined) ? '<span class="sub-text">' + mz_mindbody_schedule.sub_by_text + '</span>' + ' ' : ' ';
             popUpContent += '<h3>' + className + '</h3>';
             popUpContent += '<h4>' + mz_mindbody_schedule.staff_preposition + ' ' + staffName + '</h4>';
 
