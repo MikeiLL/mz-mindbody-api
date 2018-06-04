@@ -375,7 +375,8 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'quick_3' => __('evening', 'mz-mindbody-api'),
             'label' => __('Filter', 'mz-mindbody-api'),
             'selector' => __('All Locations', 'mz-mindbody-api'),
-            'Locations_dict' => json_encode($locations_dictionary)
+            'Locations_dict' => json_encode($locations_dictionary),
+            'sub_by_text' => __('Sub for', 'mz-mindbody-api')
         );
         wp_localize_script('mz_display_schedule_script', 'mz_mindbody_schedule', $params);
     }
