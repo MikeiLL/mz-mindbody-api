@@ -5,6 +5,7 @@ use MZ_Mindbody\Inc\Core as Core;
 use MZ_Mindbody\Inc\Libraries as Libraries;
 use MZ_Mindbody\Inc\Schedule as Schedule;
 use MZ_Mindbody as NS;
+use MZ_Mindbody\Inc\Libraries\Rarst\WordPress\DateTime as Datetime;
 
 /*
  * Class that is extended for Schedule Display Shortcode(s)
@@ -163,6 +164,16 @@ abstract class Retrieve_Classes extends Retrieve {
      */
     public $current_week_end;
 
+    /**
+     * Whether or not the staff member associated with this event is a substitute.
+     *
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      boolean    $current_week_end    Datetime containing start of week requested.
+     */
+    public $is_substitute;
+
     public function __construct($atts = array(
                                 'locations' => array(1)
                                 )){
@@ -179,6 +190,7 @@ abstract class Retrieve_Classes extends Retrieve {
         $this->schedule_types = !empty(Core\Init::$advanced_options['schedule_types']) ? Core\Init::$advanced_options['schedule_types'] : array('DropIn');
         // Allow shortcode to override global setting for schedule_types
         if (!empty($this->atts['schedule_types'])) $this->schedule_types = $this->atts['schedule_types'];
+        $this->is_substitute = $class['Substitute'];
 
     }
 
