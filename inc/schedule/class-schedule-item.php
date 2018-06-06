@@ -453,6 +453,16 @@ class Schedule_Item {
     public $class_duration;
 
     /**
+     * Whether or not the staff member associated with this event is a substitute.
+     *
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      boolean    $current_week_end    Datetime containing start of week requested.
+     */
+    public $is_substitute;
+
+    /**
      * Populate attributes with data from MBO
      *
      * @since 2.4.7
@@ -488,6 +498,7 @@ class Schedule_Item {
         $this->part_of_day = $this->part_of_day();
         $this->class_duration = $this->get_schedule_event_duration();
         $this->dislayCancelled = ($schedule_item['IsCanceled'] == 1) ? '<div class="mz_cancelled_class">' . __('Cancelled', 'mz-mindbody-api') . '</div>' : '';
+        $this->is_substitute = $schedule_item['Substitute'];
     }
 
     /**
