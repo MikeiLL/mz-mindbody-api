@@ -2,9 +2,11 @@
 
 namespace MZ_Mindbody\Inc\Backend;
 
+use MZ_Mindbody;
 use MZ_Mindbody\Inc\Core as Core;
 use MZ_Mindbody\Inc\Common as Common;
 use MZ_Mindbody\Inc\Libraries as Libraries;
+use MZ_Mindbody\Inc\Schedule as Schedule;
 
 /**
  * This file contains the class which holds all the actions and methods to create the admin dashboard sections
@@ -246,7 +248,7 @@ class Settings_Page {
                 'id'      => 'schedule_types',
                 'type'    => 'multicheck',
                 'name'    => __( 'Schedule Types Types', 'mz-mindbody-api' ),
-                'desc'    => __('Which MBO schedule types to display', 'mz-mindbody-api'),
+                'desc'    => __('Which MBO schedule types to display in "schedule" (defaults to Enrollment.)', 'mz-mindbody-api'),
                 'options' => array(
                                     'Enrollment' => 'Enrollment',
                                     'DropIn' => 'DropIn'
@@ -262,6 +264,29 @@ class Settings_Page {
                 'type'    => 'html',
                 'name'    => __( 'Clear Transients', 'mz-mindbody-api' ),
                 'desc'    => $this->clear_transients()
+            )
+        );
+
+
+        // Field: Display Substitute Status
+        self::$wposa_obj->add_field(
+            'mz_mbo_advanced',
+            array(
+                'id'      => 'elect_display_substitutes',
+                'type'    => 'checkbox',
+                'name'    => __( 'Display Class Sub Information', 'mz-mindbody-api' ),
+                'desc'    => __( 'When checked, schedule display will contain information about class instructor substitution.', 'mz-mindbody-api' )
+            )
+        );
+
+        // Field: Regenerate Class Owners
+        self::$wposa_obj->add_field(
+            'mz_mbo_advanced',
+            array(
+                'id'      => 'reset_class_owners',
+                'type'    => 'html',
+                'name'    => __( 'Reset Class "Owners"', 'mz-mindbody-api' ),
+                'desc'    => $this->reset_class_owners()
             )
         );
 
@@ -384,6 +409,16 @@ class Settings_Page {
 
     private function clear_transients(){
         $return = '<a href="#" class="button" id="mzClearTransients">' . __('Clear Transients', 'mz-mindbody-api') . '</a>';
+        return $return;
+    }
+
+    private function reset_class_owners(){
+
+        $return .= '<a href="#" class="class_owners button">' . __('Reset Class Owners', 'mz-mindbody-api') . '</a>';
+        $return .= sprintf(__('<p>This is the matrix of which instructors %1$s "own" classes (MBO API doesn\'t tell us.) It is automatically regenerated daily with a cron job. 
+                                You can see what it looks like by pressing this button and viewing output in the browser console.</p>',  'mz-mindbody-api'),
+            '<em>probably</em>');
+
         return $return;
     }
 

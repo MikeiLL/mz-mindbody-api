@@ -143,13 +143,6 @@ class Init
         $this->plugin_basename = NS\PLUGIN_BASENAME;
         $this->plugin_text_domain = NS\PLUGIN_TEXT_DOMAIN;
 
-        $this->load_dependencies();
-        $this->set_locale();
-        $this->define_admin_hooks();
-        $this->define_public_hooks();
-        $this->register_shortcodes();
-        $this->add_settings_page();
-
         self::$basic_options = get_option('mz_mbo_basic', 'Error: No Options');
         self::$events_options = get_option('mz_mbo_events');
         self::$advanced_options = get_option('mz_mbo_advanced');
@@ -158,6 +151,13 @@ class Init
         self::$date_format = empty(self::$advanced_options['date_format']) ? get_option('date_format') : self::$advanced_options['date_format'];
         self::$time_format = empty(self::$advanced_options['time_format']) ? get_option('time_format') : self::$advanced_options['time_format'];
         self::$start_of_week = get_option('start_of_week');
+
+        $this->load_dependencies();
+        $this->set_locale();
+        $this->define_admin_hooks();
+        $this->define_public_hooks();
+        $this->register_shortcodes();
+        $this->add_settings_page();
     }
 
     /**
@@ -208,6 +208,14 @@ class Init
         $this->loader->add_action('plugins_loaded', $plugin_admin, 'check_version');
 
 
+        if (self::$advanced_options['elect_display_substitutes'] == 'on') {
+            // Create the "Class Owners" transient
+            add_action('create_class_owners_transient', array($class_owners_object, 'deduce_class_owners'));
+            // We delay it just in case because of only one MBO call at a time being allowed.
+            $three_seconds_from_now = time() + 3000;
+            wp_schedule_event($three_seconds_from_now, 'daily', 'create_class_owners_transient');
+        }
+        
         /*
          * Additional Hooks go here
          *
@@ -234,6 +242,7 @@ class Init
         $admin_object = new Admin\Admin($this->get_plugin_name(), $this->get_version(), $this->get_plugin_text_domain());
         $schedule_object = new Schedule\Display;
         $registrant_object = new Schedule\Retrieve_Registrants;
+        $class_owners_object = new Schedule\Retrieve_Class_Owners;
         $staff_object = new Staff\Display;
 
 
@@ -248,6 +257,10 @@ class Init
         // Start Ajax Get Registrants
         $this->loader->add_action('wp_ajax_nopriv_mz_mbo_get_registrants', $registrant_object, 'get_registrants');
         $this->loader->add_action('wp_ajax_mz_mbo_get_registrants', $registrant_object, 'get_registrants');
+
+        // Start Ajax Retrieve Class Owners
+        $this->loader->add_action('wp_ajax_nopriv_mz_deduce_class_owners', $class_owners_object, 'deduce_class_owners');
+        $this->loader->add_action('wp_ajax_mz_deduce_class_owners', $class_owners_object, 'deduce_class_owners');
 
         // Start Ajax Get Staff
         $this->loader->add_action('wp_ajax_nopriv_mz_mbo_get_staff', $staff_object, 'get_staff_modal');

@@ -100,6 +100,7 @@ class Admin {
         
         $params = array(
             'ajaxurl' => admin_url( 'admin-ajax.php', $protocol ),
+            'nonce' => $nonce
             );
             
         wp_localize_script( 'mz_mbo_admin_script', 'mz_mindbody_schedule', $params);
@@ -152,7 +153,9 @@ class Admin {
      * @since 2.4.7
      */
     public function clear_plugin_transients () {
-    
+
+        check_ajax_referer($_REQUEST['nonce'], "mz_admin_nonce", false);
+
         global $wpdb;
         $wpdb->query( "DELETE FROM `$wpdb->options` WHERE `option_name` LIKE '%transient_mz_mindbody%'" );
         $result['type'] = "success";
