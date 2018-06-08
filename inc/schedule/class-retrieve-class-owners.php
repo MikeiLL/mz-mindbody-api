@@ -119,7 +119,7 @@ class Retrieve_Class_Owners extends Interfaces\Retrieve_Classes {
 
                 $class_description_substring = implode(" ", array_splice($class_description_array, 0, 5));
 
-                $class_owners[$class['ID']] = array(
+                $temp = array(
                     'class_name' => strip_tags($class['ClassDescription']['Name']),
                     'class_description' => $class_description_substring,
                     'class_owner' => strip_tags($class['Staff']['Name']),
@@ -130,6 +130,12 @@ class Retrieve_Class_Owners extends Interfaces\Retrieve_Classes {
                     'day' => $day_of_class
                 );
 
+                foreach ( $class_owners as $owner ):
+                    if ( count( array_diff($owner, $temp) ) === 0 ):
+                        continue 2;
+                    endif;
+                endforeach;
+                $class_owners[] = $temp;
             endforeach;
         endforeach;
 
@@ -142,7 +148,5 @@ class Retrieve_Class_Owners extends Interfaces\Retrieve_Classes {
             return $class_owners;
         endif;
     }
-
-
 
 }

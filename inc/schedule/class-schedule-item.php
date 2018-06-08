@@ -463,6 +463,16 @@ class Schedule_Item {
     public $is_substitute;
 
     /**
+     * Whether or not the staff member associated with this event is a substitute.
+     *
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      object    $sub_details    Instance of HTML class.
+     */
+    public $sub_details;
+
+    /**
      * Populate attributes with data from MBO
      *
      * @since 2.4.7
@@ -499,6 +509,11 @@ class Schedule_Item {
         $this->class_duration = $this->get_schedule_event_duration();
         $this->dislayCancelled = ($schedule_item['IsCanceled'] == 1) ? '<div class="mz_cancelled_class">' . __('Cancelled', 'mz-mindbody-api') . '</div>' : '';
         $this->is_substitute = $schedule_item['Substitute'];
+        if (Core\Init::$advanced_options['elect_display_substitutes'] == 'on'):
+            if ($this->is_substitute === true):
+
+            endif;
+        endif;
     }
 
     /**

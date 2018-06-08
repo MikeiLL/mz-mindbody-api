@@ -215,7 +215,7 @@ class Init
             $three_seconds_from_now = time() + 3000;
             wp_schedule_event($three_seconds_from_now, 'daily', 'create_class_owners_transient');
         }
-        
+
         /*
          * Additional Hooks go here
          *

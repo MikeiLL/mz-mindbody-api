@@ -100,7 +100,8 @@ class Admin {
         
         $params = array(
             'ajaxurl' => admin_url( 'admin-ajax.php', $protocol ),
-            'nonce' => $nonce
+            'nonce' => $nonce,
+            'spinner' => site_url('/wp-includes/js/thickbox/loadingAnimation.gif')
             );
             
         wp_localize_script( 'mz_mbo_admin_script', 'mz_mindbody_schedule', $params);
