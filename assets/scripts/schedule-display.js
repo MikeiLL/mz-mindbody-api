@@ -260,20 +260,20 @@
                 // No filter
                 stripeTable($('table.mz-schedule-table')); //stripe the table for the first time
             }
+            
+            /**
+             * Disable sign-up buttons that occur prior to present time
+             */
+            $('.mz_date_display').each(function(key, value){
+                if(this.dataset.time){
+                    // Get rid of the T and replace - with / for Safari
+                    if (Date.parse(this.dataset.time.replace(/-/g, '/').replace(/T/g, ' ')) < Date.now()) {
+                        $(this).find('a').addClass('disabled');
+                    }
+                }
+            });
 
         }
-
-        /**
-         * Disable sign-up buttons that occur prior to present time
-         */
-        $('.mz_date_display').each(function(key, value){
-            if(this.dataset.time){
-                // Get rid of the T and replace - with / for Safari
-                if (Date.parse(this.dataset.time.replace(/-/g, '/').replace(/T/g, ' ')) < Date.now()) {
-                    $(this).find('a').addClass('disabled');
-                }
-            }
-        });
 
     }); // End document ready
 })(jQuery);
