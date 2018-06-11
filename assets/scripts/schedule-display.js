@@ -267,8 +267,11 @@
          * Disable sign-up buttons that occur prior to present time
          */
         $('.mz_date_display').each(function(key, value){
-            if (Date.parse(this.dataset.time) < Date.now()){
-                $(this).find('a').addClass('disabled');
+            if(this.dataset.time){
+                // Get rid of the T and replace - with / for Safari
+                if (Date.parse(this.dataset.time.replace(/-/g, '/').replace(/T/g, ' ')) < Date.now()) {
+                    $(this).find('a').addClass('disabled');
+                }
             }
         });
 
