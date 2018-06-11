@@ -1,8 +1,11 @@
 <?php
 namespace MZ_Mindbody\Inc\Schedule;
 
+use MZ_Mindbody;
 use MZ_Mindbody\Inc\Core as Core;
+use MZ_Mindbody\Inc\Libraries\HTML_Element;
 use MZ_Mindbody\Inc\Libraries\Rarst\WordPress\DateTime as DateTime;
+use MZ_Mindbody\Inc\Libraries as Libraries;
 
 /*
  * Class that holds and formats a single item from MBO API Schedule
@@ -115,7 +118,7 @@ class Schedule_Item {
     public $classDescription;
 
     /**
-     * 
+     * Returned image string from MBO
      *
      * @since    2.4.7
      * @access   public
@@ -482,6 +485,7 @@ class Schedule_Item {
     public function __construct($schedule_item) {
 
         $this->className = isset($schedule_item['ClassDescription']['Name']) ? $schedule_item['ClassDescription']['Name']: '';
+        $this->classImage = isset($schedule_item['ClassDescription']['ImageURL']) ? $schedule_item['ClassDescription']['ImageURL']: '';
         $this->startDateTime = $schedule_item['StartDateTime'];
         $this->endDateTime = $schedule_item['EndDateTime'];
         $this->sessionTypeName = isset($schedule_item['ClassDescription']['SessionType']['Name']) ? $schedule_item['ClassDescription']['SessionType']['Name'] : '';
@@ -511,10 +515,45 @@ class Schedule_Item {
         $this->is_substitute = $schedule_item['Substitute'];
         if (Core\Init::$advanced_options['elect_display_substitutes'] == 'on'):
             if ($this->is_substitute === true):
-
+                $owners = new Retrieve_Class_Owners;
+                $owner = $owners->find_class_owner($schedule_item);
+                if ($owner !== false){
+                    $this->sub_details = $owner['class_owner'];
+                }
             endif;
         endif;
+        // $this->class_name_link = $this->class_name_link_maker();
     }
+
+    /**
+     * Build the Class Name link object
+     *
+     * @return HTML_Element anchor tag.
+     */
+    //public function class_name_link_maker(){
+//
+    //    $linkArray = array(
+    //        'data-staffName' => $this->staffName,
+    //        'data-className' => $this->className,
+    //        'data-classDescription' => rawUrlEncode($this->classDescription),
+    //        'class' => 'modal-toggle mz_get_registrants ' . sanitize_html_class($this->className, 'mz_class_name'),
+    //        'text' => $this->className,
+    //        'data-target' => $this->data_target
+    //    );
+//
+    //    if (Retrieve_Classes::$atts['show_registrants'] == 1) {
+    //        $get_registrants_nonce = wp_create_nonce('mz_MBO_get_registrants_nonce');
+    //        $linkArray['data-nonce'] = $get_registrants_nonce;
+    //        $linkArray['data-classID'] = $this->class_instance_ID;
+    //    }
+    //    if ($class->staffImage != ''):
+    //        $linkArray['data-staffImage'] = $this->staffImage;
+    //    endif;
+    //    $class_name_link = new Libraries\HTML_Element('a');
+    //    $class_name_link->set('href', MZ_Mindbody\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php');
+    //    return $class_name_link->set($linkArray);
+//
+    //}
 
     /**
      * Get Day Number

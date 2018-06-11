@@ -77,12 +77,6 @@
                     alert('Something went wrong.');
                 });
 
-            //var t = this.title || this.innerHTML || this.href;
-
-            //tb_show(t, 'admin-ajax.php?action=mz_deduce_class_owners');
-
-            //this.blur();
-
             return false;
 
         });

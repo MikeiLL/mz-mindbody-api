@@ -22,6 +22,9 @@ class Retrieve_Class_Owners extends Interfaces\Retrieve_Classes {
 		$end_time = new \Datetime( date_i18n('Y-m-d', current_time( 'timestamp' )) );
         $di = new \DateInterval('P4W');
         $end_time->add($di);
+        // Now let's go four weeks previous as well.
+        $di->invert = 1;
+        $start_time->add($di);
 
 		return array('StartDateTime'=> $start_time->format('Y-m-d'), 'EndDateTime'=> $end_time->format('Y-m-d'));
 	}
@@ -84,57 +87,47 @@ class Retrieve_Class_Owners extends Interfaces\Retrieve_Classes {
 
                 $class_count++;
 
-                // Initialize array
-                $day_of_class = array();
+                // If already a substitute, continue
+                if ( $class['Substitute'] == '1' ) {
+                    continue;
+                }
 
-                $classStartTime = new \DateTime($class['StartTime'], Core\Init::$timezone);
+                $classStartTime = new \DateTime($class['StartDateTime'], Core\Init::$timezone);
 
-                if (isset($class['DaySunday']) && ($class['DaySunday'] == 1)):
-                    $day_of_class['Sunday'] = 1;
-                endif;
-                if (isset($class['DayMonday']) && ($class['DayMonday'] == 1)):
-                    $day_of_class['Monday'] = 1;
-                endif;
-                if (isset($class['DayTuesday']) && ($class['DayTuesday'] == 1)):
-                    $day_of_class['Tuesday'] = 1;
-                endif;
-                if (isset($class['DayWednesday']) && ($class['DayWednesday'] == 1)):
-                    $day_of_class['Wednesday'] = 1;
-                endif;
-                if (isset($class['DayThursday']) && ($class['DayThursday'] == 1)):
-                    $day_of_class['Thursday'] = 1;
-                endif;
-                if (isset($class['DayFriday']) && ($class['DayFriday'] == 1)):
-                    $day_of_class['Friday'] = 1;
-                endif;
-                if (isset($class['DaySaturday']) && ($class['DaySaturday'] == 1)):
-                    $day_of_class['Saturday'] = 1;
-                endif;
+                $day_of_class = $classStartTime->format('l');
 
                 $class_image = isset($class['ClassDescription']['ImageURL']) ? $class['ClassDescription']['ImageURL'] : '';
 
                 $image_path_array = explode('?imageversion=', $class_image);
 
-                $class_description_array = explode(" ", $class['ClassDescription']['Description']);
-
-                $class_description_substring = implode(" ", array_splice($class_description_array, 0, 5));
+                $class_description_substring = substr($class['ClassDescription']['Description'], 0, 55);
 
                 $temp = array(
                     'class_name' => strip_tags($class['ClassDescription']['Name']),
                     'class_description' => $class_description_substring,
-                    'class_owner' => strip_tags($class['Staff']['Name']),
-                    'class_owner_id' => strip_tags($class['Staff']['ID']),
                     'image_url' => array_shift($image_path_array),
-                    'time' => $classStartTime->format('H:i'),
+                    'time' => $classStartTime->format('g:ia'),
                     'location' => $class['Location']['ID'],
-                    'day' => $day_of_class
+                    'day' => $day_of_class,
+                    'class_owner' => strip_tags($class['Staff']['Name']),
+                    'class_owner_id' => strip_tags($class['Staff']['ID'])
                 );
 
+                // Loop through the entire array, and sub-array and if there's already a match, do nothing
                 foreach ( $class_owners as $owner ):
-                    if ( count( array_diff($owner, $temp) ) === 0 ):
+                    $diff = array_diff($owner, $temp);
+                    if ( count( $diff ) === 0 ):
+                        // There's already one like this
                         continue 2;
                     endif;
+                    // DEBUG: Check to see if this is a class which matches in all but staff.
+                    // $keys = array_keys($diff);
+                    // if ( $keys[0] ==  'class_owner' && $keys[1] ==  'class_owner_id'):
+                    //     return array($owner, $temp);
+                    // endif;
                 endforeach;
+
+                // If there isn't already a match add this item to the array.
                 $class_owners[] = $temp;
             endforeach;
         endforeach;
@@ -144,9 +137,65 @@ class Retrieve_Class_Owners extends Interfaces\Retrieve_Classes {
 
         // mz_pr(array_shift($class_owners));
         if($message == 'message'):
-            echo __('Classes and teachers as regularly scheduled reloaded.', 'mz-mindbody-api');
             return $class_owners;
         endif;
+    }
+
+    /**
+     * Find Class Owner
+     *
+     * Compare Class against each "owner" in $class_owners and return first match.
+     */
+    public function find_class_owner($class){
+
+        // Create an object that will be compared against the $class_owners matrix
+
+        $classStartTime = new \DateTime($class['StartDateTime'], Core\Init::$timezone);
+
+        $day_of_class = $classStartTime->format('l');
+
+        $class_image = isset($class['ClassDescription']['ImageURL']) ? $class['ClassDescription']['ImageURL'] : '';
+
+        $image_path_array = explode('?imageversion=', $class_image);
+
+        $class_description_substring = substr($class['ClassDescription']['Description'], 0, 55);
+
+        $temp = array(
+            'class_name' => strip_tags($class['ClassDescription']['Name']),
+            'class_description' => $class_description_substring,
+            'image_url' => array_shift($image_path_array),
+            'time' => $classStartTime->format('g:ia'),
+            'location' => $class['Location']['ID'],
+            'day' => $day_of_class,
+            'class_owner' => strip_tags($class['Staff']['Name']),
+            'class_owner_id' => strip_tags($class['Staff']['ID'])
+        );
+
+        // Fetch the Class_Owners transient and loop through it 'till we find a match
+        if ( $class_owners = get_transient( 'mz_class_owners' ) ):
+            foreach ($class_owners as $owner):
+                // If the only difference is the instructor, we have a match
+                $diff = array_diff($owner, $temp);
+                /*
+                 * Check to see if this is a class which matches in all but staff.
+                 * This works because class_owner and class_owner_id are the last
+                 * two items in the $owner array. So if they are first in $diff, we know
+                 * all the other keys matched.
+                 */
+                $keys = array_keys($diff);
+                if ( $keys[0] ==  'class_owner' && $keys[1] ==  'class_owner_id'):
+                    return $owner;
+                endif;
+            endforeach;
+        else:
+            // Couldn't fetch the transient, so generate it now
+            $this->populate_regularly_scheduled_classes();
+            // And run this again.
+            return $this->find_class_owner($class);
+        endif;
+
+        // If we didn't find a likely "owner" return false.
+        return false;
     }
 
 }

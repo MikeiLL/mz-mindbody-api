@@ -414,7 +414,7 @@ class Settings_Page {
 
     private function reset_class_owners(){
 
-        $return .= '<a href="#" class="class_owners button">' . __('Reset Class Owners', 'mz-mindbody-api') . '</a>';
+        $return = '<a href="#" class="class_owners button">' . __('Reset Class Owners', 'mz-mindbody-api') . '</a>';
         $return .= sprintf(__('<p>This is the matrix of which instructors %1$s "own" classes (MBO API doesn\'t tell us.) It is automatically regenerated daily with a cron job. 
                                 You can see what it looks like by pressing this button and viewing output in the browser console.</p>',  'mz-mindbody-api'),
             '<em>probably</em>');

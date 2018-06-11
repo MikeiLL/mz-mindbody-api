@@ -40,6 +40,7 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
         </thead>
         <tbody>
         <?php foreach ($classes as $k => $class): ?>
+
             <tr class="mz_schedule_table mz_description_holder mz_location_<?php echo $class->sLoc . ' ' . $class->session_type_css . ' ' . $class->class_name_css; ?>">
                 <td class="mz_date_display" data-time="<?php echo $class->startDateTime; ?>">
                     <?php echo date_i18n($data->time_format, strtotime($class->startDateTime)) . ' - ' . date_i18n($data->time_format, strtotime($class->endDateTime)); ?><br />
