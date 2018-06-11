@@ -476,13 +476,37 @@ class Schedule_Item {
     public $sub_details;
 
     /**
+     * Link object for display in schedules.
+     *
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      HTML object    $class_name_link    Instance of HTML class.
+     */
+    public $class_name_link;
+
+    /**
+     * Shortcode attributes.
+     *
+     * TODO: Would like to avoid having to pass these in here.
+     *
+     * @since    2.4.7
+     * @access   public
+     *
+     * @used in create Link Array Functions: class_name_link_maker
+     *
+     * @var      array $atts Shortcode attributes function called with.
+     */
+    public $atts;
+
+    /**
      * Populate attributes with data from MBO
      *
      * @since 2.4.7
      *
      * @param array $schedule_item array of item attributes. See class description.
      */
-    public function __construct($schedule_item) {
+    public function __construct($schedule_item, $atts = array()) {
 
         $this->className = isset($schedule_item['ClassDescription']['Name']) ? $schedule_item['ClassDescription']['Name']: '';
         $this->classImage = isset($schedule_item['ClassDescription']['ImageURL']) ? $schedule_item['ClassDescription']['ImageURL']: '';
@@ -513,6 +537,7 @@ class Schedule_Item {
         $this->class_duration = $this->get_schedule_event_duration();
         $this->dislayCancelled = ($schedule_item['IsCanceled'] == 1) ? '<div class="mz_cancelled_class">' . __('Cancelled', 'mz-mindbody-api') . '</div>' : '';
         $this->is_substitute = $schedule_item['Substitute'];
+        $this->atts = $atts;
         if (Core\Init::$advanced_options['elect_display_substitutes'] == 'on'):
             if ($this->is_substitute === true):
                 $owners = new Retrieve_Class_Owners;
@@ -522,7 +547,7 @@ class Schedule_Item {
                 }
             endif;
         endif;
-        // $this->class_name_link = $this->class_name_link_maker();
+        $this->class_name_link = $this->class_name_link_maker();
     }
 
     /**
@@ -530,30 +555,35 @@ class Schedule_Item {
      *
      * @return HTML_Element anchor tag.
      */
-    //public function class_name_link_maker(){
-//
-    //    $linkArray = array(
-    //        'data-staffName' => $this->staffName,
-    //        'data-className' => $this->className,
-    //        'data-classDescription' => rawUrlEncode($this->classDescription),
-    //        'class' => 'modal-toggle mz_get_registrants ' . sanitize_html_class($this->className, 'mz_class_name'),
-    //        'text' => $this->className,
-    //        'data-target' => $this->data_target
-    //    );
-//
-    //    if (Retrieve_Classes::$atts['show_registrants'] == 1) {
-    //        $get_registrants_nonce = wp_create_nonce('mz_MBO_get_registrants_nonce');
-    //        $linkArray['data-nonce'] = $get_registrants_nonce;
-    //        $linkArray['data-classID'] = $this->class_instance_ID;
-    //    }
-    //    if ($class->staffImage != ''):
-    //        $linkArray['data-staffImage'] = $this->staffImage;
-    //    endif;
-    //    $class_name_link = new Libraries\HTML_Element('a');
-    //    $class_name_link->set('href', MZ_Mindbody\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php');
-    //    return $class_name_link->set($linkArray);
-//
-    //}
+    private function class_name_link_maker(){
+
+        $linkArray = array(
+            'data-staffName' => $this->staffName,
+            'data-className' => $this->className,
+            'data-classDescription' => rawUrlEncode($this->classDescription),
+            'class' => 'modal-toggle mz_get_registrants ' . sanitize_html_class($this->className, 'mz_class_name'),
+            'text' => $this->className,
+            'data-target' => 'mzModal'
+        );
+
+        if ( isset($this->atts['show_registrants'] ) && ($this->atts['show_registrants'] == 1) ) {
+            $linkArray['data-nonce'] = wp_create_nonce('mz_MBO_get_registrants_nonce');
+            $linkArray['data-classID'] = $this->class_instance_ID;
+            $linkArray['data-target'] = 'registrantModal';
+        }
+
+        if ($this->staffImage != ''):
+            $linkArray['data-staffImage'] = $this->staffImage;
+        endif;
+
+        $link = new Libraries\HTML_Element('a');
+        $link->set('href', MZ_Mindbody\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php');
+
+        $link->set($linkArray);
+
+        return $link;
+
+    }
 
     /**
      * Get Day Number

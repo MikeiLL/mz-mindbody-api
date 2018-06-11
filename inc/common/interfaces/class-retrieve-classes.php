@@ -300,7 +300,7 @@ abstract class Retrieve_Classes extends Retrieve {
             /* Create a new array with a key for each date YYYY-MM-DD
             and corresponding value an array of class details */
 
-            $single_event = new Schedule\Schedule_Item($class);
+            $single_event = new Schedule\Schedule_Item($class, $this->atts);
 
             if(!empty($this->classesByDateThenTime[$just_date])) {
                 array_push($this->classesByDateThenTime[$just_date], $single_event);
@@ -369,7 +369,7 @@ abstract class Retrieve_Classes extends Retrieve {
 
             $classTime = date_i18n("G.i", strtotime($class['StartDateTime'])); // for numerical sorting
 
-            $single_event = new Schedule\Schedule_Item($class);
+            $single_event = new Schedule\Schedule_Item($class, $this->atts);
 
             // If there's is already an array for this time slot, add to it.
             if(!empty($this->classesByTimeThenDate[$classTime])) {

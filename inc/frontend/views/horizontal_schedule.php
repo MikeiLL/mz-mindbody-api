@@ -52,27 +52,7 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
                 <td class="mz_classDetails">
 
                     <?php
-                    $linkArray = array(
-                        'data-staffName' => $class->staffName,
-                        'data-className' => $class->className,
-                        'data-classDescription' => rawUrlEncode($class->classDescription),
-                        'class' => 'modal-toggle mz_get_registrants ' . sanitize_html_class($class->className, 'mz_class_name'),
-                        'text' => $class->className,
-                        'data-target' => $data->data_target
-                    );
-
-                    if ($data->atts['show_registrants'] == 1) {
-                        $get_registrants_nonce = wp_create_nonce('mz_MBO_get_registrants_nonce');
-                        $linkArray['data-nonce'] = $get_registrants_nonce;
-                        $linkArray['data-classID'] = $class->class_instance_ID;
-                    }
-                    if ($class->staffImage != ''):
-                        $linkArray['data-staffImage'] = $class->staffImage;
-                    endif;
-                    $class_name_link = new Libraries\HTML_Element('a');
-                    $class_name_link->set('href', $data->class_modal_link);
-                    $class_name_link->set($linkArray);
-                    $class_name_link->output();
+                    $class->class_name_link->output();
                     ?>
                     <?php echo $class->displayCancelled; ?>
 

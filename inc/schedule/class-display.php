@@ -194,9 +194,6 @@ class Display extends Interfaces\ShortCode_Script_Loader
         // Set siteID to option if not set explicitly in shortcode
         $this->siteID = (isset($atts['account'])) ? $atts['account'] : Core\Init::$basic_options['mz_mindbody_siteID'];
 
-        $show_registrants = ($this->atts['show_registrants'] == 1) ? true : false;
-        // Are we displaying registrants?
-        $this->data_target = $show_registrants ? 'registrantModal' : 'mzModal';
         $this->class_modal_link = MZ_Mindbody\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php';
 
         // Support the old 'class_types' shortcode attr
@@ -299,8 +296,6 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'time_format' => $this->schedule_object->time_format,
             'date_format' => $this->schedule_object->date_format,
             'data_nonce' => wp_create_nonce('mz_schedule_display_nonce'),
-            'data_target' => $this->data_target,
-            'class_modal_link' => $this->class_modal_link,
             'siteID' => $this->siteID,
             'week_names' => $week_names,
             'start_date' => $this->schedule_object->start_date,
