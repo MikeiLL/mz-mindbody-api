@@ -362,7 +362,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'registrants_header' => __('Registrants', 'mz-mindbody-api'),
             'get_registrants_error' => __('Error retreiving class details.', 'mz-mindbody-api'),
             'error' => __('Sorry but there was an error retrieving the schedule.', 'mz-mindbody-api'),
-            'sub_by_text' => __('(Substitute)', 'mz-mindbody-api'),
+            'sub_by_text' => __('substitute for', 'mz-mindbody-api'),
             'no_bio' => __('No biography listed for this staff member.', 'mz-mindbody-api'),
             'filter_default' => __('by teacher, class type', 'mz-mindbody-api'),
             'quick_1' => __('morning', 'mz-mindbody-api'),
@@ -370,8 +370,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'quick_3' => __('evening', 'mz-mindbody-api'),
             'label' => __('Filter', 'mz-mindbody-api'),
             'selector' => __('All Locations', 'mz-mindbody-api'),
-            'Locations_dict' => json_encode($locations_dictionary),
-            'sub_by_text' => __('Sub for', 'mz-mindbody-api')
+            'Locations_dict' => json_encode($locations_dictionary)
         );
         wp_localize_script('mz_display_schedule_script', 'mz_mindbody_schedule', $params);
     }

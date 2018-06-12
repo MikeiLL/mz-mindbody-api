@@ -543,6 +543,7 @@ class Schedule_Item {
                 $owners = new Retrieve_Class_Owners;
                 $owner = $owners->find_class_owner($schedule_item);
                 if ($owner !== false){
+                    mz_pr($owner);
                     $this->sub_details = $owner['class_owner'];
                 }
             endif;

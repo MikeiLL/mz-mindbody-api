@@ -183,8 +183,8 @@
             var siteID = $(this).attr('data-siteID');
             var staffName = $(this).attr('data-staffName');
             var nonce = $(this).attr("data-nonce");
-            var subText = ($(this).attr("data-sub") !== undefined) ? '<span class="sub-text">' + mz_mindbody_schedule.sub_by_text + '</span>' + ' ' : ' ';
-            var popUpContent = '<h3>' + subText + staffName + '</h3><div class="mz-staffInfo" id="StaffInfo"></div>';
+            var subText = ($(this).attr("data-sub") !== undefined) ? ' <span class="sub-text">(' + mz_mindbody_schedule.sub_by_text + ' ' + $(this).attr("data-sub") + ') </span>' + ' ' : ' ';
+            var popUpContent = '<h3>' + staffName + ' ' + subText + '</h3><div class="mz-staffInfo" id="StaffInfo"></div>';
 
             popUpContent += '<i class="fa fa-spinner fa-3x fa-spin" style="position: fixed; top: 50%; left: 50%;"></i>';
             $("#mzStaffScheduleModal").load(target, function () {
@@ -270,6 +270,18 @@
                     if (Date.parse(this.dataset.time.replace(/-/g, '/').replace(/T/g, ' ')) < Date.now()) {
                         $(this).find('a').addClass('disabled');
                     }
+                }
+            });
+
+            /**
+             * Loop through and display sub-details
+             */
+            $("a[data-target=mzStaffScheduleModal]").each( function(key, value){
+                if (this.dataset.sub){
+                    $(this).after('&nbsp;<a href="' + this.href + '" title="' + mz_mindbody_schedule.sub_by_text + ' ' + this.dataset.sub + '" style="text-decoration:none !important;"><svg height="20" width="20">' +
+                        '<circle cx="10" cy="10" r="8" stroke="black" stroke-width="1" fill="white" />' +
+                        '<text x="50%" y="50%" text-anchor="middle" fill="black" font-size="15px" font-family="Arial" dy=".25em">s</text>' +
+                    '</svg></a>');
                 }
             });
 
