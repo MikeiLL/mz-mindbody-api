@@ -260,7 +260,7 @@
                 // No filter
                 stripeTable($('table.mz-schedule-table')); //stripe the table for the first time
             }
-            
+
             /**
              * Disable sign-up buttons that occur prior to present time
              */

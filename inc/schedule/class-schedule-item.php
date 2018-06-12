@@ -548,6 +548,7 @@ class Schedule_Item {
             endif;
         endif;
         $this->class_name_link = $this->class_name_link_maker();
+        $this->staff_name_link = $this->class_name_link_maker('staff');
     }
 
     /**
@@ -555,28 +556,53 @@ class Schedule_Item {
      *
      * @return HTML_Element anchor tag.
      */
-    private function class_name_link_maker(){
-
+    private function class_name_link_maker($type = ''){
+        /*
+         * Need following two eventually
+         */
+        // 'data-accountNumber');
+        // "data-sub")
         $linkArray = array(
-            'data-staffName' => $this->staffName,
-            'data-className' => $this->className,
-            'data-classDescription' => rawUrlEncode($this->classDescription),
-            'class' => 'modal-toggle mz_get_registrants ' . sanitize_html_class($this->className, 'mz_class_name'),
-            'text' => $this->className,
-            'data-target' => 'mzModal'
+            'data-staffName' => $this->staffName
         );
 
-        if ( isset($this->atts['show_registrants'] ) && ($this->atts['show_registrants'] == 1) ) {
-            $linkArray['data-nonce'] = wp_create_nonce('mz_MBO_get_registrants_nonce');
-            $linkArray['data-classID'] = $this->class_instance_ID;
-            $linkArray['data-target'] = 'registrantModal';
+        if ($type == 'staff') {
+
+            $linkArray['data-staffName'] = $this->staffName;
+            $linkArray['data-staffID'] = $this->staffID;
+            $linkArray['class'] = 'modal-toggle ' . sanitize_html_class($class->staffName, 'mz_staff_name');
+            $linkArray['text'] = $this->staffName;
+            $linkArray['data-target'] = 'mzStaffScheduleModal';
+            $linkArray['data-nonce'] = wp_create_nonce('mz_staff_retrieve_nonce');
+            $linkArray['data-siteID'] = $this->atts['siteID'];
+            if ($this->is_substitute === true) {
+                $linkArray['data-sub'] = (!empty($this->sub_details)) ? $this->sub_details : '';
+            }
+
+        } else { // It's a Class Link
+
+            $linkArray['data-className'] = $this->className;
+            $linkArray['data-classDescription'] = rawUrlEncode($this->classDescription);
+            $linkArray['class'] = 'modal-toggle mz_get_registrants ' . sanitize_html_class($this->className, 'mz_class_name');
+            $linkArray['text'] = $this->className;
+            $linkArray['data-target'] = 'mzModal';
+
+            if ( isset($this->atts['show_registrants'] ) && ($this->atts['show_registrants'] == 1) ) {
+                $linkArray['data-nonce'] = wp_create_nonce('mz_MBO_get_registrants_nonce');
+                $linkArray['data-classID'] = $this->class_instance_ID;
+                $linkArray['data-target'] = 'registrantModal';
+            }
+
         }
 
         if ($this->staffImage != ''):
+
             $linkArray['data-staffImage'] = $this->staffImage;
+
         endif;
 
         $link = new Libraries\HTML_Element('a');
+
         $link->set('href', MZ_Mindbody\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php');
 
         $link->set($linkArray);

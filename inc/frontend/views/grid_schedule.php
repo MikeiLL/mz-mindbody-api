@@ -55,54 +55,13 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
                 <td><?php $classes = count( $day_slot ); ?>
                 <?php foreach($day_slot as $class): $classes--; ?>
                     <div class="mz_schedule_table mz_description_holder mz_location_<?php echo $class->sLoc . ' ' . $class->session_type_css . ' ' . $class->class_name_css; ?>">
+                        <?php $class->class_name_link->output(); ?>&nbsp;
                         <?php
-                        $linkArray = array(
-                            'data-staffName' => $class->staffName,
-                            'data-className' => $class->className,
-                            'data-classDescription' => rawUrlEncode($class->classDescription),
-                            'class' => 'modal-toggle mz_get_registrants ' . sanitize_html_class($class->className, 'mz_class_name'),
-                            'text' => $class->className,
-                            'data-target' => $data->data_target
-                        );
-
-                        if ($data->atts['show_registrants'] == 1) {
-                            $get_registrants_nonce = wp_create_nonce('mz_MBO_get_registrants_nonce');
-                            $linkArray['data-nonce'] = $get_registrants_nonce;
-                            $linkArray['data-classID'] = $class->class_instance_ID;
-                        }
-                        if ($class->staffImage != ''):
-                            $linkArray['data-staffImage'] = $class->staffImage;
-                        endif;
-                        $class_name_link = new Libraries\HTML_Element('a');
-                        $class_name_link->set('href', $data->class_modal_link);
-                        $class_name_link->set($linkArray);
-                        $class_name_link->output();
-                        ?>&nbsp;<?php
                         if ( !in_array('teacher', $data->hide ) ):
 
                             _e('with', 'mz-mindbody-api'); ?> <?php
 
-                            $linkArray = array(
-
-                                // 'data-accountNumber');
-                                // "data-sub")
-                                'data-staffName' => $class->staffName,
-                                'data-staffID' => $class->staffID,
-                                'class' => 'modal-toggle ' . sanitize_html_class($class->staffName, 'mz_staff_name'),
-                                'text' => $class->staffName,
-                                'data-target' => 'mzStaffScheduleModal',
-                                'data-nonce' => wp_create_nonce('mz_staff_retrieve_nonce'),
-                                'data-siteID' => $data->siteID
-                            );
-
-                            if ($class->staffImage != ''):
-                                $linkArray['data-staffImage'] = $class->staffImage;
-                            endif;
-
-                            $class_name_link = new Libraries\HTML_Element('a');
-                            $class_name_link->set('href', $data->class_modal_link);
-                            $class_name_link->set($linkArray);
-                            $class_name_link->output();
+                            $class->staff_name_link->output();
                         endif;
                         ?> <?php echo $class->displayCancelled; ?>
                         <br />

@@ -61,27 +61,7 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
                 <td class="mz_staffName">
 
                     <?php
-                    $linkArray = array(
-
-                        // 'data-accountNumber');
-                        // "data-sub")
-                        'data-staffName' => $class->staffName,
-                        'data-staffID' => $class->staffID,
-                        'class' => 'modal-toggle ' . sanitize_html_class($class->staffName, 'mz_staff_name'),
-                        'text' => $class->staffName,
-                        'data-target' => 'mzStaffScheduleModal',
-                        'data-nonce' => wp_create_nonce('mz_staff_retrieve_nonce'),
-                        'data-siteID' => $data->siteID
-                    );
-
-                    if ($class->staffImage != ''):
-                        $linkArray['data-staffImage'] = $class->staffImage;
-                    endif;
-
-                    $class_name_link = new Libraries\HTML_Element('a');
-                    $class_name_link->set('href', $data->class_modal_link);
-                    $class_name_link->set($linkArray);
-                    $class_name_link->output();
+                    $class->staff_name_link->output();
                     ?>
                 </td>
                 <?php endif; ?>
