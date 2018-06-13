@@ -720,7 +720,7 @@ class WP_OSA {
 		// add_options_page( $page_title, $menu_title, $capability, $menu_slug, array( $this, $callable ) );
 		add_options_page(
 			'MZ Mindbody Settings',
-			'MZ Mindbody Settings',
+			'MZ Mindbody',
 			'manage_options',
 			'mz_mindbody_settings',
 			array( $this, 'plugin_page' )
