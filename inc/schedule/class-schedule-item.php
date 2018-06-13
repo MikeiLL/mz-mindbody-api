@@ -570,11 +570,11 @@ class Schedule_Item {
 
             $linkArray['data-staffName'] = $this->staffName;
             $linkArray['data-staffID'] = $this->staffID;
-            $linkArray['class'] = 'modal-toggle ' . sanitize_html_class($class->staffName, 'mz_staff_name');
+            $linkArray['class'] = 'modal-toggle ' . sanitize_html_class($this->staffName, 'mz_staff_name');
             $linkArray['text'] = $this->staffName;
             $linkArray['data-target'] = 'mzStaffScheduleModal';
             $linkArray['data-nonce'] = wp_create_nonce('mz_staff_retrieve_nonce');
-            $linkArray['data-siteID'] = $this->atts['siteID'];
+            $linkArray['data-siteID'] = $this->siteID;
             if ($this->is_substitute === true) {
                 $linkArray['data-sub'] = (!empty($this->sub_details)) ? $this->sub_details : '';
             }

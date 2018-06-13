@@ -250,6 +250,10 @@ class Init
         $this->loader->add_action('wp_ajax_nopriv_mz_mbo_clear_transients', $admin_object, 'clear_plugin_transients');
         $this->loader->add_action('wp_ajax_mz_mbo_clear_transients', $admin_object, 'clear_plugin_transients');
 
+        // Start Ajax Clear Transients
+        $this->loader->add_action('wp_ajax_nopriv_mz_mbo_test_credentials', $admin_object, 'test_credentials');
+        $this->loader->add_action('wp_ajax_mz_mbo_test_credentials', $admin_object, 'test_credentials');
+
         // Start Ajax Display Schedule
         $this->loader->add_action('wp_ajax_nopriv_mz_display_schedule', $schedule_object, 'display_schedule');
         $this->loader->add_action('wp_ajax_mz_display_schedule', $schedule_object, 'display_schedule');

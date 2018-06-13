@@ -424,14 +424,7 @@ class Settings_Page {
 
 
     private function mz_mindbody_debug_text() {
-        $return =  "<p>";
-        $return .= sprintf(__('Once credentials have been set and activated, look for %1$s in the 
-	                            GetClassesResponse box below to confirm settings are correct.',  'mz-mindbody-api'),
-            '<code>&lt;ErrorCode&gt;200&lt;/ErrorCode&gt;</code>');
-        $return .=  "</p>";
-        $schedule_object = new Retrieve_Debug;
-        $mb = $schedule_object->get_mbo_results();
-        return $return . $mb;
+        return '<a href="#" class="button" id="mzTestCredentials">' . __('Test Credentials', 'mz-mindbody-api') . '</a><div id="displayTest"></div>';
     }
 
 }

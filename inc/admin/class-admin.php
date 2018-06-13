@@ -2,6 +2,8 @@
 
 namespace MZ_Mindbody\Inc\Admin;
 
+use MZ_Mindbody\Inc\Backend as Backend;
+
 use MZ_Mindbody as NS;
 
 /**
@@ -145,7 +147,7 @@ class Admin {
         }
     }
     
-    /*
+    /**
      * Clear all plugin transients 
      *
      * Called via ajax in admin
@@ -162,6 +164,41 @@ class Admin {
         $result['type'] = "success";
         $result['message'] = __("Transients cleared. Page reloads will re-set them.", 'mz-mindbody-api');
         		
+        if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+            $result = json_encode($result);
+            echo $result;
+        }
+        else {
+            header("Location: ".$_SERVER["HTTP_REFERER"]);
+        }
+
+        die();
+    }
+
+    /**
+     * Test MBO Credentials
+     *
+     * Called via ajax in admin
+     *
+     *
+     * @since 2.4.7
+     */
+    public function test_credentials () {
+
+        check_ajax_referer($_REQUEST['nonce'], "mz_admin_nonce", false);
+
+
+        $return =  "<p>";
+        $return .= sprintf(__('Once credentials have been set and activated, look for %1$s in the 
+	                            second (Get Classes Response) box below to confirm settings are correct.',  'mz-mindbody-api'),
+            '<code>&lt;ErrorCode&gt;200&lt;/ErrorCode&gt;</code>');
+        $return .=  "</p>";
+        $schedule_object = new Backend\Retrieve_Debug;
+        $mb = $schedule_object->get_mbo_results();
+
+        $result['type'] = "success";
+        $result['message'] = $return . $mb;
+
         if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
             $result = json_encode($result);
             echo $result;
