@@ -68,9 +68,7 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
                         <?php
                         if ( !in_array('signup', $data->hide ) ):
                         ?>
-                        <a class="icon-link" title="<?php _e('Sign-Up', 'mz-mindbody-api'); ?>" href="<?php echo $class->mbo_url; ?>" target="_blank">
-                            <svg class="icon sign-up"><use xlink:href="#si-bootstrap-log-in"/></use></svg>
-                        </a><br/>
+                            <?php $class->grid_sign_up_link->output(); ?><br/>
                         <?php endif; ?>
                         <?php
                         if  (!in_array('duration', $data->hide ) ):

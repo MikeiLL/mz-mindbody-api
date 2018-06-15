@@ -560,6 +560,7 @@ class Schedule_Item {
         $this->class_name_link = $this->class_link_maker('class');
         $this->staff_name_link = $this->class_link_maker('staff');
         $this->sign_up_link = $this->class_link_maker('signup');
+        $this->grid_sign_up_link = $this->class_link_maker('grid_signup');
     }
 
     /**
@@ -616,6 +617,28 @@ class Schedule_Item {
 
                 $linkArray['class'] = 'btn btn-primary';
                 $linkArray['text'] = __('Sign-Up', 'mz-mindbody-api');
+
+                if ((!empty($this->atts['advanced']) && ($this->atts['advanced'] == '1')) || (Core\Init::$advanced_options['register_within_site'] == true)):
+
+                    $linkArray['data-target'] = 'mzSignUpModal';
+                    $linkArray['data-nonce'] = wp_create_nonce('mz_signup_nonce');
+                    $linkArray['data-siteID'] = $this->siteID;
+                    $link->set('href', MZ_Mindbody\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php');
+
+                else:
+
+                    $linkArray['target'] = '_blank';
+                    $link->set('href', $this->mbo_url);
+
+                endif;
+                break;
+
+            case 'grid_signup':
+
+                $linkArray['class'] = 'btn grid-sign-up-button';
+                $linkArray['title'] = __('Sign-Up', 'mz-mindbody-api');
+                $linkArray['data-time'] = $this->startDateTime;
+                $linkArray['text'] = '<svg class="icon sign-up"><use xlink:href="#si-bootstrap-log-in"/></use></svg>';
 
                 if ((!empty($this->atts['advanced']) && ($this->atts['advanced'] == '1')) || (Core\Init::$advanced_options['register_within_site'] == true)):
 

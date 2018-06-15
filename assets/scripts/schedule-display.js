@@ -314,6 +314,18 @@
             });
 
             /**
+             * Disable grid sign-up buttons that occur prior to present time
+             */
+            $('.grid-sign-up-button').each(function(key, value){
+                if(this.dataset.time){
+                    // Get rid of the T and replace - with / for Safari
+                    if (Date.parse(this.dataset.time.replace(/-/g, '/').replace(/T/g, ' ')) < Date.now()) {
+                        $(this).addClass('disabled');
+                    }
+                }
+            });
+
+            /**
              * Loop through and display sub-details
              */
             $("a[data-target=mzStaffScheduleModal]").each( function(key, value){
