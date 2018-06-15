@@ -476,7 +476,7 @@ class Schedule_Item {
     public $sub_details;
 
     /**
-     * Link object for display in schedules.
+     * Class Name Link object for display in schedules.
      *
      *
      * @since    2.4.7
@@ -484,6 +484,16 @@ class Schedule_Item {
      * @var      HTML object    $class_name_link    Instance of HTML class.
      */
     public $class_name_link;
+
+    /**
+     * Sign-Up Link object for display in schedules.
+     *
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      HTML object    $sign_up    Instance of HTML class.
+     */
+    public $sign_up_link;
 
     /**
      * Shortcode attributes.
@@ -547,8 +557,9 @@ class Schedule_Item {
                 }
             endif;
         endif;
-        $this->class_name_link = $this->class_name_link_maker();
-        $this->staff_name_link = $this->class_name_link_maker('staff');
+        $this->class_name_link = $this->class_link_maker('class');
+        $this->staff_name_link = $this->class_link_maker('staff');
+        $this->sign_up_link = $this->class_link_maker('signup');
     }
 
     /**
@@ -556,54 +567,72 @@ class Schedule_Item {
      *
      * @return HTML_Element anchor tag.
      */
-    private function class_name_link_maker($type = ''){
+    private function class_link_maker($type = 'class'){
         /*
-         * Need following two eventually
+         * Need following eventually
          */
         // 'data-accountNumber');
-        // "data-sub")
-        $linkArray = array(
-            'data-staffName' => $this->staffName
-        );
 
-        if ($type == 'staff') {
-
-            $linkArray['data-staffName'] = $this->staffName;
-            $linkArray['data-staffID'] = $this->staffID;
-            $linkArray['class'] = 'modal-toggle ' . sanitize_html_class($this->staffName, 'mz_staff_name');
-            $linkArray['text'] = $this->staffName;
-            $linkArray['data-target'] = 'mzStaffScheduleModal';
-            $linkArray['data-nonce'] = wp_create_nonce('mz_staff_retrieve_nonce');
-            $linkArray['data-siteID'] = $this->siteID;
-            if ($this->is_substitute === true) {
-                $linkArray['data-sub'] = (!empty($this->sub_details)) ? $this->sub_details : '';
-            }
-
-        } else { // It's a Class Link
-
-            $linkArray['data-className'] = $this->className;
-            $linkArray['data-classDescription'] = rawUrlEncode($this->classDescription);
-            $linkArray['class'] = 'modal-toggle mz_get_registrants ' . sanitize_html_class($this->className, 'mz_class_name');
-            $linkArray['text'] = $this->className;
-            $linkArray['data-target'] = 'mzModal';
-
-            if ( isset($this->atts['show_registrants'] ) && ($this->atts['show_registrants'] == 1) ) {
-                $linkArray['data-nonce'] = wp_create_nonce('mz_MBO_get_registrants_nonce');
-                $linkArray['data-classID'] = $this->class_instance_ID;
-                $linkArray['data-target'] = 'registrantModal';
-            }
-
-        }
-
-        if ($this->staffImage != ''):
-
-            $linkArray['data-staffImage'] = $this->staffImage;
-
-        endif;
-
+        $linkArray = array();
         $link = new Libraries\HTML_Element('a');
 
-        $link->set('href', MZ_Mindbody\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php');
+        switch ($type) {
+
+            case 'staff':
+
+                $linkArray['data-staffName'] = $this->staffName;
+                $linkArray['data-staffID'] = $this->staffID;
+                $linkArray['class'] = 'modal-toggle ' . sanitize_html_class($this->staffName, 'mz_staff_name');
+                $linkArray['text'] = $this->staffName;
+                $linkArray['data-target'] = 'mzStaffScheduleModal';
+                $linkArray['data-nonce'] = wp_create_nonce('mz_staff_retrieve_nonce');
+                $linkArray['data-siteID'] = $this->siteID;
+                if (($this->is_substitute === true) && (!empty($this->sub_details))) {
+                    $linkArray['data-sub'] = (!empty($this->sub_details)) ? $this->sub_details : '';
+                }
+                $linkArray['data-staffImage'] = ($this->staffImage != '') ? $this->staffImage : '';
+                $link->set('href', MZ_Mindbody\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php');
+                break;
+
+            case 'class':
+
+                $linkArray['data-className'] = $this->className;
+                $linkArray['data-staffName'] = $this->staffName;
+                $linkArray['data-classDescription'] = rawUrlEncode($this->classDescription);
+                $linkArray['class'] = 'modal-toggle mz_get_registrants ' . sanitize_html_class($this->className, 'mz_class_name');
+                $linkArray['text'] = $this->className;
+                $linkArray['data-target'] = 'mzModal';
+
+                if (isset($this->atts['show_registrants']) && ($this->atts['show_registrants'] == 1)) {
+                    $linkArray['data-nonce'] = wp_create_nonce('mz_MBO_get_registrants_nonce');
+                    $linkArray['data-classID'] = $this->class_instance_ID;
+                    $linkArray['data-target'] = 'registrantModal';
+                }
+                $linkArray['data-staffImage'] = ($this->staffImage != '') ? $this->staffImage : '';
+                $link->set('href', MZ_Mindbody\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php');
+                break;
+
+            case 'signup':
+
+                $linkArray['class'] = 'btn btn-primary';
+                $linkArray['text'] = __('Sign-Up', 'mz-mindbody-api');
+
+                if ((!empty($this->atts['advanced']) && ($this->atts['advanced'] == '1')) || (Core\Init::$advanced_options['register_within_site'] == true)):
+
+                    $linkArray['data-target'] = 'mzSignUpModal';
+                    $linkArray['data-nonce'] = wp_create_nonce('mz_signup_nonce');
+                    $linkArray['data-siteID'] = $this->siteID;
+                    $link->set('href', MZ_Mindbody\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php');
+
+                else:
+
+                    $linkArray['target'] = '_blank';
+                    $link->set('href', $this->mbo_url);
+
+                endif;
+                break;
+
+        }
 
         $link->set($linkArray);
 
