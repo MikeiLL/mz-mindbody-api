@@ -33,6 +33,8 @@ class Retrieve_Staff extends Interfaces\Retrieve {
      */
     public function get_mbo_results( $staffIDs = array() ){
 
+        check_ajax_referer($_REQUEST['nonce'], "mz_staff_retrieve_nonce", false);
+
         $mb = $this->instantiate_mbo_API();
 
         if ( !$mb || $mb == 'NO_SOAP_SERVICE' ) return false;
