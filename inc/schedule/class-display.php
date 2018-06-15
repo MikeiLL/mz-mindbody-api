@@ -165,7 +165,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
 
     public function handleShortcode($atts, $content = null)
     {
-
+mz_pr($_SESSION);
         $this->atts = shortcode_atts(array(
             'type' => 'week',
             'location' => '', // stop using this eventually, in preference "int, int" format
@@ -351,6 +351,9 @@ class Display extends Interfaces\ShortCode_Script_Loader
 
         $protocol = isset($_SERVER["HTTPS"]) ? 'https://' : 'http://';
         $nonce = wp_create_nonce('mz_schedule_display_nonce');
+        $global = new Common\Global_Strings;
+        $translated_strings = $global->translated_strings();
+
         $params = array(
             'ajaxurl' => admin_url('admin-ajax.php', $protocol),
             'nonce' => $nonce,
@@ -370,6 +373,11 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'quick_3' => __('evening', 'mz-mindbody-api'),
             'label' => __('Filter', 'mz-mindbody-api'),
             'selector' => __('All Locations', 'mz-mindbody-api'),
+            'login' => $translated_strings['login'],
+            'signup' => $translated_strings['sign_up'],
+            'logout' => $translated_strings['logout'],
+            'your_account' => $translated_strings['your_account'],
+            // 'current_mbo_client' => !empty($_SESSION['MBO_Client']) ? $_SESSION['MBO_Client'] : '',
             'Locations_dict' => json_encode($locations_dictionary)
         );
         wp_localize_script('mz_display_schedule_script', 'mz_mindbody_schedule', $params);

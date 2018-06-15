@@ -623,6 +623,7 @@ class Schedule_Item {
                     $linkArray['data-target'] = 'mzSignUpModal';
                     $linkArray['data-nonce'] = wp_create_nonce('mz_signup_nonce');
                     $linkArray['data-siteID'] = $this->siteID;
+                    $linkArray['data-classID'] = $this->class_instance_ID;
                     $link->set('href', MZ_Mindbody\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php');
 
                 else:
@@ -645,6 +646,7 @@ class Schedule_Item {
                     $linkArray['data-target'] = 'mzSignUpModal';
                     $linkArray['data-nonce'] = wp_create_nonce('mz_signup_nonce');
                     $linkArray['data-siteID'] = $this->siteID;
+                    $linkArray['data-classID'] = $this->class_instance_ID;
                     $link->set('href', MZ_Mindbody\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php');
 
                 else:

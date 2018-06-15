@@ -29,6 +29,7 @@ class Global_Strings {
                 'or' => __('or', 'mz-mindbody-api'),
                 'with' => __('with', 'mz-mindbody-api'),
                 'day' => __('day', 'mz-mindbody-api'),
+                'your_account' => __('Your Account', 'mz-mindbody-api'),
                 'shortcode' => __('shortcode', 'mz-mindbody-api')
 
         );
