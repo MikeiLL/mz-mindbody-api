@@ -46,7 +46,7 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
                     <?php echo date_i18n($data->time_format, strtotime($class->startDateTime)) . ' - ' . date_i18n($data->time_format, strtotime($class->endDateTime)); ?><br />
                     <span class="mz_hidden mz_time_of_day"><?php echo $class->part_of_day; ?></span>
                     <?php if ( !in_array('signup', $data->hide ) ): ?>
-                    <a class="btn btn-primary" href="<?php echo $class->mbo_url; ?>" target="_blank"><?php _e('Sign-Up', 'mz-mindbody-api'); ?></a>
+                    <?php $class->sign_up_link->output(); ?>
                     <?php endif; ?>
                 </td>
                 <td class="mz_classDetails">

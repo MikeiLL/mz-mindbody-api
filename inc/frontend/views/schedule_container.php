@@ -15,15 +15,13 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
     <?php
     if ($data->display_type == 'grid' || $data->display_type == 'both'): ?>
     <div id="gridDisplay" class="mz-schedule-display<?php echo $data->grid_class; ?>">
-    <?
-        include 'grid_schedule.php';?>
+    <?php include 'grid_schedule.php';?>
     </div>
     <?
     endif;
     if ($data->display_type == 'horizontal' || $data->display_type == 'both'):?>
     <div id="horizontalDisplay" class="mz-schedule-display<?php echo $data->horizontal_class; ?>">
-        <?
-        include 'horizontal_schedule.php';?>
+        <?php include 'horizontal_schedule.php';?>
     </div>
     <?
     endif;
@@ -35,4 +33,6 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
 <div class="modal fade" id="registrantModal" tabindex="-1" role="dialog" aria-labelledby="mzSmallModalLabel"
      aria-hidden="true"></div>
 <div class="modal fade" id="mzStaffScheduleModal" tabindex="-1" role="dialog" aria-labelledby="mzSmallModalLabel"
+     aria-hidden="true"></div>
+<div class="modal fade" id="mzSignUpModal" tabindex="-1" role="dialog" aria-labelledby="mzSmallModalLabel"
      aria-hidden="true"></div>
