@@ -144,7 +144,6 @@
                 url: mz_mindbody_schedule.ajaxurl,
                 data: {action: 'mz_mbo_get_registrants', nonce: nonce, classID: classID},
                 success: function (json) {
-                    console.log(json);
                     if (json.type == "success") {
                         htmlRegistrants = '<ul class="mz-classRegistrants">';
                         if ($.isArray(json.message)) {
@@ -208,6 +207,47 @@
             .fail(function (json) {
                 $('#StaffInfo').html('ERROR RETURNING STAFF INFO');
             }); // End Fail
+        });
+
+        /**
+         * Sign-Up Modal
+         *
+         *
+         */
+        $(document).on('click', "a[data-target=mzSignUpModal]", function (ev) {
+            ev.preventDefault();
+            var target = $(this).attr("href");
+            var siteID = $(this).attr('data-siteID');
+            var nonce = $(this).attr("data-nonce");
+            var popUpContent = '<h3>Hi Mike iLL</h3><div class="mz-classRegister" id="ClassRegister"></div>';
+            console.log(siteID);
+
+            popUpContent += '<i class="fa fa-spinner fa-3x fa-spin" style="position: fixed; top: 50%; left: 50%;"></i>';
+            $("#mzSignUpModal").load(target, function () {
+                $.colorbox({html: popUpContent, width: "75%", height: "80%", href: target});
+                $("#mzSignUpModal").colorbox();
+            });
+
+            $.ajax({
+                type: "GET",
+                dataType: 'json',
+                url: mz_mindbody_schedule.ajaxurl,
+                data: {action: 'mz_register_for_class', nonce: nonce, siteID: siteID},
+                success: function (json) {
+                    if (json.type == "success") {
+                        $('.fa-spinner').remove();
+                        $('#ClassRegister').html(json.message);
+                    } else {
+                        $('#ClassRegister').html('ERROR REGISTERING FOR CLASS');
+                        console.log(json);
+                    }
+                } // ./ Ajax Success
+            }) // End Ajax
+                .fail(function (json) {
+                    $('#ClassRegister').html('ERROR REGISTERING FOR CLASS');
+                    console.log(json);
+                }); // End Fail
+
         });
 
         /**

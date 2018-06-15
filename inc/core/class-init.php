@@ -9,6 +9,7 @@ use MZ_Mindbody\Inc\Backend as Backend;
 use MZ_Mindbody\Inc\Schedule as Schedule;
 use MZ_Mindbody\Inc\Staff as Staff;
 use MZ_Mindbody\Inc\Events as Events;
+use MZ_Mindbody\Inc\Client as Client;
 use MZ_Mindbody\Inc\Libraries\Rarst\WordPress\DateTime as DateTime;
 
 /**
@@ -244,6 +245,7 @@ class Init
         $registrant_object = new Schedule\Retrieve_Registrants;
         $class_owners_object = new Schedule\Retrieve_Class_Owners;
         $staff_object = new Staff\Display;
+        $client_object = new Client\Client_Portal;
 
 
         // Start Ajax Clear Transients
@@ -269,6 +271,29 @@ class Init
         // Start Ajax Get Staff
         $this->loader->add_action('wp_ajax_nopriv_mz_mbo_get_staff', $staff_object, 'get_staff_modal');
         $this->loader->add_action('wp_ajax_mz_mbo_get_staff', $staff_object, 'get_staff_modal');
+
+        // Start Ajax Client Check Logged
+        $this->loader->add_action('wp_ajax_nopriv_mz_register_for_class', $client_object, 'register_for_class');
+        $this->loader->add_action('wp_ajax_mz_register_for_class', $client_object, 'register_for_class');
+
+        // Start Ajax Client Create Account
+        $this->loader->add_action('wp_ajax_nopriv_mz_create_mbo_account', $client_object, 'create_mbo_account');
+        $this->loader->add_action('wp_ajax_mz_create_mbo_account', $client_object, 'create_mbo_account');
+
+        // Start Ajax Client Log In
+        $this->loader->add_action('wp_ajax_nopriv_mz_client_log_in', $client_object, 'client_log_in');
+        $this->loader->add_action('wp_ajax_mz_client_log_in', $client_object, 'client_log_in');
+
+        // Start Ajax Client Log Out
+        $this->loader->add_action('wp_ajax_nopriv_mz_client_log_out', $client_object, 'client_log_out');
+        $this->loader->add_action('wp_ajax_mz_client_log_out', $client_object, 'client_log_out');
+
+        // Sessions
+        if (self::$advanced_options['register_within_site'] == 'on') {
+            $this->loader->add_action('init', $this, 'start_session', 1);
+            $this->loader->add_action('wp_logout', $this, 'end_session');
+            $this->loader->add_action('wp_login', $this, 'end_session');
+        }
 
     }
 
@@ -347,11 +372,22 @@ class Init
         $staff_display->register('mz-mindbody-staff-list');
         $events_display = new Events\Display();
         $events_display->register('mz-mindbody-show-events');
+    }
 
-        // add_shortcode('mz-mindbody-login', array($mz_clients, 'mZ_mindbody_login'));
-        // add_shortcode('mz-mindbody-signup', array($mz_clients, 'mZ_mindbody_signup'));
-        // add_shortcode('mz-mindbody-logout', array($mz_clients, 'mZ_mindbody_logout'));
-        // add_shortcode('mz-mindbody-get-schedule', array($get_schedule, 'MZ_Get_Schedule'));
+    /**
+     * Start php $_SESSION
+     */
+    public function start_session() {
+        if (!session_id()) {
+            session_start();
+        }
+    }
+
+    /**
+     * Clear php $_SESSION
+     */
+    public function end_session() {
+        session_destroy();
     }
 
 }

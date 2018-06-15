@@ -360,7 +360,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'mode_select' => $this->atts['mode_select'],
             'swap' => $this->swap_button_text,
             'registrants_header' => __('Registrants', 'mz-mindbody-api'),
-            'get_registrants_error' => __('Error retreiving class details.', 'mz-mindbody-api'),
+            'get_registrants_error' => __('Error retrieving class details.', 'mz-mindbody-api'),
             'error' => __('Sorry but there was an error retrieving the schedule.', 'mz-mindbody-api'),
             'sub_by_text' => __('substitute for', 'mz-mindbody-api'),
             'no_bio' => __('No biography listed for this staff member.', 'mz-mindbody-api'),
