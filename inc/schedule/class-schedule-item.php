@@ -618,7 +618,7 @@ class Schedule_Item {
                 $linkArray['class'] = 'btn btn-primary';
                 $linkArray['text'] = __('Sign-Up', 'mz-mindbody-api');
 
-                if ((!empty($this->atts['advanced']) && ($this->atts['advanced'] == '1')) || (Core\Init::$advanced_options['register_within_site'] == true)):
+                if ((!empty($this->atts['advanced']) && ($this->atts['advanced'] == '1')) || (Core\Init::$advanced_options['register_within_site'] == 'on')):
 
                     $linkArray['data-target'] = 'mzSignUpModal';
                     $linkArray['data-nonce'] = wp_create_nonce('mz_signup_nonce');
@@ -641,7 +641,7 @@ class Schedule_Item {
                 $linkArray['data-time'] = $this->startDateTime;
                 $linkArray['text'] = '<svg class="icon sign-up"><use xlink:href="#si-bootstrap-log-in"/></use></svg>';
 
-                if ((!empty($this->atts['advanced']) && ($this->atts['advanced'] == '1')) || (Core\Init::$advanced_options['register_within_site'] == true)):
+                if ((!empty($this->atts['advanced']) && ($this->atts['advanced'] == '1')) || (Core\Init::$advanced_options['register_within_site'] == 'on')):
 
                     $linkArray['data-target'] = 'mzSignUpModal';
                     $linkArray['data-nonce'] = wp_create_nonce('mz_signup_nonce');

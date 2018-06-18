@@ -7,6 +7,10 @@
 
     <form style="margin:1em 0;" data-async id="mzLogIn" data-target="#mzSignUpModal" method="POST">
 
+        <input type="hidden" name="nonce" value="<?php echo $data->nonce; ?>"/>
+
+        <input type="hidden" name="classID" value="<?php echo $data->classID; ?>" />
+
         <div class="form-group">
 
     <label for="username">Email</label>
@@ -33,6 +37,6 @@
 
     </form>
 
-    <a id="createMBOAccount" href="#" data-nonce="<?php echo $data->nonce ?>" class="btn btn-primary mz_add_to_class"><?php echo $data->registration_button ?></a>
+    <a id="createMBOAccount" href="#" data-nonce="<?php echo $data->nonce ?>" data-classID="<?php echo $data->classID ?>" class="btn btn-primary mz_add_to_class"><?php echo $data->registration_button ?></a>
 
 </div>

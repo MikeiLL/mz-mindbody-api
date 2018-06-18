@@ -2,6 +2,8 @@
 
 use MZ_Mindbody\Inc\Libraries as Libraries;
 
+var_dump($_SESSION);
+
 ?>
 <div id="mzScheduleNavHolder">
     <a href="#" class="previous" data-offset="-1"><?php _e('Previous Week', 'mz-mindbody-api'); ?></a> -

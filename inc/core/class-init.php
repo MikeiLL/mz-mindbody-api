@@ -280,6 +280,10 @@ class Init
         $this->loader->add_action('wp_ajax_nopriv_mz_create_mbo_account', $client_object, 'create_mbo_account');
         $this->loader->add_action('wp_ajax_mz_create_mbo_account', $client_object, 'create_mbo_account');
 
+        // Start Ajax Client Create Account
+        $this->loader->add_action('wp_ajax_nopriv_mz_generate_mbo_signup_form', $client_object, 'generate_mbo_signup_form');
+        $this->loader->add_action('wp_ajax_mz_create_generate_mbo_signup_form', $client_object, 'generate_mbo_signup_form');
+
         // Start Ajax Client Log In
         $this->loader->add_action('wp_ajax_nopriv_mz_client_log_in', $client_object, 'client_log_in');
         $this->loader->add_action('wp_ajax_mz_client_log_in', $client_object, 'client_log_in');

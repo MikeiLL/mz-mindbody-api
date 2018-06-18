@@ -165,7 +165,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
 
     public function handleShortcode($atts, $content = null)
     {
-mz_pr($_SESSION);
+
         $this->atts = shortcode_atts(array(
             'type' => 'week',
             'location' => '', // stop using this eventually, in preference "int, int" format
@@ -201,8 +201,11 @@ mz_pr($_SESSION);
 
         // If set, turn Session/Class Types into an Array and call it session_types
         if ($this->atts['session_types'] !== '') {
-            if (!is_array($this->atts['session_types'])) // f not already an array
-                $this->atts['session_types'] = explode(',', trim($this->atts['session_types'], ' '));
+            if (!is_array($this->atts['session_types'])) // if not already an array
+                $this->atts['session_types'] = explode(',', $this->atts['session_types']);
+                foreach ($this->atts['session_types'] as $key => $type):
+                    $this->atts['session_types'][$key] = trim($type);
+                endforeach;
         } else {
             $this->atts['session_types'] == '';
         }
