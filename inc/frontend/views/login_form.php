@@ -13,9 +13,9 @@
 
         <div class="form-group">
 
-    <label for="username">Email</label>
+    <label for="username">Username</label>
 
-    <input type="email" class="form-control" id="username" name="username" placeholder="<?php echo $data->username ?>">
+    <input type="text" class="form-control" id="username" name="username" placeholder="<?php echo $data->username ?>">
 
     </div>
 

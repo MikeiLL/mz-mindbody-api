@@ -201,9 +201,6 @@ class Client_Portal extends Interfaces\Retrieve {
 
                     $_SESSION['MBO_Client'] = $validateLogin['ValidateLoginResult']['Client'];
 
-                    echo session_id();
-                    var_dump($_SESSION);
-
                     echo '<h3>' . __('Congratulations. You are now logged in with your new Mindbody account.', 'mz-mindbody-api') . '</h3>';
 
                     echo '<div class="mz_signup_welcome">' . __('Sign-up for some classes.', 'mz-mindbody-api') . '</div>';
@@ -342,12 +339,19 @@ class Client_Portal extends Interfaces\Retrieve {
 
         if ($this->check_client_logged() === true) {
 
+            $template_data = array();
+
             $this->clientID = $_SESSION['MBO_Client']['ID'];
-            echo $this->add_client_to_class($_REQUEST['classID'])['message'];
+
+            $add_client_to_class_result = $this->add_client_to_class($_REQUEST['classID']);
+
+            $template_data['type'] = $add_client_to_class_result['type'];
+            $template_data['message'] = $add_client_to_class_result['message'];
+
             // echo $this->mb->debug();
             $template_loader = new Core\Template_Loader();
 
-            $template_loader->set_template_data($this->template_data);
+            $template_loader->set_template_data($template_data);
             $template_loader->get_template_part('added_to_class');
 
         } else {
@@ -398,7 +402,9 @@ class Client_Portal extends Interfaces\Retrieve {
         //$rand_number = rand(1, 10); # for testing
 
         if ( $signupData['AddClientsToClassesResult']['ErrorCode'] != 200 ) {
+
             $result['type'] = "error";
+
             $result['message'] = '';
 
             if (!isset($signupData['AddClientsToClassesResult']['Classes']['Class']['Clients']['Client'])) :
@@ -411,18 +417,30 @@ class Client_Portal extends Interfaces\Retrieve {
             else:
 
                 foreach ($signupData['AddClientsToClassesResult']['Classes']['Class']['Clients']['Client']['Messages'] as $message){
+
                     if (strpos($message, 'already booked') != false){
+
                         $result['message'] .= __('Already registered.', 'mz-mindbody-api');
-                    }else{
-                        $result['message'] .= $message;
+
+                    } else {
+
+                        /*
+                         * For some reason MBO returns an echo in it's error messages. So
+                         * here we split two sentences into one. Pretty hacky.
+                         */
+                        $result['message'] .= explode('.', $message)[0] . '.';
+
                     }
                 }
 
             endif;
 
-        }else{
+        } else {
+
             $result['type'] = "success";
+
             $result['message'] = __('Registered via MindBody', 'mz-mindbody-api');
+
         }
 
        return $result;

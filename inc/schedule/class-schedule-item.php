@@ -60,13 +60,24 @@ class Schedule_Item {
     /**
      * Program ID
      *
-     * ID if the Program the schedule item is assoctiated with. Used in generating URL for class sign-up.
+     * ID of the Program the schedule item is associated with. Used in generating URL for class sign-up.
      *
      * @since    2.4.7
      * @access   public
      * @var      int $sTG ID of program class is associated with.
      */
     public $sTG;
+
+    /**
+     * Class Schedule ID
+     *
+     * ID of...
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      int $sTG ID of program class is associated with.
+     */
+    public $class_schedule_id;
 
     /**
      * Studio ID
@@ -82,7 +93,7 @@ class Schedule_Item {
     /**
      * Class instance ID
      *
-     * Used in generating URL for class sign-up
+     * Might be used in generating URL for class sign-up
      *
      * @since    2.4.7
      * @access   public
@@ -91,11 +102,14 @@ class Schedule_Item {
     public $class_instance_ID;
 
     /**
-     * 
+     * Class Title ID
+     *
+     * This is the integer associated with the specific instance of a class in MBO. This
+     * is what we send to the API to register or de-register for a class.
      *
      * @since    2.4.7
      * @access   public
-     * @var      string 
+     * @var      int
      */
     public $class_title_ID;
 
@@ -109,11 +123,11 @@ class Schedule_Item {
     public $sessionTypeName;
 
     /**
-     * 
+     * Class Description
      *
      * @since    2.4.7
      * @access   public
-     * @var      string 
+     * @var      string May contain HTML.
      */
     public $classDescription;
 
@@ -533,7 +547,7 @@ class Schedule_Item {
         $this->studioid = $schedule_item['Location']['SiteID'];
         $this->sDate = date_i18n('m/d/Y', strtotime($schedule_item['StartDateTime']));
         $this->sTG = $schedule_item['ClassDescription']['Program']['ID'];
-        $this->sTG = $schedule_item['ClassScheduleID'];
+        $this->class_schedule_id = $schedule_item['ClassScheduleID'];
         $this->sign_up_title = __('Sign-Up', 'mz-mindbody-api');
         $this->manage_text = __('Manage on MindBody Site', 'mz-mindbody-api');
         $this->mbo_url = $this->mbo_url();
@@ -561,6 +575,7 @@ class Schedule_Item {
         $this->staff_name_link = $this->class_link_maker('staff');
         $this->sign_up_link = $this->class_link_maker('signup');
         $this->grid_sign_up_link = $this->class_link_maker('grid_signup');
+
     }
 
     /**
@@ -623,7 +638,7 @@ class Schedule_Item {
                     $linkArray['data-target'] = 'mzSignUpModal';
                     $linkArray['data-nonce'] = wp_create_nonce('mz_signup_nonce');
                     $linkArray['data-siteID'] = $this->siteID;
-                    $linkArray['data-classID'] = $this->class_instance_ID;
+                    $linkArray['data-classID'] = $this->class_title_ID;
                     $link->set('href', MZ_Mindbody\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php');
 
                 else:

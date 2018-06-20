@@ -237,6 +237,7 @@
                     if (json.type == "success") {
                         $('.fa-spinner').remove();
                         $('#ClassRegister').html(json.message);
+                        // $('#ClassRegister').append('<div class="modal-footer"><a class="btn btn-primary" id="MBOLogout">Logout</a></div>');
                     } else {
                         $('#ClassRegister').html('ERROR REGISTERING FOR CLASS');
                         console.log(json);
@@ -265,7 +266,7 @@
                 type: "GET",
                 dataType: 'json',
                 url: mz_mindbody_schedule.ajaxurl,
-                data: {action: 'mz_generate_mbo_signup_form', nonce: nonce, classID: classID},
+                data: {action: 'mz_generate_signup_form', nonce: nonce, classID: classID},
                 success: function (json) {
                     if (json.type == "success") {
                         $('.fa-spinner').remove();
@@ -300,7 +301,7 @@
                 type: "GET",
                 dataType: 'json',
                 url: mz_mindbody_schedule.ajaxurl,
-                data: {action: 'mz_create_mbo_account', nonce: formData['nonce'], classID: formData['classID'], form: form.serialize()},
+                data: {action: 'mz_create_mbo_account', nonce: formData.nonce, classID: formData.classID, form: form.serialize()},
                 success: function (json) {
                     if (json.type == "success") {
                         $('.fa-spinner').remove();
@@ -331,7 +332,7 @@
                 dataType: 'json',
                 url: mz_mindbody_schedule.ajaxurl,
                 type: form.attr('method'),
-                data: {action: 'mz_client_log_in', form: form.serialize(), nonce: formData['nonce'], classID: formData['classID']},
+                data: {action: 'mz_client_log_in', form: form.serialize(), nonce: formData.nonce, classID: formData.classID},
                 success: function(json) {
                     if (json.type == "success") {
                         $('#ClassRegister').html(json.message);
@@ -367,13 +368,13 @@
                     if (json.type == "success") {
                         $('#ClassRegister').html(json.message);
                     } else {
-                        $('#ClassRegister').html('ERROR REGISTERING FOR CLASS');
+                        $('#ClassRegister').html('ERROR LOGGING OUT');
                         console.log(json);
                     }
                 } // ./ Ajax Success
             }) // End Ajax
                 .fail(function (json) {
-                    $('#ClassRegister').html('ERROR REGISTERING FOR CLASS');
+                    $('#ClassRegister').html('ERROR LOGGING OUT');
                     console.log(json);
                 }); // End Fail
         });
