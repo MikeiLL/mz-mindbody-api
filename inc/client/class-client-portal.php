@@ -409,16 +409,26 @@ class Client_Portal extends Interfaces\Retrieve {
 
             if (!isset($signupData['AddClientsToClassesResult']['Classes']['Class']['Clients']['Client'])) :
 
-                if (function_exists(mZ_write_to_file)) {
-                    //mZ_write_to_file($signupData['AddClientsToClassesResult']['ErrorCode']);
-                }
                 $result['type'] = "error";
+
+                if (isset($signupData['AddClientsToClassesResult']['Classes']['Class']['Messages'])):
+
+                    foreach ($signupData['AddClientsToClassesResult']['Classes']['Class']['Messages'] as $message) {
+
+                        $result['message'] .= explode('.', $message)[0] . '.';
+
+                    }
+
+                endif;
+
 
             else:
 
                 foreach ($signupData['AddClientsToClassesResult']['Classes']['Class']['Clients']['Client']['Messages'] as $message){
 
                     if (strpos($message, 'already booked') != false){
+
+                        $result['type'] = "booked";
 
                         $result['message'] .= __('Already registered.', 'mz-mindbody-api');
 
