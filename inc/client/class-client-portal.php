@@ -348,7 +348,7 @@ class Client_Portal extends Interfaces\Retrieve {
             $template_data['type'] = $add_client_to_class_result['type'];
             $template_data['message'] = $add_client_to_class_result['message'];
 
-            // echo $this->mb->debug();
+            //echo $this->mb->debug();
             $template_loader = new Core\Template_Loader();
 
             $template_loader->set_template_data($template_data);
@@ -430,7 +430,7 @@ class Client_Portal extends Interfaces\Retrieve {
 
                         $result['type'] = "booked";
 
-                        $result['message'] .= __('Already registered.', 'mz-mindbody-api');
+                        $result['message'] .= __('You are already booked at this time.', 'mz-mindbody-api');
 
                     } else {
 
