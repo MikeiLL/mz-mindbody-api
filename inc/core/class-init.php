@@ -292,6 +292,10 @@ class Init
         $this->loader->add_action('wp_ajax_nopriv_mz_client_log_out', $client_object, 'client_log_out');
         $this->loader->add_action('wp_ajax_mz_client_log_out', $client_object, 'client_log_out');
 
+        // Start Ajax Client Log Out
+        $this->loader->add_action('wp_ajax_nopriv_mz_display_client_schedule', $client_object, 'display_client_schedule');
+        $this->loader->add_action('wp_ajax_mz_display_client_schedule', $client_object, 'display_client_schedule');
+
         // Sessions
         if (self::$advanced_options['register_within_site'] == 'on') {
             $this->loader->add_action('init', $this, 'start_session', 1);

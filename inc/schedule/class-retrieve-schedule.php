@@ -34,7 +34,7 @@ class Retrieve_Schedule extends Interfaces\Retrieve_Classes {
 		    // If it's a negative number, invert the interval
             if ($this->atts['offset'] < 0) $di->invert = 1;
             $start_time->add($di);
-            $end_time->add($di);;
+            $end_time->add($di);
             $current_week_end->add($di);
             $current_day_offset->add($di);
         }

@@ -285,6 +285,36 @@
         });
 
         /**
+         * Display Client Schedule within Sign-Up Modal
+         *
+         *
+         */
+        $(document).on('click', "a#MBOSchedule", function (ev) {
+            ev.preventDefault();
+            var nonce = $(this).attr("data-nonce");
+            $('#AddedToClass').html('<i class="fa fa-spinner fa-3x fa-spin" style="position: fixed; top: 50%; left: 50%;"></i>');
+            $.ajax({
+                type: "GET",
+                dataType: 'json',
+                url: mz_mindbody_schedule.ajaxurl,
+                data: {action: 'mz_display_client_schedule', nonce: nonce},
+                success: function (json) {
+                    if (json.type == "success") {
+                        $('#AddedToClass').html(json.message);
+                    } else {
+                        $('#AddedToClass').html('ERROR RETRIEVING YOUR SCHEDULE');
+                        console.log(json);
+                    }
+                } // ./ Ajax Success
+            }) // End Ajax
+                .fail(function (json) {
+                    $('#AddedToClass').html('ERROR RETRIEVING YOUR SCHEDULE');
+                    console.log(json);
+                }); // End Fail
+
+        });
+
+        /**
          * Create MBO Account and display Confirmation
          *
          *

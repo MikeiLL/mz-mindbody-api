@@ -347,6 +347,7 @@ class Client_Portal extends Interfaces\Retrieve {
 
             $template_data['type'] = $add_client_to_class_result['type'];
             $template_data['message'] = $add_client_to_class_result['message'];
+            $template_data['nonce'] = $_REQUEST['nonce'];
 
             //echo $this->mb->debug();
             $template_loader = new Core\Template_Loader();
@@ -454,6 +455,81 @@ class Client_Portal extends Interfaces\Retrieve {
         }
 
        return $result;
+
+    }
+
+    /**
+     * Display Client Schedule
+     *
+     */
+    public function display_client_schedule(){
+
+        check_ajax_referer($_REQUEST['nonce'], "mz_signup_nonce", false);
+
+        ob_start();
+        //
+        $result['type'] = 'success';
+
+        $classes = $this->get_client_schedule();
+
+        mz_pr($classes);
+
+        echo $this->mb->debug();
+
+        echo '<br/>';
+
+        $result['message'] = ob_get_clean();
+
+        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+            $result = json_encode($result);
+            echo $result;
+        } else {
+            header("Location: " . $_SERVER["HTTP_REFERER"]);
+        }
+
+        die();
+    }
+
+    /**
+     * Get Client Schedule
+     *
+     * Fetch Client Schedule from MBO
+     *
+     * @access private
+     */
+    private function get_client_schedule() {
+
+        $result = array();
+
+        $additions = array();
+
+        $start_date = new \Datetime( '@' . current_time( 'timestamp' ));
+
+        $end_date = new \Datetime( '@' . current_time( 'timestamp' ));
+
+        $di = new \DateInterval('P4W');
+
+        $end_date->add($di);
+
+        $additions['StartDate'] = $start_date->format('Y-m-d');
+
+        $additions['EndDate'] = $end_date->format('Y-m-d');
+
+        $this->clientID = $_SESSION['MBO_Client']['ID'];
+
+        $additions['ClientID'] = $this->clientID;
+
+        // Crate the MBO Object
+        $this->get_mbo_results();
+        
+        $clientSchedule = $this->mb->GetClientSchedule($additions);
+
+        $result['type'] = "success";
+
+        $result['message'] = $clientSchedule;
+
+
+        return $result;
 
     }
 

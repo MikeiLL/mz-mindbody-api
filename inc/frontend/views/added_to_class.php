@@ -6,7 +6,7 @@
     </defs>
 </svg>
 <div style="position:relative">
-    <div>
+    <div id="AddedToClass">
     <?php if ($data->type == 'success'): ?>
         <svg><use xlink:href="#si-ant-check-circle-o"></use></svg>
     <?php elseif ($data->type == 'booked'): ?>
@@ -21,7 +21,7 @@
     <div class="footer" style="position:relative;align:bottom;">
         <a style="float:right;margin:0 1em" class="btn btn-primary" id="MBOLogout"><?php _e('Logout', 'mz-mindbody-api'); ?></a>
         <a style="float:right;margin:0 1em" class="btn btn-primary" id="MBOSite"><?php _e('Manage on Mindbody Site', 'mz-mindbody-api'); ?></a>
-        <a style="float:right;margin:0 1em" class="btn btn-primary" id="MBOSchedule"><?php _e('My Classes', 'mz-mindbody-api'); ?></a>
+        <a style="float:right;margin:0 1em" class="btn btn-primary" data-nonce="<?php echo $data->nonce; ?>" id="MBOSchedule"><?php _e('My Classes', 'mz-mindbody-api'); ?></a>
     </div>
 </div>
 
