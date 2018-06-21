@@ -22,90 +22,125 @@ We want to do as little as possible here so CSS can be defined in theme.
 @import "../../bower_components/font-awesome/scss/font-awesome.scss";
 // endbower
 
-		table { border-collapse: collapse; }
-			th, td { padding: 5px; }
-			th { border: 2px solid #999; background-color: #eee; vertical-align: bottom; }
-			td { border-bottom: 1px solid #ccc; border:1px solid #000;}
+table { border-collapse: collapse; }
 
-			/*table.striped tbody tr:nth-child(even) { background-color: #f0f8ff; }*/ /*auto striping gets messed up with hidden rows*/
-			tr.striped { background-color: #f0f8ff; }
+th, td { padding: 5px; }
 
-			/* filter-table specific styling */
-			td.alt { background-color: #ffc; background-color: rgba(255, 255, 0, 0.2); }
-			td.hidden { display:none; }
-			.red {background:red}
-			.mz_add_to_class { cursor:pointer; }
-		
-		.mz-modal {
-			background-color: #fff;
-		}
-		
-		.filter-table {
-			a { margin-right:.5em;
-				margin-left:.5em;  }
-		}
-		
-		.mz_quick_filter {
-			margin-right:.5em;
-			margin-left:.5em;  
-		}
-		
-		.mz-staff-thumb {
-    	height: 240px;
-    	margin-bottom: 1rem;
-		}
-		
-		.mz-staff-name{
-			text-align: center;
-		}
-		
-		.mz-staffImage {
-			max-width: 33%;
-			height: auto;
-			float:left;
-			margin-right:.8rem;
-		}
-		
-		#ModalRegistrants {
-			border: 2px solid blue;
-		}
-		
-		#ClassRegistrants {
-			ul {
-					list-style-type: none;
-				}
-		}
-		
-		ul.mz-classRegistrants li{
-			margin-left: 20%;
-		}
-		
-		.mz_mbo_styled_select {
-    	display: inline-block;
-		}
-		
-		.mz-mode-select {
-			display: inline-block;
-			float:right;
-		}
-		
-		.mz_hidden {
-			display:none;
-		}
-			
-		.mz-schedule-grid {
-			td {
-    		min-width: 20px;
-    	}
-		}
-		
-		.mz-substitute {
-			padding: .1em .2em;
-			border: 1px solid #999;
-    	border-radius: 10px;
-    	font-size: .8em;
-		}
-/* Potentially nice select styling:
+th { border: 2px solid #999; background-color: #eee; vertical-align: bottom; }
+
+td { border-bottom: 1px solid #ccc; border:1px solid #000;}
+
+/*table.striped tbody tr:nth-child(even) { background-color: #f0f8ff; }*/ /*auto striping gets messed up with hidden rows*/
+tr.striped { background-color: #f0f8ff; }
+
+/* filter-table specific styling */
+td.alt { background-color: #ffc; background-color: rgba(255, 255, 0, 0.2); }
+
+td.hidden { display:none; }
+
+.red {background:red}
+
+.mz_add_to_class { cursor:pointer; }
+
+.mz-modal {
+    background-color: #fff;
+}
+
+.filter-table {
+    a {
+      margin-right:.5em;
+      margin-left:.5em;
+    }
+}
+
+.mz_quick_filter {
+    margin-right:.5em;
+    margin-left:.5em;
+}
+
+.mz-staff-thumb {
+  height: 240px;
+  margin-bottom: 1rem;
+}
+
+.mz-staff-name{
+    text-align: center;
+}
+
+.mz-staffImage {
+    max-width: 33%;
+    height: auto;
+    float:left;
+    margin-right:.8rem;
+}
+
+#ModalRegistrants {
+    border: 2px solid blue;
+}
+
+#ClassRegistrants {
+    ul {
+      list-style-type: none;
+    }
+}
+
+ul.mz-classRegistrants li{
+  margin-left: 20%;
+}
+
+.mz_mbo_styled_select {
+  display: inline-block;
+}
+
+.mz-mode-select {
+    display: inline-block;
+    float:right;
+}
+
+.mz_hidden {
+    display:none;
+}
+
+.mz-schedule-grid {
+      td {
+      min-width: 20px;
+  }
+}
+
+.mz-substitute {
+  padding: .1em .2em;
+  border: 1px solid #999;
+  border-radius: 10px;
+  font-size: .8em;
+}
+
+
+/**
+ * Grid for our modal windows
+ *
+ */
+.modal {
+	display: none;
+	height: 100%;
+	left: 0;
+	position: fixed;
+	top: 0;
+	width: 100%;
+}
+.modal.open {
+	display: flex;
+	flex-direction: column;
+}
+.modal__header,
+.modal__footer {
+	height: 100px;
+}
+.modal__content {
+	height: 100%;
+	overflow-y: auto;
+}
+
+/** Potentially nice select styling:
  Select Box Styles: bavotasan.com Method (with special adaptations by ericrasch.com) */
 /* -------------------- Source: http://bavotasan.com/2011/style-select-box-using-only-css/ */
 /* From http://codepen.io/ericrasch/pen/zjDBx 
