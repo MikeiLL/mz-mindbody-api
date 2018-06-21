@@ -5,20 +5,22 @@
         <symbol viewBox="0 0 1024 1024" aria-labelledby="fzsi-ant-smile-title" id="si-ant-smile"><title id="fzsi-ant-smile-title">icon smile</title><path d="M512 64q91 0 174 35 81 34 143 96t96 143q35 83 35 174t-35 174q-34 81-96 143t-143 96q-83 35-174 35t-174-35q-81-34-143-96T99 686q-35-83-35-174t35-174q34-81 96-143t143-96q83-35 174-35zm0-64Q373 0 255 68.5T68.5 255 0 512t68.5 257T255 955.5t257 68.5 257-68.5T955.5 769t68.5-257-68.5-257T769 68.5 512 0zM224 446q-13 0-22.5-9.5T192 414v-64q0-13 9.5-22.5T224 318t22.5 9.5T256 350v64q0 13-9.5 22.5T224 446zm575 0q-13 0-22.5-9.5T767 414v-64q0-13 9.5-22.5T799 318t22.5 9.5T831 350v64q0 13-9.5 22.5T799 446zM192 577zm640 0zM512 766q-106 0-182-74-61-60-73-144-2-14 7.5-25t23.5-11q12 0 21 8t11 19q9 62 55 107 57 56 137 56t137-56q46-45 55-107 2-12 11-19.5t21-7.5q14 0 24 11t7 25q-12 83-73 144-76 74-182 74z"/></symbol>
     </defs>
 </svg>
-<div style="position:relative">
-    <div id="AddedToClass">
-    <?php if ($data->type == 'success'): ?>
-        <svg><use xlink:href="#si-ant-check-circle-o"></use></svg>
-    <?php elseif ($data->type == 'booked'): ?>
-        <svg><use xlink:href="#si-ant-smile"></use></svg>
-    <?php else: ?>
-        <svg><use xlink:href="#si-ant-frown"></use></svg>
-    <?php endif; ?>
+<div class="modal">
+    <div class="modal__header">Header Content Here</div>
+    <div class="modal__content" id="AddedToClass">
 
-    <h3><?php echo $data->message ?></h3>
+        <?php if ($data->type == 'success'): ?>
+            <svg><use xlink:href="#si-ant-check-circle-o"></use></svg>
+        <?php elseif ($data->type == 'booked'): ?>
+            <svg><use xlink:href="#si-ant-smile"></use></svg>
+        <?php else: ?>
+            <svg><use xlink:href="#si-ant-frown"></use></svg>
+        <?php endif; ?>
+
+        <h3><?php echo $data->message ?></h3>
 
     </div>
-    <div class="footer" style="position:relative;align:bottom;">
+    <div class="modal__footer">
         <a style="float:right;margin:0 1em" class="btn btn-primary" id="MBOLogout"><?php _e('Logout', 'mz-mindbody-api'); ?></a>
         <a style="float:right;margin:0 1em" class="btn btn-primary" id="MBOSite"><?php _e('Manage on Mindbody Site', 'mz-mindbody-api'); ?></a>
         <a style="float:right;margin:0 1em" class="btn btn-primary" data-nonce="<?php echo $data->nonce; ?>" id="MBOSchedule"><?php _e('My Classes', 'mz-mindbody-api'); ?></a>
