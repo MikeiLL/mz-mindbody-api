@@ -310,6 +310,7 @@ abstract class Retrieve_Classes extends Retrieve {
         }
         /* They are not ordered by date so order them by date */
         ksort($this->classesByDateThenTime);
+
         foreach($this->classesByDateThenTime as $classDate => &$classes)
         {
             /*
@@ -432,7 +433,6 @@ abstract class Retrieve_Classes extends Retrieve {
      * @param array $class
      * @return boolean
      */
-
     protected function filter_class($class){
         if (
             (!in_array($class['Location']['ID'], $this->atts['locations'])) ||

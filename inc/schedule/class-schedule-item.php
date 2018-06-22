@@ -111,7 +111,7 @@ class Schedule_Item {
      * @access   public
      * @var      int
      */
-    public $class_title_ID;
+    public $ID;
 
     /**
      * 
@@ -540,7 +540,7 @@ class Schedule_Item {
         $this->staffName = isset($schedule_item['Staff']['Name']) ? $schedule_item['Staff']['Name'] : '';
         $this->classDescription = isset($schedule_item['ClassDescription']['Description']) ? $schedule_item['ClassDescription']['Description'] : '';
         $this->staffImage = isset($schedule_item['Staff']['ImageURL']) ? $schedule_item['Staff']['ImageURL'] : '';
-        $this->class_title_ID = $schedule_item['ID'];
+        $this->ID = $schedule_item['ID'];
         $this->class_instance_ID = $schedule_item['ClassScheduleID'];
         $this->sLoc = $schedule_item['Location']['ID'];
         $this->locationName = $schedule_item['Location']['Name'];
@@ -621,7 +621,7 @@ class Schedule_Item {
 
                 if (isset($this->atts['show_registrants']) && ($this->atts['show_registrants'] == 1)) {
                     $linkArray['data-nonce'] = wp_create_nonce('mz_MBO_get_registrants_nonce');
-                    $linkArray['data-classID'] = $this->class_instance_ID;
+                    $linkArray['data-classID'] = $this->ID;
                     $linkArray['data-target'] = 'registrantModal';
                 }
                 $linkArray['data-staffImage'] = ($this->staffImage != '') ? $this->staffImage : '';
@@ -638,7 +638,7 @@ class Schedule_Item {
                     $linkArray['data-target'] = 'mzSignUpModal';
                     $linkArray['data-nonce'] = wp_create_nonce('mz_signup_nonce');
                     $linkArray['data-siteID'] = $this->siteID;
-                    $linkArray['data-classID'] = $this->class_title_ID;
+                    $linkArray['data-classID'] = $this->ID;
                     $link->set('href', MZ_Mindbody\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php');
 
                 else:
@@ -661,7 +661,7 @@ class Schedule_Item {
                     $linkArray['data-target'] = 'mzSignUpModal';
                     $linkArray['data-nonce'] = wp_create_nonce('mz_signup_nonce');
                     $linkArray['data-siteID'] = $this->siteID;
-                    $linkArray['data-classID'] = $this->class_instance_ID;
+                    $linkArray['data-classID'] = $this->ID;
                     $link->set('href', MZ_Mindbody\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php');
 
                 else:

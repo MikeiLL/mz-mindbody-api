@@ -100,7 +100,7 @@ class Retrieve_Class_Owners extends Interfaces\Retrieve_Classes {
 
                 $image_path_array = explode('?imageversion=', $class_image);
 
-                $class_description_substring = substr($class['ClassDescription']['Description'], 0, 55);
+                $class_description_substring = substr(strip_tags($class['ClassDescription']['Description']), 0, 55);
 
                 $temp = array(
                     'class_name' => strip_tags($class['ClassDescription']['Name']),
@@ -118,7 +118,7 @@ class Retrieve_Class_Owners extends Interfaces\Retrieve_Classes {
                     $diff = array_diff($owner, $temp);
                     if ( count( $diff ) === 0 ):
                         // There's already one like this
-                        continue 2;
+                        continue 2; // Jump out of first OUTER loop (2)
                     endif;
                     // DEBUG: Check to see if this is a class which matches in all but staff.
                     // $keys = array_keys($diff);
@@ -158,7 +158,7 @@ class Retrieve_Class_Owners extends Interfaces\Retrieve_Classes {
 
         $image_path_array = explode('?imageversion=', $class_image);
 
-        $class_description_substring = substr($class['ClassDescription']['Description'], 0, 55);
+        $class_description_substring = substr(strip_tags($class['ClassDescription']['Description']), 0, 55);
 
         $temp = array(
             'class_name' => strip_tags($class['ClassDescription']['Name']),
@@ -172,7 +172,14 @@ class Retrieve_Class_Owners extends Interfaces\Retrieve_Classes {
         );
 
         // Fetch the Class_Owners transient and loop through it 'till we find a match
-        if ( $class_owners = get_transient( 'mz_class_owners' ) ):
+        // First make sure we have the "class_owners" and that it's not an empty set
+        if ( $class_owners = get_transient( 'mz_class_owners') ):
+            if ( count($class_owners) === 0 ) :
+                // Class_owners were empty, so re-generate now
+                $this->populate_regularly_scheduled_classes();
+                // And run this again.
+                return $this->find_class_owner($class);
+            endif;
             foreach ($class_owners as $owner):
                 // If the only difference is the instructor, we have a match
                 $diff = array_diff($owner, $temp);
