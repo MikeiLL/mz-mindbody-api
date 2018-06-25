@@ -221,7 +221,7 @@
             var siteID = $(this).attr('data-siteID');
             var nonce = $(this).attr("data-nonce");
             var classID = $(this).attr("data-classID");
-            var popUpContent = '<h3>' + mz_mindbody_schedule.your_account + '</h3><div class="mz-classRegister" id="ClassRegister"></div>';
+            var popUpContent = '<div class="modal__header"><h3>' + mz_mindbody_schedule.your_account + '</h3></div><div class="mz-classRegister" id="ClassRegister"></div>';
             popUpContent += '<i class="fa fa-spinner fa-3x fa-spin" style="position: fixed; top: 50%; left: 50%;"></i>';
             $("#mzSignUpModal").load(target, function () {
                 $.colorbox({html: popUpContent, width: "75%", height: "80%", href: target});

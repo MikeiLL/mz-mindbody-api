@@ -119,25 +119,33 @@ ul.mz-classRegistrants li{
  * Grid for our modal windows
  *
  */
-.modal {
-	display: none;
-	height: 100%;
-	left: 0;
-	position: fixed;
-	top: 0;
-	width: 100%;
+.modal__wrapper {
+  height: 100%;
+  left: 50px;
+  position: fixed;
+  top: 50px;
+  width: 90%;
 }
-.modal.open {
-	display: flex;
-	flex-direction: column;
+
+.modal__footer,
+.modal__header
+{
+  height: 100px;
 }
-.modal__header,
-.modal__footer {
-	height: 100px;
-}
+
 .modal__content {
-	height: 100%;
-	overflow-y: auto;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.modal__content {
+  bottom: 100px;
+  overflow-y: auto;
+}
+
+.modal__footer {
+  bottom: 0;
+  width: 95%; // prevent buttons too far right
 }
 
 /** Potentially nice select styling:
