@@ -269,31 +269,27 @@ class Client_Portal extends Interfaces\Retrieve {
                 echo $this->welcome_message('You are logged into MindBodyOnline.');
 
                 // If user has elected to remember login, create cookie.
-                if (($params['remember_me'] == 'on') && (Core\Init::$advanced_options['allow_remember_me_cookie'] == 'on')):
+                if (($params['keep_me_logged_in'] == 'on') && (Core\Init::$advanced_options['keep_loogged_in_cookie'] == 'on')):
+
                     $userlabel = 'MZ_MBO_USER';
 
-                    //$value = json_encode(array('GUID' => $validateLogin['ValidateLoginResult']['GUID'], 'Client' => $validateLogin['ValidateLoginResult']['Client']), JSON_FORCE_OBJECT);
-                    $value = json_encode($validateLogin['ValidateLoginResult']['Client']['Liability'], JSON_FORCE_OBJECT | JSON_UNESCAPED_SLASHES);
-
-                    var_dump($value);
-
-                    var_dump(json_decode($value));
+                    $value = json_encode(array('MBO_GUID' => $validateLogin['ValidateLoginResult']['GUID'], 'MBO_Client' => $validateLogin['ValidateLoginResult']['Client']), JSON_FORCE_OBJECT);//
 
                     setcookie( $userlabel, $value, time()+60*60*24*30, COOKIEPATH, COOKIE_DOMAIN );
 
-                    if(!isset($_COOKIE[$userlabel])) {
-                        echo "The cookie: '" . $userlabel . "' is not set.";
-                    } else {
-                        echo "The cookie '" . $userlabel . "' is set.";
-                        mz_pr($_COOKIE['MZ_MBO_USER']);
-                        mz_pr(json_decode($_COOKIE['MZ_MBO_USER']));
-                        $error = json_last_error();
-                        if ($error !== JSON_ERROR_NONE) {
-                            echo json_last_error_msg();
-                        } else {
-                            echo $json;
-                        }
-                    }
+                    // if(!isset($_COOKIE[$userlabel])) {
+                    //     echo "The cookie: '" . $userlabel . "' is not set.";
+                    // } else {
+                    //     echo "The cookie '" . $userlabel . "' is set.";
+                    //     mz_pr($_COOKIE['MZ_MBO_USER']);
+                    //     mz_pr(json_decode($_COOKIE['MZ_MBO_USER']));
+                    //     $error = json_last_error();
+                    //     if ($error !== JSON_ERROR_NONE) {
+                    //         echo json_last_error_msg();
+                    //     } else {
+                    //         echo $json;
+                    //     }
+                    // }
                 endif;
 
             } else {

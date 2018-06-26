@@ -282,10 +282,10 @@ class Settings_Page {
         self::$wposa_obj->add_field(
             'mz_mbo_advanced',
             array(
-                'id'      => 'allow_remember_me_cookie',
+                'id'      => 'keep_loogged_in_cookie',
                 'type'    => 'checkbox',
-                'name'    => __( 'Allow "Remember Me" Cookie', 'mz-mindbody-api' ),
-                'desc'    => __( 'When checked, visitors will have a "remember me" checkbox when they log in.', 'mz-mindbody-api' )
+                'name'    => __( 'Allow "Keep Me Logged In" Cookie', 'mz-mindbody-api' ),
+                'desc'    => __( 'When checked, visitors will have a "keep me logged in" checkbox when they log in.', 'mz-mindbody-api' )
             )
         );
 
