@@ -366,7 +366,6 @@
                 success: function(json) {
                     if (json.type == "success") {
                         $('#ClassRegister').html(json.message);
-                        console.log(json);
                     } else {
                         $('#ClassRegister').html('ERROR REGISTERING FOR CLASS');
                         console.log(json);

@@ -121,10 +121,6 @@ ul.mz-classRegistrants li{
  */
 .modal__wrapper {
   height: 100%;
-  left: 50px;
-  position: fixed;
-  top: 50px;
-  width: 90%;
 }
 
 .modal__footer,
@@ -144,6 +140,7 @@ ul.mz-classRegistrants li{
 }
 
 .modal__footer {
+  margin-top: 1em;
   bottom: 0;
   width: 95%; // prevent buttons too far right
 }

@@ -1,8 +1,16 @@
 <?php
 
 use MZ_Mindbody\Inc\Libraries as Libraries;
-
-var_dump($_SESSION);
+echo '<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /></head><body>';   // Set the charset appropriately! Looks like a cyrillic set?
+function remove_utf8_bom($text)
+{
+    $bom = pack('H*','EFBBBF');
+    $text = preg_replace("/^$bom/", '', $text);
+    return $text;
+}
+var_dump($_COOKIE['MZ_MBO_USER']);
+var_dump(json_decode(str_replace('\\', '', $_COOKIE['MZ_MBO_USER'])));
+var_dump(json_last_error());
 
 ?>
 <div id="mzScheduleNavHolder">

@@ -267,7 +267,6 @@ class Settings_Page {
             )
         );
 
-
         // Field: Display Substitute Status
         self::$wposa_obj->add_field(
             'mz_mbo_advanced',
@@ -279,6 +278,16 @@ class Settings_Page {
             )
         );
 
+        // Field: Display Allow "Remember Me" Cookie
+        self::$wposa_obj->add_field(
+            'mz_mbo_advanced',
+            array(
+                'id'      => 'allow_remember_me_cookie',
+                'type'    => 'checkbox',
+                'name'    => __( 'Allow "Remember Me" Cookie', 'mz-mindbody-api' ),
+                'desc'    => __( 'When checked, visitors will have a "remember me" checkbox when they log in.', 'mz-mindbody-api' )
+            )
+        );
 
         // Field: Display Substitute Status
         self::$wposa_obj->add_field(
