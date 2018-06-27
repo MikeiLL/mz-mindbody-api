@@ -258,6 +258,41 @@ class MZMBO_Session {
     }
 
     /**
+     * Set a cookie to store
+     *
+     * This is for hosts and caching plugins to identify if caching should be disabled
+     *
+     * @since 1.8
+     * @param bool $set Whether to set or destroy
+     * @return void
+     */
+    public function set_cart_cookie( $set = true ) {
+        if( ! headers_sent() ) {
+            if( $set ) {
+                @setcookie( 'edd_items_in_cart', '1', time() + 30 * 60, COOKIEPATH, COOKIE_DOMAIN, false );
+            } else {
+                if ( isset($_COOKIE['edd_items_in_cart']) ) {
+                    @setcookie( 'edd_items_in_cart', '', time() - 3600, COOKIEPATH, COOKIE_DOMAIN, false );
+                }
+            }
+        }
+    }
+
+    /**
+     * Determines if a user has set the EDD_USE_CART_COOKIE
+     *
+     * @since  2.5
+     * @return bool If the store should use the edd_items_in_cart cookie to help avoid caching
+     */
+    public function use_cart_cookie() {
+        $ret = true;
+        if ( defined( 'MZMBO_USE_CART_COOKIE' ) && ! MZMBO_USE_CART_COOKIE ) {
+            $ret = false;
+        }
+        return (bool) apply_filters( 'mzmbo_use_cart_cookie', $ret );
+    }
+
+    /**
      * Starts a new session if one has not started yet.
      *
      * Checks to see if the MZMBO_USE_PHP_SESSIONS constant is defined.

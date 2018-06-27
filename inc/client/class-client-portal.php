@@ -47,7 +47,7 @@ class Client_Portal extends Interfaces\Retrieve {
      */
     private function check_client_logged(){
 
-        if ( empty($_SESSION['MBO_GUID']) ) {
+        if ( empty( NS\MZMBO()->session->get('MBO_GUID') ) ) {
 
             return false;
 
@@ -139,11 +139,6 @@ class Client_Portal extends Interfaces\Retrieve {
 
         check_ajax_referer($_REQUEST['nonce'], "mz_signup_nonce", false);
 
-        //if(!empty($signupData['AddOrUpdateClientsResult']['Clients']['Client']['Action']) && $signupData['AddOrUpdateClientsResult']['Clients']['Client']['Action'] == 'Failed' && !empty($signupData['AddOrUpdateClientsResult']['Clients']['Client']['Messages'])) {
-        //    foreach($signupData['AddOrUpdateClientsResult']['Clients']['Client']['Messages'] as $message) {
-        //        echo "<pre>".print_r($message,1).'</pre><br />';
-        //    }
-        //}
         // Crate the MBO Object
         $this->get_mbo_results();
 
@@ -151,19 +146,6 @@ class Client_Portal extends Interfaces\Retrieve {
 
         ob_start();
 
-
-        //$template_loader = new Core\Template_Loader();
-        //$this->template_data = array(
-        //    'password' => $global_strings['password'],
-        //    'username' => $global_strings['username'],
-        //    'antispam' => __('Leave this empty-slash-blank', 'mz-mindbody-api'),
-        //    'firstname' => __('First Name', 'mz-mindbody-api'),
-        //    'lastname' => __('Last Name', 'mz-mindbody-api'),
-        //    'sign_up' => __('Sign up', 'mz-mindbody-api'),
-        //    'requiredFieldsInputs' => $requiredFieldsInputs
-        //);
-        //$template_loader->set_template_data($this->template_data);
-        //$template_loader->get_template_part('create_mbo_account');
 
         // Parse the serialized form into an array.
         $params = array();
@@ -197,9 +179,9 @@ class Client_Portal extends Interfaces\Retrieve {
 
                 if ( !empty($validateLogin['ValidateLoginResult']['GUID']) ) {
 
-                    $_SESSION['MBO_GUID'] = $validateLogin['ValidateLoginResult']['GUID'];
+                    NS\MZMBO()->session->set('MBO_GUID', $validateLogin['ValidateLoginResult']['GUID']);
 
-                    $_SESSION['MBO_Client'] = $validateLogin['ValidateLoginResult']['Client'];
+                    NS\MZMBO()->session->set('MBO_Client', $validateLogin['ValidateLoginResult']['Client']);
 
                     echo '<h3>' . __('Congratulations. You are now logged in with your new Mindbody account.', 'mz-mindbody-api') . '</h3>';
 
@@ -261,9 +243,9 @@ class Client_Portal extends Interfaces\Retrieve {
 
                 // If validated, create two session variables and store
 
-                $_SESSION['MBO_GUID'] = $validateLogin['ValidateLoginResult']['GUID'];
 
-                $_SESSION['MBO_Client'] = $validateLogin['ValidateLoginResult']['Client'];
+                NS\MZMBO()->session->set( 'MBO_GUID', $validateLogin['ValidateLoginResult']['GUID'] );
+                NS\MZMBO()->session->set( 'MBO_Client', $validateLogin['ValidateLoginResult']['Client'] );
 
                 // Notify user
                 echo $this->welcome_message('You are logged into MindBodyOnline.');
@@ -334,9 +316,9 @@ class Client_Portal extends Interfaces\Retrieve {
      */
     public function client_log_out(){
 
-        unset($_SESSION['MBO_GUID']);
-        unset($_SESSION['MBO_Client']);
-        unset($_COOKIE['MZ_MBO_USER']);
+        NS\MZMBO()->session->clear('MBO_GUID');
+        NS\MZMBO()->session->clear('MBO_Client');
+        // unset($_COOKIE['MZ_MBO_USER']);
 
         ob_start();
         //
@@ -375,7 +357,7 @@ class Client_Portal extends Interfaces\Retrieve {
 
             $template_data = array();
 
-            $this->clientID = $_SESSION['MBO_Client']['ID'];
+            $this->clientID = NS\MZMBO()->session->get('MBO_Client')['ID'];
 
             $add_client_to_class_result = $this->add_client_to_class($_REQUEST['classID']);
 
@@ -549,7 +531,7 @@ class Client_Portal extends Interfaces\Retrieve {
 
         $additions['EndDate'] = $end_date->format('Y-m-d');
 
-        $this->clientID = $_SESSION['MBO_Client']['ID'];
+        $this->clientID = NS\MZMBO()->session->get('MBO_Client')['ID'];
 
         $additions['ClientID'] = $this->clientID;
 
