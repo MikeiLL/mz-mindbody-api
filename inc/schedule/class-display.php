@@ -192,7 +192,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
         ), $atts);
 
         // Set siteID to option if not set explicitly in shortcode
-        $this->siteID = (isset($atts['account'])) ? $atts['account'] : Core\Init::$basic_options['mz_mindbody_siteID'];
+        $this->siteID = (isset($atts['account'])) ? $atts['account'] : Core\MZ_Mindbody_Api::$basic_options['mz_mindbody_siteID'];
 
         $this->class_modal_link = MZ_Mindbody\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php';
 
@@ -285,7 +285,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
          * If wordpress-configured week starts on Monday instead of Sunday,
          * we shift our week names array
          */
-        if ( Core\Init::$start_of_week != 0 ) {
+        if ( Core\MZ_Mindbody_Api::$start_of_week != 0 ) {
             array_push($week_names, array_shift($week_names));
         }
 

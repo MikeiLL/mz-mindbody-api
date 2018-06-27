@@ -170,14 +170,14 @@ abstract class Retrieve_Classes extends Retrieve {
 
         parent::__construct();
         
-        $this->date_format = Core\Init::$date_format;
-        $this->time_format = Core\Init::$time_format;
+        $this->date_format = Core\MZ_Mindbody_Api::$date_format;
+        $this->time_format = Core\MZ_Mindbody_Api::$time_format;
         $this->classesByDateThenTime = array();
         $this->classes = array();
         $this->atts = $atts;
         $this->time_frame = $this->time_frame();
         $this->locations_dictionary = array();
-        $this->schedule_types = !empty(Core\Init::$advanced_options['schedule_types']) ? Core\Init::$advanced_options['schedule_types'] : array('DropIn');
+        $this->schedule_types = !empty(Core\MZ_Mindbody_Api::$advanced_options['schedule_types']) ? Core\MZ_Mindbody_Api::$advanced_options['schedule_types'] : array('DropIn');
         // Allow shortcode to override global setting for schedule_types
         if (!empty($this->atts['schedule_types'])) $this->schedule_types = $this->atts['schedule_types'];
 
@@ -240,7 +240,7 @@ abstract class Retrieve_Classes extends Retrieve {
 	 * @return array 'start', 'end' of current week in timestamps
 	 */
 	public function single_week($timestamp){
-		return get_weekstartend(date("Y-m-d H:i:s", $timestamp), Core\Init::$start_of_week);
+		return get_weekstartend(date("Y-m-d H:i:s", $timestamp), Core\MZ_Mindbody_Api::$start_of_week);
 	}
 
 	/**
@@ -379,7 +379,7 @@ abstract class Retrieve_Classes extends Retrieve {
 
             } else {
                 // Assign the first element of this time slot.
-                $display_time = (date_i18n(Core\Init::$time_format, strtotime($class['StartDateTime'])));
+                $display_time = (date_i18n(Core\MZ_Mindbody_Api::$time_format, strtotime($class['StartDateTime'])));
                 $this->classesByTimeThenDate[$classTime] = array(
                                                                 'display_time' => $display_time,
                                                                 // Add part_of_day for filter as well

@@ -23,9 +23,9 @@ class ScheduleDisplayTest extends WP_UnitTestCase {
 			'mz_mindbody_siteID' => '-99'
 		);
         add_option( 'mz_mbo_basic', $basic_options, '', 'yes' );
-        $this->assertTrue(class_exists('MZ_Mindbody\Inc\Core\Init'));
+        $this->assertTrue(class_exists('MZ_Mindbody\Inc\Core\MZ_Mindbody_Api'));
         // Manually initialize static variable.
-		MZ_Mindbody\Inc\Core\Init::$basic_options = get_option('mz_mbo_basic');
+		MZ_Mindbody\Inc\Core\MZ_Mindbody_Api::$basic_options = get_option('mz_mbo_basic');
         $this->assertTrue(class_exists('MZ_Mindbody\Inc\Schedule\Retrieve_Schedule'));
 		$schedule_object = new MZ_Mindbody\Inc\Schedule\Retrieve_Schedule;
 		$time_frame = $schedule_object->time_frame();

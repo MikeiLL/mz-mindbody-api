@@ -562,7 +562,7 @@ class Schedule_Item {
         $this->dislayCancelled = ($schedule_item['IsCanceled'] == 1) ? '<div class="mz_cancelled_class">' . __('Cancelled', 'mz-mindbody-api') . '</div>' : '';
         $this->is_substitute = $schedule_item['Substitute'];
         $this->atts = $atts;
-        if (Core\Init::$advanced_options['elect_display_substitutes'] == 'on'):
+        if (Core\MZ_Mindbody_Api::$advanced_options['elect_display_substitutes'] == 'on'):
             if ($this->is_substitute === true):
                 $owners = new Retrieve_Class_Owners;
                 $owner = $owners->find_class_owner($schedule_item);
@@ -633,7 +633,7 @@ class Schedule_Item {
                 $linkArray['class'] = 'btn btn-primary';
                 $linkArray['text'] = __('Sign-Up', 'mz-mindbody-api');
 
-                if ((!empty($this->atts['advanced']) && ($this->atts['advanced'] == '1')) || (Core\Init::$advanced_options['register_within_site'] == 'on')):
+                if ((!empty($this->atts['advanced']) && ($this->atts['advanced'] == '1')) || (Core\MZ_Mindbody_Api::$advanced_options['register_within_site'] == 'on')):
 
                     $linkArray['data-target'] = 'mzSignUpModal';
                     $linkArray['data-nonce'] = wp_create_nonce('mz_signup_nonce');
@@ -656,7 +656,7 @@ class Schedule_Item {
                 $linkArray['data-time'] = $this->startDateTime;
                 $linkArray['text'] = '<svg class="icon sign-up"><use xlink:href="#si-bootstrap-log-in"/></use></svg>';
 
-                if ((!empty($this->atts['advanced']) && ($this->atts['advanced'] == '1')) || (Core\Init::$advanced_options['register_within_site'] == 'on')):
+                if ((!empty($this->atts['advanced']) && ($this->atts['advanced'] == '1')) || (Core\MZ_Mindbody_Api::$advanced_options['register_within_site'] == 'on')):
 
                     $linkArray['data-target'] = 'mzSignUpModal';
                     $linkArray['data-nonce'] = wp_create_nonce('mz_signup_nonce');
@@ -696,7 +696,7 @@ class Schedule_Item {
          * and for now we're ignoring week starts aside from
          * Sunday or Monday. Sorry.
          */
-        if (Core\Init::$start_of_week != 0) return $php_day_number;
+        if (Core\MZ_Mindbody_Api::$start_of_week != 0) return $php_day_number;
         switch ($php_day_number) {
             case 7: return 1;
             break;

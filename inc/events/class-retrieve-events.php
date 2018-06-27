@@ -66,9 +66,9 @@ class Retrieve_Events extends Interfaces\Retrieve_Classes {
 
         $end_time = new \Datetime( date_i18n('Y-m-d', $timestamp) );
 
-        $session_types = explode(',', Core\Init::$events_options['mz_mindbody_eventID']);
+        $session_types = explode(',', Core\MZ_Mindbody_Api::$events_options['mz_mindbody_eventID']);
 
-        $di = new \DateInterval('P'.Core\Init::$event_calendar_duration.'D');
+        $di = new \DateInterval('P'.Core\MZ_Mindbody_Api::$event_calendar_duration.'D');
 
         $end_time->add($di);
 

@@ -92,7 +92,7 @@ class Retrieve_Class_Owners extends Interfaces\Retrieve_Classes {
                     continue;
                 }
 
-                $classStartTime = new \DateTime($class['StartDateTime'], Core\Init::$timezone);
+                $classStartTime = new \DateTime($class['StartDateTime'], Core\MZ_Mindbody_Api::$timezone);
 
                 $day_of_class = $classStartTime->format('l');
 
@@ -150,7 +150,7 @@ class Retrieve_Class_Owners extends Interfaces\Retrieve_Classes {
 
         // Create an object that will be compared against the $class_owners matrix
 
-        $classStartTime = new \DateTime($class['StartDateTime'], Core\Init::$timezone);
+        $classStartTime = new \DateTime($class['StartDateTime'], Core\MZ_Mindbody_Api::$timezone);
 
         $day_of_class = $classStartTime->format('l');
 

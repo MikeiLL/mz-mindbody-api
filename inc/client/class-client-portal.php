@@ -269,7 +269,7 @@ class Client_Portal extends Interfaces\Retrieve {
                 echo $this->welcome_message('You are logged into MindBodyOnline.');
 
                 // If user has elected to remember login, create cookie.
-                if (($params['keep_me_logged_in'] == 'on') && (Core\Init::$advanced_options['keep_loogged_in_cookie'] == 'on')):
+                if (($params['keep_me_logged_in'] == 'on') && (Core\MZ_Mindbody_Api::$advanced_options['keep_loogged_in_cookie'] == 'on')):
 
                     $userlabel = 'MZ_MBO_USER';
 

@@ -10,6 +10,7 @@ use MZ_Mindbody\Inc\Schedule as Schedule;
 use MZ_Mindbody\Inc\Staff as Staff;
 use MZ_Mindbody\Inc\Events as Events;
 use MZ_Mindbody\Inc\Client as Client;
+use MZ_Mindbody\Inc\Session as Session;
 use MZ_Mindbody\Inc\Libraries\Rarst\WordPress\DateTime as DateTime;
 
 /**
@@ -21,8 +22,13 @@ use MZ_Mindbody\Inc\Libraries\Rarst\WordPress\DateTime as DateTime;
  *
  * @author     Mike iLL/mZoo.org
  */
-class Init
+class MZ_Mindbody_Api
 {
+    /**
+     * @var MZ_Mindbody_API The one true MZ_Mindbody_API
+     * @since 2.4.7
+     */
+    private static $instance;
 
     /**
      * The loader that's responsible for maintaining and registering all hooks that power
@@ -159,6 +165,33 @@ class Init
         $this->define_public_hooks();
         $this->register_shortcodes();
         $this->add_settings_page();
+
+
+    }
+
+    /**
+     * Main MZ_Mindbody_Api Instance.
+     *
+     * Insures that only one instance of MZ_Mindbody_Api exists in memory at any one
+     * time. Also prevents needing to define globals all over the place.
+     *
+     * Totally borrowed from Easy_Digital_Downloads, and certainly used with some ignorance
+     * as EDD doesn't actually include a construct in it's class.
+     *
+     * @since 2.4.7
+     * @static
+     * @staticvar array $instance
+     * @see MZMBO()
+     * @return object|MZ_Mindbody_Api The one true MZ_Mindbody_Api
+     */
+    public static function instance() {
+        if ( ! isset( self::$instance ) && ! ( self::$instance instanceof MZ_Mindbody_Api ) ) {
+            self::$instance = new MZ_Mindbody_Api;
+
+            self::$instance->session       = new MZMBO_Session();
+        }
+
+        return self::$instance;
     }
 
     /**
@@ -380,6 +413,8 @@ class Init
         $staff_display->register('mz-mindbody-staff-list');
         $events_display = new Events\Display();
         $events_display->register('mz-mindbody-show-events');
+        $session_display = new Session\Display();
+        $session_display->register('display_session');
     }
 
     /**

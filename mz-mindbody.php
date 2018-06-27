@@ -95,7 +95,7 @@ class MZ_Mindbody {
 	public static function init() {
 
 		if ( null === self::$init ) {
-			self::$init = new Inc\Core\Init();
+			self::$init = new Inc\Core\MZ_Mindbody_Api;
 			self::$init->run();
 		}
 
@@ -124,3 +124,26 @@ $min_php = '5.6.0';
 if ( version_compare( PHP_VERSION, $min_php, '>=' ) ) {
 		mz_mindbody_init();
 }
+
+/**
+ * The main function for that returns MZ_Mindbody_Api
+ *
+ * The main function responsible for returning the one true MZ_Mindbody_Api
+ * Instance to functions everywhere.
+ *
+ * Borrowed from Easy_Digital_Downloads.
+ *
+ * Use this function like you would a global variable, except without needing
+ * to declare the global.
+ *
+ * Example: <?php $mZmbo = MZ_Mindbody\MZMBO(); ?>
+ *
+ * @since 1.4
+ * @return object|MZ_Mindbody_Api The one true MZ_Mindbody_Api Instance.
+ */
+function MZMBO() {
+    return Inc\Core\MZ_Mindbody_Api::instance();
+}
+
+// Get MZ_Mindbody_Api Instance.
+MZMBO();
