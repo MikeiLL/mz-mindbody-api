@@ -16,6 +16,12 @@ class Display extends Interfaces\ShortCode_Loader
 
         echo "Hello, Pooh.";
 
+        $cart = array('tigger' => 'was here');
+
+        MZ_Mindbody\MZMBO()->session->set( 'mzmbo_cart', $cart );
+
+        mz_pr(MZ_Mindbody\MZMBO()->session->get( 'mzmbo_cart'));
+
         return ob_get_clean();
     }
 

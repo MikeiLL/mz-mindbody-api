@@ -329,13 +329,6 @@ class MZ_Mindbody_Api
         $this->loader->add_action('wp_ajax_nopriv_mz_display_client_schedule', $client_object, 'display_client_schedule');
         $this->loader->add_action('wp_ajax_mz_display_client_schedule', $client_object, 'display_client_schedule');
 
-        // Sessions
-        if (self::$advanced_options['register_within_site'] == 'on') {
-            $this->loader->add_action('init', $this, 'start_session', 1);
-            $this->loader->add_action('wp_logout', $this, 'end_session');
-            $this->loader->add_action('wp_login', $this, 'end_session');
-        }
-
     }
 
     /**
@@ -415,22 +408,6 @@ class MZ_Mindbody_Api
         $events_display->register('mz-mindbody-show-events');
         $session_display = new Session\Display();
         $session_display->register('display_session');
-    }
-
-    /**
-     * Start php $_SESSION
-     */
-    public function start_session() {
-        if (!session_id()) {
-            session_start();
-        }
-    }
-
-    /**
-     * Clear php $_SESSION
-     */
-    public function end_session() {
-        session_destroy();
     }
 
 }
