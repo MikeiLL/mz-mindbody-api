@@ -92,19 +92,8 @@ class MZMBO_Session {
                 define( 'WP_SESSION_COOKIE', 'mzmbo_wp_session' );
             }
 
-            if ( ! class_exists( 'Recursive_ArrayAccess' ) ) {
-                require_once( NS\PLUGIN_NAME_DIR . '/inc/libraries/wp-session/class-recursive-arrayaccess.php' );
-            }
-
-            // Include utilities class.
-            // Skip including WP_CLI class.
-            if ( ! class_exists( 'WP_Session_Utils' ) ) {
-                require_once NS\PLUGIN_NAME_DIR . '/inc/libraries/wp-session/class-wp-session-utils.php';
-            }
-
             // Only include the functionality if it's not pre-defined.
             if ( ! class_exists( 'WP_Session' ) ) {
-                require_once( NS\PLUGIN_NAME_DIR . '/inc/libraries/wp-session/class-wp-session.php' );
                 require_once( NS\PLUGIN_NAME_DIR . '/inc/libraries/wp-session/wp-session.php' );
             }
 
@@ -271,7 +260,7 @@ class MZMBO_Session {
     /**
      * Starts a new session if one has not started yet.
      *
-     * Checks to see if the SIMPLE_PAY_USE_PHP_SESSIONS constant is defined.
+     * Checks to see if the MZMBO_USE_PHP_SESSIONS constant is defined.
      *
      * @since  3.0
      * @access public
@@ -287,19 +276,19 @@ class MZMBO_Session {
         // If true, force using native PHP sessions as their plugin overrides native PHP sessions.
         if ( class_exists( 'Pantheon_Sessions\Session' ) ) {
 
-            if ( ! defined( 'SIMPLE_PAY_USE_PHP_SESSIONS' ) ) {
-                define( 'SIMPLE_PAY_USE_PHP_SESSIONS', true );
+            if ( ! defined( 'MZMBO_USE_PHP_SESSIONS' ) ) {
+                define( 'MZMBO_USE_PHP_SESSIONS', true );
             }
         }
 
-        // Enable or disable PHP Sessions based on the SIMPLE_PAY_USE_PHP_SESSIONS constant.
-        if ( defined( 'SIMPLE_PAY_USE_PHP_SESSIONS' ) && SIMPLE_PAY_USE_PHP_SESSIONS ) {
+        // Enable or disable PHP Sessions based on the MZMBO_USE_PHP_SESSIONS constant.
+        if ( defined( 'MZMBO_USE_PHP_SESSIONS' ) && MZMBO_USE_PHP_SESSIONS ) {
             $ret = true;
-        } elseif ( defined( 'SIMPLE_PAY_USE_PHP_SESSIONS' ) && ! SIMPLE_PAY_USE_PHP_SESSIONS ) {
+        } elseif ( defined( 'MZMBO_USE_PHP_SESSIONS' ) && ! MZMBO_USE_PHP_SESSIONS ) {
             $ret = false;
         }
 
-        return (bool) apply_filters( 'simpay_use_php_sessions', $ret );
+        return (bool) apply_filters( 'mzmbo_use_php_sessions', $ret );
     }
 
     /**
@@ -341,7 +330,7 @@ class MZMBO_Session {
      * @return array
      */
     public function get_blacklist() {
-        $blacklist = apply_filters( 'edd_session_start_uri_blacklist', array(
+        $blacklist = apply_filters( 'mzmbo_session_start_uri_blacklist', array(
             'feed',
             'feed/rss',
             'feed/rss2',
