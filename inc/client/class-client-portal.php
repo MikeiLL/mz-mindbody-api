@@ -551,8 +551,8 @@ class Client_Portal extends Interfaces\Retrieve {
 
         $result['type'] = "success";
 
-        //$result['message'] = $this->sort_classes_by_date_then_time($client_schedule);
-        $result['message'] = $client_schedule;
+        $result['message'] = $this->sort_classes_by_date_then_time($client_schedule);
+        //$result['message'] = $client_schedule;
 
         return $result;
 
@@ -568,9 +568,9 @@ class Client_Portal extends Interfaces\Retrieve {
      *
      * @return @type array of Objects from Single_event class, in Date (and time) sequence.
      */
-    public function sort_classes_by_date_then_time($classes = array()) {
+    public function sort_classes_by_date_then_time($client_schedule = array()) {
 
-        foreach($classes as $class)
+        foreach($client_schedule['GetClientScheduleResult']['Visits']['Visit'] as $class)
         {
 
             // Make a timestamp of just the day to use as key for that day's classes
@@ -580,7 +580,7 @@ class Client_Portal extends Interfaces\Retrieve {
             /* Create a new array with a key for each date YYYY-MM-DD
             and corresponding value an array of class details */
 
-            $single_event = new Schedule\Schedule_Item($class);
+            $single_event = new Schedule\Mini_Schedule_Item($class);
 
             if(!empty($this->classesByDateThenTime[$just_date])) {
                 array_push($this->classesByDateThenTime[$just_date], $single_event);

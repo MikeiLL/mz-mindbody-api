@@ -62,33 +62,13 @@ class Schedule_Item {
      *
      * ID of the Program the schedule item is associated with. Used in generating URL for class sign-up.
      *
+     * ['ClassDescription']['Program']['ID']
+     *
      * @since    2.4.7
      * @access   public
      * @var      int $sTG ID of program class is associated with.
      */
     public $sTG;
-
-    /**
-     * Class Schedule ID
-     *
-     * ID of...
-     *
-     * @since    2.4.7
-     * @access   public
-     * @var      int $sTG ID of program class is associated with.
-     */
-    public $class_schedule_id;
-
-    /**
-     * Studio ID
-     *
-     * This is possibly a particular "room" at a location. Used in generating URL for class sign-up.
-     *
-     * @since    2.4.7
-     * @access   public
-     * @var      int $studioid ID associated with MBO account studio
-     */
-    public $studioid;
 
     /**
      * Class instance ID
@@ -97,15 +77,17 @@ class Schedule_Item {
      *
      * @since    2.4.7
      * @access   public
-     * @var      int $class_instance_ID ID of this particular instance of the class
+     * @var      int $class_schedule_id ID of this particular instance of the class
      */
-    public $class_instance_ID;
+    public $class_schedule_id;
 
     /**
      * Class Title ID
      *
      * This is the integer associated with the specific instance of a class in MBO. This
      * is what we send to the API to register or de-register for a class.
+     *
+     * $schedule_item['ID']
      *
      * @since    2.4.7
      * @access   public
@@ -285,7 +267,9 @@ class Schedule_Item {
     public $staffImage;
 
     /**
-     * Location ID
+     * Location/Site ID
+     *
+     * This is possibly a particular "room" at a location. Used in generating URL for class sign-up.
      *
      * @since    2.4.7
      * @access   public
@@ -334,27 +318,9 @@ class Schedule_Item {
      *
      * @since    2.4.7
      * @access   public
-     * @var      string $teacher
-     */
-    public $teacher = '';
-
-    /**
-     * 
-     *
-     * @since    2.4.7
-     * @access   public
      * @var      string $classLength
      */
     public $classLength = '';
-
-    /**
-     * 
-     *
-     * @since    2.4.7
-     * @access   public
-     * @var      string $time_of_day
-     */
-    public $time_of_day;
 
     /**
      * 
@@ -541,13 +507,11 @@ class Schedule_Item {
         $this->classDescription = isset($schedule_item['ClassDescription']['Description']) ? $schedule_item['ClassDescription']['Description'] : '';
         $this->staffImage = isset($schedule_item['Staff']['ImageURL']) ? $schedule_item['Staff']['ImageURL'] : '';
         $this->ID = $schedule_item['ID'];
-        $this->class_instance_ID = $schedule_item['ClassScheduleID'];
-        $this->sLoc = $schedule_item['Location']['ID'];
-        $this->locationName = $schedule_item['Location']['Name'];
-        $this->studioid = $schedule_item['Location']['SiteID'];
-        $this->sDate = date_i18n('m/d/Y', strtotime($schedule_item['StartDateTime']));
         $this->sTG = $schedule_item['ClassDescription']['Program']['ID'];
         $this->class_schedule_id = $schedule_item['ClassScheduleID'];
+        $this->sLoc = $schedule_item['Location']['ID'];
+        $this->locationName = $schedule_item['Location']['Name'];
+        $this->sDate = date_i18n('m/d/Y', strtotime($schedule_item['StartDateTime']));
         $this->sign_up_title = __('Sign-Up', 'mz-mindbody-api');
         $this->manage_text = __('Manage on MindBody Site', 'mz-mindbody-api');
         $this->mbo_url = $this->mbo_url();
@@ -705,7 +669,7 @@ class Schedule_Item {
     }
 
     /**
-     * Generate MBO URL
+     * Assign "Part of Day" based on datetime calculations.
      *
      * Note the part of day class occurs in. Used to filter in display table for schedules
      *
@@ -725,7 +689,7 @@ class Schedule_Item {
     }
 
     /**
-     * Generate MBO URL
+     * Calculate class duration
      *
      * Note the part of day class occurs in. Used to filter in display table for schedules
      *
@@ -747,7 +711,7 @@ class Schedule_Item {
      * @return urlstring
      */
     private function mbo_url() {
-        return "https://clients.mindbodyonline.com/ws.asp?sDate={$this->sDate}&amp;sLoc={$this->sLoc}&amp;sTG={$this->sTG}&amp;sType={$this->sType}&amp;sclassid={$this->class_instance_ID}&amp;studioid={$this->studioid}";
+        return "https://clients.mindbodyonline.com/ws.asp?sDate={$this->sDate}&amp;sLoc={$this->sLoc}&amp;sTG={$this->sTG}&amp;sType={$this->sType}&amp;sclassid={$this->class_schedule_id}&amp;studioid={$this->siteID}";
     }
 
 
