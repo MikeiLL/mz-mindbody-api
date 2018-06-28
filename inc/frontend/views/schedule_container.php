@@ -7,7 +7,7 @@ use MZ_Mindbody as NS;
 // var_dump(json_decode(str_replace('\\', '', $_COOKIE['MZ_MBO_USER'])));
 // var_dump(json_last_error());
 
-mz_pr(NS\MZMBO()->session->get('MBO_Client'));
+// mz_pr(NS\MZMBO()->session->get('MBO_Client'));
 
 ?>
 <div id="mzScheduleNavHolder">

@@ -103,19 +103,19 @@ class MZ_Mindbody_Api
     public static $event_calendar_duration;
 
     /**
-     * Wordpress for date format option.
+     * Format for date display, specific to MBO API Plugin.
      *
      * @since    2.4.7
-     * @access   protected
+     * @access   public
      * @var      string $date_format WP date format option.
      */
     public static $date_format;
 
     /**
-     * Format for date display, specific to MBO API Plugin.
+     * Format for time display, specific to MBO API Plugin.
      *
      * @since    2.4.7
-     * @access   protected
+     * @access   public
      * @var      string $time_format
      */
     public static $time_format;

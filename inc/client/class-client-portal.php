@@ -39,6 +39,33 @@ class Client_Portal extends Interfaces\Retrieve {
     private $clientID;
 
     /**
+     * Format for date display, specific to MBO API Plugin.
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      string $date_format WP date format option.
+     */
+    public static $date_format;
+
+    /**
+     * Format for time display, specific to MBO API Plugin.
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      string $time_format
+     */
+    public static $time_format;
+
+    /**
+     * Class constructor
+     *
+     * Since 2.4.7
+     */
+    public function __construct(){
+        $this->date_format = Core\MZ_Mindbody_Api::$date_format;
+        $this->time_format = Core\MZ_Mindbody_Api::$time_format;
+    }
+    /**
      * Check if Client Logged In
      *
      * If MBO_GUID is set in the session, validate it and return true if valid,
@@ -484,10 +511,12 @@ class Client_Portal extends Interfaces\Retrieve {
 
         $result['type'] = 'success';
 
-        $classes =
-
-        $template_data['classes'] = $this->get_client_schedule();
-        $template_data['nonce'] = $_REQUEST['nonce'];
+        $template_data = array(
+            'date_format' => $this->date_format,
+            'time_format' => $this->time_format,
+            'classes'     => $this->get_client_schedule(),
+            'nonce'       => $_REQUEST['nonce']
+        );
 
         //echo $this->mb->debug();
         $template_loader = new Core\Template_Loader();
@@ -552,7 +581,6 @@ class Client_Portal extends Interfaces\Retrieve {
         $result['type'] = "success";
 
         $result['message'] = $this->sort_classes_by_date_then_time($client_schedule);
-        //$result['message'] = $client_schedule;
 
         return $result;
 
