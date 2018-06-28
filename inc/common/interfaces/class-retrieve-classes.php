@@ -218,7 +218,16 @@ abstract class Retrieve_Classes extends Retrieve {
                 $mb->sourceCredentials['SiteIDs'][0] = $this->mbo_account;
             }
 
-            $this->classes = $mb->GetClasses($this->time_frame);
+            $schedule_data = $mb->GetClasses($this->time_frame);
+
+            if ($schedule_data['GetClassesResult']['Status'] != 'Success'):
+                return array(__('There was an error populating schedule. Details below. Could be a network connection. Consider trying again.', 'mz-mindbody-api'),
+                    $schedule_data['GetClassSchedulesResult']['Status'],
+                    $schedule_data['GetClassSchedulesResult']);
+            endif;
+
+            // Otherwise assign result to this->classes.
+            $this->classes = $schedule_data;
 
             set_transient($transient_string, $this->classes, 60 * 60 * 12);
 

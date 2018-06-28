@@ -1,0 +1,757 @@
+<?php
+namespace MZ_Mindbody\Inc\Schedule;
+
+use MZ_Mindbody;
+use MZ_Mindbody\Inc\Core as Core;
+use MZ_Mindbody\Inc\Libraries\HTML_Element;
+use MZ_Mindbody\Inc\Libraries\Rarst\WordPress\DateTime as DateTime;
+use MZ_Mindbody\Inc\Libraries as Libraries;
+
+/**
+ * Simplified version of the Schedule_Item class.
+ *
+ * These objects hold the schedule items returned in a Client Schedule
+ * returned by GetClientSchedule.
+ *
+ * @Used By Class_Client_Portal
+ *
+ * @param $schedule_item array
+ */
+class Mini_Schedule_Item {
+
+    // All of the attributes from MBO
+    /**
+     * Class Name.
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      string $className Name of the scheduled class.
+     */
+    public $className;
+
+    /**
+     * Timestamp when class starts.
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      string $startDateTime Format is '2018-05-21T08:30:00'.
+     */
+    public $startDateTime;
+
+    /**
+     * Timestamp when class ends.
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      string $endDateTime Format is '2018-05-21T08:30:00'.
+     */
+    public $endDateTime;
+
+    /**
+     * Location ID from MBO.
+     *
+     * Single-location accounts this will probably be a one. Used in generating URL for class sign-up.
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      int $sLoc Which MBO location this schedule item occurs at.
+     */
+    public $sLoc;
+
+    /**
+     * Program ID
+     *
+     * ID of the Program the schedule item is associated with. Used in generating URL for class sign-up.
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      int $sTG ID of program class is associated with.
+     */
+    public $sTG;
+
+    /**
+     * Class Schedule ID
+     *
+     * ID of...
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      int $sTG ID of program class is associated with.
+     */
+    public $class_schedule_id;
+
+    /**
+     * Studio ID
+     *
+     * This is possibly a particular "room" at a location. Used in generating URL for class sign-up.
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      int $studioid ID associated with MBO account studio
+     */
+    public $studioid;
+
+    /**
+     * Class instance ID
+     *
+     * Might be used in generating URL for class sign-up
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      int $class_instance_ID ID of this particular instance of the class
+     */
+    public $class_instance_ID;
+
+    /**
+     * Class Title ID
+     *
+     * This is the integer associated with the specific instance of a class in MBO. This
+     * is what we send to the API to register or de-register for a class.
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      int
+     */
+    public $ID;
+
+    /**
+     * 
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      string 
+     */
+    public $sessionTypeName;
+
+    /**
+     * Class Description
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      string May contain HTML.
+     */
+    public $classDescription;
+
+    /**
+     * Returned image string from MBO
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      string 
+     */
+    public $classImage = '';
+
+    /**
+     * 
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      string 
+     */
+    public $classImageArray;
+
+    /**
+     * Display Class as Cancelled.
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      html $displayCancelled String to display if class is cancelled.
+     */
+    public $displayCancelled;
+
+    /**
+     * 
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      string 
+     */
+    public $signupButton = '';
+
+    /**
+     * 
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      string 
+     */
+    public $locationAddress = '';
+
+    /**
+     * 
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      string 
+     */
+    public $locationAddress2 = '';
+
+    /**
+     *
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      string 
+     */
+    public $locationNameDisplay = '';
+
+    /**
+     * 
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      string 
+     */
+    public $sign_up_title;
+
+    /**
+     * 
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      string 
+     */
+    public $sign_up_text = '';
+
+    /**
+     * 
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      string 
+     */
+    public $manage_text;
+
+    /**
+     * 
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      string 
+     */
+    public $class_details;
+
+    /**
+     * 
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      string 
+     */
+    public $toward_capacity = '';
+
+    /**
+     * 
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      string 
+     */
+    public $scheduleType;
+
+    /**
+     * 
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      string 
+     */
+    public $staffName;
+
+    /**
+     * 
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      string 
+     */
+    public $isAvailable;
+
+    /**
+     * Name of Location as defined in MBO and associated with MBO location ID
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      string 
+     */
+    public $locationName;
+
+    /**
+     *
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      string
+     */
+    public $staffImage;
+
+    /**
+     * Location ID
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      string $studioID ID of location associated with class
+     */
+    public $siteID;
+    
+    // Attributes we create
+
+
+    /**
+     * MBO url TAB
+     *
+     * Which "tab" in the MBO interface the URL in link opens to.
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      int Which MBO interface tab link leads to.
+     */
+    public $sType;
+
+    /**
+     * MBO Staff ID
+     *
+     * Each staff member is assigned a unique ID in MBO
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      int Unique ID for staff member.
+     */
+    public $staffID;
+
+    /**
+     * Weekday Number 1-7 from php's date function
+     *
+     * This is used in the grid schedule display to know which weekday schedule event is associated with.
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      int $day_num
+     */
+    public $day_num;
+
+    /**
+     * 
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      string $teacher
+     */
+    public $teacher = '';
+
+    /**
+     * 
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      string $classLength
+     */
+    public $classLength = '';
+
+    /**
+     * 
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      string $time_of_day
+     */
+    public $time_of_day;
+
+    /**
+     * 
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      string $non_specified_class_times
+     */
+    public $non_specified_class_times = array();
+
+    /**
+     * Holder for MBO Url
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      urlstring $mbo_url the url that links to MBO interface for class
+     */
+    public $mbo_url;
+
+    /**
+     * 
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      string $event_start_and_end
+     */
+    public $event_start_and_end;
+
+    /**
+     * 
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      string $level
+     */
+    public $level; // accessing from another plugin
+
+    /**
+     * 
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      string $sub_link
+     */
+    public $sub_link = '';
+
+    /**
+     * 
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      string $staffModal
+     */
+    public $staffModal;
+
+    /**
+     * 
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      string $mbo_account
+     */
+    public $mbo_account; // the MBO account in case multiple accounts are set
+
+    /**
+     * MBO Timestamp when class starts, formatted for including in URL string for MBO class link.
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      string $sDate Format is '05/21/2018'.
+     */
+    public $sDate;
+
+    /**
+     * CSS-ready name of schedule item Session Type Name
+     *
+     * @since 2.4.7
+     *
+     * @param string $session_type_css.
+     */
+    public $session_type_css;
+
+    /**
+     * CSS-ready name of schedule item Class Name
+     *
+     * @since 2.4.7
+     *
+     * @param string $class_name_css
+     */
+    public $class_name_css;
+
+    /**
+     * Part of Day
+     *
+     * Morning, Afternoon, Evening
+     *
+     * @since 2.4.7
+     *
+     * @param string $part_of_day
+     */
+    public $part_of_day;
+
+    /**
+     * Class duration
+     *
+     * Difference between ClassStartTime and ClassEndTime
+     * Format it like this $class_duration->format('%H:%I');
+     *
+     * @since 2.4.7
+     *
+     * @param Datetime $class_duration
+     */
+    public $class_duration;
+
+    /**
+     * Whether or not the staff member associated with this event is a substitute.
+     *
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      boolean    $current_week_end    Datetime containing start of week requested.
+     */
+    public $is_substitute;
+
+    /**
+     * Whether or not the staff member associated with this event is a substitute.
+     *
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      object    $sub_details    Instance of HTML class.
+     */
+    public $sub_details;
+
+    /**
+     * Class Name Link object for display in schedules.
+     *
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      HTML object    $class_name_link    Instance of HTML class.
+     */
+    public $class_name_link;
+
+    /**
+     * Sign-Up Link object for display in schedules.
+     *
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      HTML object    $sign_up    Instance of HTML class.
+     */
+    public $sign_up_link;
+
+    /**
+     * Shortcode attributes.
+     *
+     * TODO: Would like to avoid having to pass these in here.
+     *
+     * @since    2.4.7
+     * @access   public
+     *
+     * @used in create Link Array Functions: class_name_link_maker
+     *
+     * @var      array $atts Shortcode attributes function called with.
+     */
+    public $atts;
+
+    /**
+     * Populate attributes with data from MBO
+     *
+     * @since 2.4.7
+     *
+     * @param array $schedule_item array of item attributes. See class description.
+     */
+    public function __construct($schedule_item, $atts = array()) {
+
+        $this->className = isset($schedule_item['ClassDescription']['Name']) ? $schedule_item['ClassDescription']['Name']: '';
+        $this->classImage = isset($schedule_item['ClassDescription']['ImageURL']) ? $schedule_item['ClassDescription']['ImageURL']: '';
+        $this->startDateTime = $schedule_item['StartDateTime'];
+        $this->endDateTime = $schedule_item['EndDateTime'];
+        $this->sessionTypeName = isset($schedule_item['ClassDescription']['SessionType']['Name']) ? $schedule_item['ClassDescription']['SessionType']['Name'] : '';
+        $this->staffName = isset($schedule_item['Staff']['Name']) ? $schedule_item['Staff']['Name'] : '';
+        $this->classDescription = isset($schedule_item['ClassDescription']['Description']) ? $schedule_item['ClassDescription']['Description'] : '';
+        $this->staffImage = isset($schedule_item['Staff']['ImageURL']) ? $schedule_item['Staff']['ImageURL'] : '';
+        $this->ID = $schedule_item['ID'];
+        $this->class_instance_ID = $schedule_item['ClassScheduleID'];
+        $this->sLoc = $schedule_item['Location']['ID'];
+        $this->locationName = $schedule_item['Location']['Name'];
+        $this->studioid = $schedule_item['Location']['SiteID'];
+        $this->sDate = date_i18n('m/d/Y', strtotime($schedule_item['StartDateTime']));
+        $this->sTG = $schedule_item['ClassDescription']['Program']['ID'];
+        $this->class_schedule_id = $schedule_item['ClassScheduleID'];
+        $this->sign_up_title = __('Sign-Up', 'mz-mindbody-api');
+        $this->manage_text = __('Manage on MindBody Site', 'mz-mindbody-api');
+        $this->mbo_url = $this->mbo_url();
+        $this->sType = -7;
+        $this->staffID = $schedule_item['Staff']['ID'];
+        $this->siteID = $schedule_item['Location']['SiteID'];
+        $this->day_num = $this->get_day_number(date_i18n("N", strtotime($schedule_item['StartDateTime'])));
+        $this->session_type_css = 'mz_' . sanitize_html_class($this->sessionTypeName, 'mz_session_type');
+        $this->class_name_css = 'mz_' . sanitize_html_class($this->className, 'mz_class_name');
+        $this->part_of_day = $this->part_of_day();
+        $this->class_duration = $this->get_schedule_event_duration();
+        $this->dislayCancelled = ($schedule_item['IsCanceled'] == 1) ? '<div class="mz_cancelled_class">' . __('Cancelled', 'mz-mindbody-api') . '</div>' : '';
+        $this->is_substitute = $schedule_item['Substitute'];
+        $this->atts = $atts;
+        if (Core\MZ_Mindbody_Api::$advanced_options['elect_display_substitutes'] == 'on'):
+            if ($this->is_substitute === true):
+                $owners = new Retrieve_Class_Owners;
+                $owner = $owners->find_class_owner($schedule_item);
+                if ($owner !== false){
+                    $this->sub_details = $owner['class_owner'];
+                }
+            endif;
+        endif;
+        $this->class_name_link = $this->class_link_maker('class');
+        $this->staff_name_link = $this->class_link_maker('staff');
+        $this->sign_up_link = $this->class_link_maker('signup');
+        $this->grid_sign_up_link = $this->class_link_maker('grid_signup');
+
+    }
+
+    /**
+     * Build the Class Name link object
+     *
+     * @return HTML_Element anchor tag.
+     */
+    private function class_link_maker($type = 'class'){
+        /*
+         * Need following eventually
+         */
+        // 'data-accountNumber');
+
+        $linkArray = array();
+        $link = new Libraries\HTML_Element('a');
+
+        switch ($type) {
+
+            case 'staff':
+
+                $linkArray['data-staffName'] = $this->staffName;
+                $linkArray['data-staffID'] = $this->staffID;
+                $linkArray['class'] = 'modal-toggle ' . sanitize_html_class($this->staffName, 'mz_staff_name');
+                $linkArray['text'] = $this->staffName;
+                $linkArray['data-target'] = 'mzStaffScheduleModal';
+                $linkArray['data-nonce'] = wp_create_nonce('mz_staff_retrieve_nonce');
+                $linkArray['data-siteID'] = $this->siteID;
+                if (($this->is_substitute === true) && (!empty($this->sub_details))) {
+                    $linkArray['data-sub'] = (!empty($this->sub_details)) ? $this->sub_details : '';
+                }
+                $linkArray['data-staffImage'] = ($this->staffImage != '') ? $this->staffImage : '';
+                $link->set('href', MZ_Mindbody\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php');
+                break;
+
+            case 'class':
+
+                $linkArray['data-className'] = $this->className;
+                $linkArray['data-staffName'] = $this->staffName;
+                $linkArray['data-classDescription'] = rawUrlEncode($this->classDescription);
+                $linkArray['class'] = 'modal-toggle mz_get_registrants ' . sanitize_html_class($this->className, 'mz_class_name');
+                $linkArray['text'] = $this->className;
+                $linkArray['data-target'] = 'mzModal';
+
+                if (isset($this->atts['show_registrants']) && ($this->atts['show_registrants'] == 1)) {
+                    $linkArray['data-nonce'] = wp_create_nonce('mz_MBO_get_registrants_nonce');
+                    $linkArray['data-classID'] = $this->ID;
+                    $linkArray['data-target'] = 'registrantModal';
+                }
+                $linkArray['data-staffImage'] = ($this->staffImage != '') ? $this->staffImage : '';
+                $link->set('href', MZ_Mindbody\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php');
+                break;
+
+            case 'signup':
+
+                $linkArray['class'] = 'btn btn-primary';
+                $linkArray['text'] = __('Sign-Up', 'mz-mindbody-api');
+
+                if ((!empty($this->atts['advanced']) && ($this->atts['advanced'] == '1')) || (Core\MZ_Mindbody_Api::$advanced_options['register_within_site'] == 'on')):
+
+                    $linkArray['data-target'] = 'mzSignUpModal';
+                    $linkArray['data-nonce'] = wp_create_nonce('mz_signup_nonce');
+                    $linkArray['data-siteID'] = $this->siteID;
+                    $linkArray['data-classID'] = $this->ID;
+                    $link->set('href', MZ_Mindbody\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php');
+
+                else:
+
+                    $linkArray['target'] = '_blank';
+                    $link->set('href', $this->mbo_url);
+
+                endif;
+                break;
+
+            case 'grid_signup':
+
+                $linkArray['class'] = 'btn grid-sign-up-button';
+                $linkArray['title'] = __('Sign-Up', 'mz-mindbody-api');
+                $linkArray['data-time'] = $this->startDateTime;
+                $linkArray['text'] = '<svg class="icon sign-up"><use xlink:href="#si-bootstrap-log-in"/></use></svg>';
+
+                if ((!empty($this->atts['advanced']) && ($this->atts['advanced'] == '1')) || (Core\MZ_Mindbody_Api::$advanced_options['register_within_site'] == 'on')):
+
+                    $linkArray['data-target'] = 'mzSignUpModal';
+                    $linkArray['data-nonce'] = wp_create_nonce('mz_signup_nonce');
+                    $linkArray['data-siteID'] = $this->siteID;
+                    $linkArray['data-classID'] = $this->ID;
+                    $link->set('href', MZ_Mindbody\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php');
+
+                else:
+
+                    $linkArray['target'] = '_blank';
+                    $link->set('href', $this->mbo_url);
+
+                endif;
+                break;
+
+        }
+
+        $link->set($linkArray);
+
+        return $link;
+
+    }
+
+    /**
+     * Get Day Number
+     *
+     * PHP numbers days of the week starting on Monday at 1. If our week starts on Sunday,
+     * then we need to shift so that Sunday is 1 and Saturday is 7.
+     *
+     * @param $php_day_number int a number from 1 - 7 for which day of week php assigns based on date().
+     *
+     * @return int 1 - 7 for assigning to specific shedule item to display in grid schedule
+     */
+    private function get_day_number($php_day_number){
+        /*
+         * If week starts on Monday we're same as php,
+         * and for now we're ignoring week starts aside from
+         * Sunday or Monday. Sorry.
+         */
+        if (Core\MZ_Mindbody_Api::$start_of_week != 0) return $php_day_number;
+        switch ($php_day_number) {
+            case 7: return 1;
+            break;
+            default: return $php_day_number + 1;
+        }
+    }
+
+    /**
+     * Generate MBO URL
+     *
+     * Note the part of day class occurs in. Used to filter in display table for schedules
+     *
+     *
+     * @return string "morning", "afternoon" or "night", translated
+     */
+    private function part_of_day(){
+        $time_by_integer = date_i18n("G.i", strtotime($this->startDateTime));
+        if ($time_by_integer < 12) {
+            return __('morning', 'mz-mindbody-api');
+        }else if ($time_by_integer > 16) {
+            return __('evening', 'mz-mindbody-api');
+        }else{
+            return __('afternoon', 'mz-mindbody-api');
+        }
+        return '';
+    }
+
+    /**
+     * Generate MBO URL
+     *
+     * Note the part of day class occurs in. Used to filter in display table for schedules
+     *
+     *
+     * @return string "morning", "afternoon" or "night", translated
+     */
+    private function get_schedule_event_duration(){
+        $start = new DateTime\WpDateTime($this->startDateTime);
+        $end = new DateTime\WpDateTime($this->endDateTime);
+        return $start->diff($end);
+    }
+
+    /**
+     * Generate MBO URL
+     *
+     * Create a URL for signing up for class.
+     *
+     *
+     * @return urlstring
+     */
+    private function mbo_url() {
+        return "https://clients.mindbodyonline.com/ws.asp?sDate={$this->sDate}&amp;sLoc={$this->sLoc}&amp;sTG={$this->sTG}&amp;sType={$this->sType}&amp;sclassid={$this->class_instance_ID}&amp;studioid={$this->studioid}";
+    }
+
+
+}
+
+?>

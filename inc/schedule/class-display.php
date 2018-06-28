@@ -1,7 +1,7 @@
 <?php
 namespace MZ_Mindbody\Inc\Schedule;
 
-use MZ_Mindbody;
+use MZ_Mindbody as NS;
 use MZ_Mindbody\Inc\Core as Core;
 use MZ_Mindbody\Inc\Common as Common;
 use MZ_Mindbody\Inc\Common\Interfaces as Interfaces;
@@ -194,7 +194,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
         // Set siteID to option if not set explicitly in shortcode
         $this->siteID = (isset($atts['account'])) ? $atts['account'] : Core\MZ_Mindbody_Api::$basic_options['mz_mindbody_siteID'];
 
-        $this->class_modal_link = MZ_Mindbody\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php';
+        $this->class_modal_link = NS\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php';
 
         // Support the old 'class_types' shortcode attr
         $this->atts['session_types'] = !empty($this->atts['class_types']) ? $this->atts['class_types'] : $this->atts['session_types'];
@@ -325,17 +325,17 @@ class Display extends Interfaces\ShortCode_Script_Loader
         if (!self::$addedAlready) {
             self::$addedAlready = true;
 
-            wp_register_style('mz_mindbody_style', MZ_Mindbody\PLUGIN_NAME_URL . 'dist/styles/main.css');
+            wp_register_style('mz_mindbody_style', NS\PLUGIN_NAME_URL . 'dist/styles/main.css');
             wp_enqueue_style('mz_mindbody_style');
 
-            wp_register_script('mz_mbo_bootstrap_script', MZ_Mindbody\PLUGIN_NAME_URL . 'dist/scripts/main.js', array('jquery'), 1.0, true);
+            wp_register_script('mz_mbo_bootstrap_script', NS\PLUGIN_NAME_URL . 'dist/scripts/main.js', array('jquery'), 1.0, true);
             wp_enqueue_script('mz_mbo_bootstrap_script');
 
-            wp_register_script('mz_display_schedule_script', MZ_Mindbody\PLUGIN_NAME_URL . 'dist/scripts/schedule-display.js', array('jquery', 'mz_mbo_bootstrap_script'), 1.0, true);
+            wp_register_script('mz_display_schedule_script', NS\PLUGIN_NAME_URL . 'dist/scripts/schedule-display.js', array('jquery', 'mz_mbo_bootstrap_script'), 1.0, true);
             wp_enqueue_script('mz_display_schedule_script');
 
             if ($this->atts['filter'] == 1):
-                wp_register_script('filterTable', MZ_Mindbody\PLUGIN_NAME_URL . 'dist/scripts/mz_filtertable.js', array('jquery', 'mz_display_schedule_script'), null, true);
+                wp_register_script('filterTable', NS\PLUGIN_NAME_URL . 'dist/scripts/mz_filtertable.js', array('jquery', 'mz_display_schedule_script'), null, true);
                 wp_enqueue_script('filterTable');
             endif;
 
@@ -354,8 +354,8 @@ class Display extends Interfaces\ShortCode_Script_Loader
 
         $protocol = isset($_SERVER["HTTPS"]) ? 'https://' : 'http://';
         $nonce = wp_create_nonce('mz_schedule_display_nonce');
-        $global = new Common\Global_Strings;
-        $translated_strings = $global->translated_strings();
+        
+        $translated_strings = NS\MZMBO()->i18n->get();
 
         $params = array(
             'ajaxurl' => admin_url('admin-ajax.php', $protocol),

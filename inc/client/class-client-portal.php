@@ -4,6 +4,7 @@ namespace MZ_Mindbody\Inc\Client;
 use MZ_Mindbody\Inc\Core as Core;
 use MZ_Mindbody\Inc\Common as Common;
 use MZ_Mindbody\Inc\Libraries as Libraries;
+use MZ_Mindbody\Inc\Schedule as Schedule;
 use MZ_Mindbody\Inc\Common\Interfaces as Interfaces;
 use MZ_Mindbody as NS;
 
@@ -98,9 +99,7 @@ class Client_Portal extends Interfaces\Retrieve {
             }
         }
 
-        $globals = new Common\Global_Strings();
-
-        $global_strings = $globals->translated_strings();
+        $global_strings = NS\MZMBO()->i18n->get();
 
         $template_loader = new Core\Template_Loader();
 
@@ -370,7 +369,6 @@ class Client_Portal extends Interfaces\Retrieve {
 
             $template_loader->set_template_data($template_data);
             $template_loader->get_template_part('added_to_class');
-
         } else {
 
             echo $this->login_form();
@@ -483,16 +481,19 @@ class Client_Portal extends Interfaces\Retrieve {
         check_ajax_referer($_REQUEST['nonce'], "mz_signup_nonce", false);
 
         ob_start();
-        //
+
         $result['type'] = 'success';
 
-        $classes = $this->get_client_schedule();
+        $classes =
 
-        mz_pr($classes);
+        $template_data['classes'] = $this->get_client_schedule();
+        $template_data['nonce'] = $_REQUEST['nonce'];
 
-        echo $this->mb->debug();
+        //echo $this->mb->debug();
+        $template_loader = new Core\Template_Loader();
 
-        echo '<br/>';
+        $template_loader->set_template_data($template_data);
+        $template_loader->get_template_part('client_schedule');
 
         $result['message'] = ob_get_clean();
 
@@ -537,16 +538,76 @@ class Client_Portal extends Interfaces\Retrieve {
 
         // Crate the MBO Object
         $this->get_mbo_results();
+
+        if ( !$this->mb || $this->mb == 'NO_SOAP_SERVICE' ) return false;
         
-        $clientSchedule = $this->mb->GetClientSchedule($additions);
+        $client_schedule = $this->mb->GetClientSchedule($additions);
+
+        if ($client_schedule['GetClientScheduleResult']['Status'] != 'Success'):
+            $result['message'] = array(NS\MZMBO()->i18n->get('result_error'),
+                $schedule_data['GetClientScheduleResult']['Status'],
+                $schedule_data['GetClientScheduleResult']);
+        endif;
 
         $result['type'] = "success";
 
-        $result['message'] = $clientSchedule;
-
+        //$result['message'] = $this->sort_classes_by_date_then_time($client_schedule);
+        $result['message'] = $client_schedule;
 
         return $result;
 
+    }
+
+    /**
+     * Return an array of MBO Class Objects, ordered by date, then time.
+     *
+     * This is a limited version of the Retrieve Classes method used in horizontal schedule
+     *
+     *
+     * @param @type array $mz_classes
+     *
+     * @return @type array of Objects from Single_event class, in Date (and time) sequence.
+     */
+    public function sort_classes_by_date_then_time($classes = array()) {
+
+        foreach($classes as $class)
+        {
+
+            // Make a timestamp of just the day to use as key for that day's classes
+            $dt = new \DateTime($class['StartDateTime']);
+            $just_date =  $dt->format('Y-m-d');
+
+            /* Create a new array with a key for each date YYYY-MM-DD
+            and corresponding value an array of class details */
+
+            $single_event = new Schedule\Schedule_Item($class);
+
+            if(!empty($this->classesByDateThenTime[$just_date])) {
+                array_push($this->classesByDateThenTime[$just_date], $single_event);
+            } else {
+                $this->classesByDateThenTime[$just_date] = array($single_event);
+            }
+        }
+        /* They are not ordered by date so order them by date */
+        ksort($this->classesByDateThenTime);
+
+        foreach($this->classesByDateThenTime as $classDate => &$classes)
+        {
+            /*
+             * $classes is an array of all classes for given date
+             * Take each of the class arrays and order it by time
+             * $classesByDateThenTime should have a length of seven, one for
+             * each day of the week.
+             */
+            usort($classes, function($a, $b) {
+                if($a->startDateTime == $b->startDateTime) {
+                    return 0;
+                }
+                return $a->startDateTime < $b->startDateTime ? -1 : 1;
+            });
+        }
+
+        return $this->classesByDateThenTime;
     }
 
     /**
@@ -555,9 +616,7 @@ class Client_Portal extends Interfaces\Retrieve {
     public function login_form(){
         ob_start();
 
-        $globals = new Common\Global_Strings;
-
-        $global_strings = $globals->translated_strings();
+        $global_strings = NS\MZMBO()->i18n->get();
 
         $template_loader = new Core\Template_Loader();
 

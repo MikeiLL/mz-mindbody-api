@@ -6,6 +6,7 @@ use MZ_Mindbody as NS;
 use MZ_Mindbody\Inc\Admin as Admin;
 use MZ_Mindbody\Inc\Frontend as Frontend;
 use MZ_Mindbody\Inc\Backend as Backend;
+use MZ_Mindbody\Inc\Common as Common;
 use MZ_Mindbody\Inc\Schedule as Schedule;
 use MZ_Mindbody\Inc\Staff as Staff;
 use MZ_Mindbody\Inc\Events as Events;
@@ -189,6 +190,7 @@ class MZ_Mindbody_Api
             self::$instance = new MZ_Mindbody_Api;
 
             self::$instance->session       = new MZMBO_Session();
+            self::$instance->i18n       = new Common\Global_Strings();
         }
 
         return self::$instance;

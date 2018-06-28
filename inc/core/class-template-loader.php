@@ -2,7 +2,7 @@
 namespace MZ_Mindbody\Inc\Core;
 
 use MZ_Mindbody\Inc\Libraries as Libraries;
-use MZ_Mindbody;
+use MZ_Mindbody as NS;
 
 class Template_Loader extends Libraries\Gamajo_Template_Loader {
 
@@ -34,7 +34,7 @@ class Template_Loader extends Libraries\Gamajo_Template_Loader {
      *
      * @var string
      */
-    protected $plugin_directory = MZ_Mindbody\PLUGIN_NAME_DIR;
+    protected $plugin_directory = NS\PLUGIN_NAME_DIR;
 
     /**
      * Directory name where templates are found in this plugin.
