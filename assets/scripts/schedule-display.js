@@ -4,7 +4,10 @@
         // Initialize some variables
         var nonce = mz_mindbody_schedule.nonce,
             atts = mz_mindbody_schedule.atts,
-            container = $('#mzScheduleDisplay');
+            container = $('#mzScheduleDisplay'),
+            // Just one location for use in general MBO site link
+            location = atts.locations[0].toString(),
+            siteID = atts.account ? atts.account : mz_mindbody_schedule.account;
 
         // Run our Init function
         stripe_and_filter();
@@ -232,7 +235,7 @@
                 type: "GET",
                 dataType: 'json',
                 url: mz_mindbody_schedule.ajaxurl,
-                data: {action: 'mz_register_for_class', nonce: nonce, siteID: siteID, classID: classID},
+                data: {action: 'mz_register_for_class', nonce: nonce, siteID: siteID, classID: classID, location: location, siteID: siteID},
                 success: function (json) {
                     if (json.type == "success") {
                         $('.fa-spinner').remove();
@@ -297,7 +300,7 @@
                 type: "GET",
                 dataType: 'json',
                 url: mz_mindbody_schedule.ajaxurl,
-                data: {action: 'mz_display_client_schedule', nonce: nonce},
+                data: {action: 'mz_display_client_schedule', nonce: nonce, location: location, siteID: siteID},
                 success: function (json) {
                     if (json.type == "success") {
                         $('#AddedToClass').html(json.message);

@@ -1,6 +1,7 @@
 <?php // This is already in the modal content window \\ ?>
     <table class="client-schedule">
         <?php foreach ($data->classes as $date => $class): ?>
+            <?php mz_pr('hello'); ?>
             <?php mz_pr($class); ?>
         <?endforeach; ?>
     <?php foreach ($data->classes as $date => $class): ?>

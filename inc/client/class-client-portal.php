@@ -387,9 +387,13 @@ class Client_Portal extends Interfaces\Retrieve {
 
             $add_client_to_class_result = $this->add_client_to_class($_REQUEST['classID']);
 
-            $template_data['type'] = $add_client_to_class_result['type'];
-            $template_data['message'] = $add_client_to_class_result['message'];
-            $template_data['nonce'] = $_REQUEST['nonce'];
+            $template_data = array(
+                'type'      => $add_client_to_class_result['type'],
+                'message'   => $add_client_to_class_result['message'],
+                'nonce'     => $_REQUEST['nonce'],
+                'siteID'    => $_REQUEST['siteID'],
+                'location'  => $_REQUEST['location']
+            );
 
             //echo $this->mb->debug();
             $template_loader = new Core\Template_Loader();
@@ -421,6 +425,8 @@ class Client_Portal extends Interfaces\Retrieve {
      *
      * @param $classID int the ID of the class as per MBO
      * @access private
+     *
+     * @return array with result of api call and message type.
      */
     private function add_client_to_class($classID) {
 
@@ -462,7 +468,6 @@ class Client_Portal extends Interfaces\Retrieve {
                     }
 
                 endif;
-
 
             else:
 
@@ -511,18 +516,28 @@ class Client_Portal extends Interfaces\Retrieve {
 
         $result['type'] = 'success';
 
-        $template_data = array(
-            'date_format' => $this->date_format,
-            'time_format' => $this->time_format,
-            'classes'     => $this->get_client_schedule(),
-            'nonce'       => $_REQUEST['nonce']
-        );
+        if ($this->check_client_logged() === true) {
 
-        //echo $this->mb->debug();
-        $template_loader = new Core\Template_Loader();
+            $template_data = array(
+                'date_format' => $this->date_format,
+                'time_format' => $this->time_format,
+                'classes'     => $this->get_client_schedule(),
+                'nonce'       => $_REQUEST['nonce'],
+                'siteID'      => $_REQUEST['siteID'],
+                'location'      => $_REQUEST['location']
+            );
 
-        $template_loader->set_template_data($template_data);
-        $template_loader->get_template_part('client_schedule');
+            //echo $this->mb->debug();
+            $template_loader = new Core\Template_Loader();
+
+            $template_loader->set_template_data($template_data);
+            $template_loader->get_template_part('client_schedule');
+
+        } else {
+
+            echo $this->login_form();
+
+        }
 
         $result['message'] = ob_get_clean();
 
@@ -576,11 +591,12 @@ class Client_Portal extends Interfaces\Retrieve {
             $result['message'] = array(NS\MZMBO()->i18n->get('result_error'),
                 $schedule_data['GetClientScheduleResult']['Status'],
                 $schedule_data['GetClientScheduleResult']);
+            $result['message'] = NS\MZMBO()->session->get('MBO_Client')['ID'];
+        else:
+            $result['message'] = $client_schedule;
         endif;
 
         $result['type'] = "success";
-
-        $result['message'] = $this->sort_classes_by_date_then_time($client_schedule);
 
         return $result;
 
@@ -711,4 +727,5 @@ class Client_Portal extends Interfaces\Retrieve {
         return (isset($data[0])) ? $data : array($data);
 
     }
+
 }

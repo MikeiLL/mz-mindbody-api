@@ -362,6 +362,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'nonce' => $nonce,
             'atts' => $this->atts,
             'staff_preposition' => __('with', 'mz-mindbody-api'),
+            'account' => Core\MZ_Mindbody_Api::$basic_options['mz_mindbody_siteID'],
             'initial' => $this->initial_button_text,
             'mode_select' => $this->atts['mode_select'],
             'swap' => $this->swap_button_text,
@@ -393,7 +394,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
      *
      *
      *
-     * @return @json json_encode() version of HTML from template
+     * Echo json json_encode() version of HTML from template
      */
     public function display_schedule()
     {
