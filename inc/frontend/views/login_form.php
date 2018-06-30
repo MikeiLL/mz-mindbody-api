@@ -40,9 +40,11 @@ use MZ_Mindbody\Inc\Core as Core;
 
             <div class="modal__footer">
 
-                <button type="submit" class="btn btn-primary"><?php echo $data->login ?></button> <?php echo $data->or ?>
+                <a style="float:right;margin:0 1em" href="https://clients.mindbodyonline.com/ws.asp?&amp;sLoc=<?php echo $data->location; ?>&studioid=<?php echo $data->siteID; ?>" class="btn btn-primary" id="MBOSite"><?php _e('Manage on Mindbody Site', 'mz-mindbody-api'); ?></a>
 
-                <a id="createMBOAccount" href="#" data-nonce="<?php echo $data->nonce ?>" data-classID="<?php echo $data->classID ?>" class="btn btn-primary mz_add_to_class"><?php echo $data->registration_button ?></a>
+                <a style="float:right;" id="createMBOAccount" href="#" data-nonce="<?php echo $data->nonce ?>" data-classID="<?php echo $data->classID ?>" class="btn btn-primary"><?php echo $data->registration_button ?></a>
+
+                <button style="float:right;" type="submit" class="btn btn-primary"><?php echo $data->login ?></button> <?php echo $data->or ?>
 
             </div>
 
