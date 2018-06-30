@@ -133,7 +133,7 @@ class MZMBO_Session {
         } else {
             $this->session = WP_Session\WP_Session::get_instance();
         }
-
+mz_pr($this->session);
         return $this->session;
     }
 
@@ -279,7 +279,7 @@ class MZMBO_Session {
     }
 
     /**
-     * Determines if a user has set the EDD_USE_CART_COOKIE
+     * Determines if a user has set the MZMBO_USE_CART_COOKIE
      *
      * @since  2.5
      * @return bool If the store should use the edd_items_in_cart cookie to help avoid caching

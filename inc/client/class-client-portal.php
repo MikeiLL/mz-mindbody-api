@@ -75,7 +75,7 @@ class Client_Portal extends Interfaces\Retrieve {
      */
     private function check_client_logged(){
 
-        if ( empty( NS\MZMBO()->session->get('MBO_GUID') ) ) {
+        if ( NS\MZMBO()->session->get('MBO_GUID') === false ) {
 
             return false;
 
@@ -274,7 +274,9 @@ class Client_Portal extends Interfaces\Retrieve {
                 NS\MZMBO()->session->set( 'MBO_Client', $validateLogin['ValidateLoginResult']['Client'] );
 
                 // Notify user
-                echo $this->welcome_message('You are logged into MindBodyOnline.');
+                // echo $this->welcome_message('You are logged into MindBodyOnline.');
+
+                return $this->add_client_to_class(classID);
 
                 // If user has elected to remember login, create cookie.
                 if (($params['keep_me_logged_in'] == 'on') && (Core\MZ_Mindbody_Api::$advanced_options['keep_loogged_in_cookie'] == 'on')):
@@ -283,7 +285,7 @@ class Client_Portal extends Interfaces\Retrieve {
 
                     $value = json_encode(array('MBO_GUID' => $validateLogin['ValidateLoginResult']['GUID'], 'MBO_Client' => $validateLogin['ValidateLoginResult']['Client']), JSON_FORCE_OBJECT);//
 
-                    setcookie( $userlabel, $value, time()+60*60*24*30, COOKIEPATH, COOKIE_DOMAIN );
+                    //setcookie( $userlabel, $value, time()+60*60*24*30, COOKIEPATH, COOKIE_DOMAIN );
 
                     // if(!isset($_COOKIE[$userlabel])) {
                     //     echo "The cookie: '" . $userlabel . "' is not set.";
@@ -342,8 +344,7 @@ class Client_Portal extends Interfaces\Retrieve {
      */
     public function client_log_out(){
 
-        NS\MZMBO()->session->clear('MBO_GUID');
-        NS\MZMBO()->session->clear('MBO_Client');
+        NS\MZMBO()->session->clear();
         // unset($_COOKIE['MZ_MBO_USER']);
 
         ob_start();
@@ -379,7 +380,7 @@ class Client_Portal extends Interfaces\Retrieve {
 
         $result['type'] = 'success';
 
-        if ($this->check_client_logged() === true) {
+        if ( false != NS\MZMBO()->session->get('MBO_GUID') ) {
 
             $template_data = array();
 
