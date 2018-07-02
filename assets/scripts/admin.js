@@ -77,6 +77,11 @@
          * Call the mz_deduce_class_owners method of the Retrieve_Class_Owners class
          * via Ajax.
          *
+         * This function is used by the Admin Options Advanced section
+         * to call the php function that resets the transient holding the
+         * array of probable "owners" of various classes, used to display
+         * who a substitute is substituting for.
+         *
          * We log the matrix into the browser console.
          *
          */

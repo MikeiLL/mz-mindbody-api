@@ -2,7 +2,7 @@
   "dependencies": {
     "main.js": {
       "files": [
-        "scripts/main.js"
+        "scripts/colorbox.js"
       ],
       "main": true
     },
@@ -20,31 +20,14 @@
     },
     "schedule-display.js": {
       "files": [
-        "scripts/schedule-display.js"
-      ],
-      "main": true
-    },
-    "show-registrants.js": {
-    "files": [
-        "scripts/show-registrants.js"
-      ],
-      "main": true
-    },
-    "check-logged.js": {
-    "files": [
-        "scripts/check-logged.js"
+        "scripts/schedule-display.js",
+        "scripts/signup-modals.js"
       ],
       "main": true
     },
     "get-staff.js": {
     "files": [
         "scripts/get-staff.js"
-      ],
-      "main": true
-    },
-    "reset-staff.js": {
-    "files": [
-        "scripts/reset-staff.js"
       ],
       "main": true
     },
