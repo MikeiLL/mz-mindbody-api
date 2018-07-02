@@ -4,47 +4,63 @@ use MZ_Mindbody\Inc\Core as Core;
 
 
 <div class="modal__wrapper">
-    <div class="modal__content">
+    <div class="modal__content container">
 
         <h3><?php _e('Sign-In', 'mz-mindbody-api'); ?></h3>
 
-        <form style="margin:1em 0;" data-async id="mzLogIn" data-target="#mzSignUpModal" method="POST">
+        <form role="form" class="form-group" style="margin:1em 0;" data-async id="mzLogIn" data-target="#mzSignUpModal" method="POST">
 
             <input type="hidden" name="nonce" value="<?php echo $data->nonce; ?>"/>
 
             <input type="hidden" name="classID" value="<?php echo $data->classID; ?>" />
 
-            <div class="form-group">
+            <div class="row">
 
-            <label for="username">Username</label>
+                <div class="form-group col-xs-8 col-sm-6">
 
-            <input type="text" class="form-control" id="username" name="username" placeholder="<?php echo $data->username ?>">
+                    <label for="username">Username</label>
 
-            </div>
+                    <input type="text" size="10" class="form-control" id="username" name="username" placeholder="<?php echo $data->username ?>">
 
-            <div class="form-group">
-
-                <label for="password">Password</label>
-
-                <input type="password" class="form-control" name="password" id="password" placeholder="<?php echo $data->password ?>">
+                </div>
 
             </div>
 
-            <?php if (Core\MZ_Mindbody_Api::$advanced_options['allow_remember_me_cookie'] == 'on'): ?>
-            <div class="checkbox">
+            <div class="row">
 
-                <label><input name="keep_me_logged_in" type="checkbox"> <?php _e('Keep me logged in.', 'mz-mindbody-api'); ?> </label>
+                <div class="form-group col-xs-8 col-sm-6">
+
+                    <label for="password">Password</label>
+
+                    <input type="password" size="10" class="form-control" name="password" id="password" placeholder="<?php echo $data->password ?>">
+
+                </div>
 
             </div>
-            <?php endif; ?>
 
-            <div class="modal__footer">
+            <div class="row">
 
-                <a style="float:right;margin:0 1em" href="https://clients.mindbodyonline.com/ws.asp?&amp;sLoc=<?php echo $data->location; ?>&studioid=<?php echo $data->siteID; ?>" class="btn btn-primary" id="MBOSite"><?php _e('Manage on Mindbody Site', 'mz-mindbody-api'); ?></a>
+                <div class="form-group col-xs-8 col-sm-6">
 
-                <a style="float:right;" id="createMBOAccount" href="#" data-nonce="<?php echo $data->nonce ?>" data-classID="<?php echo $data->classID ?>" class="btn btn-primary"><?php echo $data->registration_button ?></a>
+                    <?php if (Core\MZ_Mindbody_Api::$advanced_options['allow_remember_me_cookie'] == 'on'): ?>
+                        <div class="checkbox">
 
-                <button style="float:right;" type="submit" class="btn btn-primary"><?php echo $data->login ?></button> <?php echo $data->or ?>
+                            <label><input name="keep_me_logged_in" type="checkbox"> <?php _e('Keep me logged in.', 'mz-mindbody-api'); ?> </label>
+
+                        </div>
+                    <?php endif; ?>
+
+                </div>
+
+            </div>
+
+            <div class="modal__footer btn-group">
+
+                <button type="submit" class="btn btn-primary"><?php echo $data->login ?></button>
+
+                <a id="createMBOAccount" href="#" data-nonce="<?php echo $data->nonce ?>" data-classID="<?php echo $data->classID ?>" class="btn btn-primary btn-xs"><?php echo $data->registration_button ?></a>
+
+                <a href="https://clients.mindbodyonline.com/ws.asp?&amp;sLoc=<?php echo $data->location; ?>&studioid=<?php echo $data->siteID; ?>" class="btn btn-primary btn-xs" id="MBOSite"><?php _e('Manage on Mindbody Site', 'mz-mindbody-api'); ?></a>
 
             </div>
 

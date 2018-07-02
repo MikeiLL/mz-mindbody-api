@@ -12,7 +12,9 @@
         $.colorbox.settings.width  = ($(window).innerWidth() <= 500) ? '95%' : '75%';
         $.colorbox.settings.height = '75%';
 
-        /* Colorbox resize function */
+        /** Colorbox resize function
+         * source: https://github.com/jackmoore/colorbox/issues/158
+         */
         var resizeTimer;
         function resizeColorBox()
         {
