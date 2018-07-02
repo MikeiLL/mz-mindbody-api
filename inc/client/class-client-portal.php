@@ -379,6 +379,7 @@ class Client_Portal extends Interfaces\Retrieve {
         ob_start();
 
         $result['type'] = 'success';
+        mz_pr(NS\MZMBO()->session->get('MBO_GUID'));
 
         if ( false != NS\MZMBO()->session->get('MBO_GUID') ) {
 
