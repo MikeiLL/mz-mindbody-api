@@ -133,7 +133,7 @@ class MZMBO_Session {
         } else {
             $this->session = WP_Session\WP_Session::get_instance();
         }
-mz_pr($this->session);
+
         return $this->session;
     }
 
