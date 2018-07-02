@@ -379,7 +379,6 @@ class Client_Portal extends Interfaces\Retrieve {
         ob_start();
 
         $result['type'] = 'success';
-        mz_pr(NS\MZMBO()->session->get('MBO_GUID'));
 
         if ( false != NS\MZMBO()->session->get('MBO_GUID') ) {
 
@@ -671,9 +670,10 @@ class Client_Portal extends Interfaces\Retrieve {
             'username' => $global_strings['username'],
             'login' => $global_strings['login'],
             'registration_button' => __('Register with MindBodyOnline', 'mz-mindbody-api'),
-            'or' => $global_strings['or'],
             'nonce' => $_REQUEST['nonce'],
-            'classID' => $_REQUEST['classID']
+            'classID' => $_REQUEST['classID'],
+            'siteID'    => $_REQUEST['siteID'],
+            'location'  => $_REQUEST['location']
         );
 
         $template_loader->set_template_data($this->template_data);
