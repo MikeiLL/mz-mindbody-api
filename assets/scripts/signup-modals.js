@@ -6,7 +6,8 @@
             atts = mz_mindbody_schedule.atts,
             // Just one location for use in general MBO site link
             location = atts.locations[0].toString(),
-            siteID = atts.account ? atts.account : mz_mindbody_schedule.account;
+            siteID = atts.account ? atts.account : mz_mindbody_schedule.account,
+            spinner = '<i class="fa fa-spinner fa-3x fa-spin" style="position: fixed; top: 50%; left: 50%;"></i>';
 
         /**
          * Modal Window to Register for a Class
@@ -21,9 +22,9 @@
             var nonce = $(this).attr("data-nonce");
             var classID = $(this).attr("data-classID");
             var popUpContent = '<div class="modal__header"><h3>' + mz_mindbody_schedule.your_account + '</h3></div><div class="mz-classRegister" id="ClassRegister"></div>';
-            popUpContent += '<i class="fa fa-spinner fa-3x fa-spin" style="position: fixed; top: 50%; left: 50%;"></i>';
+            popUpContent += spinner;
             $("#mzSignUpModal").load(target, function () {
-                $.colorbox({html: popUpContent, width: "75%", height: "80%", href: target});
+                $.colorbox({html: popUpContent,  href: target});
                 $("#mzSignUpModal").colorbox();
             });
 
@@ -60,7 +61,7 @@
             var target = $(this).attr("href");
             var nonce = $(this).attr("data-nonce");
             var classID = $(this).attr("data-classID");
-            $('#ClassRegister').html('<i class="fa fa-spinner fa-3x fa-spin" style="position: fixed; top: 50%; left: 50%;"></i>');
+            $('#ClassRegister').html(spinner);
             $.ajax({
                 type: "GET",
                 dataType: 'json',
@@ -91,7 +92,7 @@
         $(document).on('click', "a#MBOSchedule", function (ev) {
             ev.preventDefault();
             var nonce = $(this).attr("data-nonce");
-            $('#AddedToClass').html('<i class="fa fa-spinner fa-3x fa-spin" style="position: fixed; top: 50%; left: 50%;"></i>');
+            $('#AddedToClass').html(spinner);
             $.ajax({
                 type: "GET",
                 dataType: 'json',
@@ -125,7 +126,7 @@
             var nonce = $(this).attr("data-nonce");
             var classID = $(this).attr("data-classID");
             var formData = form.serializeArray();
-            $('#ClassRegister').html('<i class="fa fa-spinner fa-3x fa-spin" style="position: fixed; top: 50%; left: 50%;"></i>');
+            $('#ClassRegister').html(spinner);
             $.ajax({
                 type: "GET",
                 dataType: 'json',
@@ -156,7 +157,7 @@
             var form = $(this);
             var formData = form.serializeArray();
 
-            $('#ClassRegister').html('<i class="fa fa-spinner fa-3x fa-spin" style="position: fixed; top: 50%; left: 50%;"></i>');
+            $('#ClassRegister').html(spinner);
             $.ajax({
                 dataType: 'json',
                 url: mz_mindbody_schedule.ajaxurl,
@@ -186,7 +187,7 @@
         $(document).on('click', "#MBOLogout", function (ev) {
             ev.preventDefault();
 
-            $('#ClassRegister').html('<i class="fa fa-spinner fa-3x fa-spin" style="position: fixed; top: 50%; left: 50%;"></i>');
+            $('#ClassRegister').html(spinner);
 
             $.ajax({
                 dataType: 'json',

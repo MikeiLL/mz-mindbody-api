@@ -4,7 +4,29 @@
         // Initialize some variables
         var nonce = mz_mindbody_schedule.nonce,
             atts = mz_mindbody_schedule.atts,
-            container = $('#mzScheduleDisplay');
+            container = $('#mzScheduleDisplay'),
+            // TODO use Ajax event handlers to globally handle loader spinners: https://stackoverflow.com/a/40513161/2223106
+            spinner = '<i class="fa fa-spinner fa-3x fa-spin" style="position: fixed; top: 50%; left: 50%;"></i>';
+
+        // Some colorbox global settings
+        $.colorbox.settings.width  = ($(window).innerWidth() <= 500) ? '95%' : '75%';
+        $.colorbox.settings.height = '75%';
+
+        /* Colorbox resize function */
+        var resizeTimer;
+        function resizeColorBox()
+        {
+            if (resizeTimer) clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(function() {
+                if (jQuery('#cboxOverlay').is(':visible')) {
+                    jQuery.colorbox.resize({width:'90%', height:'90%'});
+                }
+            }, 300)
+        }
+
+        // Resize Colorbox when resizing window or changing mobile device orientation
+        $(window).resize(resizeColorBox);
+        window.addEventListener("orientationchange", resizeColorBox, false);
 
         // Run our Init function
         stripe_and_filter();
@@ -97,7 +119,7 @@
 
             // load the url and show modal on success
             $("#mzModal").load(target, function () {
-                $.colorbox({html: popUpContent, width: "75%", height: "80%", href: target});
+                $.colorbox({html: popUpContent, href: target});
                 $("#mzModal").colorbox();
             });
             return false;
@@ -133,9 +155,9 @@
 
             popUpContent += '<h3>' + mz_mindbody_schedule.registrants_header + '</h3>';
             popUpContent += '<div id="modalRegistrants"><div id="ClassRegistrants" style="min-height:90px;">';
-            popUpContent += '<i class="fa fa-spinner fa-3x fa-spin"></i></div></div>';
+            popUpContent += spinner;
             $("#registrantModal").load(target, function () {
-                $.colorbox({html: popUpContent, width: "75%", height: "80%", href: target});
+                $.colorbox({html: popUpContent, href: target});
                 $("#registrantModal").colorbox();
             });
             $.ajax({
@@ -187,7 +209,7 @@
 
             popUpContent += '<i class="fa fa-spinner fa-3x fa-spin" style="position: fixed; top: 50%; left: 50%;"></i>';
             $("#mzStaffScheduleModal").load(target, function () {
-                $.colorbox({html: popUpContent, width: "75%", height: "80%", href: target});
+                $.colorbox({html: popUpContent, href: target});
                 $("#mzStaffScheduleModal").colorbox();
             });
             $.ajax({
