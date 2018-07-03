@@ -121,7 +121,7 @@ class MZMBO_Session {
      *
      * Setup the Session instance.
      *
-     * @since  3.0
+     * @since  2.4.7
      * @access public
      *
      * @return WP_Session/array instance
@@ -148,7 +148,6 @@ class MZMBO_Session {
      * @return string Session ID.
      */
     public function get_id() {
-
         return $this->session->session_id;
     }
 
@@ -353,7 +352,7 @@ class MZMBO_Session {
             }
         }
 
-        return apply_filters( 'simpay_start_session', $start_session );
+        return apply_filters( 'mzmbo_start_session', $start_session );
     }
 
     /**
@@ -416,10 +415,10 @@ class MZMBO_Session {
      *
      * @see    https://github.com/ericmann/wp-session-manager/issues/55
      *
-     * @since  3.0
+     * @since  2.4.7
      * @access private
      */
-    public function create_sm_sessions_table() {
+    private function create_sm_sessions_table() {
 
         if ( defined( 'WP_SESSION_USE_OPTIONS' ) && WP_SESSION_USE_OPTIONS ) {
             return;

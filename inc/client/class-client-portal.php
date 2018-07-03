@@ -45,7 +45,7 @@ class Client_Portal extends Interfaces\Retrieve {
      * @access   public
      * @var      string $date_format WP date format option.
      */
-    public static $date_format;
+    public $date_format;
 
     /**
      * Format for time display, specific to MBO API Plugin.
@@ -54,7 +54,7 @@ class Client_Portal extends Interfaces\Retrieve {
      * @access   public
      * @var      string $time_format
      */
-    public static $time_format;
+    public $time_format;
 
     /**
      * Class constructor
@@ -75,13 +75,7 @@ class Client_Portal extends Interfaces\Retrieve {
      */
     private function check_client_logged(){
 
-        if ( NS\MZMBO()->session->get('MBO_GUID') === false ) {
-
-            return false;
-
-        }
-
-        return true;
+        return (bool) NS\MZMBO()->session->get('MBO_Client');
 
     }
 
@@ -269,14 +263,10 @@ class Client_Portal extends Interfaces\Retrieve {
 
                 // If validated, create two session variables and store
 
-
                 NS\MZMBO()->session->set( 'MBO_GUID', $validateLogin['ValidateLoginResult']['GUID'] );
                 NS\MZMBO()->session->set( 'MBO_Client', $validateLogin['ValidateLoginResult']['Client'] );
 
-                // Notify user
-                // echo $this->welcome_message('You are logged into MindBodyOnline.');
-
-                return $this->add_client_to_class(classID);
+                return $this->add_client_to_class($_REQUEST['classID']);
 
                 // If user has elected to remember login, create cookie.
                 if (($params['keep_me_logged_in'] == 'on') && (Core\MZ_Mindbody_Api::$advanced_options['keep_loogged_in_cookie'] == 'on')):
@@ -344,11 +334,22 @@ class Client_Portal extends Interfaces\Retrieve {
      */
     public function client_log_out(){
 
-        NS\MZMBO()->session->clear();
+        ob_start();
+
+        mz_pr(NS\MZMBO()->session->get('MBO_Client'));
+        mz_pr(NS\MZMBO()->session->get_id());
+
+        mz_pr(NS\MZMBO()->session);
+
+        echo "<h1>Clear Here</h1>";
+
+        mz_pr(NS\MZMBO()->session->clear());
+
+        mz_pr(NS\MZMBO()->session);
         // unset($_COOKIE['MZ_MBO_USER']);
 
-        ob_start();
-        //
+        mz_pr(NS\MZMBO()->session->get('MBO_Client'));
+
         $result['type'] = 'success';
 
         _e('Logged Out', 'mz-mindbody-api');
@@ -379,8 +380,10 @@ class Client_Portal extends Interfaces\Retrieve {
         ob_start();
 
         $result['type'] = 'success';
+        mz_pr(NS\MZMBO()->session);
+        mz_PR($_COOKIE);
 
-        if ( false != NS\MZMBO()->session->get('MBO_GUID') ) {
+        if ( false !== $this->check_client_logged() ) {
 
             $template_data = array();
 
@@ -401,6 +404,7 @@ class Client_Portal extends Interfaces\Retrieve {
 
             $template_loader->set_template_data($template_data);
             $template_loader->get_template_part('added_to_class');
+
         } else {
 
             echo $this->login_form();
@@ -687,13 +691,6 @@ class Client_Portal extends Interfaces\Retrieve {
      */
     public function signup_form(){
         check_ajax_referer($_REQUEST['nonce'], "mz_schedule_display_nonce", false);
-    }
-
-    /**
-     * Display Login Form
-     */
-    public function welcome_message($message = 'Welcome to MBO'){
-        return $message;
     }
 
     /**

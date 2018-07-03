@@ -1,7 +1,7 @@
 <?php
 namespace MZ_Mindbody\Inc\Session;
 
-use MZ_Mindbody;
+use MZ_Mindbody as NS;
 use MZ_Mindbody\Inc\Core as Core;
 use MZ_Mindbody\Inc\Common as Common;
 use MZ_Mindbody\Inc\Common\Interfaces as Interfaces;
@@ -16,11 +16,15 @@ class Display extends Interfaces\ShortCode_Loader
 
         echo "Hello, Pooh.";
 
-        $cart = array('tigger' => 'was here');
+        $cart = array('tigger' => 'was bouncy');
 
-        MZ_Mindbody\MZMBO()->session->set( 'mzmbo_cart', $cart );
+        NS\MZMBO()->session->clear();
 
-        mz_pr(MZ_Mindbody\MZMBO()->session->get( 'mzmbo_cart'));
+        mz_pr(NS\MZMBO()->session->get( 'MBO_Nothing'));
+
+        NS\MZMBO()->session->set( 'MBO_Nothing', $cart );
+
+        mz_pr(NS\MZMBO()->session->get( 'MBO_Nothing'));
 
         return ob_get_clean();
     }
