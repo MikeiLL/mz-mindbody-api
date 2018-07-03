@@ -8,9 +8,13 @@
 /**
  * Add a logging method to WP UnitTestCase Class.
  */
-class MZMBO_UnitTestCase extends WP_UnitTestCase
-{
-    public function el($message){
-        file_put_contents('./log_'.date("j.n.Y").'.log', $message, FILE_APPEND);
+    class MZMBO_UnitTestCase extends WP_UnitTestCase
+    {
+        public function el($message){
+            file_put_contents('./log_'.date("j.n.Y").'.log', $message, FILE_APPEND);
+        }
+
+        public function test_nothing() {
+            $this->assertEquals( true, true );
+        }
     }
-}
