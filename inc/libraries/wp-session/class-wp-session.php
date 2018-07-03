@@ -128,7 +128,7 @@ final class WP_Session extends Recursive_ArrayAccess {
     protected function set_cookie() {
         $secure   = apply_filters( 'wp_session_cookie_secure', false );
         $httponly = apply_filters( 'wp_session_cookie_httponly', false );
-        setcookie( WP_SESSION_COOKIE, $this->session_id . '||' . $this->expires . '||' . $this->exp_variant, $this->expires, COOKIEPATH, COOKIE_DOMAIN, $secure, $httponly );
+        @setcookie( WP_SESSION_COOKIE, $this->session_id . '||' . $this->expires . '||' . $this->exp_variant, $this->expires, COOKIEPATH, COOKIE_DOMAIN, $secure, $httponly );
     }
     /**
      * Read data from a transient for the current session.

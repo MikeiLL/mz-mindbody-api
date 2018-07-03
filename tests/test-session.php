@@ -12,6 +12,11 @@ class Tests_Session extends MZMBO_UnitTestCase {
 
         global $wpdb;
 
+        $collate = '';
+        if ( $wpdb->has_cap( 'collation' ) ) {
+            $collate = $wpdb->get_charset_collate();
+        }
+
         $sql = "CREATE TABLE {$wpdb->prefix}sm_sessions (
 		  session_id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
 		  session_key char(32) NOT NULL,
