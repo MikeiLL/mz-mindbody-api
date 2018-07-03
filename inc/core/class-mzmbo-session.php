@@ -199,7 +199,6 @@ class MZMBO_Session {
 
         // Give sets & retrieves JSON instead of full objects here.
         // Currently we're passing various value types including strings, arrays & objects.
-        // i.e. The Payment Form object ('simpay_form') is sent here.
         $this->session[ $key ] = $value;
 
         if ( $this->use_php_sessions ) {
@@ -416,9 +415,9 @@ class MZMBO_Session {
      * @see    https://github.com/ericmann/wp-session-manager/issues/55
      *
      * @since  2.4.7
-     * @access private
+     * @access public
      */
-    private function create_sm_sessions_table() {
+    public function create_sm_sessions_table() {
 
         if ( defined( 'WP_SESSION_USE_OPTIONS' ) && WP_SESSION_USE_OPTIONS ) {
             return;
@@ -449,7 +448,7 @@ class MZMBO_Session {
 
             add_option( 'sm_session_db_version', '0.1', '', 'no' );
 
-            WP_Session_Utils::delete_all_sessions_from_options();
+            WP_Session\WP_Session_Utils::delete_all_sessions_from_options();
         }
     }
 }
