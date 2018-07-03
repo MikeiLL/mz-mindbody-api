@@ -80,6 +80,11 @@ class Retrieve_Class_Owners extends Interfaces\Retrieve_Classes {
         $class_owners = array();
         $class_count = 0;
 
+        if (! isset($this->classes['GetClassesResult']['Classes']) ):
+            // No classes so populate the classes array
+            $this->get_mbo_results();
+        endif;
+
         $schedules = $this->classes['GetClassesResult']['Classes'];
 
         foreach($schedules as $schedule):
