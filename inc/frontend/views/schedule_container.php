@@ -7,9 +7,9 @@ use MZ_Mindbody as NS;
 // var_dump(json_decode(str_replace('\\', '', $_COOKIE['MZ_MBO_USER'])));
 // var_dump(json_last_error());
 
-mz_pr(NS\MZMBO()->session->get('MBO_Client'));
+NS\MZMBO()->helpers->mz_pr(NS\MZMBO()->session->get('MBO_Client'));
 
-mz_pr(NS\MZMBO()->session->get_id());
+NS\MZMBO()->helpers->mz_pr(NS\MZMBO()->session->get_id());
 
 
 ?>
@@ -19,7 +19,7 @@ mz_pr(NS\MZMBO()->session->get_id());
 </div>
 
 
-<?php //mz_pr($data); ?>
+<?php //NS\MZMBO()->helpers->mz_pr($data); ?>
 
 <div id="mzScheduleDisplay" class="mz_mbo_schedule">
     <?php

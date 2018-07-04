@@ -1,7 +1,7 @@
 <?php
 namespace MZ_Mindbody\Inc\Staff;
 
-use MZ_Mindbody;
+use MZ_Mindbody as NS;
 use MZ_Mindbody\Inc\Core as Core;
 use MZ_Mindbody\Inc\Common as Common;
 use MZ_Mindbody\Inc\Common\Interfaces as Interfaces;
@@ -60,7 +60,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'gallery' => '0'
         ), $atts);
 
-        $this->class_modal_link = MZ_Mindbody\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php';
+        $this->class_modal_link = NS\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php';
 
         ob_start();
 
@@ -75,7 +75,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
         if (isset($this->staff_object->staff_result['GetStaffResult'])):
             $mz_staff_list = $this->staff_object->staff_result['GetStaffResult']['StaffMembers']['Staff'];
         else:
-            mz_pr($this->staff_object);
+            NS\MZMBO()->helpers->mz_pr($this->staff_object);
             die('Something went wrong.');
         endif;
 
@@ -99,10 +99,10 @@ class Display extends Interfaces\ShortCode_Script_Loader
         if (!self::$addedAlready) {
             self::$addedAlready = true;
 
-            wp_register_style('mz_mindbody_style', MZ_Mindbody\PLUGIN_NAME_URL . 'dist/styles/main.css');
+            wp_register_style('mz_mindbody_style', NS\PLUGIN_NAME_URL . 'dist/styles/main.css');
             wp_enqueue_style('mz_mindbody_style');
 
-            wp_register_script('mz_mbo_bootstrap_script', MZ_Mindbody\PLUGIN_NAME_URL . 'dist/scripts/main.js', array('jquery'), 1.0, true);
+            wp_register_script('mz_mbo_bootstrap_script', NS\PLUGIN_NAME_URL . 'dist/scripts/main.js', array('jquery'), 1.0, true);
             wp_enqueue_script('mz_mbo_bootstrap_script');
 
         }

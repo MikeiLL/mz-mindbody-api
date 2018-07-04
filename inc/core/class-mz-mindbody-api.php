@@ -189,8 +189,9 @@ class MZ_Mindbody_Api
         if ( ! isset( self::$instance ) && ! ( self::$instance instanceof MZ_Mindbody_Api ) ) {
             self::$instance = new MZ_Mindbody_Api;
 
-            self::$instance->session       = new MZMBO_Session();
-            self::$instance->i18n       = new Common\Global_Strings();
+            self::$instance->session        = new MZMBO_Session();
+            self::$instance->i18n           = new Common\Global_Strings();
+            self::$instance->helpers        = new Common\Helpers();
         }
 
         return self::$instance;

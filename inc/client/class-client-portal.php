@@ -178,7 +178,7 @@ class Client_Portal extends Interfaces\Retrieve {
 
         if(!empty($params['data']['Client'])) {
 
-            //mz_pr($_POST['data']['Client']['MobilePhone']);
+            //NS\MZMBO()->helpers->mz_pr($_POST['data']['Client']['MobilePhone']);
             if (isset($params['data']['Client']['BirthDate'])) {
                 $params['data']['Client']['BirthDate'] = date('c', strtotime($params['data']['Client']['BirthDate']));
             }
@@ -208,7 +208,7 @@ class Client_Portal extends Interfaces\Retrieve {
                     echo '<div class="mz_signup_welcome">' . __('Sign-up for some classes.', 'mz-mindbody-api') . '</div>';
 
                 } else {
-                    mz_pr($validateLogin);
+                    NS\MZMBO()->helpers->mz_pr($validateLogin);
                 }
 
             } else if ($signupData['AddOrUpdateClientsResult']['Clients']['Client']['Action'] == 'Failed'){
@@ -281,8 +281,8 @@ class Client_Portal extends Interfaces\Retrieve {
                     //     echo "The cookie: '" . $userlabel . "' is not set.";
                     // } else {
                     //     echo "The cookie '" . $userlabel . "' is set.";
-                    //     mz_pr($_COOKIE['MZ_MBO_USER']);
-                    //     mz_pr(json_decode($_COOKIE['MZ_MBO_USER']));
+                    //     NS\MZMBO()->helpers->mz_pr($_COOKIE['MZ_MBO_USER']);
+                    //     NS\MZMBO()->helpers->mz_pr(json_decode($_COOKIE['MZ_MBO_USER']));
                     //     $error = json_last_error();
                     //     if ($error !== JSON_ERROR_NONE) {
                     //         echo json_last_error_msg();
@@ -336,19 +336,19 @@ class Client_Portal extends Interfaces\Retrieve {
 
         ob_start();
 
-        mz_pr(NS\MZMBO()->session->get('MBO_Client'));
-        mz_pr(NS\MZMBO()->session->get_id());
+        NS\MZMBO()->helpers->mz_pr(NS\MZMBO()->session->get('MBO_Client'));
+        NS\MZMBO()->helpers->mz_pr(NS\MZMBO()->session->get_id());
 
-        mz_pr(NS\MZMBO()->session);
+        NS\MZMBO()->helpers->mz_pr(NS\MZMBO()->session);
 
         echo "<h1>Clear Here</h1>";
 
-        mz_pr(NS\MZMBO()->session->clear());
+        NS\MZMBO()->helpers->mz_pr(NS\MZMBO()->session->clear());
 
-        mz_pr(NS\MZMBO()->session);
+        NS\MZMBO()->helpers->mz_pr(NS\MZMBO()->session);
         // unset($_COOKIE['MZ_MBO_USER']);
 
-        mz_pr(NS\MZMBO()->session->get('MBO_Client'));
+        NS\MZMBO()->helpers->mz_pr(NS\MZMBO()->session->get('MBO_Client'));
 
         $result['type'] = 'success';
 
@@ -380,7 +380,7 @@ class Client_Portal extends Interfaces\Retrieve {
         ob_start();
 
         $result['type'] = 'success';
-        mz_pr(NS\MZMBO()->session);
+        NS\MZMBO()->helpers->mz_pr(NS\MZMBO()->session);
         mz_PR($_COOKIE);
 
         if ( false !== $this->check_client_logged() ) {

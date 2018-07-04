@@ -134,9 +134,9 @@ class MBO_API {
 			}
 		} catch (SoapFault $s) {
 		// Uncomment following line for debugging request errors.
-		 //mz_pr($this->client->$methodName(array("Request"=>$request)));
-		 //mz_pr($s);
-		 //mz_pr($this->debugSoapErrors);
+		 //NS\MZMBO()->helpers->mz_pr($this->client->$methodName(array("Request"=>$request)));
+		 //NS\MZMBO()->helpers->mz_pr($s);
+		 //NS\MZMBO()->helpers->mz_pr($this->debugSoapErrors);
 			if($this->debugSoapErrors && $debugErrors) {
 				echo 'ERROR: [' . $s->faultcode . '] ' . $s->faultstring;
 				$this->debug();
