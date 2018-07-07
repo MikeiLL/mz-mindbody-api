@@ -166,7 +166,6 @@ class MZ_Mindbody_Api
         $this->define_public_hooks();
         $this->register_shortcodes();
         $this->add_settings_page();
-        var_dump($this);
 
     }
 
