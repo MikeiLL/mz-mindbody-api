@@ -14,6 +14,8 @@ class Retrieve_Schedule extends Interfaces\Retrieve_Classes {
 	 * @since 2.4.7
 	 *
 	 * Default time_frame is two dates, start of current week as set in WP, and seven days from "now.
+     *
+     * @throws \Exception
 	 *
 	 * @return array or start and end dates as required for MBO API
 	 */

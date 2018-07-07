@@ -290,6 +290,8 @@ class Display extends Interfaces\ShortCode_Script_Loader
             array_push($week_names, array_shift($week_names));
         }
 
+        $loggedMBO = ( 1 == (bool) NS\MZMBO()->session->get('MBO_GUID') ) ? 1 : 0;
+
         $this->template_data = array(
             'atts' => $this->atts,
             'data_target' => $this->data_target,
@@ -312,7 +314,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'signup_nonce' => wp_create_nonce('mz_signup_nonce'),
             'registration_button' => NS\MZMBO()->i18n->get('registration_button'),
             'manage_on_mbo' => NS\MZMBO()->i18n->get('manage_on_mbo'),
-            'loggedMBO' => Client\Client_Portal::$client_logged_in,
+            'loggedMBO' => $loggedMBO,
             'horizontal_schedule' => $horizontal_schedule,
             'grid_schedule' => $grid_schedule
         );

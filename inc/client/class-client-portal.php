@@ -57,15 +57,6 @@ class Client_Portal extends Interfaces\Retrieve {
     public $time_format;
 
     /**
-     * Track if client is logged in or not.
-     *
-     * @since    2.4.7
-     * @access   public
-     * @var      bool $client_logged_in
-     */
-    public static $client_logged_in;
-
-    /**
      * Class constructor
      *
      * Since 2.4.7
@@ -73,9 +64,6 @@ class Client_Portal extends Interfaces\Retrieve {
     public function __construct(){
         $this->date_format = Core\MZ_Mindbody_Api::$date_format;
         $this->time_format = Core\MZ_Mindbody_Api::$time_format;
-        // Using the NS\MZMBO() object here creates a loop. Not sure why.
-        $session_object = new Core\MZMBO_Session;
-        self::$client_logged_in = (bool) $session_object->get('MBO_Client');
     }
     /**
      * Check if Client Logged In
@@ -124,11 +112,6 @@ class Client_Portal extends Interfaces\Retrieve {
 
                 NS\MZMBO()->session->set( 'MBO_GUID', $validateLogin['ValidateLoginResult']['GUID'] );
                 NS\MZMBO()->session->set( 'MBO_Client', $validateLogin['ValidateLoginResult']['Client'] );
-
-                self::$client_logged_in = 1;
-                var_dump(self::$client_logged_in);
-
-                echo NS\MZMBO()->session->get('logged_in');
 
                 // If user has elected to remember login, create cookie.
                 if (($params['keep_me_logged_in'] == 'on') && (Core\MZ_Mindbody_Api::$advanced_options['keep_loogged_in_cookie'] == 'on')):
@@ -213,8 +196,6 @@ class Client_Portal extends Interfaces\Retrieve {
 
         NS\MZMBO()->session->clear();
 
-        self::$client_logged_in = 0;
-
         _e('Logged Out', 'mz-mindbody-api');
 
         echo '<br/>';
@@ -232,7 +213,7 @@ class Client_Portal extends Interfaces\Retrieve {
 
         die();
     }
-    
+
     /**
      * Register for Class
      *
@@ -246,7 +227,7 @@ class Client_Portal extends Interfaces\Retrieve {
         ob_start();
 
         $result['type'] = 'success';
-        var_dump(self::$client_logged_in) ;
+
         if ( true ) {
 
             $template_data = array();
@@ -505,9 +486,6 @@ class Client_Portal extends Interfaces\Retrieve {
 
                     echo '<div class="mz_signup_welcome">' . __('Sign-up for some classes.', 'mz-mindbody-api') . '</div>';
 
-                    // Update status to logged in
-                    self::$client_logged_in = 1;
-
                 } else {
                     NS\MZMBO()->helpers->mz_pr($validateLogin);
                 }
@@ -545,7 +523,7 @@ class Client_Portal extends Interfaces\Retrieve {
 
         $result['type'] = 'success';
 
-        if ( self::$client_logged_in === 1 ) {
+        if ( (bool) NS\MZMBO()->session->get('MBO_GUID') === 1 ) {
 
             $template_data = array(
                 'date_format' => $this->date_format,
@@ -613,7 +591,7 @@ class Client_Portal extends Interfaces\Retrieve {
         $this->get_mbo_results();
 
         if ( !$this->mb || $this->mb == 'NO_SOAP_SERVICE' ) return false;
-        
+
         $client_schedule = $this->mb->GetClientSchedule($additions);
 
         if ($client_schedule['GetClientScheduleResult']['Status'] != 'Success'):

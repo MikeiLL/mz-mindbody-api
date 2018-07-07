@@ -6,8 +6,7 @@ use MZ_Mindbody\Inc\Core as Core;
 //var_dump($data);
 // var_dump(json_decode(str_replace('\\', '', $_COOKIE['MZ_MBO_USER'])));
 // var_dump(json_last_error());
-
-NS\MZMBO()->helpers->mz_pr(NS\MZMBO()->session);
+NS\MZMBO()->helpers->mz_pr(NS\MZMBO()->session->get('MBO_GUID'));
 //NS\MZMBO()->session->clear();
 
 // NS\MZMBO()->helpers->mz_pr($_COOKIE);

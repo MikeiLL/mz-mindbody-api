@@ -311,6 +311,7 @@ class MZ_Mindbody_Api
 
     }
 
+
     /**
      * Run the loader to execute all of the hooks with WordPress.
      */
