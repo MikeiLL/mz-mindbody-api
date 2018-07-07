@@ -166,7 +166,7 @@ class MZ_Mindbody_Api
         $this->define_public_hooks();
         $this->register_shortcodes();
         $this->add_settings_page();
-
+        var_dump($this);
 
     }
 
@@ -246,11 +246,16 @@ class MZ_Mindbody_Api
 
 
         if (self::$advanced_options['elect_display_substitutes'] == 'on') {
-            // Create the "Class Owners" transient
-            add_action('create_class_owners_transient', array($class_owners_object, 'deduce_class_owners'));
+            // Create the "Class Owners" transient, if not already created
+            $class_owners_object = new Schedule\Retrieve_Class_Owners;
+            $this->loader->add_action('create_class_owners_transient', $class_owners_object, 'deduce_class_owners');
+            //add_action('create_class_owners_transient', array($class_owners_object, 'deduce_class_owners'));
             // We delay it just in case because of only one MBO call at a time being allowed.
             $three_seconds_from_now = time() + 3000;
-            wp_schedule_event($three_seconds_from_now, 'daily', 'create_class_owners_transient');
+            if (!wp_next_scheduled( 'create_class_owners_transient' )){
+             wp_schedule_event($three_seconds_from_now, 'daily', 'create_class_owners_transient');
+            }
+
         }
 
         /*

@@ -26,6 +26,9 @@
 
 namespace MZ_Mindbody;
 
+use MZ_Mindbody\Inc\Core as Core;
+use MZ_Mindbody\Inc\Common as Common;
+
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
 	die;
@@ -86,20 +89,24 @@ class MZ_Mindbody {
 	 * @since    2.4.7
 	 * @var      Init $init Instance of the plugin.
 	 */
-	private static $init;
+	private static $instance;
 	/**
 	 * Loads the plugin
 	 *
 	 * @access    public
 	 */
-	public static function init() {
+	public static function instance() {
 
-		if ( null === self::$init ) {
-			self::$init = new Inc\Core\MZ_Mindbody_Api;
-			self::$init->run();
+		if ( null === self::$instance ) {
+			self::$instance = new Inc\Core\MZ_Mindbody_Api;
+			self::$instance->run();
+
+            self::$instance->session        = new Core\MZMBO_Session();
+            self::$instance->i18n           = new Common\Global_Strings();
+            self::$instance->helpers        = new Common\Helpers();
 		}
 
-		return self::$init;
+		return self::$instance;
 	}
 
 }
@@ -107,25 +114,6 @@ class MZ_Mindbody {
 /**
  * Begins execution of the plugin
  *
- * Since everything within the plugin is registered via hooks,
- * then kicking off the plugin from this point in the file does
- * not affect the page life cycle.
- *
- * Also returns copy of the app object so 3rd party developers
- * can interact with the plugin's hooks contained within.
- **/
-function mz_mindbody_init() {
-		return MZ_Mindbody::init();
-}
-
-$min_php = '5.6.0';
-
-// Check the minimum required PHP version and run the plugin.
-if ( version_compare( PHP_VERSION, $min_php, '>=' ) ) {
-		mz_mindbody_init();
-}
-
-/**
  * The main function for that returns MZ_Mindbody_Api
  *
  * The main function responsible for returning the one true MZ_Mindbody_Api
@@ -138,12 +126,24 @@ if ( version_compare( PHP_VERSION, $min_php, '>=' ) ) {
  *
  * Example: <?php $mZmbo = MZ_Mindbody\MZMBO(); ?>
  *
+ * Since everything within the plugin is registered via hooks,
+ * then kicking off the plugin from this point in the file does
+ * not affect the page life cycle.
+ *
+ * Also returns copy of the app object so 3rd party developers
+ * can interact with the plugin's hooks contained within.
+ *
  * @since 1.4
  * @return object|MZ_Mindbody_Api The one true MZ_Mindbody_Api Instance.
- */
+ **/
 function MZMBO() {
-    return Inc\Core\MZ_Mindbody_Api::instance();
+		return MZ_Mindbody::instance();
 }
 
-// Get MZ_Mindbody_Api Instance.
-MZMBO();
+$min_php = '5.6.0';
+
+// Check the minimum required PHP version and run the plugin.
+if ( version_compare( PHP_VERSION, $min_php, '>=' ) ) {
+    // Get MZ_Mindbody_Api Instance.
+    MZMBO();
+}
