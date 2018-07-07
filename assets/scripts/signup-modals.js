@@ -147,6 +147,8 @@
 
                     } else {
 
+                        // Login failed.
+
                         var login_form = get_login_form({
                             classID: result.classID,
                             className: result.className,
