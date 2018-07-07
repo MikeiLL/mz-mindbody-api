@@ -49,7 +49,7 @@
 
             }
 
-            popUpContent += '<div class="mz-classRegister" id="classRegister">' + class_registration_content + '</div><div id="registrationStatus"></div>';
+            popUpContent += '<div class="mz-classRegister" id="classRegister">' + class_registration_content + '<div id="registrationStatus"></div></div>';
 
             $("#mzSignUpModal").load(target, function () {
                 $.colorbox({html: popUpContent,  href: target});
@@ -277,7 +277,7 @@
          */
         $(document).on('click', "#MBOLogout", function (ev) {
             ev.preventDefault();
-
+            alert('happened');
             $('#classRegister').html(spinner);
 
             $.ajax({
@@ -287,6 +287,9 @@
                 success: function(json) {
                     if (json.type == "success") {
                         $('#classRegister').html(json.message);
+                        // Store in DOM that we are logged out now.
+                        $('[data-loggedMBO]').attr("data-loggedMBO", 0);
+                        console.log($('[data-loggedMBO]'));
                     } else {
                         $('#classRegister').html('ERROR LOGGING OUT');
                         console.log(json);

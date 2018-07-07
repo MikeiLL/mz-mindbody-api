@@ -126,6 +126,7 @@ class Client_Portal extends Interfaces\Retrieve {
                 NS\MZMBO()->session->set( 'MBO_Client', $validateLogin['ValidateLoginResult']['Client'] );
 
                 self::$client_logged_in = 1;
+                var_dump(self::$client_logged_in);
 
                 echo NS\MZMBO()->session->get('logged_in');
 
@@ -245,8 +246,8 @@ class Client_Portal extends Interfaces\Retrieve {
         ob_start();
 
         $result['type'] = 'success';
-
-        if ( self::$client_logged_in === 1 ) {
+        var_dump(self::$client_logged_in) ;
+        if ( true ) {
 
             $template_data = array();
 
