@@ -57,6 +57,15 @@ class Client_Portal extends Interfaces\Retrieve {
     public $time_format;
 
     /**
+     * Track if client is logged in or not.
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      bool $client_logged_in
+     */
+    public static $client_logged_in;
+
+    /**
      * Class constructor
      *
      * Since 2.4.7
@@ -64,6 +73,8 @@ class Client_Portal extends Interfaces\Retrieve {
     public function __construct(){
         $this->date_format = Core\MZ_Mindbody_Api::$date_format;
         $this->time_format = Core\MZ_Mindbody_Api::$time_format;
+        self::$client_logged_in = 0;
+        //var_dump($this->check_client_logged());
     }
     /**
      * Check if Client Logged In
@@ -76,6 +87,291 @@ class Client_Portal extends Interfaces\Retrieve {
     private function check_client_logged(){
 
         return (bool) NS\MZMBO()->session->get('MBO_Client');
+
+    }
+
+    /**
+     * Client Log In
+     */
+    public function client_log_in(){
+
+        check_ajax_referer($_REQUEST['nonce'], "mz_signup_nonce", false);
+
+        // Crate the MBO Object
+        $this->get_mbo_results();
+
+        ob_start();
+
+        $result['type'] = 'success';
+
+        // Parse the serialized form into an array.
+        $params = array();
+        parse_str($_REQUEST['form'], $params);
+
+        if(!empty($params)) {
+
+            // We have form data, attempt login validation
+            $validateLogin = $this->mb->ValidateLogin(array(
+                'Username' => $params['username'],
+                'Password' => $params['password']
+            ));
+
+
+            if(!empty($validateLogin['ValidateLoginResult']['GUID'])) {
+
+                // If validated, create two session variables and store
+
+                NS\MZMBO()->session->set( 'MBO_GUID', $validateLogin['ValidateLoginResult']['GUID'] );
+                NS\MZMBO()->session->set( 'MBO_Client', $validateLogin['ValidateLoginResult']['Client'] );
+
+                self::$client_logged_in = 1;
+
+                echo NS\MZMBO()->session->get('logged_in');
+
+                // If user has elected to remember login, create cookie.
+                if (($params['keep_me_logged_in'] == 'on') && (Core\MZ_Mindbody_Api::$advanced_options['keep_loogged_in_cookie'] == 'on')):
+
+                    $userlabel = 'MZ_MBO_USER';
+
+                    $value = json_encode(array('MBO_GUID' => $validateLogin['ValidateLoginResult']['GUID'], 'MBO_Client' => $validateLogin['ValidateLoginResult']['Client']), JSON_FORCE_OBJECT);//
+
+                    //setcookie( $userlabel, $value, time()+60*60*24*30, COOKIEPATH, COOKIE_DOMAIN );
+
+                    // if(!isset($_COOKIE[$userlabel])) {
+                    //     echo "The cookie: '" . $userlabel . "' is not set.";
+                    // } else {
+                    //     echo "The cookie '" . $userlabel . "' is set.";
+                    //     NS\MZMBO()->helpers->mz_pr($_COOKIE['MZ_MBO_USER']);
+                    //     NS\MZMBO()->helpers->mz_pr(json_decode($_COOKIE['MZ_MBO_USER']));
+                    //     $error = json_last_error();
+                    //     if ($error !== JSON_ERROR_NONE) {
+                    //         echo json_last_error_msg();
+                    //     } else {
+                    //         echo $json;
+                    //     }
+                    // }
+                endif;
+
+            } else {
+
+                // Otherwise error message and display form again
+                if ( !empty($validateLogin['ValidateLoginResult']['Message'] ) ) {
+
+                    echo $validateLogin['ValidateLoginResult']['Message'];
+
+                } else {
+
+                    _e('Invalid Login', 'mz-mindbody-api') . '<br/>';
+
+                }
+
+                $result['type'] = 'error';
+            }
+
+        } else {
+
+            $result['type'] = 'error';
+
+        }
+
+
+        $result['message'] = ob_get_clean();
+
+        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+            $result = json_encode($result);
+            echo $result;
+        } else {
+            header("Location: " . $_SERVER["HTTP_REFERER"]);
+        }
+
+        die();
+
+    }
+
+    /**
+     * Client Log Out
+     */
+    public function client_log_out(){
+
+        ob_start();
+
+        /*
+        NS\MZMBO()->helpers->mz_pr(NS\MZMBO()->session);
+
+        echo "<h1>Clear Here</h1>";
+
+        NS\MZMBO()->helpers->mz_pr(NS\MZMBO()->session->clear());
+
+        NS\MZMBO()->helpers->mz_pr(NS\MZMBO()->session);
+        */
+        // unset($_COOKIE['MZ_MBO_USER']);
+
+
+        $result['type'] = 'success';
+
+        NS\MZMBO()->session->clear();
+
+        self::$client_logged_in = 0;
+
+        _e('Logged Out', 'mz-mindbody-api');
+
+        echo '<br/>';
+
+        echo $this->login_form($request);
+
+        $result['message'] = ob_get_clean();
+
+        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+            $result = json_encode($result);
+            echo $result;
+        } else {
+            header("Location: " . $_SERVER["HTTP_REFERER"]);
+        }
+
+        die();
+    }
+    
+    /**
+     * Register for Class
+     *
+     * This is the endpoint when client confirms they want to sign-up for a class.
+     */
+    public function register_for_class(){
+
+
+        check_ajax_referer($_REQUEST['nonce'], "mz_signup_nonce", false);
+
+        ob_start();
+
+        $result['type'] = 'success';
+
+        if ( false != $this->check_client_logged() ) {
+
+            $template_data = array();
+
+            $this->clientID = NS\MZMBO()->session->get('MBO_Client')['ID'];
+
+            $add_client_to_class_result = $this->add_client_to_class($_REQUEST['classID']);
+            echo $_REQUEST['classID'];
+            echo $add_client_to_class_result;
+            $template_data = array(
+                'type'      => $add_client_to_class_result['type'],
+                'message'   => $add_client_to_class_result['message'],
+                'nonce'     => $_REQUEST['nonce'],
+                'siteID'    => $_REQUEST['siteID'],
+                'location'  => $_REQUEST['location']
+            );
+
+            // echo $this->mb->debug();
+            $template_loader = new Core\Template_Loader();
+
+            $template_loader->set_template_data($template_data);
+            $template_loader->get_template_part('added_to_class');
+
+        } else {
+
+            $result['type'] = 'error';
+            // Print out the error message
+            echo $add_client_to_class_result['message'];
+
+        }
+
+        $result['message'] = ob_get_clean();
+
+        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+            $result = json_encode($result);
+            echo $result;
+        } else {
+            header("Location: " . $_SERVER["HTTP_REFERER"]);
+        }
+
+        die();
+    }
+
+    /**
+     * Add Client to Class
+     *
+     * Add Client to Class via MBO API
+     *
+     * @param $classID int the ID of the class as per MBO
+     * @access private
+     *
+     * @used by register_for_class()
+     *
+     * @return array with result of api call and message type.
+     */
+    private function add_client_to_class($classID) {
+
+        $result = array();
+
+        $additions = array();
+
+        $additions['ClassIDs'] = array($classID);
+
+        $additions['ClientIDs'] = array($this->clientID);
+
+        $additions['SendEmail'] = true;
+
+        $additions['RequirePayment'] = false;
+
+        // Crate the MBO Object
+        $this->get_mbo_results();
+
+        $signupData = $this->mb->AddClientsToClasses($additions);
+
+        if ( $signupData['AddClientsToClassesResult']['ErrorCode'] != 200 ) {
+            // Something did not succeed
+
+            $result['type'] = "error";
+
+            $result['message'] = '';
+
+            if (!isset($signupData['AddClientsToClassesResult']['Classes']['Class']['Clients']['Client'])) :
+
+                $result['type'] = "error";
+
+                if (isset($signupData['AddClientsToClassesResult']['Classes']['Class']['Messages'])):
+
+                    foreach ($signupData['AddClientsToClassesResult']['Classes']['Class']['Messages'] as $message) {
+
+                        $result['message'] .= explode('.', $message)[0] . '.';
+
+                    }
+
+                endif;
+
+            else:
+
+                foreach ($signupData['AddClientsToClassesResult']['Classes']['Class']['Clients']['Client']['Messages'] as $message){
+
+                    if (strpos($message, 'already booked') != false){
+
+                        $result['type'] = "booked";
+
+                        $result['message'] .= __('You are already booked at this time.', 'mz-mindbody-api');
+
+                    } else {
+
+                        /*
+                         * For some reason MBO returns an echo in it's error messages. So
+                         * here we split two sentences and return the first one. Pretty hacky.
+                         */
+                        $result['message'] .= explode('.', $message)[0] . '.';
+
+                    }
+                }
+
+            endif;
+
+        } else {
+
+            $result['type'] = "success";
+
+            $result['message'] = __('Registered via MindBody', 'mz-mindbody-api');
+
+        }
+
+       return $result;
 
     }
 
@@ -233,283 +529,6 @@ class Client_Portal extends Interfaces\Retrieve {
     }
 
     /**
-     * Client Log In
-     */
-    public function client_log_in(){
-
-        check_ajax_referer($_REQUEST['nonce'], "mz_signup_nonce", false);
-
-        // Crate the MBO Object
-        $this->get_mbo_results();
-
-        ob_start();
-        //
-        $result['type'] = 'success';
-
-        // Parse the serialized form into an array.
-        $params = array();
-        parse_str($_REQUEST['form'], $params);
-
-        if(!empty($params)) {
-
-            // We have form data, attempt login validation
-            $validateLogin = $this->mb->ValidateLogin(array(
-                'Username' => $params['username'],
-                'Password' => $params['password']
-            ));
-
-
-            if(!empty($validateLogin['ValidateLoginResult']['GUID'])) {
-
-                // If validated, create two session variables and store
-
-                NS\MZMBO()->session->set( 'MBO_GUID', $validateLogin['ValidateLoginResult']['GUID'] );
-                NS\MZMBO()->session->set( 'MBO_Client', $validateLogin['ValidateLoginResult']['Client'] );
-
-                return $this->add_client_to_class($_REQUEST['classID']);
-
-                // If user has elected to remember login, create cookie.
-                if (($params['keep_me_logged_in'] == 'on') && (Core\MZ_Mindbody_Api::$advanced_options['keep_loogged_in_cookie'] == 'on')):
-
-                    $userlabel = 'MZ_MBO_USER';
-
-                    $value = json_encode(array('MBO_GUID' => $validateLogin['ValidateLoginResult']['GUID'], 'MBO_Client' => $validateLogin['ValidateLoginResult']['Client']), JSON_FORCE_OBJECT);//
-
-                    //setcookie( $userlabel, $value, time()+60*60*24*30, COOKIEPATH, COOKIE_DOMAIN );
-
-                    // if(!isset($_COOKIE[$userlabel])) {
-                    //     echo "The cookie: '" . $userlabel . "' is not set.";
-                    // } else {
-                    //     echo "The cookie '" . $userlabel . "' is set.";
-                    //     NS\MZMBO()->helpers->mz_pr($_COOKIE['MZ_MBO_USER']);
-                    //     NS\MZMBO()->helpers->mz_pr(json_decode($_COOKIE['MZ_MBO_USER']));
-                    //     $error = json_last_error();
-                    //     if ($error !== JSON_ERROR_NONE) {
-                    //         echo json_last_error_msg();
-                    //     } else {
-                    //         echo $json;
-                    //     }
-                    // }
-                endif;
-
-            } else {
-
-                // Otherwise error message and display form again
-                if ( !empty($validateLogin['ValidateLoginResult']['Message'] ) ) {
-
-                    echo $validateLogin['ValidateLoginResult']['Message'];
-
-                } else {
-
-                    _e('Invalid Login', 'mz-mindbody-api') . '<br/>';
-
-                }
-
-                echo $this->login_form();
-            }
-
-        } else {
-
-            // If no form data, just display the form
-            echo $this->login_form();
-
-        }
-
-
-        $result['message'] = ob_get_clean();
-
-        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-            $result = json_encode($result);
-            echo $result;
-        } else {
-            header("Location: " . $_SERVER["HTTP_REFERER"]);
-        }
-
-        die();
-
-    }
-
-    /**
-     * Client Log Out
-     */
-    public function client_log_out(){
-
-        ob_start();
-
-        NS\MZMBO()->helpers->mz_pr(NS\MZMBO()->session->get('MBO_Client'));
-        NS\MZMBO()->helpers->mz_pr(NS\MZMBO()->session->get_id());
-
-        NS\MZMBO()->helpers->mz_pr(NS\MZMBO()->session);
-
-        echo "<h1>Clear Here</h1>";
-
-        NS\MZMBO()->helpers->mz_pr(NS\MZMBO()->session->clear());
-
-        NS\MZMBO()->helpers->mz_pr(NS\MZMBO()->session);
-        // unset($_COOKIE['MZ_MBO_USER']);
-
-        NS\MZMBO()->helpers->mz_pr(NS\MZMBO()->session->get('MBO_Client'));
-
-        $result['type'] = 'success';
-
-        _e('Logged Out', 'mz-mindbody-api');
-
-        echo '<br/>';
-
-        echo $this->login_form();
-
-        $result['message'] = ob_get_clean();
-
-        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-            $result = json_encode($result);
-            echo $result;
-        } else {
-            header("Location: " . $_SERVER["HTTP_REFERER"]);
-        }
-
-        die();
-    }
-    
-    /**
-     * Register for Class
-     */
-    public function register_for_class(){
-
-        check_ajax_referer($_REQUEST['nonce'], "mz_signup_nonce", false);
-
-        ob_start();
-
-        $result['type'] = 'success';
-        NS\MZMBO()->helpers->mz_pr(NS\MZMBO()->session);
-        mz_PR($_COOKIE);
-
-        if ( false !== $this->check_client_logged() ) {
-
-            $template_data = array();
-
-            $this->clientID = NS\MZMBO()->session->get('MBO_Client')['ID'];
-
-            $add_client_to_class_result = $this->add_client_to_class($_REQUEST['classID']);
-
-            $template_data = array(
-                'type'      => $add_client_to_class_result['type'],
-                'message'   => $add_client_to_class_result['message'],
-                'nonce'     => $_REQUEST['nonce'],
-                'siteID'    => $_REQUEST['siteID'],
-                'location'  => $_REQUEST['location']
-            );
-
-            //echo $this->mb->debug();
-            $template_loader = new Core\Template_Loader();
-
-            $template_loader->set_template_data($template_data);
-            $template_loader->get_template_part('added_to_class');
-
-        } else {
-
-            echo $this->login_form();
-
-        }
-
-        $result['message'] = ob_get_clean();
-
-        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-            $result = json_encode($result);
-            echo $result;
-        } else {
-            header("Location: " . $_SERVER["HTTP_REFERER"]);
-        }
-
-        die();
-    }
-
-    /**
-     * Add Client to Class
-     *
-     * Add Client to Class via MBO API
-     *
-     * @param $classID int the ID of the class as per MBO
-     * @access private
-     *
-     * @return array with result of api call and message type.
-     */
-    private function add_client_to_class($classID) {
-
-        $result = array();
-
-        $additions = array();
-
-        $additions['ClassIDs'] = array($classID);
-
-        $additions['ClientIDs'] = array($this->clientID);
-
-        $additions['SendEmail'] = true;
-
-        $additions['RequirePayment'] = false;
-
-        // Crate the MBO Object
-        $this->get_mbo_results();
-
-        $signupData = $this->mb->AddClientsToClasses($additions);
-
-        //$rand_number = rand(1, 10); # for testing
-
-        if ( $signupData['AddClientsToClassesResult']['ErrorCode'] != 200 ) {
-
-            $result['type'] = "error";
-
-            $result['message'] = '';
-
-            if (!isset($signupData['AddClientsToClassesResult']['Classes']['Class']['Clients']['Client'])) :
-
-                $result['type'] = "error";
-
-                if (isset($signupData['AddClientsToClassesResult']['Classes']['Class']['Messages'])):
-
-                    foreach ($signupData['AddClientsToClassesResult']['Classes']['Class']['Messages'] as $message) {
-
-                        $result['message'] .= explode('.', $message)[0] . '.';
-
-                    }
-
-                endif;
-
-            else:
-
-                foreach ($signupData['AddClientsToClassesResult']['Classes']['Class']['Clients']['Client']['Messages'] as $message){
-
-                    if (strpos($message, 'already booked') != false){
-
-                        $result['type'] = "booked";
-
-                        $result['message'] .= __('You are already booked at this time.', 'mz-mindbody-api');
-
-                    } else {
-
-                        /*
-                         * For some reason MBO returns an echo in it's error messages. So
-                         * here we split two sentences into one. Pretty hacky.
-                         */
-                        $result['message'] .= explode('.', $message)[0] . '.';
-
-                    }
-                }
-
-            endif;
-
-        } else {
-
-            $result['type'] = "success";
-
-            $result['message'] = __('Registered via MindBody', 'mz-mindbody-api');
-
-        }
-
-       return $result;
-
-    }
-
-    /**
      * Display Client Schedule
      *
      */
@@ -540,7 +559,7 @@ class Client_Portal extends Interfaces\Retrieve {
 
         } else {
 
-            echo $this->login_form();
+            $result['type'] = 'error';
 
         }
 
@@ -662,8 +681,10 @@ class Client_Portal extends Interfaces\Retrieve {
     /**
      * Create Login Form
      */
-    public function login_form(){
+    public function login_form($request = false){
         ob_start();
+
+        $request = ($request != false) ? $request : $_REQUEST;
 
         $global_strings = NS\MZMBO()->i18n->get();
 
@@ -673,11 +694,11 @@ class Client_Portal extends Interfaces\Retrieve {
             'password' => $global_strings['password'],
             'username' => $global_strings['username'],
             'login' => $global_strings['login'],
-            'registration_button' => __('Register with MindBodyOnline', 'mz-mindbody-api'),
-            'nonce' => $_REQUEST['nonce'],
-            'classID' => $_REQUEST['classID'],
-            'siteID'    => $_REQUEST['siteID'],
-            'location'  => $_REQUEST['location']
+            'registration_button' => registration_buttonregistration_button,
+            'nonce' => $request['nonce'],
+            'classID' => $request['classID'],
+            'siteID'    => $request['siteID'],
+            'location'  => $request['location']
         );
 
         $template_loader->set_template_data($this->template_data);

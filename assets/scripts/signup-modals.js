@@ -9,8 +9,9 @@
             siteID = atts.account ? atts.account : mz_mindbody_schedule.account,
             spinner = '<i class="fa fa-spinner fa-3x fa-spin" style="position: fixed; top: 50%; left: 50%;"></i>';
 
+
         /**
-         * Modal Window to Register for a Class
+         * Initial Modal Window to Register for a Class
          *
          * Also leads to options to login and sign-up with MBO
          *
@@ -20,32 +21,184 @@
             var target = $(this).attr("href");
             var siteID = $(this).attr('data-siteID');
             var nonce = $(this).attr("data-nonce");
+            var location = $(this).attr("data-location");
             var classID = $(this).attr("data-classID");
-            var popUpContent = '<div class="modal__header"><h3>' + mz_mindbody_schedule.your_account + '</h3></div><div class="mz-classRegister" id="ClassRegister"></div>';
-            popUpContent += spinner;
+            var className = $(this).attr("data-className");
+            var staffName = $(this).attr("data-staffName");
+            var classTime = $(this).attr("data-time");
+            var popUpContent = '<div class="modal__header"><h3>' + mz_mindbody_schedule.your_account + '</h3></div>';
+
+            var class_registration_content = classTime + ' ' + className + ' ' + mz_mindbody_schedule.staff_preposition + ' ' + staffName;
+
+            if ( $('[data-loggedMBO]').attr("data-loggedMBO") == 0 ) { // Not signed in
+
+                var login_form = get_login_form({
+                    classID: classID,
+                    className: className,
+                    staffName: staffName,
+                    classTime: classTime,
+                    location: location
+                });
+
+                class_registration_content += login_form.html();
+
+            } else { // We are signed in
+
+                class_registration_content += '<hr/>';
+                class_registration_content += '<button class="btn btn-primary" data-location="'+location+'" data-siteID="siteID" data-nonce="'+nonce+'" data-classID="'+classID+'" id="signUpForClass">' + mz_mindbody_schedule.confirm_signup + '</button>';
+
+            }
+
+            popUpContent += '<div class="mz-classRegister" id="classRegister">' + class_registration_content + '</div><div id="registrationStatus"></div>';
+
             $("#mzSignUpModal").load(target, function () {
                 $.colorbox({html: popUpContent,  href: target});
                 $("#mzSignUpModal").colorbox();
             });
 
+
+
+        });
+
+        /**
+         * Register for a class
+         */
+        $(document).on('click', '#signUpForClass', function (ev) {
+            ev.preventDefault();
+            var siteID = $(this).attr('data-siteID');
+            var nonce = $(this).attr("data-nonce");
+            var location = $(this).attr("data-location");
+            var classID = $(this).attr("data-classID");
+            //$('#ClassRegister').html(spinner);
+            $(this).prop("disabled",true).after('<i class="fa fa-spinner fa-3x fa-spin" style="position: fixed; top: 50%; left: 50%;"></i>');
             $.ajax({
                 type: "GET",
                 dataType: 'json',
                 url: mz_mindbody_schedule.ajaxurl,
-                data: {action: 'mz_register_for_class', nonce: nonce, siteID: siteID, classID: classID, location: location},
+                context: this,
+                data: {
+                    action: 'mz_register_for_class',
+                    nonce: nonce,
+                    siteID: siteID,
+                    classID: classID,
+                    location: location
+                },
                 success: function (json) {
+                    $(this).remove();
+                    $('.fa-spinner').remove();
                     if (json.type == "success") {
-                        $('.fa-spinner').remove();
-                        $('#ClassRegister').html(json.message);
-                        // $('#ClassRegister').append('<div class="modal-footer"><a class="btn btn-primary" id="MBOLogout">Logout</a></div>');
+                        $('#registrationStatus').html(json.message);
                     } else {
-                        $('#ClassRegister').html('ERROR REGISTERING FOR CLASS');
+                        $('#registrationStatus').html('ERROR REGISTERING FOR CLASS. ' + json.message);
                         console.log(json);
                     }
                 } // ./ Ajax Success
             }) // End Ajax
                 .fail(function (json) {
-                    $('#ClassRegister').html('ERROR REGISTERING FOR CLASS');
+                    $('#registrationStatus').html('ERROR REGISTERING FOR CLASS. ' + json.message);
+                    console.log(json);
+                }); // End Fail
+        });
+
+        /**
+         * Sign In to MBO
+         */
+        $(document).on('submit', 'form[id="mzLogIn"]', function (ev) {
+            ev.preventDefault();
+            var form = $(this);
+            var formData = form.serializeArray();
+            var result = { };
+            $.each($('form').serializeArray(), function() {
+                result[this.name] = this.value;
+            });
+            $('#classRegister').html(spinner);
+            $.ajax({
+                dataType: 'json',
+                url: mz_mindbody_schedule.ajaxurl,
+                type: form.attr('method'),
+                context: this, // So we have access to form data within ajax results
+                data: {action: 'mz_client_log_in',
+                        form: form.serialize(),
+                        nonce: result.nonce,
+                        classID: result.classID,
+                        staffName: result.staffName,
+                        classTime: result.classTime,
+                        staffName: result.staffName,
+                        location: result.location},
+                success: function(json) {
+                    var formData = $(this).serializeArray();
+                    var result = { };
+                    $.each($('form').serializeArray(), function() {
+                        result[this.name] = this.value;
+                    });
+
+                    var class_registration_content = result.classTime + ' ' + result.className + ' ' + mz_mindbody_schedule.staff_preposition + ' ' + result.staffName;
+
+                    if (json.type == "success") {
+
+                        $('#classRegister').html(json.message);
+
+                        $('[data-loggedMBO]').attr("data-loggedMBO", 1);
+
+                        class_registration_content += '<hr/>';
+
+                        class_registration_content += '<button class="btn btn-primary" data-nonce="'+result.nonce+'" data-location="'+result.location+'" data-classID="'+result.classID+'" id="signUpForClass">' + mz_mindbody_schedule.confirm_signup + '</button>';
+
+                    } else {
+
+                        var login_form = get_login_form({
+                            classID: result.classID,
+                            className: result.className,
+                            staffName: result.staffName,
+                            classTime: result.classTime,
+                            location: location
+                        });
+
+                        class_registration_content += '<hr/>' + json.message + login_form.html();
+
+                    }
+                    // Update the modal content
+                    $('#classRegister').html(class_registration_content);
+
+                } // ./ Ajax Success
+            }) // End Ajax
+                .fail(function (json) {
+                    $('#classRegister').html('ERROR SIGNING IN');
+                    console.log(json);
+                }); // End Fail
+
+        });
+
+        /**
+         * Create MBO Account and display Confirmation
+         *
+         *
+         */
+        $(document).on('submit', 'form[id="mzSignUp"]', function (ev) {
+            ev.preventDefault();
+            var target = $(this).attr("href");
+            var form = $(this);
+            var nonce = $(this).attr("data-nonce");
+            var classID = $(this).attr("data-classID");
+            var formData = form.serializeArray();
+            $('#classRegister').html(spinner);
+            $.ajax({
+                type: "GET",
+                dataType: 'json',
+                url: mz_mindbody_schedule.ajaxurl,
+                data: {action: 'mz_create_mbo_account', nonce: formData.nonce, classID: formData.classID, form: form.serialize()},
+                success: function (json) {
+                    if (json.type == "success") {
+                        $('.fa-spinner').remove();
+                        $('#classRegister').html(json.message);
+                    } else {
+                        $('#classRegister').html('ERROR CREATING ACCOUNT');
+                        console.log(json);
+                    }
+                } // ./ Ajax Success
+            }) // End Ajax
+                .fail(function (json) {
+                    $('#classRegister').html('ERROR CREATING ACCOUNT');
                     console.log(json);
                 }); // End Fail
 
@@ -61,7 +214,7 @@
             var target = $(this).attr("href");
             var nonce = $(this).attr("data-nonce");
             var classID = $(this).attr("data-classID");
-            $('#ClassRegister').html(spinner);
+            $('#classRegister').html(spinner);
             $.ajax({
                 type: "GET",
                 dataType: 'json',
@@ -70,15 +223,15 @@
                 success: function (json) {
                     if (json.type == "success") {
                         $('.fa-spinner').remove();
-                        $('#ClassRegister').html(json.message);
+                        $('#classRegister').html(json.message);
                     } else {
-                        $('#ClassRegister').html('ERROR GENERATING SIGN-UP FORM');
+                        $('#classRegister').html('ERROR GENERATING SIGN-UP FORM');
                         console.log(json);
                     }
                 } // ./ Ajax Success
             }) // End Ajax
                 .fail(function (json) {
-                    $('#ClassRegister').html('ERROR GENERATING THE SIGN-UP FORM');
+                    $('#classRegister').html('ERROR GENERATING THE SIGN-UP FORM');
                     console.log(json);
                 }); // End Fail
 
@@ -115,71 +268,6 @@
         });
 
         /**
-         * Create MBO Account and display Confirmation
-         *
-         *
-         */
-        $(document).on('submit', 'form[id="mzSignUp"]', function (ev) {
-            ev.preventDefault();
-            var target = $(this).attr("href");
-            var form = $(this);
-            var nonce = $(this).attr("data-nonce");
-            var classID = $(this).attr("data-classID");
-            var formData = form.serializeArray();
-            $('#ClassRegister').html(spinner);
-            $.ajax({
-                type: "GET",
-                dataType: 'json',
-                url: mz_mindbody_schedule.ajaxurl,
-                data: {action: 'mz_create_mbo_account', nonce: formData.nonce, classID: formData.classID, form: form.serialize()},
-                success: function (json) {
-                    if (json.type == "success") {
-                        $('.fa-spinner').remove();
-                        $('#ClassRegister').html(json.message);
-                    } else {
-                        $('#ClassRegister').html('ERROR CREATING ACCOUNT');
-                        console.log(json);
-                    }
-                } // ./ Ajax Success
-            }) // End Ajax
-                .fail(function (json) {
-                    $('#ClassRegister').html('ERROR CREATING ACCOUNT');
-                    console.log(json);
-                }); // End Fail
-
-        });
-
-        /**
-         * Sign In to MBO
-         */
-        $(document).on('submit', 'form[id="mzLogIn"]', function (ev) {
-            ev.preventDefault();
-            var form = $(this);
-            var formData = form.serializeArray();
-
-            $('#ClassRegister').html(spinner);
-            $.ajax({
-                dataType: 'json',
-                url: mz_mindbody_schedule.ajaxurl,
-                type: form.attr('method'),
-                data: {action: 'mz_client_log_in', form: form.serialize(), nonce: formData.nonce, classID: formData.classID},
-                success: function(json) {
-                    if (json.type == "success") {
-                        $('#ClassRegister').html(json.message);
-                    } else {
-                        $('#ClassRegister').html('ERROR REGISTERING FOR CLASS');
-                        console.log(json);
-                    }
-                } // ./ Ajax Success
-            }) // End Ajax
-                .fail(function (json) {
-                    $('#ClassRegister').html('ERROR REGISTERING FOR CLASS');
-                    console.log(json);
-                }); // End Fail
-
-        });
-
-        /**
          * Logout of MBO
          *
          *
@@ -187,7 +275,7 @@
         $(document).on('click', "#MBOLogout", function (ev) {
             ev.preventDefault();
 
-            $('#ClassRegister').html(spinner);
+            $('#classRegister').html(spinner);
 
             $.ajax({
                 dataType: 'json',
@@ -195,18 +283,30 @@
                 data: {action: 'mz_client_log_out'},
                 success: function(json) {
                     if (json.type == "success") {
-                        $('#ClassRegister').html(json.message);
+                        $('#classRegister').html(json.message);
                     } else {
-                        $('#ClassRegister').html('ERROR LOGGING OUT');
+                        $('#classRegister').html('ERROR LOGGING OUT');
                         console.log(json);
                     }
                 } // ./ Ajax Success
             }) // End Ajax
                 .fail(function (json) {
-                    $('#ClassRegister').html('ERROR LOGGING OUT');
+                    $('#classRegister').html('ERROR LOGGING OUT');
                     console.log(json);
                 }); // End Fail
         });
+
+        /**
+         * Get Login Form
+         *
+         * Pull the Login Form from the HTML DOM
+         */
+        function get_login_form(additional_data){
+            Object.keys(additional_data).forEach(function(key) {
+                $('#mzLogIn').append('<input type="hidden" name="' + key + '" value="' + additional_data[key] + '" />');
+            });
+            return $('#mzLogInContainer');
+        }
 
     }); // End document ready
 })(jQuery);

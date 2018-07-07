@@ -1,7 +1,7 @@
 <?php
 namespace MZ_Mindbody\Inc\Schedule;
 
-use MZ_Mindbody;
+use MZ_Mindbody as NS;
 use MZ_Mindbody\Inc\Core as Core;
 use MZ_Mindbody\Inc\Common as Common;
 use MZ_Mindbody\Inc\Common\Interfaces as Interfaces;

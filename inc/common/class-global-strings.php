@@ -41,7 +41,10 @@ class Global_Strings {
             'with' => __('with', 'mz-mindbody-api'),
             'day' => __('day', 'mz-mindbody-api'),
             'your_account' => __('Your Account', 'mz-mindbody-api'),
+            'confirm_signup' => __('Confirm Sign-Up', 'mz-mindbody-api'),
             'shortcode' => __('shortcode', 'mz-mindbody-api'),
+            'registration_button' => __('Register with MindBodyOnline', 'mz-mindbody-api'),
+            'logged_in' => __('Logged in to MindBodyOnline', 'mz-mindbody-api'),
             'result_error' => __('There was an error retrieving the data. Details below. Could be a network connection. Consider trying again.', 'mz-mindbody-api')
         );
     }
@@ -51,7 +54,7 @@ class Global_Strings {
     public function get($key = false) {
 
         if ($key){
-            $this->i18n_strings[$key];
+            return $this->i18n_strings[$key];
         } else {
             return $this->i18n_strings;
         }

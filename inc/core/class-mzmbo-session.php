@@ -222,6 +222,8 @@ class MZMBO_Session {
             unset( $_SESSION[ 'mzmbo' . $this->prefix ] );
         } else {
             $this->session->reset();
+            //$this->session->write_data();
+            WP_Session\WP_Session_Utils::delete_session($this->get_id());
         }
     }
 

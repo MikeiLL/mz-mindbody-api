@@ -1,6 +1,8 @@
 <?php
 namespace MZ_Mindbody\Inc\Libraries;
 
+use MZ_Mindbody as NS;
+
 class MBO_API {
 	protected $client;
 

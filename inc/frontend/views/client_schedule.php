@@ -1,4 +1,6 @@
-<?php // This is already in the modal content window \\ ?>
+<?php
+use MZ_Mindbody as NS;
+// This is already in the modal content window \\ ?>
     <table class="client-schedule">
         <?php foreach ($data->classes as $date => $class): ?>
             <?php NS\MZMBO()->helpers->mz_pr('hello'); ?>

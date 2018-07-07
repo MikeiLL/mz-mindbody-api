@@ -2,69 +2,67 @@
 use MZ_Mindbody\Inc\Core as Core;
 ?>
 
+<div style="display:none" id="mzLogInContainer">
+    <form role="form" class="form-group" style="margin:1em 0;" data-async id="mzLogIn" data-target="#mzSignUpModal" method="POST">
 
-<div class="modal__wrapper">
-    <div class="modal__content container">
+        <h2><?php echo $data->login_to_sign_up; ?></h2>
 
-        <h3><?php _e('Sign-In', 'mz-mindbody-api'); ?></h3>
+        <input type="hidden" name="nonce" value="<?php echo $data->signup_nonce; ?>"/>
 
-        <form role="form" class="form-group" style="margin:1em 0;" data-async id="mzLogIn" data-target="#mzSignUpModal" method="POST">
+        <input type="hidden" name="siteID" value="<?php echo $data->siteID; ?>" />
 
-            <input type="hidden" name="nonce" value="<?php echo $data->nonce; ?>"/>
+        <div class="row">
 
-            <input type="hidden" name="classID" value="<?php echo $data->classID; ?>" />
+            <div class="form-group col-xs-8 col-sm-6">
 
-            <div class="row">
+                <label for="username">Username</label>
 
-                <div class="form-group col-xs-8 col-sm-6">
-
-                    <label for="username">Username</label>
-
-                    <input type="text" size="10" class="form-control" id="username" name="username" placeholder="<?php echo $data->username ?>">
-
-                </div>
+                <input type="text" size="10" class="form-control" id="username" name="username" placeholder="<?php echo $data->username ?>">
 
             </div>
 
-            <div class="row">
+        </div>
 
-                <div class="form-group col-xs-8 col-sm-6">
+        <div class="row">
 
-                    <label for="password">Password</label>
+            <div class="form-group col-xs-8 col-sm-6">
 
-                    <input type="password" size="10" class="form-control" name="password" id="password" placeholder="<?php echo $data->password ?>">
+                <label for="password">Password</label>
 
-                </div>
-
-            </div>
-
-            <div class="row">
-
-                <div class="form-group col-xs-8 col-sm-6">
-
-                    <?php if (Core\MZ_Mindbody_Api::$advanced_options['allow_remember_me_cookie'] == 'on'): ?>
-                        <div class="checkbox">
-
-                            <label><input name="keep_me_logged_in" type="checkbox"> <?php _e('Keep me logged in.', 'mz-mindbody-api'); ?> </label>
-
-                        </div>
-                    <?php endif; ?>
-
-                </div>
+                <input type="password" size="10" class="form-control" name="password" id="password" placeholder="<?php echo $data->password ?>">
 
             </div>
 
-            <div class="modal__footer btn-group">
+        </div>
 
-                <button type="submit" class="btn btn-primary"><?php echo $data->login ?></button>
+        <!--<div class="row">
 
-                <a id="createMBOAccount" href="#" data-nonce="<?php echo $data->nonce ?>" data-classID="<?php echo $data->classID ?>" class="btn btn-primary btn-xs"><?php echo $data->registration_button ?></a>
+            <div class="form-group col-xs-8 col-sm-6">
 
-                <a href="https://clients.mindbodyonline.com/ws.asp?&amp;sLoc=<?php echo $data->location; ?>&studioid=<?php echo $data->siteID; ?>" class="btn btn-primary btn-xs" id="MBOSite"><?php _e('Manage on Mindbody Site', 'mz-mindbody-api'); ?></a>
+                <?php //if (Core\MZ_Mindbody_Api::$advanced_options['allow_remember_me_cookie'] == 'on'): ?>
+                    <div class="checkbox">
+
+                        <label><input name="keep_me_logged_in" type="checkbox"> <?php //_e('Keep me logged in.', 'mz-mindbody-api'); ?> </label>
+
+                    </div>
+                <?php ///endif; ?>
 
             </div>
 
-        </form>
+        </div>-->
 
-    </div>
+        <div class="modal__footer btn-group">
+
+            <button type="submit" class="btn btn-primary"><?php echo $data->login; ?></button>
+
+            <a id="createMBOAccount" href="#" data-nonce="<?php echo $data->signup_nonce; ?>" data-classID="<?php echo $data->classID; ?>" class="btn btn-primary btn-xs"><?php echo $data->registration_button; ?></a>
+
+            <a href="https://clients.mindbodyonline.com/ws.asp?&amp;sLoc=1&studioid=<?php echo $data->siteID; ?>" class="btn btn-primary btn-xs" id="MBOSite"><?php echo $data->manage_on_mbo; ?></a>
+
+        </div>
+
+    </form>
+
+
+    </form>
 </div>

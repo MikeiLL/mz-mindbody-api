@@ -3,6 +3,7 @@ namespace MZ_Mindbody\Inc\Schedule;
 
 use MZ_Mindbody as NS;
 use MZ_Mindbody\Inc\Core as Core;
+use MZ_Mindbody\Inc\Client as Client;
 use MZ_Mindbody\Inc\Common as Common;
 use MZ_Mindbody\Inc\Common\Interfaces as Interfaces;
 
@@ -306,6 +307,12 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'hide' => $this->atts['hide'],
             'table_class' => $this->table_class,
             'locations_dictionary' => $this->schedule_object->locations_dictionary,
+            'login' => NS\MZMBO()->i18n->get('login'),
+            'login_to_sign_up' => NS\MZMBO()->i18n->get('login_to_sign_up'),
+            'signup_nonce' => wp_create_nonce('mz_signup_nonce'),
+            'registration_button' => NS\MZMBO()->i18n->get('registration_button'),
+            'manage_on_mbo' => NS\MZMBO()->i18n->get('manage_on_mbo'),
+            'loggedMBO' => Client\Client_Portal::$client_logged_in,
             'horizontal_schedule' => $horizontal_schedule,
             'grid_schedule' => $grid_schedule
         );
@@ -379,6 +386,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'selector' => __('All Locations', 'mz-mindbody-api'),
             'login' => $translated_strings['login'],
             'signup' => $translated_strings['sign_up'],
+            'confirm_signup' => $translated_strings['confirm_signup'],
             'logout' => $translated_strings['logout'],
             'your_account' => $translated_strings['your_account'],
             // 'current_mbo_client' => !empty($_SESSION['MBO_Client']) ? $_SESSION['MBO_Client'] : '',

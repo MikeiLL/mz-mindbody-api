@@ -23,7 +23,7 @@
                 if (jQuery('#cboxOverlay').is(':visible')) {
                     jQuery.colorbox.resize({width:'90%', height:'90%'});
                 }
-            }, 300)
+            }, 300);
         }
 
         // Resize Colorbox when resizing window or changing mobile device orientation
