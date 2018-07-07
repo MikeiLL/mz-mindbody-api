@@ -73,7 +73,6 @@ register_activation_hook( __FILE__, array( NS . 'Inc\Core\Activator', 'activate'
 
 register_deactivation_hook( __FILE__, array( NS . 'Inc\Core\Deactivator', 'deactivate' ) );
 
-
 /**
  * Plugin Singleton Container
  *
@@ -90,14 +89,25 @@ class MZ_Mindbody {
 	 * @var      Init $init Instance of the plugin.
 	 */
 	private static $instance;
-	/**
-	 * Loads the plugin
-	 *
-	 * @access    public
-	 */
+
+    /**
+     * Main MZ_Mindbody Instance.
+     *
+     * Insures that only one instance of MZ_Mindbody exists in memory at any one
+     * time. Also prevents needing to define globals all over the place.
+     *
+     * Totally borrowed from Easy_Digital_Downloads, and certainly used with some ignorance
+     * as EDD doesn't actually include a construct in it's class.
+     *
+     * @since 2.4.7
+     * @static
+     * @staticvar array $instance
+     * @see MZMBO()
+     * @return object|MZ_Mindbody The one true MZ_Mindbody
+     */
 	public static function instance() {
 
-		if ( null === self::$instance ) {
+		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof MZ_Mindbody_Api ) ) {
 			self::$instance = new Inc\Core\MZ_Mindbody_Api;
 			self::$instance->run();
 

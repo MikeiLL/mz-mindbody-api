@@ -13,7 +13,10 @@ class Retrieve_Class_Owners extends Interfaces\Retrieve_Classes {
 	 *
 	 * @since 2.4.7
 	 *
-	 * Default time_frame is two dates, start of current week as set in WP, and four weeks from now.
+	 * Default time_frame is two dates, 4 weeks previous to start of current week as set in WP, and four weeks from now.
+     *
+     * @throws DateTime::__construct()
+     * @throws DateInterval::__construct()
 	 *
 	 * @return array or start and end dates as required for MBO API
 	 */
@@ -29,6 +32,14 @@ class Retrieve_Class_Owners extends Interfaces\Retrieve_Classes {
 		return array('StartDateTime'=> $start_time->format('Y-m-d'), 'EndDateTime'=> $end_time->format('Y-m-d'));
 	}
 
+    /**
+     * Deduce Class Owners
+     *
+     * Wrapper function for populate_regularly_scheduled_classes accessed by admin via ajax.
+     *
+     * Uses the mz_pr method to output the matrix of probably "class owners" which is then
+     * logged to the console via javascript.
+     */
 	public function deduce_class_owners(){
         check_ajax_referer($_REQUEST['nonce'], "mz_admin_nonce", false);
 

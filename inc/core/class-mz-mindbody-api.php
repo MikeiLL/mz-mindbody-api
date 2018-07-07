@@ -170,33 +170,6 @@ class MZ_Mindbody_Api
     }
 
     /**
-     * Main MZ_Mindbody_Api Instance.
-     *
-     * Insures that only one instance of MZ_Mindbody_Api exists in memory at any one
-     * time. Also prevents needing to define globals all over the place.
-     *
-     * Totally borrowed from Easy_Digital_Downloads, and certainly used with some ignorance
-     * as EDD doesn't actually include a construct in it's class.
-     *
-     * @since 2.4.7
-     * @static
-     * @staticvar array $instance
-     * @see MZMBO()
-     * @return object|MZ_Mindbody_Api The one true MZ_Mindbody_Api
-     */
-    public static function instance() {
-        if ( ! isset( self::$instance ) && ! ( self::$instance instanceof MZ_Mindbody_Api ) ) {
-            self::$instance = new MZ_Mindbody_Api;
-
-            self::$instance->session        = new MZMBO_Session();
-            self::$instance->i18n           = new Common\Global_Strings();
-            self::$instance->helpers        = new Common\Helpers();
-        }
-
-        return self::$instance;
-    }
-
-    /**
      * Loads the following required dependencies for this plugin.
      *
      * - Loader - Orchestrates the hooks of the plugin.

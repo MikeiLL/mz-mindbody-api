@@ -138,6 +138,7 @@
 
                         $('#classRegister').html(json.message);
 
+                        // Store in DOM that we are logged in now.
                         $('[data-loggedMBO]').attr("data-loggedMBO", 1);
 
                         class_registration_content += '<hr/>';
@@ -191,6 +192,8 @@
                     if (json.type == "success") {
                         $('.fa-spinner').remove();
                         $('#classRegister').html(json.message);
+                        // Store in DOM that we are logged in now.
+                        $('[data-loggedMBO]').attr("data-loggedMBO", 1);
                     } else {
                         $('#classRegister').html('ERROR CREATING ACCOUNT');
                         console.log(json);
