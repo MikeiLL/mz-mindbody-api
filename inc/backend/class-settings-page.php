@@ -279,15 +279,15 @@ class Settings_Page {
         );
 
         // Field: Display Allow "Remember Me" Cookie
-        self::$wposa_obj->add_field(
-            'mz_mbo_advanced',
-            array(
-                'id'      => 'keep_loogged_in_cookie',
-                'type'    => 'checkbox',
-                'name'    => __( 'Allow "Keep Me Logged In" Cookie', 'mz-mindbody-api' ),
-                'desc'    => __( 'When checked, visitors will have a "keep me logged in" checkbox when they log in.', 'mz-mindbody-api' )
-            )
-        );
+        // self::$wposa_obj->add_field(
+        //     'mz_mbo_advanced',
+        //     array(
+        //         'id'      => 'keep_loogged_in_cookie',
+        //         'type'    => 'checkbox',
+        //         'name'    => __( 'Allow "Keep Me Logged In" Cookie', 'mz-mindbody-api' ),
+        //         'desc'  //   => __( 'When checked, visitors will have a "keep me logged in" checkbox when they log in.', 'mz-mindbody-api' )
+        //     )
+        // );
 
         // Field: Display Substitute Status
         self::$wposa_obj->add_field(

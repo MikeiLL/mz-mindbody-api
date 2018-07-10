@@ -392,7 +392,10 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'logout' => $translated_strings['logout'],
             'your_account' => $translated_strings['your_account'],
             // 'current_mbo_client' => !empty($_SESSION['MBO_Client']) ? $_SESSION['MBO_Client'] : '',
-            'Locations_dict' => json_encode($locations_dictionary)
+            'Locations_dict' => json_encode($locations_dictionary),
+            'signup_nonce' =>  wp_create_nonce('mz_signup_nonce'),
+            'siteID' => $this->siteID,
+            'location' => $this->sLoc
         );
         wp_localize_script('mz_display_schedule_script', 'mz_mindbody_schedule', $params);
     }

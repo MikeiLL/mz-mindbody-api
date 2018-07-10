@@ -114,11 +114,11 @@ class Client_Portal extends Interfaces\Retrieve {
                 NS\MZMBO()->session->set( 'MBO_Client', $validateLogin['ValidateLoginResult']['Client'] );
 
                 // If user has elected to remember login, create cookie.
-                if (($params['keep_me_logged_in'] == 'on') && (Core\MZ_Mindbody_Api::$advanced_options['keep_loogged_in_cookie'] == 'on')):
+                //if (($params['keep_me_logged_in'] == 'on') && (Core\MZ_Mindbody_Api::$advanced_options['keep_loogged_in_cookie'] == 'on')):
 
-                    $userlabel = 'MZ_MBO_USER';
+                //    $userlabel = 'MZ_MBO_USER';
 
-                    $value = json_encode(array('MBO_GUID' => $validateLogin['ValidateLoginResult']['GUID'], 'MBO_Client' => $validateLogin['ValidateLoginResult']['Client']), JSON_FORCE_OBJECT);//
+                 //   $value = json_encode(array('MBO_GUID' => $validateLogin['ValidateLoginResult']['GUID'], 'MBO_Client' => $validateLogin['ValidateLoginResult']['Client']), JSON_FORCE_OBJECT);//
 
                     //setcookie( $userlabel, $value, time()+60*60*24*30, COOKIEPATH, COOKIE_DOMAIN );
 
@@ -135,7 +135,7 @@ class Client_Portal extends Interfaces\Retrieve {
                     //         echo $json;
                     //     }
                     // }
-                endif;
+                //endif;
 
             } else {
 
@@ -180,18 +180,6 @@ class Client_Portal extends Interfaces\Retrieve {
 
         ob_start();
 
-        /*
-        NS\MZMBO()->helpers->mz_pr(NS\MZMBO()->session);
-
-        echo "<h1>Clear Here</h1>";
-
-        NS\MZMBO()->helpers->mz_pr(NS\MZMBO()->session->clear());
-
-        NS\MZMBO()->helpers->mz_pr(NS\MZMBO()->session);
-        */
-        // unset($_COOKIE['MZ_MBO_USER']);
-
-
         $result['type'] = 'success';
 
         NS\MZMBO()->session->clear();
@@ -199,8 +187,6 @@ class Client_Portal extends Interfaces\Retrieve {
         _e('Logged Out', 'mz-mindbody-api');
 
         echo '<br/>';
-
-        echo $this->login_form($request);
 
         $result['message'] = ob_get_clean();
 
@@ -235,8 +221,7 @@ class Client_Portal extends Interfaces\Retrieve {
             $this->clientID = NS\MZMBO()->session->get('MBO_Client')['ID'];
 
             $add_client_to_class_result = $this->add_client_to_class($_REQUEST['classID']);
-            echo $_REQUEST['classID'];
-            echo $add_client_to_class_result;
+
             $template_data = array(
                 'type'      => $add_client_to_class_result['type'],
                 'message'   => $add_client_to_class_result['message'],

@@ -9,7 +9,6 @@
             siteID = atts.account ? atts.account : mz_mindbody_schedule.account,
             spinner = '<i class="fa fa-spinner fa-3x fa-spin" style="position: fixed; top: 50%; left: 50%;"></i>';
 
-
         /**
          * Initial Modal Window to Register for a Class
          *
@@ -18,6 +17,7 @@
          */
         $(document).on('click', "a[data-target=mzSignUpModal]", function (ev) {
             ev.preventDefault();
+
             var target = $(this).attr("href");
             var siteID = $(this).attr('data-siteID');
             var nonce = $(this).attr("data-nonce");
@@ -44,7 +44,10 @@
 
             } else { // We are signed in
 
+                var logged_in = true;
+
                 class_registration_content += '<hr/>';
+
                 class_registration_content += '<button class="btn btn-primary" data-location="'+location+'" data-siteID="siteID" data-nonce="'+nonce+'" data-classID="'+classID+'" id="signUpForClass">' + mz_mindbody_schedule.confirm_signup + '</button>';
 
             }
@@ -55,8 +58,6 @@
                 $.colorbox({html: popUpContent,  href: target});
                 $("#mzSignUpModal").colorbox();
             });
-
-
 
         });
 
@@ -112,6 +113,7 @@
                 result[this.name] = this.value;
             });
             $('#classRegister').html(spinner);
+
             $.ajax({
                 dataType: 'json',
                 url: mz_mindbody_schedule.ajaxurl,
@@ -123,7 +125,6 @@
                         classID: result.classID,
                         staffName: result.staffName,
                         classTime: result.classTime,
-                        staffName: result.staffName,
                         location: result.location},
                 success: function(json) {
                     var formData = $(this).serializeArray();
@@ -144,6 +145,12 @@
                         class_registration_content += '<hr/>';
 
                         class_registration_content += '<button class="btn btn-primary" data-nonce="'+result.nonce+'" data-location="'+result.location+'" data-classID="'+result.classID+'" id="signUpForClass">' + mz_mindbody_schedule.confirm_signup + '</button>';
+
+                        class_registration_content += '<div class="modal__footer btn-group" class="signupModalFooter">\n' +
+                            '    <a class="btn btn-primary" data-nonce="'+mz_mindbody_schedule.signup_nonce+'" id="MBOSchedule" target="_blank">My Classes</a>\n' +
+                            '    <a href="https://clients.mindbodyonline.com/ws.asp?&amp;sLoc='+mz_mindbody_schedule.location+'&studioid='+mz_mindbody_schedule.siteID+'>" class="btn btn-primary btn-xs" id="MBOSite">Manage on Mindbody Site></a>\n' +
+                            '    <a class="btn btn-primary btn-xs" id="MBOLogout">Logout</a>\n' +
+                            '</div>\n';
 
                     } else {
 
@@ -279,7 +286,7 @@
          */
         $(document).on('click', "#MBOLogout", function (ev) {
             ev.preventDefault();
-            alert('happened');
+
             $('#classRegister').html(spinner);
 
             $.ajax({
@@ -288,10 +295,10 @@
                 data: {action: 'mz_client_log_out'},
                 success: function(json) {
                     if (json.type == "success") {
+                        $('.signupModalFooter').remove();
                         $('#classRegister').html(json.message);
                         // Store in DOM that we are logged out now.
                         $('[data-loggedMBO]').attr("data-loggedMBO", 0);
-                        console.log($('[data-loggedMBO]'));
                     } else {
                         $('#classRegister').html('ERROR LOGGING OUT');
                         console.log(json);
@@ -314,6 +321,40 @@
                 $('#mzLogIn').append('<input type="hidden" name="' + key + '" value="' + additional_data[key] + '" />');
             });
             return $('#mzLogInContainer');
+        }
+
+        function logout(){
+            $.ajax({
+                dataType: 'json',
+                url: mz_mindbody_schedule.ajaxurl,
+                data: {action: 'mz_client_log_out'},
+                success: function(json) {
+                    if (json.type == "success") {
+                        // Store in DOM that we are logged out now.
+                        $('[data-loggedMBO]').attr("data-loggedMBO", 0);
+                    } else {
+                        console.log(json);
+                    }
+                } // ./ Ajax Success
+            }) // End Ajax
+                .fail(function (json) {
+                    console.log(json);
+                }); // End Fail
+        }
+
+        /**
+         * Toggle Visibility
+         * source: https://css-tricks.com/snippets/javascript/showhide-element/
+         */
+        function toggle_visibility(id) {
+            var e = document.getElementById(id);
+            if (e === null){
+                return false;
+            }
+            if(e.style.display == 'block')
+                e.style.display = 'none';
+            else
+                e.style.display = 'block';
         }
 
     }); // End document ready
