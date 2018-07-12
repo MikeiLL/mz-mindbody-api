@@ -19,7 +19,7 @@ NS\MZMBO()->helpers->mz_pr(NS\MZMBO()->session->get('MBO_GUID'));
 
 <?php //NS\MZMBO()->helpers->mz_pr($data); ?>
 
-<div id="mzScheduleDisplay" class="mz_mbo_schedule" data-loggedMBO="<?php echo $data->loggedMBO; ?>">
+<div id="mzScheduleDisplay" class="mz_mbo_schedule">
     <?php
     if ($data->display_type == 'grid' || $data->display_type == 'both'): ?>
     <div id="gridDisplay" class="mz-schedule-display<?php echo $data->grid_class; ?>">

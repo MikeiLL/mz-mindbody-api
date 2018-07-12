@@ -290,8 +290,6 @@ class Display extends Interfaces\ShortCode_Script_Loader
             array_push($week_names, array_shift($week_names));
         }
 
-        $loggedMBO = ( 1 == (bool) NS\MZMBO()->session->get('MBO_GUID') ) ? 1 : 0;
-
         $this->template_data = array(
             'atts' => $this->atts,
             'data_target' => $this->data_target,
@@ -314,7 +312,6 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'signup_nonce' => wp_create_nonce('mz_signup_nonce'),
             'registration_button' => NS\MZMBO()->i18n->get('registration_button'),
             'manage_on_mbo' => NS\MZMBO()->i18n->get('manage_on_mbo'),
-            'loggedMBO' => $loggedMBO,
             'horizontal_schedule' => $horizontal_schedule,
             'grid_schedule' => $grid_schedule
         );
@@ -362,13 +359,12 @@ class Display extends Interfaces\ShortCode_Script_Loader
         }
 
         $protocol = isset($_SERVER["HTTPS"]) ? 'https://' : 'http://';
-        $nonce = wp_create_nonce('mz_schedule_display_nonce');
-        
+
         $translated_strings = NS\MZMBO()->i18n->get();
 
         $params = array(
             'ajaxurl' => admin_url('admin-ajax.php', $protocol),
-            'nonce' => $nonce,
+            'nonce' => wp_create_nonce('mz_schedule_display_nonce'),
             'atts' => $this->atts,
             'staff_preposition' => __('with', 'mz-mindbody-api'),
             'account' => Core\MZ_Mindbody_Api::$basic_options['mz_mindbody_siteID'],
@@ -391,9 +387,9 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'confirm_signup' => $translated_strings['confirm_signup'],
             'logout' => $translated_strings['logout'],
             'your_account' => $translated_strings['your_account'],
-            // 'current_mbo_client' => !empty($_SESSION['MBO_Client']) ? $_SESSION['MBO_Client'] : '',
             'Locations_dict' => json_encode($locations_dictionary),
             'signup_nonce' =>  wp_create_nonce('mz_signup_nonce'),
+            'loggedMBO' => ( 1 == (bool) NS\MZMBO()->session->get('MBO_GUID') ) ? 1 : 0,
             'siteID' => $this->siteID,
             'location' => $this->sLoc
         );
