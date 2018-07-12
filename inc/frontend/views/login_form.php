@@ -51,13 +51,17 @@ use MZ_Mindbody\Inc\Core as Core;
 
         </div>-->
 
-        <div class="modal__footer btn-group">
+        <div class="row" style="margin:.5em;">
 
-            <button type="submit" class="btn btn-primary"><?php echo $data->login; ?></button>
+            <div class="col-12">
 
-            <a id="createMBOAccount" href="#" data-nonce="<?php echo $data->signup_nonce; ?>" data-classID="<?php echo $data->classID; ?>" class="btn btn-primary btn-xs"><?php echo $data->registration_button; ?></a>
+                <button type="submit" class="btn btn-primary"><?php echo $data->login; ?></button>
 
-            <a href="https://clients.mindbodyonline.com/ws.asp?&amp;sLoc=1&studioid=<?php echo $data->siteID; ?>" class="btn btn-primary btn-xs" id="MBOSite"><?php echo $data->manage_on_mbo; ?></a>
+                <a id="createMBOAccount" href="#" data-nonce="<?php echo $data->signup_nonce; ?>" data-classID="<?php echo $data->classID; ?>" class="btn btn-primary btn-xs"><?php echo $data->registration_button; ?></a>
+
+                <a href="https://clients.mindbodyonline.com/ws.asp?&amp;sLoc=1&studioid=<?php echo $data->siteID; ?>" class="btn btn-primary btn-xs" id="MBOSite"><?php echo $data->manage_on_mbo; ?></a>
+
+            </div>
 
         </div>
 
