@@ -120,8 +120,11 @@ ul.mz-classRegistrants li{
  * Grid for our modal windows
  *
  */
-.modal__wrapper {
-  height: 100%;
+
+.modal__wrapper{
+	height: 100%;
+	display: flex;
+	flex-direction: column;
 }
 
 .modal__footer,
@@ -131,19 +134,11 @@ ul.mz-classRegistrants li{
 }
 
 .modal__content {
-  height: 100%;
-  overflow-y: auto;
-}
-
-.modal__content {
-  bottom: 100px;
-  overflow-y: auto;
+	flex: 1;
+	padding: 1em;
 }
 
 .modal__footer {
-  margin-top: 1em;
-  bottom: 0;
-  width: 95%; // prevent buttons too far right
 }
 
 /** Potentially nice select styling:
