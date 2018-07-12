@@ -53,20 +53,22 @@
         };
 
         function render_mbo_modal(){
+            console.log(mz_mbo_state);
+            var message = (mz_mbo_state.message ? '<p>'+mz_mbo_state.message+'</p>' : '');
             mz_mbo_state.wrapper = '<div class="modal__wrapper" id="signupModalWrapper">';
             if (mz_mbo_state.logged_in){
                 mz_mbo_state.wrapper += mz_mbo_state.header;
-                mz_mbo_state.wrapper += '<div class="modal__content" id="signupModalContent">'+mz_mbo_state.signup_button+'</div>';
+                mz_mbo_state.wrapper += '<div class="modal__content" id="signupModalContent">'+message+mz_mbo_state.signup_button+'</div>';
                 mz_mbo_state.wrapper += mz_mbo_state.footer;
             } else {
                 mz_mbo_state.wrapper += mz_mbo_state.header;
-                var message = (mz_mbo_state.message ? '<p>'+mz_mbo_state.message+'</p>' : '');
                 mz_mbo_state.wrapper += '<div class="modal__content" id="signupModalContent">'+message+mz_mbo_state.login_form+'</div>';
             }
             mz_mbo_state.wrapper += '</div>';
-            if ($('#classRegister')) {
-                $('#classRegister').html(mz_mbo_state.wrapper);
+            if ($('#cboxLoadedContent')) {
+                $('#cboxLoadedContent').html(mz_mbo_state.wrapper);
             }
+            mz_mbo_state.message = undefined;
         }
 
         function render_mbo_modal_activity(){
@@ -91,6 +93,7 @@
             if ($('#signupModalContent')) {
                 $('#signupModalContent').html(mz_mbo_state.content);
             }
+            mz_mbo_state.message = undefined;
         }
 
         /**
@@ -151,7 +154,7 @@
                         mz_mbo_state.logged_in = true;
                         mz_mbo_state.action = 'login';
                         mz_mbo_state.message = json.message;
-                        render_mbo_modal_activity();
+                        render_mbo_modal();
                     } else {
                         mz_mbo_state.action = 'login_failed';
                         mz_mbo_state.message = json.message;
@@ -284,6 +287,47 @@
                     console.log(json);
                 }); // End Fail
 
+        });
+
+        /**
+         * Register for a class
+         */
+        $(document).on('click', '#signUpForClass', function (ev) {
+            ev.preventDefault();
+            $.ajax({
+                type: "GET",
+                dataType: 'json',
+                url: mz_mindbody_schedule.ajaxurl,
+                context: this,
+                data: {
+                    action: 'mz_register_for_class',
+                    nonce: mz_mbo_state.nonce,
+                    siteID: mz_mbo_state.siteID,
+                    classID: mz_mbo_state.classID,
+                    location: mz_mbo_state.location
+                },
+                beforeSend: function() {
+                    mz_mbo_state.action = 'processing';
+                    render_mbo_modal_activity();
+                },
+                success: function (json) {
+                    if (json.type == "success") {
+                        mz_mbo_state.logged_in = true;
+                        mz_mbo_state.action = 'register';
+                        mz_mbo_state.message = json.message;
+                        render_mbo_modal_activity();
+                    } else {
+                        mz_mbo_state.action = 'error';
+                        mz_mbo_state.message = 'ERROR REGISTERING FOR CLASS. ' + json.message;
+                        render_mbo_modal_activity();
+                    }
+                } // ./ Ajax Success
+            }) // End Ajax
+                .fail(function (json) {
+                    mz_mbo_state.message = 'ERROR REGISTERING FOR CLASS';
+                    render_mbo_modal_activity();
+                    console.log(json);
+                }); // End Fail
         });
 
     }); // End document ready
