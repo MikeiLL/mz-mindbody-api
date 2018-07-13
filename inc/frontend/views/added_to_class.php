@@ -20,7 +20,5 @@
 
     </div>
 
-    <?php include('modal_footer.php'); ?>
-
 </div>
 
