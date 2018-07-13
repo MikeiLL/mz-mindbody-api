@@ -343,7 +343,7 @@ class Client_Portal extends Interfaces\Retrieve {
 
             foreach($requiredFields as $field) {
 
-                $requiredFieldsInputs .= "<label for='$field'>{$field} </label><input type='text' name='data[Client][$field]' id='$field' placeholder='$field' required /><br />";
+                $requiredFieldsInputs .= "<label for='$field'>{$field}</label> <input type='text' name='data[Client][$field]' id='$field' required /><br />";
 
             }
         }
