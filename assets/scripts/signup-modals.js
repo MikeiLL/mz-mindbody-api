@@ -47,8 +47,8 @@
                 this.className = $(target).attr("data-className");
                 this.staffName = $(target).attr("data-staffName");
                 this.classTime = $(target).attr("data-time");
-                this.class_title = this.classTime + ' ' + this.className + ' ' + mz_mindbody_schedule.staff_preposition + ' ' + this.staffName + '<hr/>';
-                this.header = '<div class="modal__header" id="modalHeader"><h1>'+mz_mindbody_schedule.your_account+'</h1>'+this.class_title+'</div>';
+                this.class_title = '<h2>' + this.className + ' ' + mz_mindbody_schedule.staff_preposition + ' ' + this.staffName + '</h2><h3>' + this.classTime + '</h3><hr/>';
+                this.header = '<div class="modal__header" id="modalHeader"><h1>'+mz_mindbody_schedule.signup_heading+'</h1>'+this.class_title+'</div>';
                 this.signup_button = '<button class="btn btn-primary" data-nonce="'+this.nonce+'" data-location="'+this.location+'" data-classID="'+this.classID+'" id="signUpForClass">' + mz_mindbody_schedule.confirm_signup + '</button>';
             }
         };

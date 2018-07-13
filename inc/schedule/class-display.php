@@ -386,7 +386,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'signup' => $translated_strings['sign_up'],
             'confirm_signup' => $translated_strings['confirm_signup'],
             'logout' => $translated_strings['logout'],
-            'your_account' => $translated_strings['your_account'],
+            'signup_heading' => $translated_strings['signup_heading'],
             'Locations_dict' => json_encode($locations_dictionary),
             'signup_nonce' =>  wp_create_nonce('mz_signup_nonce'),
             'loggedMBO' => ( 1 == (bool) NS\MZMBO()->session->get('MBO_GUID') ) ? 1 : 0,

@@ -603,7 +603,7 @@ class Schedule_Item {
                     $linkArray['text'] = __('Sign-Up', 'mz-mindbody-api');
                 endif;
 
-                $linkArray['data-time'] = date_i18n('m/d/Y', strtotime($this->startDateTime));
+                $linkArray['data-time'] = date_i18n(Core\MZ_Mindbody_Api::$date_format . ' ' . Core\MZ_Mindbody_Api::$time_format, strtotime($this->startDateTime));
 
                 if ((!empty($this->atts['advanced']) && ($this->atts['advanced'] == '1')) || (Core\MZ_Mindbody_Api::$advanced_options['register_within_site'] == 'on')):
 
