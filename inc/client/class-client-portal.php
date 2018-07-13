@@ -576,7 +576,19 @@ class Client_Portal extends Interfaces\Retrieve {
 
         $classesByDateThenTime = array();
 
-        foreach($client_schedule['GetClientScheduleResult']['Visits']['Visit'] as $visit)
+        /* For some reason, when there is only a single class in the client
+         * schedule, the 'Visits' array contains that visit, but when there are multiple
+         * visits then the array of visits is under 'Visits'/'Visit'
+         */
+        if (is_array($client_schedule['GetClientScheduleResult']['Visits']['Visit'][0])){
+            // Multiple visits
+            $visit_array_scope = $client_schedule['GetClientScheduleResult']['Visits']['Visit'];
+        } else {
+            $visit_array_scope = $client_schedule['GetClientScheduleResult']['Visits'];
+        }
+
+
+        foreach($visit_array_scope as $visit)
         {
             // Make a timestamp of just the day to use as key for that day's classes
             $dt = new \DateTime($visit['StartDateTime']);
