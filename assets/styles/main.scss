@@ -122,25 +122,27 @@ ul.mz-classRegistrants li{
  */
 
 .modal__wrapper{
-	height: 100%;
-	display: flex;
-	flex-direction: column;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .modal__footer,
 .modal__header
 {
   min-height: 40px;
+  overflow: auto;
 }
 
 .modal__header
 {
-	margin-bottom: .8em;
+  margin-bottom: .8em;
 }
 
 .modal__content {
-	flex: 1;
-	padding: 1em;
+  flex: 1;
+  padding: 1em;
+  overflow: auto;
 }
 
 .modal__footer {

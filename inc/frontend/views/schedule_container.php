@@ -3,21 +3,11 @@
 use MZ_Mindbody as NS;
 use MZ_Mindbody\Inc\Core as Core;
 
-//var_dump($data);
-// var_dump(json_decode(str_replace('\\', '', $_COOKIE['MZ_MBO_USER'])));
-// var_dump(json_last_error());
-NS\MZMBO()->helpers->mz_pr(NS\MZMBO()->session->get('MBO_Client'));
-//NS\MZMBO()->session->clear();
-
-// NS\MZMBO()->helpers->mz_pr($_COOKIE);
-
 ?>
 <div id="mzScheduleNavHolder">
     <a href="#" class="previous" data-offset="-1"><?php _e('Previous Week', 'mz-mindbody-api'); ?></a> -
     <a href="#" class="following" data-offset="1"><?php _e('Following Week', 'mz-mindbody-api'); ?></a>
 </div>
-
-<?php //NS\MZMBO()->helpers->mz_pr($data); ?>
 
 <div id="mzScheduleDisplay" class="mz_mbo_schedule">
     <?php
