@@ -103,30 +103,6 @@ class Client_Portal extends Interfaces\Retrieve {
 
                 $result['message'] = __('Welcome', 'mz-mindbody-api') . ', ' . $validateLogin['ValidateLoginResult']['Client']['FirstName'] . '.<br/>';
 
-                // If user has elected to remember login, create cookie.
-                //if (($params['keep_me_logged_in'] == 'on') && (Core\MZ_Mindbody_Api::$advanced_options['keep_loogged_in_cookie'] == 'on')):
-
-                //    $userlabel = 'MZ_MBO_USER';
-
-                 //   $value = json_encode(array('MBO_GUID' => $validateLogin['ValidateLoginResult']['GUID'], 'MBO_Client' => $validateLogin['ValidateLoginResult']['Client']), JSON_FORCE_OBJECT);//
-
-                    //setcookie( $userlabel, $value, time()+60*60*24*30, COOKIEPATH, COOKIE_DOMAIN );
-
-                    // if(!isset($_COOKIE[$userlabel])) {
-                    //     echo "The cookie: '" . $userlabel . "' is not set.";
-                    // } else {
-                    //     echo "The cookie '" . $userlabel . "' is set.";
-                    //     NS\MZMBO()->helpers->mz_pr($_COOKIE['MZ_MBO_USER']);
-                    //     NS\MZMBO()->helpers->mz_pr(json_decode($_COOKIE['MZ_MBO_USER']));
-                    //     $error = json_last_error();
-                    //     if ($error !== JSON_ERROR_NONE) {
-                    //         echo json_last_error_msg();
-                    //     } else {
-                    //         echo $json;
-                    //     }
-                    // }
-                //endif;
-
             } else {
 
                 // Otherwise error message and display form again
