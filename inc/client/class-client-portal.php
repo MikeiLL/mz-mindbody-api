@@ -57,6 +57,15 @@ class Client_Portal extends Interfaces\Retrieve {
     public $time_format;
 
     /**
+     * Classes by Date Then Time
+     *
+     * @since   2.4.7
+     * @access  private
+     * @var $classesByDateThenTime gets populated with matrix of classes sorted by date, then by time
+     */
+    private $classesByDateThenTime;
+
+    /**
      * Class constructor
      *
      * Since 2.4.7
@@ -64,19 +73,6 @@ class Client_Portal extends Interfaces\Retrieve {
     public function __construct(){
         $this->date_format = Core\MZ_Mindbody_Api::$date_format;
         $this->time_format = Core\MZ_Mindbody_Api::$time_format;
-    }
-    /**
-     * Check if Client Logged In
-     *
-     * If MBO_GUID is set in the session, validate it and return true if valid,
-     * otherwise return false.
-     *
-     * @access private
-     */
-    private function check_client_logged(){
-
-        return (bool) NS\MZMBO()->session->get('MBO_Client');
-
     }
 
     /**
@@ -508,7 +504,7 @@ class Client_Portal extends Interfaces\Retrieve {
 
         $result['type'] = 'success';
 
-        if ( (bool) NS\MZMBO()->session->get('MBO_GUID') === 1 ) {
+        if ( (bool) NS\MZMBO()->session->get('MBO_GUID') === true ) {
 
             $template_data = array(
                 'date_format' => $this->date_format,
@@ -522,14 +518,16 @@ class Client_Portal extends Interfaces\Retrieve {
             //echo $this->mb->debug();
             $template_loader = new Core\Template_Loader();
 
-            $template_loader->set_template_data($template_data);
-            $template_loader->get_template_part('client_schedule');
+            //$template_loader->set_template_data($template_data);
+            //$template_loader->get_template_part('client_schedule');
+            var_dump($this->get_client_schedule()['message']);
 
         } else {
 
             $result['type'] = 'error';
 
         }
+
 
         $result['message'] = ob_get_clean();
 
@@ -585,7 +583,7 @@ class Client_Portal extends Interfaces\Retrieve {
                 $schedule_data['GetClientScheduleResult']);
             $result['message'] = NS\MZMBO()->session->get('MBO_Client')['ID'];
         else:
-            $result['message'] = $client_schedule;
+            $result['message'] = $this->sort_classes_by_date_then_time($client_schedule);
         endif;
 
         $result['type'] = "success";
@@ -606,17 +604,16 @@ class Client_Portal extends Interfaces\Retrieve {
      */
     public function sort_classes_by_date_then_time($client_schedule = array()) {
 
-        foreach($client_schedule['GetClientScheduleResult']['Visits']['Visit'] as $class)
+        foreach($client_schedule['GetClientScheduleResult']['Visits'] as $visit)
         {
-
             // Make a timestamp of just the day to use as key for that day's classes
-            $dt = new \DateTime($class['StartDateTime']);
+            $dt = new \DateTime($visit['StartDateTime']);
             $just_date =  $dt->format('Y-m-d');
 
             /* Create a new array with a key for each date YYYY-MM-DD
             and corresponding value an array of class details */
 
-            $single_event = new Schedule\Mini_Schedule_Item($class);
+            $single_event = new Schedule\Mini_Schedule_Item($visit);
 
             if(!empty($this->classesByDateThenTime[$just_date])) {
                 array_push($this->classesByDateThenTime[$just_date], $single_event);
@@ -647,39 +644,23 @@ class Client_Portal extends Interfaces\Retrieve {
     }
 
     /**
-     * Create Login Form
+     * Check Client Logged In
+     *
+     * Function run by ajax to continually check if client is logged in
      */
-    public function login_form($request = false){
-        ob_start();
+    public function check_client_logged(){
 
-        $request = ($request != false) ? $request : $_REQUEST;
+        $result['type'] = 'success';
+        $result['message'] =  ( 1 == (bool) NS\MZMBO()->session->get('MBO_GUID') ) ? 1 : 0;
 
-        $global_strings = NS\MZMBO()->i18n->get();
+        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+            $result = json_encode($result);
+            echo $result;
+        } else {
+            header("Location: " . $_SERVER["HTTP_REFERER"]);
+        }
 
-        $template_loader = new Core\Template_Loader();
-
-        $this->template_data = array(
-            'password' => $global_strings['password'],
-            'username' => $global_strings['username'],
-            'login' => $global_strings['login'],
-            'registration_button' => registration_buttonregistration_button,
-            'nonce' => $request['nonce'],
-            'classID' => $request['classID'],
-            'siteID'    => $request['siteID'],
-            'location'  => $request['location']
-        );
-
-        $template_loader->set_template_data($this->template_data);
-        $template_loader->get_template_part('login_form');
-
-        return ob_get_clean();
-    }
-
-    /**
-     * Display Login Form
-     */
-    public function signup_form(){
-        check_ajax_referer($_REQUEST['nonce'], "mz_schedule_display_nonce", false);
+        die();
     }
 
     /**

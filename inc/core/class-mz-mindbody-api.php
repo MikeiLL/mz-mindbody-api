@@ -305,9 +305,13 @@ class MZ_Mindbody_Api
         $this->loader->add_action('wp_ajax_nopriv_mz_client_log_out', $client_object, 'client_log_out');
         $this->loader->add_action('wp_ajax_mz_client_log_out', $client_object, 'client_log_out');
 
-        // Start Ajax Client Log Out
+        // Start Ajax Display Client Schedule
         $this->loader->add_action('wp_ajax_nopriv_mz_display_client_schedule', $client_object, 'display_client_schedule');
         $this->loader->add_action('wp_ajax_mz_display_client_schedule', $client_object, 'display_client_schedule');
+
+        // Start Ajax Check Client Logged Status
+        $this->loader->add_action('wp_ajax_nopriv_mz_check_client_logged', $client_object, 'check_client_logged');
+        $this->loader->add_action('wp_ajax_mz_check_client_logged', $client_object, 'check_client_logged');
 
     }
 

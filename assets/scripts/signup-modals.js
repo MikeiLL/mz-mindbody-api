@@ -34,6 +34,7 @@
             header: undefined,
             signup_button: undefined,
             message: undefined,
+            client_first_name: undefined,
 
             login_form: $('#mzLogInContainer').html(),
 
@@ -53,7 +54,6 @@
         };
 
         function render_mbo_modal(){
-            console.log(mz_mbo_state);
             var message = (mz_mbo_state.message ? '<p>'+mz_mbo_state.message+'</p>' : '');
             mz_mbo_state.wrapper = '<div class="modal__wrapper" id="signupModalWrapper">';
             if (mz_mbo_state.logged_in){
@@ -94,6 +94,26 @@
                 $('#signupModalContent').html(mz_mbo_state.content);
             }
             mz_mbo_state.message = undefined;
+        }
+
+        /**
+         * Continually Check if Client is Logged in and Update Status
+         */
+        setInterval(mz_mbo_check_client_logged, 5000);
+
+        function mz_mbo_check_client_logged( )
+        {
+            //this will repeat every 5 seconds
+            $.ajax({
+                dataType: 'json',
+                url: mz_mindbody_schedule.ajaxurl,
+                data: {action: 'mz_check_client_logged'},
+                success: function(json) {
+                    if (json.type == "success") {
+                        mz_mbo_state.logged_in = (json.message == 1 ? true : false);
+                    }
+                } // ./ Ajax Success
+            }) // End Ajax
         }
 
         /**
@@ -312,7 +332,6 @@
                 },
                 success: function (json) {
                     if (json.type == "success") {
-                        mz_mbo_state.logged_in = true;
                         mz_mbo_state.action = 'register';
                         mz_mbo_state.message = json.message;
                         render_mbo_modal_activity();
@@ -328,6 +347,42 @@
                     render_mbo_modal_activity();
                     console.log(json);
                 }); // End Fail
+        });
+
+        /**
+         * Display Client Schedule within Sign-Up Modal
+         *
+         *
+         */
+        $(document).on('click', "a#MBOSchedule", function (ev) {
+            ev.preventDefault();
+            $.ajax({
+                type: "GET",
+                dataType: 'json',
+                url: mz_mindbody_schedule.ajaxurl,
+                data: {action: 'mz_display_client_schedule', nonce: mz_mbo_state.nonce, location: mz_mbo_state.location, siteID: mz_mbo_state.siteID},
+                beforeSend: function() {
+                    mz_mbo_state.action = 'processing';
+                    render_mbo_modal_activity();
+                },
+                success: function (json) {
+                    if (json.type == "success") {
+                        mz_mbo_state.action = 'display_schedule';
+                        mz_mbo_state.message = json.message;
+                        render_mbo_modal_activity();
+                    } else {
+                        mz_mbo_state.action = 'error';
+                        mz_mbo_state.message = 'ERROR RETRIEVING YOUR SCHEDULE. ' + json.message;
+                        render_mbo_modal_activity();
+                    }
+                } // ./ Ajax Success
+            }) // End Ajax
+                .fail(function (json) {
+                    mz_mbo_state.message = 'ERROR RETRIEVING YOUR SCHEDULE';
+                    render_mbo_modal_activity();
+                    console.log(json);
+                }); // End Fail
+
         });
 
     }); // End document ready

@@ -221,15 +221,20 @@ class Mini_Schedule_Item {
      */
     public function __construct($schedule_item, $atts = array()) {
 
-        $this->className = isset($schedule_item['Name']) ? $schedule_item['Name']: '';
+        $this->className = isset($schedule_item['Name']) ? $schedule_item['Name'] : '';
         $this->startDateTime = $schedule_item['StartDateTime'];
         $this->endDateTime = $schedule_item['EndDateTime'];
+
         // $this->sessionTypeName = isset($schedule_item['ClassDescription']['SessionType']['Name']) ? $schedule_item['ClassDescription']['SessionType']['Name'] : '';
+
         $this->staffName = isset($schedule_item['Staff']['Name']) ? $schedule_item['Staff']['Name'] : '';
+
         // $this->ID = $schedule_item['ID'];
         // $this->class_schedule_id = $schedule_item['ClassScheduleID'];
         // $this->sLoc = $schedule_item['Location']['ID'];
-        $this->locationName = $schedule_item['Location']['Name'];
+
+        //$this->locationName = $schedule_item['Location']['Name'];
+
         // $this->sDate = date_i18n('m/d/Y', strtotime($schedule_item['StartDateTime']));
         // $this->sTG = $schedule_item['ClassDescription']['Program']['ID'];
         // $this->mbo_url = $this->mbo_url();
