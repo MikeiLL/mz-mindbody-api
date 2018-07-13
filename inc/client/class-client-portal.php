@@ -76,7 +76,8 @@ class Client_Portal extends Interfaces\Retrieve {
         // Crate the MBO Object
         $this->get_mbo_results();
 
-        ob_start();
+        // Init message
+        $result['message'] = '';
 
         $result['type'] = 'success';
 
@@ -99,6 +100,8 @@ class Client_Portal extends Interfaces\Retrieve {
 
                 NS\MZMBO()->session->set( 'MBO_GUID', $validateLogin['ValidateLoginResult']['GUID'] );
                 NS\MZMBO()->session->set( 'MBO_Client', $validateLogin['ValidateLoginResult']['Client'] );
+
+                $result['message'] = __('Welcome', 'mz-mindbody-api') . ', ' . $validateLogin['ValidateLoginResult']['Client']['FirstName'] . '.<br/>';
 
                 // If user has elected to remember login, create cookie.
                 //if (($params['keep_me_logged_in'] == 'on') && (Core\MZ_Mindbody_Api::$advanced_options['keep_loogged_in_cookie'] == 'on')):
@@ -129,11 +132,11 @@ class Client_Portal extends Interfaces\Retrieve {
                 // Otherwise error message and display form again
                 if ( !empty($validateLogin['ValidateLoginResult']['Message'] ) ) {
 
-                    echo $validateLogin['ValidateLoginResult']['Message'];
+                    $result['message'] = $validateLogin['ValidateLoginResult']['Message'];
 
                 } else {
 
-                    _e('Invalid Login', 'mz-mindbody-api') . '<br/>';
+                    $result['message'] = __('Invalid Login', 'mz-mindbody-api') . '<br/>';
 
                 }
 
@@ -146,8 +149,6 @@ class Client_Portal extends Interfaces\Retrieve {
 
         }
 
-
-        $result['message'] = ob_get_clean();
 
         if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
             $result = json_encode($result);
