@@ -311,6 +311,8 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'login_to_sign_up' => NS\MZMBO()->i18n->get('login_to_sign_up'),
             'signup_nonce' => wp_create_nonce('mz_signup_nonce'),
             'registration_button' => NS\MZMBO()->i18n->get('registration_button'),
+            'username' => NS\MZMBO()->i18n->get('username'),
+            'password' => NS\MZMBO()->i18n->get('password'),
             'manage_on_mbo' => NS\MZMBO()->i18n->get('manage_on_mbo'),
             'horizontal_schedule' => $horizontal_schedule,
             'grid_schedule' => $grid_schedule
