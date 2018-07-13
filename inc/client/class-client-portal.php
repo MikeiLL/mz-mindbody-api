@@ -57,15 +57,6 @@ class Client_Portal extends Interfaces\Retrieve {
     public $time_format;
 
     /**
-     * Classes by Date Then Time
-     *
-     * @since   2.4.7
-     * @access  private
-     * @var $classesByDateThenTime gets populated with matrix of classes sorted by date, then by time
-     */
-    private $classesByDateThenTime;
-
-    /**
      * Class constructor
      *
      * Since 2.4.7
@@ -504,12 +495,14 @@ class Client_Portal extends Interfaces\Retrieve {
 
         $result['type'] = 'success';
 
-        if ( (bool) NS\MZMBO()->session->get('MBO_GUID') === true ) {
+        $schedule = $this->get_client_schedule();
+
+        if ( ( (bool) NS\MZMBO()->session->get('MBO_GUID') === true ) && ($schedule['type'] == 'success') ) {
 
             $template_data = array(
                 'date_format' => $this->date_format,
                 'time_format' => $this->time_format,
-                'classes'     => $this->get_client_schedule(),
+                'classes'     => $schedule['message'],
                 'nonce'       => $_REQUEST['nonce'],
                 'siteID'      => $_REQUEST['siteID'],
                 'location'      => $_REQUEST['location']
@@ -518,9 +511,9 @@ class Client_Portal extends Interfaces\Retrieve {
             //echo $this->mb->debug();
             $template_loader = new Core\Template_Loader();
 
-            //$template_loader->set_template_data($template_data);
-            //$template_loader->get_template_part('client_schedule');
-            var_dump($this->get_client_schedule()['message']);
+            $template_loader->set_template_data($template_data);
+            $template_loader->get_template_part('client_schedule');
+            //NS\MZMBO()->helpers->mz_pr($this->get_client_schedule()['message']);
 
         } else {
 
@@ -604,7 +597,9 @@ class Client_Portal extends Interfaces\Retrieve {
      */
     public function sort_classes_by_date_then_time($client_schedule = array()) {
 
-        foreach($client_schedule['GetClientScheduleResult']['Visits'] as $visit)
+        $classesByDateThenTime = array();
+
+        foreach($client_schedule['GetClientScheduleResult']['Visits']['Visit'] as $visit)
         {
             // Make a timestamp of just the day to use as key for that day's classes
             $dt = new \DateTime($visit['StartDateTime']);
@@ -615,16 +610,17 @@ class Client_Portal extends Interfaces\Retrieve {
 
             $single_event = new Schedule\Mini_Schedule_Item($visit);
 
-            if(!empty($this->classesByDateThenTime[$just_date])) {
-                array_push($this->classesByDateThenTime[$just_date], $single_event);
+            if(!empty($classesByDateThenTime[$just_date])) {
+                array_push($classesByDateThenTime[$just_date], $single_event);
             } else {
-                $this->classesByDateThenTime[$just_date] = array($single_event);
+                $classesByDateThenTime[$just_date] = array($single_event);
             }
         }
-        /* They are not ordered by date so order them by date */
-        ksort($this->classesByDateThenTime);
 
-        foreach($this->classesByDateThenTime as $classDate => &$classes)
+        /* They are not ordered by date so order them by date */
+        ksort($classesByDateThenTime);
+
+        foreach($classesByDateThenTime as $classDate => &$classes)
         {
             /*
              * $classes is an array of all classes for given date
@@ -640,7 +636,7 @@ class Client_Portal extends Interfaces\Retrieve {
             });
         }
 
-        return $this->classesByDateThenTime;
+        return $classesByDateThenTime;
     }
 
     /**

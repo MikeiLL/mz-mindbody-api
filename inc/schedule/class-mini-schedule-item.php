@@ -229,7 +229,7 @@ class Mini_Schedule_Item {
 
         $this->staffName = isset($schedule_item['Staff']['Name']) ? $schedule_item['Staff']['Name'] : '';
 
-        // $this->ID = $schedule_item['ID'];
+        $this->ID = $schedule_item['ID'];
         // $this->class_schedule_id = $schedule_item['ClassScheduleID'];
         // $this->sLoc = $schedule_item['Location']['ID'];
 
