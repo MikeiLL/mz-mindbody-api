@@ -97,6 +97,7 @@ class MBO_API {
 			}
 		}
 		if(!empty($soapService)) {
+            NS\MZMBO()->helpers->api_log($soapService . ' ' . $name);
 			if(empty($arguments)) {
 				return $this->callMindbodyService($soapService, $name);
 			} else {
