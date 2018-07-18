@@ -393,7 +393,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'signup_nonce' =>  wp_create_nonce('mz_signup_nonce'),
             'loggedMBO' => ( 1 == (bool) NS\MZMBO()->session->get('MBO_GUID') ) ? 1 : 0,
             'siteID' => $this->siteID,
-            'location' => $this->sLoc,
+            'location' => $this->atts['locations'][0],
             'client_first_name' => (!empty(NS\MZMBO()->session->get('MBO_GUID')['FirstName']) ? NS\MZMBO()->session->get('MBO_GUID')['FirstName'] : '')
         );
         wp_localize_script('mz_display_schedule_script', 'mz_mindbody_schedule', $params);
