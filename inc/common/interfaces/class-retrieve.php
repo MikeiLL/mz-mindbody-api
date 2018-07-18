@@ -63,7 +63,6 @@ abstract class Retrieve
         }
         // append today's date
         $transient_string .= date('Y-m-d', current_time('timestamp'));
-        var_dump($transient_string);
         return $transient_string;
     }
 
