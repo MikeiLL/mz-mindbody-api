@@ -217,7 +217,7 @@ class MZ_Mindbody_Api
         $this->loader->add_action('plugins_loaded', $plugin_admin, 'check_version');
 
 
-        if (self::$advanced_options['elect_display_substitutes'] == 'on') {
+        if ((isset(self::$advanced_options['elect_display_substitutes']) && (self::$advanced_options['elect_display_substitutes'] == 'on')) {
             // Create the "Class Owners" transient, if not already created
             $class_owners_object = new Schedule\Retrieve_Class_Owners;
             $this->loader->add_action('create_class_owners_transient', $class_owners_object, 'deduce_class_owners');
