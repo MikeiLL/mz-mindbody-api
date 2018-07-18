@@ -97,7 +97,12 @@ class MBO_API {
 			}
 		}
 		if(!empty($soapService)) {
-            NS\MZMBO()->helpers->api_log($soapService . ' ' . $name);
+		    $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1];
+            $caller_details = $trace['function'];
+            if (isset($trace['class'])){
+                $caller_details .= ' in:' . $trace['class'];
+            }
+            NS\MZMBO()->helpers->api_log($soapService . ' ' . $name . ' caller:' . $caller_details);
 			if(empty($arguments)) {
 				return $this->callMindbodyService($soapService, $name);
 			} else {
