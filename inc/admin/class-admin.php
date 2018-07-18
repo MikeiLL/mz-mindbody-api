@@ -161,11 +161,12 @@ class Admin {
 
         $sql_response = $this->clear_plugin_transients();
 
+        $result['type'] = "success";
+
         // Initialize message
         $result['message'] = __("No transients to clear.", 'mz-mindbody-api');
 
         if (false != $sql_response):
-            $result['type'] = "success";
             $result['message'] = sprintf(__("Cleared %d transients. Page reloads will re-set them.", 'mz-mindbody-api'), $sql_response);
         endif;
         		

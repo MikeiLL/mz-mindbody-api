@@ -229,6 +229,7 @@ abstract class Retrieve_Classes extends Retrieve {
             // Otherwise assign result to this->classes.
             $this->classes = $schedule_data;
 
+            // Store the transient for 12 hours
             set_transient($transient_string, $this->classes, 60 * 60 * 12);
 
         } else {
