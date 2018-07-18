@@ -2,6 +2,9 @@
 
 namespace MZ_Mindbody\Inc\Core;
 
+use MZ_Mindbody as NS;
+use MZ_Mindbody\Inc\Admin as Admin;
+
 /**
  * Fired during plugin deactivation
  *
@@ -22,7 +25,8 @@ class Deactivator {
 	 * @since    2.4.7
 	 */
 	public static function deactivate() {
-
+        NS\MZMBO()->helpers->clear_log_files();
+        Admin\Admin->clear_plugin_transients();
 	}
 
 }

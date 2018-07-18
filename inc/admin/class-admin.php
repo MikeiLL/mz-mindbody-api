@@ -148,21 +148,26 @@ class Admin {
     }
     
     /**
-     * Clear all plugin transients 
+     * Call the clear all plugin transients
      *
      * Called via ajax in admin
      *
      *
      * @since 2.4.7
      */
-    public function clear_plugin_transients () {
+    public function ajax_clear_plugin_transients () {
 
         check_ajax_referer($_REQUEST['nonce'], "mz_admin_nonce", false);
 
-        global $wpdb;
-        $wpdb->query( "DELETE FROM `$wpdb->options` WHERE `option_name` LIKE '%transient_mz_mindbody%'" );
-        $result['type'] = "success";
-        $result['message'] = __("Transients cleared. Page reloads will re-set them.", 'mz-mindbody-api');
+        $sql_response = $this->clear_plugin_transients();
+
+        // Initialize message
+        $result['message'] = __("No transients to clear.", 'mz-mindbody-api');
+
+        if (false != $sql_response):
+            $result['type'] = "success";
+            $result['message'] = sprintf(__("Cleared %d transients. Page reloads will re-set them.", 'mz-mindbody-api'), $sql_response);
+        endif;
         		
         if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
             $result = json_encode($result);
@@ -173,6 +178,19 @@ class Admin {
         }
 
         die();
+    }
+
+    /**
+     * Clear all plugin transients
+     *
+     * @since 2.4.7
+     *
+     * @return result of $wpdb delete call.
+     */
+    public function clear_plugin_transients() {
+
+        global $wpdb;
+        return $wpdb->query( "DELETE FROM `$wpdb->options` WHERE `option_name` LIKE '%transient_mz_mbo%'" );
     }
 
     /**
