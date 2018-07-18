@@ -84,6 +84,23 @@ class Helpers {
         );
     }
 
+    /**
+     * Clear log files
+     *
+     * Used in deactivation hook to clear all log files
+     */
+    public function clear_log_files(){
+        $files = array(
+            WP_CONTENT_DIR . '/mz_mbo_arbitrary.log',
+            WP_CONTENT_DIR . '/mbo_api.log'
+        );
+        foreach ($files as $file){
+            if (file_exists($file)){
+                unlink($file);
+            }
+        }
+    }
+
 
 }
 ?>
