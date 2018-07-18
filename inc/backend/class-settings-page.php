@@ -300,6 +300,17 @@ class Settings_Page {
             )
         );
 
+        // Field: Display Substitute Status
+        self::$wposa_obj->add_field(
+            'mz_mbo_advanced',
+            array(
+                'id'      => 'log_api_calls',
+                'type'    => 'checkbox',
+                'name'    => __( 'Log MBO API Calls', 'mz-mindbody-api' ),
+                'desc'    => __( 'When checked, API calls are logged for up to seven days in wp-content/mbo_api.log.', 'mz-mindbody-api' )
+            )
+        );
+
         // Field: Regenerate Class Owners
         self::$wposa_obj->add_field(
             'mz_mbo_advanced',
