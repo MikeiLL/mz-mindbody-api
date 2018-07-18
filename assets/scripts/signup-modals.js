@@ -113,7 +113,7 @@
                         mz_mbo_state.logged_in = (json.message == 1 ? true : false);
                     }
                 } // ./ Ajax Success
-            }) // End Ajax
+            }); // End Ajax
         }
 
         /**
