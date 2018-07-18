@@ -21,7 +21,7 @@
                 data: {action: 'mz_mbo_clear_transients', nonce: nonce},
                 success: function (json) {
                     if (json.type == "success") {
-                        alert('Transients cleared.');
+                        alert(json.message);
                     } else {
                         alert('Something went wrong.');
                     }
