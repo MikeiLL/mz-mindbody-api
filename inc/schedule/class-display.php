@@ -214,6 +214,9 @@ class Display extends Interfaces\ShortCode_Script_Loader
         // Break locations up into array, if it hasn't already been.
         $this->atts['locations'] = (!is_array($this->atts['locations'])) ? explode(',', str_replace(' ', '', $this->atts['locations'])) : $this->atts['locations'];
 
+        // Set sLoc which we use in generating link, to first location in locations array.
+        $this->sLoc = $this->atts['locations'][0];
+
         // Break hide up into array, if it hasn't already been.
         $this->atts['hide'] = (!is_array($this->atts['hide'])) ? explode(',', str_replace(' ', '', strtolower($this->atts['hide']))) : $this->atts['hide'];
 
@@ -393,7 +396,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'signup_nonce' =>  wp_create_nonce('mz_signup_nonce'),
             'loggedMBO' => ( 1 == (bool) NS\MZMBO()->session->get('MBO_GUID') ) ? 1 : 0,
             'siteID' => $this->siteID,
-            'location' => $this->atts['locations'][0],
+            'location' => $this->sLoc,
             'client_first_name' => (!empty(NS\MZMBO()->session->get('MBO_GUID')['FirstName']) ? NS\MZMBO()->session->get('MBO_GUID')['FirstName'] : '')
         );
         wp_localize_script('mz_display_schedule_script', 'mz_mindbody_schedule', $params);
