@@ -55,14 +55,15 @@ abstract class Retrieve
      */
     protected function generate_transient_name($shortcode = 'sc')
     {
-        $transient_string = 'mz_mindbody_' . $shortcode . '_';
+        $transient_string = 'mz_mbo_' . $shortcode . '_';
         foreach ($this->atts as $k => $attr) {
-            if (empty($attr)) continue;
+            if (empty($attr) || ($attr == '0')) continue;
             if (is_array($attr)) $attr = implode('_', $attr);
-            $transient_string .= '_' . $k . '_' . substr($attr, 0, 4);
+            $transient_string .= '_' . substr($k, 0, 4) . '_' . substr($attr, 0, 3);
         }
         // append today's date
         $transient_string .= date('Y-m-d', current_time('timestamp'));
+        var_dump($transient_string);
         return $transient_string;
     }
 
