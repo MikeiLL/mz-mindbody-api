@@ -38,8 +38,10 @@ class Helpers {
         $header = date('l dS \o\f F Y h:i:s A', strtotime("now")) . "\t ";
 
         // Just keep up to seven days worth of data
-        if (time() - filemtime($file_path) >= 60 * 60 * 24 * 7) { // 7 days
-            unlink($file_path);
+        if (file_exists($file_path)){
+            if (time() - filemtime($file_path) >= 60 * 60 * 24 * 7) { // 7 days
+                unlink($file_path);
+            }
         }
 
         if (is_array($message)) {
@@ -57,7 +59,7 @@ class Helpers {
      * Helper function to log api calls to a file
      *
      * @since     2.4.7
-     * 
+     *
      * @param $message the content to be written to file.
      * @param $file_path string optional path to write file to.
      */
@@ -66,9 +68,12 @@ class Helpers {
         $file_path = ( ($file_path == '') || !file_exists($file_path) ) ? WP_CONTENT_DIR . '/mbo_api.log' : $file_path;
 
         // Just keep up to seven days worth of data
-        if (time() - filemtime($file_path) >= 60 * 60 * 24 * 7) { // 7 days
-            unlink($file_path);
+        if (file_exists($file_path)){
+            if (time() - filemtime($file_path) >= 60 * 60 * 24 * 7) { // 7 days
+                unlink($file_path);
+            }
         }
+
         $header = date('Ymd G:i:s', strtotime("now")) . "\t ";
         $message .= "\n";
 
