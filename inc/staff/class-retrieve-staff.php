@@ -1,6 +1,7 @@
 <?php
 namespace MZ_Mindbody\Inc\Staff;
 
+use MZ_Mindbody as NS;
 use MZ_Mindbody\Inc\Core as Core;
 use MZ_Mindbody\Inc\Libraries as Libraries;
 use MZ_Mindbody\Inc\Schedule as Schedule;
@@ -71,7 +72,10 @@ class Retrieve_Staff extends Interfaces\Retrieve {
      * Sort Staff array by MBO SortOrder, then by LastName
      *
      * @since 2.4.7
+     * source: https://stackoverflow.com/a/2282247/2223106
      *
+     * First populate two arrays: $important and $basic, then sort the entire array
+     * returned by MBO based on those criteria.
      *
      * @return array of MBO staff members, sorted by SortOrder, then LastName
      */
@@ -87,7 +91,16 @@ class Retrieve_Staff extends Interfaces\Retrieve {
             $basic, SORT_REGULAR, SORT_ASC,
             $this->staff_result['GetStaffResult']['StaffMembers']['Staff']);
 
-        return $this->staff_result;
+        return $this->get_staff_member_objects();
+    }
+
+    /**
+     * Generate a list of Staff Member objects from array of Staff Members
+     */
+    private function get_staff_member_objects(){
+        return array_map( function($item) {
+            return new Staff_Member($item);
+        }, $this->staff_result['GetStaffResult']['StaffMembers']['Staff']);
     }
 
 }

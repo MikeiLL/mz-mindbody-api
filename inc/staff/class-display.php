@@ -70,10 +70,11 @@ class Display extends Interfaces\ShortCode_Script_Loader
         // Call the API and if fails, return error message.
         if (false === $this->staff_object->get_mbo_results()) return "<div>" . __("Mindbody plugin settings error.", 'mz-mindbody-api') . "</div>";
 
-        $mbo_staff = $this->staff_object->sort_staff_by_sort_order();
 
-        if (isset($this->staff_object->staff_result['GetStaffResult'])):
-            $mz_staff_list = $this->staff_object->staff_result['GetStaffResult']['StaffMembers']['Staff'];
+
+        if (isset($this->staff_object->staff_result['GetStaffResult']['StaffMembers']['Staff'])):
+            $mz_staff_list = $this->staff_object->sort_staff_by_sort_order();
+            //$mz_staff_list = $this->staff_object->staff_result['GetStaffResult']['StaffMembers']['Staff'];
         else:
             NS\MZMBO()->helpers->mz_pr($this->staff_object);
             die('Something went wrong.');

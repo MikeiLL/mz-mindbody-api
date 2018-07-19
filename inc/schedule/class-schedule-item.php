@@ -7,7 +7,7 @@ use MZ_Mindbody\Inc\Libraries\HTML_Element;
 use MZ_Mindbody\Inc\Libraries\Rarst\WordPress\DateTime as DateTime;
 use MZ_Mindbody\Inc\Libraries as Libraries;
 
-/*
+/**
  * Class that holds and formats a single item from MBO API Schedule
  * for display.
  *
