@@ -21,15 +21,15 @@ class Staff_Member {
      * Staff Member ID
      *
      * @access private
-     * int example 100000285
+     * @var $ID int example 100000285
      */
     private $ID;
 
     /**
-     * Staff Member Name
+     * Staff Member Full Name
      *
      * @access private
-     * string example Ken Berry
+     * @var $Name string example Ken Berry
      */
     private $Name;
 
@@ -37,7 +37,7 @@ class Staff_Member {
      * Staff Member First Name
      *
      * @access private
-     * string example Ken
+     * @var $FirstName string example Ken
      */
     private $FirstName;
 
@@ -45,7 +45,7 @@ class Staff_Member {
      * Staff Member LastName
      *
      * @access private
-     * string example Ken Berry
+     * @var $LastName string example Ken Berry
      */
     private $LastName;
 
@@ -55,7 +55,7 @@ class Staff_Member {
      * @access private
      *
      * Image URL key seems to only exist if it is set.
-     * string example https://clients.mindbodyonline.com/studios/DemoAPISandboxRestore/staff/100000285_large.jpg?imageversion=1531922456
+     * @var $ImageURL string example https://clients.mindbodyonline.com/studios/DemoAPISandboxRestore/staff/100000285_large.jpg?imageversion=1531922456
      */
     private $ImageURL;
 
@@ -65,9 +65,21 @@ class Staff_Member {
      * This may have arbitrary HTML. Particularly <p> and/or <div> tags which need to be handled.
      *
      * @access private
-     * string example '<p>Super cool cat.</p>'
+     * @var $Bio string example '<p>Super cool cat.</p>'
      */
     private $Bio;
+
+    /**
+     * Replace DOM Element Beginning from Bio
+     *
+     * This is used in page layout so that Image can be placed withing Biography container.
+     *
+     * We pull it out and replace it later when building the bio element.
+     *
+     * @access private
+     * @var $mz_replace_dom_start string example '<p>Super cool cat.</p>'
+     */
+    private $mz_replace_dom_start;
 
     /**
      * Populate attributes with data from MBO
@@ -83,7 +95,33 @@ class Staff_Member {
         $this->FirstName = $staff_member['FirstName'];
         $this->LastName = $staff_member['LastName'];
         $this->ImageURL = isset($staff_member['ImageURL']) ? $staff_member['ImageURL'] : '';
-        $this->Bio = $staff_member['Bio'];
+        $this->Bio = $this->clean_up_staff_bio($staff_member['Bio']);
+    }
+
+    /**
+     * Clean up staff biography
+     *
+     * Remove empty HTML tags as well as the opening container tag (div or p) so we
+     * can rebuild the bio with Image Thumbnail inside of the container with the text.
+     *
+     * We also populate the $mz_replace_dom_start attribute here.
+     *
+     * @since 2.4.7
+     * @param string Biography returned by MBO
+     * @return string $bio Cleaned up HTML string.
+     */
+    private function clean_up_staff_bio($bio){
+        $bio = str_replace("/<[^\/>]*>(\s|xC2xA0|&nbsp;)*<\/[^>]*>/", '', $bio);
+        if (substr($bio, 0, 3) == '<p>') {
+            $mz_staff_bio = substr($bio, 3);
+            $this->mz_replace_dom_start = '<p>';
+        } else if (substr($bio, 0, 5) == '<div>'){
+            $bio = substr($bio, 5);
+            $this->mz_replace_dom_start = '<div>';
+        } else {
+            $this->mz_replace_dom_start = '';
+        }
+        return $bio;
     }
 
 }
