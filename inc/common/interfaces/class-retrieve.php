@@ -7,7 +7,16 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
 
 abstract class Retrieve
 {
-
+    /**
+     * MBO Account Number
+     *
+     * This may be set in shortcode, or defaults to Options setting: mz_mindbody_siteID.
+     *
+     * @since    2.4.7
+     * @access   protected
+     *
+     * @var      int    $mbo_account    MBO Account to retrieve data for.
+     */
     protected $mbo_account;
     public $atts;
 
@@ -15,6 +24,7 @@ abstract class Retrieve
     {
         $this->mbo_account = 0;
         $this->atts = $atts;
+        $this->mbo_account = isset($this->atts['account']) ? $this->atts['account'] : 0;
     }
 
     /*
