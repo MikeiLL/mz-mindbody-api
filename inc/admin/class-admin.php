@@ -144,6 +144,7 @@ class Admin {
             $mz_mbo_events['mz_mindbody_eventsDuration'] = $old_options['mz_mindbody_eventsDuration'];
             add_option('mz_mbo_basic', $mz_mbo_basic);
             add_option('mz_mbo_events', $mz_mbo_events);
+            $this->clear_previous_plugin_transients();
         }
     }
     
@@ -192,6 +193,19 @@ class Admin {
 
         global $wpdb;
         return $wpdb->query( "DELETE FROM `$wpdb->options` WHERE `option_name` LIKE '%transient_mz_mbo%'" );
+    }
+
+    /**
+     * Clear all plugin transients from versions previous to 2.4.7
+     *
+     * @since 2.4.7
+     *
+     * @return result of $wpdb delete call.
+     */
+    private function clear_previous_plugin_transients() {
+
+        global $wpdb;
+        return $wpdb->query( "DELETE FROM `$wpdb->options` WHERE `option_name` LIKE '%transient_mz_mindbody%'" );
     }
 
     /**
