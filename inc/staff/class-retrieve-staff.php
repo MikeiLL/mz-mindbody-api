@@ -46,7 +46,6 @@ class Retrieve_Staff extends Interfaces\Retrieve {
 
         $transient_string = $this->generate_transient_name($transient_string);
 
-
         if ( false === get_transient( $transient_string ) ) {
             // If there's not a transient already, call the API and create one
 
@@ -61,13 +60,11 @@ class Retrieve_Staff extends Interfaces\Retrieve {
                 $this->staff_result = $mb->GetStaff( array('StaffIDs'=> $staffIDs ));
             }
 
-            var_dump(set_transient($transient_string, $this->staff_result, 60 * 60 * 12));
-            var_dump($this->staff_result);
-            set_transient($transient_string, $this->staff_result, 60 * 60 * 12);
+            if (!empty($this->staff_result['GetStaffResult']['StaffMembers']['Staff']))
+                set_transient($transient_string, serialize($this->staff_result), 60 * 60 * 12);
 
         } else {
-            $this->staff_result = get_transient( $transient_string );
-            var_dump($transient_string);
+            $this->staff_result = unserialize(get_transient( $transient_string ));
         }
         return $this->staff_result;
     }

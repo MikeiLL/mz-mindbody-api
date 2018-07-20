@@ -48,7 +48,7 @@ abstract class Retrieve
         }
     }
 
-    /*
+    /**
      * Generate a name for transient
      *
      * Name will include whatever strings are needed to
@@ -58,14 +58,18 @@ abstract class Retrieve
      *
      * Used by $this->get_mbo_results
      *
-     * @param $attributes array stores attributes that will make
-     * transient name unique.
+     * resource: https://css-tricks.com/the-deal-with-wordpress-transients/
+     *
+     * @param $shortcode array stores attributes that will make
+     * transient name unique
      *
      * @since 2.4.7
+     * @return string our prefix concat with hashed version of shortcode and atts
      */
     protected function generate_transient_name($shortcode = 'sc')
     {
-        $transient_string = 'mz_mbo_' . $shortcode . '_';
+        $prefix = 'mz_mbo_';
+        $transient_string = $shortcode . '_';
         foreach ($this->atts as $k => $attr) {
             if (empty($attr) || ($attr == '0')) continue;
             if (is_array($attr)) $attr = implode('_', $attr);
@@ -73,7 +77,7 @@ abstract class Retrieve
         }
         // append today's date
         $transient_string .= date('Y-m-d', current_time('timestamp'));
-        return $transient_string;
+        return $prefix . md5($transient_string);
     }
 
 
