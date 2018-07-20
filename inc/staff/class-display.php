@@ -57,10 +57,20 @@ class Display extends Interfaces\ShortCode_Script_Loader
 
         $this->atts = shortcode_atts(array(
             'account' => '0',
-            'gallery' => '0'
+            'gallery' => '0',
+            'hide' => ''
         ), $atts);
 
         $this->class_modal_link = NS\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php';
+
+        // If set, turn hide into an Array
+        if ($this->atts['hide'] !== '') {
+            if (!is_array($this->atts['hide'])) // if not already an array
+                $this->atts['hide'] = explode(',', $this->atts['hide']);
+            foreach ($this->atts['hide'] as $key => $type):
+                $this->atts['hide'][$key] = trim($type);
+            endforeach;
+        }
 
         ob_start();
 
@@ -90,7 +100,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
         );
 
         $template_loader->set_template_data($this->template_data);
-        $template_loader->get_template_part('staff_list');
+        $template_loader->get_template_part('staff_list_horizontal');
 
         return ob_get_clean();
     }

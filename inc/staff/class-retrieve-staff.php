@@ -84,10 +84,17 @@ class Retrieve_Staff extends Interfaces\Retrieve {
      */
     public function sort_staff_by_sort_order($atts = array()){
 
+        $count = 0;
         // Obtain a list of columns
         foreach ($this->staff_result['GetStaffResult']['StaffMembers']['Staff'] as $key => $row) {
+            // Remove any Staff members that are in the hide shortcode attribute
+            if (in_array(strtolower($row['Name']), array_map('strtolower', $atts['hide']))) {
+                unset($this->staff_result['GetStaffResult']['StaffMembers']['Staff'][$count]);
+                continue;
+            }
             $important[$key]  = $row['SortOrder'];
             $basic[$key] = $row['LastName'];
+            $count++;
         }
 
         array_multisort($important, SORT_NUMERIC, SORT_ASC,

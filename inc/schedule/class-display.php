@@ -204,6 +204,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
         if ($this->atts['session_types'] !== '') {
             if (!is_array($this->atts['session_types'])) // if not already an array
                 $this->atts['session_types'] = explode(',', $this->atts['session_types']);
+            // TODO: is this sometimes done reduntantly?
                 foreach ($this->atts['session_types'] as $key => $type):
                     $this->atts['session_types'][$key] = trim($type);
                 endforeach;
