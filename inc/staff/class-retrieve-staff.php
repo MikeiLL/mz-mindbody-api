@@ -46,6 +46,7 @@ class Retrieve_Staff extends Interfaces\Retrieve {
 
         $transient_string = $this->generate_transient_name($transient_string);
 
+
         if ( false === get_transient( $transient_string ) ) {
             // If there's not a transient already, call the API and create one
 
@@ -60,10 +61,13 @@ class Retrieve_Staff extends Interfaces\Retrieve {
                 $this->staff_result = $mb->GetStaff( array('StaffIDs'=> $staffIDs ));
             }
 
+            var_dump(set_transient($transient_string, $this->staff_result, 60 * 60 * 12));
+            var_dump($this->staff_result);
             set_transient($transient_string, $this->staff_result, 60 * 60 * 12);
 
         } else {
             $this->staff_result = get_transient( $transient_string );
+            var_dump($transient_string);
         }
         return $this->staff_result;
     }
@@ -77,9 +81,11 @@ class Retrieve_Staff extends Interfaces\Retrieve {
      * First populate two arrays: $important and $basic, then sort the entire array
      * returned by MBO based on those criteria.
      *
+     * @param $atts array of shorcode atts from calling function
+     *
      * @return array of MBO staff members, sorted by SortOrder, then LastName
      */
-    public function sort_staff_by_sort_order(){
+    public function sort_staff_by_sort_order($atts = array()){
 
         // Obtain a list of columns
         foreach ($this->staff_result['GetStaffResult']['StaffMembers']['Staff'] as $key => $row) {
@@ -91,15 +97,15 @@ class Retrieve_Staff extends Interfaces\Retrieve {
             $basic, SORT_REGULAR, SORT_ASC,
             $this->staff_result['GetStaffResult']['StaffMembers']['Staff']);
 
-        return $this->get_staff_member_objects();
+        return $this->get_staff_member_objects($atts);
     }
 
     /**
      * Generate a list of Staff Member objects from array of Staff Members
      */
-    private function get_staff_member_objects(){
+    private function get_staff_member_objects($atts = array()){
         return array_map( function($item) {
-            return new Staff_Member($item);
+            return new Staff_Member($item, $atts);
         }, $this->staff_result['GetStaffResult']['StaffMembers']['Staff']);
     }
 
