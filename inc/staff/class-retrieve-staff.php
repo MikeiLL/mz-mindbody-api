@@ -67,9 +67,10 @@ class Retrieve_Staff extends Interfaces\Retrieve {
         } else {
             $this->staff_result = unserialize(get_transient( $transient_string ));
         }
+
+        NS\MZMBO()->helpers->mz_pr($this->mbo_account !== 0);
         return $this->staff_result;
     }
-
     /**
      * Sort Staff array by MBO SortOrder, then by LastName
      *
@@ -91,11 +92,11 @@ class Retrieve_Staff extends Interfaces\Retrieve {
             // Remove any Staff members that are in the hide shortcode attribute
             if (in_array(strtolower($row['Name']), array_map('strtolower', $atts['hide']))) {
                 unset($this->staff_result['GetStaffResult']['StaffMembers']['Staff'][$count]);
+                $count++;
                 continue;
             }
             $important[$key]  = $row['SortOrder'];
             $basic[$key] = $row['LastName'];
-            $count++;
         }
 
         array_multisort($important, SORT_NUMERIC, SORT_ASC,
