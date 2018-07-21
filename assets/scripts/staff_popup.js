@@ -1,6 +1,6 @@
 (function ($) {
     $(document).ready(function($) {
-        
+
         // Some colorbox global settings
         $.colorbox.settings.width  = ($(window).innerWidth() <= 500) ? '95%' : '75%';
         $.colorbox.settings.height = '75%';
