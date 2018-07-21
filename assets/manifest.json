@@ -2,7 +2,8 @@
   "dependencies": {
     "main.js": {
       "files": [
-        "scripts/colorbox.js"
+        "scripts/colorbox.js",
+        "scripts/staff_popup.js"
       ],
       "main": true
     },

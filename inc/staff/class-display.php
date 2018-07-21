@@ -100,7 +100,12 @@ class Display extends Interfaces\ShortCode_Script_Loader
         );
 
         $template_loader->set_template_data($this->template_data);
-        $template_loader->get_template_part('staff_list_horizontal');
+
+        if ($this->atts['gallery'] != '0') {
+            $template_loader->get_template_part('staff_list_gallery');
+        } else {
+            $template_loader->get_template_part('staff_list_horizontal');
+        }
 
         return ob_get_clean();
     }

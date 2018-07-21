@@ -60,8 +60,9 @@ class Retrieve_Staff extends Interfaces\Retrieve {
                 $this->staff_result = $mb->GetStaff( array('StaffIDs'=> $staffIDs ));
             }
 
-            if (!empty($this->staff_result['GetStaffResult']['StaffMembers']['Staff']))
+            if (!empty($this->staff_result['GetStaffResult']['StaffMembers']['Staff'])) {
                 set_transient($transient_string, serialize($this->staff_result), 60 * 60 * 12);
+            }
 
         } else {
             $this->staff_result = unserialize(get_transient( $transient_string ));
