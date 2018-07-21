@@ -420,6 +420,7 @@ class Settings_Page {
         $return .= "<li><strong>account</strong>: " . __("(int) Which MBO account to display staff for.", 'mz-mindbody-api')."</li>";
         $return .= "<li><strong>gallery</strong>: " . __("(boolean) Set to `1` to display as responsive grid.", 'mz-mindbody-api')."</li>";
         $return .= "<li><strong>hide</strong>: " . __("(string) Comma-separated string of staff names to not display. Case insensitive.", 'mz-mindbody-api')."</li>";
+        $return .= "<li><strong>include_imageless</strong>: " . __("(boolean) Set to `1` to include staff members without photos. Default is not to display them.", 'mz-mindbody-api')."</li>";
         $return .= "</ul>";
         $return .= __('To display staff page as a responsive gallery of images with pop-up biographies, use ', 'mz-mindbody-api');
         $return .= sprintf('[%1$s %2$s]<br/>', 'mz-mindbody-staff-list', 'gallery=1');

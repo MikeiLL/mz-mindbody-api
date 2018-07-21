@@ -58,7 +58,8 @@ class Display extends Interfaces\ShortCode_Script_Loader
         $this->atts = shortcode_atts(array(
             'account' => '0',
             'gallery' => '0',
-            'hide' => ''
+            'hide' => '',
+            'include_imageless' => 0
         ), $atts);
 
         $this->class_modal_link = NS\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php';

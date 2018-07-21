@@ -68,7 +68,6 @@ class Retrieve_Staff extends Interfaces\Retrieve {
             $this->staff_result = unserialize(get_transient( $transient_string ));
         }
 
-        NS\MZMBO()->helpers->mz_pr($this->mbo_account !== 0);
         return $this->staff_result;
     }
     /**
@@ -80,7 +79,7 @@ class Retrieve_Staff extends Interfaces\Retrieve {
      * First populate two arrays: $important and $basic, then sort the entire array
      * returned by MBO based on those criteria.
      *
-     * @param $atts array of shorcode atts from calling function
+     * @param $atts array of shorcode atts from calling function//
      *
      * @return array of MBO staff members, sorted by SortOrder, then LastName
      */
@@ -95,8 +94,16 @@ class Retrieve_Staff extends Interfaces\Retrieve {
                 $count++;
                 continue;
             }
+            // Remove staff members without image if set this way in shortcode
+            if (($atts['include_imageless'] != 1) && (empty($this->staff_result['GetStaffResult']['StaffMembers']['Staff'][$count]['ImageURL']))){
+                unset($this->staff_result['GetStaffResult']['StaffMembers']['Staff'][$count]);
+                $count++;
+                continue;
+            }
+
             $important[$key]  = $row['SortOrder'];
             $basic[$key] = $row['LastName'];
+            $count++;
         }
 
         array_multisort($important, SORT_NUMERIC, SORT_ASC,

@@ -131,7 +131,8 @@ class Staff_Member {
      *
      * Remove empty HTML tags as well as the opening container tag (div, p or span) so we
      * can rebuild the bio with Image Thumbnail inside of the container with the text.
-     **
+     * Also replace content with html entities.
+     *
      * @since 2.4.7
      * @param string Biography returned by MBO
      * @return string $bio Cleaned up HTML string.
@@ -149,7 +150,7 @@ class Staff_Member {
         } else if (substr($bio, 0, 5) == '<span>'){
             $bio = substr($bio, 6);
         }
-        return $bio;
+        return htmlentities($bio);
     }
 
     /**

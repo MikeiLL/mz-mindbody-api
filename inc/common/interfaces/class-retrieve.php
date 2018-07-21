@@ -22,9 +22,8 @@ abstract class Retrieve
 
     public function __construct($atts = array())
     {
-        $this->mbo_account = 0;
         $this->atts = $atts;
-        $this->mbo_account = isset($this->atts['account']) ? $this->atts['account'] : 0;
+        $this->mbo_account = !empty($this->atts['account']) ? $this->atts['account'] : 0;
     }
 
     /*
