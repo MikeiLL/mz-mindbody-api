@@ -109,9 +109,53 @@ class Retrieve_Events extends Interfaces\Retrieve_Classes {
      */
     public function sort_events_by_time(){
 
+        foreach($this->classes['GetClassesResult']['Classes']['Class'] as $class)
+        {
 
+            // Filter out some items
+            //if ($this->filter_class($class) === false) continue;
 
-        return false;
+            // Populate the Locations Dictionary
+            //$this->populate_locations_dictionary($class);
+
+            // Make a timestamp of just the day to use as key for that day's classes
+            $dt = new \DateTime($class['StartDateTime']);
+            $just_date =  $dt->format('Y-m-d');
+
+            // If class was previous to today ignore it
+            if ( $just_date < $this->current_day_offset->format('Y-m-d') ) continue;
+
+            /* Create a new array with a key for each date YYYY-MM-DD
+            and corresponding value an array of class details */
+
+            $single_event = new Single_Event($class, $this->atts);
+
+            if(!empty($this->classesByDateThenTime[$just_date])) {
+                array_push($this->classesByDateThenTime[$just_date], $single_event);
+            } else {
+                $this->classesByDateThenTime[$just_date] = array($single_event);
+            }
+        }
+        /* They are not ordered by date so order them by date */
+        ksort($this->classesByDateThenTime);
+
+        foreach($this->classesByDateThenTime as $classDate => &$classes)
+        {
+            /*
+             * $classes is an array of all classes for given date
+             * Take each of the class arrays and order it by time
+             * $classesByDateThenTime should have a length of seven, one for
+             * each day of the week.
+             */
+            usort($classes, function($a, $b) {
+                if($a->startDateTime == $b->startDateTime) {
+                    return 0;
+                }
+                return $a->startDateTime < $b->startDateTime ? -1 : 1;
+            });
+        }
+
+        return $this->classesByDateThenTime;
     }
 
 }

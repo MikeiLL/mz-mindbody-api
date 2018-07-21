@@ -1,7 +1,7 @@
 <?php
 namespace MZ_Mindbody\Inc\Events;
 
-use MZ_Mindbody;
+use MZ_Mindbody as NS;
 use MZ_Mindbody\Inc\Core as Core;
 use MZ_Mindbody\Inc\Common as Common;
 use MZ_Mindbody\Inc\Common\Interfaces as Interfaces;
@@ -106,13 +106,16 @@ class Display extends Interfaces\ShortCode_Script_Loader
         $this->events_object = new Retrieve_Events($this->atts);
 
         // Call the API and if fails, return error message.
-        if ($response === $this->events_object->get_mbo_results()) return "<div>" . __("Mindbody plugin settings error.", 'mz-mindbody-api') . "</div>";
+        if (!$response = $this->events_object->get_mbo_results()) return "<div>" . __("Mindbody plugin settings error.", 'mz-mindbody-api') . "</div>";
         // Add Style with script adder
         self::addScript();
 
-        $response = $this->events_object->get_mbo_results();
+        $events = ($response['GetClassesResult']['ResultCount'] >= 1) ? $response['GetClassesResult']['Classes']['Class'] : __('No Events in current cycle', 'mz-mindbody-api');
 
-        $events = ($response['GetClassesResult']['ResultCount'] >= 1) ? $events['GetClassesResult']['Classes']['Class'] : __('No Events in current cycle', 'mz-mindbody-api');
+        $events = $this->events_object->sort_events_by_time();
+
+        var_dump($events);
+        die();
 
         $this->template_data = array(
             'atts' => $this->atts,
@@ -130,10 +133,10 @@ class Display extends Interfaces\ShortCode_Script_Loader
         if (!self::$addedAlready) {
             self::$addedAlready = true;
 
-            wp_register_style('mz_mindbody_style', MZ_Mindbody\PLUGIN_NAME_URL . 'dist/styles/main.css');
+            wp_register_style('mz_mindbody_style', NS\PLUGIN_NAME_URL . 'dist/styles/main.css');
             wp_enqueue_style('mz_mindbody_style');
 
-            wp_register_script('mz_mbo_bootstrap_script', MZ_Mindbody\PLUGIN_NAME_URL . 'dist/scripts/main.js', array('jquery'), 1.0, true);
+            wp_register_script('mz_mbo_bootstrap_script', NS\PLUGIN_NAME_URL . 'dist/scripts/main.js', array('jquery'), 1.0, true);
             wp_enqueue_script('mz_mbo_bootstrap_script');
 
         }

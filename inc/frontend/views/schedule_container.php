@@ -3,6 +3,9 @@
 use MZ_Mindbody as NS;
 use MZ_Mindbody\Inc\Core as Core;
 
+/**
+ * This file is the wrapper for Horizontal and/or Grid classes.
+ */
 ?>
 <div id="mzScheduleNavHolder">
     <a href="#" class="previous" data-offset="-1"><?php _e('Previous Week', 'mz-mindbody-api'); ?></a> -
