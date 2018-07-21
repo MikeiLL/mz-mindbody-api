@@ -101,6 +101,53 @@ class Helpers {
         }
     }
 
+    /**
+     * Clean up staff biography
+     *
+     * Remove empty HTML tags as well as the opening container tag (div, p or span) so we
+     * can rebuild the bio with Image Thumbnail inside of the container with the text.
+     * Also replace content with html entities.
+     *
+     * @since 2.4.7
+     * @param string Biography returned by MBO
+     * @access public
+     * @return string $bio Cleaned up HTML string.
+     */
+    public function prepare_html_string($bio){
+        // Remove empty tags
+        $bio = str_replace("/<[^\/>]*>(\s|xC2xA0|&nbsp;)*<\/[^>]*>/", '', $bio);
+        $bio = $this->str_last_replace("</p>", "", $bio);
+        $bio = $this->str_last_replace("</div>", "", $bio);
+        if (substr($bio, 0, 3) == '<p>') {
+            $mz_staff_bio = substr($bio, 3);
+        } else if (substr($bio, 0, 5) == '<div>'){
+            $bio = substr($bio, 5);
+            $mz_staff_bio = substr($bio, 3);
+        } else if (substr($bio, 0, 5) == '<span>'){
+            $bio = substr($bio, 6);
+        }
+        return htmlentities($bio);
+    }
+
+    /**
+     * String Left Replace
+     *
+     * source: https://stackoverflow.com/a/3835653/2223106
+     *
+     * @access private
+     */
+    private function str_last_replace($search, $replace, $subject)
+    {
+        $pos = strrpos($subject, $search);
+
+        if($pos !== false)
+        {
+            $subject = substr_replace($subject, $replace, $pos, strlen($search));
+        }
+
+        return $subject;
+    }
+
 
 }
 ?>

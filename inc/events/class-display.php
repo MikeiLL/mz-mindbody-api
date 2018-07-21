@@ -52,14 +52,77 @@ class Display extends Interfaces\ShortCode_Script_Loader
      */
     public $template_data;
 
-
+    /**
+     * Event Location
+     *
+     * @since 1.0.0
+     *
+     * For backwards compatibility
+     *
+     * @access public
+     * @var $location array of locations to display events for
+     */
     public $location;
+
+    /**
+     * Event Locations
+     *
+     * @since 2.0.0 (estimate)
+     *
+     * @access public
+     * @var $locations array of locations to display events for
+     */
     public $locations;
+
+    /**
+     * Event List Only View
+     *
+     * @since 2.0.0 (estimate)
+     *
+     * @access public
+     * @var $list_only boolean True indicates to just display a list of event Name, Date and Times
+     */
     public $list_only;
+
+    /**
+     * Event Count
+     *
+     * @since 2.0.0 (estimate)
+     *
+     * @access public
+     * @var $event_count int number of events returned per request to MBO
+     */
     public $event_count;
+
+    /**
+     * Event Account
+     *
+     * @since 2.0.0 (estimate)
+     *
+     * @access public
+     * @var $account int The MBO account to retrieve and display events from. Default in Options, overridden in shortcode atts
+     */
     public $account;
-    public $advanced;
+
+    /**
+     * Event Single Week DIsplay
+     *
+     * @since 2.0.0 (estimate)
+     *
+     * @access public
+     * @var $week_only boolean True indicates to only display a weeks worth of events, starting with current day
+     */
     public $week_only;
+
+    /**
+     * Event Locations
+     *
+     * @since 2.0.0 (estimate)
+     *
+     * @access public
+     * @var $locations array of locations to display events for
+     */
+    public $number_of_events;
 
     /**
      *
@@ -81,7 +144,6 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'list' => 0,
             'event_count' => '0',
             'account' => '0',
-            'advanced' => '1',
             'week-only' => 0,
             'offset' => 0
         ), $atts );
@@ -113,9 +175,6 @@ class Display extends Interfaces\ShortCode_Script_Loader
         $events = ($response['GetClassesResult']['ResultCount'] >= 1) ? $response['GetClassesResult']['Classes']['Class'] : __('No Events in current cycle', 'mz-mindbody-api');
 
         $events = $this->events_object->sort_events_by_time();
-
-        var_dump($events);
-        die();
 
         $this->template_data = array(
             'atts' => $this->atts,

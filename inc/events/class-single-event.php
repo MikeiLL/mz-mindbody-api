@@ -214,8 +214,8 @@ class Single_Event {
         $this->ID = $event['ClassDescription']['ID'];
         $this->StaffName = $event['Staff']['Name'];
         $this->StaffImage = $event['Staff']['ImageURL'];
-        $this->StaffBio = $event['Staff']['Bio'];
-        $this->Description = $event['ClassDescription']['Description'];
+        $this->StaffBio = NS\MZMBO()->helpers->prepare_html_string($event['Staff']['Bio']);
+        $this->Description = NS\MZMBO()->helpers->prepare_html_string($event['ClassDescription']['Description']);
         $this->ClassImage = $event['ClassDescription']['ImageURL'];
         $this->Location_ID = $event['Location']['ID'];
         $this->Location_Name = $event['Location']['Name'];

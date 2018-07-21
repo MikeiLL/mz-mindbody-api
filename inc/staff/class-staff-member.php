@@ -118,56 +118,12 @@ class Staff_Member {
         $this->FirstName = $staff_member['FirstName'];
         $this->LastName = $staff_member['LastName'];
         $this->ImageURL = isset($staff_member['ImageURL']) ? $staff_member['ImageURL'] : '';
-        $this->Bio = $this->clean_up_staff_bio($staff_member['Bio']);
+        $this->Bio = NS\MZMBO()->helpers->prepare_html_string($staff_member['Bio']);
         $this->atts = $atts;
         $this->siteID = isset($this->atts['siteID']) ? $this->atts['siteID'] : NS\Inc\Core\MZ_Mindbody_Api::$basic_options['mz_mindbody_siteID'];
         // If there's an image create a tag, otherwise empty string.
         $this->ImageTag = isset($staff_member['ImageURL']) ? '<img src="' . $this->ImageURL . '" alt="' . $this->Name . '" class="img-responsive mz_modal_staff_image_body">' : '';
         $this->ScheduleButton = '<a href="http://clients.mindbodyonline.com/ws.asp?studioid=' . $this->siteID . '&stype=-7&sView=week&sTrn=' . $this->ID . '" class="btn btn-info mz-btn-info" target="_blank">'.sprintf(__('See %s&apos;s Schedule', 'mz-mindbody-api'), $this->Name).'</a>';
-    }
-
-    /**
-     * Clean up staff biography
-     *
-     * Remove empty HTML tags as well as the opening container tag (div, p or span) so we
-     * can rebuild the bio with Image Thumbnail inside of the container with the text.
-     * Also replace content with html entities.
-     *
-     * @since 2.4.7
-     * @param string Biography returned by MBO
-     * @return string $bio Cleaned up HTML string.
-     */
-    private function clean_up_staff_bio($bio){
-        // Remove empty tags
-        $bio = str_replace("/<[^\/>]*>(\s|xC2xA0|&nbsp;)*<\/[^>]*>/", '', $bio);
-        $bio = $this->str_lreplace("</p>", "", $bio);
-        $bio = $this->str_lreplace("</div>", "", $bio);
-        if (substr($bio, 0, 3) == '<p>') {
-            $mz_staff_bio = substr($bio, 3);
-        } else if (substr($bio, 0, 5) == '<div>'){
-            $bio = substr($bio, 5);
-            $mz_staff_bio = substr($bio, 3);
-        } else if (substr($bio, 0, 5) == '<span>'){
-            $bio = substr($bio, 6);
-        }
-        return htmlentities($bio);
-    }
-
-    /**
-     * String Left Replace
-     *
-     * source: https://stackoverflow.com/a/3835653/2223106
-     */
-    public function str_lreplace($search, $replace, $subject)
-    {
-        $pos = strrpos($subject, $search);
-
-        if($pos !== false)
-        {
-            $subject = substr_replace($subject, $replace, $pos, strlen($search));
-        }
-
-        return $subject;
     }
 
 
