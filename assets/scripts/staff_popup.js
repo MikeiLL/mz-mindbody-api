@@ -1,5 +1,28 @@
 (function ($) {
     $(document).ready(function($) {
+        
+        // Some colorbox global settings
+        $.colorbox.settings.width  = ($(window).innerWidth() <= 500) ? '95%' : '75%';
+        $.colorbox.settings.height = '75%';
+
+        /** Colorbox resize function
+         * source: https://github.com/jackmoore/colorbox/issues/158
+         */
+        var resizeTimer;
+        function resizeColorBox()
+        {
+            if (resizeTimer) clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(function() {
+                if (jQuery('#cboxOverlay').is(':visible')) {
+                    jQuery.colorbox.resize({width:'90%', height:'90%'});
+                }
+            }, 300);
+        }
+
+        // Resize Colorbox when resizing window or changing mobile device orientation
+        $(window).resize(resizeColorBox);
+        window.addEventListener("orientationchange", resizeColorBox, false);
+
         $("a[data-target=#mzStaffModal]").click(function(ev) {
             ev.preventDefault();
             var target = $(this).attr("href");
