@@ -178,11 +178,12 @@ class Display extends Interfaces\ShortCode_Script_Loader
 
         $this->template_data = array(
             'atts' => $this->atts,
-            'events' => $events
+            'events' => $events,
+            'display_time_frame' => $this->events_object->display_time_frame
         );
 
         $template_loader->set_template_data($this->template_data);
-        $template_loader->get_template_part('event_list');
+        $template_loader->get_template_part('event_listing_wrap');
 
         return ob_get_clean();
     }

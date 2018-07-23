@@ -30,13 +30,13 @@ class Retrieve_Events extends Interfaces\Retrieve_Classes {
     public $atts;
 
     /**
-     * Holds the time frame for the instance.
+     * Holds the display time frame for the instance.
      *
      * @since    2.4.7
      * @access   public
-     * @var      array    $time_frame    StartDateTime and endDateTime for MBO API call.
+     * @var      array    $display_time_frame    StartDateTime and endDateTime Timestamps used in MBO API call, displayed in navigation.
      */
-    public $time_frame;
+    public $display_time_frame;
 
     /**
      * Holds the current day, with offset, based on "offset" attribute/parameter.
@@ -53,6 +53,8 @@ class Retrieve_Events extends Interfaces\Retrieve_Classes {
      * Return Time Frame for request to MBO API
      *
      * @since 2.4.7
+     *
+     * @throws \Exception
      *
      * Default time_frame is two dates, start of current week as set in WP, and seven days from "now.
      *
@@ -85,6 +87,8 @@ class Retrieve_Events extends Interfaces\Retrieve_Classes {
             $end_time->add($di);
             $current_day_offset->add($di);
         }
+
+        $this->display_time_frame = array('start' => $start_time, 'end' => $end_time);
 
         // Set current_day_offset for filtering by sort_classes_by_date_then_time().
         $this->current_day_offset = $current_day_offset;
