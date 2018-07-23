@@ -408,6 +408,9 @@ class Display extends Interfaces\ShortCode_Script_Loader
      *
      * @since 2.4.7
      *
+     * This duplicates a lot of the handle_shortcode function, but
+     * is called via AJAX and used when navigating the schedule.
+     *
      *
      *
      * Echo json json_encode() version of HTML from template
