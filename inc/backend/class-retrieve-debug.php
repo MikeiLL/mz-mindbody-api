@@ -5,10 +5,12 @@ use MZ_Mindbody\Inc\Common\Interfaces as Interfaces;
 
 class Retrieve_Debug extends Interfaces\Retrieve {
 
-    /*
+    /**
 	 * Return Time Frame for request to MBO API
 	 *
 	 * @since 2.4.7
+     *
+     * @throws \Exception
 	 *
 	 * Default time_frame is two dates, start of current week as set in WP, and seven days from "now.
 	 *
@@ -20,12 +22,14 @@ class Retrieve_Debug extends Interfaces\Retrieve {
     }
 
 
-    /*
+    /**
      * Return data from MBO api
      *
      * @since 2.4.7
      *
      * @param @timestamp defaults to current time
+     *
+     * @throws \Exception
      *
      * @return array of MBO schedule data
      */
