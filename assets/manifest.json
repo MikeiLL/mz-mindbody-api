@@ -26,6 +26,12 @@
       ],
       "main": true
     },
+    "events-display.js": {
+      "files": [
+        "scripts/events-display.js"
+      ],
+      "main": true
+    },
     "get-staff.js": {
     "files": [
         "scripts/get-staff.js"

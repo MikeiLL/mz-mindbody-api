@@ -76,7 +76,7 @@
                         }
                         stripe_and_filter();
                     } else {
-                        reset_navigation(this, buttons);
+                        mz_reset_navigation(this, buttons);
                         container.toggleClass('loader');
                         container.html(json.message);
                         stripe_and_filter();
@@ -84,13 +84,13 @@
                 }
             })
                 .fail(function (json) {
-                    reset_navigation(this, buttons);
+                    mz_reset_navigation(this, buttons);
                     container.toggleClass('loader');
                     container.html('Sorry but there was an error retrieving schedule.');
                 }); // End Ajax
         }); // End click navigation
 
-        function reset_navigation(el, buttons) {
+        function mz_reset_navigation(el, buttons) {
             // Reset nav link "offset" data attribute
             if (el.className == 'previous') {
                 buttons.forEach(function (button) {
@@ -186,7 +186,7 @@
 
             }) // End Ajax
                 .fail(function (json) {
-                    reset_navigation(this, buttons);
+                    mz_reset_navigation(this, buttons);
                     console.log('fail');
                     console.log(json);
                     $('#modalRegistrants').find('#ClassRegistrants')[0].innerHTML = mz_mindbody_schedule.get_registrants_error;

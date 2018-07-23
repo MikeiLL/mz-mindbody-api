@@ -255,6 +255,7 @@ class MZ_Mindbody_Api
 
         $admin_object = new Admin\Admin($this->get_plugin_name(), $this->get_version(), $this->get_plugin_text_domain());
         $schedule_object = new Schedule\Display;
+        $events_object = new Events\Display;
         $registrant_object = new Schedule\Retrieve_Registrants;
         $class_owners_object = new Schedule\Retrieve_Class_Owners;
         $staff_object = new Staff\Display;
@@ -272,6 +273,10 @@ class MZ_Mindbody_Api
         // Start Ajax Display Schedule
         $this->loader->add_action('wp_ajax_nopriv_mz_display_schedule', $schedule_object, 'display_schedule');
         $this->loader->add_action('wp_ajax_mz_display_schedule', $schedule_object, 'display_schedule');
+
+        // Start Ajax Display Schedule
+        $this->loader->add_action('wp_ajax_nopriv_mz_display_events', $events_object, 'display_events');
+        $this->loader->add_action('wp_ajax_mz_display_events', $events_object, 'display_events');
 
         // Start Ajax Get Registrants
         $this->loader->add_action('wp_ajax_nopriv_mz_mbo_get_registrants', $registrant_object, 'get_registrants');

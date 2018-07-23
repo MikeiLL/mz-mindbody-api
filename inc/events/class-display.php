@@ -199,7 +199,113 @@ class Display extends Interfaces\ShortCode_Script_Loader
             wp_register_script('mz_mbo_bootstrap_script', NS\PLUGIN_NAME_URL . 'dist/scripts/main.js', array('jquery'), 1.0, true);
             wp_enqueue_script('mz_mbo_bootstrap_script');
 
+            wp_register_script('mz_mbo_events', NS\PLUGIN_NAME_URL . 'dist/scripts/events-display.js', array('jquery'), 1.0, true);
+            wp_enqueue_script('mz_mbo_events');
+
+            $this->localizeScript();
         }
+    }
+
+    public function localizeScript()
+    {
+
+        $protocol = isset($_SERVER["HTTPS"]) ? 'https://' : 'http://';
+
+        $translated_strings = NS\MZMBO()->i18n->get();
+
+        $params = array(
+            'ajaxurl' => admin_url('admin-ajax.php', $protocol),
+            'nonce' => wp_create_nonce('mz_events_display_nonce'),
+            'atts' => $this->atts,
+            'account' => Core\MZ_Mindbody_Api::$basic_options['mz_mindbody_siteID'],
+            'error' => __('Sorry but there was an error retrieving the events.', 'mz-mindbody-api'),
+            'no_bio' => __('No biography listed for this staff member.', 'mz-mindbody-api'),
+            'login' => $translated_strings['login'],
+            'signup' => $translated_strings['sign_up'],
+            'confirm_signup' => $translated_strings['confirm_signup'],
+            'logout' => $translated_strings['logout'],
+            'signup_heading' => $translated_strings['signup_heading'],
+            'Locations_dict' => json_encode($locations_dictionary),
+            'signup_nonce' =>  wp_create_nonce('mz_signup_nonce'),
+            'loggedMBO' => ( 1 == (bool) NS\MZMBO()->session->get('MBO_GUID') ) ? 1 : 0,
+            'siteID' => $this->siteID,
+            'location' => $this->sLoc,
+            'client_first_name' => (!empty(NS\MZMBO()->session->get('MBO_GUID')['FirstName']) ? NS\MZMBO()->session->get('MBO_GUID')['FirstName'] : '')
+        );
+        wp_localize_script('mz_mbo_events', 'mz_mindbody_events', $params);
+    }
+
+    /**
+     * Ajax function to return mbo schedule
+     *
+     * @since 2.4.7
+     *
+     * This duplicates a lot of the handle_shortcode function, but
+     * is called via AJAX and used when navigating the schedule.
+     *
+     *
+     *
+     * Echo json json_encode() version of HTML from template
+     */
+    public function display_events()
+    {
+
+        ob_start();
+
+        //check_ajax_referer($_REQUEST['nonce'], "mz_events_display_nonce", false);
+
+        //$atts = $_REQUEST['atts'];
+
+        // Register attributes
+        //$this->handleShortcode($atts);
+
+        $result['type'] = "success";
+
+        //$template_loader = new Core\Template_Loader();
+
+        echo "Hi, Tigger";
+
+        /*
+
+        $this->events_object = new Retrieve_Events($this->atts);
+
+        // Call the API and if fails, return error message.
+        if (!$response = $this->events_object->get_mbo_results()) return "<div>" . __("Mindbody plugin settings error.", 'mz-mindbody-api') . "</div>";
+
+        $events = ($response['GetClassesResult']['ResultCount'] >= 1) ? $response['GetClassesResult']['Classes']['Class'] : __('No Events in current cycle', 'mz-mindbody-api');
+
+        $events = $this->events_object->sort_events_by_time();
+
+        // Assign the date range to the $result
+        $date_range = $this->events_object->display_time_frame;
+
+        $result['date_range'] = sprintf(__('Displaying events from %1$s to %2$s.', 'mz-mindbody-api'),
+            $date_range['start']->format('F j'),
+            $date_range['end']->format('F j'));
+
+        // Update the data array
+        $this->template_data['display_time_frame'] = $this->events_object->display_time_frame;
+        $this->template_data['events'] = $events;
+        $template_loader->set_template_data($this->template_data);
+        if ($atts['list'] != 0):
+            $template_loader->get_template_part('event_listing_full');
+        else:
+            $template_loader->get_template_part('event_listing_list');
+        endif;
+
+        */
+
+        $result['message'] = ob_get_clean();
+
+        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+            $result = json_encode($result);
+            echo $result;
+        } else {
+            header("Location: " . $_SERVER["HTTP_REFERER"]);
+        }
+
+        die();
+
     }
 
 
