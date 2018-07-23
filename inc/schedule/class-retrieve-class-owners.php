@@ -15,8 +15,7 @@ class Retrieve_Class_Owners extends Interfaces\Retrieve_Classes {
 	 *
 	 * Default time_frame is two dates, 4 weeks previous to start of current week as set in WP, and four weeks from now.
      *
-     * @throws DateTime::__construct()
-     * @throws DateInterval::__construct()
+     * @throws \Exception
 	 *
 	 * @return array or start and end dates as required for MBO API
 	 */
