@@ -179,7 +179,8 @@ class Display extends Interfaces\ShortCode_Script_Loader
         $this->template_data = array(
             'atts' => $this->atts,
             'events' => $events,
-            'display_time_frame' => $this->events_object->display_time_frame
+            'display_time_frame' => $this->events_object->display_time_frame,
+            'no_events' => NS\MZMBO()->i18n->get('no_events_this_period')
         );
 
         $template_loader->set_template_data($this->template_data);
@@ -271,11 +272,15 @@ class Display extends Interfaces\ShortCode_Script_Loader
         $result['date_range'] = sprintf(__('Displaying events from %1$s to %2$s.', 'mz-mindbody-api'),
             $date_range['start']->format('F j'),
             $date_range['end']->format('F j'));
+
         // Update the data array
         $this->template_data['display_time_frame'] = $this->events_object->display_time_frame;
         $this->template_data['events'] = $events;
+        $this->template_data['atts'] = $atts;
+        $this->template_data['no_events'] = NS\MZMBO()->i18n->get('no_events_this_period');
+
         $template_loader->set_template_data($this->template_data);
-        if ($atts['list'] != 0):
+        if ($atts['list'] != 1):
             $template_loader->get_template_part('event_listing_full');
         else:
             $template_loader->get_template_part('event_listing_list');

@@ -12,7 +12,7 @@
 <?php endif; ?>
 <div id="mzEventsDisplay">
 <?php
-if ($data->atts['list'] != 0):
+if ($data->atts['list'] != 1):
     include('event_listing_full.php');
 else:
     include('event_listing_list.php');
