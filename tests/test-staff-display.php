@@ -56,25 +56,25 @@ class StaffDisplayTest extends WP_UnitTestCase {
 
         $response = $staff_object->get_mbo_results();
 
-        $sorted_staff = $staff_object->sort_staff_by_sort_order();
-
         $this->assertTrue(is_array($response));
+
+        $sorted_staff = $staff_object->sort_staff_by_sort_order();
 
         /*
          * Each subsequent staff member should have a
          *  1. SortOrder that is ge previous
          *  2. LastName that is le previous
          */
-        foreach ($sorted_staff['GetStaffResult']['StaffMembers']['Staff'] as $key => $staff){
+        foreach ($sorted_staff as $key => $staff){
             // Define starting points
             if (!isset($lastSortOrder)) {
-                $previousSortOrder = $staff['SortOrder'];
-                $previousLastName = $staff['LastName'];
+                $previousSortOrder = $staff->SortOrder;
+                $previousLastName = $staff->LastName;
             }
-            $this->assertTrue( $staff['SortOrder'] >= $previousSortOrder );
-            $this->assertTrue( $staff['LastName'] >= $previousLastName );
-            $previousSortOrder = $staff['SortOrder'];
-            $previousLastName = $staff['LastName'];
+            $this->assertTrue( $staff->SortOrder >= $previousSortOrder );
+            $this->assertTrue( $staff->LastName >= $previousLastName );
+            $previousSortOrder = $staff->SortOrder;
+            $previousLastName = $staff->LastName;
         }
 
         parent::tearDown();

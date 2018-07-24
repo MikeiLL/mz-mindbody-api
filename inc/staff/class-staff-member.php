@@ -80,6 +80,17 @@ class Staff_Member {
     public $Bio;
 
     /**
+     * Staff Sort Order
+     *
+     * MBO allows admin to set sort order for Staff Members
+     *
+     * @access public
+     * @var $SortOrder int
+     */
+
+    public $SortOrder;
+
+    /**
      * Staff Member Schedule Link Button
      *
      * @access public
@@ -117,8 +128,9 @@ class Staff_Member {
         $this->Name = $staff_member['Name'];
         $this->FirstName = $staff_member['FirstName'];
         $this->LastName = $staff_member['LastName'];
+        $this->SortOrder = $staff_member['SortOrder'];
         $this->ImageURL = isset($staff_member['ImageURL']) ? $staff_member['ImageURL'] : '';
-        $this->Bio = NS\MZMBO()->helpers->prepare_html_string($staff_member['Bio']);
+        $this->Bio = isset($staff_member['Bio']) ? NS\MZMBO()->helpers->prepare_html_string($staff_member['Bio']) : '';
         $this->atts = $atts;
         $this->siteID = isset($this->atts['siteID']) ? $this->atts['siteID'] : NS\Inc\Core\MZ_Mindbody_Api::$basic_options['mz_mindbody_siteID'];
         // If there's an image create a tag, otherwise empty string.

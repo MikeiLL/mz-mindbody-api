@@ -89,13 +89,13 @@ class Retrieve_Staff extends Interfaces\Retrieve {
         // Obtain a list of columns
         foreach ($this->staff_result['GetStaffResult']['StaffMembers']['Staff'] as $key => $row) {
             // Remove any Staff members that are in the hide shortcode attribute
-            if (in_array(strtolower($row['Name']), array_map('strtolower', $atts['hide']))) {
+            if (!empty($atts['hide']) && (in_array(strtolower($row['Name']), array_map('strtolower', $atts['hide'])))) {
                 unset($this->staff_result['GetStaffResult']['StaffMembers']['Staff'][$count]);
                 $count++;
                 continue;
             }
-            // Remove staff members without image if set this way in shortcode
-            if (($atts['include_imageless'] != 1) && (empty($this->staff_result['GetStaffResult']['StaffMembers']['Staff'][$count]['ImageURL']))){
+            // Remove staff members without image unless set to display them in shortcode
+            if (!(isset($atts['include_imageless']) && ($atts['include_imageless'] != 0)) && (empty($this->staff_result['GetStaffResult']['StaffMembers']['Staff'][$count]['ImageURL']))){
                 unset($this->staff_result['GetStaffResult']['StaffMembers']['Staff'][$count]);
                 $count++;
                 continue;
@@ -114,12 +114,13 @@ class Retrieve_Staff extends Interfaces\Retrieve {
     }
 
     /**
-     * Generate a list of Staff Member objects from array of Staff Members
+     * Generate an array of Staff Member objects from array of Staff Members
      */
     private function get_staff_member_objects($atts = array()){
-        return array_map( function($item) {
+        $staff_listing = $this->staff_result['GetStaffResult']['StaffMembers']['Staff'];
+        return array_map( function($item) use ($atts) {
             return new Staff_Member($item, $atts);
-        }, $this->staff_result['GetStaffResult']['StaffMembers']['Staff']);
+        }, $staff_listing);
     }
 
 }
