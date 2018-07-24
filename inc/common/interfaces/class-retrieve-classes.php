@@ -108,6 +108,17 @@ abstract class Retrieve_Classes extends Retrieve {
     public $atts;
 
     /**
+     * MBO Account.
+     *
+     * Which MBO account to pull data from, default to Options setting, but can be overridden in shortcode
+     *
+     * @since    2.0.0
+     * @access   public
+     * @var      int    $mbo_account    Which MBO account to pull data from.
+     */
+    public $mbo_account;
+
+    /**
      * Holds the time frame for the instance.
      *
      * @since    2.4.7
@@ -175,6 +186,7 @@ abstract class Retrieve_Classes extends Retrieve {
         $this->classesByDateThenTime = array();
         $this->classes = array();
         $this->atts = $atts;
+        $this->mbo_account = $atts['account'];
         $this->time_frame = $this->time_frame();
         $this->locations_dictionary = array();
         $this->schedule_types = !empty(Core\MZ_Mindbody_Api::$advanced_options['schedule_types']) ? Core\MZ_Mindbody_Api::$advanced_options['schedule_types'] : array('DropIn');
