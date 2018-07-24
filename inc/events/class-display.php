@@ -252,37 +252,25 @@ class Display extends Interfaces\ShortCode_Script_Loader
 
         ob_start();
 
-        //check_ajax_referer($_REQUEST['nonce'], "mz_events_display_nonce", false);
+        check_ajax_referer($_REQUEST['nonce'], "mz_events_display_nonce", false);
 
-        //$atts = $_REQUEST['atts'];
-
-        // Register attributes
-        //$this->handleShortcode($atts);
+        $atts = $_REQUEST['atts'];
 
         $result['type'] = "success";
 
-        //$template_loader = new Core\Template_Loader();
+        $template_loader = new Core\Template_Loader();
 
-        echo "Hi, Tigger";
-
-        /*
-
-        $this->events_object = new Retrieve_Events($this->atts);
+        $this->events_object = new Retrieve_Events($atts);
 
         // Call the API and if fails, return error message.
         if (!$response = $this->events_object->get_mbo_results()) return "<div>" . __("Mindbody plugin settings error.", 'mz-mindbody-api') . "</div>";
-
         $events = ($response['GetClassesResult']['ResultCount'] >= 1) ? $response['GetClassesResult']['Classes']['Class'] : __('No Events in current cycle', 'mz-mindbody-api');
-
         $events = $this->events_object->sort_events_by_time();
-
         // Assign the date range to the $result
         $date_range = $this->events_object->display_time_frame;
-
         $result['date_range'] = sprintf(__('Displaying events from %1$s to %2$s.', 'mz-mindbody-api'),
             $date_range['start']->format('F j'),
             $date_range['end']->format('F j'));
-
         // Update the data array
         $this->template_data['display_time_frame'] = $this->events_object->display_time_frame;
         $this->template_data['events'] = $events;
@@ -292,8 +280,6 @@ class Display extends Interfaces\ShortCode_Script_Loader
         else:
             $template_loader->get_template_part('event_listing_list');
         endif;
-
-        */
 
         $result['message'] = ob_get_clean();
 

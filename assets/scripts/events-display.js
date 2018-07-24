@@ -2,11 +2,11 @@
     $(document).ready(function ($) {
 
         // Initialize some variables
-        var nonce = mz_mindbody_events.nonce,
-            atts = mz_mindbody_events.atts,
-            container = $('#mzEventsDisplay'),
+        var spinner = '<i class="fa fa-spinner fa-3x fa-spin" style="position: fixed; top: 50%; left: 50%;"></i>',
+            container = $("#mzEventsDisplay"),
+            atts = mz_mindbody_events.atts;
             // TODO use Ajax event handlers to globally handle loader spinners: https://stackoverflow.com/a/40513161/2223106
-            spinner = '<i class="fa fa-spinner fa-3x fa-spin" style="position: fixed; top: 50%; left: 50%;"></i>';
+
 
         /**
          * Navigate Schedule
@@ -15,7 +15,7 @@
          */
         $('#mzEventsNavHolder .following, #mzEventsNavHolder .previous').on('click', function (e) {
             e.preventDefault();
-            alert('rivka\s heart and mine');
+
             container.children().each( function (e){
                 $(this).html('');
             });
@@ -38,13 +38,14 @@
                 dataType: "json",
                 context: this,
                 url: mz_mindbody_events.ajaxurl,
-                data: {action: 'mz_display_events', nonce: nonce, atts: atts},
+                data: {action: 'mz_display_events', nonce: mz_mindbody_events.nonce, atts: atts},
                 success: function (json) {
                     if (json.type == "success") {
                         container.toggleClass('loader');
                         document.getElementById("mzEventsDisplay").innerHTML = json.message;
-                        console.log(json.message);
-                        document.getElementById("eventsDateRangeDisplay").innerHTML = 'pooh corner';//json.date_range;
+                        console.log(json);
+                        document.getElementById("eventsDateRangeDisplay").innerHTML = json.date_range;
+                        console.log(json.date_range);
                     } else {
                         mz_reset_navigation(this, buttons);
                         container.toggleClass('loader');

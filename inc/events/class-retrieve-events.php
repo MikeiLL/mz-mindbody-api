@@ -71,18 +71,15 @@ class Retrieve_Events extends Interfaces\Retrieve_Classes {
         if ( !empty($this->atts['offset']) ) {
             // Insure that we have an absolute number, because attr may be negative
             $abs = abs($this->atts['offset']);
-            $di = new \DateInterval('P'.$abs.'W');
+            $days_to_offset = Core\MZ_Mindbody_Api::$event_calendar_duration * $abs + 1;
+            $di = new \DateInterval('P'.$days_to_offset.'D');
             // If it's a negative number, invert the interval
             if ($this->atts['offset'] < 0) $di->invert = 1;
             $start_time->add($di);
             $end_time->add($di);
-            $current_day_offset->add($di);
         }
 
         $this->display_time_frame = array('start' => $start_time, 'end' => $end_time);
-
-        // Set current_day_offset for filtering by sort_classes_by_date_then_time().
-        $this->current_day_offset = $current_day_offset;
 
         $simple_timeframe = array('StartDateTime'=> $start_time->format('Y-m-d'), 'EndDateTime'=> $end_time->format('Y-m-d'));
 
