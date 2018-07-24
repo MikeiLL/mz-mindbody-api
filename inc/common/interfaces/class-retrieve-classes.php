@@ -290,7 +290,18 @@ abstract class Retrieve_Classes extends Retrieve {
      */
     public function sort_classes_by_date_then_time() {
 
-        foreach($this->classes['GetClassesResult']['Classes']['Class'] as $class)
+        /* When there is only a single event in the client
+         * schedule, the 'Classes' array contains that event, but when there are multiple
+         * visits then the array of events is under 'Events'/'Event'
+         */
+        if (!empty($this->classes['GetClassesResult']['Classes']['Class'][0]['StartDateTime'])){
+            // Multiple events
+            $classes_array_scope = $this->classes['GetClassesResult']['Classes']['Class'];
+        } else {
+            $classes_array_scope =$this->classes['GetClassesResult']['Classes'];
+        }
+
+        foreach($classes_array_scope as $class)
         {
 
             // TODO Don't do this twice. Filter once for BOTH schedule displays
@@ -356,7 +367,18 @@ abstract class Retrieve_Classes extends Retrieve {
 
         $classesByTime = array();
 
-        foreach($this->classes['GetClassesResult']['Classes']['Class'] as $class)
+        /* When there is only a single event in the client
+         * schedule, the 'Classes' array contains that event, but when there are multiple
+         * visits then the array of events is under 'Events'/'Event'
+         */
+        if (!empty($this->classes['GetClassesResult']['Classes']['Class'][0]['StartDateTime'])){
+            // Multiple events
+            $classes_array_scope = $this->classes['GetClassesResult']['Classes']['Class'];
+        } else {
+            $classes_array_scope =$this->classes['GetClassesResult']['Classes'];
+        }
+
+        foreach($classes_array_scope as $class)
         {
 
             // Filter out some items

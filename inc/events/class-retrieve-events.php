@@ -21,15 +21,6 @@ class Retrieve_Events extends Interfaces\Retrieve_Classes {
     public $classes;
 
     /**
-     * Attributes sent to shortcode.
-     *
-     * @since    2.4.7
-     * @access   public
-     * @var      array    $atts    Shortcode attributes filtered via shortcode_atts().
-     */
-    public $atts;
-
-    /**
      * Holds the display time frame for the instance.
      *
      * @since    2.4.7
@@ -112,22 +103,28 @@ class Retrieve_Events extends Interfaces\Retrieve_Classes {
      * @return array of MBO schedule data, time
      */
     public function sort_events_by_time(){
+        /* When there is only a single event in the client
+         * schedule, the 'Classes' array contains that event, but when there are multiple
+         * visits then the array of events is under 'Events'/'Event'
+         */
+        if (!empty($this->classes['GetClassesResult']['Classes']['Class'][0]['StartDateTime'])){
+            // Multiple events
+            $events_array_scope = $this->classes['GetClassesResult']['Classes']['Class'];
+        } else {
+            $events_array_scope =$this->classes['GetClassesResult']['Classes'];
+        }
 
-        foreach($this->classes['GetClassesResult']['Classes']['Class'] as $class)
+        foreach($events_array_scope as $class)
         {
-
-            // Filter out some items
-            //if ($this->filter_class($class) === false) continue;
-
-            // Populate the Locations Dictionary
-            //$this->populate_locations_dictionary($class);
-
             // Make a timestamp of just the day to use as key for that day's classes
-            $dt = new \DateTime($class['StartDateTime']);
-            $just_date =  $dt->format('Y-m-d');
+            if (!empty($class['StartDateTime'])) {
+                $dt = new \DateTime($class['StartDateTime']);
+                $just_date =  $dt->format('Y-m-d');
+            } else {
+                var_dump($class);
+                continue;
+            }
 
-            // If class was previous to today ignore it
-            if ( $just_date < $this->current_day_offset->format('Y-m-d') ) continue;
 
             /* Create a new array with a key for each date YYYY-MM-DD
             and corresponding value an array of class details */
