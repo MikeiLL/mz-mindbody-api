@@ -122,6 +122,8 @@ class Retrieve_Events extends Interfaces\Retrieve_Classes {
                 continue;
             }
 
+            // Populate the Locations Dictionary
+            $this->populate_locations_dictionary($class);
 
             /* Create a new array with a key for each date YYYY-MM-DD
             and corresponding value an array of class details */
