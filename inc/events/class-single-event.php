@@ -2,6 +2,7 @@
 namespace MZ_Mindbody\Inc\Events;
 
 use MZ_Mindbody as NS;
+use MZ_Mindbody\Inc\Libraries as Library;
 
 /**
  * Class that holds and formats a single event from MBO API GetClasses Result.
@@ -198,6 +199,16 @@ class Single_Event {
     protected $atts;
 
     /**
+     * Class Name Link object for display in schedules.
+     *
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      HTML object    $class_name_link    Instance of HTML class.
+     */
+    public $class_name_link;
+
+    /**
      * Populate attributes with data from MBO
      *
      * @since 2.4.7
@@ -225,6 +236,39 @@ class Single_Event {
         $this->Location_StateProvCode = $event['Location']['StateProvCode'];
         $this->Location_PostalCode = $event['Location']['PostalCode'];
         $this->atts = $atts;
+        $this->class_name_link = $this->event_link_maker();
+        $this->staff_name_link = $this->event_link_maker('staff');
+    }
+
+    private function event_link_maker($type = 'class'){
+        $class_name_link = new Library\HTML_Element('a');
+        $class_name_link->set('href', MZ_MINDBODY_SCHEDULE_URL . 'inc/modal_descriptions.php');
+        $linkArray = array(
+            'data-classDescription'=>rawUrlEncode($this->Description),
+            'data-target'=> 'mzModal',
+        );
+        switch ($type) {
+
+            case 'staff':
+                $linkArray['data-staffName'] = $this->StaffName;
+                $linkArray['data-staffImage'] = ($this->StaffImage != '') ? $this->StaffImage : '';
+                $linkArray['data-staffBio'] = ($this->StaffBio != '') ? rawUrlEncode($this->StaffBio) : '';
+                $linkArray['data-target'] = 'mzModal';
+                $linkArray['text'] = $this->StaffName;
+                $linkArray['class'] = 'modal-toggle mz_get_registrants ' . sanitize_html_class($this->StaffName, 'mz_class_name');
+                break;
+
+            default:
+                $linkArray['data-className'] = $this->ClassName;
+                $linkArray['data-classDescription'] = ($this->Description != '') ? rawUrlEncode($this->Description) : '';
+                $linkArray['data-eventImage'] = ($this->ClassImage != '') ? $this->ClassImage : '';
+                $linkArray['text'] = $this->ClassName;
+                $linkArray['class'] = 'modal-toggle mz_get_registrants ' . sanitize_html_class($this->ClassName, 'mz_class_name');
+
+        }
+
+        $class_name_link->set($linkArray);
+        return $class_name_link;
     }
 
 }
