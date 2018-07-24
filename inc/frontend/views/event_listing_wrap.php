@@ -1,4 +1,4 @@
-<?php var_dump($data->locations_dictionary); ?>
+<?php ?>
 
 <h3 id="eventsDateRangeDisplay" ><?php echo sprintf(__('Displaying events from %1$s to %2$s.', 'mz-mindbody-api'),
             $data->display_time_frame['start']->format('F j'),

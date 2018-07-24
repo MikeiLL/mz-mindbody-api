@@ -118,7 +118,7 @@ class Retrieve_Events extends Interfaces\Retrieve_Classes {
                 $dt = new \DateTime($class['StartDateTime']);
                 $just_date =  $dt->format('Y-m-d');
             } else {
-                var_dump($class);
+                // If no StartDateTime
                 continue;
             }
 

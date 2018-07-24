@@ -148,18 +148,9 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'offset' => 0
         ), $atts );
 
-        /*
-         * This is for backwards compatibility for previous to using an array to hold one or more locations.
-        */
-        if (($this->locations == '') || !isset($this->locations)) {
-            if ($this->locations == '') {
-                $this->locations = array('1');
-            }else{
-                $this->locations = array($this->locations);
-            }
-        }else{
-            $this->locations = explode(', ', $atts['locations']);
-        }
+        // Break locations up into array, if it hasn't already been.
+        $this->atts['locations'] = (!is_array($this->atts['locations'])) ? explode(',', str_replace(' ', '', $this->atts['locations'])) : $this->atts['locations'];
+
 
         ob_start();
 
@@ -181,7 +172,13 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'events' => $events,
             'display_time_frame' => $this->events_object->display_time_frame,
             'locations_dictionary' => $this->events_object->locations_dictionary,
-            'no_events' => NS\MZMBO()->i18n->get('no_events_this_period')
+            'locations_count' => count($this->atts['locations']),
+            'no_events' => NS\MZMBO()->i18n->get('no_events_this_period'),
+            'heading_date' => __('Date', 'mz_mindbody-api'),
+            'heading_time' => __('Time', 'mz_mindbody-api'),
+            'heading_event' => __('Event', 'mz_mindbody-api'),
+            'heading_location' => __('Location', 'mz_mindbody-api'),
+            'with' => NS\MZMBO()->i18n->get('with')
         );
 
         $template_loader->set_template_data($this->template_data);
