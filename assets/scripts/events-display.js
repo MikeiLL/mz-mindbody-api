@@ -82,10 +82,13 @@
             e.preventDefault();
             var target = $(this).attr("href"),
                 staffName = this.getAttribute('data-staffName'),
+                eventImage = this.getAttribute('data-eventImage'),
                 classDescription = decodeURIComponent(this.getAttribute('data-classDescription')),
                 popUpContent = '<h3>' + this.innerHTML + ' ' + mz_mindbody_events.with + ' ' + staffName + '</h3>';
 
-            popUpContent += '<div class="mz-classInfo" id="ClassInfo">' + classDescription + '</div>';
+            popUpContent += '<div class="mz-classInfo" id="ClassInfo">';
+            popUpContent += '<p><img src="' + eventImage + '" class="mz_modal_event_image_body">' + classDescription + '</p>';
+            popUpContent += '</div>';
 
             // load the url and show modal on success
             $("#mzModal").load(target, function () {
