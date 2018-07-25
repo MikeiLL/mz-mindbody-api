@@ -120,8 +120,13 @@ ul.mz-classRegistrants li{
  *
  */
 .mz_modal_staff_image_body {
-	float: left;
+	float: right;
 	margin: .5em .5em 0 0;
+	max-width:100%;
+	width: 250px;
+	height:auto;
+	float:right;
+	padding:1em;
 }
 
 

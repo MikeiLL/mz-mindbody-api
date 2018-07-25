@@ -73,7 +73,48 @@
             }
         }
 
+        /**
+         * Event Description Modal
+         *
+         *
+         */
+        $(document).on('click', "a[data-target=mzDescriptionModal]", function (e) {
+            e.preventDefault();
+            var target = $(this).attr("href"),
+                staffName = this.getAttribute('data-staffName'),
+                classDescription = decodeURIComponent(this.getAttribute('data-classDescription')),
+                popUpContent = '<h3>' + this.innerHTML + ' ' + mz_mindbody_events.with + ' ' + staffName + '</h3>';
 
+            popUpContent += '<div class="mz-classInfo" id="ClassInfo">' + classDescription + '</div>';
+
+            // load the url and show modal on success
+            $("#mzModal").load(target, function () {
+                $.colorbox({html: popUpContent, href: target});
+                $("#mzModal").colorbox();
+            });
+            return false;
+        });
+
+        /**
+         * Staff Modal
+         *
+         *
+         */
+        $(document).on('click', "a[data-target=mzStaffScheduleModal]", function (ev) {
+            ev.preventDefault();
+            var target = $(this).attr("href");
+            var staffName = $(this).attr('data-staffName');
+            var staffBio = decodeURIComponent($(this).attr('data-staffBio'));
+            var staffImage = $(this).attr('data-staffImage');
+            var popUpContent = '<h3>' + staffName + '</h3><div class="mz-staffInfo" id="StaffInfo">';
+            popUpContent += '<p><img src="' + staffImage + '" class="mz_modal_staff_image_body">' + staffBio + '</p>';
+            popUpContent += '</div>';
+
+            $("#mzModal").load(target, function () {
+                $.colorbox({html: popUpContent, href: target});
+                $("#mzModal").colorbox();
+            });
+        });
 
     }); // End document ready
 })(jQuery);

@@ -18,3 +18,6 @@ else:
     include('event_listing_list.php');
 endif; ?>
 </div>
+
+<div id="mzModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mzSmallModalLabel"
+     aria-hidden="true"></div>

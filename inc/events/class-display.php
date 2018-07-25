@@ -182,7 +182,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
         );
 
         $template_loader->set_template_data($this->template_data);
-        $template_loader->get_template_part('event_listing_wrap');
+        $template_loader->get_template_part('event_listing_container');
 
         return ob_get_clean();
     }
@@ -229,6 +229,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'loggedMBO' => ( 1 == (bool) NS\MZMBO()->session->get('MBO_GUID') ) ? 1 : 0,
             'siteID' => $this->siteID,
             'location' => $this->sLoc,
+            'with' => NS\MZMBO()->i18n->get('with'),
             'client_first_name' => (!empty(NS\MZMBO()->session->get('MBO_GUID')['FirstName']) ? NS\MZMBO()->session->get('MBO_GUID')['FirstName'] : '')
         );
         wp_localize_script('mz_mbo_events', 'mz_mindbody_events', $params);

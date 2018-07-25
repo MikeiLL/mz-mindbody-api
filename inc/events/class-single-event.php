@@ -242,28 +242,27 @@ class Single_Event {
 
     private function event_link_maker($type = 'class'){
         $class_name_link = new Library\HTML_Element('a');
-        $class_name_link->set('href', MZ_MINDBODY_SCHEDULE_URL . 'inc/modal_descriptions.php');
+        $class_name_link->set('href', NS\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php');
         $linkArray = array(
-            'data-classDescription'=>rawUrlEncode($this->Description),
-            'data-target'=> 'mzModal',
+            'data-staffName' => $this->StaffName
         );
         switch ($type) {
 
             case 'staff':
-                $linkArray['data-staffName'] = $this->StaffName;
                 $linkArray['data-staffImage'] = ($this->StaffImage != '') ? $this->StaffImage : '';
-                $linkArray['data-staffBio'] = ($this->StaffBio != '') ? rawUrlEncode($this->StaffBio) : '';
-                $linkArray['data-target'] = 'mzModal';
+                $linkArray['data-staffBio'] = ($this->StaffBio != '') ? $this->StaffBio : '';
                 $linkArray['text'] = $this->StaffName;
-                $linkArray['class'] = 'modal-toggle mz_get_registrants ' . sanitize_html_class($this->StaffName, 'mz_class_name');
+                $linkArray['data-target'] = 'mzStaffScheduleModal';
+                $linkArray['class'] = 'modal-toggle ' . sanitize_html_class($this->StaffName, 'mz_staff_name');
                 break;
 
             default:
                 $linkArray['data-className'] = $this->ClassName;
-                $linkArray['data-classDescription'] = ($this->Description != '') ? rawUrlEncode($this->Description) : '';
+                $linkArray['data-classDescription'] = ($this->Description != '') ? $this->Description : '';
                 $linkArray['data-eventImage'] = ($this->ClassImage != '') ? $this->ClassImage : '';
                 $linkArray['text'] = $this->ClassName;
-                $linkArray['class'] = 'modal-toggle mz_get_registrants ' . sanitize_html_class($this->ClassName, 'mz_class_name');
+                $linkArray['data-target'] = 'mzDescriptionModal';
+                $linkArray['class'] = 'modal-toggle ' . sanitize_html_class($this->ClassName, 'mz_class_name');
 
         }
 

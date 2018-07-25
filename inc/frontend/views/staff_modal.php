@@ -5,7 +5,7 @@
         <?php
 
         if (!empty($data->staff_details['ImageURL'])): ?>
-            <img src="<?php echo $data->staff_details['ImageURL']; ?>" style="max-width:25%;height:auto;float:right;padding:1em;"/>
+            <img src="<?php echo $data->staff_details['ImageURL']; ?>" class="mz_modal_staff_image_body"/>
             <?php
         endif;
         if (!empty($data->staff_details['Bio'])): ?>
