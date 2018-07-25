@@ -61,7 +61,9 @@ class Retrieve_Events extends Interfaces\Retrieve_Classes {
 
         $session_types = explode(',', Core\MZ_Mindbody_Api::$events_options['mz_mindbody_eventID']);
 
-        $di = new \DateInterval('P'.Core\MZ_Mindbody_Api::$event_calendar_duration.'D');
+        $duration = ((!empty($this->atts['week-only'])) && ($this->atts['week-only'] == 1)) ? 7 : Core\MZ_Mindbody_Api::$event_calendar_duration;
+
+        $di = new \DateInterval('P'.$duration.'D');
 
         $end_time->add($di);
 
@@ -71,7 +73,7 @@ class Retrieve_Events extends Interfaces\Retrieve_Classes {
         if ( !empty($this->atts['offset']) ) {
             // Insure that we have an absolute number, because attr may be negative
             $abs = abs($this->atts['offset']);
-            $days_to_offset = Core\MZ_Mindbody_Api::$event_calendar_duration * $abs + 1;
+            $days_to_offset = $duration * $abs + 1;
             $di = new \DateInterval('P'.$days_to_offset.'D');
             // If it's a negative number, invert the interval
             if ($this->atts['offset'] < 0) $di->invert = 1;

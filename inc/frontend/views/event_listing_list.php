@@ -34,7 +34,7 @@ if ((is_array($data->events)) && !empty($data->events)): ?>
                     <?echo date_i18n(Core\MZ_Mindbody_Api::$time_format, strtotime($event->EndDateTime)); ?>
                 </td>
                 <td>
-                    <?php echo $event->class_name_link->build(); ?> with <?php echo $event->staff_name_link->build(); ?>
+                    <?php echo $event->class_name_link->build() . ' ' . $data->with . ' ' . echo $event->staff_name_link->build(); ?>
 
                 </td>
                 <?php

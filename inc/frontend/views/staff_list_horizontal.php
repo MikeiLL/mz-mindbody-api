@@ -1,9 +1,4 @@
-<?php
-
-//foreach($data->staff as $staff):
-//    var_dump($staff->ImageURL);
-//endforeach;
-?>
+<?php ?>
 <?php foreach($data->staff as $staff): ?>
 <div class="MZ_Staff_profile clearfix">
     <div class="MZ_Staff_caption">
