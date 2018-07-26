@@ -10,6 +10,8 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 MZ Mindbody API uses the Devin Crossman API to interface with MindBodyOnline and display Staff, Schedule and Workshops.
 
+This free plugin also enables users to register with MBO within your site, as well as signing up for classes.
+
 
 == Description ==
 
@@ -32,6 +34,7 @@ Steps to install and configure MZ Mindbody API:
 4. In the WP Admin panel go to: Settings -> MZ Mindbody and configure settings
 5. This plugin includes some minimal CSS which you can override in theme.
 6. Also includes some bootstrap css and javascript so check there if conflicts arise.
+7. Read through the Settings > MZ Mindbody page for further instructions and options.
 
 == Frequently Asked Questions ==
 
@@ -55,9 +58,16 @@ You need to register a developer account with MindBody, which costs $5+ per webs
 == Changelog ==
 
 = 2.4.7 =
+Completely refactor the plugin with a more informed approach
+Implement Gemajo templating class so users can overwrite shortcode templates
+Implement Eric Mann's WordPress session managment
+Allow users to login and out, create accounts within same page as schedule/events
+Separate plugin codebase from Docker dev env wrapper
+Add try/except wrapper around `SoapClient`.
 Add try/except wrapper around `require Server.php`.
 Add unit test scaffolding
 Add Autoload and namespacing
+Add option to log MBO API calls
 
 = 2.4.6 =
 Add docker wrapper and phpunit test scaffolding.
@@ -180,6 +190,9 @@ Fix navigation on Schedule page when Force Cache not selected.
 Initial release.
 
 == Upgrade Notice ==
+
+= 2.4.7 =
+MZ Mindbody API has been almost completely re-written. Requires php version >= 5.6. You _may_ have to re-enter some settings.
 
 = 2.4.5 =
 Bug fix.
