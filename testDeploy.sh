@@ -40,9 +40,9 @@ svn propset svn:ignore "deploy.sh
 README.md
 bower_components
 node_modules
+tests
 .DS_Store
 .gitmodules
-advanced
 assets
 gulpfile.js
 bower.json

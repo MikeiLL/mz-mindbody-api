@@ -24,6 +24,8 @@ Two important requirements are:
 
 (NOW REQUIRES PHP 5.6 or GREATER)
 
+Open Source on [GitHub](https://github.com/MikeiLL/mz-mindbody-api)
+
 == Installation ==
 
 Steps to install and configure MZ Mindbody API:
