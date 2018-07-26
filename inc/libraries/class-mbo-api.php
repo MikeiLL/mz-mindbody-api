@@ -30,6 +30,7 @@ class MBO_API {
 		$this->soapOptions = array(
             'soap_version'=>SOAP_1_1,
             'trace'=>true,
+            'exceptions' => true,
             'stream_context'=> stream_context_create(
 					array(
 						'ssl'=> array(
@@ -121,7 +122,7 @@ class MBO_API {
 		}
 	}
 
-	/*
+	/**
 	** return the results of a Mindbody API method
 	**
 	** string $serviceName   - Mindbody Soap service name
@@ -134,17 +135,16 @@ class MBO_API {
 		if(!empty($this->userCredentials)) {
 			$request = array_merge(array("UserCredentials"=>$this->userCredentials), $request);
 		}
-		$this->client = new \SoapClient($this->apiServices[$serviceName], $this->soapOptions);
-		try {
+        try {
+			$this->client = new \SoapClient($this->apiServices[$serviceName], $this->soapOptions);
 			$result = $this->client->$methodName(array("Request"=>$request));
 			if($returnObject) {
 				return $result;
 			} else {
 				return json_decode(json_encode($result),1);
 			}
-		} catch (SoapFault $s) {
+		} catch (\SoapFault $s) {
 		// Uncomment following line for debugging request errors.
-		 //NS\MZMBO()->helpers->mz_pr($this->client->$methodName(array("Request"=>$request)));
 		 //NS\MZMBO()->helpers->mz_pr($s);
 		 //NS\MZMBO()->helpers->mz_pr($this->debugSoapErrors);
 			if($this->debugSoapErrors && $debugErrors) {
@@ -152,7 +152,9 @@ class MBO_API {
 				$this->debug();
 				return false;
 			}
-		} catch (Exception $e) {
+			echo "<h1>Could not connect to MBO server.</h1>";
+			return false;
+		} catch (\Exception $e) {
 		    if($this->debugSoapErrors && $debugErrors) {
 	    	    echo 'ERROR: ' . $e->getMessage();
 	    	    return false;
