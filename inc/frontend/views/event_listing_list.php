@@ -28,20 +28,20 @@ if ((is_array($data->events)) && !empty($data->events)): ?>
         <?php foreach ($events as $event): ?>
         <tbody>
             <tr>
-                <td><?echo date_i18n(Core\MZ_Mindbody_Api::$date_format, strtotime($event->StartDateTime)); ?></td>
+                <td><?php echo date_i18n(Core\MZ_Mindbody_Api::$date_format, strtotime($event->startDateTime)); ?> <br /><?php echo $event->sign_up_link->build(); ?></td>
                 <td>
-                    <?echo date_i18n(Core\MZ_Mindbody_Api::$time_format, strtotime($event->StartDateTime)); ?> -
-                    <?echo date_i18n(Core\MZ_Mindbody_Api::$time_format, strtotime($event->EndDateTime)); ?>
+                    <?php echo date_i18n(Core\MZ_Mindbody_Api::$time_format, strtotime($event->startDateTime)); ?> -
+                    <?php echo date_i18n(Core\MZ_Mindbody_Api::$time_format, strtotime($event->endDateTime)); ?>
                 </td>
                 <td>
-                    <?php echo $event->class_name_link->build() . ' ' . $data->with . ' ' . echo $event->staff_name_link->build(); ?>
+                    <?php echo $event->class_name_link->build() . ' ' . $data->with . ' ' . $event->staff_name_link->build(); ?>
 
                 </td>
                 <?php
                 // Display location if showing schedule for more than one location
                 if($data->locations_count >= 2): ?>
                 <td>
-                    <?php echo $data->locations_dictionary[$event->Location_ID]['link']; ?>
+                    <?php echo $data->locations_dictionary[$event->location_ID]['link']; ?>
                 </td>
                 <?php endif; ?>
             </tr>

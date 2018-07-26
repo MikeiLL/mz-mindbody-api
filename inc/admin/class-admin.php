@@ -141,7 +141,7 @@ class Admin {
             $mz_mbo_basic['mz_mindbody_show_sub_link'] = $old_options['mz_mindbody_show_sub_link'];
             $mz_mbo_events['mz_mindbody_siteID'] = $old_options['mz_mindbody_siteID'];
             $mz_mbo_events['mz_mindbody_eventIDs'] = $old_options['mz_mindbody_eventID'];
-            $mz_mbo_events['mz_mindbody_eventsDuration'] = $old_options['mz_mindbody_eventsDuration'];
+            $mz_mbo_events['mz_mindbody_scheduleDuration'] = $old_options['mz_mindbody_scheduleDuration'];
             add_option('mz_mbo_basic', $mz_mbo_basic);
             add_option('mz_mbo_events', $mz_mbo_events);
             $this->clear_previous_plugin_transients();

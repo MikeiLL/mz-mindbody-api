@@ -28,7 +28,8 @@
     },
     "events-display.js": {
       "files": [
-        "scripts/events-display.js"
+        "scripts/events-display.js",
+        "scripts/signup-modals.js"
       ],
       "main": true
     },

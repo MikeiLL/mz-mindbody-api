@@ -155,7 +155,7 @@ class MZ_Mindbody_Api
         self::$events_options = get_option('mz_mbo_events');
         self::$advanced_options = get_option('mz_mbo_advanced');
         self::$timezone = DateTime\WpDateTimeZone::getWpTimezone();
-        self::$event_calendar_duration = isset(self::$events_options['mz_mindbody_eventsDuration']) ? self::$events_options['mz_mindbody_eventsDuration'] : '60';
+        self::$event_calendar_duration = isset(self::$events_options['mz_mindbody_scheduleDuration']) ? self::$events_options['mz_mindbody_scheduleDuration'] : '60';
         self::$date_format = empty(self::$advanced_options['date_format']) ? get_option('date_format') : self::$advanced_options['date_format'];
         self::$time_format = empty(self::$advanced_options['time_format']) ? get_option('time_format') : self::$advanced_options['time_format'];
         self::$start_of_week = get_option('start_of_week');

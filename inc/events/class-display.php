@@ -135,6 +135,18 @@ class Display extends Interfaces\ShortCode_Script_Loader
      */
     public $clientID;
 
+    /**
+     * Site ID
+     *
+     * Used in Display Schedule sent to studioID in show schedule button in teacher modal.
+     * Might be same as account.
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      int $siteID
+     */
+    public $siteID;
+
     public function handleShortcode($atts, $content = null)
     {
 
@@ -147,6 +159,9 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'week-only' => 0,
             'offset' => 0
         ), $atts );
+
+        // Set siteID to option if not set explicitly in shortcode
+        $this->siteID = (isset($atts['account'])) ? $atts['account'] : Core\MZ_Mindbody_Api::$basic_options['mz_mindbody_siteID'];
 
         // Break locations up into array, if it hasn't already been.
         $this->atts['locations'] = (!is_array($this->atts['locations'])) ? explode(',', str_replace(' ', '', $this->atts['locations'])) : $this->atts['locations'];
@@ -178,7 +193,15 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'heading_time' => __('Time', 'mz_mindbody-api'),
             'heading_event' => __('Event', 'mz_mindbody-api'),
             'heading_location' => __('Location', 'mz_mindbody-api'),
-            'with' => NS\MZMBO()->i18n->get('with')
+            'siteID' => $this->siteID,
+            'with' => NS\MZMBO()->i18n->get('with'),
+            'login' => NS\MZMBO()->i18n->get('login'),
+            'login_to_sign_up' => NS\MZMBO()->i18n->get('login_to_sign_up'),
+            'signup_nonce' => wp_create_nonce('mz_signup_nonce'),
+            'registration_button' => NS\MZMBO()->i18n->get('registration_button'),
+            'username' => NS\MZMBO()->i18n->get('username'),
+            'password' => NS\MZMBO()->i18n->get('password'),
+            'manage_on_mbo' => NS\MZMBO()->i18n->get('manage_on_mbo'),
         );
 
         $template_loader->set_template_data($this->template_data);
@@ -232,7 +255,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'with' => NS\MZMBO()->i18n->get('with'),
             'client_first_name' => (!empty(NS\MZMBO()->session->get('MBO_GUID')['FirstName']) ? NS\MZMBO()->session->get('MBO_GUID')['FirstName'] : '')
         );
-        wp_localize_script('mz_mbo_events', 'mz_mindbody_events', $params);
+        wp_localize_script('mz_mbo_events', 'mz_mindbody_schedule', $params);
     }
 
     /**

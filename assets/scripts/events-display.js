@@ -4,7 +4,7 @@
         // Initialize some variables
         var spinner = '<i class="fa fa-spinner fa-3x fa-spin" style="position: fixed; top: 50%; left: 50%;"></i>',
             container = $("#mzEventsDisplay"),
-            atts = mz_mindbody_events.atts;
+            atts = mz_mindbody_schedule.atts;
             // TODO use Ajax event handlers to globally handle loader spinners: https://stackoverflow.com/a/40513161/2223106
 
 
@@ -15,7 +15,6 @@
          */
         $('#mzEventsNavHolder .following, #mzEventsNavHolder .previous').on('click', function (e) {
             e.preventDefault();
-
             container.children().each( function (e){
                 $(this).html('');
             });
@@ -37,8 +36,8 @@
                 type: "post",
                 dataType: "json",
                 context: this,
-                url: mz_mindbody_events.ajaxurl,
-                data: {action: 'mz_display_events', nonce: mz_mindbody_events.nonce, atts: atts},
+                url: mz_mindbody_schedule.ajaxurl,
+                data: {action: 'mz_display_events', nonce: mz_mindbody_schedule.nonce, atts: atts},
                 success: function (json) {
                     if (json.type == "success") {
                         container.toggleClass('loader');
@@ -84,7 +83,7 @@
                 staffName = this.getAttribute('data-staffName'),
                 eventImage = this.getAttribute('data-eventImage'),
                 classDescription = decodeURIComponent(this.getAttribute('data-classDescription')),
-                popUpContent = '<h3>' + this.innerHTML + ' ' + mz_mindbody_events.with + ' ' + staffName + '</h3>';
+                popUpContent = '<h3>' + this.innerHTML + ' ' + mz_mindbody_schedule.with + ' ' + staffName + '</h3>';
 
             popUpContent += '<div class="mz-classInfo" id="ClassInfo">';
             popUpContent += '<p><img src="' + eventImage + '" class="mz_modal_event_image_body">' + classDescription + '</p>';

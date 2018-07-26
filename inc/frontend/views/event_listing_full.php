@@ -18,13 +18,16 @@ if ((is_array($data->events)) && !empty($data->events)): ?>
                 <span><?php echo __('at', 'mz_mindbody_api') . ' ' . $data->locations_dictionary[$event->location_ID]['link']; ?></span>
             <?php endif; ?>
             <div class="mz_full_listing_event__date">
-                <?echo date_i18n(Core\MZ_Mindbody_Api::$date_format, strtotime($event->StartDateTime)); ?>
-                <?echo date_i18n(Core\MZ_Mindbody_Api::$time_format, strtotime($event->StartDateTime)); ?> -
-                <?echo date_i18n(Core\MZ_Mindbody_Api::$time_format, strtotime($event->EndDateTime)); ?>
+                <?echo date_i18n(Core\MZ_Mindbody_Api::$date_format, strtotime($event->startDateTime)); ?>
+                <?echo date_i18n(Core\MZ_Mindbody_Api::$time_format, strtotime($event->startDateTime)); ?> -
+                <?echo date_i18n(Core\MZ_Mindbody_Api::$time_format, strtotime($event->endDateTime)); ?>
             </div>
             <div class="mz_full_listing_event__disc">
                 <p><img src="<?php echo $event->classImage; ?>" class="mz_inline_event_image_body" />
                     <?php echo html_entity_decode($event->Description); ?>
+                </p>
+                <p>
+                    <?php echo $event->sign_up_link->build(); ?>
                 </p>
             </div>
         </div>

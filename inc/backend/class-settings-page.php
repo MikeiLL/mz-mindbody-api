@@ -175,7 +175,7 @@ class Settings_Page {
         self::$wposa_obj->add_field(
             'mz_mbo_events',
             array(
-                'id'      => 'mz_mindbody_eventsDuration',
+                'id'      => 'mz_mindbody_scheduleDuration',
                 'type'    => 'text',
                 'name'    => __( 'Event Display Duration', 'mz-mindbody-api' ),
                 'desc'    => 'How many days from today to display events for',

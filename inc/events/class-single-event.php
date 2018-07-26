@@ -2,6 +2,7 @@
 namespace MZ_Mindbody\Inc\Events;
 
 use MZ_Mindbody as NS;
+use MZ_Mindbody\Inc\Core as Core;
 use MZ_Mindbody\Inc\Libraries as Library;
 
 /**
@@ -19,14 +20,16 @@ use MZ_Mindbody\Inc\Libraries as Library;
 class Single_Event {
 
     /**
-     * Event ClassScheduleID
+     * Event Class Schedule ID
      *
      * @since 2.4.7
      *
+     * @used in making link to signup
+     *
      * @access public
-     * @var $ClassScheduleID int TODO differentiate from ['ClassDescription']['ID']
+     * @var $class_schedule_id int TODO differentiate from ['ClassDescription']['ID']
      */
-    public $ClassScheduleID;
+    public $class_schedule_id;
 
     /**
      * Event Class ID
@@ -44,9 +47,9 @@ class Single_Event {
      * @since 2.4.7
      *
      * @access public
-     * @var $StartDateTime datetime as pulled in from MBO
+     * @var $startDateTime datetime as pulled in from MBO
      */
-    public $StartDateTime;
+    public $startDateTime;
 
     /**
      * Event End Time
@@ -54,9 +57,9 @@ class Single_Event {
      * @since 2.4.7
      *
      * @access public
-     * @var $EndDateTime datetime as pulled in from MBO
+     * @var $endDateTime datetime as pulled in from MBO
      */
-    public $EndDateTime;
+    public $endDateTime;
 
     /**
      * Event Name
@@ -204,9 +207,59 @@ class Single_Event {
      *
      * @since    2.4.7
      * @access   public
-     * @var      HTML object    $class_name_link    Instance of HTML class.
+     * @var      string    $sDate    'Y/m/d' date string for MBO link.
+     */
+    public $sDate;
+
+    /**
+     * Class Name Link object for display in schedules.
+     *
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      int    $siteID    MBO Account for this event.
+     */
+    public $siteID;
+
+    /**
+     * Link object for display in schedules.
+     *
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      string    $mbo_url    URL to event on MBO site.
+     */
+    public $mbo_url;
+
+    /**
+     * Class Name Link object for display in schedules.
+     *
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      HTML object     $class_name_link    Link to be rendered with ->build() method.
      */
     public $class_name_link;
+
+    /**
+     * Class Name Link object for display in schedules.
+     *
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      HTML object     $staff_name_link    Link to be rendered with ->build() method.
+     */
+    public $staff_name_link;
+
+    /**
+     * Class Name Link object for display in schedules.
+     *
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      HTML object    $sign_up_link    Link to be rendered with ->build() method.
+     */
+    public $sign_up_link;
 
     /**
      * Populate attributes with data from MBO
@@ -218,9 +271,9 @@ class Single_Event {
      * @param array $atts array of shortcode attributes from calling shortcode.
      */
     public function __construct($event, $atts = array()) {
-        $this->classScheduleID = $event['ClassScheduleID'];
-        $this->StartDateTime = $event['StartDateTime'];
-        $this->EndDateTime = $event['EndDateTime'];
+        $this->class_schedule_id = $event['ClassScheduleID'];
+        $this->startDateTime = $event['StartDateTime'];
+        $this->endDateTime = $event['EndDateTime'];
         $this->className = $event['ClassDescription']['Name'];
         $this->ID = $event['ClassDescription']['ID'];
         $this->staffName = $event['Staff']['Name'];
@@ -235,29 +288,60 @@ class Single_Event {
         $this->location_City = $event['Location']['City'];
         $this->location_StateProvCode = $event['Location']['StateProvCode'];
         $this->location_PostalCode = $event['Location']['PostalCode'];
+        $this->sDate = date_i18n('m/d/Y', strtotime($event['StartDateTime']));
         $this->atts = $atts;
-        $this->class_name_link = $this->event_link_maker();
+        $this->siteID = isset($atts['account']) ? $atts['account'] : Core\MZ_Mindbody_Api::$basic_options['mz_mindbody_siteID'];
+        $this->mbo_url = $this->mbo_url();
+        $this->class_name_link = $this->event_link_maker('class');
         $this->staff_name_link = $this->event_link_maker('staff');
+        $this->sign_up_link = $this->event_link_maker('signup');
     }
 
     private function event_link_maker($type = 'class'){
         $class_name_link = new Library\HTML_Element('a');
         $class_name_link->set('href', NS\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php');
-        $linkArray = array(
-            'data-staffName' => $this->staffName
-        );
+        $linkArray = array();
         switch ($type) {
 
             case 'staff':
                 $linkArray['data-staffImage'] = ($this->staffImage != '') ? $this->staffImage : '';
                 $linkArray['data-staffBio'] = ($this->staffBio != '') ? $this->staffBio : '';
                 $linkArray['text'] = $this->staffName;
+                $linkArray['data-staffName'] = $this->staffName;
                 $linkArray['data-target'] = 'mzStaffScheduleModal';
                 $linkArray['class'] = 'modal-toggle ' . sanitize_html_class($this->staffName, 'mz_staff_name');
                 break;
 
-            default:
+            case 'signup':
+
+                $linkArray['class'] = 'btn btn-primary';
+
+                $linkArray['text'] = __('Sign-Up', 'mz-mindbody-api');
+
+                $linkArray['data-time'] = date_i18n(Core\MZ_Mindbody_Api::$date_format . ' ' . Core\MZ_Mindbody_Api::$time_format, strtotime($this->startDateTime));
+
+                if ((!empty($this->atts['advanced']) && ($this->atts['advanced'] == '1')) || (Core\MZ_Mindbody_Api::$advanced_options['register_within_site'] == 'on')):
+
+                    $linkArray['data-target'] = 'mzSignUpModal';
+                    $linkArray['data-nonce'] = wp_create_nonce('mz_signup_nonce');
+                    $linkArray['data-siteID'] = $this->siteID;
+                    $linkArray['data-classID'] = $this->ID;
+                    $linkArray['data-className'] = $this->className;
+                    $linkArray['data-staffName'] = $this->staffName;
+                    $linkArray['data-location'] = $this->location_ID;
+                    $class_name_link->set('href', NS\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php');
+
+                else:
+
+                    $linkArray['target'] = '_blank';
+                    $class_name_link->set('href', $this->mbo_url);
+
+                endif;
+                break;
+
+            case 'class':
                 $linkArray['data-className'] = $this->className;
+                $linkArray['data-staffName'] = $this->staffName;
                 $linkArray['data-classDescription'] = ($this->Description != '') ? $this->Description : '';
                 $linkArray['data-eventImage'] = ($this->classImage != '') ? $this->classImage : '';
                 $linkArray['text'] = $this->className;
@@ -268,6 +352,18 @@ class Single_Event {
 
         $class_name_link->set($linkArray);
         return $class_name_link;
+    }
+
+    /**
+     * Generate MBO URL
+     *
+     * Create a URL for signing up for class.
+     *
+     *
+     * @return urlstring
+     */
+    private function mbo_url() {
+        return "https://clients.mindbodyonline.com/ws.asp?sDate={$this->sDate}&amp;sLoc={$this->location_ID}&amp;sType=7&amp;sclassid={$this->class_schedule_id}&amp;studioid={$this->siteID}";
     }
 
 }

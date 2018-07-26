@@ -372,7 +372,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'ajaxurl' => admin_url('admin-ajax.php', $protocol),
             'nonce' => wp_create_nonce('mz_schedule_display_nonce'),
             'atts' => $this->atts,
-            'staff_preposition' => __('with', 'mz-mindbody-api'),
+            'with' => __('with', 'mz-mindbody-api'),
             'account' => Core\MZ_Mindbody_Api::$basic_options['mz_mindbody_siteID'],
             'initial' => $this->initial_button_text,
             'mode_select' => $this->atts['mode_select'],
