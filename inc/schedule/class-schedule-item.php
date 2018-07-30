@@ -204,7 +204,9 @@ class Schedule_Item {
     public $manage_text;
 
     /**
-     * 
+     * Class Details
+     *
+     * String we build with basic info about the class
      *
      * @since    2.4.7
      * @access   public
@@ -512,7 +514,7 @@ class Schedule_Item {
         $this->sessionTypeName = isset($schedule_item['ClassDescription']['SessionType']['Name']) ? $schedule_item['ClassDescription']['SessionType']['Name'] : '';
         $this->staffName = isset($schedule_item['Staff']['Name']) ? $schedule_item['Staff']['Name'] : '';
         $this->classDescription = isset($schedule_item['ClassDescription']['Description']) ? $schedule_item['ClassDescription']['Description'] : '';
-        $this->level = isset($schedule_item['ClassDescription']['Level']) ? $schedule_item['ClassDescription']['Level'] : '';
+        $this->level = isset($schedule_item['ClassDescription']['Level']['Name']) ? $schedule_item['ClassDescription']['Level']['Name'] : '';
         $this->staffImage = isset($schedule_item['Staff']['ImageURL']) ? $schedule_item['Staff']['ImageURL'] : '';
         $this->ID = $schedule_item['ID'];
         $this->sTG = $schedule_item['ClassDescription']['Program']['ID'];
@@ -533,7 +535,7 @@ class Schedule_Item {
         $this->class_duration = $this->get_schedule_event_duration();
         $this->dislayCancelled = ($schedule_item['IsCanceled'] == 1) ? '<div class="mz_cancelled_class">' . __('Cancelled', 'mz-mindbody-api') . '</div>' : '';
         $this->is_substitute = $schedule_item['Substitute'];
-		$this->scheduleType = $class['ClassDescription']['Program']['ScheduleType'];
+		$this->scheduleType = $schedule_item['ClassDescription']['Program']['ScheduleType'];
         $this->atts = $atts;
         if (Core\MZ_Mindbody_Api::$advanced_options['elect_display_substitutes'] == 'on'):
             if ($this->is_substitute === true):
