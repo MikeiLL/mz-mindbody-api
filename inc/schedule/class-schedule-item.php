@@ -132,17 +132,6 @@ class Schedule_Item {
     public $classImageArray;
 
     /**
-     * Level
-     *
-     * Class Description -> Level
-     *
-     * @since    2.4.7
-     * @access   public
-     * @var      string 
-     */
-    public $level;
-
-    /**
      * Display Class as Cancelled.
      *
      * @since    2.4.7
@@ -233,11 +222,11 @@ class Schedule_Item {
     public $toward_capacity = '';
 
     /**
-     * 
+     * Schedule Type
      *
      * @since    2.4.7
      * @access   public
-     * @var      string 
+     * @var      string Will probably be DropIn or Enrollment
      */
     public $scheduleType;
 
@@ -287,9 +276,25 @@ class Schedule_Item {
      * @var      string $studioID ID of location associated with class
      */
     public $siteID;
-    
-    // Attributes we create
 
+    /**
+     * Level
+     *
+     * Class Description -> Level
+     *
+     * Accessing from mz_mbo_pages plugin
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      string $level
+     */
+    public $level;
+    
+    /*
+    *
+    * ATTRIBUTES WE CREATE
+	*
+	*/
 
     /**
      * MBO url TAB
@@ -359,15 +364,6 @@ class Schedule_Item {
      * @var      string $event_start_and_end
      */
     public $event_start_and_end;
-
-    /**
-     * 
-     *
-     * @since    2.4.7
-     * @access   public
-     * @var      string $level
-     */
-    public $level; // accessing from another plugin
 
     /**
      * 
@@ -537,6 +533,7 @@ class Schedule_Item {
         $this->class_duration = $this->get_schedule_event_duration();
         $this->dislayCancelled = ($schedule_item['IsCanceled'] == 1) ? '<div class="mz_cancelled_class">' . __('Cancelled', 'mz-mindbody-api') . '</div>' : '';
         $this->is_substitute = $schedule_item['Substitute'];
+		$this->scheduleType = $class['ClassDescription']['Program']['ScheduleType'];
         $this->atts = $atts;
         if (Core\MZ_Mindbody_Api::$advanced_options['elect_display_substitutes'] == 'on'):
             if ($this->is_substitute === true):
