@@ -548,6 +548,12 @@ class Schedule_Item {
         $this->staff_name_link = $this->class_link_maker('staff');
         $this->sign_up_link = $this->class_link_maker('signup');
         $this->grid_sign_up_link = $this->class_link_maker('signup', 'grid');
+        $this->class_details = '<div class="mz_schedule_table mz_description_holder mz_location_'.$this->sLoc.' '.'mz_' . $this->className .'">';
+        $this->class_details .= '<span class="mz_class_name">' . $this->className . '</span>';
+        $this->class_details .= ' <span class="mz_class_with">' . NS\MZMBO()->i18n->get('with') . '</span>';
+        $this->class_details .= ' <span class="mz_class_staff">' . $this->staffName . '</span>';
+        $this->class_details .= ' <div class="mz_class_description">' . $this->classDescription . '</div>';
+        $this->class_details .= '</div>';
 
     }
 
