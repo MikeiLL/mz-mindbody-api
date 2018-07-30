@@ -1,7 +1,7 @@
 <?php
 namespace MZ_Mindbody\Inc\Schedule;
 
-use MZ_Mindbody;
+use MZ_Mindbody as NS;
 use MZ_Mindbody\Inc\Core as Core;
 use MZ_Mindbody\Inc\Libraries\HTML_Element;
 use MZ_Mindbody\Inc\Libraries\Rarst\WordPress\DateTime as DateTime;
@@ -586,7 +586,7 @@ class Schedule_Item {
                     $linkArray['data-sub'] = (!empty($this->sub_details)) ? $this->sub_details : '';
                 }
                 $linkArray['data-staffImage'] = ($this->staffImage != '') ? $this->staffImage : '';
-                $link->set('href', MZ_Mindbody\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php');
+                $link->set('href', NS\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php');
                 break;
 
             case 'class':
@@ -604,7 +604,7 @@ class Schedule_Item {
                     $linkArray['data-target'] = 'registrantModal';
                 }
                 $linkArray['data-staffImage'] = ($this->staffImage != '') ? $this->staffImage : '';
-                $link->set('href', MZ_Mindbody\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php');
+                $link->set('href', NS\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php');
                 break;
 
             case 'signup':
@@ -629,7 +629,7 @@ class Schedule_Item {
                     $linkArray['data-className'] = $this->className;
                     $linkArray['data-staffName'] = $this->staffName;
                     $linkArray['data-location'] = $this->sLoc;
-                    $link->set('href', MZ_Mindbody\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php');
+                    $link->set('href', NS\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php');
 
                 else:
 
