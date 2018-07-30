@@ -132,6 +132,17 @@ class Schedule_Item {
     public $classImageArray;
 
     /**
+     * Level
+     *
+     * Class Description -> Level
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      string 
+     */
+    public $level;
+
+    /**
      * Display Class as Cancelled.
      *
      * @since    2.4.7
@@ -505,6 +516,7 @@ class Schedule_Item {
         $this->sessionTypeName = isset($schedule_item['ClassDescription']['SessionType']['Name']) ? $schedule_item['ClassDescription']['SessionType']['Name'] : '';
         $this->staffName = isset($schedule_item['Staff']['Name']) ? $schedule_item['Staff']['Name'] : '';
         $this->classDescription = isset($schedule_item['ClassDescription']['Description']) ? $schedule_item['ClassDescription']['Description'] : '';
+        $this->level = isset($schedule_item['ClassDescription']['Level']) ? $schedule_item['ClassDescription']['Level'] : '';
         $this->staffImage = isset($schedule_item['Staff']['ImageURL']) ? $schedule_item['Staff']['ImageURL'] : '';
         $this->ID = $schedule_item['ID'];
         $this->sTG = $schedule_item['ClassDescription']['Program']['ID'];
