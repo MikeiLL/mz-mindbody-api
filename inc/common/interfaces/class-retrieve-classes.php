@@ -7,7 +7,7 @@ use MZ_Mindbody\Inc\Schedule as Schedule;
 use MZ_Mindbody as NS;
 use MZ_Mindbody\Inc\Libraries\Rarst\WordPress\DateTime as Datetime;
 
-/*
+/**
  * Class that is extended for Schedule Display Shortcode(s)
  *
  * @param @type string $time_format Format string for php strtotime function Default: "g:i a"
