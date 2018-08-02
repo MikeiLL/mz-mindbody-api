@@ -537,7 +537,8 @@ class Schedule_Item {
         $this->is_substitute = $schedule_item['Substitute'];
 		$this->scheduleType = $schedule_item['ClassDescription']['Program']['ScheduleType'];
         $this->atts = $atts;
-        if (Core\MZ_Mindbody_Api::$advanced_options['elect_display_substitutes'] == 'on'):
+        if ((Core\MZ_Mindbody_Api::$advanced_options['elect_display_substitutes'] == 'on') && empty($atts['mbo_pages_call'])):
+        	// We add the mbo_pages_call attribute if calling from MBO Pages plugin so that sub details will be skipped
             if ($this->is_substitute === true):
                 $owners = new Retrieve_Class_Owners;
                 $owner = $owners->find_class_owner($schedule_item);
