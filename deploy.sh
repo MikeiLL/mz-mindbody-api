@@ -5,7 +5,7 @@
 # main config
 PLUGINSLUG="mz-mindbody-api"
 CURRENTDIR=`pwd`
-MAINFILE="mZ-mindbody-api.php" # this should be the name of your main php file in the wordpress plugin
+MAINFILE="mz-mindbody.php" # this should be the name of your main php file in the wordpress plugin
 
 # git config
 GITPATH="$CURRENTDIR/" # this file should be in the base of your git repository
