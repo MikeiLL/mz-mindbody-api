@@ -186,7 +186,7 @@ abstract class Retrieve_Classes extends Retrieve {
         $this->classesByDateThenTime = array();
         $this->classes = array();
         $this->atts = $atts;
-        $this->mbo_account = $atts['account'];
+        $this->mbo_account = isset($atts['account']) ? $atts['account'] : Core\MZ_Mindbody_Api::$basic_options['mz_mindbody_siteID'];
         $this->time_frame = $this->time_frame();
         $this->locations_dictionary = array();
         $this->schedule_types = !empty(Core\MZ_Mindbody_Api::$advanced_options['schedule_types']) ? Core\MZ_Mindbody_Api::$advanced_options['schedule_types'] : array('DropIn');
