@@ -88,6 +88,9 @@ bin/install-wp-tests.sh
 phpunit.xml.dist
 phpcs.ruleset.xml
 .git
+phpcs*
+testDeploy.sh
+uru.sh
 .gitignore" "$SVNPATH/trunk/"
 
 echo "Changing directory to SVN and committing to trunk"
