@@ -91,6 +91,7 @@ phpcs.ruleset.xml
 phpcs*
 testDeploy.sh
 uru.sh
+demo.sh
 .gitignore" "$SVNPATH/trunk/"
 
 echo "Changing directory to SVN and committing to trunk"
