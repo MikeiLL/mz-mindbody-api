@@ -66,7 +66,7 @@ echo "Creating local copy of SVN repo ..."
 svn co $SVNURL $SVNPATH
 
 echo "Clearing svn repo so we can overwrite it"
-rm $SVNPATH/trunk/*
+rm -rf $SVNPATH/trunk/*
 
 echo "Exporting the HEAD of master from git to the trunk of SVN"
 git checkout-index -a -f --prefix=$SVNPATH/trunk/
@@ -83,12 +83,11 @@ assets
 gulpfile.js
 bower.json
 package.json
-.travis.yml
 bin/install-wp-tests.sh
 phpunit.xml.dist
 phpcs.ruleset.xml
+phpcs.xml.dist
 .git
-phpcs*
 testDeploy.sh
 uru.sh
 demo.sh

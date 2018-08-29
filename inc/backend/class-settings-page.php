@@ -278,6 +278,17 @@ class Settings_Page {
             )
         );
 
+        // Field: Template Override System
+        self::$wposa_obj->add_field(
+            'mz_mbo_advanced',
+            array(
+                'id'      => 'template_override_system',
+                'type'    => 'html',
+                'name'    => __( 'Template Override System', 'mz-mindbody-api' ),
+                'desc'    => __( 'You can override any of the files in the plugin/frontend/views directory by placing them in your theme top-level directory within a directory named templates/mindbody.', 'mz-mindbody-api' )
+            )
+        );
+
         // Field: Display Allow "Remember Me" Cookie
         // self::$wposa_obj->add_field(
         //     'mz_mbo_advanced',

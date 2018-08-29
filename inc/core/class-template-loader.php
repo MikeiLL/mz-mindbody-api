@@ -13,7 +13,7 @@ class Template_Loader extends Libraries\Gamajo_Template_Loader {
      *
      * @var string
      */
-    protected $filter_prefix = 'mobilize_america';
+    protected $filter_prefix = 'mz_mindbody_api';
 
     /**
      * Directory name where custom templates for this plugin should be found in the theme.
@@ -24,7 +24,7 @@ class Template_Loader extends Libraries\Gamajo_Template_Loader {
      *
      * @var string
      */
-    protected $theme_template_directory = 'templates/mobilize_america';
+    protected $theme_template_directory = 'templates/mindbody';
 
     /**
      * Reference to the root directory path of this plugin.
