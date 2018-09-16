@@ -248,7 +248,7 @@ class Settings_Page {
                 'id'      => 'schedule_types',
                 'type'    => 'multicheck',
                 'name'    => __( 'Schedule Types Types', 'mz-mindbody-api' ),
-                'desc'    => __('Which MBO schedule types to display in "schedule" (defaults to Enrollment.)', 'mz-mindbody-api'),
+                'desc'    => __('Which MBO schedule types to display in "schedule" (defaults to DropIn.)', 'mz-mindbody-api'),
                 'options' => array(
                                     'Enrollment' => 'Enrollment',
                                     'DropIn' => 'DropIn'
