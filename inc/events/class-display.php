@@ -155,17 +155,17 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'locations' => '',
             'list' => 0,
             'event_count' => '0',
-            'account' => '0',
+            'account' => 0,
             'week-only' => 0,
             'offset' => 0
         ), $atts );
 
         // Set siteID to option if not set explicitly in shortcode
-        $this->siteID = (isset($atts['account'])) ? $atts['account'] : Core\MZ_Mindbody_Api::$basic_options['mz_mindbody_siteID'];
+        $this->siteID = (!empty($atts['account'])) ? $atts['account'] : Core\MZ_Mindbody_Api::$basic_options['mz_mindbody_siteID'];
 
         // Break locations up into array, if it hasn't already been.
         $this->atts['locations'] = (!is_array($this->atts['locations'])) ? explode(',', str_replace(' ', '', $this->atts['locations'])) : $this->atts['locations'];
-
+mz_pr($this->atts['locations']);
 
         ob_start();
 
