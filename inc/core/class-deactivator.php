@@ -26,7 +26,7 @@ class Deactivator {
 	 */
 	public static function deactivate() {
         NS\MZMBO()->helpers->clear_log_files();
-        $admin_obj = new Admin\Admin;
+        $admin_obj = new Admin\Admin(NS\PLUGIN_NAME, NS\PLUGIN_VERSION, NS\PLUGIN_TEXT_DOMAIN);
         $admin_obj->clear_plugin_transients();
 	}
 
