@@ -165,7 +165,6 @@ class Display extends Interfaces\ShortCode_Script_Loader
 
         // Break locations up into array, if it hasn't already been.
         $this->atts['locations'] = (!is_array($this->atts['locations'])) ? explode(',', str_replace(' ', '', $this->atts['locations'])) : $this->atts['locations'];
-mz_pr($this->atts['locations']);
 
         ob_start();
 
@@ -290,8 +289,11 @@ mz_pr($this->atts['locations']);
 
         // Call the API and if fails, return error message.
         if (!$response = $this->events_object->get_mbo_results()) return "<div>" . __("Mindbody plugin settings error.", 'mz-mindbody-api') . "</div>";
+
         $events = ($response['GetClassesResult']['ResultCount'] >= 1) ? $response['GetClassesResult']['Classes']['Class'] : __('No Events in current cycle', 'mz-mindbody-api');
+
         $events = $this->events_object->sort_events_by_time();
+
         // Assign the date range to the $result
         $date_range = $this->events_object->display_time_frame;
         $result['date_range'] = sprintf(__('Displaying events from %1$s to %2$s.', 'mz-mindbody-api'),
