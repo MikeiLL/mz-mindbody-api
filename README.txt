@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: mindbody, schedule, calendar, yoga, MBO, mindbodyonline, gym
 Requires at least: 3.0.1
 Tested up to: 4.7.2
-Stable tag: 2.4.8
+Stable tag: 2.4.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -58,6 +58,12 @@ You need to register a developer account with MindBody, which costs $5+ per webs
 4. Admin Page
 
 == Changelog ==
+
+= 2.4.9 =
+Fix problem with deactivation method.
+Fix issue with specifying locations in Events display
+Fix issue with incorrect "default" listed in Admin page copy.
+Add ability to filter events listing by location.
 
 = 2.4.8 =
 Fix path for Template override directory
@@ -195,6 +201,9 @@ Fix navigation on Schedule page when Force Cache not selected.
 Initial release.
 
 == Upgrade Notice ==
+
+= 2.4.9 =
+Events listing can now have an added Location Filter.
 
 = 2.4.7 =
 MZ Mindbody API has been almost completely re-written. Requires php version >= 5.6. You _may_ have to re-enter some settings.
