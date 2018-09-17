@@ -516,7 +516,8 @@ abstract class Retrieve_Classes extends Retrieve {
         if (!array_key_exists($class['Location']['ID'], $this->locations_dictionary)):
             $this->locations_dictionary[$class['Location']['ID']] = array(
                                                                         'name' => $locationName,
-                                                                        'link' => $locationNameDisplay
+                                                                        'link' => $locationNameDisplay,
+                                                                        'class' => preg_replace('/\W+/','-',strtolower(strip_tags($locationName)))
                                                                     );
         endif;
     }

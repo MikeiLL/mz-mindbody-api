@@ -7,7 +7,7 @@ if ((is_array($data->events)) && !empty($data->events)): ?>
 
     <?php foreach ($data->events as $date => $events): ?>
         <?php foreach ($events as $event): ?>
-        <div class="mz_full_listing_event">
+        <div class="mz_full_listing_event <?php echo $data->locations_dictionary[$event->location_ID]['class']; ?>">
             <h3 class="mz_full_listing_event__title"><?php echo $event->className; ?></h3>
             <span class="mz_full_listing_event__staff">
                 <?php echo  $data->with . ' ' . $event->staff_name_link->build(); ?>
