@@ -446,6 +446,7 @@ class Settings_Page {
         $return .= "<li><strong>locations</strong>: " . __("List of (int) MBO locations to display events for.", 'mz-mindbody-api')."</li>";
         $return .= "<li><strong>list</strong>: " . __("(boolean) Set to `1` to display events as a list.", 'mz-mindbody-api')."</li>";
         $return .= "<li><strong>event_count</strong>: " . __("(int) Limit the number of events to display.", 'mz-mindbody-api')."</li>";
+        $return .= "<li><strong>location_filter</strong>: " . __("(boolean) Set to `1` to include location filter (if multiple locations included).", 'mz-mindbody-api')."</li>";
         $return .= "<li><strong>week-only</strong>: " . __("(boolean) Set to `1` to display events for current week only.", 'mz-mindbody-api')."</li>";
         $return .= "</ul>";
         return $return;

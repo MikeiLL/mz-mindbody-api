@@ -118,5 +118,25 @@
             });
         });
 
+
+
+        /**
+         * Location Filter
+         *
+         * Hide or Display events based on location when buttons clicked
+         */
+        $(document).on('click', ".filter_btn", function (ev) {
+            ev.preventDefault();
+            $('#locations_filter').children('a').removeClass('active');
+            if (this.dataset.location === 'all'){
+                $('.mz_full_listing_event').hide();
+                $('.mz_full_listing_event').show(1000);
+            } else {
+                $('.mz_full_listing_event').hide();
+                $('.'+this.dataset.location).show(1000);
+            }
+            $(this).toggleClass('active');
+        });
+
     }); // End document ready
 })(jQuery);

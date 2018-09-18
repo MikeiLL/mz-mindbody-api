@@ -157,7 +157,8 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'event_count' => '0',
             'account' => 0,
             'week-only' => 0,
-            'offset' => 0
+            'offset' => 0,
+            'location_filter' => 0
         ), $atts );
 
         // Set siteID to option if not set explicitly in shortcode
@@ -201,6 +202,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'username' => NS\MZMBO()->i18n->get('username'),
             'password' => NS\MZMBO()->i18n->get('password'),
             'manage_on_mbo' => NS\MZMBO()->i18n->get('manage_on_mbo'),
+            'all_locations_copy' => NS\MZMBO()->i18n->get('all_locations_copy')
         );
 
         $template_loader->set_template_data($this->template_data);

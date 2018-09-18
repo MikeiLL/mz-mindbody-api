@@ -3,6 +3,21 @@
 use MZ_Mindbody as NS;
 use MZ_Mindbody\Inc\Core as Core;
 
+if (($data->atts['location_filter'] == 1) && (count($data->locations_dictionary) >=2 ))
+{
+    // Print out Location Filter Buttons
+    ?>
+    <div id="locations_filter">
+        <a class="btn btn-primary filter_btn active" data-location="all"><?php echo $data->all_locations_copy; ?></a>
+        <?php
+        foreach($data->locations_dictionary as $key => $loc): ?>
+            <a class="btn btn-primary filter_btn" data-location="<?php echo $loc['class']; ?>"><?php echo $loc['name']; ?></a>
+        <?php
+        endforeach; ?>
+    </div>
+    <?php
+}
+
 if ((is_array($data->events)) && !empty($data->events)): ?>
 
     <?php foreach ($data->events as $date => $events): ?>
@@ -30,8 +45,8 @@ if ((is_array($data->events)) && !empty($data->events)): ?>
                     <?php echo $event->sign_up_link->build(); ?>
                 </p>
             </div>
+            <hr class="mz_full_listing_event__rule" />
         </div>
-        <hr class="mz_full_listing_event__rule" />
 
         <?php endforeach; ?>
     <?php endforeach; ?>
