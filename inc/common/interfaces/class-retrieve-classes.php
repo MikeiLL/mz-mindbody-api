@@ -113,10 +113,10 @@ abstract class Retrieve_Classes extends Retrieve {
      * Which MBO account to pull data from, default to Options setting, but can be overridden in shortcode
      *
      * @since    2.0.0
-     * @access   public
+     * @access   protected
      * @var      int    $mbo_account    Which MBO account to pull data from.
      */
-    public $mbo_account;
+    protected $mbo_account;
 
     /**
      * Holds the time frame for the instance.
@@ -186,7 +186,7 @@ abstract class Retrieve_Classes extends Retrieve {
         $this->classesByDateThenTime = array();
         $this->classes = array();
         $this->atts = $atts;
-        $this->mbo_account = isset($atts['account']) ? $atts['account'] : Core\MZ_Mindbody_Api::$basic_options['mz_mindbody_siteID'];
+        $this->mbo_account = !empty($atts['account']) ? $atts['account'] : Core\MZ_Mindbody_Api::$basic_options['mz_mindbody_siteID'];
         $this->time_frame = $this->time_frame();
         $this->locations_dictionary = array();
         $this->schedule_types = !empty(Core\MZ_Mindbody_Api::$advanced_options['schedule_types']) ? Core\MZ_Mindbody_Api::$advanced_options['schedule_types'] : array('DropIn');
@@ -216,7 +216,9 @@ abstract class Retrieve_Classes extends Retrieve {
         if ( !$mb || $mb == 'NO_SOAP_SERVICE' ) return false;
 
         /* Set array string based on if called from Events Object
-         * or Schedule Object
+         * or Schedule Object.
+         *
+         * SessionTypeIDs key only exists for Events display.
          */
         $sc_string = (array_key_exists('SessionTypeIDs', $this->time_frame )) ? 'get_events' : 'get_schedule';
 
@@ -238,16 +240,15 @@ abstract class Retrieve_Classes extends Retrieve {
                     $schedule_data['GetClassSchedulesResult']);
             endif;
 
-            // Otherwise assign result to this->classes.
+            // Otherwise (if successful API call) assign result to $this->classes.
             $this->classes = $schedule_data;
 
             // Store the transient for 12 hours
-            set_transient($transient_string, $this->classes, 60 * 60 * 12);
+            set_transient($transient_string, $schedule_data, 60 * 60 * 12);
 
         } else {
             $this->classes = get_transient( $transient_string );
         }
-
         return $this->classes;
     }
 
