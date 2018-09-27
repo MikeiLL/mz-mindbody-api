@@ -19,12 +19,19 @@ class Retrieve_Schedule extends Interfaces\Retrieve_Classes {
 	 *
 	 * @return array or start and end dates as required for MBO API
 	 */
-	public function time_frame($timestamp = null){
+
+    public function time_frame($timestamp = null){
 	    $timestamp = isset($timestamp) ? $timestamp : current_time( 'timestamp' );
 		$current_week = $this->single_week($timestamp);
-		$seven_days_from_now = $this->seven_days_later($timestamp);
-		$start_time = new \Datetime( date_i18n('Y-m-d', $current_week['start']) );
-		$end_time = new \Datetime( date_i18n('Y-m-d', $seven_days_from_now) );
+		$seven_days_later = $this->seven_days_later($timestamp);
+		if ($this->atts['type'] === 'day'):
+            $today = current_time( 'timestamp' );
+            $start_time = new \Datetime( date_i18n('Y-m-d', $today) );
+            $end_time = new \Datetime( date_i18n('Y-m-d', $today) );
+		else:
+            $start_time = new \Datetime( date_i18n('Y-m-d', $current_week['start']) );
+		    $end_time = new \Datetime( date_i18n('Y-m-d', $seven_days_later) );
+		endif;
       	$current_day_offset = new \Datetime( date_i18n('Y-m-d') );
       	$current_week_end = new \Datetime( date_i18n('Y-m-d', $current_week['end']) );
 
@@ -32,7 +39,12 @@ class Retrieve_Schedule extends Interfaces\Retrieve_Classes {
 		if ( !empty($this->atts['offset']) ) {
 		    // Insure that we have an absolute number, because attr may be negative
 		    $abs = abs($this->atts['offset']);
-		    $di = new \DateInterval('P'.$abs.'W');
+            if ($this->atts['type'] === 'day'):
+		        $di = new \DateInterval('P'.$abs.'D');
+            else:
+                $di = new \DateInterval('P'.$abs.'W');
+            endif;
+
 		    // If it's a negative number, invert the interval
             if ($this->atts['offset'] < 0) $di->invert = 1;
             $start_time->add($di);
