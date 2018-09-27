@@ -118,5 +118,38 @@ class ScheduleDisplayTest extends WP_UnitTestCase {
 
         parent::tearDown();
     }
+    /**
+     * Confirm that day schedule display works.
+     */
+    function test_day_schedule_result() {
+
+        parent::setUp();
+
+        $basic_options = array(
+            'mz_source_name' => MBOTests\Test_Options::$_MYSOURCENAME,
+            'mz_mindbody_password' => MBOTests\Test_Options::$_MYPASSWORD,
+            'mz_mindbody_siteID' => '-99'
+        );
+        add_option( 'mz_mbo_basic', $basic_options, '', 'yes' );
+
+        $schedule_object = new MZ_Mindbody\Inc\Schedule\Retrieve_Schedule(array('type' => 'day'));
+
+        print_r($schedule_object->atts);
+
+        $response = $schedule_object->get_mbo_results();
+
+        $sequenced_classes = $schedule_object->sort_classes_by_time_then_date();
+
+        /*
+         * Each subsequent date should be equal to or greater than current,
+         * which is set according to first date in the matrix.
+         */
+        foreach ($sequenced_classes as $date => $class){
+            $current = isset($current) ? $current : $date;
+            $this->assertTrue( $date >= $current );
+        }
+
+        parent::tearDown();
+    }
 }
 
