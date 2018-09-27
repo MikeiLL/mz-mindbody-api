@@ -15,7 +15,7 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
  */
 
 ?>
-<?php if (empty($data->horizontal_schedule)) _e('Error Retrieving Schedule', 'mz-mindbody-api'); ?>
+<?php if (empty($data->horizontal_schedule)) _e('No Classes To Display', 'mz-mindbody-api'); ?>
 <table id="mz_horizontal_schedule" class="<?php echo $data->table_class; ?>">
     <?php foreach ($data->horizontal_schedule as $day => $classes): ?>
         <thead>
