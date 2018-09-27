@@ -24,7 +24,7 @@ class Retrieve_Schedule extends Interfaces\Retrieve_Classes {
 	    $timestamp = isset($timestamp) ? $timestamp : current_time( 'timestamp' );
 		$current_week = $this->single_week($timestamp);
 		$seven_days_later = $this->seven_days_later($timestamp);
-		if ((!empty($this->atts['type']) && ($this->atts['type'] === 'day')):
+		if ((!empty($this->atts['type']) && ($this->atts['type'] === 'day'))):
             $today = current_time( 'timestamp' );
             $start_time = new \Datetime( date_i18n('Y-m-d', $today) );
             $end_time = new \Datetime( date_i18n('Y-m-d', $today) );
@@ -39,7 +39,7 @@ class Retrieve_Schedule extends Interfaces\Retrieve_Classes {
 		if ( !empty($this->atts['offset']) ) {
 		    // Insure that we have an absolute number, because attr may be negative
 		    $abs = abs($this->atts['offset']);
-            if ((!empty($this->atts['type']) && ($this->atts['type'] === 'day')):
+            if ((!empty($this->atts['type']) && ($this->atts['type'] === 'day'))):
 		        $di = new \DateInterval('P'.$abs.'D');
             else:
                 $di = new \DateInterval('P'.$abs.'W');
