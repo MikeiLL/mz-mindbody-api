@@ -6,19 +6,12 @@ use MZ_Mindbody\Inc\Core as Core;
 /**
  * This file is the wrapper for Horizontal and/or Grid classes.
  */
-$navigation_text = array(
-        'prev' => __('Previous Week', 'mz-mindbody-api'),
-        'next' => __('Following Week', 'mz-mindbody-api'),
-);
-if ($data->atts['type'] === 'day'):
-    $navigation_text['prev'] = __('Previous Day', 'mz-mindbody-api');
-    $navigation_text['next'] = __('Following Day', 'mz-mindbody-api');
-endif;
-?>
+<?php if ($data->atts['type'] == 'week') : ?>
 <div id="mzScheduleNavHolder">
-    <a href="#" class="previous" data-offset="-1"><?php echo $navigation_text['prev']; ?></a> -
-    <a href="#" class="following" data-offset="1"><?php echo $navigation_text['next']; ?></a>
+    <a href="#" class="previous" data-offset="-1"><?php _e('Previous Week', 'mz-mindbody-api'); ?></a> -
+    <a href="#" class="following" data-offset="1"><?php _e('Following Week', 'mz-mindbody-api'); ?></a>
 </div>
+<?php endif; ?>
 
 <div id="mzScheduleDisplay" class="mz_mbo_schedule">
     <?php
