@@ -186,7 +186,12 @@ abstract class Retrieve_Classes extends Retrieve {
         $this->classesByDateThenTime = array();
         $this->classes = array();
         $this->atts = $atts;
-        $this->mbo_account = !empty($atts['account']) ? $atts['account'] : Core\MZ_Mindbody_Api::$basic_options['mz_mindbody_siteID'];
+        if (!empty(Core\MZ_Mindbody_Api::$basic_options['mz_mindbody_siteID'])):
+            $this->mbo_account = !empty($atts['account']) ? $atts['account'] : Core\MZ_Mindbody_Api::$basic_options['mz_mindbody_siteID'];
+        else:
+            echo '<div class="notice">Options not set. Using default MBO Sandbox account.</div>';
+            $this->mbo_account = '-99';
+        endif;
         $this->time_frame = $this->time_frame();
         $this->locations_dictionary = array();
         $this->schedule_types = !empty(Core\MZ_Mindbody_Api::$advanced_options['schedule_types']) ? Core\MZ_Mindbody_Api::$advanced_options['schedule_types'] : array('DropIn');
