@@ -26,13 +26,13 @@ endif;
     <div id="gridDisplay" class="mz-schedule-display<?php echo $data->grid_class; ?>">
     <?php include 'grid_schedule.php';?>
     </div>
-    <?
+    <?php
     endif;
     if ($data->display_type == 'horizontal' || $data->display_type == 'both'):?>
     <div id="horizontalDisplay" class="mz-schedule-display<?php echo $data->horizontal_class; ?>">
         <?php include 'horizontal_schedule.php';?>
     </div>
-    <?
+    <?php
     endif;
     ?>
 </div>
