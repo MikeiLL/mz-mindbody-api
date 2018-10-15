@@ -295,8 +295,8 @@ class Schedule_Item {
     /*
     *
     * ATTRIBUTES WE CREATE
-	*
-	*/
+    *
+    */
 
     /**
      * MBO url TAB
@@ -524,10 +524,10 @@ class Schedule_Item {
         $this->sDate = date_i18n('m/d/Y', strtotime($schedule_item['StartDateTime']));
         $this->sign_up_title = __('Sign-Up', 'mz-mindbody-api');
         $this->manage_text = __('Manage on MindBody Site', 'mz-mindbody-api');
-        $this->mbo_url = $this->mbo_url();
         $this->sType = -7;
         $this->staffID = $schedule_item['Staff']['ID'];
         $this->siteID = $schedule_item['Location']['SiteID'];
+        $this->mbo_url = $this->mbo_url();
         $this->day_num = $this->get_day_number(date_i18n("N", strtotime($schedule_item['StartDateTime'])));
         $this->session_type_css = 'mz_' . sanitize_html_class($this->sessionTypeName, 'mz_session_type');
         $this->class_name_css = 'mz_' . sanitize_html_class($this->className, 'mz_class_name');
@@ -535,10 +535,10 @@ class Schedule_Item {
         $this->class_duration = $this->get_schedule_event_duration();
         $this->dislayCancelled = ($schedule_item['IsCanceled'] == 1) ? '<div class="mz_cancelled_class">' . __('Cancelled', 'mz-mindbody-api') . '</div>' : '';
         $this->is_substitute = $schedule_item['Substitute'];
-		$this->scheduleType = $schedule_item['ClassDescription']['Program']['ScheduleType'];
+        $this->scheduleType = $schedule_item['ClassDescription']['Program']['ScheduleType'];
         $this->atts = $atts;
         if ((Core\MZ_Mindbody_Api::$advanced_options['elect_display_substitutes'] == 'on') && empty($atts['mbo_pages_call'])):
-        	// We add the mbo_pages_call attribute if calling from MBO Pages plugin so that sub details will be skipped
+            // We add the mbo_pages_call attribute if calling from MBO Pages plugin so that sub details will be skipped
             if ($this->is_substitute === true):
                 $owners = new Retrieve_Class_Owners;
                 $owner = $owners->find_class_owner($schedule_item);
