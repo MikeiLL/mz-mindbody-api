@@ -144,6 +144,7 @@ class Settings_Page {
                 'id'   => 'credentials_test',
                 'type' => 'title',
                 'name' => '<h1>Credentials Test</h1>',
+                'default' => ''
             )
         );
 
@@ -274,7 +275,8 @@ class Settings_Page {
                 'id'      => 'elect_display_substitutes',
                 'type'    => 'checkbox',
                 'name'    => __( 'Display Class Sub Information', 'mz-mindbody-api' ),
-                'desc'    => __( 'When checked, schedule display will contain information about class instructor substitution.', 'mz-mindbody-api' )
+                'desc'    => __( 'When checked, schedule display will contain information about class instructor substitution.', 'mz-mindbody-api' ),
+                'default' => 'off'
             )
         );
 
@@ -307,7 +309,8 @@ class Settings_Page {
                 'id'      => 'register_within_site',
                 'type'    => 'checkbox',
                 'name'    => __( 'Keep Users In Site to Register for MBO, Classes, Events', 'mz-mindbody-api' ),
-                'desc'    => __( 'When checked, users are not directed to MBO site for registering for classes and events.', 'mz-mindbody-api' )
+                'desc'    => __( 'When checked, users are not directed to MBO site for registering for classes and events.', 'mz-mindbody-api' ),
+                'default' => 'off'
             )
         );
 
@@ -318,7 +321,8 @@ class Settings_Page {
                 'id'      => 'log_api_calls',
                 'type'    => 'checkbox',
                 'name'    => __( 'Log MBO API Calls', 'mz-mindbody-api' ),
-                'desc'    => __( 'When checked, API calls are logged for up to seven days in wp-content/mbo_api.log.', 'mz-mindbody-api' )
+                'desc'    => __( 'When checked, API calls are logged for up to seven days in wp-content/mbo_api.log.', 'mz-mindbody-api' ),
+                'default' => 'off'
             )
         );
 
