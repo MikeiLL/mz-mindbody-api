@@ -7,7 +7,8 @@ use MZ_Mindbody\Inc\Core as Core;
  * This file is the wrapper for Horizontal and/or Grid classes.
  */
 
-if ($data->atts['type'] == 'week') : ?>
+?>
+<?php if ($data->atts['type'] == 'week') : ?>
 <div id="mzScheduleNavHolder">
     <a href="#" class="previous" data-offset="-1"><?php _e('Previous Week', 'mz-mindbody-api'); ?></a> -
     <a href="#" class="following" data-offset="1"><?php _e('Following Week', 'mz-mindbody-api'); ?></a>

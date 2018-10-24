@@ -21,7 +21,9 @@ class Retrieve_Schedule extends Interfaces\Retrieve_Classes {
 	 */
 
     public function time_frame($timestamp = null){
-	    $timestamp = isset($timestamp) ? $timestamp : current_time( 'timestamp' );
+	    // override timestamp here for testing
+        //$timestamp = '2018-10-8';
+
 		$current_week = $this->single_week($timestamp);
 		$seven_days_later = $this->seven_days_later($timestamp);
 		if ((!empty($this->atts['type']) && ($this->atts['type'] === 'day'))):
