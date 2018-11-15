@@ -21,6 +21,8 @@ class Retrieve_Schedule extends Interfaces\Retrieve_Classes {
 	 */
 
     public function time_frame($timestamp = null){
+    	
+    	$timestamp = isset($timestamp) ? $timestamp : current_time( 'timestamp' );
 	    // override timestamp here for testing
         //$timestamp = '2018-10-8';
 
