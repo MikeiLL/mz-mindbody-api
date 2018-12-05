@@ -7,6 +7,9 @@ namespace MZ_Mindbody\Inc\Common;
  * @package MZ_Mindbody\Inc\Common
  *
  * Store i18n strings that may be used throughout plugin
+ *
+ * Using Singleton you can call helpers like NS\MZMBO()->helpers->mz_pr($param);
+ *
  */
 
 class Helpers {
@@ -44,7 +47,7 @@ class Helpers {
             }
         }
 
-        if (is_array($message)) {
+        if (is_array($message) || is_object($message)) {
             $message = print_r($message, true);
         }
         $message .= "\n";

@@ -142,11 +142,16 @@ class Client_Portal extends Interfaces\Retrieve {
      */
     public function client_log_out(){
 
+        check_ajax_referer($_REQUEST['nonce'], "mz_client_log_out", false);
+
         ob_start();
 
         $result['type'] = 'success';
 
         NS\MZMBO()->session->clear();
+
+        // update class attribute to hold logged out status
+        $this->client_logged_in = false;
 
         _e('Logged Out', 'mz-mindbody-api');
 
@@ -171,14 +176,13 @@ class Client_Portal extends Interfaces\Retrieve {
      */
     public function register_for_class(){
 
-
-        check_ajax_referer($_REQUEST['nonce'], "mz_signup_nonce", false);
+        check_ajax_referer($_REQUEST['nonce'], "mz_register_for_class", false);
 
         ob_start();
 
         $result['type'] = 'success';
 
-        if ( true ) {
+        if ( NS\MZMBO()->session->get('mbo_guid') ) {
 
             $template_data = array();
 
@@ -194,7 +198,18 @@ class Client_Portal extends Interfaces\Retrieve {
                 'location'  => $_REQUEST['location']
             );
 
-            // echo $this->mb->debug();
+
+            // Debug logging
+            $client = NS\MZMBO()->session->get('MBO_Client');
+            $debug_data = [
+                'mbo_guid' => NS\MZMBO()->session->get('mbo_guid'),
+                'client' => $client['FirstName'] . ' ' . $client['LastName'] . ' (' . $client['ID'] . ')',
+                'nonce'     => $_REQUEST['nonce'],
+                'message'   => $add_client_to_class_result['message'],
+                'class_id' => $_REQUEST['classID']
+            ];
+            NS\MZMBO()->helpers->log(array($this->clientID => $debug_data));
+
             $template_loader = new Core\Template_Loader();
 
             $template_loader->set_template_data($template_data);
@@ -466,7 +481,7 @@ class Client_Portal extends Interfaces\Retrieve {
      */
     public function display_client_schedule(){
 
-        check_ajax_referer($_REQUEST['nonce'], "mz_signup_nonce", false);
+        check_ajax_referer($_REQUEST['nonce'], "mz_display_client_schedule", false);
 
         ob_start();
 
@@ -634,6 +649,8 @@ class Client_Portal extends Interfaces\Retrieve {
      * Function run by ajax to continually check if client is logged in
      */
     public function check_client_logged(){
+
+        check_ajax_referer($_REQUEST['nonce'], "mz_check_client_logged", false);
 
         $result['type'] = 'success';
         $result['message'] =  ( 1 == (bool) NS\MZMBO()->session->get('MBO_GUID') ) ? 1 : 0;

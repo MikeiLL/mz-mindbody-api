@@ -107,7 +107,7 @@
             $.ajax({
                 dataType: 'json',
                 url: mz_mindbody_schedule.ajaxurl,
-                data: {action: 'mz_check_client_logged'},
+                data: {action: 'mz_check_client_logged', nonce: 'mz_check_client_logged'},
                 success: function(json) {
                     if (json.type == "success") {
                         mz_mbo_state.logged_in = (json.message == 1 ? true : false);
@@ -197,10 +197,12 @@
          */
         $(document).on('click', "#MBOLogout", function (ev) {
             ev.preventDefault();
+            var nonce = $(this).attr("data-nonce");
+
             $.ajax({
                 dataType: 'json',
                 url: mz_mindbody_schedule.ajaxurl,
-                data: {action: 'mz_client_log_out'},
+                data: {action: 'mz_client_log_out', nonce: nonce},
                 beforeSend: function() {
                     mz_mbo_state.action = 'processing';
                     render_mbo_modal_activity();
@@ -314,6 +316,9 @@
          */
         $(document).on('click', '#signUpForClass', function (ev) {
             ev.preventDefault();
+
+            var nonce = $(this).attr("data-nonce");
+
             $.ajax({
                 type: "GET",
                 dataType: 'json',
@@ -321,7 +326,7 @@
                 context: this,
                 data: {
                     action: 'mz_register_for_class',
-                    nonce: mz_mbo_state.nonce,
+                    nonce: nonce,
                     siteID: mz_mbo_state.siteID,
                     classID: mz_mbo_state.classID,
                     location: mz_mbo_state.location
@@ -360,7 +365,7 @@
                 type: "GET",
                 dataType: 'json',
                 url: mz_mindbody_schedule.ajaxurl,
-                data: {action: 'mz_display_client_schedule', nonce: mz_mbo_state.nonce, location: mz_mbo_state.location, siteID: mz_mbo_state.siteID},
+                data: {action: 'mz_display_client_schedule', nonce: 'mz_display_client_schedule', location: mz_mbo_state.location, siteID: mz_mbo_state.siteID},
                 beforeSend: function() {
                     mz_mbo_state.action = 'processing';
                     render_mbo_modal_activity();
