@@ -200,15 +200,15 @@ class Client_Portal extends Interfaces\Retrieve {
 
 
             // Debug logging
-            $client = NS\MZMBO()->session->get('MBO_Client');
-            $debug_data = [
-                'mbo_guid' => NS\MZMBO()->session->get('mbo_guid'),
-                'client' => $client['FirstName'] . ' ' . $client['LastName'] . ' (' . $client['ID'] . ')',
-                'nonce'     => $_REQUEST['nonce'],
-                'message'   => $add_client_to_class_result['message'],
-                'class_id' => $_REQUEST['classID']
-            ];
-            NS\MZMBO()->helpers->log(array($this->clientID => $debug_data));
+            // $client = NS\MZMBO()->session->get('MBO_Client');
+            // $debug_data = [
+            //     'mbo_guid' => NS\MZMBO()->session->get('mbo_guid'),
+            //     'client' => $client['FirstName'] . ' ' . $client['LastName'] . ' (' . $client['ID'] . ')',
+            //     'nonce'     => $_REQUEST['nonce'],
+            //     'message'   => $add_client_to_class_result['message'],
+            //     'class_id' => $_REQUEST['classID']
+            // ];
+            // NS\MZMBO()->helpers->log(array($this->clientID => $debug_data));
 
             $template_loader = new Core\Template_Loader();
 
