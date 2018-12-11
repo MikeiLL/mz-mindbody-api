@@ -3,8 +3,8 @@ Contributors: mikeill, rtzee
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A95ZEELLHGECE
 Tags: mindbody, schedule, calendar, yoga, MBO, mindbodyonline, gym
 Requires at least: 3.0.1
-Tested up to: 4.7.2
-Stable tag: 2.5.2
+Tested up to: 5.0.0
+Stable tag: 2.5.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -58,6 +58,9 @@ You need to register a developer account with MindBody, which costs $5+ per webs
 4. Admin Page
 
 == Changelog ==
+
+= 2.5.3 =
+Bugfix: some registrations were pulling user data from previous class registration.
 
 = 2.5.2 =
 Bugfix: reinstate default timestamp in retrieve classes time_frame method.
