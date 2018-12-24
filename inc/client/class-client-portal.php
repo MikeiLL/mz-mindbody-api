@@ -266,13 +266,15 @@ class Client_Portal extends Interfaces\Retrieve {
 
         $signupData = $this->mb->AddClientsToClasses($additions);
 
-        // Debug logging
-        $debug_data = [
-            'mbo_guid' => NS\MZMBO()->session->get('mbo_guid'),
-            'additions' => $additions,
-            'signupData'   => $signupData
-        ];
-        NS\MZMBO()->helpers->log(array($this->clientID => $debug_data));
+        if ((isset(NS\Inc\Core\MZ_Mindbody_Api::$advanced_options['log_api_calls'])) && (NS\Inc\Core\MZ_Mindbody_Api::$advanced_options['log_api_calls'] == 'on')):
+            // Debug logging on if we have also enabled log_api_calls
+            $debug_data = [
+                'mbo_guid' => NS\MZMBO()->session->get('mbo_guid'),
+                'additions' => $additions,
+                'signupData'   => $signupData
+            ];
+            NS\MZMBO()->helpers->log(array($this->clientID => $debug_data));
+        endif;
 
         if ( $signupData['AddClientsToClassesResult']['ErrorCode'] != 200 ) {
             // Something did not succeed
@@ -444,7 +446,7 @@ class Client_Portal extends Interfaces\Retrieve {
             //NS\MZMBO()->helpers->mz_pr($options);
             $signupData = $this->mb->AddOrUpdateClients($options);
 
-            echo $this->mb->debug();
+            // echo $this->mb->debug();
 
             if($signupData['AddOrUpdateClientsResult']['Clients']['Client']['Action'] == 'Added') {
 

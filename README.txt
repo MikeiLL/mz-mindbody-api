@@ -59,6 +59,9 @@ You need to register a developer account with MindBody, which costs $5+ per webs
 
 == Changelog ==
 
+= 2.5.4 =
+Bugfix: fix event registration URL.
+
 = 2.5.3 =
 Bugfix: some registrations were pulling user data from previous class registration.
 
