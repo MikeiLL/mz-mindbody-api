@@ -3,6 +3,8 @@
 use MZ_Mindbody as NS;
 use MZ_Mindbody\Inc\Core as Core;
 
+//NS\MZMBO()->helpers->mz_pr(NS\MZMBO()->session);
+
 /**
  * This file is the wrapper for Horizontal and/or Grid classes.
  */

@@ -21,9 +21,9 @@ class MBO_API {
 	public $soapOptions;
 
 	public $debugSoapErrors = true;
-	
-/*
-	** initializes the apiServices and apiMethods arrays
+
+	/**
+	* Initialize the apiServices and apiMethods arrays
 	*/
 	public function __construct($sourceCredentials = array()) {
 
@@ -64,9 +64,9 @@ class MBO_API {
 					$length = $end - $start;
 					return substr($n, $start, $length);
 				}, $this->client->__getFunctions()
-			)));	
+			)));
 		}
-		
+
 		// set sourceCredentials
 		if(!empty($sourceCredentials)) {
 			if(!empty($sourceCredentials['SourceName'])) {
@@ -85,9 +85,9 @@ class MBO_API {
 		}
 	}
 
-	/*
-	** magic method will search $this->apiMethods array for $name and call the
-	** appropriate Mindbody API method if found
+	/**
+	* magic method will search $this->apiMethods array for $name and call the
+	* appropriate Mindbody API method if found
 	*/
 	public function __call($name, $arguments) {
 		// check if method exists on one of mindbody's soap services
@@ -165,7 +165,7 @@ class MBO_API {
 	public function getXMLRequest() {
 		return $this->client->__getLastRequest();
 	}
-	
+
 	public function getXMLResponse() {
 		return $this->client->__getLastResponse();
 	}
@@ -194,33 +194,37 @@ class MBO_API {
 		}
 		return $array;
 	}
-				
-  	/*
-	** overrides SelectDataXml method to remove some invalid XML element names
-	**
-	** string $query - a TSQL query
-	*/
-	public function SelectDataXml($query, $returnObject = false, $debugErrors = false) {
-		$result = $this->callMindbodyService('DataService', 'SelectDataXml', array('SelectSql'=>$query), $returnObject, $debugErrors);
-		$xmlString = $this->getXMLResponse();
-		// replace some invalid xml element names
-		$xmlString = str_replace("Current Series", "CurrentSeries", $xmlString);
-		$xmlString = str_replace("Item#", "ItemNum", $xmlString);
-		$xmlString = str_replace("Massage Therapist", "MassageTherapist", $xmlString);
-		$xmlString = str_replace("Workshop Instructor", "WorkshopInstructor", $xmlString);
-		$sxe = new SimpleXMLElement($xmlString);
-		$sxe->registerXPathNamespace("mindbody", "http://clients.mindbodyonline.com/api/0_5");
-		$res = $sxe->xpath("//mindbody:SelectDataXmlResponse");
-		if($returnObject) {
-			return $res[0];
-		} else {
-		$arr = $this->replace_empty_arrays_with_nulls(json_decode(json_encode($res[0]),1));
-		if(is_array($arr['FunctionDataXmlResult']['Results']['Row'])) {
-			$arr['FunctionDataXmlResult']['Results']['Row'] = $this->makeNumericArray($arr['FunctionDataXmlResult']['Results']['Row']);
-			}
-			return $arr;
-		}
-	}
+
+  	/**
+	 * FunctionDataXml
+	 *
+	 * Process FunctionDataXml results
+	 */
+    public function FunctionDataXml() {
+        $passed = func_get_args();
+        $request = empty($passed[0]) ? null : $passed[0];
+        $returnObject = empty($passed[1]) ? null : $passed[1];
+        $debugErrors = empty($passed[2]) ? null : $passed[2];
+        // NS\MZMBO()->helpers->mz_pr("request");
+        // NS\MZMBO()->helpers->mz_pr($request);
+        $data = $this->callMindbodyService('DataService', 'FunctionDataXml', $request);
+        $xmlString = $this->getXMLResponse();
+        // NS\MZMBO()->helpers->mz_pr("xmlString");
+        // NS\MZMBO()->helpers->mz_pr($xmlString);
+        $sxe = new \SimpleXMLElement($xmlString);
+        $sxe->registerXPathNamespace("mindbody", "http://clients.mindbodyonline.com/api/0_5");
+        $res = $sxe->xpath("//mindbody:FunctionDataXmlResponse");
+        if($returnObject) {
+            return $res[0];
+        } else {
+            $arr = $this->replace_empty_arrays_with_nulls(json_decode(json_encode($res[0]),1));
+            if(isset($arr['FunctionDataXmlResult']['Results']['Row']) && is_array($arr['FunctionDataXmlResult']['Results']['Row'])) {
+                $arr['FunctionDataXmlResult']['Results']['Row'] = $this->makeNumericArray($arr['FunctionDataXmlResult']['Results']['Row']);
+            }
+            return $arr;
+        }
+    }
+
 }
 
 ?>
