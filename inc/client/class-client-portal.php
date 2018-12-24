@@ -73,7 +73,7 @@ class Client_Portal extends Interfaces\Retrieve {
 
         check_ajax_referer($_REQUEST['nonce'], "mz_signup_nonce", false);
 
-        // Crate the MBO Object
+        // Create the MBO Object
         $this->get_mbo_results();
 
         // Init message
@@ -266,6 +266,14 @@ class Client_Portal extends Interfaces\Retrieve {
 
         $signupData = $this->mb->AddClientsToClasses($additions);
 
+        // Debug logging
+        $debug_data = [
+            'mbo_guid' => NS\MZMBO()->session->get('mbo_guid'),
+            'additions' => $additions,
+            'signupData'   => $signupData
+        ];
+        NS\MZMBO()->helpers->log(array($this->clientID => $debug_data));
+
         if ( $signupData['AddClientsToClassesResult']['ErrorCode'] != 200 ) {
             // Something did not succeed
 
@@ -418,7 +426,7 @@ class Client_Portal extends Interfaces\Retrieve {
             // This is a robot
             die();
         }
-
+        NS\MZMBO()->helpers->mz_pr($params);
         if(!empty($params['data']['Client'])) {
 
             //NS\MZMBO()->helpers->mz_pr($_POST['data']['Client']['MobilePhone']);
@@ -431,7 +439,12 @@ class Client_Portal extends Interfaces\Retrieve {
                     'Client' => $params['data']['Client']
                 )
             );
+            //NS\MZMBO()->helpers->mz_pr($options);
+            //$options = $this->mb->FunctionDataXml($options);
+            //NS\MZMBO()->helpers->mz_pr($options);
             $signupData = $this->mb->AddOrUpdateClients($options);
+
+            echo $this->mb->debug();
 
             if($signupData['AddOrUpdateClientsResult']['Clients']['Client']['Action'] == 'Added') {
 
@@ -456,7 +469,9 @@ class Client_Portal extends Interfaces\Retrieve {
 
             } else if ($signupData['AddOrUpdateClientsResult']['Clients']['Client']['Action'] == 'Failed'){
 
-                echo '<h3>' . $signupData['AddOrUpdateClientsResult']['Clients']['Client']['Messages']['string'] . '</h3>';
+                foreach ($signupData['AddOrUpdateClientsResult']['Clients']['Client']['Messages']['string'] as $message):
+                    echo '<h3>' . $message . '</h3>';
+                endforeach;
 
                 echo '<a id="createMBOAccount" href="#" data-nonce="' . $_REQUEST['nonce'] . '" class="btn btn-primary mz_add_to_class">' . __("Try Again", "mz-mindbody-api") . '</a>';
             }
