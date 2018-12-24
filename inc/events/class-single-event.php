@@ -290,7 +290,7 @@ class Single_Event {
         $this->location_PostalCode = $event['Location']['PostalCode'];
         $this->sDate = date_i18n('m/d/Y', strtotime($event['StartDateTime']));
         $this->atts = $atts;
-        $this->siteID = isset($atts['account']) ? $atts['account'] : Core\MZ_Mindbody_Api::$basic_options['mz_mindbody_siteID'];
+        $this->siteID = !empty($atts['account']) ? $atts['account'] : Core\MZ_Mindbody_Api::$basic_options['mz_mindbody_siteID'];
         $this->mbo_url = $this->mbo_url();
         $this->class_name_link = $this->event_link_maker('class');
         $this->staff_name_link = $this->event_link_maker('staff');
