@@ -3,8 +3,8 @@ Contributors: mikeill, rtzee
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A95ZEELLHGECE
 Tags: mindbody, schedule, calendar, yoga, MBO, mindbodyonline, gym
 Requires at least: 3.0.1
-Tested up to: 5.0.0
-Stable tag: 2.5.4
+Tested up to: 5.2.3
+Stable tag: 2.5.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -58,6 +58,9 @@ You need to register a developer account with MindBody, which costs $5+ per webs
 4. Admin Page
 
 == Changelog ==
+
+= 2.5.5 =
+Bugfix: fix php error displaying on schedule when MBO credentials bad.
 
 = 2.5.4 =
 Bugfix: fix event registration URL.

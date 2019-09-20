@@ -32,6 +32,7 @@ class Retrieve_Schedule extends Interfaces\Retrieve_Classes {
             $today = current_time( 'timestamp' );
             $start_time = new \Datetime( date_i18n('Y-m-d', $today) );
             $end_time = new \Datetime( date_i18n('Y-m-d', $today) );
+            // test with $end_time = new \DateTime('tomorrow');
 		else:
             $start_time = new \Datetime( date_i18n('Y-m-d', $current_week['start']) );
 		    $end_time = new \Datetime( date_i18n('Y-m-d', $seven_days_later) );

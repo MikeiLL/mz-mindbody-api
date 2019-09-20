@@ -180,7 +180,6 @@ abstract class Retrieve_Classes extends Retrieve {
                                 )){
 
         parent::__construct();
-        
         $this->date_format = Core\MZ_Mindbody_Api::$date_format;
         $this->time_format = Core\MZ_Mindbody_Api::$time_format;
         $this->classesByDateThenTime = array();
@@ -197,7 +196,6 @@ abstract class Retrieve_Classes extends Retrieve {
         $this->schedule_types = !empty(Core\MZ_Mindbody_Api::$advanced_options['schedule_types']) ? Core\MZ_Mindbody_Api::$advanced_options['schedule_types'] : array('DropIn');
         // Allow shortcode to override global setting for schedule_types
         if (!empty($this->atts['schedule_types'])) $this->schedule_types = $this->atts['schedule_types'];
-
     }
 
 
@@ -240,9 +238,11 @@ abstract class Retrieve_Classes extends Retrieve {
             $schedule_data = $mb->GetClasses($this->time_frame);
 
             if ($schedule_data['GetClassesResult']['Status'] != 'Success'):
-                return array(__('There was an error populating schedule. Details below. Could be a network connection. Consider trying again.', 'mz-mindbody-api'),
-                    $schedule_data['GetClassSchedulesResult']['Status'],
-                    $schedule_data['GetClassSchedulesResult']);
+
+                echo "<!-- " . $schedule_data['GetClassesResult']['Status'] . "<hr>" . $schedule_data['GetClassSchedulesResult'] . " --> ";
+
+                return false;
+
             endif;
 
             // Otherwise (if successful API call) assign result to $this->classes.
@@ -393,7 +393,7 @@ abstract class Retrieve_Classes extends Retrieve {
             // Multiple events
             $classes_array_scope = $this->classes['GetClassesResult']['Classes']['Class'];
         } else {
-            $classes_array_scope =$this->classes['GetClassesResult']['Classes'];
+            $classes_array_scope = $this->classes['GetClassesResult']['Classes'];
         }
 
         foreach($classes_array_scope as $class)
@@ -484,6 +484,7 @@ abstract class Retrieve_Classes extends Retrieve {
      * @return boolean
      */
     protected function filter_class($class){
+
         if (
             (!in_array($class['Location']['ID'], $this->atts['locations'])) ||
             (!in_array($class['ClassDescription']['Program']['ScheduleType'], $this->schedule_types))
