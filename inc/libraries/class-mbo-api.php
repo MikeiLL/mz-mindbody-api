@@ -65,6 +65,7 @@ class MBO_API {
 					return substr($n, $start, $length);
 				}, $this->client->__getFunctions()
 			)));
+			
 		}
 
 		// set sourceCredentials
@@ -98,6 +99,12 @@ class MBO_API {
 			}
 		}
 		if(!empty($soapService)) {
+			$this->track_daily_api_calls();
+			
+			if (!$this->api_call_limiter()) {
+				return 'Too many API Calls.';
+			}
+
             if ((isset(NS\Inc\Core\MZ_Mindbody_Api::$advanced_options['log_api_calls'])) && (NS\Inc\Core\MZ_Mindbody_Api::$advanced_options['log_api_calls'] == 'on')):
                 $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1];
                 $caller_details = $trace['function'];
@@ -121,6 +128,52 @@ class MBO_API {
 			return 'NO_SOAP_SERVICE';
 		}
 	}
+    
+    /*
+     * Track API requests per day
+     * 
+     * There is a 1000 call limit per day on MBO, per location. 
+     * Any calls above that number per location are 
+     * charged at the overage rate of 1/3 cent each.
+     * 
+     * 
+     */
+    private function track_daily_api_calls() {
+    	$mz_mbo_api_calls = get_option('mz_mbo_api_calls');
+    	if ($mz_mbo_api_calls['today'] > date("Y-m-d")) {
+    		// If it's a new day, reinitialize the matrix
+    		$mz_mbo_api_calls = array('today' => date("Y-m-d"), 'calls' => 1);
+            update_option('mz_mbo_api_calls', $mz_mbo_api_calls);
+    	};
+    	// Otherwise increase the call count
+    	$mz_mbo_api_calls['calls'] += 1;
+    	update_option('mz_mbo_api_calls', $mz_mbo_api_calls);
+    }
+    
+    /*
+     * Limit the number of API requests per day
+     * 
+     * There is a 1000 call limit per day on MBO, per location. 
+     * Notify the admin when we get close and stop making calls
+     * when we get to $3USD in overages.
+     * 
+     * 
+     */
+    private function api_call_limiter() {
+    	$mz_mbo_api_calls = get_option('mz_mbo_api_calls');
+
+    	if ($mz_mbo_api_calls['calls'] > 800) {
+    		$to = get_option('admin_email');
+			$subject = __( 'Large amount of MBO API Calls', 'mz-mindbody-api' );
+			$message = __( 'Check your website and MBO. There seems to be an issue.', 'mz-mindbody-api' );
+			$headers = array('Content-Type: text/html; charset=UTF-8');
+			wp_mail( $to, $subject, $message, $headers);
+    	};
+    	if ($mz_mbo_api_calls['calls'] > 2000) {
+    		return false;
+    	};
+    	return true;
+    }
 
 	/**
 	** return the results of a Mindbody API method

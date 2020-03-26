@@ -144,8 +144,15 @@ class Admin {
             $mz_mbo_events['mz_mindbody_scheduleDuration'] = $old_options['mz_mindbody_scheduleDuration'];
             add_option('mz_mbo_basic', $mz_mbo_basic);
             add_option('mz_mbo_events', $mz_mbo_events);
-            $this->clear_previous_plugin_transients();
         }
+    	if (get_site_option( 'mz_mbo_version' ) < '2.5.6') {
+            // Track api calls
+            $mz_mbo_api_calls = array();
+            $mz_mbo_api_calls['today'] = date("Y-m-d");
+            $mz_mbo_api_calls['calls'] = 2;
+            add_option('mz_mbo_api_calls', $mz_mbo_api_calls);
+            $this->clear_previous_plugin_transients();
+    	}
     }
     
     /**

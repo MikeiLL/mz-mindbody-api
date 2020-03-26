@@ -28,6 +28,7 @@ class Deactivator {
         NS\MZMBO()->helpers->clear_log_files();
         $admin_obj = new Admin\Admin(NS\PLUGIN_NAME, NS\PLUGIN_VERSION, NS\PLUGIN_TEXT_DOMAIN);
         $admin_obj->clear_plugin_transients();
+        // TODO clear out options when plugin removed
 	}
 
 }

@@ -30,7 +30,12 @@ class Activator {
 			deactivate_plugins( plugin_basename( __FILE__ ) );
 			wp_die( 'This plugin requires a minmum PHP Version of ' . $min_php );
 		}
-
+		
+		// Automatically create option to track api calls
+		$mz_mbo_api_calls = array();
+		$mz_mbo_api_calls['today'] = date("Y-m-d");
+		$mz_mbo_api_calls['calls'] = 1;
+		add_option('mz_mbo_api_calls', $mz_mbo_api_calls);
 	}
 
 }

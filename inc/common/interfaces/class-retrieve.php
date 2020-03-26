@@ -18,6 +18,7 @@ abstract class Retrieve
      * @var      int    $mbo_account    MBO Account to retrieve data for.
      */
     protected $mbo_account;
+    
     public $atts;
 
     public function __construct($atts = array())
@@ -96,7 +97,6 @@ abstract class Retrieve
             $mbo_sandbox->run_sandbox("MBO Instantiation via " . $_SERVER['REQUEST_URI']);
         endif;
     }
-
 
     /*
      * Get results from MBO
