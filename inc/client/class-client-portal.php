@@ -345,7 +345,7 @@ class Client_Portal extends Interfaces\Retrieve {
         $result['type'] = 'success';
 
         ob_start();
-
+        
         if(!empty($requiredFields['GetRequiredClientFieldsResult']['RequiredClientFields']['string'])) {
 
             $requiredFields = $this->make_numeric_array($requiredFields['GetRequiredClientFieldsResult']['RequiredClientFields']['string']);
@@ -381,6 +381,7 @@ class Client_Portal extends Interfaces\Retrieve {
             'password' => $global_strings['password'],
             'username' => $global_strings['username'],
             'antispam' => __('Leave this empty-slash-blank', 'mz-mindbody-api'),
+            'clientemail' => __('Email', 'mz-mindbody-api'),
             'firstname' => __('First Name', 'mz-mindbody-api'),
             'lastname' => __('Last Name', 'mz-mindbody-api'),
             'sign_up' => __('Sign up', 'mz-mindbody-api'),
@@ -428,10 +429,9 @@ class Client_Portal extends Interfaces\Retrieve {
             // This is a robot
             die();
         }
-        NS\MZMBO()->helpers->mz_pr($params);
+
         if(!empty($params['data']['Client'])) {
 
-            //NS\MZMBO()->helpers->mz_pr($_POST['data']['Client']['MobilePhone']);
             if (isset($params['data']['Client']['BirthDate'])) {
                 $params['data']['Client']['BirthDate'] = date('c', strtotime($params['data']['Client']['BirthDate']));
             }
@@ -441,11 +441,11 @@ class Client_Portal extends Interfaces\Retrieve {
                     'Client' => $params['data']['Client']
                 )
             );
+            
             //NS\MZMBO()->helpers->mz_pr($options);
             //$options = $this->mb->FunctionDataXml($options);
-            //NS\MZMBO()->helpers->mz_pr($options);
             $signupData = $this->mb->AddOrUpdateClients($options);
-
+			
             // echo $this->mb->debug();
 
             if($signupData['AddOrUpdateClientsResult']['Clients']['Client']['Action'] == 'Added') {
