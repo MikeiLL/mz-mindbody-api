@@ -139,7 +139,13 @@ class MBO_API {
      * 
      */
     private function track_daily_api_calls() {
-    	$mz_mbo_api_calls = get_option('mz_mbo_api_calls');
+    	// If not set, initiate array to track mbo calls.
+    	if (!$mz_mbo_api_calls = get_option('mz_mbo_api_calls')) {
+    		$mz_mbo_api_calls = array(
+    			'calls' => 0,
+    			'today' => date("Y-m-d")
+    		);
+    	}
     	if ($mz_mbo_api_calls['today'] > date("Y-m-d")) {
     		// If it's a new day, reinitialize the matrix
     		$mz_mbo_api_calls = array('today' => date("Y-m-d"), 'calls' => 1);
