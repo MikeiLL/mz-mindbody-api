@@ -3,7 +3,7 @@ namespace MZ_Mindbody\Inc\Libraries;
 
 use MZ_Mindbody as NS;
 
-class MBO_API {
+class MBO_V5_API {
 	protected $client;
 
 	protected $appointmentServiceWSDL = "https://api.mindbodyonline.com/0_5/AppointmentService.asmx?WSDL";
@@ -142,7 +142,7 @@ class MBO_API {
     	// If not set, initiate array to track mbo calls.
     	if (!$mz_mbo_api_calls = get_option('mz_mbo_api_calls')) {
     		$mz_mbo_api_calls = array(
-    			'calls' => 0,
+    			'calls' => 2,
     			'today' => date("Y-m-d")
     		);
     	}

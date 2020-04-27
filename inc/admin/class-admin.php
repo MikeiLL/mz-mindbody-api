@@ -138,6 +138,8 @@ class Admin {
             $mz_mbo_basic = array();
             $mz_mbo_basic['mz_source_name'] = $old_options['mz_mindbody_source_name'];
             $mz_mbo_basic['mz_mindbody_password'] = $old_options['mz_mindbody_password'];
+            $mz_mbo_basic['mz_mbo_app_name'] = __('YOUR MBO APP NAME', 'mz-mindbody-api');
+            $mz_mbo_basic['mz_mbo_api_key'] = __('YOUR MINDBODY API KEY', 'mz-mindbody-api');
             $mz_mbo_basic['mz_mindbody_show_sub_link'] = $old_options['mz_mindbody_show_sub_link'];
             $mz_mbo_events['mz_mindbody_siteID'] = $old_options['mz_mindbody_siteID'];
             $mz_mbo_events['mz_mindbody_eventIDs'] = $old_options['mz_mindbody_eventID'];
@@ -152,6 +154,17 @@ class Admin {
             $mz_mbo_api_calls['calls'] = 2;
             add_option('mz_mbo_api_calls', $mz_mbo_api_calls);
             $this->clear_previous_plugin_transients();
+    	}
+    	if (get_site_option( 'mz_mbo_version' ) < '2.5.7') {
+            // Add options to named for v6 API
+            $old_options = get_option('mz_mindbody_options');
+            $mz_mbo_basic = array();
+            $mz_mbo_basic['mz_source_name'] = $old_options['mz_source_name'];
+            $mz_mbo_basic['mz_mindbody_password'] = $old_options['mz_mindbody_password'];
+            $mz_mbo_basic['mz_mbo_app_name'] = __('YOUR MBO APP NAME', 'mz-mindbody-api');
+            $mz_mbo_basic['mz_mbo_api_key'] = __('YOUR MINDBODY API KEY', 'mz-mindbody-api');
+            $mz_mbo_basic['mz_mindbody_show_sub_link'] = $old_options['mz_mindbody_show_sub_link'];
+            update_option('mz_mindbody_options', $mz_mbo_basic);
     	}
     }
     
