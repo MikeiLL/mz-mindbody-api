@@ -68,6 +68,14 @@ class Settings_Page {
                 'title' => __( 'Advanced', 'mz-mindbody-api' ),
             )
         );
+        
+        // Section: Advanced.
+        self::$wposa_obj->add_section(
+            array(
+                'id'    => 'mz_mbo_depreciated',
+                'title' => __( 'Depreciated', 'mz-mindbody-api' ),
+            )
+        );
 
         // Field: Credentials Intro HTML.
         self::$wposa_obj->add_field(
@@ -80,13 +88,37 @@ class Settings_Page {
             )
         );
 
-        // Field: Source Name. DEPRECIATED
+        // Field: App Name. 
         self::$wposa_obj->add_field(
             'mz_mbo_basic',
             array(
+                'id'      => 'mz_mbo_app_name',
+                'type'    => 'text',
+                'name'    => __( 'App Name', 'mz-mindbody-api' ),
+                'desc'    => 'MBO App Name Name (API V6)',
+                'default' => __('YOUR MBO APP NAME', 'mz-mindbody-api')
+            )
+        );
+
+        // Field: API Key. 
+        self::$wposa_obj->add_field(
+            'mz_mbo_basic',
+            array(
+                'id'      => 'mz_mbo_api_key',
+                'type'    => 'password',
+                'name'    => __( 'API Key', 'mz-mindbody-api' ),
+                'desc'    => 'MBO API Key (API V6)',
+                'default' => __('YOUR MINDBODY API KEY', 'mz-mindbody-api')
+            )
+        );
+
+        // Field: Source Name. DEPRECIATED
+        self::$wposa_obj->add_field(
+            'mz_mbo_depreciated',
+            array(
                 'id'      => 'mz_source_name',
                 'type'    => 'text',
-                'name'    => __( 'Source Name', 'mz-mindbody-api' ),
+                'name'    => __( 'Source Name (DEPRECIATED)', 'mz-mindbody-api' ),
                 'desc'    => 'MBO Developer Source Name (API V5 DEPRECIATED)',
                 'default' => __('YOUR SOURCE NAME', 'mz-mindbody-api')
             )
@@ -94,37 +126,13 @@ class Settings_Page {
 
         // Field: Password. DEPRECIATED
         self::$wposa_obj->add_field(
-            'mz_mbo_basic',
+            'mz_mbo_depreciated',
             array(
                 'id'      => 'mz_mindbody_password',
                 'type'    => 'password',
-                'name'    => __( 'Password', 'mz-mindbody-api' ),
+                'name'    => __( 'Password (DEPRECIATED)', 'mz-mindbody-api' ),
                 'desc'    => 'MBO Developer Password (API V5 DEPRECIATED)',
                 'default' => __('YOUR MINDBODY PASSWORD', 'mz-mindbody-api')
-            )
-        );
-
-        // Field: Source Name. DEPRECIATED
-        self::$wposa_obj->add_field(
-            'mz_mbo_app_name',
-            array(
-                'id'      => 'mz_source_name',
-                'type'    => 'text',
-                'name'    => __( 'Source Name', 'mz-mindbody-api' ),
-                'desc'    => 'MBO App Name Name (API V6)',
-                'default' => __('YOUR MBO APP NAME', 'mz-mindbody-api')
-            )
-        );
-
-        // Field: Password. DEPRECIATED
-        self::$wposa_obj->add_field(
-            'mz_mbo_api_key',
-            array(
-                'id'      => 'mz_mindbody_password',
-                'type'    => 'password',
-                'name'    => __( 'Password', 'mz-mindbody-api' ),
-                'desc'    => 'MBO API Key (API V6)',
-                'default' => __('YOUR MINDBODY API KEY', 'mz-mindbody-api')
             )
         );
 
@@ -152,7 +160,7 @@ class Settings_Page {
 
         // Field: Title.
         self::$wposa_obj->add_field(
-            'mz_mbo_basic',
+            'mz_mbo_depreciated',
             array(
                 'id'   => 'credentials_test',
                 'type' => 'title',
@@ -164,7 +172,7 @@ class Settings_Page {
 
         // Field: Textarea.
         self::$wposa_obj->add_field(
-            'mz_mbo_basic',
+            'mz_mbo_depreciated',
             array(
                 'id'   => 'credentials_test',
                 'type' => 'html',
