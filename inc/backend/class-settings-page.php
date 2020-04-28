@@ -156,6 +156,32 @@ class Settings_Page {
                 'type' => 'separator',
             )
         );
+        
+        
+
+
+        // Field: Title.
+        self::$wposa_obj->add_field(
+            'mz_mbo_basic',
+            array(
+                'id'   => 'credentials_test',
+                'type' => 'title',
+                'name' => '<h1>V6 Credentials Test</h1>',
+                'default' => ''
+            )
+        );
+
+
+        // Field: Textarea.
+        self::$wposa_obj->add_field(
+            'mz_mbo_basic',
+            array(
+                'id'   => 'credentials_test',
+                'type' => 'html',
+                'name' => __( 'Debug Output', 'mz-mindbody-api' ),
+                'desc' => $this->mz_mindbody_debug_text()
+            )
+        );
 
 
         // Field: Title.
@@ -164,7 +190,7 @@ class Settings_Page {
             array(
                 'id'   => 'credentials_test',
                 'type' => 'title',
-                'name' => '<h1>Credentials Test</h1>',
+                'name' => '<h1>API V5 Credentials Test</h1>',
                 'default' => ''
             )
         );
@@ -177,7 +203,7 @@ class Settings_Page {
                 'id'   => 'credentials_test',
                 'type' => 'html',
                 'name' => __( 'Debug Output', 'mz-mindbody-api' ),
-                'desc' => $this->mz_mindbody_debug_text()
+                'desc' => $this->mz_mindbody_v5_debug_text()
             )
         );
 
@@ -441,9 +467,12 @@ class Settings_Page {
         return $return;
     }
 
-
     private function mz_mindbody_debug_text() {
         return '<a href="#" class="button" id="mzTestCredentials">' . __('Test Credentials', 'mz-mindbody-api') . '</a><div id="displayTest"></div>';
+    }
+
+    private function mz_mindbody_v5_debug_text() {
+        return '<a href="#" class="button" id="mzTestCredentialsV5">' . __('Test Credentials', 'mz-mindbody-api') . '</a><div id="displayTestV5"></div>';
     }
 
 }

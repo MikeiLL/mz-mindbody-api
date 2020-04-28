@@ -266,9 +266,11 @@ class MZ_Mindbody_Api
         $this->loader->add_action('wp_ajax_nopriv_mz_mbo_clear_transients', $admin_object, 'ajax_clear_plugin_transients');
         $this->loader->add_action('wp_ajax_mz_mbo_clear_transients', $admin_object, 'ajax_clear_plugin_transients');
 
-        // Start Ajax Clear Transients
+        // Start Ajax Creds Tests
         $this->loader->add_action('wp_ajax_nopriv_mz_mbo_test_credentials', $admin_object, 'test_credentials');
         $this->loader->add_action('wp_ajax_mz_mbo_test_credentials', $admin_object, 'test_credentials');
+        $this->loader->add_action('wp_ajax_nopriv_mz_mbo_test_credentials_v5', $admin_object, 'test_credentials_v5');
+        $this->loader->add_action('wp_ajax_mz_mbo_test_credentials_v5', $admin_object, 'test_credentials_v5');
 
         // Start Ajax Display Schedule
         $this->loader->add_action('wp_ajax_nopriv_mz_display_schedule', $schedule_object, 'display_schedule');

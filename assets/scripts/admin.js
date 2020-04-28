@@ -72,6 +72,43 @@
         }); // End Clear Transients
 
         /**
+         * Test Credentials
+         *
+         *
+         */
+        $('#mzTestCredentialsV5').on('click', function (e) {
+            e.preventDefault();
+            var self = $(this);
+            self.addClass('disabled');
+            self.after('<img id="class_owners_spinner" src="' + mz_mindbody_schedule.spinner + '"/>');
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                context: this,
+                url: mz_mindbody_schedule.ajaxurl,
+                data: {action: 'mz_mbo_test_credentials_v5', nonce: nonce},
+                success: function (json) {
+                    if (json.type == "success") {
+                        self.removeClass('disabled');
+                        $('#class_owners_spinner').remove();
+                        $('#displayTestV5').html(json.message);
+                    } else {
+                        self.removeClass('disabled');
+                        $('#class_owners_spinner').remove();
+                        alert('Something went wrong.');
+                    }
+                }
+            }) // End ajax
+                .fail(function (json) {
+                    self.removeClass('disabled');
+                    $('#class_owners_spinner').remove();
+                    console.log('fail');
+                    console.log(json);
+                    alert('Something went wrong.');
+                });
+        }); // End Clear Transients
+
+        /**
          * Reset Class Owners
          *
          * Call the mz_deduce_class_owners method of the Retrieve_Class_Owners class

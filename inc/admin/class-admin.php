@@ -229,14 +229,49 @@ class Admin {
     }
 
     /**
-     * Test MBO Credentials
+     * Test MBO Credentials for V6
+     *
+     * Called via ajax in admin
+     *
+     *
+     * @since 2.5.7
+     */
+    public function test_credentials () {
+
+        check_ajax_referer($_REQUEST['nonce'], "mz_admin_nonce", false);
+
+
+        $return =  "<p>";
+        $return .= sprintf(__('Once credentials have been set and activated, look for %1$s in the 
+	                            second (Get Classes Response) box below to confirm settings are correct.',  'mz-mindbody-api'),
+            '<code>&lt;ErrorCode&gt;200&lt;/ErrorCode&gt;</code>');
+        $return .=  "</p>";
+        $schedule_object = new Backend\Retrieve_Debug;
+        $mb = $schedule_object->get_mbo_results();
+
+        $result['type'] = "success";
+        $result['message'] = $return . $mb;
+
+        if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+            $result = json_encode($result);
+            echo $result;
+        }
+        else {
+            header("Location: ".$_SERVER["HTTP_REFERER"]);
+        }
+
+        die();
+    }
+    
+    /**
+     * Test MBO Credentials for V5
      *
      * Called via ajax in admin
      *
      *
      * @since 2.4.7
      */
-    public function test_credentials () {
+    public function test_credentials_v5 () {
 
         check_ajax_referer($_REQUEST['nonce'], "mz_admin_nonce", false);
 
