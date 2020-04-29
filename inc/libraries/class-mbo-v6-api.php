@@ -9,6 +9,7 @@ class MBO_V6_API {
 	protected $endpointAppointment = 'https://api.mindbodyonline.com/public/v6/appointment';
 	protected $endpointClient = 'https://api.mindbodyonline.com/public/v6/client';
 	protected $endpointEnrollment = 'https://api.mindbodyonline.com/public/v6/enrollment';
+	protected $endpointPayroll = 'https://api.mindbodyonline.com/public/v6/payroll';
 	protected $endpointSale = 'https://api.mindbodyonline.com/public/v6/sale';
 	protected $endpointSite = 'https://api.mindbodyonline.com/public/v6/site';
 	protected $endpointStaff = 'https://api.mindbodyonline.com/public/v6/staff';
@@ -54,7 +55,8 @@ class MBO_V6_API {
 			}
 		}
 
-		// set apiServices array with Mindbody WSDL locations
+		// set apiServices array with Mindbody endpoints
+		// source: https://github.com/mindbody/API-Examples/tree/master/SDKs/PHP/SwaggerClient-php/docs/Api
 		$this->apiMethods = [
 			'AppointmentService' => [
 				'AddApppointment' => [
@@ -104,9 +106,276 @@ class MBO_V6_API {
 										'endpoint' => $this->endpointClasses . '/classdescriptions',
 										'headers' => $this->headersBasic
 									 ],
+				'classGetClassVisits' => [
+										'method' => 'GET',
+										'endpoint' => $this->endpointClasses . '/classvisits',
+										'headers' => $this->headersBasic
+									 ],
 				'GetClasses' => [
 										'method' => 'GET',
 										'endpoint' => $this->endpointClasses . '/classes',
+										'headers' => $this->headersBasic
+									 ],
+				'GetWaitlistEntries' => [
+										'method' => 'GET',
+										'endpoint' => $this->endpointClasses . '/waitlistentries',
+										'headers' => $this->headersBasic
+									 ],
+				'RemoveClientFromClass' => [
+										'method' => 'POST',
+										'endpoint' => $this->endpointClasses . '/removeclientfromclass',
+										'headers' => $this->headersBasic
+									 ],
+				'RemoveFromWaitlist' => [
+										'method' => 'POST',
+										'endpoint' => $this->endpointClasses . '/removefromwaitlist',
+										'headers' => $this->headersBasic
+									 ],
+				'SubstituteClassTeacher' => [
+										'method' => 'POST',
+										'endpoint' => $this->endpointClasses . '/substituteclassteacher',
+										'headers' => $this->headersBasic
+									 ]
+			],
+			'ClientApi' => [
+				'AddArrival' => [
+										'method' => 'POST',
+										'endpoint' => $this->endpointClient . '/addarrival',
+										'headers' => $this->headersBasic
+									 ],
+				'AddClient' => [
+										'method' => 'POST',
+										'endpoint' => $this->endpointClient . '/addclient',
+										'headers' => $this->headersBasic
+									 ],
+				'AddContactLog' => [
+										'method' => 'POST',
+										'endpoint' => $this->endpointClient . '/addcontactlog',
+										'headers' => $this->headersBasic
+									 ],
+				'GetActiveClientMemberships' => [
+										'method' => 'GET',
+										'endpoint' => $this->endpointClient . '/activeclientmemberships',
+										'headers' => $this->headersBasic
+									 ],
+				'GetClientAccountBalances' => [
+										'method' => 'GET',
+										'endpoint' => $this->endpointClient . '/clientaccountbalances',
+										'headers' => $this->headersBasic
+									 ],
+				'GetClientContracts' => [
+										'method' => 'GET',
+										'endpoint' => $this->endpointClient . '/clientcontracts',
+										'headers' => $this->headersBasic
+									 ],
+				'GetClientFormulaNotes' => [
+										'method' => 'GET',
+										'endpoint' => $this->endpointClient . '/clientformulanotes',
+										'headers' => $this->headersBasic
+									 ],
+				'GetClientIndexes' => [
+										'method' => 'GET',
+										'endpoint' => $this->endpointClient . '/clientindexes',
+										'headers' => $this->headersBasic
+									 ],
+				'GetClientPurchases' => [
+										'method' => 'GET',
+										'endpoint' => $this->endpointClient . '/clientpurchases',
+										'headers' => $this->headersBasic
+									 ],
+				'GetClientReferralTypes' => [
+										'method' => 'GET',
+										'endpoint' => $this->endpointClient . '/clientreferraltypes',
+										'headers' => $this->headersBasic
+									 ],
+				'GetClientServices' => [
+										'method' => 'GET',
+										'endpoint' => $this->endpointClient . '/clientservices',
+										'headers' => $this->headersBasic
+									 ],
+				'GetClientVisits' => [
+										'method' => 'GET',
+										'endpoint' => $this->endpointClient . '/clientvisits',
+										'headers' => $this->headersBasic
+									 ],
+				'GetClients' => [
+										'method' => 'GET',
+										'endpoint' => $this->endpointClient . '/clients',
+										'headers' => $this->headersBasic
+									 ],
+				'GetContactLogs' => [
+										'method' => 'GET',
+										'endpoint' => $this->endpointClient . '/contactlogs',
+										'headers' => $this->headersBasic
+									 ],
+				'GetCrossRegionalClientAssociations' => [
+										'method' => 'GET',
+										'endpoint' => $this->endpointClient . '/crossregionalclientassociations',
+										'headers' => $this->headersBasic
+									 ],
+				'GetCustomClientFields' => [
+										'method' => 'GET',
+										'endpoint' => $this->endpointClient . '/customclientfields',
+										'headers' => $this->headersBasic
+									 ],
+				'GetRequiredClientFields' => [
+										'method' => 'GET',
+										'endpoint' => $this->endpointClient . '/requiredclientfields',
+										'headers' => $this->headersBasic
+									 ],
+				'SendPasswordResetEmail' => [
+										'method' => 'POST',
+										'endpoint' => $this->endpointClient . '/sendpasswordresetemail',
+										'headers' => $this->headersBasic
+									 ],
+				'UpdateClient' => [
+										'method' => 'POST',
+										'endpoint' => $this->endpointClient . '/updateclient',
+										'headers' => $this->headersBasic
+									 ],
+				'UpdateClientService' => [
+										'method' => 'POST',
+										'endpoint' => $this->endpointClient . '/updateclientservice',
+										'headers' => $this->headersBasic
+									 ],
+				'UpdateClientVisit' => [
+										'method' => 'POST',
+										'endpoint' => $this->endpointClient . '/updateclientvisit',
+										'headers' => $this->headersBasic
+									 ],
+				'UpdateContactLog' => [
+										'method' => 'POST',
+										'endpoint' => $this->endpointClient . '/updatecontactlog',
+										'headers' => $this->headersBasic
+									 ],
+				'UploadClientDocument' => [
+										'method' => 'POST',
+										'endpoint' => $this->endpointClient . '/uploadclientdocument',
+										'headers' => $this->headersBasic
+									 ],
+				'UploadClientPhoto' => [
+										'method' => 'POST',
+										'endpoint' => $this->endpointClient . '/uploadclientphoto',
+										'headers' => $this->headersBasic
+									 ]
+			],
+			'EnrollmentApi' => [
+				'AddClientToEnrollment' => [
+										'method' => 'POST',
+										'endpoint' => $this->endpointEnrollment . '/addclienttoenrollment',
+										'headers' => $this->headersBasic
+									 ],
+				'GetEnrollments' => [
+										'method' => 'GET',
+										'endpoint' => $this->endpointEnrollment . '/enrollments',
+										'headers' => $this->headersBasic
+									 ]
+			],
+			'PayrollApi' => [
+				'GetClassPayroll' => [
+										'method' => 'GET',
+										'endpoint' => $this->endpointPayroll . '/classes',
+										'headers' => $this->headersBasic
+									 ],
+				'GetTimeClock' => [
+										'method' => 'GET',
+										'endpoint' => $this->endpointPayroll . '/timeclock',
+										'headers' => $this->headersBasic
+									 ]
+			],
+			'SaleApi' => [
+				'CheckoutShoppingCart' => [
+										'method' => 'POST',
+										'endpoint' => $this->endpointSale . '/checkoutshoppingcart',
+										'headers' => $this->headersBasic
+									 ],
+				'GetAcceptedCardTypes' => [
+										'method' => 'GET',
+										'endpoint' => $this->endpointSale . '/acceptedcardtypes',
+										'headers' => $this->headersBasic
+									 ],
+				'GetContracts' => [
+										'method' => 'GET',
+										'endpoint' => $this->endpointSale . '/contracts',
+										'headers' => $this->headersBasic
+									 ],
+				'GetCustomPaymentMethods' => [
+										'method' => 'GET',
+										'endpoint' => $this->endpointSale . '/custompaymentmethods',
+										'headers' => $this->headersBasic
+									 ],
+				'GetGiftCards' => [
+										'method' => 'GET',
+										'endpoint' => $this->endpointSale . '/giftcards',
+										'headers' => $this->headersBasic
+									 ],
+				'GetProducts' => [
+										'method' => 'GET',
+										'endpoint' => $this->endpointSale . '/products',
+										'headers' => $this->headersBasic
+									 ],
+				'GetSales' => [
+										'method' => 'GET',
+										'endpoint' => $this->endpointSale . '/sales',
+										'headers' => $this->headersBasic
+									 ],
+				'GetServices' => [
+										'method' => 'GET',
+										'endpoint' => $this->endpointSale . '/services',
+										'headers' => $this->headersBasic
+									 ],
+				'PurchaseContract' => [
+										'method' => 'POST',
+										'endpoint' => $this->endpointSale . '/purchasecontract',
+										'headers' => $this->headersBasic
+									 ],
+				'PurchaseGiftCard' => [
+										'method' => 'POST',
+										'endpoint' => $this->endpointSale . '/purchasegiftcard',
+										'headers' => $this->headersBasic
+									 ]
+			],
+			'SiteApi' => [
+				'GetActivationCode' => [
+										'method' => 'GET',
+										'endpoint' => $this->endpointPayroll . '/activationcode',
+										'headers' => $this->headersBasic
+									 ],
+				'GetLocations' => [
+										'method' => 'GET',
+										'endpoint' => $this->endpointPayroll . '/locations',
+										'headers' => $this->headersBasic
+									 ],
+				'GetPrograms' => [
+										'method' => 'GET',
+										'endpoint' => $this->endpointPayroll . '/programs',
+										'headers' => $this->headersBasic
+									 ],
+				'GetResources' => [
+										'method' => 'GET',
+										'endpoint' => $this->endpointPayroll . '/resources',
+										'headers' => $this->headersBasic
+									 ],
+				'GetSessionTypes' => [
+										'method' => 'GET',
+										'endpoint' => $this->endpointPayroll . '/sessiontypes',
+										'headers' => $this->headersBasic
+									 ],
+				'GetSites' => [
+										'method' => 'GET',
+										'endpoint' => $this->endpointPayroll . '/sites',
+										'headers' => $this->headersBasic
+									 ]
+			],
+			'StaffApi' => [
+				'GetStaff' => [
+										'method' => 'GET',
+										'endpoint' => $this->endpointStaff . '/staff',
+										'headers' => $this->headersBasic
+									 ],
+				'GetStaffPermissions' => [
+										'method' => 'GET',
+										'endpoint' => $this->endpointStaff . '/staffpermissions',
 										'headers' => $this->headersBasic
 									 ]
 			],
@@ -124,15 +393,8 @@ class MBO_V6_API {
 			]
 		];
 			
-			/*
-			
-			classGetClassVisits	GET /public/v{version}/class/classvisits	Get information about clients booked in a class.
-			classGetClasses	GET /public/v{version}/class/classes	Get scheduled classes.
-			classGetWaitlistEntries	GET /public/v{version}/class/waitlistentries	Get waiting list entries.
-			classRemoveClientFromClass	POST /public/v{version}/class/removeclientfromclass	Remove a client from a class.
-			classRemoveFromWaitlist	POST /public/v{version}/class/removefromwaitlist	Remove a client from a waiting list.
-			classSubstituteClassTeacher	POST /public/v{version}/class/substituteclassteacher	Substitute a class teacher.
-		];
+		/*
+		
 		*/			
 	}
 	
