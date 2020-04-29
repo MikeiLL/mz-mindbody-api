@@ -18,9 +18,11 @@ class ScheduleDisplayTest extends WP_UnitTestCase {
 	function test_get_classes_result() {			
 		parent::setUp();
 		$basic_options = array(
-			'mz_source_name' => MBOTests\Test_Options::$_MYSOURCENAME,
-			'mz_mindbody_password' => MBOTests\Test_Options::$_MYPASSWORD,
-			'mz_mindbody_siteID' => '-99'
+            'mz_source_name' => MBOTests\Test_Options::$_MYSOURCENAME,
+            'mz_mindbody_password' => MBOTests\Test_Options::$_MYPASSWORD,
+            'mz_mbo_app_name' => MBOTests\Test_Options::$_MYAPPNAME,
+            'mz_mbo_api_key' => MBOTests\Test_Options::$_MYAPIKEY,
+            'mz_mindbody_siteID' => '-99'
 		);
         add_option( 'mz_mbo_basic', $basic_options, '', 'yes' );
         $this->assertTrue(class_exists('MZ_Mindbody\Inc\Core\MZ_Mindbody_Api'));
@@ -49,6 +51,8 @@ class ScheduleDisplayTest extends WP_UnitTestCase {
         $basic_options = array(
             'mz_source_name' => MBOTests\Test_Options::$_MYSOURCENAME,
             'mz_mindbody_password' => MBOTests\Test_Options::$_MYPASSWORD,
+            'mz_mbo_app_name' => MBOTests\Test_Options::$_MYAPPNAME,
+            'mz_mbo_api_key' => MBOTests\Test_Options::$_MYAPIKEY,
             'mz_mindbody_siteID' => '-99'
         );
         add_option( 'mz_mbo_basic', $basic_options, '', 'yes' );
@@ -92,6 +96,8 @@ class ScheduleDisplayTest extends WP_UnitTestCase {
         $basic_options = array(
             'mz_source_name' => MBOTests\Test_Options::$_MYSOURCENAME,
             'mz_mindbody_password' => MBOTests\Test_Options::$_MYPASSWORD,
+            'mz_mbo_app_name' => MBOTests\Test_Options::$_MYAPPNAME,
+            'mz_mbo_api_key' => MBOTests\Test_Options::$_MYAPIKEY,
             'mz_mindbody_siteID' => '-99'
         );
         add_option( 'mz_mbo_basic', $basic_options, '', 'yes' );
@@ -128,6 +134,8 @@ class ScheduleDisplayTest extends WP_UnitTestCase {
         $basic_options = array(
             'mz_source_name' => MBOTests\Test_Options::$_MYSOURCENAME,
             'mz_mindbody_password' => MBOTests\Test_Options::$_MYPASSWORD,
+            'mz_mbo_app_name' => MBOTests\Test_Options::$_MYAPPNAME,
+            'mz_mbo_api_key' => MBOTests\Test_Options::$_MYAPIKEY,
             'mz_mindbody_siteID' => '-99'
         );
         add_option( 'mz_mbo_basic', $basic_options, '', 'yes' );

@@ -10,18 +10,20 @@ class Tests_MBO_Api extends WP_UnitTestCase {
 
         parent::setUp();
 
-        $this->assertTrue(class_exists('MZ_Mindbody\Inc\Libraries\MBO_V5_API'));
-
-        $mbo_api = new MZ_Mindbody\Inc\Libraries\MBO_V5_API;
+        $this->assertTrue(class_exists('MZ_Mindbody\Inc\Libraries\MBO_V6_API'));
         
-        $basic_options = array(
+        $basic_options_set = array(
+            'SourceName' => MBOTests\Test_Options::$_MYSOURCENAME,
+            'Password' => MBOTests\Test_Options::$_MYPASSWORD,
             'mz_mbo_app_name' => MBOTests\Test_Options::$_MYAPPNAME,
             'mz_mbo_api_key' => MBOTests\Test_Options::$_MYAPIKEY,
             'mz_mindbody_siteID' => '-99'
         );
-        add_option( 'mz_mbo_basic', $basic_options, '', 'yes' );
-        
+        add_option( 'mz_mbo_basic', $basic_options_set, '', 'yes' );
+		
         $basic_options = get_option('mz_mbo_basic');
+
+        $mbo_api = new MZ_Mindbody\Inc\Libraries\MBO_V6_API($basic_options);
         
         $apikey = $basic_options['mz_mbo_api_key'];
         
