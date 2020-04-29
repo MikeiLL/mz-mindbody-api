@@ -69,7 +69,7 @@ class Settings_Page {
             )
         );
         
-        // Section: Advanced.
+        // Section: Depreciated.
         self::$wposa_obj->add_section(
             array(
                 'id'    => 'mz_mbo_depreciated',
