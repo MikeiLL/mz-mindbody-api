@@ -575,7 +575,7 @@ class Client_Portal extends Interfaces\Retrieve {
         // Crate the MBO Object
         $this->get_mbo_results();
 
-        if ( !$this->mb || $this->mb == 'NO_SOAP_SERVICE' ) return false;
+        if ( !$this->mb || $this->mb == 'NO_API_SERVICE' ) return false;
 
         $client_schedule = $this->mb->GetClientSchedule($additions);
 
@@ -697,7 +697,7 @@ class Client_Portal extends Interfaces\Retrieve {
 
         $this->mb = $this->instantiate_mbo_API();
 
-        if ( !$this->mb || $this->mb == 'NO_SOAP_SERVICE' ) return false;
+        if ( !$this->mb || $this->mb == 'NO_API_SERVICE' ) return false;
 
         return true;
     }
