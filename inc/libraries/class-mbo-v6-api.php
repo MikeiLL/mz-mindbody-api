@@ -21,6 +21,8 @@ class MBO_V6_API {
 	];
 	
 	protected $apiMethods = array();
+	
+	protected $extraCredentials = array();
 
 	public $debugSoapErrors = true;
 
@@ -28,6 +30,29 @@ class MBO_V6_API {
 	* Initialize the apiServices and apiMethods arrays
 	*/
 	public function __construct($mbo_dev_credentials = array()) {
+	
+		// set credentials into headers
+		if (!empty($mbo_dev_credentials)) {
+			if(!empty($mbo_dev_credentials['mz_mbo_app_name'])) {
+				$this->headersBasic['App-Name'] = $mbo_dev_credentials['mz_mbo_app_name'];
+			}
+			if(!empty($mbo_dev_credentials['mz_mbo_api_key'])) {
+				$this->headersBasic['Api-Key'] = $mbo_dev_credentials['mz_mbo_api_key'];
+			}
+			if(!empty($mbo_dev_credentials['SourceName'])) {
+				$this->extraCredentials['SourceName'] = $mbo_dev_credentials['SourceName'];
+			}
+			if(!empty($mbo_dev_credentials['Password'])) {
+				$this->extraCredentials['Password'] = $mbo_dev_credentials['Password'];
+			}
+			if(!empty($mbo_dev_credentials['Siteid'])) {
+				if(is_array($mbo_dev_credentials['SiteIDs'])) {
+					$this->headersBasic['SiteIDs'] = $mbo_dev_credentials['SiteIDs'][0];
+				} else if(is_numeric($mbo_dev_credentials['SiteIDs'])) {
+					$this->headersBasic['SiteId'] = $mbo_dev_credentials['SiteIDs'];
+				}
+			}
+		}
 
 		// set apiServices array with Mindbody WSDL locations
 		$this->apiMethods = [
@@ -79,9 +104,9 @@ class MBO_V6_API {
 										'endpoint' => $this->endpointClasses . '/classdescriptions',
 										'headers' => $this->headersBasic
 									 ],
-				'GetClassSchedules' => [
+				'GetClasses' => [
 										'method' => 'GET',
-										'endpoint' => $this->endpointClasses . '/classschedules',
+										'endpoint' => $this->endpointClasses . '/classes',
 										'headers' => $this->headersBasic
 									 ]
 			],
@@ -107,29 +132,47 @@ class MBO_V6_API {
 			classRemoveClientFromClass	POST /public/v{version}/class/removeclientfromclass	Remove a client from a class.
 			classRemoveFromWaitlist	POST /public/v{version}/class/removefromwaitlist	Remove a client from a waiting list.
 			classSubstituteClassTeacher	POST /public/v{version}/class/substituteclassteacher	Substitute a class teacher.
-			'ClassService' => $this->classServiceWSDL,
-			'ClientService' => $this->clientServiceWSDL,
-			'DataService' => $this->dataServiceWSDL,
-			'FinderService' => $this->finderServiceWSDL,
-			'SaleService' => $this->saleServiceWSDL,
-			'SiteService' => $this->siteServiceWSDL,
-			'StaffService' => $this->staffServiceWSDL
 		];
 		*/			
-		// set credentials into headers
-		if(!empty($mbo_dev_credentials)) {
-			if(!empty($mbo_dev_credentials['mz_mbo_app_name'])) {
-				$this->headersBasic['App-Name'] = $mbo_dev_credentials['mz_mbo_app_name'];
+	}
+	
+	/**
+	* magic method will search $this->apiMethods array for $name and call the
+	* appropriate Mindbody API method if found
+	*/
+	public function __call($name, $arguments) {
+	
+		$restMethod = [];
+		
+		foreach($this->apiMethods as $apiServiceName => $apiMethods) {
+			if ( array_key_exists( $name, $apiMethods ) ) {
+				$restMethod = $apiMethods[$name];
 			}
-			if(!empty($mbo_dev_credentials['mz_mbo_api_key'])) {
-				$this->headersBasic['Api-Key'] = $mbo_dev_credentials['mz_mbo_api_key'];
+		}
+
+		$this->track_daily_api_calls();
+		
+		if (!$this->api_call_limiter()) {
+			return 'Too many API Calls.';
+		}
+
+		if ((isset(NS\Inc\Core\MZ_Mindbody_Api::$advanced_options['log_api_calls'])) && (NS\Inc\Core\MZ_Mindbody_Api::$advanced_options['log_api_calls'] == 'on')):
+			$trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1];
+			$caller_details = $trace['function'];
+			if (isset($trace['class'])){
+				$caller_details .= ' in:' . $trace['class'];
 			}
-			if(!empty($mbo_dev_credentials['Siteid'])) {
-				if(is_array($mbo_dev_credentials['SiteIDs'])) {
-					$this->headersBasic['SiteIDs'] = $mbo_dev_credentials['SiteIDs'][0];
-				} else if(is_numeric($mbo_dev_credentials['SiteIDs'])) {
-					$this->headersBasic['SiteId'] = $mbo_dev_credentials['SiteIDs'];
-				}
+			NS\MZMBO()->helpers->api_log($restMethod . ' caller:' . $caller_details);
+		endif;
+		
+		if(empty($arguments)) {
+			return $this->callMindbodyService($restMethod);
+		} else {
+			switch(count($arguments)) {
+				case 1:
+					return $this->callMindbodyService($restMethod, $arguments[0]);
+				case 2:
+					return $this->callMindbodyService($restMethod, $arguments[0], $arguments[1]);
 			}
 		}
 	}
@@ -142,31 +185,24 @@ class MBO_V6_API {
 	** array $requestData    - Optional: parameters to API methods
 	** boolean $returnObject - Optional: Return the SOAP response object
 	*/
-	protected function callMindbodyService($serviceName, $methodName, $requestData = array()) {
-		$response = wp_remote_post( 'https://api.mindbodyonline.com/public/v6/usertoken/issue', array(
-				'method' => 'POST',
+	protected function callMindbodyService($restMethod, $requestData = array()) {
+		
+		$response = wp_remote_post( $restMethod['endpoint'], 
+			array(
+				'method' => $restMethod['method'],
 				'timeout' => 45,
 				'httpversion' => '1.0',
 				'blocking' => true,
-				'headers' => $this->headersBasic,
-				'body' => json_encode(array( 'Username' => '_MediaZoo', 'Password' => 'Bi0ZUro4xZZK77FcHzUH1KY8Tpg=' )),
+				'headers' => $restMethod['headers'],
+				'body' => json_encode(array( 'Username' => '_' . $this->extraCredentials['SourceName'], 'Password' => $this->extraCredentials['Password'] )),
 				'cookies' => array()
-			)
-		);
+			) );
 
 		if ( is_wp_error( $response ) ) {
 			$error_message = $response->get_error_message();
 			return "Something went wrong: " . $error_message;
 		} else {
-			$response_body = json_decode($response['body']);
-		
-			echo 'Response: <pre>';
-			print_r( $response_body );
-			echo '</pre>';
-			echo 'Access Token: <pre>';
-			print_r( $response_body->AccessToken );
-			echo '</pre>';
-			return;
+			return json_decode($response['body']);	
 		}
 	}
     

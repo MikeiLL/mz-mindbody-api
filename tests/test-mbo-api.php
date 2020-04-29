@@ -29,31 +29,16 @@ class Tests_MBO_Api extends WP_UnitTestCase {
         
         $this->assertTrue($apikey == MBOTests\Test_Options::$_MYAPIKEY);
         
-        $headers = array();
-		$headers['Content-Type'] = 'application/json';
-		$headers['Api-Key'] = $apikey;
-		$headers['Siteid'] = $basic_options['mz_mindbody_siteID'];
-	
-		$response = wp_remote_post( 'https://api.mindbodyonline.com/public/v6/usertoken/issue', array(
-			'method' => 'POST',
-			'timeout' => 45,
-			'httpversion' => '1.0',
-			'blocking' => true,
-			'headers' => $headers,
-			'body' => json_encode(array( 'Username' => 'Siteowner', 'Password' => 'apitest1234' )),
-			'cookies' => array()
-			)
-		);
-
-		if ( is_wp_error( $response ) ) {
-			$error_message = $response->get_error_message();
-			return "Something went wrong: " . $error_message;
-		} else {
-			$this->assertTrue(is_array($response));
-			$response_body = json_decode($response['body']);
-			$this->assertTrue(is_object($response_body));
-			$this->assertTrue(!empty($response_body->AccessToken));
-		}
+        $result = $mbo_api->TokenIssue();
+        
+        $this->assertTrue(is_object($result));
+        
+        $this->assertTrue($result->TokenType == 'Bearer');
+        
+        $this->assertTrue($result->User->Type == 'Staff');
+        
+        $this->assertTrue( ctype_alnum($result->AccessToken) );
+        
 	}
 
 
