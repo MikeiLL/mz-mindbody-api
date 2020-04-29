@@ -49,7 +49,7 @@ class Retrieve_Staff extends Interfaces\Retrieve {
 
         $mb = $this->instantiate_mbo_API();
 
-        if ( !$mb || $mb == 'NO_SOAP_SERVICE' ) return false;
+        if ( !$mb ) return false;
 
         // All staff members?
         $all = (0 == count($staffIDs));

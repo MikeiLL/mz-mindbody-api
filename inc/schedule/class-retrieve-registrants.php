@@ -44,7 +44,7 @@ class Retrieve_Registrants extends Interfaces\Retrieve
 
         $mb = $this->instantiate_mbo_API();
 
-        if (!$mb || $mb == 'NO_SOAP_SERVICE') return false;
+        if (!$mb || $mb == 'NO_API_SERVICE') return false;
 
         if ($this->mbo_account !== 0) {
             // If account has been specified in shortcode, update credentials

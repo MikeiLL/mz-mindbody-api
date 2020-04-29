@@ -125,7 +125,7 @@ class MBO_V5_API {
 			}
 		} else {
 			echo "called unknown method '$name'<br />";
-			return 'NO_SOAP_SERVICE';
+			return 'NO_API_SERVICE';
 		}
 	}
     
