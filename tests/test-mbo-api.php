@@ -25,10 +25,6 @@ class Tests_MBO_Api extends WP_UnitTestCase {
 
         $mbo_api = new MZ_Mindbody\Inc\Libraries\MBO_V6_API($basic_options);
         
-        $apikey = $basic_options['mz_mbo_api_key'];
-        
-        $this->assertTrue($apikey == MBOTests\Test_Options::$_MYAPIKEY);
-        
         $result = $mbo_api->TokenIssue();
         
         $this->assertTrue(is_object($result));
@@ -39,6 +35,17 @@ class Tests_MBO_Api extends WP_UnitTestCase {
         
         $this->assertTrue( ctype_alnum($result->AccessToken) );
         
+        $bad_basic_options = $basic_options;
+        
+        $bad_basic_options['mz_mbo_api_key'] = '';
+
+        $bad_mbo_api = new MZ_Mindbody\Inc\Libraries\MBO_V6_API($bad_basic_options);
+        
+        $result_error = $bad_mbo_api->TokenIssue();
+                
+        $this->assertTrue($result_error->Error->Code == 'DeniedAccess');
+        
+        $this->assertTrue($result_error->Error->Message == 'Missing API key');
 	}
 
 
