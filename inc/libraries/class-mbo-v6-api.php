@@ -202,7 +202,11 @@ class MBO_V6_API {
 			$error_message = $response->get_error_message();
 			return "Something went wrong: " . $error_message;
 		} else {
-			return json_decode($response['body']);	
+			if ($response['response']['code'] != 200) {
+				return json_decode($response['body']);
+			} else {
+				return json_decode($response['body']);	
+			}
 		}
 	}
     
