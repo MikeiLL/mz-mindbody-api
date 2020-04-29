@@ -114,24 +114,24 @@ class Settings_Page {
 
         // Field: Source Name. DEPRECIATED
         self::$wposa_obj->add_field(
-            'mz_mbo_depreciated',
+            'mz_mbo_basic',
             array(
                 'id'      => 'mz_source_name',
                 'type'    => 'text',
-                'name'    => __( 'Source Name (DEPRECIATED)', 'mz-mindbody-api' ),
-                'desc'    => 'MBO Developer Source Name (API V5 DEPRECIATED)',
+                'name'    => __( 'Staff Name', 'mz-mindbody-api' ),
+                'desc'    => 'Staff Username or MBO Developer Source Name',
                 'default' => __('YOUR SOURCE NAME', 'mz-mindbody-api')
             )
         );
 
-        // Field: Password. DEPRECIATED
+        // Field: Staff Password. 
         self::$wposa_obj->add_field(
-            'mz_mbo_depreciated',
+            'mz_mbo_basic',
             array(
                 'id'      => 'mz_mindbody_password',
                 'type'    => 'password',
-                'name'    => __( 'Password (DEPRECIATED)', 'mz-mindbody-api' ),
-                'desc'    => 'MBO Developer Password (API V5 DEPRECIATED)',
+                'name'    => __( 'Staff Password ', 'mz-mindbody-api' ),
+                'desc'    => 'Staff or MBO Developer Password',
                 'default' => __('YOUR MINDBODY PASSWORD', 'mz-mindbody-api')
             )
         );
