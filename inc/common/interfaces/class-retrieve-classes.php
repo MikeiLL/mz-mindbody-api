@@ -188,7 +188,6 @@ abstract class Retrieve_Classes extends Retrieve {
         if (!empty(Core\MZ_Mindbody_Api::$basic_options['mz_mindbody_siteID'])):
             $this->mbo_account = !empty($atts['account']) ? $atts['account'] : Core\MZ_Mindbody_Api::$basic_options['mz_mindbody_siteID'];
         else:
-            echo '<div class="notice">Options not set. Using default MBO Sandbox account.</div>';
             $this->mbo_account = '-99';
         endif;
         $this->time_frame = $this->time_frame();
