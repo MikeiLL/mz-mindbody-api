@@ -18,7 +18,7 @@ class MBO_V6_API {
 	protected $headersBasic = [
 		'Content-Type' => 'application/json',
 		'Api-Key' => '',
-		'Siteid' => '-99'
+		'SiteId' => '-99'
 	];
 	
 	protected $apiMethods = array();
@@ -40,17 +40,17 @@ class MBO_V6_API {
 			if(!empty($mbo_dev_credentials['mz_mbo_api_key'])) {
 				$this->headersBasic['Api-Key'] = $mbo_dev_credentials['mz_mbo_api_key'];
 			}
-			if(!empty($mbo_dev_credentials['SourceName'])) {
-				$this->extraCredentials['SourceName'] = $mbo_dev_credentials['SourceName'];
+			if(!empty($mbo_dev_credentials['mz_source_name'])) {
+				$this->extraCredentials['SourceName'] = $mbo_dev_credentials['mz_source_name'];
 			}
-			if(!empty($mbo_dev_credentials['Password'])) {
-				$this->extraCredentials['Password'] = $mbo_dev_credentials['Password'];
+			if(!empty($mbo_dev_credentials['mz_mindbody_password'])) {
+				$this->extraCredentials['Password'] = $mbo_dev_credentials['mz_mindbody_password'];
 			}
-			if(!empty($mbo_dev_credentials['Siteid'])) {
-				if(is_array($mbo_dev_credentials['SiteIDs'])) {
-					$this->headersBasic['SiteIDs'] = $mbo_dev_credentials['SiteIDs'][0];
-				} else if(is_numeric($mbo_dev_credentials['SiteIDs'])) {
-					$this->headersBasic['SiteId'] = $mbo_dev_credentials['SiteIDs'];
+			if(!empty($mbo_dev_credentials['mz_mindbody_siteID'])) {
+				if(is_array($mbo_dev_credentials['mz_mindbody_siteID'])) {
+					$this->headersBasic['SiteIDs'] = $mbo_dev_credentials['mz_mindbody_siteID'][0];
+				} else if(is_numeric($mbo_dev_credentials['mz_mindbody_siteID'])) {
+					$this->headersBasic['SiteId'] = $mbo_dev_credentials['mz_mindbody_siteID'];
 				}
 			}
 		}
@@ -404,13 +404,17 @@ class MBO_V6_API {
 	*/
 	public function __call($name, $arguments) {
 	
-		$restMethod = [];
-		
+		$restMethod = '';
+				
 		foreach($this->apiMethods as $apiServiceName => $apiMethods) {
 			if ( array_key_exists( $name, $apiMethods ) ) {
 				$restMethod = $apiMethods[$name];
 			}
 		}
+
+		if (empty($restMethod)) {
+			return 'Nonexistent Method';
+		};
 
 		$this->track_daily_api_calls();
 		

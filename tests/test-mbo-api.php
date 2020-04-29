@@ -13,8 +13,8 @@ class Tests_MBO_Api extends WP_UnitTestCase {
         $this->assertTrue(class_exists('MZ_Mindbody\Inc\Libraries\MBO_V6_API'));
         
         $basic_options_set = array(
-            'SourceName' => MBOTests\Test_Options::$_MYSOURCENAME,
-            'Password' => MBOTests\Test_Options::$_MYPASSWORD,
+            'mz_source_name' => MBOTests\Test_Options::$_MYSOURCENAME,
+            'mz_mindbody_password' => MBOTests\Test_Options::$_MYPASSWORD,
             'mz_mbo_app_name' => MBOTests\Test_Options::$_MYAPPNAME,
             'mz_mbo_api_key' => MBOTests\Test_Options::$_MYAPIKEY,
             'mz_mindbody_siteID' => '-99'
@@ -29,7 +29,7 @@ class Tests_MBO_Api extends WP_UnitTestCase {
         $result = $mbo_api->TokenIssue();
                 
         $this->assertTrue(is_object($result));
-        
+                
         $this->assertTrue($result->TokenType == 'Bearer');
         
         $this->assertTrue($result->User->Type == 'Staff');

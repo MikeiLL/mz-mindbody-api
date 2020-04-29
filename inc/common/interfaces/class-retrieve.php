@@ -41,11 +41,11 @@ abstract class Retrieve
             return false;
         } else {
             return new Libraries\MBO_V6_API(array(
-                "SourceName" => $basic_options['mz_source_name'],
-                'Password' => $basic_options['mz_mindbody_password'],
-                'SiteId' => $basic_options['mz_mindbody_siteID'],
-                'AppName' => $basic_options['mz_mbo_app_name'],
-                'Api-Key' => $basic_options['mz_mbo_api_key']
+                'mz_source_name' => $basic_options['mz_source_name'],
+                'mz_mindbody_password' => $basic_options['mz_mindbody_password'],
+                'mz_mbo_app_name' => $basic_options['mz_mbo_app_name'],
+                'mz_mbo_api_key' => $basic_options['mz_mbo_api_key'],
+                'mz_mindbody_siteID' => $basic_options['mz_mindbody_siteID']
             ));
         }
     }

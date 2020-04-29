@@ -233,7 +233,7 @@ abstract class Retrieve_Classes extends Retrieve {
                 // If account has been specified in shortcode, update credentials
                 $mb->sourceCredentials['SiteIDs'][0] = $this->mbo_account;
             }
-
+            
             $schedule_data = $mb->GetClasses($this->time_frame);
 
             if ($schedule_data['GetClassesResult']['Status'] != 'Success'):

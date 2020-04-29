@@ -19,8 +19,8 @@ class InitilizationTest extends WP_UnitTestCase
         $this->assertTrue(class_exists('MZ_Mindbody\Inc\Schedule\Retrieve_Schedule'));
         $mb = new MZ_Mindbody\Inc\Schedule\Retrieve_Schedule;
         $mb->instantiate_mbo_API();
-        $options = get_option('mz_mindbody_options', __('Option Not Set', 'mz-mindbody-api'));
-        $this->assertTrue($options['mz_mbo_app_name'] == 'YOUR MBO APP NAME');
+        $options = get_option('mz_mbo_basic', 'Error: No Options');
+        $this->assertTrue($options == 'Error: No Options');
     }
 	
 }
