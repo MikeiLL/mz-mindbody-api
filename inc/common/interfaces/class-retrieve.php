@@ -43,7 +43,9 @@ abstract class Retrieve
             return new Libraries\MBO_V5_API(array(
                 "SourceName" => $basic_options['mz_source_name'],
                 'Password' => $basic_options['mz_mindbody_password'],
-                'SiteIDs' => array($basic_options['mz_mindbody_siteID'])
+                'SiteId' => $basic_options['mz_mindbody_siteID'],
+                'AppName' => $basic_options['mz_mbo_app_name'],
+                'Api-Key' => $basic_options['mz_mbo_api_key']
             ));
         }
     }
