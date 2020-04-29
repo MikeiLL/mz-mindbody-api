@@ -21,6 +21,19 @@ class Retrieve_Staff extends Interfaces\Retrieve {
      */
     public $staff_result;
 
+    public function __construct($atts = array(
+                                'locations' => array(1)
+                                )){
+
+        parent::__construct();
+        $this->atts = $atts;
+        if (!empty(Core\MZ_Mindbody_Api::$basic_options['mz_mindbody_siteID'])):
+            $this->mbo_account = !empty($atts['account']) ? $atts['account'] : Core\MZ_Mindbody_Api::$basic_options['mz_mindbody_siteID'];
+        else:
+            $this->mbo_account = '-99';
+        endif;
+    }
+
     /**
      * Return data from MBO api, store it in a transient and
      * as object attribute.
