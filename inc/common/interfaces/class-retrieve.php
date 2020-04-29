@@ -40,7 +40,7 @@ abstract class Retrieve
         if ($basic_options == 'Error: No Options' || empty($basic_options)) {
             return false;
         } else {
-            return new Libraries\MBO_V5_API(array(
+            return new Libraries\MBO_V6_API(array(
                 "SourceName" => $basic_options['mz_source_name'],
                 'Password' => $basic_options['mz_mindbody_password'],
                 'SiteId' => $basic_options['mz_mindbody_siteID'],
