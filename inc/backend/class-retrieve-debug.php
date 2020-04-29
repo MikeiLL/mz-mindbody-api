@@ -39,7 +39,7 @@ class Retrieve_Debug extends Interfaces\Retrieve {
 
         if (!$mb) return false;
 
-        if ($mb == 'NO_SOAP_SERVICE') {
+        if ($mb == 'NO_API_SERVICE') {
             return $mb;
         }
         $this->classes = $mb->GetClasses($this->time_frame());
