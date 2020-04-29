@@ -215,7 +215,7 @@ abstract class Retrieve_Classes extends Retrieve {
 
         $mb = $this->instantiate_mbo_API();
 
-        if ( !$mb || $mb == 'NO_SOAP_SERVICE' ) return false;
+        if ( !$mb) return false;
 
         /* Set array string based on if called from Events Object
          * or Schedule Object.
