@@ -37,7 +37,9 @@ class Token_Management extends Interfaces\Retrieve {
 	 	
         if ( !$mb ) return false;
         
-        return $mb->TokenIssue();
+        $response = $mb->TokenIssue();
+                
+        return $response->AccessToken;
         
 	 }
 }

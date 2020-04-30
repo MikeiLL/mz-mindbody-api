@@ -28,13 +28,7 @@ class Tests_Token_Management extends WP_UnitTestCase {
         
         $result = $tm->get_mbo_results();
         
-        $this->assertTrue(is_object($result));
-                
-        $this->assertTrue($result->TokenType == 'Bearer');
-        
-        $this->assertTrue($result->User->Type == 'Staff');
-        
-        $this->assertTrue( ctype_alnum($result->AccessToken) );
+        $this->assertTrue( ctype_alnum($result) );
         
 	}
 
