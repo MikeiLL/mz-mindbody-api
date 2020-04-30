@@ -66,26 +66,33 @@ class Token_Management extends Interfaces\Retrieve {
      * @return AccessToken string as administered by MBO Api
      */
 	 public function serve_token() {
-	 
+	 	// Get the option or return an empty array with two keys
+	 	
 	 	$stored_token = get_option('mz_mbo_token', ['stored_time' => '', 'AccessToken' => '']);
 	 	
-	 	if (!empty( $stored_token )) {
+	 	if (empty( $stored_token['AccessToken'] )) {
 	 	
-	 		$current = new \DateTime();
-	 		$current->format('Y-m-d H:i:s');
-	 		$twleve_hours_ago = clone $current;
-			$twleve_hours_ago->sub(new \DateInterval('P12H'));
-	 		
-	 		if ( $stored_token['stored_time'] < $twleve_hours_ago || empty($stored_token['AccessToken']) ) {
-	 		
-	 			return $stored_token['AccessToken'];
-	 			
-	 		} else {
-	 		
 	 			return $this->save_token();
-	 			
-	 		}
 	 		
+	 	} else {
+	 		// If there is a mz_mbo_token, let's see if it's less than 12 hours old
+	 		
+			$current = new \DateTime();
+			$current->format('Y-m-d H:i:s');
+			$twleve_hours_ago = clone $current;
+			$twleve_hours_ago->sub(new \DateInterval('PT12H'));
+		
+			if ( is_object($stored_token['stored_time']) && ($stored_token['stored_time'] > $twleve_hours_ago) && !empty($stored_token['AccessToken']) ) {
+		
+				return $stored_token['AccessToken'];
+			
+			} else {
+				// If it's old, get and save a new one:
+
+				return $this->save_token();
+				
+			}
+	 	
 	 	}
 	 }
 	 
@@ -111,7 +118,7 @@ class Token_Management extends Interfaces\Retrieve {
 	 		'stored_time' => $current, 
 	 		'AccessToken' => $token
 	 	]);
-	 	
+	 		 	
 	 	return $token;
 	 }
 }

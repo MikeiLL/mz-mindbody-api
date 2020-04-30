@@ -26,13 +26,13 @@ class Tests_Token_Management extends WP_UnitTestCase {
                 
         $tm = new MZ_Mindbody\Inc\Common\Token_Management;
         
-        $result = $tm->get_mbo_results();
+        $result = $tm->serve_token();
         
         $this->assertTrue( ctype_alnum($result) );
         
 	}
 	
-	public function test_stored_token() {
+	public function test_stored_token_storage() {
 
         parent::setUp();
 
@@ -51,10 +51,14 @@ class Tests_Token_Management extends WP_UnitTestCase {
         $basic_options = get_option('mz_mbo_basic');
                 
         $tm = new MZ_Mindbody\Inc\Common\Token_Management;
+
+        $initial_token = $tm->serve_token(); // this should save and return a new token
+                        
+        $tm = new MZ_Mindbody\Inc\Common\Token_Management;
         
-        $result = $tm->get_mbo_results();
-        
-        $this->assertTrue( ctype_alnum($result) );
+        $new_token = $tm->serve_token(); // this should serve saved token
+                
+        $this->assertTrue( $new_token == $initial_token );        
         
 	}
 
