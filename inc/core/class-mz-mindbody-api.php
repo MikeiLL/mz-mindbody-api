@@ -7,6 +7,7 @@ use MZ_Mindbody\Inc\Admin as Admin;
 use MZ_Mindbody\Inc\Frontend as Frontend;
 use MZ_Mindbody\Inc\Backend as Backend;
 use MZ_Mindbody\Inc\Common as Common;
+use MZ_Mindbody\Inc\Common as Token_Management;
 use MZ_Mindbody\Inc\Schedule as Schedule;
 use MZ_Mindbody\Inc\Staff as Staff;
 use MZ_Mindbody\Inc\Events as Events;
@@ -260,6 +261,7 @@ class MZ_Mindbody_Api
         $class_owners_object = new Schedule\Retrieve_Class_Owners;
         $staff_object = new Staff\Display;
         $client_object = new Client\Client_Portal;
+        $token_object = new Common\Token_Management;
 
 
         // Start Ajax Clear Transients
@@ -319,6 +321,9 @@ class MZ_Mindbody_Api
         // Start Ajax Check Client Logged Status
         $this->loader->add_action('wp_ajax_nopriv_mz_check_client_logged', $client_object, 'check_client_logged');
         $this->loader->add_action('wp_ajax_mz_check_client_logged', $client_object, 'check_client_logged');
+        
+        // Call api hourly to retrieve AccessToken
+        $this->loader->add_action( 'fetch_mbo_access_token', $token_object, 'save_token', 10, 2 );
 
     }
 

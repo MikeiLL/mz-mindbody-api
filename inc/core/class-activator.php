@@ -23,7 +23,7 @@ class Activator {
 	 */
 	public static function activate() {
 
-			$min_php = '5.6.0';
+			$min_php = '7.1.0';
 
 		// Check PHP Version and deactivate & die if it doesn't meet minimum requirements.
 		if ( version_compare( PHP_VERSION, $min_php, '<' ) ) {
@@ -36,6 +36,10 @@ class Activator {
 		$mz_mbo_api_calls['today'] = date("Y-m-d");
 		$mz_mbo_api_calls['calls'] = 2;
 		add_option('mz_mbo_api_calls', $mz_mbo_api_calls);
+		$args = array( $args_1, $args_2 );
+		if (! wp_next_scheduled ( 'fetch_mbo_access_token', $args )) {
+			wp_schedule_event( time(), 'hourly', 'fetch_mbo_access_token', $args );
+		}
 	}
 
 }
