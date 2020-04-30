@@ -66,35 +66,54 @@ class Token_Management extends Interfaces\Retrieve {
      * @return AccessToken string as administered by MBO Api
      */
 	 public function serve_token() {
+	 	
+	 	$token = $this->test_stored_token();
+	 	
+	 	if (empty($token)) {
+	 	
+	 		return $this->save_token();
+	 		
+	 	} else {
+	 		
+	 		return $token;
+	 	
+	 	}
+	 }
+	 
+	 
+	 /**
+     * 
+     * Test MBO token for presence and freshness
+     *
+     * @since 2.5.7
+     *
+     * Test if token is saved and less than  12 hours old
+     *
+     * @return false or stored token
+     */
+     public function test_stored_token() {
 	 	// Get the option or return an empty array with two keys
 	 	
 	 	$stored_token = get_option('mz_mbo_token', ['stored_time' => '', 'AccessToken' => '']);
 	 	
-	 	if (empty( $stored_token['AccessToken'] )) {
-	 	
-	 			return $this->save_token();
-	 		
-	 	} else {
-	 		// If there is a mz_mbo_token, let's see if it's less than 12 hours old
-	 		
-			$current = new \DateTime();
-			$current->format('Y-m-d H:i:s');
-			$twleve_hours_ago = clone $current;
-			$twleve_hours_ago->sub(new \DateInterval('PT12H'));
+     	if (empty( $stored_token['AccessToken'] )) return false;
+     	
+     	// If there is a mz_mbo_token, let's see if it's less than 12 hours old
+     	
+		$current = new \DateTime();
+		$current->format('Y-m-d H:i:s');
+		$twleve_hours_ago = clone $current;
+		$twleve_hours_ago->sub(new \DateInterval('PT12H'));
+     	
+     	if ( is_object($stored_token['stored_time']) && ($stored_token['stored_time'] > $twleve_hours_ago) && !empty($stored_token['AccessToken']) ) {
 		
-			if ( is_object($stored_token['stored_time']) && ($stored_token['stored_time'] > $twleve_hours_ago) && !empty($stored_token['AccessToken']) ) {
+			return $stored_token['AccessToken'];
 		
-				return $stored_token['AccessToken'];
-			
-			} else {
-				// If it's old, get and save a new one:
-
-				return $this->save_token();
-				
-			}
-	 	
-	 	}
-	 }
+		}
+		
+		// Must be too old
+		return false;
+     }
 	 
 	 /**
      * 

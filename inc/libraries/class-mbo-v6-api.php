@@ -2,6 +2,7 @@
 namespace MZ_Mindbody\Inc\Libraries;
 
 use MZ_Mindbody as NS;
+use MZ_Mindbody\Inc\Common as Common;
 
 class MBO_V6_API {
 	
@@ -453,6 +454,21 @@ class MBO_V6_API {
 	*/
 	protected function callMindbodyService($restMethod, $requestData = array()) {
 		
+		if ($restMethod['endpoint'] == 'https://api.mindbodyonline.com/public/v6/usertoken/issue') {
+			// If this is a token request, make a separate call so that we 
+			// don't create a loop here
+			return $this->tokenRequest( $restMethod );
+		} 
+		
+		$request_body = array_merge( $requestData,
+						array( 
+								'Username' => '_' . $this->extraCredentials['SourceName'], 
+								'Password' => $this->extraCredentials['Password'] 
+						)
+					);
+		
+		print_r($request_body);
+		
 		$response = wp_remote_post( $restMethod['endpoint'], 
 			array(
 				'method' => $restMethod['method'],
@@ -460,7 +476,7 @@ class MBO_V6_API {
 				'httpversion' => '1.0',
 				'blocking' => true,
 				'headers' => $restMethod['headers'],
-				'body' => json_encode(array( 'Username' => '_' . $this->extraCredentials['SourceName'], 'Password' => $this->extraCredentials['Password'] )),
+				'body' => json_encode($request_body),
 				'cookies' => array()
 			) );
 
@@ -469,6 +485,53 @@ class MBO_V6_API {
 			return "Something went wrong: " . $error_message;
 		} else {
 			if ($response['response']['code'] != 200) {
+				// There may be a reason to do this at some point
+				return json_decode($response['body']);
+			} else {
+				return json_decode($response['body']);	
+			}
+		}
+	}
+	
+	/**
+	* return the results of a Mindbody API method, specific to token
+	*
+	* @since 2.5.7
+	*
+	* As above, but specifically for token requests
+	*
+	* return string of MBO API Response data
+	*/
+	protected function tokenRequest($restMethod) {
+	
+		$tm = new Common\Token_Management;
+		
+		$token = $tm->test_stored_token();
+	 	
+		if (!empty($token)) return $token;
+		
+		$request_body = array( 
+								'Username' => '_' . $this->extraCredentials['SourceName'], 
+								'Password' => $this->extraCredentials['Password'] 
+						);
+		
+		$response = wp_remote_post( $restMethod['endpoint'], 
+			array(
+				'method' => 'POST',
+				'timeout' => 45,
+				'httpversion' => '1.0',
+				'blocking' => true,
+				'headers' => $restMethod['headers'],
+				'body' => json_encode($request_body),
+				'cookies' => array()
+			) );
+
+		if ( is_wp_error( $response ) ) {
+			$error_message = $response->get_error_message();
+			return "Something went wrong: " . $error_message;
+		} else {
+			if ($response['response']['code'] != 200) {
+				// There may be a reason to do this at some point
 				return json_decode($response['body']);
 			} else {
 				return json_decode($response['body']);	
