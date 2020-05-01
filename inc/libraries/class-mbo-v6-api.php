@@ -15,6 +15,7 @@ class MBO_V6_API {
 	protected $endpointSite = 'https://api.mindbodyonline.com/public/v6/site';
 	protected $endpointStaff = 'https://api.mindbodyonline.com/public/v6/staff';
 	protected $endpointUserToken = 'https://api.mindbodyonline.com/public/v6/usertoken';
+	private $tokenRequestTries = 6;
 	
 	protected $headersBasic = [
 		'Content-Type' => 'application/json',
@@ -35,9 +36,10 @@ class MBO_V6_API {
 	
 		// set credentials into headers
 		if (!empty($mbo_dev_credentials)) {
-			if(!empty($mbo_dev_credentials['mz_mbo_app_name'])) {
-				$this->headersBasic['App-Name'] = $mbo_dev_credentials['mz_mbo_app_name'];
-			}
+			//if(!empty($mbo_dev_credentials['mz_mbo_app_name'])) {
+			//	$this->headersBasic['App-Name'] = $mbo_dev_credentials['mz_mbo_app_name'];
+				// If this matches actual app name, requests fail ;
+			//}
 			if(!empty($mbo_dev_credentials['mz_mbo_api_key'])) {
 				$this->headersBasic['Api-Key'] = $mbo_dev_credentials['mz_mbo_api_key'];
 			}
@@ -457,7 +459,10 @@ class MBO_V6_API {
 		if ($restMethod['endpoint'] == 'https://api.mindbodyonline.com/public/v6/usertoken/issue') {
 			// If this is a token request, make a separate call so that we 
 			// don't create a loop here
-			return $this->tokenRequest( $restMethod );
+			
+			$token = $this->tokenRequest( $restMethod );
+			
+			return $token;
 		} 
 		
 		$request_body = array_merge( $requestData,
@@ -466,7 +471,10 @@ class MBO_V6_API {
 								'Password' => $this->extraCredentials['Password'] 
 						)
 					);
+					
+		$request_body['Access'] = $this->tokenRequest( $restMethod );
 		
+		print_r('%%%% got a tokenRequest: %%%%');
 		print_r($request_body);
 		
 		$response = wp_remote_post( $restMethod['endpoint'], 
@@ -503,12 +511,14 @@ class MBO_V6_API {
 	* return string of MBO API Response data
 	*/
 	protected function tokenRequest($restMethod) {
-	
+		
+		$this->tokenRequestTries--;
+		
 		$tm = new Common\Token_Management;
 		
-		$token = $tm->test_stored_token();
-	 	
-		if (!empty($token)) return $token;
+		$token = $tm->get_stored_token();
+		
+		if ( ctype_alnum($token) ) return $token;
 		
 		$request_body = array( 
 								'Username' => '_' . $this->extraCredentials['SourceName'], 
@@ -518,7 +528,7 @@ class MBO_V6_API {
 		$response = wp_remote_post( $restMethod['endpoint'], 
 			array(
 				'method' => 'POST',
-				'timeout' => 45,
+				'timeout' => 90,
 				'httpversion' => '1.0',
 				'blocking' => true,
 				'headers' => $restMethod['headers'],
@@ -526,16 +536,22 @@ class MBO_V6_API {
 				'cookies' => array()
 			) );
 
+		$response_body = json_decode($response['body']);
+	 		
 		if ( is_wp_error( $response ) ) {
+		
 			$error_message = $response->get_error_message();
-			return "Something went wrong: " . $error_message;
+			return "Something went wrong with token request: " . $error_message;
+			
 		} else {
-			if ($response['response']['code'] != 200) {
-				// There may be a reason to do this at some point
-				return json_decode($response['body']);
-			} else {
-				return json_decode($response['body']);	
-			}
+				if ( property_exists( $response_body, 'Error' ) && strpos($response_body->Error->Message, 'Please try again') ) {
+					// OK try again
+					if($this->tokenRequestTries > 1) {
+						return $this->tokenRequest($restMethod);
+					}
+					return false;
+				}
+				return $response_body;
 		}
 	}
     
@@ -600,49 +616,6 @@ class MBO_V6_API {
 	public function makeNumericArray($data) {
 		return (isset($data[0])) ? $data : array($data);
 	}
-
-	public function replace_empty_arrays_with_nulls(array $array) {
-		foreach($array as &$value) {
-			if(is_array($value)) {
-				if(empty($value)) {
-					$value = null;
-				} else {
-					$value = $this->replace_empty_arrays_with_nulls($value);
-				}
-			}
-		}
-		return $array;
-	}
-
-  	/**
-	 * FunctionDataXml
-	 *
-	 * Process FunctionDataXml results
-	 */
-    public function FunctionDataXml() {
-        $passed = func_get_args();
-        $request = empty($passed[0]) ? null : $passed[0];
-        $returnObject = empty($passed[1]) ? null : $passed[1];
-        $debugErrors = empty($passed[2]) ? null : $passed[2];
-        // NS\MZMBO()->helpers->mz_pr("request");
-        // NS\MZMBO()->helpers->mz_pr($request);
-        $data = $this->callMindbodyService('DataService', 'FunctionDataXml', $request);
-        $xmlString = $this->getXMLResponse();
-        // NS\MZMBO()->helpers->mz_pr("xmlString");
-        // NS\MZMBO()->helpers->mz_pr($xmlString);
-        $sxe = new \SimpleXMLElement($xmlString);
-        $sxe->registerXPathNamespace("mindbody", "http://clients.mindbodyonline.com/api/0_5");
-        $res = $sxe->xpath("//mindbody:FunctionDataXmlResponse");
-        if($returnObject) {
-            return $res[0];
-        } else {
-            $arr = $this->replace_empty_arrays_with_nulls(json_decode(json_encode($res[0]),1));
-            if(isset($arr['FunctionDataXmlResult']['Results']['Row']) && is_array($arr['FunctionDataXmlResult']['Results']['Row'])) {
-                $arr['FunctionDataXmlResult']['Results']['Row'] = $this->makeNumericArray($arr['FunctionDataXmlResult']['Results']['Row']);
-            }
-            return $arr;
-        }
-    }
 
 }
 
