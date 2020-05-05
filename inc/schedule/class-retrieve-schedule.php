@@ -17,14 +17,14 @@ class Retrieve_Schedule extends Interfaces\Retrieve_Classes {
      *
      * @throws \Exception
 	 *
-	 * @return array or start and end dates as required for MBO API
+	 * @return array of start and end dates as required for MBO API
 	 */
 
     public function time_frame($timestamp = null){
     	
     	$timestamp = isset($timestamp) ? $timestamp : current_time( 'timestamp' );
 	    // override timestamp here for testing
-        //$timestamp = '2018-10-8';
+        // $timestamp = '2020-5-1';
 
 		$current_week = $this->single_week($timestamp);
 		$seven_days_later = $this->seven_days_later($timestamp);
@@ -39,7 +39,8 @@ class Retrieve_Schedule extends Interfaces\Retrieve_Classes {
 		endif;
       	$current_day_offset = new \Datetime( date_i18n('Y-m-d') );
       	$current_week_end = new \Datetime( date_i18n('Y-m-d', $current_week['end']) );
-
+      	//print_r("OFFSET: ");
+		//print_r($this->atts['offset']);
 		// If we are going in future or past based on offset
 		if ( !empty($this->atts['offset']) ) {
 		    // Insure that we have an absolute number, because attr may be negative

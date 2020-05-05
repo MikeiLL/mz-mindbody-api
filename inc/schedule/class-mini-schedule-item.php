@@ -65,7 +65,7 @@ class Mini_Schedule_Item {
      * This is the integer associated with the specific instance of a class in MBO. This
      * is what we send to the API to register or de-register for a class.
      *
-     * $schedule_item['ID']
+     * $schedule_item['Id']
      *
      * @since    2.4.7
      * @access   public
@@ -229,17 +229,17 @@ class Mini_Schedule_Item {
 
         $this->staffName = isset($schedule_item['Staff']['Name']) ? $schedule_item['Staff']['Name'] : '';
 
-        $this->ID = $schedule_item['ID'];
-        // $this->class_schedule_id = $schedule_item['ClassScheduleID'];
-        // $this->sLoc = $schedule_item['Location']['ID'];
+        $this->ID = $schedule_item['Id'];
+        // $this->class_schedule_id = $schedule_item['ClassScheduleId'];
+        // $this->sLoc = $schedule_item['Location']['Id'];
 
         //$this->locationName = $schedule_item['Location']['Name'];
 
         // $this->sDate = date_i18n('m/d/Y', strtotime($schedule_item['StartDateTime']));
-        // $this->sTG = $schedule_item['ClassDescription']['Program']['ID'];
+        // $this->sTG = $schedule_item['ClassDescription']['Program']['Id'];
         // $this->mbo_url = $this->mbo_url();
         // $this->sType = -7;
-        // $this->staffID = $schedule_item['Staff']['ID'];
+        // $this->staffID = $schedule_item['Staff']['Id'];
         // $this->siteID = $schedule_item['Location']['SiteID'];
         // $this->session_type_css = 'mz_' . sanitize_html_class($this->sessionTypeName, 'mz_session_type');
         // $this->class_name_css = 'mz_' . sanitize_html_class($this->className, 'mz_class_name');

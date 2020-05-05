@@ -122,10 +122,10 @@ class Retrieve_Class_Owners extends Interfaces\Retrieve_Classes {
                     'class_description' => $class_description_substring,
                     'image_url' => array_shift($image_path_array),
                     'time' => $classStartTime->format('g:ia'),
-                    'location' => $class['Location']['ID'],
+                    'location' => $class['Location']['Id'],
                     'day' => $day_of_class,
                     'class_owner' => strip_tags($class['Staff']['Name']),
-                    'class_owner_id' => strip_tags($class['Staff']['ID'])
+                    'class_owner_id' => strip_tags($class['Staff']['Id'])
                 );
 
                 // Loop through the entire array, and sub-array and if there's already a match, do nothing
@@ -180,10 +180,10 @@ class Retrieve_Class_Owners extends Interfaces\Retrieve_Classes {
             'class_description' => $class_description_substring,
             'image_url' => array_shift($image_path_array),
             'time' => $classStartTime->format('g:ia'),
-            'location' => $class['Location']['ID'],
+            'location' => $class['Location']['Id'],
             'day' => $day_of_class,
             'class_owner' => strip_tags($class['Staff']['Name']),
-            'class_owner_id' => strip_tags($class['Staff']['ID'])
+            'class_owner_id' => strip_tags($class['Staff']['Id'])
         );
 
         // Fetch the Class_Owners transient and loop through it 'till we find a match
