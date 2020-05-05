@@ -17,7 +17,7 @@
         endif;
         ?>
     </p>
-<a href="http://clients.mindbodyonline.com/ws.asp?studioid=<?php echo $data->siteID; ?>&stype=-7&sView=week&sTrn=<?php echo $data->staff_details['ID']; ?>" class="btn btn-info mz-btn-info mz-bio-button" target="_blank">See <?php echo $data->staff_details['Name']; ?> &apos;s Schedule</a>
+<a href="http://clients.mindbodyonline.com/ws.asp?studioid=<?php echo $data->siteID; ?>&stype=-7&sView=week&sTrn=<?php echo $data->staff_details['Id']; ?>" class="btn btn-info mz-btn-info mz-bio-button" target="_blank">See <?php echo $data->staff_details['Name']; ?> &apos;s Schedule</a>
 </div>
 
 
