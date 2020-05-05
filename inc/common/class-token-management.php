@@ -67,11 +67,11 @@ class Token_Management extends Interfaces\Retrieve {
      */
 	 public function serve_token() {
 	 	
-	 	$token = $this->test_stored_token();
+	 	$token = $this->get_stored_token();
 	 	
 	 	if (empty($token)) {
 	 	
-	 		return $this->save_token();
+	 		return $this->get_and_save_token();
 	 		
 	 	} else {
 	 		
@@ -83,21 +83,21 @@ class Token_Management extends Interfaces\Retrieve {
 	 
 	 /**
      * 
-     * Test MBO token for presence and freshness
+     * Return stored MBO token or false
      *
      * @since 2.5.7
      *
      * Test if token is saved and less than  12 hours old
      *
-     * @return false or stored token
+     * @return false or string: stored token
      */
-     public function test_stored_token() {
+     public function get_stored_token() {
 	 	// Get the option or return an empty array with two keys
 	 	
 	 	$stored_token = get_option('mz_mbo_token', ['stored_time' => '', 'AccessToken' => '']);
 	 	
-     	if (empty( $stored_token['AccessToken'] )) return false;
-     	
+     	if (empty( $stored_token['AccessToken'] ) || !ctype_alnum($stored_token['AccessToken'])) return false;
+	 	
      	// If there is a mz_mbo_token, let's see if it's less than 12 hours old
      	
 		$current = new \DateTime();
@@ -105,8 +105,8 @@ class Token_Management extends Interfaces\Retrieve {
 		$twleve_hours_ago = clone $current;
 		$twleve_hours_ago->sub(new \DateInterval('PT12H'));
      	
-     	if ( is_object($stored_token['stored_time']) && ($stored_token['stored_time'] > $twleve_hours_ago) && !empty($stored_token['AccessToken']) ) {
-		
+     	if ( is_object($stored_token['stored_time']) && ($stored_token['stored_time'] > $twleve_hours_ago) && ctype_alnum($stored_token['AccessToken']) ) {
+	 	
 			return $stored_token['AccessToken'];
 		
 		}
@@ -117,7 +117,7 @@ class Token_Management extends Interfaces\Retrieve {
 	 
 	 /**
      * 
-     * Save MBO AccessToken to WP option
+     * Retrieve MBO AccessToken and Save to WP option
      *
      * @since 2.5.7
      *
@@ -126,12 +126,18 @@ class Token_Management extends Interfaces\Retrieve {
      *
      * @return AccessToken string as administered by MBO Api
      */
-	 private function save_token() {
+	 private function get_and_save_token() {
 	 
 	 	$token = $this->get_mbo_results();
 	 	
 		$current = new \DateTime();
 		$current->format('Y-m-d H:i:s');
+		
+		if( !ctype_alnum($token) ) {
+			// In case we have returned something bad from the API
+			// let's not save it to the option.
+			return false;
+		}
 		
 	 	update_option('mz_mbo_token', [
 	 		'stored_time' => $current, 
