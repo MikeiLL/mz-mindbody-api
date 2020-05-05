@@ -62,7 +62,7 @@ class Schedule_Item {
      *
      * ID of the Program the schedule item is associated with. Used in generating URL for class sign-up.
      *
-     * ['ClassDescription']['Program']['ID']
+     * ['ClassDescription']['Program']['Id']
      *
      * @since    2.4.7
      * @access   public
@@ -87,7 +87,7 @@ class Schedule_Item {
      * This is the integer associated with the specific instance of a class in MBO. This
      * is what we send to the API to register or de-register for a class.
      *
-     * $schedule_item['ID']
+     * $schedule_item['Id']
      *
      * @since    2.4.7
      * @access   public
@@ -228,7 +228,7 @@ class Schedule_Item {
      *
      * @since    2.4.7
      * @access   public
-     * @var      string Will probably be DropIn or Enrollment
+     * @var      string Will probably be Class or Enrollment
      */
     public $scheduleType;
 
@@ -506,26 +506,34 @@ class Schedule_Item {
      * @param array $schedule_item array of item attributes. See class description.
      */
     public function __construct($schedule_item, $atts = array()) {
+// print_r('Location:');
+// print_r(array_keys($schedule_item['Location']));
+// print_r('ClassDescription:');
+// print_r(array_keys($schedule_item['ClassDescription']));
+// print_r('Staff: ');
+// print_r($schedule_item['Staff']);
+// print_r('Substitute:');
+// print_r($schedule_item["Substitute"]);
 
         $this->className = isset($schedule_item['ClassDescription']['Name']) ? $schedule_item['ClassDescription']['Name']: '';
         $this->classImage = isset($schedule_item['ClassDescription']['ImageURL']) ? $schedule_item['ClassDescription']['ImageURL']: '';
         $this->startDateTime = $schedule_item['StartDateTime'];
         $this->endDateTime = $schedule_item['EndDateTime'];
         $this->sessionTypeName = isset($schedule_item['ClassDescription']['SessionType']['Name']) ? $schedule_item['ClassDescription']['SessionType']['Name'] : '';
-        $this->staffName = isset($schedule_item['Staff']['Name']) ? $schedule_item['Staff']['Name'] : '';
+        $this->staffName = isset($schedule_item['Staff']['FirstName']) ? $schedule_item['Staff']['FirstName'] . ' ' . $schedule_item['Staff']['LastName'] : '';
         $this->classDescription = isset($schedule_item['ClassDescription']['Description']) ? $schedule_item['ClassDescription']['Description'] : '';
         $this->level = isset($schedule_item['ClassDescription']['Level']['Name']) ? $schedule_item['ClassDescription']['Level']['Name'] : '';
         $this->staffImage = isset($schedule_item['Staff']['ImageURL']) ? $schedule_item['Staff']['ImageURL'] : '';
-        $this->ID = $schedule_item['ID'];
-        $this->sTG = $schedule_item['ClassDescription']['Program']['ID'];
-        $this->class_schedule_id = $schedule_item['ClassScheduleID'];
-        $this->sLoc = $schedule_item['Location']['ID'];
+        $this->ID = $schedule_item['Id'];
+        $this->sTG = $schedule_item['ClassDescription']['Program']['Id'];
+        $this->class_schedule_id = $schedule_item['ClassScheduleId'];
+        $this->sLoc = $schedule_item['Location']['Id'];
         $this->locationName = $schedule_item['Location']['Name'];
         $this->sDate = date_i18n('m/d/Y', strtotime($schedule_item['StartDateTime']));
         $this->sign_up_title = __('Sign-Up', 'mz-mindbody-api');
         $this->manage_text = __('Manage on MindBody Site', 'mz-mindbody-api');
         $this->sType = -7;
-        $this->staffID = $schedule_item['Staff']['ID'];
+        $this->staffID = $schedule_item['Staff']['Id'];
         $this->siteID = $schedule_item['Location']['SiteID'];
         $this->mbo_url = $this->mbo_url();
         $this->day_num = $this->get_day_number(date_i18n("N", strtotime($schedule_item['StartDateTime'])));
@@ -590,6 +598,9 @@ class Schedule_Item {
                 }
                 $linkArray['data-staffImage'] = ($this->staffImage != '') ? $this->staffImage : '';
                 $link->set('href', NS\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php');
+// print_r('linkArray:');
+// print_r($linkArray);
+// die();
                 break;
 
             case 'class':
