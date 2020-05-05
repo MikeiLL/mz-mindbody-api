@@ -519,7 +519,7 @@ class MBO_V6_API {
 	*/
 	protected function callMindbodyService($restMethod, $requestData = array()) {
 		
-		if ($restMethod['endpoint'] == 'https://api.mindbodyonline.com/public/v6/usertoken/issue') {
+		if ($restMethod['name'] == 'TokenIssue') {
 			// If this is a token request, make a separate call so that we 
 			// don't create a loop here
 			
@@ -528,22 +528,42 @@ class MBO_V6_API {
 			return $token;
 		} 
 		
-		$request_body = array_merge( $requestData,
-						array( 
-								'Username' => '_' . $this->extraCredentials['SourceName'], 
-								'Password' => $this->extraCredentials['Password'] 
-						)
-					);
-					
-		$request_body['Access'] = $this->tokenRequest( $restMethod );
 		
-		//if ($restMethod == 'AddClient'){
-			print_r('REST METHOD ');
-			print_r($restMethod);
-			print_r('Gets: ');
-			// print_r($request_body);
-			print_r($request_body);
-		//}
+		// Certain methods don't require credentials
+		$method_without_username = [
+			'AddClient'
+		];
+		
+		
+		// Certain methods want json strings
+		$encoded_request_body = [
+			'AddClient',
+			'SendPasswordResetEmail'
+		];
+		
+		// Certain methods don't require credentials
+		if ( !in_array($restMethod['name'], $method_without_username) ) {
+		
+			$request_body = array_merge( $requestData,
+							array( 
+									'Username' => '_' . $this->extraCredentials['SourceName'], 
+									'Password' => $this->extraCredentials['Password'] 
+							)
+						);
+					
+			$request_body['Access'] = $this->tokenRequest( $restMethod );
+			
+		} else {
+		
+			$request_body = $requestData;
+			
+		}
+		
+		if ( in_array($restMethod['name'], $encoded_request_body) ) {
+		
+			$request_body = json_encode($request_body);
+			
+		}
 		
 		// For some reason, for this call, we don't want to convert
 		// 'body' into a json string, as we do in the token request
@@ -575,11 +595,11 @@ class MBO_V6_API {
 			return "Something went wrong: " . $error_message;
 		} else {
 
-		if ( array_key_exists( 'Error', $response_body ) && strpos($response_body['Error']["Message"], 'Please try again') ) {
+		if ( is_array($response_body) && array_key_exists( 'Error', $response_body ) && strpos($response_body['Error']["Message"], 'Please try again') ) {
 				// OK try again after three seconds
 				sleep(3);
 				if($this->tokenRequestTries > 1) {
-					return $this->callMindbodyService($restMethod);
+					return $this->callMindbodyService($restMethod, $requestData);
 				}
 				return false;
 			}
