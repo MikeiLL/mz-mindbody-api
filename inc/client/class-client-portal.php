@@ -9,7 +9,7 @@ use MZ_Mindbody\Inc\Common\Interfaces as Interfaces;
 use MZ_Mindbody as NS;
 
 /*
- * Class that holds Client Interface Methods
+ * Class that holds Client Interface Methods for Ajax requests
  *
  *
  */
@@ -186,7 +186,7 @@ class Client_Portal extends Interfaces\Retrieve {
 
             $template_data = array();
 
-            $this->clientID = NS\MZMBO()->session->get('MBO_Client')['ID'];
+            $this->clientID = NS\MZMBO()->session->get('MBO_Client')['Id'];
 
             $add_client_to_class_result = $this->add_client_to_class($_REQUEST['classID']);
 
@@ -203,7 +203,7 @@ class Client_Portal extends Interfaces\Retrieve {
             // $client = NS\MZMBO()->session->get('MBO_Client');
             // $debug_data = [
             //     'mbo_guid' => NS\MZMBO()->session->get('mbo_guid'),
-            //     'client' => $client['FirstName'] . ' ' . $client['LastName'] . ' (' . $client['ID'] . ')',
+            //     'client' => $client['FirstName'] . ' ' . $client['LastName'] . ' (' . $client['Id'] . ')',
             //     'nonce'     => $_REQUEST['nonce'],
             //     'message'   => $add_client_to_class_result['message'],
             //     'class_id' => $_REQUEST['classID']
@@ -568,7 +568,7 @@ class Client_Portal extends Interfaces\Retrieve {
 
         $additions['EndDate'] = $end_date->format('Y-m-d');
 
-        $this->clientID = NS\MZMBO()->session->get('MBO_Client')['ID'];
+        $this->clientID = NS\MZMBO()->session->get('MBO_Client')['Id'];
 
         $additions['ClientID'] = $this->clientID;
 
@@ -583,7 +583,7 @@ class Client_Portal extends Interfaces\Retrieve {
             $result['message'] = array(NS\MZMBO()->i18n->get('result_error'),
                 $schedule_data['GetClientScheduleResult']['Status'],
                 $schedule_data['GetClientScheduleResult']);
-            $result['message'] = NS\MZMBO()->session->get('MBO_Client')['ID'];
+            $result['message'] = NS\MZMBO()->session->get('MBO_Client')['Id'];
         else:
             $result['message'] = $this->sort_classes_by_date_then_time($client_schedule);
         endif;
