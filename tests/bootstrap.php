@@ -30,6 +30,7 @@ tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );
 require $_tests_dir . '/includes/bootstrap.php';
 
 // Register our Autoload function
-require __DIR__ . "/Autoload.php";
-spl_autoload_register( [ new MBOLoader\Autoload( 'MBOTests', __DIR__ . '/' ), 'load' ] );
+// TODO maybe make this work
+//require __DIR__ . "/Autoload.php";
+//spl_autoload_register( [ new MBOLoader\Autoload( 'MBOTests', __DIR__ . '/' ), 'load' ] );
 

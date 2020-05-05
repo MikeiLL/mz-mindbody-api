@@ -1,10 +1,8 @@
 <?php
-/**
- * @group edd_session
- */
-include('class-mzmbo-wpunittestcase.php');
+require_once('MZMBO_WPUnitTestCase.php');
+require_once('Test_Options.php');
 
-class Tests_Session extends MZMBO_UnitTestCase {
+class Tests_Session extends MZMBO_WPUnitTestCase {
 
     function setUp() {
 

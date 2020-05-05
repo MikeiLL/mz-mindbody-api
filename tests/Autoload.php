@@ -40,6 +40,8 @@ class Autoload
 		}
 		$name = substr( $search, $this->length );
 		$path = $this->dir . str_replace( '\\', '/', $name ) . '.php';
+		print_r($path);
+		print_r("## ### ## ");
 		if ( is_readable( $path ) ) {
 			require $path;
 		}
