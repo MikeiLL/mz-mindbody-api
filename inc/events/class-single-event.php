@@ -27,7 +27,7 @@ class Single_Event {
      * @used in making link to signup
      *
      * @access public
-     * @var $class_schedule_id int TODO differentiate from ['ClassDescription']['ID']
+     * @var $class_schedule_id int TODO differentiate from ['ClassDescription']['Id']
      */
     public $class_schedule_id;
 
@@ -37,7 +37,7 @@ class Single_Event {
      * @since 2.4.7
      *
      * @access public
-     * @var $ID int TODO differentiate from ['ClassScheduleID']
+     * @var $ID int TODO differentiate from ['ClassScheduleId']
      */
     public $ID;
 
@@ -271,17 +271,17 @@ class Single_Event {
      * @param array $atts array of shortcode attributes from calling shortcode.
      */
     public function __construct($event, $atts = array()) {
-        $this->class_schedule_id = $event['ClassScheduleID'];
+        $this->class_schedule_id = $event['ClassScheduleId'];
         $this->startDateTime = $event['StartDateTime'];
         $this->endDateTime = $event['EndDateTime'];
         $this->className = $event['ClassDescription']['Name'];
-        $this->ID = $event['ClassDescription']['ID'];
+        $this->ID = $event['ClassDescription']['Id'];
         $this->staffName = $event['Staff']['Name'];
         $this->staffImage = $event['Staff']['ImageURL'];
         $this->staffBio = NS\MZMBO()->helpers->prepare_html_string($event['Staff']['Bio']);
         $this->Description = NS\MZMBO()->helpers->prepare_html_string($event['ClassDescription']['Description']);
         $this->classImage = $event['ClassDescription']['ImageURL'];
-        $this->location_ID = $event['Location']['ID'];
+        $this->location_ID = $event['Location']['Id'];
         $this->location_Name = $event['Location']['Name'];
         $this->location_Address = $event['Location']['Address'];
         $this->location_Address2 = $event['Location']['Address2'];

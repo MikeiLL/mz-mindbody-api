@@ -125,7 +125,7 @@ class Retrieve_Events extends Interfaces\Retrieve_Classes {
             }
 
             // Don't include classes that aren't in $this->atts locations array.
-            if (!in_array($class['Location']['ID'], $this->atts['locations'])) continue;
+            if (!in_array($class['Location']['Id'], $this->atts['locations'])) continue;
 
             // Populate the Locations Dictionary
             $this->populate_locations_dictionary($class);

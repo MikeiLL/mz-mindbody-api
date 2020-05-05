@@ -20,7 +20,7 @@ use MZ_Mindbody\Inc\Libraries\Rarst\WordPress\DateTime as Datetime;
  * @param @type string $calendar_format Depending on final display, we may create items in Single_event class differently.
  *																			Default: 'horizontal'
  * @param @type boolean $delink Make class name NOT a link
- * @param @type string $class_type MBO API has 'Enrollment' and 'DropIn'. 'Enrolment' is a "workdhop". Default: 'Enrollment'
+ * @param @type string $class_type MBO API has 'Enrollment' and 'Class'. 'Enrolment' is a "workdhop". Default: 'Enrollment'
  * @param @type numeric $account Which MBO account is being interfaced with.
  * @param @type boolean $this_week If true, show only week from today.
  */
@@ -141,7 +141,7 @@ abstract class Retrieve_Classes extends Retrieve {
     /**
      * Holds the native MBO "schedule type".
      *
-     * $class_type MBO API has native 'Enrollment' and 'DropIn'. 'Enrolment' is a "workshop". Default: 'Enrollment'
+     * $class_type MBO API has native 'Enrollment' and 'Class'. 'Enrolment' is a "workshop". Default: 'Enrollment'
      *
      * @since    2.4.7
      * @access   public
@@ -192,7 +192,7 @@ abstract class Retrieve_Classes extends Retrieve {
         endif;
         $this->time_frame = $this->time_frame();
         $this->locations_dictionary = array();
-        $this->schedule_types = !empty(Core\MZ_Mindbody_Api::$advanced_options['schedule_types']) ? Core\MZ_Mindbody_Api::$advanced_options['schedule_types'] : array('DropIn');
+        $this->schedule_types = !empty(Core\MZ_Mindbody_Api::$advanced_options['schedule_types']) ? Core\MZ_Mindbody_Api::$advanced_options['schedule_types'] : array('Class');
         // Allow shortcode to override global setting for schedule_types
         if (!empty($this->atts['schedule_types'])) $this->schedule_types = $this->atts['schedule_types'];
     }
@@ -236,16 +236,19 @@ abstract class Retrieve_Classes extends Retrieve {
             
             $schedule_data = $mb->GetClasses($this->time_frame);
 
-            if ($schedule_data['GetClassesResult']['Status'] != 'Success'):
+            if ( empty($schedule_data['Classes']) || empty($schedule_data['Classes'][0]['Id']) ):
 
-                echo "<!-- " . $schedule_data['GetClassesResult']['Status'] . "<hr>" . $schedule_data['GetClassSchedulesResult'] . " --> ";
+                echo "<!-- " . $schedule_data['PaginationResponse'] . "<hr>" . $schedule_data['Classes'] . " --> ";
 
                 return false;
 
             endif;
 
             // Otherwise (if successful API call) assign result to $this->classes.
-            $this->classes = $schedule_data;
+            $this->classes = $schedule_data['Classes'];
+            
+            // print_r('%%%% first -> class keys: %%%%');
+			// print_r(array_keys($this->classes[0]));
 
             // Store the transient for 12 hours
             set_transient($transient_string, $schedule_data, 60 * 60 * 12);
@@ -310,15 +313,17 @@ abstract class Retrieve_Classes extends Retrieve {
         /* When there is only a single event in the client
          * schedule, the 'Classes' array contains that event, but when there are multiple
          * visits then the array of events is under 'Events'/'Event'
-         */
-        if (!empty($this->classes['GetClassesResult']['Classes']['Class'][0]['StartDateTime'])){
+         *
+         This may not be necessary
+        if (!empty($this->classes[0]['StartDateTime'])){
             // Multiple events
-            $classes_array_scope = $this->classes['GetClassesResult']['Classes']['Class'];
+            $classes_array_scope = $this->classes[0];
         } else {
-            $classes_array_scope =$this->classes['GetClassesResult']['Classes'];
+            $classes_array_scope = $this->classes;
         }
+        */
 
-        foreach($classes_array_scope as $class)
+        foreach($this->classes as $class)
         {
 
             // TODO Don't do this twice. Filter once for BOTH schedule displays
@@ -387,15 +392,17 @@ abstract class Retrieve_Classes extends Retrieve {
         /* When there is only a single event in the client
          * schedule, the 'Classes' array contains that event, but when there are multiple
          * visits then the array of events is under 'Events'/'Event'
-         */
-        if (!empty($this->classes['GetClassesResult']['Classes']['Class'][0]['StartDateTime'])){
+         *
+         This may not be necessary
+        if (!empty($this->classes[0]['StartDateTime'])){
             // Multiple events
-            $classes_array_scope = $this->classes['GetClassesResult']['Classes']['Class'];
+            $classes_array_scope = $this->classes[0];
         } else {
-            $classes_array_scope = $this->classes['GetClassesResult']['Classes'];
+            $classes_array_scope = $this->classes;
         }
+        */
 
-        foreach($classes_array_scope as $class)
+        foreach($this->classes as $class)
         {
 
             // Filter out some items
@@ -485,17 +492,17 @@ abstract class Retrieve_Classes extends Retrieve {
     protected function filter_class($class){
 
         if (
-            (!in_array($class['Location']['ID'], $this->atts['locations'])) ||
+            (!in_array($class['Location']['Id'], $this->atts['locations'])) ||
             (!in_array($class['ClassDescription']['Program']['ScheduleType'], $this->schedule_types))
         ) {
             return false;
         }
         if (!empty($this->atts['session_types'])) {
-            if (!in_array($class['ClassDescription']['SessionType']['Name'], $this->atts['session_types'])) return false;
+            if (!in_array($class['ClassDescription']['SessionType']['Name'], $this->atts['session_types'])) return true;
         }
 
         // If configured to do so in shortcode, skip classes that are cancelled.
-        if ( ( !empty($this->atts['hide_cancelled']) ) && ( $class['IsCanceled'] == 1 ) ) return false;
+        if ( ( !empty($this->atts['hide_cancelled']) ) && ( $class['IsCanceled'] == 1 ) ) return true;
 
         return true;
     }
@@ -519,8 +526,8 @@ abstract class Retrieve_Classes extends Retrieve {
         $url_encoded_address = urlencode($locationAddress.$locationAddress2);
         $locationNameDisplay = '<span class="location_name '.$location_name_css.'"><a href="http://maps.google.com/maps?q='.$url_encoded_address.'" target="_blank" title="'. $locationAddress. '">' . $locationName . '</a>';
 
-        if (!array_key_exists($class['Location']['ID'], $this->locations_dictionary)):
-            $this->locations_dictionary[$class['Location']['ID']] = array(
+        if (!array_key_exists($class['Location']['Id'], $this->locations_dictionary)):
+            $this->locations_dictionary[$class['Location']['Id']] = array(
                                                                         'name' => $locationName,
                                                                         'link' => $locationNameDisplay,
                                                                         'class' => preg_replace('/\W+/','-',strtolower(strip_tags($locationName)))
