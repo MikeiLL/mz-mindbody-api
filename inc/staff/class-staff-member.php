@@ -124,7 +124,9 @@ class Staff_Member {
      * @param array $atts array of shortcode attributes from calling shortcode.
      */
     public function __construct($staff_member, $atts = array()) {
-        $this->ID = $staff_member['ID'];
+    print_r('staff_member: ');
+    print_r(array_keys($staff_member));
+        $this->ID = $staff_member['Id'];
         $this->Name = $staff_member['Name'];
         $this->FirstName = $staff_member['FirstName'];
         $this->LastName = $staff_member['LastName'];

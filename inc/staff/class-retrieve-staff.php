@@ -73,15 +73,18 @@ class Retrieve_Staff extends Interfaces\Retrieve {
                 $this->staff_result = $mb->GetStaff( array('StaffIDs'=> $staffIDs ));
             }
 
-            if (!empty($this->staff_result['GetStaffResult']['StaffMembers']['Staff'])) {
-                set_transient($transient_string, serialize($this->staff_result), 60 * 60 * 12);
+            if (!empty($this->staff_result['StaffMembers'])) {
+                set_transient($transient_string, serialize($this->staff_result['StaffMembers']), 60 * 60 * 12);
             }
+            
+            // print_r('$$$$$$$$$$ Staff: ');
+            // print_r(array_keys($this->staff_result));
 
         } else {
             $this->staff_result = unserialize(get_transient( $transient_string ));
         }
 
-        return $this->staff_result;
+        return $this->staff_result['StaffMembers'];
     }
     /**
      * Sort Staff array by MBO SortOrder, then by LastName
