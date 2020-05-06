@@ -55,6 +55,12 @@ class Tests_Retrieve_Client extends MZMBO_WPUnitTestCase {
         		case 'State':
         			$user_data['State'] = Test_Options::$_CLIENTSTATE;
         			break;
+        		case 'PostalCode':
+        			$user_data['PostalCode'] = '32505';
+        			break;
+        		case 'MobilePhone':
+        			$user_data['MobilePhone'] = '8504333202';
+        			break;
         		case 'BirthDate':
         			$user_data['BirthDate'] = Test_Options::$_CLIENTBIRTHDATE;
         			break;
@@ -70,7 +76,10 @@ class Tests_Retrieve_Client extends MZMBO_WPUnitTestCase {
         	Test_Options::$_CLIENTID = $new_client['Client']['Id']; //100015679
         }
         
+        // TODO More validation tests for various fields
+        
         $this->assertTrue(is_array($new_client));
+        print_r($new_client);
         $this->assertTrue(is_string(Test_Options::$_CLIENTID));
         $this->assertTrue($new_client['Client']['Email'] == Test_Options::$_CLIENTEMAIL);
                 
