@@ -31,15 +31,17 @@ abstract class Retrieve
      * Configure the MBO API object with Credentials stored in DB
      *
      * @since 2.4.7
+     *
+     * @param int api_version since we need to use api v5 for login for time being
      */
-    public function instantiate_mbo_API()
+    public function instantiate_mbo_API( $api_version = 6 )
     {
 
         $basic_options = get_option('mz_mbo_basic', 'Error: No Options');
 
         if ($basic_options == 'Error: No Options' || empty($basic_options)) {
             return false;
-        } else {
+        } else if ( $api_version == 6 ) {
             return new Libraries\MBO_V6_API(array(
                 'mz_source_name' => $basic_options['mz_source_name'],
                 'mz_mindbody_password' => $basic_options['mz_mindbody_password'],
@@ -47,6 +49,13 @@ abstract class Retrieve
                 'mz_mbo_api_key' => $basic_options['mz_mbo_api_key'],
                 'mz_mindbody_siteID' => $basic_options['mz_mindbody_siteID']
             ));
+        } else {
+        	return new Libraries\MBO_V5_API(array(
+                'mz_source_name' => $basic_options['mz_source_name'],
+                'mz_mindbody_password' => $basic_options['mz_mindbody_password'],
+                'mz_mbo_app_name' => $basic_options['mz_mbo_app_name'],
+                'mz_mbo_api_key' => $basic_options['mz_mbo_api_key'],
+                'mz_mindbody_siteID' => $basic_options['mz_mindbody_siteID']
         }
     }
 
