@@ -15,6 +15,7 @@ class MBO_V6_API {
 	private $tokenRequestTries = 6;
 		
 	protected $headersBasic = [
+		'User-Agent' => '',
 		'Content-Type' => 'application/json; charset=utf-8',
 		'Api-Key' => '',
 		'SiteId' => '-99'
@@ -37,6 +38,9 @@ class MBO_V6_API {
 			//}
 			if(!empty($mbo_dev_credentials['mz_mbo_api_key'])) {
 				$this->headersBasic['Api-Key'] = $mbo_dev_credentials['mz_mbo_api_key'];
+			}
+			if(!empty($mbo_dev_credentials['mz_mbo_app_name'])) {
+				$this->headersBasic['User-Agent'] = $mbo_dev_credentials['mz_mbo_app_name'];
 			}
 			if(!empty($mbo_dev_credentials['mz_source_name'])) {
 				$this->extraCredentials['SourceName'] = $mbo_dev_credentials['mz_source_name'];

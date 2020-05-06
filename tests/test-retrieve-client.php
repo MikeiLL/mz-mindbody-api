@@ -144,5 +144,29 @@ class Tests_Retrieve_Client extends MZMBO_WPUnitTestCase {
         $this->assertTrue(false == $is_or_is_not);
         
 	}
+	
+	public function test_get_client_info() {
+		
+		if ( empty(Test_Options::$_CLIENTPASSWORD) ) return; // can't login yet.
+		
+        parent::setUp();
+        		                
+        $client_object = new MZ_Mindbody\Inc\Client\Retrieve_Client;
+        
+        $credentials = [
+        	'Username' => Test_Options::$_CLIENTEMAIL,
+       		'Password' => Test_Options::$_CLIENTPASSWORD
+        ];
+        
+        $validation_result = $client_object->validate_client($credentials);
+        
+        $this->assertTrue(!empty($validation_result['ValidateLoginResult']['GUID']));
+        
+        $session_result = $client_object->create_client_session($validation_result);
+        
+        $get_client_info = $client_object->get_client_info();
+        
+        
+	}
 
 }
