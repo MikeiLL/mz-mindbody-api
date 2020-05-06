@@ -79,7 +79,7 @@ class Tests_Retrieve_Client extends MZMBO_WPUnitTestCase {
         // TODO More validation tests for various fields
         
         $this->assertTrue(is_array($new_client));
-        print_r($new_client);
+
         $this->assertTrue(is_string(Test_Options::$_CLIENTID));
         $this->assertTrue($new_client['Client']['Email'] == Test_Options::$_CLIENTEMAIL);
                 
@@ -110,6 +110,39 @@ class Tests_Retrieve_Client extends MZMBO_WPUnitTestCase {
 			$client_reset_request = $client_object->password_reset_email_request($user_data);
         	$this->assertTrue(empty($client_reset_request));
         }
+	}
+	
+	public function test_log_client_in() {
+		
+		if ( empty(Test_Options::$_CLIENTPASSWORD) ) return; // can't login yet.
+		
+        parent::setUp();
+        		                
+        $client_object = new MZ_Mindbody\Inc\Client\Retrieve_Client;
+        
+        $credentials = [
+        	'Username' => Test_Options::$_CLIENTEMAIL,
+       		'Password' => Test_Options::$_CLIENTPASSWORD
+        ];
+        
+        $validation_result = $client_object->validate_client($credentials);
+        
+        $this->assertTrue(!empty($validation_result['ValidateLoginResult']['GUID']));
+        
+        $session_result = $client_object->create_client_session($validation_result);
+        
+        $this->assertTrue($session_result);
+        
+        $is_or_is_not = $client_object->check_client_logged();
+        
+        $this->assertTrue(true == $is_or_is_not);
+        
+        $is_or_is_not = $client_object->client_log_out();
+        
+        $is_or_is_not = $client_object->check_client_logged();
+        
+        $this->assertTrue(false == $is_or_is_not);
+        
 	}
 
 }

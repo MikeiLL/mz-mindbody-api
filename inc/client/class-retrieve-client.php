@@ -65,75 +65,81 @@ class Retrieve_Client extends Interfaces\Retrieve {
         $this->date_format = Core\MZ_Mindbody_Api::$date_format;
         $this->time_format = Core\MZ_Mindbody_Api::$time_format;
     }
+    
+    
+		
+    /**
+     * Client Login – using API VERSION 5!
+     *
+     * Since 2.5.7
+     *
+     * @param array $credentials with username and password
+     * @return string - Welcome message or Error
+     */
+    public function log_client_in( $credentials = ['username' => '', 'password' => ''] ){
+    
+        $validateLogin = $this->validate_client($credentials);
+		
+		if ( !empty($validateLogin['ValidateLoginResult']['GUID']) ) {
+			if ( $this->create_client_session( $validateLogin ) ) {
+				return __('Welcome', 'mz-mindbody-api') . ', ' . $validateLogin['ValidateLoginResult']['Client']['FirstName'] . '.<br/>';
+			}
+			return sprintf(__('Whoops. Please try again, %1$s.', 'mz-mindbody-api'),
+            					$validateLogin['ValidateLoginResult']['Client']['FirstName']);
+		} else {
+			// Otherwise error message
+			if ( !empty($validateLogin['ValidateLoginResult']['Message'] ) ) {
+
+				return $validateLogin['ValidateLoginResult']['Message'];
+
+			} else {
+				// Default fallback message.
+				return __('Invalid Login', 'mz-mindbody-api') . '<br/>';
+
+			}
+		}
+	}
+	
+	
+    /**
+     * Validate Client - API VERSION 5!
+     *
+     * Since 2.5.7
+     *
+     * @param $validateLoginResult array with result from MBO API
+     */
+    public function validate_client( $validateLoginResult ){
+		
+		// Create the MBO Object using API VERSION 5!
+        $this->get_mbo_results(5);
+
+		return $this->mb->ValidateLogin(array(
+			'Username' => $validateLoginResult['Username'],
+			'Password' => $validateLoginResult['Password']
+		));
+
+    }
+    
 
     /**
-     * Client Log In
+     * Create Client Session
+     *
+     * Since 2.5.7
+     *
+     * @param $validateLoginResult array with MBO result
      */
-    public function client_log_in(){
+    public function create_client_session( $validateLoginResult ){
+		
+		if (!empty($validateLoginResult['ValidateLoginResult']['GUID'])) {
 
-        check_ajax_referer($_REQUEST['nonce'], "mz_signup_nonce", false);
+			// If validated, create two session variables and store
 
-        // Create the MBO Object
-        $this->get_mbo_results();
+			NS\MZMBO()->session->set( 'MBO_GUID', $validateLoginResult['ValidateLoginResult']['GUID'] );
+			NS\MZMBO()->session->set( 'MBO_Client', $validateLoginResult['ValidateLoginResult']['Client'] );
 
-        // Init message
-        $result['message'] = '';
+			return true;
 
-        $result['type'] = 'success';
-
-        // Parse the serialized form into an array.
-        $params = array();
-        parse_str($_REQUEST['form'], $params);
-
-        if(!empty($params)) {
-
-            // We have form data, attempt login validation
-            $validateLogin = $this->mb->ValidateLogin(array(
-                'Username' => $params['username'],
-                'Password' => $params['password']
-            ));
-
-
-            if(!empty($validateLogin['ValidateLoginResult']['GUID'])) {
-
-                // If validated, create two session variables and store
-
-                NS\MZMBO()->session->set( 'MBO_GUID', $validateLogin['ValidateLoginResult']['GUID'] );
-                NS\MZMBO()->session->set( 'MBO_Client', $validateLogin['ValidateLoginResult']['Client'] );
-
-                $result['message'] = __('Welcome', 'mz-mindbody-api') . ', ' . $validateLogin['ValidateLoginResult']['Client']['FirstName'] . '.<br/>';
-
-            } else {
-
-                // Otherwise error message and display form again
-                if ( !empty($validateLogin['ValidateLoginResult']['Message'] ) ) {
-
-                    $result['message'] = $validateLogin['ValidateLoginResult']['Message'];
-
-                } else {
-
-                    $result['message'] = __('Invalid Login', 'mz-mindbody-api') . '<br/>';
-
-                }
-
-                $result['type'] = 'error';
-            }
-
-        } else {
-
-            $result['type'] = 'error';
-
-        }
-
-
-        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-            $result = json_encode($result);
-            echo $result;
-        } else {
-            header("Location: " . $_SERVER["HTTP_REFERER"]);
-        }
-
-        die();
+		} 
 
     }
 
@@ -142,31 +148,9 @@ class Retrieve_Client extends Interfaces\Retrieve {
      */
     public function client_log_out(){
 
-        check_ajax_referer($_REQUEST['nonce'], "mz_client_log_out", false);
-
-        ob_start();
-
-        $result['type'] = 'success';
-
         NS\MZMBO()->session->clear();
 
-        // update class attribute to hold logged out status
-        $this->client_logged_in = false;
-
-        _e('Logged Out', 'mz-mindbody-api');
-
-        echo '<br/>';
-
-        $result['message'] = ob_get_clean();
-
-        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-            $result = json_encode($result);
-            echo $result;
-        } else {
-            header("Location: " . $_SERVER["HTTP_REFERER"]);
-        }
-
-        die();
+        return true;
     }
 
     /**
@@ -561,23 +545,15 @@ class Retrieve_Client extends Interfaces\Retrieve {
     /**
      * Check Client Logged In
      *
-     * Function run by ajax to continually check if client is logged in
+     * Since 2.5.7
+     * Is there a session containing the MBO_GUID of current user
+     *
+     * @return bool
      */
     public function check_client_logged(){
 
-        check_ajax_referer($_REQUEST['nonce'], "mz_check_client_logged", false);
-
-        $result['type'] = 'success';
-        $result['message'] =  ( 1 == (bool) NS\MZMBO()->session->get('MBO_GUID') ) ? 1 : 0;
-
-        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-            $result = json_encode($result);
-            echo $result;
-        } else {
-            header("Location: " . $_SERVER["HTTP_REFERER"]);
-        }
-
-        die();
+        return ( 1 == (bool) NS\MZMBO()->session->get('MBO_GUID') ) ? 1 : 0;
+        
     }
 
     /**
@@ -586,15 +562,19 @@ class Retrieve_Client extends Interfaces\Retrieve {
      *
      * @since 2.4.7
      *
-     * @param @timestamp defaults to current time
+     * @param $api_version int in case we need to call on API v5 as in for client login
      *
      *
      * @return array of MBO schedule data
      */
-    public function get_mbo_results(){
-
-        $this->mb = $this->instantiate_mbo_API();
-
+    public function get_mbo_results( $api_version = 6 ){
+		
+		if ( $api_version == 6 ) {
+        	$this->mb = $this->instantiate_mbo_API();
+		} else {
+			$this->mb = $this->instantiate_mbo_API( 5 );
+		}
+		
         if ( !$this->mb || $this->mb == 'NO_API_SERVICE' ) return false;
 
         return true;
