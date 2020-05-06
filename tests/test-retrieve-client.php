@@ -142,10 +142,10 @@ class Tests_Retrieve_Client extends MZMBO_WPUnitTestCase {
         $is_or_is_not = $client_object->check_client_logged();
         
         $this->assertTrue(false == $is_or_is_not);
-        
+                
 	}
 	
-	public function test_get_client_info() {
+	public function test_get_client_details() {
 		
 		if ( empty(Test_Options::$_CLIENTPASSWORD) ) return; // can't login yet.
 		
@@ -164,9 +164,20 @@ class Tests_Retrieve_Client extends MZMBO_WPUnitTestCase {
         
         $session_result = $client_object->create_client_session($validation_result);
         
-        $get_client_info = $client_object->get_client_info();
+        $client_details = $client_object->get_client_details();
         
+        $client_active_memberships = $client_object->get_client_active_memberships();
         
+        $get_client_account_balance = $client_object->get_client_account_balance();
+        
+        $get_client_contracts = $client_object->get_client_contracts();
+        
+        $get_client_purchases = $client_object->get_client_purchases();
+                
+        $this->assertTrue(is_array($client_active_memberships));
+        $this->assertTrue(is_string($get_client_account_balance));
+        $this->assertTrue(is_array($get_client_contracts));
+        $this->assertTrue(is_array($get_client_purchases));
 	}
 
 }

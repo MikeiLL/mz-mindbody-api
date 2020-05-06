@@ -105,11 +105,13 @@ class Retrieve_Client extends Interfaces\Retrieve {
 		// Create the MBO Object using API VERSION 5!
         $this->get_mbo_results(5);
 
-		return $this->mb->ValidateLogin(array(
+		$result = $this->mb->ValidateLogin(array(
 			'Username' => $validateLoginResult['Username'],
 			'Password' => $validateLoginResult['Password']
 		));
 
+		return $result;
+		
     }
     
 
@@ -183,19 +185,120 @@ class Retrieve_Client extends Interfaces\Retrieve {
     }
     
     /**
-     * Get client account details.
+     * Get client details.
+     *
+     * since: 2.5.7
+     *
+     * return array of client info from MBO or require login
+     */
+    public function get_client_details() {
+    
+    	$client_info = NS\MZMBO()->session->get('MBO_Client');
+    	
+    	if (empty($client_info)) return __('Please Login', 'mz-mindbody-api');
+    	
+    	return $client_info;
+    	
+    }
+    
+    /**
+     * Get client active memberships.
+     *
+     * since: 2.5.7
+     *
+     * return array numeric array of active memberships
+     */
+    public function get_client_active_memberships() {
+    
+    	$client = $this->get_client_details();
+
+        // Create the MBO Object
+        $this->get_mbo_results();
+		
+		$result = $this->mb->GetActiveClientMemberships(['clientId' => $client['ID']]); // UniqueID ??
+				
+		return $result['ClientMemberships'];
+    }
+    
+    /**
+     * Get client account balance.
+     *
+     * since: 2.5.7
+     *
+     * This wraps a method for getting balances for multiple accounts, but 
+     * we just get it for one.
+     *
+     * return string client account balance
+     */
+    public function get_client_account_balance() {
+    
+    	$client = $this->get_client_details();
+
+        // Create the MBO Object
+        $this->get_mbo_results();
+		
+		// Can accept a list of client id strings
+		$result = $this->mb->GetClientAccountBalances(['clientIds' => $client['ID']]); // UniqueID ??
+		
+		// Just return the first (and only) result
+		return $result['Clients'][0]['AccountBalance'];
+    }
+    
+    /**
+     * Get client contracts.
+     *
+     * since: 2.5.7
+     *
+     * return array numeric array of client contracts
+     */
+    public function get_client_contracts() {
+    
+    	$client = $this->get_client_details();
+
+        // Create the MBO Object
+        $this->get_mbo_results();
+		
+		$result = $this->mb->GetClientContracts(['clientId' => $client['ID']]); // UniqueID ??
+				
+		return $result['Contracts'];
+    }
+    
+    /**
+     * Get client purchases.
+     *
+     * since: 2.5.7
+     *
+     * return array numeric array of client purchases
+     */
+    public function get_client_purchases() {
+    
+    	$client = $this->get_client_details();
+
+        // Create the MBO Object
+        $this->get_mbo_results();
+		
+		$result = $this->mb->GetClientPurchases(['clientId' => $client['ID']]); // UniqueID ??
+				
+		return $result['Purchases'];
+    }
+    
+    /**
+     * Get client purchases.
      *
      * since: 2.5.7
      *
      * return array numeric array of required fields
      */
-    public function get_client_info() {
-    	$client_info = NS\MZMBO()->session->get('MBO_Client');
-    	print_r('MBO_Client: ');
-    	print_r($client_info);
-    	$else = NS\MZMBO()->session->get('MBO_Else');
-    	print_r('MBO_Else: ');
-    	print_r($client_info);
+    public function get_active_client_memberships() {
+    
+    	$client = $this->get_client_details();
+
+        // Create the MBO Object
+        $this->get_mbo_results();
+		
+		$result = $this->mb->GetActiveClientMemberships(['clientId' => $client['ID']]); // UniqueID ??
+				
+		return $result;
     }
 
     /**
