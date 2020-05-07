@@ -153,7 +153,7 @@ function MZMBO() {
 		return MZ_Mindbody::instance();
 }
 
-$min_php = '5.6.0';
+$min_php = '7.1';
 
 // Check the minimum required PHP version and run the plugin.
 if ( version_compare( PHP_VERSION, $min_php, '>=' ) ) {
