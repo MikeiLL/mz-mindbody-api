@@ -28,7 +28,12 @@ class Tests_Retrieve_Client extends MZMBO_WPUnitTestCase {
 	}
 	
 	public function test_add_client() {
-
+		// This API let's me create all the duplicate contacts I want with same name, email.
+		// So only do this if we haven't already
+		// Check https://developers.mindbodyonline.com/PublicDocumentation/V6#add-a-new-client
+		// For recommended workflow as new feature being added May 11 2020
+		if ( !empty(Test_Options::$_CLIENTPASSWORD) ) return false;
+		
         parent::setUp();
         		                
         $client_object = new MZ_Mindbody\Inc\Client\Retrieve_Client;
@@ -108,7 +113,12 @@ class Tests_Retrieve_Client extends MZMBO_WPUnitTestCase {
 				'UserLastName' => Test_Options::$_LASTNAME
 			];
 			$client_reset_request = $client_object->password_reset_email_request($user_data);
-        	$this->assertTrue(empty($client_reset_request));
+			
+			// We will use this method to not create a new user if one already
+			// exists with this email and name
+			if (empty($client_reset_request)) return false;
+			
+			$this->assertTrue(empty($client_reset_request));
         }
 	}
 	
@@ -173,9 +183,9 @@ class Tests_Retrieve_Client extends MZMBO_WPUnitTestCase {
         $get_client_contracts = $client_object->get_client_contracts();
         
         $get_client_purchases = $client_object->get_client_purchases();
-                
+
         $this->assertTrue(is_array($client_active_memberships));
-        $this->assertTrue(is_string($get_client_account_balance));
+        $this->assertTrue(!empty($get_client_account_balance));
         $this->assertTrue(is_array($get_client_contracts));
         $this->assertTrue(is_array($get_client_purchases));
 	}

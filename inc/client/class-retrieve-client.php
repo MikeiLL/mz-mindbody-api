@@ -204,6 +204,19 @@ class Retrieve_Client extends Interfaces\Retrieve {
     /**
      * Get client active memberships.
      *
+     * Memberships will be an array, each of which contain among other stuff:
+     *
+     * [Name] => Monthly Membership - Gym Access
+     *      [PaymentDate] => 2020-05-06T00:00:00
+     *      [Program] => Array
+     *          (
+     *              [Id] => 21
+     *              [Name] => Gym Membership
+     *              [ScheduleType] => Arrival
+     *              [CancelOffset] => 0
+     *          )
+     * [Remaining] => 1000, etc..
+     *
      * since: 2.5.7
      *
      * return array numeric array of active memberships
@@ -247,7 +260,41 @@ class Retrieve_Client extends Interfaces\Retrieve {
     /**
      * Get client contracts.
      *
-     * since: 2.5.7
+     * Since 2.5.7
+     *
+     * Returns an array of items that look like this:
+     *
+     * [AgreementDate] => 2020-05-06T00:00:00
+     * [AutopayStatus] => Active
+     * [ContractName] => Monthly Membership - 12 Months
+     * [EndDate] => 2021-05-06T00:00:00
+     * [Id] => 15040
+     * [OriginationLocationId] => 1
+     * [StartDate] => 2020-05-06T00:00:00
+     * [SiteId] => -99
+     * [UpcomingAutopayEvents] => Array
+     *     (
+     *         [0] => Array
+     *             (
+     *                 [ClientContractId] => 15040
+     *                 [ChargeAmount] => 75
+     *                 [PaymentMethod] => DebitAccount
+     *                 [ScheduleDate] => 2020-06-06T00:00:00
+     *             )
+     * etc...
+     * [LocationId] => 1
+	 * [Payments] => Array
+	 * (
+	 * 	[0] => Array
+	 * 		(
+	 * 			[Id] => 158015
+	 * 			[Amount] => 75
+	 * 			[Method] => 16
+	 * 			[Type] => Account
+	 * 			[Notes] => 
+	 * 		)
+	 * 
+	 * )
      *
      * return array numeric array of client contracts
      */
@@ -266,7 +313,46 @@ class Retrieve_Client extends Interfaces\Retrieve {
     /**
      * Get client purchases.
      *
-     * since: 2.5.7
+     * Since 2.5.7
+     *
+     * Returns an array of items that look like this:
+     * [Sale] => Array
+     *     (
+     *         [Id] => 100160377
+     *         [SaleDate] => 2020-05-06T00:00:00Z
+     *         [SaleTime] => 23:46:45
+     *         [SaleDateTime] => 2020-05-06T23:46:45Z
+     *         [ClientId] => 100015683
+     *         [PurchasedItems] => Array
+     *             (
+     *                 [0] => Array
+     *                     (
+     *                         [Id] => 1198
+     *                         [IsService] => 1
+     *                         [BarcodeId] => 
+     *                     )
+     *             )
+     *         [LocationId] => 1
+     *         [Payments] => Array
+     *             (
+     *                 [0] => Array
+     *                     (
+     *                         [Id] => 158015
+     *                         [Amount] => 75
+     *                         [Method] => 16
+     *                         [Type] => Account
+     *                         [Notes] => 
+     *                     )
+     *             )
+     *     )
+     * [Description] => Monthly Membership - Gym Access
+     * [AccountPayment] => 
+     * [Price] => 75
+     * [AmountPaid] => 75
+     * [Discount] => 0
+     * [Tax] => 0
+     * [Returned] => 
+     * [Quantity] => 1
      *
      * return array numeric array of client purchases
      */
