@@ -13,7 +13,7 @@ use MZ_Mindbody as NS;
  *
  *
  */
-class Client_Portal extends Interfaces\Retrieve {
+class Client_Portal extends Retrieve_Client {
 
     /**
      * The Mindbody API Object
@@ -69,7 +69,7 @@ class Client_Portal extends Interfaces\Retrieve {
     /**
      * Client Log In
      */
-    public function client_log_in(){
+    public function ajax_client_log_in(){
 
         check_ajax_referer($_REQUEST['nonce'], "mz_signup_nonce", false);
 
@@ -87,44 +87,13 @@ class Client_Portal extends Interfaces\Retrieve {
 
         if(!empty($params)) {
 
-            // We have form data, attempt login validation
-            $validateLogin = $this->mb->ValidateLogin(array(
-                'Username' => $params['username'],
-                'Password' => $params['password']
-            ));
-
-
-            if(!empty($validateLogin['ValidateLoginResult']['GUID'])) {
-
-                // If validated, create two session variables and store
-
-                NS\MZMBO()->session->set( 'MBO_GUID', $validateLogin['ValidateLoginResult']['GUID'] );
-                NS\MZMBO()->session->set( 'MBO_Client', $validateLogin['ValidateLoginResult']['Client'] );
-
-                $result['message'] = __('Welcome', 'mz-mindbody-api') . ', ' . $validateLogin['ValidateLoginResult']['Client']['FirstName'] . '.<br/>';
-
-            } else {
-
-                // Otherwise error message and display form again
-                if ( !empty($validateLogin['ValidateLoginResult']['Message'] ) ) {
-
-                    $result['message'] = $validateLogin['ValidateLoginResult']['Message'];
-
-                } else {
-
-                    $result['message'] = __('Invalid Login', 'mz-mindbody-api') . '<br/>';
-
-                }
-
-                $result['type'] = 'error';
-            }
+        	$result = $this->log_client_in($params);
 
         } else {
 
             $result['type'] = 'error';
 
         }
-
 
         if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
             $result = json_encode($result);
@@ -140,7 +109,7 @@ class Client_Portal extends Interfaces\Retrieve {
     /**
      * Client Log Out
      */
-    public function client_log_out(){
+    public function ajax_client_log_out(){
 
         check_ajax_referer($_REQUEST['nonce'], "mz_client_log_out", false);
 
@@ -148,7 +117,7 @@ class Client_Portal extends Interfaces\Retrieve {
 
         $result['type'] = 'success';
 
-        NS\MZMBO()->session->clear();
+        $this->client_log_out();
 
         // update class attribute to hold logged out status
         $this->client_logged_in = false;
@@ -174,7 +143,7 @@ class Client_Portal extends Interfaces\Retrieve {
      *
      * This is the endpoint when client confirms they want to sign-up for a class.
      */
-    public function register_for_class(){
+    public function ajax_register_for_class(){
 
         check_ajax_referer($_REQUEST['nonce'], "mz_register_for_class", false);
 
@@ -247,7 +216,7 @@ class Client_Portal extends Interfaces\Retrieve {
      *
      * @return array with result of api call and message type.
      */
-    private function add_client_to_class($classID) {
+    private function ajax_add_client_to_class($classID) {
 
         $result = array();
 
@@ -335,7 +304,7 @@ class Client_Portal extends Interfaces\Retrieve {
     /**
      * Generate MBO Account Signup Form
      */
-    public function generate_mbo_signup_form(){
+    public function ajax_generate_mbo_signup_form(){
 
         // Crate the MBO Object
         $this->get_mbo_results();
@@ -409,7 +378,7 @@ class Client_Portal extends Interfaces\Retrieve {
     /**
      * Create MBO Account
      */
-    public function create_mbo_account(){
+    public function ajax_create_mbo_account(){
 
         check_ajax_referer($_REQUEST['nonce'], "mz_signup_nonce", false);
 
@@ -496,7 +465,7 @@ class Client_Portal extends Interfaces\Retrieve {
      * Display Client Schedule
      *
      */
-    public function display_client_schedule(){
+    public function ajax_display_client_schedule(){
 
         check_ajax_referer($_REQUEST['nonce'], "mz_display_client_schedule", false);
 
@@ -550,7 +519,7 @@ class Client_Portal extends Interfaces\Retrieve {
      *
      * @access private
      */
-    private function get_client_schedule() {
+    private function ajax_get_client_schedule() {
 
         $result = array();
 
@@ -594,81 +563,16 @@ class Client_Portal extends Interfaces\Retrieve {
 
     }
 
-    /**
-     * Return an array of MBO Class Objects, ordered by date, then time.
-     *
-     * This is a limited version of the Retrieve Classes method used in horizontal schedule
-     *
-     *
-     * @param @type array $mz_classes
-     *
-     * @return @type array of Objects from Single_event class, in Date (and time) sequence.
-     */
-    public function sort_classes_by_date_then_time($client_schedule = array()) {
-
-        $classesByDateThenTime = array();
-
-        /* For some reason, when there is only a single class in the client
-         * schedule, the 'Visits' array contains that visit, but when there are multiple
-         * visits then the array of visits is under 'Visits'/'Visit'
-         */
-        if (is_array($client_schedule['GetClientScheduleResult']['Visits']['Visit'][0])){
-            // Multiple visits
-            $visit_array_scope = $client_schedule['GetClientScheduleResult']['Visits']['Visit'];
-        } else {
-            $visit_array_scope = $client_schedule['GetClientScheduleResult']['Visits'];
-        }
-
-
-        foreach($visit_array_scope as $visit)
-        {
-            // Make a timestamp of just the day to use as key for that day's classes
-            $dt = new \DateTime($visit['StartDateTime']);
-            $just_date =  $dt->format('Y-m-d');
-
-            /* Create a new array with a key for each date YYYY-MM-DD
-            and corresponding value an array of class details */
-
-            $single_event = new Schedule\Mini_Schedule_Item($visit);
-
-            if(!empty($classesByDateThenTime[$just_date])) {
-                array_push($classesByDateThenTime[$just_date], $single_event);
-            } else {
-                $classesByDateThenTime[$just_date] = array($single_event);
-            }
-        }
-
-        /* They are not ordered by date so order them by date */
-        ksort($classesByDateThenTime);
-
-        foreach($classesByDateThenTime as $classDate => &$classes)
-        {
-            /*
-             * $classes is an array of all classes for given date
-             * Take each of the class arrays and order it by time
-             * $classesByDateThenTime should have a length of seven, one for
-             * each day of the week.
-             */
-            usort($classes, function($a, $b) {
-                if($a->startDateTime == $b->startDateTime) {
-                    return 0;
-                }
-                return $a->startDateTime < $b->startDateTime ? -1 : 1;
-            });
-        }
-
-        return $classesByDateThenTime;
-    }
-
+   
     /**
      * Check Client Logged In
      *
      * Function run by ajax to continually check if client is logged in
      */
-    public function check_client_logged(){
+    public function ajax_check_client_logged(){
 
         check_ajax_referer($_REQUEST['nonce'], "mz_check_client_logged", false);
-
+        		
         $result['type'] = 'success';
         $result['message'] =  ( 1 == (bool) NS\MZMBO()->session->get('MBO_GUID') ) ? 1 : 0;
 
@@ -680,40 +584,6 @@ class Client_Portal extends Interfaces\Retrieve {
         }
 
         die();
-    }
-
-    /**
-     * Get a timestamp, return data from MBO api, store it in a transient and
-     * as object attribute.
-     *
-     * @since 2.4.7
-     *
-     * @param @timestamp defaults to current time
-     *
-     *
-     * @return array of MBO schedule data
-     */
-    public function get_mbo_results(){
-
-        $this->mb = $this->instantiate_mbo_API();
-
-        if ( !$this->mb || $this->mb == 'NO_API_SERVICE' ) return false;
-
-        return true;
-    }
-
-    /**
-     * Make Numeric Array
-     *
-     * Make sure that we have an array
-     *
-     * @param $data
-     * @return array
-     */
-    private function make_numeric_array($data) {
-
-        return (isset($data[0])) ? $data : array($data);
-
     }
 
 }

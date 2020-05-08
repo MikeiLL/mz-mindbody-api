@@ -36,7 +36,7 @@ abstract class Retrieve
      */
     public function instantiate_mbo_API( $api_version = 6 )
     {
-
+		// TODO can we avoid this call to get_option?
         $basic_options = get_option('mz_mbo_basic', 'Error: No Options');
 
         if ($basic_options == 'Error: No Options' || empty($basic_options)) {

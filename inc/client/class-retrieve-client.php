@@ -444,5 +444,87 @@ class Retrieve_Client extends Interfaces\Retrieve {
 
         return true;
     }
+    
+     /**
+     * Return an array of MBO Class Objects, ordered by date, then time.
+     *
+     * This is a limited version of the Retrieve Classes method used in horizontal schedule
+     *
+     *
+     * @param @type array $mz_classes
+     *
+     * @return @type array of Objects from Single_event class, in Date (and time) sequence.
+     */
+    public function sort_classes_by_date_then_time($client_schedule = array()) {
+
+        $classesByDateThenTime = array();
+
+        /* For some reason, when there is only a single class in the client
+         * schedule, the 'Visits' array contains that visit, but when there are multiple
+         * visits then the array of visits is under 'Visits'/'Visit'
+         */
+        if (is_array($client_schedule['GetClientScheduleResult']['Visits']['Visit'][0])){
+            // Multiple visits
+            $visit_array_scope = $client_schedule['GetClientScheduleResult']['Visits']['Visit'];
+        } else {
+            $visit_array_scope = $client_schedule['GetClientScheduleResult']['Visits'];
+        }
+
+
+        foreach($visit_array_scope as $visit)
+        {
+            // Make a timestamp of just the day to use as key for that day's classes
+            $dt = new \DateTime($visit['StartDateTime']);
+            $just_date =  $dt->format('Y-m-d');
+
+            /* Create a new array with a key for each date YYYY-MM-DD
+            and corresponding value an array of class details */
+
+            $single_event = new Schedule\Mini_Schedule_Item($visit);
+
+            if(!empty($classesByDateThenTime[$just_date])) {
+                array_push($classesByDateThenTime[$just_date], $single_event);
+            } else {
+                $classesByDateThenTime[$just_date] = array($single_event);
+            }
+        }
+
+        /* They are not ordered by date so order them by date */
+        ksort($classesByDateThenTime);
+
+        foreach($classesByDateThenTime as $classDate => &$classes)
+        {
+            /*
+             * $classes is an array of all classes for given date
+             * Take each of the class arrays and order it by time
+             * $classesByDateThenTime should have a length of seven, one for
+             * each day of the week.
+             */
+            usort($classes, function($a, $b) {
+                if($a->startDateTime == $b->startDateTime) {
+                    return 0;
+                }
+                return $a->startDateTime < $b->startDateTime ? -1 : 1;
+            });
+        }
+
+        return $classesByDateThenTime;
+    }
+    
+    
+    /**
+     * Make Numeric Array
+     *
+     * Make sure that we have an array
+     *
+     * @param $data
+     * @return array
+     */
+    private function make_numeric_array($data) {
+
+        return (isset($data[0])) ? $data : array($data);
+
+    }
+
 
 }
