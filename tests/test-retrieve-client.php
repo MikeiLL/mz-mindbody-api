@@ -190,7 +190,7 @@ class Tests_Retrieve_Client extends MZMBO_WPUnitTestCase {
         	print_r($v);
         }
         $this->assertTrue(is_array($client_active_memberships));
-        $this->assertTrue(!empty($get_client_account_balance));
+        $this->assertTrue(isset($get_client_account_balance));
         $this->assertTrue(is_array($get_client_contracts));
         $this->assertTrue(is_array($get_client_purchases));
 	}
