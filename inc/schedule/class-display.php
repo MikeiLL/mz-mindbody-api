@@ -220,13 +220,12 @@ class Display extends Interfaces\ShortCode_Script_Loader
 
         // Break hide up into array, if it hasn't already been.
         $this->atts['hide'] = (!is_array($this->atts['hide'])) ? explode(',', str_replace(' ', '', strtolower($this->atts['hide']))) : $this->atts['hide'];
-
         // Begin generating output
         ob_start();
 
         $template_loader = new Core\Template_Loader();
         $this->schedule_object = new Retrieve_Schedule($this->atts);
-
+        
         // Call the API and if fails, return error message.
         if (false == $this->schedule_object->get_mbo_results()) return "<div>" . __("Mindbody plugin settings error.", 'mz-mindbody-api') . "</div>";
 

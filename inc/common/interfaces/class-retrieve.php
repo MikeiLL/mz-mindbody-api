@@ -2,6 +2,7 @@
 
 namespace MZ_Mindbody\Inc\Common\Interfaces;
 
+use MZ_Mindbody;
 use MZ_Mindbody\Inc\Core as Core;
 use MZ_Mindbody\Inc\Libraries as Libraries;
 
@@ -36,19 +37,13 @@ abstract class Retrieve
      */
     public function instantiate_mbo_API( $api_version = 6 )
     {
-
-        $basic_options = get_option('mz_mbo_basic', 'Error: No Options');
-
+		
+        $basic_options = MZ_Mindbody\MZMBO()::$basic_options;
+        
         if ($basic_options == 'Error: No Options' || empty($basic_options)) {
             return false;
         } else if ( $api_version == 6 ) {
-            return new Libraries\MBO_V6_API(array(
-                'mz_source_name' => $basic_options['mz_source_name'],
-                'mz_mindbody_password' => $basic_options['mz_mindbody_password'],
-                'mz_mbo_app_name' => $basic_options['mz_mbo_app_name'],
-                'mz_mbo_api_key' => $basic_options['mz_mbo_api_key'],
-                'mz_mindbody_siteID' => $basic_options['mz_mindbody_siteID']
-            ));
+            return new Libraries\MBO_V6_API();
         } else {
         	return new Libraries\MBO_V5_API(array(
                 'SourceName' => $basic_options['mz_source_name'],

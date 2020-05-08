@@ -183,7 +183,12 @@ class Tests_Retrieve_Client extends MZMBO_WPUnitTestCase {
         $get_client_contracts = $client_object->get_client_contracts();
         
         $get_client_purchases = $client_object->get_client_purchases();
-
+        foreach (['client_active_memberships: ' => $client_active_memberships,
+        			'get_client_contracts: ' => $get_client_contracts,
+        			'get_client_purchases: ' => $get_client_purchases] as $k => $v) {
+        	print_r($k);
+        	print_r($v);
+        }
         $this->assertTrue(is_array($client_active_memberships));
         $this->assertTrue(!empty($get_client_account_balance));
         $this->assertTrue(is_array($get_client_contracts));

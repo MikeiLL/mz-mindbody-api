@@ -124,6 +124,18 @@ class Settings_Page {
             )
         );
 
+        // Field: Display Substitute Status
+        self::$wposa_obj->add_field(
+            'mz_mbo_basic',
+            array(
+                'id'      => 'sourcename_not_staff',
+                'type'    => 'checkbox',
+                'name'    => __( 'Staff Name is MBO Sourcename', 'mz-mindbody-api' ),
+                'desc'    => __( 'App adds and underscore when Sourcename used as Staff Name.', 'mz-mindbody-api' ),
+                'default' => 'off'
+            )
+        );
+
         // Field: Staff Password. 
         self::$wposa_obj->add_field(
             'mz_mbo_basic',
@@ -156,9 +168,6 @@ class Settings_Page {
                 'type' => 'separator',
             )
         );
-        
-        
-
 
         // Field: Title.
         self::$wposa_obj->add_field(

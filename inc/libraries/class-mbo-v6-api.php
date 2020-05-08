@@ -28,8 +28,10 @@ class MBO_V6_API {
 	/**
 	* Initialize the apiServices and apiMethods arrays
 	*/
-	public function __construct($mbo_dev_credentials = array()) {
+	public function __construct() {
 	
+        $mbo_dev_credentials = NS\MZMBO()::$basic_options;
+
 		// set credentials into headers
 		if (!empty($mbo_dev_credentials)) {
 			//if(!empty($mbo_dev_credentials['mz_mbo_app_name'])) {
@@ -143,10 +145,15 @@ class MBO_V6_API {
 		
 		// Certain methods don't require credentials
 		if ( !in_array($restMethod['name'], $method_without_username) ) {
-		
+
+			if (NS\MZMBO()::$basic_options['sourcename_not_staff'] == 'on'){
+				$username = '_' . $this->extraCredentials['SourceName'];
+			} else {
+				$username = $this->extraCredentials['SourceName'];
+			}
 			$request_body = array_merge( $requestData,
 							array( 
-									'Username' => '_' . $this->extraCredentials['SourceName'], 
+									'Username' => $username, 
 									'Password' => $this->extraCredentials['Password'] 
 							)
 						);
@@ -229,8 +236,14 @@ class MBO_V6_API {
 		
 		if ( ctype_alnum($token) ) return $token;
 		
+		if (NS\MZMBO()::$basic_options['sourcename_not_staff'] == 'on'){
+			$username = '_' . $this->extraCredentials['SourceName'];
+		} else {
+			$username = $this->extraCredentials['SourceName'];
+		}
+			
 		$request_body = array( 
-								'Username' => '_' . $this->extraCredentials['SourceName'], 
+								'Username' => $username, 
 								'Password' => $this->extraCredentials['Password'] 
 						);
 		

@@ -223,7 +223,7 @@ abstract class Retrieve_Classes extends Retrieve {
          * SessionTypeIDs key only exists for Events display.
          */
         $sc_string = (array_key_exists('SessionTypeIDs', $this->time_frame )) ? 'get_events' : 'get_schedule';
-
+        
         $transient_string = $this->generate_transient_name($sc_string);
 
         if ( false === get_transient( $transient_string ) ) {

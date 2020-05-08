@@ -31,6 +31,7 @@ namespace MZ_Mindbody;
 
 use MZ_Mindbody\Inc\Core as Core;
 use MZ_Mindbody\Inc\Common as Common;
+use MZ_Mindbody\Inc\Client as Client;
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
@@ -54,7 +55,6 @@ define( NS . 'PLUGIN_NAME_URL', plugin_dir_url( __FILE__ ) );
 define( NS . 'PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 
 define( NS . 'PLUGIN_TEXT_DOMAIN', 'mz-mindbody-api' );
-
 
 /**
  * Autoload Classes
@@ -117,6 +117,7 @@ class MZ_Mindbody {
             self::$instance->session        = new Core\MZMBO_Session();
             self::$instance->i18n           = new Common\Global_Strings();
             self::$instance->helpers        = new Common\Helpers();
+            self::$instance->client         = new Client\Retrieve_Client();
 		}
 
 		return self::$instance;
@@ -137,7 +138,8 @@ class MZ_Mindbody {
  * Use this function like you would a global variable, except without needing
  * to declare the global.
  *
- * Example: <?php $mZmbo = MZ_Mindbody\MZMBO(); ?>
+ * Example 1: <?php $mZmbo = MZ_Mindbody\MZMBO(); ?>
+ * Example 2: <?php $basic_options = MZ_Mindbody\MZMBO()::$basic_options ?>
  *
  * Since everything within the plugin is registered via hooks,
  * then kicking off the plugin from this point in the file does
