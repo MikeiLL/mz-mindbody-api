@@ -3,6 +3,7 @@ namespace MZ_Mindbody\Inc\Libraries;
 
 use MZ_Mindbody as NS;
 use MZ_Mindbody\Inc\Common as Common;
+use MZ_Mindbody\Inc\Core as Core;
 
 
 /*
@@ -24,13 +25,15 @@ class MBO_V6_API {
 	protected $apiMethods = array();
 	
 	protected $extraCredentials = array();
+	
+	protected $basic_options;
 
 	/**
 	* Initialize the apiServices and apiMethods arrays
 	*/
 	public function __construct() {
 	
-        $mbo_dev_credentials = NS\MZMBO()::$basic_options;
+        $mbo_dev_credentials = $this->basic_options = Core\MZ_Mindbody_Api::$basic_options;
 
 		// set credentials into headers
 		if (!empty($mbo_dev_credentials)) {
@@ -146,14 +149,9 @@ class MBO_V6_API {
 		// Certain methods don't require credentials
 		if ( !in_array($restMethod['name'], $method_without_username) ) {
 
-			if (NS\MZMBO()::$basic_options['sourcename_not_staff'] == 'on'){
-				$username = '_' . $this->extraCredentials['SourceName'];
-			} else {
-				$username = $this->extraCredentials['SourceName'];
-			}
 			$request_body = array_merge( $requestData,
 							array( 
-									'Username' => $username, 
+									'Username' => $this->format_username(), 
 									'Password' => $this->extraCredentials['Password'] 
 							)
 						);
@@ -204,7 +202,7 @@ class MBO_V6_API {
 
 		if ( is_array($response_body) && array_key_exists( 'Error', $response_body ) && strpos($response_body['Error']["Message"], 'Please try again') ) {
 				// OK try again after three seconds
-				sleep(3);
+				//sleep(3);
 				if($this->tokenRequestTries > 1) {
 					return $this->callMindbodyService($restMethod, $requestData);
 				}
@@ -216,6 +214,7 @@ class MBO_V6_API {
 		
 		}
 	}
+	
 	
 	/**
 	* return the results of a Mindbody API method, specific to token
@@ -236,14 +235,8 @@ class MBO_V6_API {
 		
 		if ( ctype_alnum($token) ) return $token;
 		
-		if (NS\MZMBO()::$basic_options['sourcename_not_staff'] == 'on'){
-			$username = '_' . $this->extraCredentials['SourceName'];
-		} else {
-			$username = $this->extraCredentials['SourceName'];
-		}
-			
 		$request_body = array( 
-								'Username' => $username, 
+								'Username' => $this->format_username(), 
 								'Password' => $this->extraCredentials['Password'] 
 						);
 		
@@ -268,13 +261,30 @@ class MBO_V6_API {
 		} else {
 				if ( property_exists( $response_body, 'Error' ) && strpos($response_body->Error->Message, 'Please try again') ) {
 					// OK try again after three seconds
-					sleep(3);
+					//sleep(3);
 					if($this->tokenRequestTries > 1) {
 						return $this->tokenRequest($restMethod);
 					}
 					return false;
 				}
 				return $response_body;
+		}
+	}
+	
+	/**
+	* Return username string formatted based on if Sourcename of Staff Name
+	*
+	* @since 2.5.7
+	* @used by tokenRequest(), callMindbodyService()
+	*
+	* return string of MBO API user name with our without preceding underscore
+	*/
+	protected function format_username() {
+	print_r($this->basic_options);
+		if ($this->basic_options['sourcename_not_staff'] == 'on'){
+			return '_' . $this->extraCredentials['SourceName'];
+		} else {
+			return $this->extraCredentials['SourceName'];
 		}
 	}
     

@@ -28,6 +28,7 @@ class Tests_MBO_Api extends MZMBO_WPUnitTestCase {
             'mz_mindbody_password' => 'sdfg',
             'mz_mbo_app_name' => 'sdfg',
             'mz_mbo_api_key' => 'wert',
+			'sourcename_not_staff' => 'on',
             'mz_mindbody_siteID' => '-99'
         );
         

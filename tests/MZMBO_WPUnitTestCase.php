@@ -23,6 +23,7 @@ abstract class MZMBO_WPUnitTestCase extends \WP_UnitTestCase {
 			'mz_mindbody_password' => Test_Options::$_MYPASSWORD,
 			'mz_mbo_app_name' => Test_Options::$_MYAPPNAME,
 			'mz_mbo_api_key' => Test_Options::$_MYAPIKEY,
+			'sourcename_not_staff' => 'on',
 			'mz_mindbody_siteID' => '-99'
 		);
 	

@@ -38,7 +38,7 @@ abstract class Retrieve
     public function instantiate_mbo_API( $api_version = 6 )
     {
 		
-        $basic_options = MZ_Mindbody\MZMBO()::$basic_options;
+        $basic_options = Core\MZ_Mindbody_Api::$basic_options;
         
         if ($basic_options == 'Error: No Options' || empty($basic_options)) {
             return false;

@@ -152,7 +152,7 @@ class MZ_Mindbody_Api
         $this->plugin_basename = NS\PLUGIN_BASENAME;
         $this->plugin_text_domain = NS\PLUGIN_TEXT_DOMAIN;
 
-        self::$basic_options = get_option('mz_mbo_basic', 'Error: No Options');
+        self::$basic_options = get_option('mz_mbo_basic', 'Error: No Basic Options');
         self::$events_options = get_option('mz_mbo_events');
         self::$advanced_options = get_option('mz_mbo_advanced');
         self::$timezone = DateTime\WpDateTimeZone::getWpTimezone();
