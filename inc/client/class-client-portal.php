@@ -84,17 +84,26 @@ class Client_Portal extends Retrieve_Client {
         // Parse the serialized form into an array.
         $params = array();
         parse_str($_REQUEST['form'], $params);
-
-        if(!empty($params)) {
-
-        	$result = $this->log_client_in($params);
-
+        
+        if (empty($params) || !is_array($params)) {
+        
+        	$result['type'] = 'error';
+        	
         } else {
-
-            $result['type'] = 'error';
+        
+        	$credentials = ['Username' => $params['email'], 'Password' => $params['password']];
+        
+        	$login = $this->log_client_in($credentials);
+        	
+        	if ( $login['type'] == 'error' ) $result['type'] = 'error';
+        	
+        	NS\MZMBO()->helpers->log($login);
+        	
+			$result['message'] = $login['message'];
 
         }
-
+		
+		
         if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
             $result = json_encode($result);
             echo $result;
@@ -574,7 +583,7 @@ class Client_Portal extends Retrieve_Client {
         check_ajax_referer($_REQUEST['nonce'], "mz_check_client_logged", false);
         		
         $result['type'] = 'success';
-        $result['message'] =  ( 1 == (bool) NS\MZMBO()->session->get('MBO_GUID') ) ? 1 : 0;
+        $result['message'] =  $this->check_client_logged();
 
         if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
             $result = json_encode($result);

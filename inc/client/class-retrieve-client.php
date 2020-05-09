@@ -66,7 +66,7 @@ class Retrieve_Client extends Interfaces\Retrieve {
      *
      * @param array $credentials with username and password
      *
-     * @return string - Welcome or Error message 
+     * @return array - result type and message  
      */
     public function log_client_in( $credentials = ['username' => '', 'password' => ''] ){
     
@@ -74,19 +74,19 @@ class Retrieve_Client extends Interfaces\Retrieve {
 		
 		if ( !empty($validateLogin['ValidateLoginResult']['GUID']) ) {
 			if ( $this->create_client_session( $validateLogin ) ) {
-				return __('Welcome', 'mz-mindbody-api') . ', ' . $validateLogin['ValidateLoginResult']['Client']['FirstName'] . '.<br/>';
+				return ['type' => 'success', 'message' => __('Welcome', 'mz-mindbody-api') . ', ' . $validateLogin['ValidateLoginResult']['Client']['FirstName'] . '.<br/>'];
 			}
-			return sprintf(__('Whoops. Please try again, %1$s.', 'mz-mindbody-api'),
-            					$validateLogin['ValidateLoginResult']['Client']['FirstName']);
+			return ['type' => 'error', 'message' => sprintf(__('Whoops. Please try again, %1$s.', 'mz-mindbody-api'),
+            					$validateLogin['ValidateLoginResult']['Client']['FirstName'])];
 		} else {
 			// Otherwise error message
 			if ( !empty($validateLogin['ValidateLoginResult']['Message'] ) ) {
 
-				return $validateLogin['ValidateLoginResult']['Message'];
+				return ['type' => 'error', 'message' => $validateLogin['ValidateLoginResult']['Message']];
 
 			} else {
 				// Default fallback message.
-				return __('Invalid Login', 'mz-mindbody-api') . '<br/>';
+				return ['type' => 'error', 'message' => __('Invalid Login', 'mz-mindbody-api') . '<br/>'];
 
 			}
 		}
@@ -418,6 +418,28 @@ class Retrieve_Client extends Interfaces\Retrieve {
     public function check_client_logged(){
 
         return ( 1 == (bool) NS\MZMBO()->session->get('MBO_GUID') ) ? 1 : 0;
+        
+    }
+    
+    /**
+     * Client has membership
+     *
+     * Since 2.5.7
+     *
+     * return true if active membership matches one in received array (or string)
+     * 
+     * @param $membership_types string or array of membership types 
+     * 
+     *
+     * @return bool
+     */
+    public function client_has_membership( $membership_types = [] ){
+		
+		$membership_types = is_array($membership_types) ? $membership_types : [$membership_types];
+		
+		$memberships = $this->get_active_client_memberships();
+		
+        //return ( 1 == (bool) NS\MZMBO()->session->get('MBO_GUID') ) ? 1 : 0;
         
     }
 
