@@ -8,7 +8,10 @@
             // Just one location for use in general MBO site link
             location = atts.locations[0].toString(),
             siteID = atts.account ? atts.account : mz_mindbody_schedule.account;
-
+            
+		/**
+		 * State will store and track status
+		 */
         var mz_mbo_state = {
 
             logged_in: (mz_mindbody_schedule.loggedMBO == 1) ? true : false,
@@ -52,7 +55,10 @@
                 this.signup_button = '<button class="btn btn-primary" data-nonce="'+this.nonce+'" data-location="'+this.location+'" data-classID="'+this.classID+'" id="signUpForClass">' + mz_mindbody_schedule.confirm_signup + '</button>';
             }
         };
-
+		
+		/*
+		 * Define the modal container state which changes depending on login state
+		 */
         function render_mbo_modal(){
             var message = (mz_mbo_state.message ? '<p>'+mz_mbo_state.message+'</p>' : '');
             mz_mbo_state.wrapper = '<div class="modal__wrapper" id="signupModalWrapper">';
@@ -71,6 +77,9 @@
             mz_mbo_state.message = undefined;
         }
 
+		/*
+		 * Render inner content of modal based on state
+		 */
         function render_mbo_modal_activity(){
             // Clear content and content wrapper
             mz_mbo_state.content = '';
