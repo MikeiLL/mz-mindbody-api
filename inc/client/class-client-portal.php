@@ -160,7 +160,7 @@ class Client_Portal extends Retrieve_Client {
 
         $result['type'] = 'success';
 
-        if ( NS\MZMBO()->session->get('mbo_guid') ) {
+        if ( NS\MZMBO()->session->get('MBO_Client') ) {
 
             $template_data = array();
 
@@ -247,7 +247,7 @@ class Client_Portal extends Retrieve_Client {
         if ((isset(NS\Inc\Core\MZ_Mindbody_Api::$advanced_options['log_api_calls'])) && (NS\Inc\Core\MZ_Mindbody_Api::$advanced_options['log_api_calls'] == 'on')):
             // Debug logging on if we have also enabled log_api_calls
             $debug_data = [
-                'mbo_guid' => NS\MZMBO()->session->get('mbo_guid'),
+                'mbo_client' => NS\MZMBO()->session->get('MBO_Client'),
                 'additions' => $additions,
                 'signupData'   => $signupData
             ];
@@ -435,8 +435,6 @@ class Client_Portal extends Retrieve_Client {
 
                 if ( !empty($validateLogin['ValidateLoginResult']['GUID']) ) {
 
-                    NS\MZMBO()->session->set('MBO_GUID', $validateLogin['ValidateLoginResult']['GUID']);
-
                     NS\MZMBO()->session->set('MBO_Client', $validateLogin['ValidateLoginResult']['Client']);
 
                     echo '<h3>' . __('Congratulations. You are now logged in with your new Mindbody account.', 'mz-mindbody-api') . '</h3>';
@@ -484,7 +482,7 @@ class Client_Portal extends Retrieve_Client {
 
         $schedule = $this->get_client_schedule();
 
-        if ( ( (bool) NS\MZMBO()->session->get('MBO_GUID') === true ) && ($schedule['type'] == 'success') ) {
+        if ( ( (bool) NS\MZMBO()->session->get('MBO_Client') === true ) && ($schedule['type'] == 'success') ) {
 
             $template_data = array(
                 'date_format' => $this->date_format,

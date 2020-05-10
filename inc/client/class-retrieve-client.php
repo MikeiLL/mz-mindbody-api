@@ -128,7 +128,6 @@ class Retrieve_Client extends Interfaces\Retrieve {
 
 			// If validated, create two session variables and store
 
-			NS\MZMBO()->session->set( 'MBO_GUID', $validateLoginResult['ValidateLoginResult']['GUID'] );
 			NS\MZMBO()->session->set( 'MBO_Client', $validateLoginResult['ValidateLoginResult']['Client'] );
 
 			return true;
@@ -417,7 +416,7 @@ class Retrieve_Client extends Interfaces\Retrieve {
      */
     public function check_client_logged(){
 
-        return ( 1 == (bool) NS\MZMBO()->session->get('MBO_GUID') ) ? 1 : 0;
+        return ( 1 == (bool) NS\MZMBO()->session->get('MBO_Client') ) ? 1 : 0;
         
     }
     
@@ -439,7 +438,7 @@ class Retrieve_Client extends Interfaces\Retrieve {
 		
 		$memberships = $this->get_active_client_memberships();
 		
-        //return ( 1 == (bool) NS\MZMBO()->session->get('MBO_GUID') ) ? 1 : 0;
+        //return ( 1 == (bool) NS\MZMBO()->session->get('MBO_Client') ) ? 1 : 0;
         
     }
 
