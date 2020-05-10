@@ -250,8 +250,6 @@ class MBO_V6_API {
 				'body' => json_encode($request_body),
 				'cookies' => array()
 			) );
-
-		$response_body = json_decode($response['body']);
 	 		
 		if ( is_wp_error( $response ) ) {
 		
@@ -259,6 +257,8 @@ class MBO_V6_API {
 			return "Something went wrong with token request: " . $error_message;
 			
 		} else {
+
+				$response_body = json_decode($response['body']);
 				if ( property_exists( $response_body, 'Error' ) && strpos($response_body->Error->Message, 'Please try again') ) {
 					// OK try again after three seconds
 					//sleep(3);
