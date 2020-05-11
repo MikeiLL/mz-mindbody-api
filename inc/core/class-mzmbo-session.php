@@ -53,7 +53,7 @@ class MZMBO_Session {
      *
      * @var    string
      */
-    private $prefix = '';
+    private $prefix = 'mz_mbo_';
 
     /**
      * Class Constructor
@@ -129,7 +129,7 @@ class MZMBO_Session {
     public function init() {
 
         if ( $this->use_php_sessions ) {
-            $this->session = isset( $_SESSION[ 'mzmbo' . $this->prefix ] ) && is_array( $_SESSION[ 'mzmbo' . $this->prefix ] ) ? $_SESSION[ 'mzmbo' . $this->prefix ] : array();
+            $this->session = isset( $_SESSION[ $this->prefix ] ) && is_array( $_SESSION[ $this->prefix ] ) ? $_SESSION[ $this->prefix ] : array();
         } else {
             $this->session = WP_Session\WP_Session::get_instance();
         }
@@ -156,6 +156,9 @@ class MZMBO_Session {
      *
      * Retrieve session variable for a given session key.
      *
+     * source for adding four hour time limit
+     * https://stackoverflow.com/a/1270960/2223106
+     *
      * @since  3.0
      * @access public
      *
@@ -169,10 +172,27 @@ class MZMBO_Session {
         $return = false;
 
         if ( isset( $this->session[ $key ] ) && ! empty( $this->session[ $key ] ) ) {
-
+        
+			// Check session create and update time
+			if (isset($this->session[$this->prefix . 'LAST_ACTIVITY']) && (time() - $this->session[$this->prefix . 'LAST_ACTIVITY'] > 14400)) {
+				// last request was more than four hours ago
+				$this->clear();     // unset $_SESSION variable for the run-time 
+			}
+			$this->session[$this->prefix . 'LAST_ACTIVITY'] = time(); // update last activity time stamp
+			
+			if (!isset($this->session[$this->prefix . 'CREATED'])) {
+				$this->session[$this->prefix . 'CREATED'] = time();
+			} else if (time() - $this->session[$this->prefix . 'CREATED'] > 14400) {
+				// session started more than four hours ago
+				$this->clear();    // change session ID for the current session and invalidate old session ID
+				$this->session[$this->prefix . 'CREATED'] = time();  // update creation time
+			}
+			
             // EDD & Give use regext matching & JSON decoding when retrieving session values.
             $return = maybe_unserialize( $this->session[ $key ] );
         }
+        
+
 
         return $return;
     }
@@ -200,9 +220,13 @@ class MZMBO_Session {
         // Give sets & retrieves JSON instead of full objects here.
         // Currently we're passing various value types including strings, arrays & objects.
         $this->session[ $key ] = $value;
+        
+        // Also track session time
+        $this->session[ $this->prefix . 'LAST_ACTIVITY' ] = time();
+        $this->session[ $this->prefix . 'CREATED' ] = time();
 
         if ( $this->use_php_sessions ) {
-            $_SESSION[ 'mzmbo' . $this->prefix ] = $this->session;
+            $_SESSION[ $this->prefix ] = $this->session;
         }
 
         return $this->session[ $key ];
@@ -219,7 +243,7 @@ class MZMBO_Session {
     public function clear() {
 
         if ( $this->use_php_sessions ) {
-            unset( $_SESSION[ 'mzmbo' . $this->prefix ] );
+            unset( $_SESSION[ $this->prefix ] );
         } else {
             $this->session->reset();
             //$this->session->write_data();
