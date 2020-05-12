@@ -184,23 +184,14 @@ class MBO_V6_API {
 				'cookies' => array()
 			) );
 		
-		$response_body = json_decode($response['body'], true);
-		
-		// print_r('%%%% response body array keys: %%%%');
-		// print_r(array_keys(json_decode($response['body'], true)));
-		// print_r('%%%% response body array keys: %%%%');
-		// print_r(json_decode($response['body'], true)['PaginationResponse']);
-		// print_r('%%%% response body array keys: %%%%');
-		// print_r(array_keys(json_decode($response['body'], true)['Classes'][0]));
-		// print_r('%%%% response : %%%%');
-		// print_r($response['response']);
-
 		if ( is_wp_error( $response ) ) {
 			$error_message = $response->get_error_message();
 			return "Something went wrong: " . $error_message;
 		} else {
 
-		if ( is_array($response_body) && array_key_exists( 'Error', $response_body ) && strpos($response_body['Error']["Message"], 'Please try again') ) {
+			$response_body = json_decode($response['body'], true);
+			
+			if ( is_array($response_body) && array_key_exists( 'Error', $response_body ) && strpos($response_body['Error']["Message"], 'Please try again') ) {
 				// OK try again after three seconds
 				//sleep(3);
 				if($this->tokenRequestTries > 1) {
@@ -208,7 +199,7 @@ class MBO_V6_API {
 				}
 				return false;
 			}
-			
+		
 		// return the data as an array, which is what we are used to
 		return $response_body;
 		
