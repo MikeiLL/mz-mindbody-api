@@ -96,9 +96,7 @@ class Client_Portal extends Retrieve_Client {
         	$login = $this->log_client_in($credentials);
         	
         	if ( $login['type'] == 'error' ) $result['type'] = 'error';
-        	
-        	NS\MZMBO()->helpers->log($login);
-        	
+        	        	
 			$result['message'] = $login['message'];
 
         }
