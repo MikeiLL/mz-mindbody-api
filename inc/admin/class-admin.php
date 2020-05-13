@@ -131,6 +131,9 @@ class Admin {
      * @since    2.4.7
      */
     public function mz_mbo_upgrade() {
+     
+    	if (false == get_site_option( 'mz_mbo_version' )) return;
+    	
         // If version is previous to 2.4.7
         if (get_site_option( 'mz_mbo_version' ) < '2.4.7') {
             // Copy the old options to the new options
