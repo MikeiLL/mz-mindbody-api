@@ -506,24 +506,22 @@ class Schedule_Item {
      * @param array $schedule_item array of item attributes. See class description.
      */
     public function __construct($schedule_item, $atts = array()) {
-// print_r('Location:');
-// print_r(array_keys($schedule_item['Location']));
-// print_r('ClassDescription:');
-// print_r(array_keys($schedule_item['ClassDescription']));
-// print_r('Staff: ');
-// print_r($schedule_item['Staff']);
-// print_r('Substitute:');
-// print_r($schedule_item["Substitute"]);
 
         $this->className = isset($schedule_item['ClassDescription']['Name']) ? $schedule_item['ClassDescription']['Name']: '';
         $this->classImage = isset($schedule_item['ClassDescription']['ImageURL']) ? $schedule_item['ClassDescription']['ImageURL']: '';
         $this->startDateTime = $schedule_item['StartDateTime'];
         $this->endDateTime = $schedule_item['EndDateTime'];
         $this->sessionTypeName = isset($schedule_item['ClassDescription']['SessionType']['Name']) ? $schedule_item['ClassDescription']['SessionType']['Name'] : '';
+        // Set Staff Name up.
+        // First set first, last with default to blank string
         $this->staffName = isset($schedule_item['Staff']['FirstName']) ? $schedule_item['Staff']['FirstName'] . ' ' . $schedule_item['Staff']['LastName'] : '';
+        // If "Name" has been set, use that
+        if (isset($schedule_item['Staff']['Name'])) {
+        	$this->staffName = $schedule_item['Staff']['Name'];
+        }
         $this->classDescription = isset($schedule_item['ClassDescription']['Description']) ? $schedule_item['ClassDescription']['Description'] : '';
         $this->level = isset($schedule_item['ClassDescription']['Level']['Name']) ? $schedule_item['ClassDescription']['Level']['Name'] : '';
-        $this->staffImage = isset($schedule_item['Staff']['ImageURL']) ? $schedule_item['Staff']['ImageURL'] : '';
+        $this->staffImage = isset($schedule_item['Staff']['ImageUrl']) ? $schedule_item['Staff']['ImageUrl'] : '';
         $this->ID = $schedule_item['Id'];
         $this->sTG = $schedule_item['ClassDescription']['Program']['Id'];
         $this->class_schedule_id = $schedule_item['ClassScheduleId'];

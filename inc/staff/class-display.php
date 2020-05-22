@@ -81,15 +81,12 @@ class Display extends Interfaces\ShortCode_Script_Loader
         // Call the API and if fails, return error message.
         if (false === $this->staff_object->get_mbo_results()) return "<div>" . __("Mindbody plugin settings error.", 'mz-mindbody-api') . "</div>";
 
-
-
         if (isset($this->staff_object->staff_result)):
             $mz_staff_list = $this->staff_object->sort_staff_by_sort_order($this->atts);
         else:
             NS\MZMBO()->helpers->print($this->staff_object);
             die('Something went wrong.');
         endif;
-
 
         // Add Style with script adder
         self::addScript();
@@ -144,10 +141,10 @@ class Display extends Interfaces\ShortCode_Script_Loader
         $this->staff_object = new Retrieve_Staff();
 
         // Send an array of staffID
-        $staff_details = $this->staff_object->get_mbo_results( array($staffID) );
+        $staff_result = $this->staff_object->get_mbo_results( array($staffID) );
 
         $this->template_data = array(
-            'staff_details' => $staff_details['GetStaffResult']['StaffMembers']['Staff'],
+            'staff_details' => new Staff_Member($staff_result[0]), // returns an array
             'staffID' => $staffID,
             'siteID' => $_REQUEST['siteID']
         );

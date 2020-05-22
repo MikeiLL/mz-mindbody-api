@@ -43,7 +43,7 @@ class Retrieve_Staff extends Interfaces\Retrieve {
      * @param @staffIDs array of Staff IDs to return info for
      *
      *
-     * @return array of MBO Staff data
+     * @return $this->staff_result object holding staff details
      */
     public function get_mbo_results( $staffIDs = array() ){
 
@@ -75,13 +75,14 @@ class Retrieve_Staff extends Interfaces\Retrieve {
 
             if (!empty($this->staff_result['StaffMembers'])) {
                 set_transient($transient_string, serialize($this->staff_result['StaffMembers']), 60 * 60 * 12);
+                $this->staff_result = $this->staff_result['StaffMembers'];
             }
 
         } else {
             $this->staff_result = unserialize(get_transient( $transient_string ));
         }
 
-        return $this->staff_result['StaffMembers'];
+        return $this->staff_result;
     }
     /**
      * Sort Staff array by MBO SortOrder, then by LastName
@@ -97,7 +98,6 @@ class Retrieve_Staff extends Interfaces\Retrieve {
      * @return array of MBO staff members, sorted by SortOrder, then LastName
      */
     public function sort_staff_by_sort_order($atts = array()){
-		
 		
         $count = 0;
         // Obtain a list of columns

@@ -126,9 +126,15 @@ class Staff_Member {
     public function __construct($staff_member, $atts = array()) {
     	
         $this->ID = $staff_member['Id'];
-        $this->Name = !empty($staff_member['Name']) ? $staff_member['Name'] : $staff_member['FirstName'];
+        //$this->Name = !empty($staff_member['Name']) ? $staff_member['Name'] : $staff_member['FirstName'];
         $this->FirstName = $staff_member['FirstName'];
-        $this->LastName = $staff_member['LastName'];
+        $this->LastName = $staff_member['LastName'];// Set Staff Name up.
+        // First set first, last with default to blank string
+        $this->Name = isset($this->FirstName) ? $this->FirstName . ' ' . $this->LastName : '';
+        // If "Name" has been set, use that
+        if (isset($staff_member['Name'])) {
+        	$this->Name = $staff_member['Name'];
+        }
         $this->SortOrder = $staff_member['SortOrder'];
         $this->ImageURL = isset($staff_member['ImageUrl']) ? $staff_member['ImageUrl'] : '';
         $this->Bio = isset($staff_member['Bio']) ? NS\MZMBO()->helpers->prepare_html_string($staff_member['Bio']) : '';
