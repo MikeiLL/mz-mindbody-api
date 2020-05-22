@@ -225,7 +225,7 @@ abstract class Retrieve_Classes extends Retrieve {
         $sc_string = (array_key_exists('SessionTypeIDs', $this->time_frame )) ? 'get_events' : 'get_schedule';
         
         $transient_string = $this->generate_transient_name($sc_string);
-
+        
         if ( false === get_transient( $transient_string ) ) {
             // If there's not a transient already, call the API and create one
 
@@ -236,7 +236,7 @@ abstract class Retrieve_Classes extends Retrieve {
             
             $schedule_data = $mb->GetClasses($this->time_frame);
 
-            if ( empty($schedule_data['Classes']) || empty($schedule_data['Classes'][0]['Id']) ):
+            if ( empty($schedule_data) || empty($schedule_data['Classes'][0]['Id']) ):
 
                 echo "<!-- " . $schedule_data['PaginationResponse'] . "<hr>" . $schedule_data['Classes'] . " --> ";
 
@@ -251,11 +251,12 @@ abstract class Retrieve_Classes extends Retrieve {
 			// print_r(array_keys($this->classes[0]));
 
             // Store the transient for 12 hours
-            set_transient($transient_string, $schedule_data, 60 * 60 * 12);
+            set_transient($transient_string, $this->classes, 60 * 60 * 12);
 
         } else {
             $this->classes = get_transient( $transient_string );
         }
+        
         return $this->classes;
     }
 

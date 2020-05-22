@@ -89,6 +89,7 @@ abstract class Retrieve
         }
         // append today's date
         $transient_string .= date('Y-m-d', current_time('timestamp'));
+
         return $prefix . md5($transient_string);
     }
 

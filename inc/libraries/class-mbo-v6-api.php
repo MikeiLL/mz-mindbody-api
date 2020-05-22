@@ -222,8 +222,7 @@ class MBO_V6_API {
 	* return string of MBO API Response data
 	*/
 	protected function tokenRequest($restMethod) {
-		NS\MZMBO()->helpers->log($restMethod);
-		NS\MZMBO()->helpers->log("was rest");
+	
 		$this->tokenRequestTries--;
 		
 		$tm = new Common\Token_Management;
