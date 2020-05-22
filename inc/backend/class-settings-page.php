@@ -73,7 +73,7 @@ class Settings_Page {
         self::$wposa_obj->add_section(
             array(
                 'id'    => 'mz_mbo_depreciated',
-                'title' => __( 'Depreciated', 'mz-mindbody-api' ),
+                'title' => __( 'API Version 5', 'mz-mindbody-api' ),
             )
         );
 
@@ -201,6 +201,18 @@ class Settings_Page {
                 'type' => 'title',
                 'name' => '<h1>API V5 Credentials Test</h1>',
                 'default' => ''
+            )
+        );
+
+
+        // Field: Title.
+        self::$wposa_obj->add_field(
+            'mz_mbo_depreciated',
+            array(
+                'id'   => 'api_5_description',
+                'type' => 'html',
+                'name' => 'Note',
+                'desc' => 'New MBO Dev accounts will not have access to the MBO V5 API.'
             )
         );
 
