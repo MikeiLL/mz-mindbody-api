@@ -124,19 +124,18 @@ class Staff_Member {
      * @param array $atts array of shortcode attributes from calling shortcode.
      */
     public function __construct($staff_member, $atts = array()) {
-    print_r('staff_member: ');
-    print_r(array_keys($staff_member));
+    	
         $this->ID = $staff_member['Id'];
-        $this->Name = $staff_member['Name'];
+        $this->Name = !empty($staff_member['Name']) ? $staff_member['Name'] : $staff_member['FirstName'];
         $this->FirstName = $staff_member['FirstName'];
         $this->LastName = $staff_member['LastName'];
         $this->SortOrder = $staff_member['SortOrder'];
-        $this->ImageURL = isset($staff_member['ImageURL']) ? $staff_member['ImageURL'] : '';
+        $this->ImageURL = isset($staff_member['ImageUrl']) ? $staff_member['ImageUrl'] : '';
         $this->Bio = isset($staff_member['Bio']) ? NS\MZMBO()->helpers->prepare_html_string($staff_member['Bio']) : '';
         $this->atts = $atts;
         $this->siteID = isset($this->atts['siteID']) ? $this->atts['siteID'] : NS\Inc\Core\MZ_Mindbody_Api::$basic_options['mz_mindbody_siteID'];
         // If there's an image create a tag, otherwise empty string.
-        $this->ImageTag = isset($staff_member['ImageURL']) ? '<img src="' . $this->ImageURL . '" alt="' . $this->Name . '" class="img-responsive mz_modal_staff_image_body">' : '';
+        $this->ImageTag = isset($staff_member['ImageUrl']) ? '<img src="' . $this->ImageURL . '" alt="' . $this->Name . '" class="img-responsive mz_modal_staff_image_body">' : '';
         $this->ScheduleButton = '<a href="http://clients.mindbodyonline.com/ws.asp?studioid=' . $this->siteID . '&stype=-7&sView=week&sTrn=' . $this->ID . '" class="btn btn-info mz-btn-info" target="_blank">'.sprintf(__('See %s&apos;s Schedule', 'mz-mindbody-api'), $this->Name).'</a>';
     }
 

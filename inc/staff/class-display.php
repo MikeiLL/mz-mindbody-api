@@ -83,9 +83,8 @@ class Display extends Interfaces\ShortCode_Script_Loader
 
 
 
-        if (isset($this->staff_object->staff_result['GetStaffResult']['StaffMembers']['Staff'])):
+        if (isset($this->staff_object->staff_result)):
             $mz_staff_list = $this->staff_object->sort_staff_by_sort_order($this->atts);
-            //$mz_staff_list = $this->staff_object->staff_result['GetStaffResult']['StaffMembers']['Staff'];
         else:
             NS\MZMBO()->helpers->print($this->staff_object);
             die('Something went wrong.');

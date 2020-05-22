@@ -76,9 +76,6 @@ class Retrieve_Staff extends Interfaces\Retrieve {
             if (!empty($this->staff_result['StaffMembers'])) {
                 set_transient($transient_string, serialize($this->staff_result['StaffMembers']), 60 * 60 * 12);
             }
-            
-            // print_r('$$$$$$$$$$ Staff: ');
-            // print_r(array_keys($this->staff_result));
 
         } else {
             $this->staff_result = unserialize(get_transient( $transient_string ));
@@ -100,31 +97,33 @@ class Retrieve_Staff extends Interfaces\Retrieve {
      * @return array of MBO staff members, sorted by SortOrder, then LastName
      */
     public function sort_staff_by_sort_order($atts = array()){
-
+		
+		
         $count = 0;
         // Obtain a list of columns
-        foreach ($this->staff_result['GetStaffResult']['StaffMembers']['Staff'] as $key => $row) {
+        foreach ($this->staff_result as $key => $row) {
             // Remove any Staff members that are in the hide shortcode attribute
             if (!empty($atts['hide']) && (in_array(strtolower($row['Name']), array_map('strtolower', $atts['hide'])))) {
-                unset($this->staff_result['GetStaffResult']['StaffMembers']['Staff'][$count]);
+                unset($this->staff_result[$count]);
                 $count++;
                 continue;
             }
             // Remove staff members without image unless set to display them in shortcode
-            if (!(isset($atts['include_imageless']) && ($atts['include_imageless'] != 0)) && (empty($this->staff_result['GetStaffResult']['StaffMembers']['Staff'][$count]['ImageURL']))){
-                unset($this->staff_result['GetStaffResult']['StaffMembers']['Staff'][$count]);
+            if (!(isset($atts['include_imageless']) && ($atts['include_imageless'] != 0)) && (empty($this->staff_result[$count]['ImageUrl']))){
+                unset($this->staff_result[$count]);
                 $count++;
                 continue;
             }
-
-            $important[$key]  = $row['SortOrder'];
+			
+			// Populate two arrays to use in array_multisort
+            $important[$key] = $row['SortOrder'];
             $basic[$key] = $row['LastName'];
             $count++;
         }
 
         array_multisort($important, SORT_NUMERIC, SORT_ASC,
             $basic, SORT_REGULAR, SORT_ASC,
-            $this->staff_result['GetStaffResult']['StaffMembers']['Staff']);
+            $this->staff_result);
 
         return $this->get_staff_member_objects($atts);
     }
@@ -133,7 +132,7 @@ class Retrieve_Staff extends Interfaces\Retrieve {
      * Generate an array of Staff Member objects from array of Staff Members
      */
     private function get_staff_member_objects($atts = array()){
-        $staff_listing = $this->staff_result['GetStaffResult']['StaffMembers']['Staff'];
+        $staff_listing = $this->staff_result;
         return array_map( function($item) use ($atts) {
             return new Staff_Member($item, $atts);
         }, $staff_listing);

@@ -117,8 +117,7 @@ class Helpers {
      * @return string $bio Cleaned up HTML string.
      */
     public function prepare_html_string($bio){
-    print_r("BIO: ");
-    print_r($bio);
+    
         // Remove empty tags
         $bio = str_replace("/<[^\/>]*>(\s|xC2xA0|&nbsp;)*<\/[^>]*>/", '', $bio);
         $bio = $this->str_last_replace("</p>", "", $bio);
