@@ -8,7 +8,7 @@ namespace MZ_Mindbody\Inc\Common;
  *
  * Store i18n strings that may be used throughout plugin
  *
- * Using Singleton you can call helpers like NS\MZMBO()->helpers->mz_pr($param);
+ * Using Singleton you can call helpers like NS\MZMBO()->helpers->print($param);
  *
  */
 
@@ -20,7 +20,7 @@ class Helpers {
      * @since     1.0.0
      * @param $message string or array which will be printed to screen (or console)
      */
-    public function mz_pr($message = '')
+    public function print($message = '')
     {
         echo "<pre>";
         print_r($message);

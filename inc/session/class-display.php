@@ -20,11 +20,11 @@ class Display extends Interfaces\ShortCode_Loader
 
         NS\MZMBO()->session->clear();
 
-        NS\MZMBO()->helpers->mz_pr(NS\MZMBO()->session->get( 'MBO_Nothing'));
+        NS\MZMBO()->helpers->print(NS\MZMBO()->session->get( 'MBO_Nothing'));
 
         NS\MZMBO()->session->set( 'MBO_Nothing', $cart );
 
-        NS\MZMBO()->helpers->mz_pr(NS\MZMBO()->session->get( 'MBO_Nothing'));
+        NS\MZMBO()->helpers->print(NS\MZMBO()->session->get( 'MBO_Nothing'));
 
         return ob_get_clean();
     }

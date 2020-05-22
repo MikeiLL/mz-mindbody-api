@@ -2,7 +2,7 @@
 use MZ_Mindbody as NS;
 
 //foreach($data->staff as $staff):
-//    NS\MZMBO()->helpers->mz_pr($staff);
+//    NS\MZMBO()->helpers->print($staff);
 //endforeach;
 ?>
 <?php foreach($data->staff as $staff): ?>

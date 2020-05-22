@@ -418,7 +418,7 @@ class Client_Portal extends Retrieve_Client {
                 )
             );
             
-            //NS\MZMBO()->helpers->mz_pr($options);
+            //NS\MZMBO()->helpers->print($options);
             //$options = $this->mb->FunctionDataXml($options);
             $signupData = $this->mb->AddOrUpdateClients($options);
 			
@@ -440,7 +440,7 @@ class Client_Portal extends Retrieve_Client {
                     echo '<div class="mz_signup_welcome">' . __('Sign-up for some classes.', 'mz-mindbody-api') . '</div>';
 
                 } else {
-                    NS\MZMBO()->helpers->mz_pr($validateLogin);
+                    NS\MZMBO()->helpers->print($validateLogin);
                 }
 
             } else if ($signupData['AddOrUpdateClientsResult']['Clients']['Client']['Action'] == 'Failed'){
@@ -496,7 +496,7 @@ class Client_Portal extends Retrieve_Client {
 
             $template_loader->set_template_data($template_data);
             $template_loader->get_template_part('client_schedule');
-            //NS\MZMBO()->helpers->mz_pr($this->get_client_schedule()['message']);
+            //NS\MZMBO()->helpers->print($this->get_client_schedule()['message']);
 
         } else {
 

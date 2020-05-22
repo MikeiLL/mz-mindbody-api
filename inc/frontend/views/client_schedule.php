@@ -18,10 +18,4 @@ use MZ_Mindbody as NS;
             <?php endforeach; ?>
         <?php endforeach; ?>
 
-        <?php //foreach ($data->classes as $date => $classes): ?>
-        <?php //foreach ($classes as $class): ?>
-            <?php //NS\MZMBO()->helpers->mz_pr($class); ?>
-        <?php //endforeach; ?>
-        <?php // endforeach; ?>
-
     </table>

@@ -59,7 +59,7 @@ class Schedule_Operations {
 
 			$return[1] = $subsequent->modify('Monday this week')->format('Y-m-d'); 
 			$return[2] = $previous->modify('Monday this week')->format('Y-m-d');
-			//NS\MZMBO()->helpers->mz_pr($return);
+			//NS\MZMBO()->helpers->print($return);
 			return $return;
 	}
 	

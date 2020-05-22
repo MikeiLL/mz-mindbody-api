@@ -208,8 +208,8 @@ class MBO_V5_API {
 			}
 		} catch (\SoapFault $s) {
 		// Uncomment following line for debugging request errors.
-		 //NS\MZMBO()->helpers->mz_pr($s);
-		 //NS\MZMBO()->helpers->mz_pr($this->debugSoapErrors);
+		 //NS\MZMBO()->helpers->print($s);
+		 //NS\MZMBO()->helpers->print($this->debugSoapErrors);
 			if($this->debugSoapErrors && $debugErrors) {
 				echo 'ERROR: [' . $s->faultcode . '] ' . $s->faultstring;
 				$this->debug();
@@ -269,12 +269,8 @@ class MBO_V5_API {
         $request = empty($passed[0]) ? null : $passed[0];
         $returnObject = empty($passed[1]) ? null : $passed[1];
         $debugErrors = empty($passed[2]) ? null : $passed[2];
-        // NS\MZMBO()->helpers->mz_pr("request");
-        // NS\MZMBO()->helpers->mz_pr($request);
         $data = $this->callMindbodyService('DataService', 'FunctionDataXml', $request);
         $xmlString = $this->getXMLResponse();
-        // NS\MZMBO()->helpers->mz_pr("xmlString");
-        // NS\MZMBO()->helpers->mz_pr($xmlString);
         $sxe = new \SimpleXMLElement($xmlString);
         $sxe->registerXPathNamespace("mindbody", "http://clients.mindbodyonline.com/api/0_5");
         $res = $sxe->xpath("//mindbody:FunctionDataXmlResponse");

@@ -36,7 +36,7 @@ class Retrieve_Class_Owners extends Interfaces\Retrieve_Classes {
      *
      * Wrapper function for populate_regularly_scheduled_classes accessed by admin via ajax.
      *
-     * Uses the mz_pr method to output the matrix of probably "class owners" which is then
+     * Uses the helpers->print() method to output the matrix of probably "class owners" which is then
      * logged to the console via javascript.
      */
 	public function deduce_class_owners(){
@@ -49,7 +49,7 @@ class Retrieve_Class_Owners extends Interfaces\Retrieve_Classes {
 
         $owners = $this->populate_regularly_scheduled_classes('message');
 
-        NS\MZMBO()->helpers->mz_pr($owners);
+        NS\MZMBO()->helpers->print($owners);
 
         $result['message'] = ob_get_clean();
 
@@ -150,7 +150,6 @@ class Retrieve_Class_Owners extends Interfaces\Retrieve_Classes {
         delete_transient('mz_class_owners');
         set_transient('mz_class_owners', $class_owners, 60 * 60 * 24 * 7);
 
-        // NS\MZMBO()->helpers->mz_pr(array_shift($class_owners));
         if($message == 'message'):
             return $class_owners;
         endif;
