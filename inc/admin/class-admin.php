@@ -317,7 +317,7 @@ class Admin {
      *
      * @since 2.4.7
      */
-    public function test_credentials_v5 () {
+    public function test_credentials_v5() {
 
         check_ajax_referer($_REQUEST['nonce'], "mz_admin_nonce", false);
 
@@ -327,11 +327,13 @@ class Admin {
 	                            second (Get Classes Response) box below to confirm settings are correct.',  'mz-mindbody-api'),
             '<code>&lt;ErrorCode&gt;200&lt;/ErrorCode&gt;</code>');
         $return .=  "</p>";
-        $schedule_object = new Backend\Retrieve_Debug;
-        $mb = $schedule_object->get_mbo_results();
+        $debug_object = new Backend\Retrieve_Debug;
+        $debug = $debug_object->get_mbo_results(null, 5);
 
+        NS\MZMBO()->helpers->log("here fucked");
+        
         $result['type'] = "success";
-        $result['message'] = $return . $mb;
+        $result['message'] = $return . $debug;
 
         if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
             $result = json_encode($result);

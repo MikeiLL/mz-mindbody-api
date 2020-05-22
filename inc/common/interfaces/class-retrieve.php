@@ -2,6 +2,7 @@
 
 namespace MZ_Mindbody\Inc\Common\Interfaces;
 
+use MZ_Mindbody as NS;
 use MZ_Mindbody\Inc\Core as Core;
 use MZ_Mindbody\Inc\Libraries as Libraries;
 

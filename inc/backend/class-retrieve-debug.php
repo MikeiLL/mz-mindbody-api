@@ -1,10 +1,13 @@
 <?php
 namespace MZ_Mindbody\Inc\Backend;
 
+use MZ_Mindbody as NS;
 use MZ_Mindbody\Inc\Common\Interfaces as Interfaces;
 
 class Retrieve_Debug extends Interfaces\Retrieve {
 
+	public $property_test = 'thing';
+	
     /**
 	 * Return Time Frame for request to MBO API
 	 *
@@ -33,16 +36,19 @@ class Retrieve_Debug extends Interfaces\Retrieve {
      *
      * @return array of MBO schedule data
      */
-    public function get_mbo_results($timestamp = null){
+    public function get_mbo_results($timestamp = null, $version_five = false ){
 
-        $mb = $this->instantiate_mbo_API();
-
+        $mb = $this->instantiate_mbo_API( 5 );
+				
         if (!$mb) return false;
 
         if ($mb == 'NO_API_SERVICE') {
             return $mb;
         }
+        
         $this->classes = $mb->GetClasses($this->time_frame());
+        NS\MZMBO()->helpers->log($this->classes);
+        
         return $mb->debug();
     }
 
