@@ -72,6 +72,11 @@ class MBO_V6_API {
 	/**
 	* magic method will search $this->apiMethods array for $name and call the
 	* appropriate Mindbody API method if found
+	*
+	* since 2.5.7
+	*
+	* @param $name string that matches method in matrix of MBO API v6 Methods
+	* @param $arguments array used in API request 
 	*/
 	public function __call($name, $arguments) {
 	
@@ -217,7 +222,8 @@ class MBO_V6_API {
 	* return string of MBO API Response data
 	*/
 	protected function tokenRequest($restMethod) {
-		
+		NS\MZMBO()->helpers->log($restMethod);
+		NS\MZMBO()->helpers->log("was rest");
 		$this->tokenRequestTries--;
 		
 		$tm = new Common\Token_Management;
@@ -336,8 +342,15 @@ class MBO_V6_API {
     }
     
 	public function debug() {
-		return "nothing to see here.";
-		$return = "<textarea rows='6' cols='90'>".print_r('debug will go here')."</textarea>";
+		$return = "<textarea rows='6' cols='90'>";
+		$return .= print_r($this->tokenRequest([
+										'method' => 'POST',
+										'name' => 'TokenIssue', 
+										'endpoint' => 'https://api.mindbodyonline.com/public/v6/usertoken/issue',
+										'headers' => $this->headersBasic
+									 ]), 1);
+		$return .= "</textarea>";
+
 		return $return;
 	}
 

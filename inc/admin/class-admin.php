@@ -288,15 +288,14 @@ class Admin {
 
 
         $return =  "<p>";
-        $return .= sprintf(__('Once credentials have been set and activated, look for %1$s in the 
-	                            second (Get Classes Response) box below to confirm settings are correct.',  'mz-mindbody-api'),
-            '<code>&lt;ErrorCode&gt;200&lt;/ErrorCode&gt;</code>');
+        $return .= sprintf(__('Once credentials have been set and saved, look for %1$s in the box below to confirm settings are correct and credentials work.',  'mz-mindbody-api'),
+            '<code>AccessToken</code>');
         $return .=  "</p>";
-        $schedule_object = new Backend\Retrieve_Debug;
-        $mb = $schedule_object->get_mbo_results();
+        $debug_object = new Backend\Retrieve_Debug;
+        $debug = $debug_object->get_mbo_results();
 
         $result['type'] = "success";
-        $result['message'] = $return . $mb;
+        $result['message'] = $return . $debug;
 
         if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
             $result = json_encode($result);
@@ -321,7 +320,6 @@ class Admin {
 
         check_ajax_referer($_REQUEST['nonce'], "mz_admin_nonce", false);
 
-
         $return =  "<p>";
         $return .= sprintf(__('Once credentials have been set and activated, look for %1$s in the 
 	                            second (Get Classes Response) box below to confirm settings are correct.',  'mz-mindbody-api'),
@@ -329,8 +327,6 @@ class Admin {
         $return .=  "</p>";
         $debug_object = new Backend\Retrieve_Debug;
         $debug = $debug_object->get_mbo_results(null, 5);
-
-        NS\MZMBO()->helpers->log("here fucked");
         
         $result['type'] = "success";
         $result['message'] = $return . $debug;

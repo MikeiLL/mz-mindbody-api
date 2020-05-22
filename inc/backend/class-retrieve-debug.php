@@ -38,7 +38,7 @@ class Retrieve_Debug extends Interfaces\Retrieve {
      */
     public function get_mbo_results($timestamp = null, $version_five = false ){
 
-        $mb = $this->instantiate_mbo_API( 5 );
+        $mb = ($version_five === false) ? $this->instantiate_mbo_API() : $this->instantiate_mbo_API( 5 );
 				
         if (!$mb) return false;
 
@@ -46,8 +46,7 @@ class Retrieve_Debug extends Interfaces\Retrieve {
             return $mb;
         }
         
-        $this->classes = $mb->GetClasses($this->time_frame());
-        NS\MZMBO()->helpers->log($this->classes);
+        if ($version_five !== false) $this->classes = $mb->GetClasses($this->time_frame());
         
         return $mb->debug();
     }
