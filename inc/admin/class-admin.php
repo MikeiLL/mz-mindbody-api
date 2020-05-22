@@ -121,7 +121,7 @@ class Admin {
                 return false;
             }
             // Otherwise create an option to hold it and set it.
-            add_option('mz_mbo_version', NS\PLUGIN_VERSION);
+            update_option('mz_mbo_version', NS\PLUGIN_VERSION);
             $this->mz_mbo_upgrade();
         }
 
@@ -132,48 +132,87 @@ class Admin {
      */
     public function mz_mbo_upgrade() {
      
-    	if (false == get_site_option( 'mz_mbo_version' )) return;
+     	// If this is first time installing, return.
+    	if (!$known_version == get_site_option( 'mz_mbo_version' )) return;
+    	
+    	// If we are already on current version, return
+    	if (NS\PLUGIN_VERSION == $known_version) return;
     	
         // If version is previous to 2.4.7
-        if (get_site_option( 'mz_mbo_version' ) < '2.4.7') {
-            // Copy the old options to the new options
-            $old_options = get_option('mz_mbo_basic');
-            if ( !false == $old_options ){
-				$mz_mbo_basic = array();
-				$mz_mbo_basic['mz_source_name'] = $old_options['mz_mindbody_source_name'];
-				$mz_mbo_basic['mz_mindbody_password'] = $old_options['mz_mindbody_password'];
-				$mz_mbo_basic['mz_mbo_app_name'] = __('YOUR MBO APP NAME', 'mz-mindbody-api');
-				$mz_mbo_basic['mz_mbo_api_key'] = __('YOUR MINDBODY API KEY', 'mz-mindbody-api');
-				$mz_mbo_basic['mz_mindbody_show_sub_link'] = $old_options['mz_mindbody_show_sub_link'];
-				$mz_mbo_events['mz_mindbody_siteID'] = $old_options['mz_mindbody_siteID'];
-				$mz_mbo_events['mz_mindbody_eventIDs'] = $old_options['mz_mindbody_eventID'];
-				$mz_mbo_events['mz_mindbody_scheduleDuration'] = $old_options['mz_mindbody_scheduleDuration'];
-				update_option('mz_mbo_basic', $mz_mbo_basic);
-				update_option('mz_mbo_events', $mz_mbo_events);
-			}
-        }
-    	if (get_site_option( 'mz_mbo_version' ) < '2.5.6') {
-            // Track api calls
-            $mz_mbo_api_calls = array();
-            $mz_mbo_api_calls['today'] = date("Y-m-d");
-            $mz_mbo_api_calls['calls'] = 2;
-            add_option('mz_mbo_api_calls', $mz_mbo_api_calls);
-            $this->clear_previous_plugin_transients();
-    	}
-    	if (get_site_option( 'mz_mbo_version' ) < '2.5.7') {
-            // Add options to named for v6 API
-            $old_options = get_option('mz_mbo_basic');
-            if ( !false == $old_options ){
-				$mz_mbo_basic = array();
-				$mz_mbo_basic['mz_source_name'] = $old_options['mz_source_name'];
-				$mz_mbo_basic['mz_mindbody_password'] = $old_options['mz_mindbody_password'];
-				$mz_mbo_basic['mz_mbo_app_name'] = __('YOUR MBO APP NAME', 'mz-mindbody-api');
-				$mz_mbo_basic['mz_mbo_api_key'] = __('YOUR MINDBODY API KEY', 'mz-mindbody-api');
-				$mz_mbo_basic['mz_mindbody_show_sub_link'] = $old_options['mz_mindbody_show_sub_link'];
-				update_option('mz_mbo_basic', $mz_mbo_basic);
-			}
+        if ($known_version < '2.4.7') {
+            return $this->prev_to_247();
+        } else if ($known_version < '2.5.6') {
+            return $this->prev_to_256();
+    	} else if ($prev_version < '2.5.7') {
+            return $this->prev_to_257();
     	}
     }
+    
+    /**
+     * Upgrade from previous to 2.4.7
+     * @since 2.5.7
+     *
+     * Options fields renamed so updating now
+     *
+     */
+     private function prev_to_247() {
+     	// Copy the old options to the new options
+		$old_options = get_option('mz_mbo_basic');
+		if ( !false == $old_options ){
+			$mz_mbo_basic = array();
+			$mz_mbo_basic['mz_source_name'] = $old_options['mz_mindbody_source_name'];
+			$mz_mbo_basic['mz_mindbody_password'] = $old_options['mz_mindbody_password'];
+			$mz_mbo_basic['mz_mbo_app_name'] = __('YOUR MBO APP NAME', 'mz-mindbody-api');
+			$mz_mbo_basic['mz_mbo_api_key'] = __('YOUR MINDBODY API KEY', 'mz-mindbody-api');
+			$mz_mbo_basic['mz_mindbody_show_sub_link'] = $old_options['mz_mindbody_show_sub_link'];
+			$mz_mbo_events['mz_mindbody_siteID'] = $old_options['mz_mindbody_siteID'];
+			$mz_mbo_events['mz_mindbody_eventIDs'] = $old_options['mz_mindbody_eventID'];
+			$mz_mbo_events['mz_mindbody_scheduleDuration'] = $old_options['mz_mindbody_scheduleDuration'];
+			update_option('mz_mbo_basic', $mz_mbo_basic);
+			update_option('mz_mbo_events', $mz_mbo_events);
+			$this->prev_to_256();
+			$this->prev_to_257();
+		}
+     }
+    
+    /**
+     * Upgrade from previous to 2.5.6
+     * @since 2.5.7
+     *
+     * Options fields renamed so updating now
+     *
+     */
+     private function prev_to_256() {
+     	// Track api calls
+		$mz_mbo_api_calls = array();
+		$mz_mbo_api_calls['today'] = date("Y-m-d");
+		$mz_mbo_api_calls['calls'] = 2;
+		add_option('mz_mbo_api_calls', $mz_mbo_api_calls);
+		$this->clear_previous_plugin_transients();
+     }
+     
+     
+    
+    /**
+     * Upgrade from previous to 2.5.7
+     * @since 2.5.7
+     *
+     * Options fields renamed so updating now
+     *
+     */
+     private function prev_to_257() {
+     	// Add options to named for v6 API
+		$old_options = get_option('mz_mbo_basic');
+		if ( !false == $old_options ){
+			$mz_mbo_basic = array();
+			$mz_mbo_basic['mz_source_name'] = $old_options['mz_source_name'];
+			$mz_mbo_basic['mz_mindbody_password'] = $old_options['mz_mindbody_password'];
+			$mz_mbo_basic['mz_mbo_app_name'] = __('YOUR MBO APP NAME', 'mz-mindbody-api');
+			$mz_mbo_basic['mz_mbo_api_key'] = __('YOUR MINDBODY API KEY', 'mz-mindbody-api');
+			$mz_mbo_basic['mz_mindbody_show_sub_link'] = $old_options['mz_mindbody_show_sub_link'];
+			update_option('mz_mbo_basic', $mz_mbo_basic);
+		}
+     }
     
     /**
      * Call the clear all plugin transients
