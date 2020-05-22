@@ -343,10 +343,10 @@ class MBO_V6_API {
     
 	public function debug() {
 		$return = "<textarea rows='6' cols='90'>";
-		$return .= print_r($this->tokenRequest([
-										'method' => 'POST',
-										'name' => 'TokenIssue', 
-										'endpoint' => 'https://api.mindbodyonline.com/public/v6/usertoken/issue',
+		$return .= print_r($this->GetClasses([
+										'method' => 'GET',
+										'name' => 'GetClasses', 
+										'endpoint' => 'https://api.mindbodyonline.com/public/v6/class/classes',
 										'headers' => $this->headersBasic
 									 ]), 1);
 		$return .= "</textarea>";

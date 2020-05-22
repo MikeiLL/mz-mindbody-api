@@ -289,8 +289,8 @@ class Admin {
 
         $return =  "<p>";
         $return .= sprintf(__('Once credentials have been set and saved, look for %1$s in the box below to confirm settings are correct and credentials work.',  'mz-mindbody-api'),
-            '<code>AccessToken</code>');
-        $return .=  "</p>";
+            '<code>PaginationResponse</code> and <code>Classes</code>');
+        $return .=  "<p></br></p>";
         $debug_object = new Backend\Retrieve_Debug;
         $debug = $debug_object->get_mbo_results();
 
