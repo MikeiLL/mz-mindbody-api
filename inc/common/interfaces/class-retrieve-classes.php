@@ -226,7 +226,7 @@ abstract class Retrieve_Classes extends Retrieve {
         
         $transient_string = $this->generate_transient_name($sc_string);
         
-        if ( false === get_transient( $transient_string ) ) {
+        if ( true || false === get_transient( $transient_string ) ) {
             // If there's not a transient already, call the API and create one
 
             if ($this->mbo_account !== 0) {
@@ -236,6 +236,8 @@ abstract class Retrieve_Classes extends Retrieve {
             
             $schedule_data = $mb->GetClasses($this->time_frame);
 
+			if ($schedule_data['PaginationResponse']['TotalResults'] === 0) return "No Classes";
+			
             if ( empty($schedule_data) || empty($schedule_data['Classes'][0]['Id']) ):
 
                 echo "<!-- " . $schedule_data['PaginationResponse'] . "<hr>" . $schedule_data['Classes'] . " --> ";

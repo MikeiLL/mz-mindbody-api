@@ -126,7 +126,6 @@ class Staff_Member {
     public function __construct($staff_member, $atts = array()) {
     	
         $this->ID = $staff_member['Id'];
-        //$this->Name = !empty($staff_member['Name']) ? $staff_member['Name'] : $staff_member['FirstName'];
         $this->FirstName = $staff_member['FirstName'];
         $this->LastName = $staff_member['LastName'];// Set Staff Name up.
         // First set first, last with default to blank string

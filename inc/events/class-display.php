@@ -152,7 +152,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
 
         $this->atts = shortcode_atts( array(
             'location' => '1',
-            'locations' => '',
+            'locations' => '1',
             'list' => 0,
             'event_count' => '0',
             'account' => 0,
@@ -177,9 +177,10 @@ class Display extends Interfaces\ShortCode_Script_Loader
         if (!$response = $this->events_object->get_mbo_results()) return "<div>" . __("Mindbody plugin settings error.", 'mz-mindbody-api') . "</div>";
         // Add Style with script adder
         self::addScript();
-
-        $events = ($response['GetClassesResult']['ResultCount'] >= 1) ? $response['GetClassesResult']['Classes']['Class'] : __('No Events in current cycle', 'mz-mindbody-api');
-
+        
+        $events = (count($response) >= 1) ? $response : __('No Events in current cycle', 'mz-mindbody-api');
+		
+		//NS\MZMBO()->helpers->print($events);
         $events = $this->events_object->sort_events_by_time();
 
         $this->template_data = array(

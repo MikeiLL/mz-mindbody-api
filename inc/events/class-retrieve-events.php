@@ -1,6 +1,7 @@
 <?php
 namespace MZ_Mindbody\Inc\Events;
 
+use MZ_Mindbody as NS;
 use MZ_Mindbody\Inc\Core as Core;
 use MZ_Mindbody\Inc\Libraries as Libraries;
 use MZ_Mindbody\Inc\Schedule as Schedule;
@@ -102,19 +103,11 @@ class Retrieve_Events extends Interfaces\Retrieve_Classes {
      * @return array of MBO schedule data, time
      */
     public function sort_events_by_time(){
-        /* When there is only a single event in the client
-         * schedule, the 'Classes' array contains that event, but when there are multiple
-         * visits then the array of events is under 'Events'/'Event'
-         */
-        if (!empty($this->classes['GetClassesResult']['Classes']['Class'][0]['StartDateTime'])){
-            // Multiple events
-            $events_array_scope = $this->classes['GetClassesResult']['Classes']['Class'];
-        } else {
-            $events_array_scope =$this->classes['GetClassesResult']['Classes'];
-        }
-
-        foreach($events_array_scope as $class)
+        
+        foreach($this->classes as $class)
         {
+        //NS\MZMBO()->helpers->print($this->atts['locations']);
+        //NS\MZMBO()->helpers->print($class);
             // Make a timestamp of just the day to use as key for that day's classes
             if (!empty($class['StartDateTime'])) {
                 $dt = new \DateTime($class['StartDateTime']);

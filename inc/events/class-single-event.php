@@ -271,12 +271,22 @@ class Single_Event {
      * @param array $atts array of shortcode attributes from calling shortcode.
      */
     public function __construct($event, $atts = array()) {
+
         $this->class_schedule_id = $event['ClassScheduleId'];
         $this->startDateTime = $event['StartDateTime'];
         $this->endDateTime = $event['EndDateTime'];
         $this->className = $event['ClassDescription']['Name'];
         $this->ID = $event['ClassDescription']['Id'];
-        $this->staffName = $event['Staff']['Name'];
+        
+        $this->FirstName = $event['Staff']['FirstName'];
+        $this->LastName = $event['Staff']['LastName'];
+        // Set Staff Name up.
+        // First set first, last with default to blank string
+        $this->staffName = isset($this->FirstName) ? $this->FirstName . ' ' . $this->LastName : '';
+        // If "Name" has been set, use that
+        if (isset($event['Staff']['Name'])) {
+        	$this->staffName = $event['Staff']['Name'];
+        }
         $this->staffImage = $event['Staff']['ImageURL'];
         $this->staffBio = NS\MZMBO()->helpers->prepare_html_string($event['Staff']['Bio']);
         $this->Description = NS\MZMBO()->helpers->prepare_html_string($event['ClassDescription']['Description']);
@@ -288,7 +298,13 @@ class Single_Event {
         $this->location_City = $event['Location']['City'];
         $this->location_StateProvCode = $event['Location']['StateProvCode'];
         $this->location_PostalCode = $event['Location']['PostalCode'];
-        $this->sDate = date_i18n('m/d/Y', strtotime($event['StartDateTime']));
+        $this->start_date = date_i18n(Core\MZ_Mindbody_Api::$date_format, strtotime($event['StartDateTime']));
+        $this->start_time = date_i18n(Core\MZ_Mindbody_Api::$time_format,  strtotime($event['StartDateTime']));
+        
+        // Leave end_date blank if same as start day
+        $maybe_end_date = date_i18n(Core\MZ_Mindbody_Api::$date_format,  strtotime($event['EndDateTime']));
+        $this->end_date = ($this->start_date == $maybe_end_date) ? '' : $maybe_end_date;
+        $this->end_time = date_i18n(Core\MZ_Mindbody_Api::$time_format, strtotime($event['EndDateTime']));
         $this->atts = $atts;
         $this->siteID = !empty($atts['account']) ? $atts['account'] : Core\MZ_Mindbody_Api::$basic_options['mz_mindbody_siteID'];
         $this->mbo_url = $this->mbo_url();
