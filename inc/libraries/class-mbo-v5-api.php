@@ -166,6 +166,10 @@ class MBO_V5_API {
      * 
      */
     private function api_call_limiter() {
+    
+    	// Don't limit if using sandbox
+    	if ((isset(NS\MZMBO()::$basic_options['mz_mindbody_siteID'])) && (NS\MZMBO()::$basic_options['mz_mindbody_siteID'] == '-99')) return true;
+    	
     	$mz_mbo_api_calls = get_option('mz_mbo_api_calls');
 
     	if ($mz_mbo_api_calls['calls'] > 800) {
@@ -234,6 +238,7 @@ class MBO_V5_API {
 		$return = "<textarea rows='6' cols='90'>".print_r($this->getXMLRequest(),1)."</textarea>";
 		$return .= "<br/>";
 		$return .= "<textarea rows='6' cols='90'>".print_r($this->getXMLResponse(),1)."</textarea>";
+
 		return $return;
 	}
 
