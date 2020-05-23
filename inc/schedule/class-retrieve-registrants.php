@@ -2,6 +2,7 @@
 
 namespace MZ_Mindbody\Inc\Schedule;
 
+use MZ_Mindbody as NS;
 use MZ_Mindbody\Inc\Core as Core;
 use MZ_Mindbody\Inc\Libraries as Libraries;
 use MZ_Mindbody\Inc\Schedule as Schedule;
@@ -14,6 +15,15 @@ use MZ_Mindbody\Inc\Common\Interfaces as Interfaces;
 
 class Retrieve_Registrants extends Interfaces\Retrieve
 {
+    
+    /**
+     * Holds the Get Class Visits Results for a given class.
+     *
+     * @since    2.4.7
+     * @access   public
+     * @var      array $class_visits Array of names of class registrants.
+     */
+    public $class_visits;
 
 
     /**
@@ -51,9 +61,9 @@ class Retrieve_Registrants extends Interfaces\Retrieve
             $mb->sourceCredentials['SiteIDs'][0] = $this->mbo_account;
         }
 
-        $this->registrants = $mb->GetClassVisits(array('ClassID' => $classid));
+        $this->class_visits = $mb->GetClassVisits(array('ClassID' => $classid));
 
-        return $this->registrants;
+        return $this->class_visits;
     }
 
     /**
@@ -70,36 +80,44 @@ class Retrieve_Registrants extends Interfaces\Retrieve
 
         $result['type'] = "success";
         $result['message'] = $classid;
-        // ob_start();
+
         $class_visits = $this->get_mbo_results($classid);
-        // var_dump($class_visits);
-        if ($class_visits['GetClassVisitsResult']['Status'] != 'Success'):
+        
+        if (!$class_visits):
             $result['type'] = "error";
             $result['message'] = __("Unable to retrieve registrants.", 'mz-mindbody-api');
         else:
-            if (empty($class_visits['GetClassVisitsResult']['Class']['Visits'])) :
+            if (empty($class_visits['Class']['Visits'])) :
                 $result['type'] = "success";
                 $result['message'] = __("No registrants yet.", 'mz-mindbody-api');
-            //mZ_write_to_file($class_visits['GetClassVisitsResult']['Class']['Visits']);
             else:
                 $result['message'] = array();
+                $registrant_ids = array();
                 $result['type'] = "success";
-                foreach ($class_visits['GetClassVisitsResult']['Class']['Visits'] as $registrants) {
-                    if (!isset($registrants['Client']['FirstName'])):
-                        foreach ($registrants as $key => $registrant) {
-                            if (isset($registrant['Client'])):
-                                $result['message'][] = $registrant['Client']['FirstName'] . '_'
-                                    . substr($registrant['Client']['LastName'], 0, 1);
-                            endif;
-                        }
-                    else:
-                        $result['message'][] = $registrants['Client']['FirstName'] . '_'
-                            . substr($registrants['Client']['LastName'], 0, 1);
-                    endif;
+                // Build array of registrants to send to GetRegistrants
+                foreach ($class_visits['Class']['Visits'] as $registrant) {
+                    	$registrant_ids[] = $registrant['ClientId'];
                 }
+                
+                // send list of registrants to GetRegistrants
+                $mb = $this->instantiate_mbo_API();
+
+				if (!$mb || $mb == 'NO_API_SERVICE') return false;
+
+				if ($this->mbo_account !== 0) {
+					// If account has been specified in shortcode, update credentials
+					$mb->sourceCredentials['SiteIDs'][0] = $this->mbo_account;
+				}
+
+				$this->registrants = $mb->GetClients(['clientIds' => $registrant_ids]);
+				
+				// Add first name, last initial
+				foreach ($this->registrants['Clients'] as $registrant) {
+					$result['message'][] = $registrant['FirstName'] . ' ' . substr($registrant['LastName'], 0, 1) . '.';
+				}
+
             endif;
         endif;
-        // $result['message'] = ob_get_clean();
 
         if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
             $result = json_encode($result);
