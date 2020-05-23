@@ -174,7 +174,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
         $this->events_object = new Retrieve_Events($this->atts);
 
         // Call the API and if fails, return error message.
-        if (!$response = $this->events_object->get_mbo_results()) return "<div>" . __("Mindbody plugin settings error.", 'mz-mindbody-api') . "</div>";
+        if (!$response = $this->events_object->get_mbo_results()) return "<div>" . __("Error returning events from Mindbody.", 'mz-mindbody-api') . "</div>";
         // Add Style with script adder
         self::addScript();
         
@@ -291,7 +291,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
         $this->handleShortcode($atts);
 
         // Call the API and if fails, return error message.
-        if (!$response = $this->events_object->get_mbo_results()) return "<div>" . __("Mindbody plugin settings error.", 'mz-mindbody-api') . "</div>";
+        if (!$response = $this->events_object->get_mbo_results()) return "<div>" . __("Error returning events to display from Minbbody.", 'mz-mindbody-api') . "</div>";
 
         $events = ($response['GetClassesResult']['ResultCount'] >= 1) ? $response['GetClassesResult']['Classes']['Class'] : __('No Events in current cycle', 'mz-mindbody-api');
 

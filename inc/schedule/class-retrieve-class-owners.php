@@ -42,7 +42,7 @@ class Retrieve_Class_Owners extends Interfaces\Retrieve_Classes {
 	public function deduce_class_owners(){
         check_ajax_referer($_REQUEST['nonce'], "mz_admin_nonce", false);
 
-        if (false == $this->get_mbo_results()) echo "<div>" . __("Mindbody plugin settings error.", 'mz-mindbody-api') . "</div>";
+        if (false == $this->get_mbo_results()) echo "<div>" . __("Error deducing MBO class owners.", 'mz-mindbody-api') . "</div>";
 
         ob_start();
         $result['type'] = 'success';

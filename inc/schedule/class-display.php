@@ -227,7 +227,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
         $this->schedule_object = new Retrieve_Schedule($this->atts);
         
         // Call the API and if fails, return error message.
-        if (false == $this->schedule_object->get_mbo_results()) return "<div>" . __("Mindbody plugin settings error.", 'mz-mindbody-api') . "</div>";
+        if (false == $this->schedule_object->get_mbo_results()) return "<div>" . __("Error returning schedule from MBO for shortcode display.", 'mz-mindbody-api') . "</div>";
 
         /*
          * Configure the display type based on shortcode atts.
@@ -428,7 +428,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
         $this->schedule_object = new Retrieve_Schedule($atts);
 
         // Call the API and if fails, return error message.
-        if (false == $this->schedule_object->get_mbo_results()) echo "<div>" . __("Mindbody plugin settings error.", 'mz-mindbody-api') . "</div>";
+        if (false == $this->schedule_object->get_mbo_results()) echo "<div>" . __("Error returning schedule from MBO for display.", 'mz-mindbody-api') . "</div>";
 
         // Register attributes
         $this->handleShortcode($atts);

@@ -79,7 +79,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
         $this->staff_object = new Retrieve_Staff($this->atts);
 
         // Call the API and if fails, return error message.
-        if (false === $this->staff_object->get_mbo_results()) return "<div>" . __("Mindbody plugin settings error.", 'mz-mindbody-api') . "</div>";
+        if (false === $this->staff_object->get_mbo_results()) return "<div>" . __("Error displaying Staff from Mindbody.", 'mz-mindbody-api') . "</div>";
 
         if (isset($this->staff_object->staff_result)):
             $mz_staff_list = $this->staff_object->sort_staff_by_sort_order($this->atts);
