@@ -235,8 +235,6 @@ abstract class Retrieve_Classes extends Retrieve {
             }
             
             $schedule_data = $mb->GetClasses($this->time_frame);
-
-			if ($schedule_data['PaginationResponse']['TotalResults'] === 0) return "No Classes";
 			
             if ( empty($schedule_data) || empty($schedule_data['Classes'][0]['Id']) ):
 
@@ -245,6 +243,8 @@ abstract class Retrieve_Classes extends Retrieve {
                 return false;
 
             endif;
+
+			if ($schedule_data['PaginationResponse']['TotalResults'] === 0) return "No Classes";
 
             // Otherwise (if successful API call) assign result to $this->classes.
             $this->classes = $schedule_data['Classes'];
