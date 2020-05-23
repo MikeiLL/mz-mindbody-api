@@ -71,7 +71,7 @@ class Retrieve_Registrants extends Interfaces\Retrieve
      *
      *
      */
-    function get_registrants()
+    function ajax_get_registrants()
     {
 
         check_ajax_referer($_REQUEST['nonce'], "mz_MBO_get_registrants_nonce", false);
@@ -79,22 +79,46 @@ class Retrieve_Registrants extends Interfaces\Retrieve
         $classid = $_REQUEST['classID'];
 
         $result['type'] = "success";
-        $result['message'] = $classid;
+        
+        $registrants = $this->get_registrants($classid);
+
+        if (!$registrants):
+            $result['type'] = "error";
+        endif;
+        
+        $result['message'] = $registrants;
+
+        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+            $result = json_encode($result);
+            echo $result;
+        } else {
+            header("Location: " . $_SERVER["HTTP_REFERER"]);
+        }
+
+        die();
+    }
+    //End Ajax Get Registrants
+    
+    /**
+     * Get Registrants from MBO
+     *
+     * @param int $classid
+     */
+    function get_registrants($classid)
+    {
 
         $class_visits = $this->get_mbo_results($classid);
         
         if (!$class_visits):
-            $result['type'] = "error";
-            $result['message'] = __("Unable to retrieve registrants.", 'mz-mindbody-api');
+            return false;
         else:
             if (empty($class_visits['Class']['Visits'])) :
-                $result['type'] = "success";
-                $result['message'] = __("No registrants yet.", 'mz-mindbody-api');
+                return __("No registrants yet.", 'mz-mindbody-api');
             else:
-                $result['message'] = array();
+            
                 $registrant_ids = array();
-                $result['type'] = "success";
-                // Build array of registrants to send to GetRegistrants
+                
+                // Build array of registrant ids to send to GetClients
                 foreach ($class_visits['Class']['Visits'] as $registrant) {
                     	$registrant_ids[] = $registrant['ClientId'];
                 }
@@ -111,24 +135,17 @@ class Retrieve_Registrants extends Interfaces\Retrieve
 
 				$this->registrants = $mb->GetClients(['clientIds' => $registrant_ids]);
 				
+                $registrant_names = array();
 				// Add first name, last initial
 				foreach ($this->registrants['Clients'] as $registrant) {
-					$result['message'][] = $registrant['FirstName'] . ' ' . substr($registrant['LastName'], 0, 1) . '.';
+					$registrant_names[] = $registrant['FirstName'] . ' ' . substr($registrant['LastName'], 0, 1) . '.';
 				}
 
             endif;
         endif;
-
-        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-            $result = json_encode($result);
-            echo $result;
-        } else {
-            header("Location: " . $_SERVER["HTTP_REFERER"]);
-        }
-
-        die();
+        
+    	return $registrant_names;
     }
-    //End Ajax Get Registrants
 
 
 }

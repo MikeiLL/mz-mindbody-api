@@ -283,8 +283,8 @@ class MZ_Mindbody_Api
         $this->loader->add_action('wp_ajax_mz_display_events', $events_object, 'display_events');
 
         // Start Ajax Get Registrants
-        $this->loader->add_action('wp_ajax_nopriv_mz_mbo_get_registrants', $registrant_object, 'get_registrants');
-        $this->loader->add_action('wp_ajax_mz_mbo_get_registrants', $registrant_object, 'get_registrants');
+        $this->loader->add_action('wp_ajax_nopriv_mz_mbo_get_registrants', $registrant_object, 'ajax_get_registrants');
+        $this->loader->add_action('wp_ajax_mz_mbo_get_registrants', $registrant_object, 'ajax_get_registrants');
 
         // Start Ajax Retrieve Class Owners
         $this->loader->add_action('wp_ajax_nopriv_mz_deduce_class_owners', $class_owners_object, 'deduce_class_owners');
