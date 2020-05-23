@@ -226,7 +226,7 @@ abstract class Retrieve_Classes extends Retrieve {
         
         $transient_string = $this->generate_transient_name($sc_string);
         
-        if ( true || false === get_transient( $transient_string ) ) {
+        if ( false === get_transient( $transient_string ) ) {
             // If there's not a transient already, call the API and create one
 
             if ($this->mbo_account !== 0) {
