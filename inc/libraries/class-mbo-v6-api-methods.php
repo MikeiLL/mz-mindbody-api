@@ -83,9 +83,9 @@ class MBO_V6_API_METHODS {
 										'endpoint' => $this->endpointClasses . '/classdescriptions',
 										'headers' => $this->headersBasic
 									 ],
-				'classGetClassVisits' => [
+				'GetClassVisits' => [
 										'method' => 'GET',
-										'name' => 'classGetClassVisits', 
+										'name' => 'GetClassVisits', 
 										'endpoint' => $this->endpointClasses . '/classvisits',
 										'headers' => $this->headersBasic
 									 ],
