@@ -90,15 +90,17 @@ class Retrieve_Class_Owners extends Interfaces\Retrieve_Classes {
         $class_owners = array();
         $class_count = 0;
 
-        if (! isset($this->classes['GetClassesResult']['Classes']) ):
+        if (! isset($this->classes) ):
             // No classes so populate the classes array
             $this->get_mbo_results();
         endif;
+		
+		
+        $schedules = $this->classes;
+		NS\MZMBO()->helpers->log(array_keys($schedules[0]));
+		NS\MZMBO()->helpers->log($schedules[0]);
 
-        $schedules = $this->classes['GetClassesResult']['Classes'];
-
-        foreach($schedules as $schedule):
-            foreach($schedule as $class):
+        foreach($schedules as $class):
 
                 $class_count++;
 
@@ -117,6 +119,8 @@ class Retrieve_Class_Owners extends Interfaces\Retrieve_Classes {
 
                 $class_description_substring = substr(strip_tags($class['ClassDescription']['Description']), 0, 55);
 
+				$staff_name = isset($class['Staff']['Name']) ? $class['Staff']['Name'] : $class['Staff']['FirstName'] . $class['Staff']['LastName'];
+				
                 $temp = array(
                     'class_name' => strip_tags($class['ClassDescription']['Name']),
                     'class_description' => $class_description_substring,
@@ -124,7 +128,7 @@ class Retrieve_Class_Owners extends Interfaces\Retrieve_Classes {
                     'time' => $classStartTime->format('g:ia'),
                     'location' => $class['Location']['Id'],
                     'day' => $day_of_class,
-                    'class_owner' => strip_tags($class['Staff']['Name']),
+                    'class_owner' => strip_tags($staff_name),
                     'class_owner_id' => strip_tags($class['Staff']['Id'])
                 );
 
@@ -145,7 +149,6 @@ class Retrieve_Class_Owners extends Interfaces\Retrieve_Classes {
                 // If there isn't already a match add this item to the array.
                 $class_owners[] = $temp;
             endforeach;
-        endforeach;
 
         delete_transient('mz_class_owners');
         set_transient('mz_class_owners', $class_owners, 60 * 60 * 24 * 7);
