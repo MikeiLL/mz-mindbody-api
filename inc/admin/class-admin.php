@@ -133,7 +133,7 @@ class Admin {
     public function mz_mbo_upgrade() {
      
      	// If this is first time installing, return.
-    	if (!$known_version == get_site_option( 'mz_mbo_version' )) return;
+    	if (!$known_version = get_site_option( 'mz_mbo_version' )) return;
     	
     	// If we are already on current version, return
     	if (NS\PLUGIN_VERSION == $known_version) return;
