@@ -1,3 +1,5 @@
+import 'bootstrap';
+
 (function ($) {
 
     /*jQuery(document).ready(function($) {

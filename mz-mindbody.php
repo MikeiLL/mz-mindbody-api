@@ -26,7 +26,6 @@
  * Text Domain: 	mz-mindbody-api
  * Domain Path: 	/languages
 */
-
 namespace MZ_Mindbody;
 
 use MZ_Mindbody\Inc\Core as Core;
