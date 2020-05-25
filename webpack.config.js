@@ -1,14 +1,12 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const nodeExternals = require('webpack-node-externals');
-const stylePath = './assets/styles';
 
 module.exports = {
-	context: path.resolve(__dirname, './assets'),
-	target: 'node',
-    externals: [nodeExternals()],
-	entry: {
-		main: ['./scripts/main.js', './styles/main.scss'],
+  context: path.resolve(__dirname, './assets'),
+  entry: {
+		index: './index.js',
+		admin: './scripts/admin.js',
+		main: './scripts/main.js',
 		admin: './scripts/admin.js',
 		colorbox: './scripts/colorbox.js',
 		'events-display': './scripts/events-display.js',
@@ -16,74 +14,117 @@ module.exports = {
 		'schedule-display': './scripts/schedule-display.js',
 		'signup-modals': './scripts/signup-modals.js',
 		'staff_popup': './scripts/staff_popup.js',
-		'admin-style': './styles/admin-style.scss',
-		'loading': './images/loading.gif',
-		'border': './images/border.png',
-		'controls': './images/controls.png',
-		'loading_background': './images/loading_background.png',
-		'overlay': './images/overlay.png'
 	  },
   output: {
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, 'dist'),
+    filename: './scripts/[name].js',
   },
-  plugins: [new MiniCssExtractPlugin({
-      publicPath: '../../',
-      filename: "./styles/[name].css"
-    })],
+  // Generate sourcemaps for proper error messages
+  devtool: 'source-map',
+  performance: {
+    // Turn off size warnings for entry points
+    hints: false,
+  },
   module: {
     rules: [
-    	{
-			test: /\.js$/,
-			exclude: /node_modules/,
-			use: {
-			  loader: "babel-loader",
-			  options: {
-
-				},
-        }
+      {
+        test: /\.(css|sass|scss)$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: '../',
+            }
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 2,
+              sourceMap: true
+            }
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: () => [
+                require('autoprefixer')
+              ],
+              sourceMap: true
+            }
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true
+            }
+          },
+        ],
+        exclude: /node_modules/,
       },
       {
-        test: /\.(png|jpe?g|gif)$/i,
+        test: /\.(js)$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.(jpe?g|png|gif|svg)$/,
         use: [
           {
             loader: 'file-loader',
             options: {
-              outputPath: 'images/',
-              name: '[name].[ext]'
+              outputPath: (url, resourcePath, context) => {
+                if (/icon\.png|tile\.png|tile-wide\.png/.test(resourcePath)) {
+                  return url;
+                }
+                else {
+                  return `images/${url}`;
+                }
+              },
+              name: '[name].[ext]',
             },
           },
-        ]
+          {
+            loader: 'image-webpack-loader',
+            options: {
+              disable: process.env.NODE_ENV !== 'production', // Disable during development
+              mozjpeg: {
+                progressive: true,
+                quality: 75
+              },
+            },
+          }
+        ],
+        exclude: /node_modules/,
       },
       {
-        test: /\.(scss)$/,
-			use: [
-				{
-				loader: MiniCssExtractPlugin.loader,
-				options: {
-					
-				}
-			  },
-			  {
-				// Interprets `@import` and `url()` like `import/require()` and will resolve them
-				loader: 'css-loader'
-			  },
-			  {
-				// Loader for webpack to process CSS with PostCSS
-				loader: 'postcss-loader',
-				options: {
-				  plugins: function () {
-					return [
-					  require('autoprefixer')
-					];
-				  }
-				}
-			  },
-			  {
-				// Loads a SASS/SCSS file and compiles it to CSS
-				loader: 'sass-loader'
-			  }
-			]
-      }
-    ]
-  }
+        test: /(favicon\.ico|site\.webmanifest|browserconfig\.xml|robots\.txt|humans\.txt)$/,
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext]',
+        },
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.(woff(2)?|ttf|eot)(\?[a-z0-9=.]+)?$/,
+        loader: 'file-loader',
+        options: {
+          outputPath: 'fonts',
+          name: '[name].[ext]',
+        },
+        exclude: /node_modules/,
+      },
+    ],
+  },
+  // DevServer
+  // https://webpack.js.org/configuration/dev-server/
+  devServer: {
+    contentBase: path.join(__dirname, 'dist'),
+    compress: true,
+    port: 9000
+  },
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: './styles/styles.css'
+    }),
+  ]
 };
