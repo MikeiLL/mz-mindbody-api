@@ -10,7 +10,7 @@ module.exports = {
 		admin: './scripts/admin.js',
 		colorbox: './scripts/colorbox.js',
 		'events-display': './scripts/events-display.js',
-		'jquery.filtertable.mz': './scripts/jquery.filtertable.mz.js',
+		mz_filtertable: './scripts/jquery.filtertable.mz.js',
 		'schedule-display': './scripts/schedule-display.js',
 		'signup-modals': './scripts/signup-modals.js',
 		'staff_popup': './scripts/staff_popup.js',
@@ -124,7 +124,7 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: './styles/styles.css'
+      filename: './styles/main.css'
     }),
   ]
 };

@@ -1,3 +1,5 @@
+import './colorbox';
+import './staff_popup';
 (function ($) {
 
     /*jQuery(document).ready(function($) {

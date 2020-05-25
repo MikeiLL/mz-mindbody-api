@@ -101,6 +101,8 @@
  *
  * jquery.filterTable.mz
  *
+ * source: https://github.com/sunnywalker/jQuery.FilterTable
+ *
  * This plugin will add a search filter to tables. When typing in the filter,
  * any rows that do not contain the filter will be hidden.
  *
@@ -274,6 +276,7 @@
         }
       }
 
+      var created_filter;
       created_filter = true; // was the filter created or chosen from an existing element?
 
       if (t[0].nodeName === 'TABLE' && tbody.length > 0 && (settings.minRows === 0 || settings.minRows > 0 && tbody.find('tr').length > settings.minRows) && !t.prev().hasClass(settings.containerClass)) {
@@ -380,4 +383,4 @@
 /***/ })
 
 /******/ });
-//# sourceMappingURL=jquery.filtertable.mz.js.map
+//# sourceMappingURL=mz_filtertable.js.map

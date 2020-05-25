@@ -1,3 +1,5 @@
+import './signup-modals';
+
 (function ($) {
     $(document).ready(function ($) {
 

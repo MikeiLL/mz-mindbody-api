@@ -1,3 +1,4 @@
+import './signup-modals';
 (function ($) {
     $(document).ready(function ($) {
 
@@ -5,6 +6,7 @@
         var nonce = mz_mindbody_schedule.nonce,
             atts = mz_mindbody_schedule.atts,
             container = $('#mzScheduleDisplay'),
+            htmlRegistrants = '',
             // TODO use Ajax event handlers to globally handle loader spinners: https://stackoverflow.com/a/40513161/2223106
             spinner = '<i class="fa fa-spinner fa-3x fa-spin" style="position: fixed; top: 50%; left: 50%;"></i>';
 
