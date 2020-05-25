@@ -26,7 +26,7 @@
             classTime: undefined,
             class_title: undefined,
             content: undefined,
-            spinner: '<i class="fa fa-spinner fa-3x fa-spin" style="position: fixed; top: 50%; left: 50%;"></i>',
+            spinner: '<div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>',
             wrapper: undefined,
             content_wrapper: '<div class="modal__content" id="signupModalContent"></div>',
             footer: '<div class="modal__footer" id="signupModalFooter">\n' +

@@ -4,7 +4,7 @@ import './signup-modals';
     $(document).ready(function ($) {
 
         // Initialize some variables
-        var spinner = '<i class="fa fa-spinner fa-3x fa-spin" style="position: fixed; top: 50%; left: 50%;"></i>',
+        var spinner = '<div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>',
             container = $("#mzEventsDisplay"),
             atts = mz_mindbody_schedule.atts;
             // TODO use Ajax event handlers to globally handle loader spinners: https://stackoverflow.com/a/40513161/2223106

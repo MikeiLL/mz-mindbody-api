@@ -8,7 +8,7 @@ import './signup-modals';
             container = $('#mzScheduleDisplay'),
             htmlRegistrants = '',
             // TODO use Ajax event handlers to globally handle loader spinners: https://stackoverflow.com/a/40513161/2223106
-            spinner = '<i class="fa fa-spinner fa-3x fa-spin" style="position: fixed; top: 50%; left: 50%;"></i>';
+            spinner = '<div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>';
 
         // Some colorbox global settings
         $.colorbox.settings.width  = ($(window).innerWidth() <= 500) ? '95%' : '75%';
@@ -160,6 +160,7 @@ import './signup-modals';
             popUpContent += '<h3>' + mz_mindbody_schedule.registrants_header + '</h3>';
             popUpContent += '<div id="modalRegistrants"><div id="ClassRegistrants" style="min-height:90px;">';
             popUpContent += spinner;
+            popUpContent += '</div></div>';
             $("#registrantModal").load(target, function () {
                 $.colorbox({html: popUpContent, href: target});
                 $("#registrantModal").colorbox();
