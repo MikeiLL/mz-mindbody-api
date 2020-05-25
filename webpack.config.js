@@ -8,20 +8,27 @@ module.exports = {
 	target: 'node',
     externals: [nodeExternals()],
 	entry: {
-		main: './scripts/main.js',
+		main: ['./scripts/main.js', './styles/main.scss'],
 		admin: './scripts/admin.js',
 		colorbox: './scripts/colorbox.js',
-		eventsDisplay: './scripts/events-display.js',
-		filtertable: './scripts/jquery.filtertable.mz.js',
-		scheduleDisplay: './scripts/schedule-display.js',
-		signupModals: './scripts/signup-modals.js',
-		staffPopup: './scripts/staff_popup.js'
+		'events-display': './scripts/events-display.js',
+		'jquery.filtertable.mz': './scripts/jquery.filtertable.mz.js',
+		'schedule-display': './scripts/schedule-display.js',
+		'signup-modals': './scripts/signup-modals.js',
+		'staff_popup': './scripts/staff_popup.js',
+		'admin-style': './styles/admin-style.scss',
+		'loading': './images/loading.gif',
+		'border': './images/border.png',
+		'controls': './images/controls.png',
+		'loading_background': './images/loading_background.png',
+		'overlay': './images/overlay.png'
 	  },
   output: {
-    path: path.resolve(__dirname, 'dist/scripts')
+    path: path.resolve(__dirname, 'dist')
   },
   plugins: [new MiniCssExtractPlugin({
-      publicPath: '../../'
+      publicPath: '../../',
+      filename: "./styles/[name].css"
     })],
   module: {
     rules: [
@@ -29,7 +36,10 @@ module.exports = {
 			test: /\.js$/,
 			exclude: /node_modules/,
 			use: {
-			  loader: "babel-loader"
+			  loader: "babel-loader",
+			  options: {
+
+				},
         }
       },
       {
@@ -38,8 +48,8 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              filename: './dist/images/[name].[ext]',
-      		  context: './assets/images',
+              outputPath: 'images/',
+              name: '[name].[ext]'
             },
           },
         ]
@@ -50,13 +60,8 @@ module.exports = {
 				{
 				loader: MiniCssExtractPlugin.loader,
 				options: {
-					filename: "./dist/styles/[name].css",
-					context: path.resolve(__dirname, './assets/styles')
+					
 				}
-			  },
-			  {
-				// Adds CSS to the DOM by injecting a `<style>` tag
-				loader: 'style-loader'
 			  },
 			  {
 				// Interprets `@import` and `url()` like `import/require()` and will resolve them
