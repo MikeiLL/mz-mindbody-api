@@ -8,7 +8,7 @@ import './signup-modals';
             container = $('#mzScheduleDisplay'),
             htmlRegistrants = '',
             // TODO use Ajax event handlers to globally handle loader spinners: https://stackoverflow.com/a/40513161/2223106
-            spinner = '<div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>';
+            spinner = '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>';
 
         // Some colorbox global settings
         $.colorbox.settings.width  = ($(window).innerWidth() <= 500) ? '95%' : '75%';

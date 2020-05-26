@@ -26,7 +26,7 @@
             classTime: undefined,
             class_title: undefined,
             content: undefined,
-            spinner: '<div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>',
+            spinner: '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>',
             wrapper: undefined,
             content_wrapper: '<div class="modal__content" id="signupModalContent"></div>',
             footer: '<div class="modal__footer" id="signupModalFooter">\n' +

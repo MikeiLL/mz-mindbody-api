@@ -106,7 +106,7 @@ __webpack_require__(/*! ./signup-modals */ "./scripts/signup-modals.js");
         container = $('#mzScheduleDisplay'),
         htmlRegistrants = '',
         // TODO use Ajax event handlers to globally handle loader spinners: https://stackoverflow.com/a/40513161/2223106
-    spinner = '<div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>'; // Some colorbox global settings
+    spinner = '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>'; // Some colorbox global settings
 
     $.colorbox.settings.width = $(window).innerWidth() <= 500 ? '95%' : '75%';
     $.colorbox.settings.height = '75%';
@@ -492,7 +492,7 @@ __webpack_require__(/*! ./signup-modals */ "./scripts/signup-modals.js");
       classTime: undefined,
       class_title: undefined,
       content: undefined,
-      spinner: '<div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>',
+      spinner: '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>',
       wrapper: undefined,
       content_wrapper: '<div class="modal__content" id="signupModalContent"></div>',
       footer: '<div class="modal__footer" id="signupModalFooter">\n' + '    <a class="btn btn-primary" data-nonce="' + mz_mindbody_schedule.signup_nonce + '" id="MBOSchedule" target="_blank">My Classes</a>\n' + '    <a href="https://clients.mindbodyonline.com/ws.asp?&amp;sLoc=' + mz_mindbody_schedule.location + '&studioid=' + mz_mindbody_schedule.siteID + '>" class="btn btn-primary btn-xs" id="MBOSite">Manage on Mindbody Site></a>\n' + '    <a class="btn btn-primary btn-xs" id="MBOLogout">Logout</a>\n' + '</div>\n',
