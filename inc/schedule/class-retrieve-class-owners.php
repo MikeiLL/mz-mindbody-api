@@ -97,8 +97,6 @@ class Retrieve_Class_Owners extends Interfaces\Retrieve_Classes {
 		
 		
         $schedules = $this->classes;
-		NS\MZMBO()->helpers->log(array_keys($schedules[0]));
-		NS\MZMBO()->helpers->log($schedules[0]);
 
         foreach($schedules as $class):
 
