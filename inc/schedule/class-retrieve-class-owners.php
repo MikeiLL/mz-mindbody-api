@@ -119,7 +119,7 @@ class Retrieve_Class_Owners extends Interfaces\Retrieve_Classes {
 
                 $class_description_substring = substr(strip_tags($class['ClassDescription']['Description']), 0, 55);
 
-				$staff_name = isset($class['Staff']['Name']) ? $class['Staff']['Name'] : $class['Staff']['FirstName'] . $class['Staff']['LastName'];
+				$staff_name = isset($class['Staff']['Name']) ? $class['Staff']['Name'] : $class['Staff']['FirstName'] . ' ' . $class['Staff']['LastName'];
 				
                 $temp = array(
                     'class_name' => strip_tags($class['ClassDescription']['Name']),
