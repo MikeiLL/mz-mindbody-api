@@ -1,4 +1,25 @@
-@import "~bootstrap/scss/bootstrap";
+// @import "~bootstrap/scss/bootstrap";
+@import "~bootstrap/scss/mixins/_clearfix.scss";
+@import "~bootstrap/scss/mixins/_grid-framework.scss";
+@import "~bootstrap/scss/functions.scss";
+@import "~bootstrap/scss/_variables.scss";
+@import "~bootstrap/scss/mixins/_breakpoints.scss";
+@import "~bootstrap/scss/mixins/_grid.scss";
+@import "~bootstrap/scss/mixins/_image.scss";
+@import "~bootstrap/scss/_grid.scss";
+@import "~bootstrap/scss/mixins/_buttons.scss";
+@import "~bootstrap/scss/mixins/_table-row.scss";
+@import "~bootstrap/scss/vendor/_rfs.scss";
+@import "~bootstrap/scss/mixins/_border-radius.scss";
+@import "~bootstrap/scss/mixins/_transition.scss";
+@import "~bootstrap/scss/mixins/_hover.scss";
+@import "~bootstrap/scss/mixins/_box-shadow.scss";
+@import "~bootstrap/scss/mixins/_gradients.scss";
+@import "~bootstrap/scss/mixins/_buttons.scss";
+@import "~bootstrap/scss/mixins/_alert.scss";
+@import "~bootstrap/scss/_alert.scss";
+@import "~bootstrap/scss/_buttons.scss";
+@import "~bootstrap/scss/_tables.scss";
 
 table { border-collapse: collapse; }
 
