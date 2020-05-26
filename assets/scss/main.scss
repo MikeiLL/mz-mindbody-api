@@ -7,6 +7,7 @@
 @import "~bootstrap/scss/mixins/_grid.scss";
 @import "~bootstrap/scss/mixins/_image.scss";
 @import "~bootstrap/scss/_grid.scss";
+// @import "~bootstrap/dist/css/bootstrap-grid.css"; // weird, missing from sass files?
 @import "~bootstrap/scss/mixins/_buttons.scss";
 @import "~bootstrap/scss/mixins/_table-row.scss";
 @import "~bootstrap/scss/vendor/_rfs.scss";
@@ -20,6 +21,20 @@
 @import "~bootstrap/scss/_alert.scss";
 @import "~bootstrap/scss/_buttons.scss";
 @import "~bootstrap/scss/_tables.scss";
+@import "~bootstrap/scss/mixins/_screen-reader.scss";
+@import "~bootstrap/scss/utilities/_screenreaders.scss";
+@import "~bootstrap/scss/_spinners.scss";
+
+// Followin missing from bootstrap grid scss
+.justify-content-center {
+  -ms-flex-pack: center !important;
+  justify-content: center !important;
+}
+.d-flex {
+  display: -ms-flexbox !important;
+  display: flex !important;
+}
+
 
 table { border-collapse: collapse; }
 
