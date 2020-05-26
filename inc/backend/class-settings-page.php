@@ -77,6 +77,17 @@ class Settings_Page {
             )
         );
 
+        // Field: Server Check HTML.
+        self::$wposa_obj->add_field(
+            'mz_mbo_basic',
+            array(
+                'id'      => 'server_check',
+                'type'    => 'html',
+                'name'    => __( 'Server Check', 'mz-mindbody-api' ),
+                'desc'    => $this->server_check()
+            )
+        );
+
         // Field: Credentials Intro HTML.
         self::$wposa_obj->add_field(
             'mz_mbo_basic',
@@ -405,6 +416,57 @@ class Settings_Page {
             )
         );
 
+    }
+
+    private function server_check() {
+
+        $return = '';
+        $mz_requirements = 0;
+
+        if (!file_exists('PEAR/Registry.php')) {
+            return "<div>Cannot confirm pear is installed. Check with server admin about pear/SOAP if you have issues.</div>";
+        }
+
+        include 'PEAR/Registry.php';
+
+        $reg = new \PEAR_Registry;
+
+        if (extension_loaded('soap'))
+        {
+            $return .= __('SOAP installed! ', 'mz-mindbody-api');
+        }
+        else
+        {
+            $return .= __('SOAP is not installed. ', 'mz-mindbody-api');
+            $mz_requirements = 1;
+        }
+        $return .=  '&nbsp;';
+
+        if (class_exists('System')===true)
+        {
+            $return .= __('PEAR installed! ', 'mz-mindbody-api');
+        }
+        else
+        {
+            $return .= __('PEAR is not installed. ', 'mz-mindbody-api');
+            $mz_requirements = 1;
+        }
+
+        if ($mz_requirements == 1)
+        {
+
+            $return .=  '<div class="settings-error"><p>';
+            $return .= __('MZ Mindbody API requires SOAP and PEAR. Please contact your hosting provider or enable via your CPANEL of php.ini file.', 'mz-mindbody-api');
+            $return .=  '</p></div>';
+        }
+        else
+        {
+
+            $return .=  '<div class="" ><p>';
+            $return .= __('Congratulations. Your server appears to be configured to integrate with mindbodyonline.', 'mz-mindbody-api');
+            $return .=  '</p></div>';
+        }
+        return $return;
     }
 
     private function credentials_intro(){
