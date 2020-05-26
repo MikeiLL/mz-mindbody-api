@@ -62,6 +62,9 @@ You need to register a developer account with MindBody, which costs $5+ per webs
 = 2.5.7 =
 Utilize v6 of the MBO API with v5 left for legacy purposes.
 Swap out "loading" with Bootstrap load.
+Upgrade to Bootstrap v4.
+Manage assets with Webpack.
+Add support for MBO Access plugin.
 
 = 2.5.6 =
 Alert admin when API calls get close to 1000 and short circuit calls when past 2000.

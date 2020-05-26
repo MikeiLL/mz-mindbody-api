@@ -4,14 +4,14 @@ msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: mZoo Mindbody Interface - Schedule, Events, Staff "
 "Display\n"
-"POT-Creation-Date: 2018-07-17 20:04-0500\n"
+"POT-Creation-Date: 2020-05-26 15:10-0500\n"
 "PO-Revision-Date: 2018-05-29 21:09-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.9\n"
+"X-Generator: Poedit 2.3.1\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: mz-mindbody.php\n"
@@ -22,11 +22,33 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: inc/admin/class-admin.php:165
-msgid "Transients cleared. Page reloads will re-set them."
+#: inc/admin/class-admin.php:165 inc/admin/class-admin.php:211
+#: inc/backend/class-settings-page.php:110
+msgid "YOUR MBO APP NAME"
 msgstr ""
 
-#: inc/admin/class-admin.php:192
+#: inc/admin/class-admin.php:166 inc/admin/class-admin.php:212
+#: inc/backend/class-settings-page.php:122
+msgid "YOUR MINDBODY API KEY"
+msgstr ""
+
+#: inc/admin/class-admin.php:257
+msgid "No transients to clear."
+msgstr ""
+
+#: inc/admin/class-admin.php:260
+#, php-format
+msgid "Cleared %d transients. Page reloads will re-set them."
+msgstr ""
+
+#: inc/admin/class-admin.php:314
+#, php-format
+msgid ""
+"Once credentials have been set and saved, look for %1$s in the box below to "
+"confirm settings are correct and credentials work."
+msgstr ""
+
+#: inc/admin/class-admin.php:347
 #, php-format
 msgid ""
 "Once credentials have been set and activated, look for %1$s in the \n"
@@ -50,275 +72,320 @@ msgstr ""
 msgid "Advanced"
 msgstr ""
 
-#: inc/backend/class-settings-page.php:78
+#: inc/backend/class-settings-page.php:76
+msgid "API Version 5"
+msgstr ""
+
+#: inc/backend/class-settings-page.php:86
 msgid "Server Check"
 msgstr ""
 
-#: inc/backend/class-settings-page.php:89
+#: inc/backend/class-settings-page.php:97
 msgid "Enter your mindbody credentials below."
 msgstr ""
 
-#: inc/backend/class-settings-page.php:100
-msgid "Source Name"
+#: inc/backend/class-settings-page.php:108
+msgid "App Name"
 msgstr ""
 
-#: inc/backend/class-settings-page.php:102
+#: inc/backend/class-settings-page.php:120
+msgid "API Key"
+msgstr ""
+
+#: inc/backend/class-settings-page.php:132
+msgid "Staff Name"
+msgstr ""
+
+#: inc/backend/class-settings-page.php:134
 msgid "YOUR SOURCE NAME"
 msgstr ""
 
-#: inc/backend/class-settings-page.php:112
-#: inc/common/class-global-strings.php:30
-msgid "Password"
+#: inc/backend/class-settings-page.php:144
+msgid "Staff Name is MBO Sourcename"
 msgstr ""
 
-#: inc/backend/class-settings-page.php:114
+#: inc/backend/class-settings-page.php:145
+msgid "App adds and underscore when Sourcename used as Staff Name."
+msgstr ""
+
+#: inc/backend/class-settings-page.php:156
+msgid "Staff Password "
+msgstr ""
+
+#: inc/backend/class-settings-page.php:158
 msgid "YOUR MINDBODY PASSWORD"
 msgstr ""
 
-#: inc/backend/class-settings-page.php:124
+#: inc/backend/class-settings-page.php:168
 msgid "Primary (default) MBO Site ID"
 msgstr ""
 
-#: inc/backend/class-settings-page.php:126
+#: inc/backend/class-settings-page.php:170
 msgid "-99"
 msgstr ""
 
-#: inc/backend/class-settings-page.php:157
+#: inc/backend/class-settings-page.php:201
+#: inc/backend/class-settings-page.php:237
 msgid "Debug Output"
 msgstr ""
 
-#: inc/backend/class-settings-page.php:168
+#: inc/backend/class-settings-page.php:248
 msgid "Event IDs"
 msgstr ""
 
-#: inc/backend/class-settings-page.php:170
+#: inc/backend/class-settings-page.php:250
 msgid "12345, 34, 64"
 msgstr ""
 
-#: inc/backend/class-settings-page.php:180
+#: inc/backend/class-settings-page.php:260
 msgid "Event Display Duration"
 msgstr ""
 
-#: inc/backend/class-settings-page.php:182
+#: inc/backend/class-settings-page.php:262
 msgid "60"
 msgstr ""
 
-#: inc/backend/class-settings-page.php:192
+#: inc/backend/class-settings-page.php:272
 msgid "Schedule Display"
 msgstr ""
 
-#: inc/backend/class-settings-page.php:203
+#: inc/backend/class-settings-page.php:283
 msgid "Staff Display"
 msgstr ""
 
-#: inc/backend/class-settings-page.php:214
+#: inc/backend/class-settings-page.php:294
 msgid "Events Display"
 msgstr ""
 
-#: inc/backend/class-settings-page.php:226
+#: inc/backend/class-settings-page.php:306
 msgid "Date Format"
 msgstr ""
 
-#: inc/backend/class-settings-page.php:228
+#: inc/backend/class-settings-page.php:308
 msgid "l, F j"
 msgstr ""
 
-#: inc/backend/class-settings-page.php:238
+#: inc/backend/class-settings-page.php:318
 msgid "Time Format"
 msgstr ""
 
-#: inc/backend/class-settings-page.php:240
+#: inc/backend/class-settings-page.php:320
 msgid "g:i a"
 msgstr ""
 
-#: inc/backend/class-settings-page.php:250
+#: inc/backend/class-settings-page.php:330
 msgid "Schedule Types Types"
 msgstr ""
 
-#: inc/backend/class-settings-page.php:251
+#: inc/backend/class-settings-page.php:331
 msgid ""
-"Which MBO schedule types to display in \"schedule\" (defaults to Enrollment.)"
+"Which MBO schedule types to display in \"schedule\" (defaults to Class.)"
 msgstr ""
 
-#: inc/backend/class-settings-page.php:265
-#: inc/backend/class-settings-page.php:432
+#: inc/backend/class-settings-page.php:345
+#: inc/backend/class-settings-page.php:539
 msgid "Clear Transients"
 msgstr ""
 
-#: inc/backend/class-settings-page.php:276
+#: inc/backend/class-settings-page.php:356
 msgid "Display Class Sub Information"
 msgstr ""
 
-#: inc/backend/class-settings-page.php:277
+#: inc/backend/class-settings-page.php:357
 msgid ""
 "When checked, schedule display will contain information about class "
 "instructor substitution."
 msgstr ""
 
-#: inc/backend/class-settings-page.php:298
-msgid "Keep Users In Site to Register for MBO, Classes, Events"
+#: inc/backend/class-settings-page.php:368
+msgid "Template Override System"
 msgstr ""
 
-#: inc/backend/class-settings-page.php:299
+#: inc/backend/class-settings-page.php:369
 msgid ""
-"When checked, users are not directed to MBO site for registering for classes "
-"and events."
+"You can override any of the files in the plugin/frontend/views directory by "
+"placing them in your theme top-level directory within a directory named "
+"templates/mindbody."
 msgstr ""
 
-#: inc/backend/class-settings-page.php:309
+#: inc/backend/class-settings-page.php:402
+msgid "Log MBO API Calls"
+msgstr ""
+
+#: inc/backend/class-settings-page.php:403
+msgid ""
+"When checked, API calls are logged for up to seven days in wp-content/"
+"mbo_api.log."
+msgstr ""
+
+#: inc/backend/class-settings-page.php:414
 msgid "Reset Class \"Owners\""
 msgstr ""
 
-#: inc/backend/class-settings-page.php:331
+#: inc/backend/class-settings-page.php:436
 msgid "SOAP installed! "
 msgstr ""
 
-#: inc/backend/class-settings-page.php:335
+#: inc/backend/class-settings-page.php:440
 msgid "SOAP is not installed. "
 msgstr ""
 
-#: inc/backend/class-settings-page.php:342
+#: inc/backend/class-settings-page.php:447
 msgid "PEAR installed! "
 msgstr ""
 
-#: inc/backend/class-settings-page.php:346
+#: inc/backend/class-settings-page.php:451
 msgid "PEAR is not installed. "
 msgstr ""
 
-#: inc/backend/class-settings-page.php:354
+#: inc/backend/class-settings-page.php:459
 msgid ""
 "MZ Mindbody API requires SOAP and PEAR. Please contact your hosting provider "
 "or enable via your CPANEL of php.ini file."
 msgstr ""
 
-#: inc/backend/class-settings-page.php:361
+#: inc/backend/class-settings-page.php:466
 msgid ""
 "Congratulations. Your server appears to be configured to integrate with "
 "mindbodyonline."
 msgstr ""
 
-#: inc/backend/class-settings-page.php:369
+#: inc/backend/class-settings-page.php:474
 #, php-format
 msgid ""
 "If you do not have them yet, visit the %1$s MindBodyOnline developers "
 "website %2$s and register for developer credentials."
 msgstr ""
 
-#: inc/backend/class-settings-page.php:372
+#: inc/backend/class-settings-page.php:477
 msgid "Detailed instructions here"
 msgstr ""
 
-#: inc/backend/class-settings-page.php:379
+#: inc/backend/class-settings-page.php:484
 msgid ""
 "Attributes for schedule shortcodes. For boolean attributes use numeral 1 for "
 "true. Lists should be separated with commas"
 msgstr ""
 
-#: inc/backend/class-settings-page.php:381
+#: inc/backend/class-settings-page.php:486
 msgid "'week' or 'day'. Defaults to 'week'"
 msgstr ""
 
-#: inc/backend/class-settings-page.php:382
+#: inc/backend/class-settings-page.php:487
 msgid "(numeric) List of IDs of MBO locations to display"
 msgstr ""
 
-#: inc/backend/class-settings-page.php:383
+#: inc/backend/class-settings-page.php:488
 msgid "(numeric) Which MBO account to display schedule for"
 msgstr ""
 
-#: inc/backend/class-settings-page.php:384
+#: inc/backend/class-settings-page.php:489
 msgid "(boolean) Option to show a filter by class type, teacher."
 msgstr ""
 
-#: inc/backend/class-settings-page.php:385
+#: inc/backend/class-settings-page.php:490
 msgid "(boolean) Display schedule in grid format as opposed to list"
 msgstr ""
 
-#: inc/backend/class-settings-page.php:386
+#: inc/backend/class-settings-page.php:491
 msgid "(boolean) Allow users to sign in directory from wordpress site"
 msgstr ""
 
-#: inc/backend/class-settings-page.php:387
+#: inc/backend/class-settings-page.php:492
 msgid ""
 "Remove any of following from display: teacher, signup, duration, session-type"
 msgstr ""
 
-#: inc/backend/class-settings-page.php:388
+#: inc/backend/class-settings-page.php:493
 msgid ""
 "List of MBO-registered session types to display. (Previously attribute was "
 "called 'class_types'"
 msgstr ""
 
-#: inc/backend/class-settings-page.php:389
+#: inc/backend/class-settings-page.php:494
 msgid ""
 "(boolean) If true, modal pop-up window will display registrants of class"
 msgstr ""
 
-#: inc/backend/class-settings-page.php:390
+#: inc/backend/class-settings-page.php:495
 msgid "(boolean) True will hide cancelled classes"
 msgstr ""
 
-#: inc/backend/class-settings-page.php:391
+#: inc/backend/class-settings-page.php:496
 msgid "(boolean) Display number of registrants in class"
 msgstr ""
 
-#: inc/backend/class-settings-page.php:392
+#: inc/backend/class-settings-page.php:497
 msgid ""
 "(int) Allow user to select between grid and list view. 1 defaults to "
 "horizontal, 2 to grid."
 msgstr ""
 
-#: inc/backend/class-settings-page.php:393
+#: inc/backend/class-settings-page.php:498
 msgid " "
 msgstr ""
 
-#: inc/backend/class-settings-page.php:399
+#: inc/backend/class-settings-page.php:504
 msgid "Grid and Filter can be added like this:"
 msgstr ""
 
-#: inc/backend/class-settings-page.php:409
+#: inc/backend/class-settings-page.php:514
 msgid "(int) Which MBO account to display staff for."
 msgstr ""
 
-#: inc/backend/class-settings-page.php:410
+#: inc/backend/class-settings-page.php:515
 msgid "(boolean) Set to `1` to display as responsive grid."
 msgstr ""
 
-#: inc/backend/class-settings-page.php:412
+#: inc/backend/class-settings-page.php:516
+msgid ""
+"(string) Comma-separated string of staff names to not display. Case "
+"insensitive."
+msgstr ""
+
+#: inc/backend/class-settings-page.php:517
+msgid ""
+"(boolean) Set to `1` to include staff members without photos. Default is not "
+"to display them."
+msgstr ""
+
+#: inc/backend/class-settings-page.php:519
 msgid ""
 "To display staff page as a responsive gallery of images with pop-up "
 "biographies, use "
 msgstr ""
 
-#: inc/backend/class-settings-page.php:421
+#: inc/backend/class-settings-page.php:528
 msgid "(int) Which MBO account to display events for."
 msgstr ""
 
-#: inc/backend/class-settings-page.php:422
+#: inc/backend/class-settings-page.php:529
 msgid "List of (int) MBO locations to display events for."
 msgstr ""
 
-#: inc/backend/class-settings-page.php:423
+#: inc/backend/class-settings-page.php:530
 msgid "(boolean) Set to `1` to display events as a list."
 msgstr ""
 
-#: inc/backend/class-settings-page.php:424
+#: inc/backend/class-settings-page.php:531
 msgid "(int) Limit the number of events to display."
 msgstr ""
 
-#: inc/backend/class-settings-page.php:425
-msgid "(boolean) Set to `1` to allow users to register directly if logged in."
+#: inc/backend/class-settings-page.php:532
+msgid ""
+"(boolean) Set to `1` to include location filter (if multiple locations "
+"included)."
 msgstr ""
 
-#: inc/backend/class-settings-page.php:426
+#: inc/backend/class-settings-page.php:533
 msgid "(boolean) Set to `1` to display events for current week only."
 msgstr ""
 
-#: inc/backend/class-settings-page.php:438
+#: inc/backend/class-settings-page.php:545
 msgid "Reset Class Owners"
 msgstr ""
 
-#: inc/backend/class-settings-page.php:439
+#: inc/backend/class-settings-page.php:546
 #, php-format
 msgid ""
 "<p>This is the matrix of which instructors %1$s \"own\" classes (MBO API "
@@ -327,60 +394,78 @@ msgid ""
 "this button and viewing output in the browser console.</p>"
 msgstr ""
 
-#: inc/backend/class-settings-page.php:448
+#: inc/backend/class-settings-page.php:554
+#: inc/backend/class-settings-page.php:558
 msgid "Test Credentials"
 msgstr ""
 
-#: inc/client/class-client-portal.php:104
-msgid "Welcome"
-msgstr ""
-
-#: inc/client/class-client-portal.php:115
-msgid "Invalid Login"
-msgstr ""
-
-#: inc/client/class-client-portal.php:151
+#: inc/client/class-client-portal.php:132
 msgid "Logged Out"
 msgstr ""
 
-#: inc/client/class-client-portal.php:283
+#: inc/client/class-client-portal.php:284
 msgid "You are already booked at this time."
 msgstr ""
 
-#: inc/client/class-client-portal.php:302
+#: inc/client/class-client-portal.php:303
 msgid "Registered via MindBody"
 msgstr ""
 
-#: inc/client/class-client-portal.php:358
+#: inc/client/class-client-portal.php:359
 msgid "Leave this empty-slash-blank"
 msgstr ""
 
-#: inc/client/class-client-portal.php:359
-msgid "First Name"
-msgstr ""
-
 #: inc/client/class-client-portal.php:360
-msgid "Last Name"
+msgid "Email"
 msgstr ""
 
 #: inc/client/class-client-portal.php:361
+msgid "First Name"
+msgstr ""
+
+#: inc/client/class-client-portal.php:362
+msgid "Last Name"
+msgstr ""
+
+#: inc/client/class-client-portal.php:363
 msgid "Sign up"
 msgstr ""
 
-#: inc/client/class-client-portal.php:434
+#: inc/client/class-client-portal.php:438
 msgid "Congratulations. You are now logged in with your new Mindbody account."
 msgstr ""
 
-#: inc/client/class-client-portal.php:436
+#: inc/client/class-client-portal.php:440
 msgid "Sign-up for some classes."
 msgstr ""
 
-#: inc/client/class-client-portal.php:446
+#: inc/client/class-client-portal.php:452
 msgid "Try Again"
+msgstr ""
+
+#: inc/client/class-retrieve-client.php:77
+msgid "Welcome"
+msgstr ""
+
+#: inc/client/class-retrieve-client.php:79
+#, php-format
+msgid "Whoops. Please try again, %1$s."
+msgstr ""
+
+#: inc/client/class-retrieve-client.php:89
+msgid "Invalid Login"
+msgstr ""
+
+#: inc/client/class-retrieve-client.php:197
+msgid "Please Login"
 msgstr ""
 
 #: inc/common/class-global-strings.php:29
 msgid "Username"
+msgstr ""
+
+#: inc/common/class-global-strings.php:30
+msgid "Password"
 msgstr ""
 
 #: inc/common/class-global-strings.php:31
@@ -400,7 +485,7 @@ msgid "Log in to Sign up"
 msgstr ""
 
 #: inc/common/class-global-strings.php:35
-#: inc/schedule/class-schedule-item.php:516
+#: inc/schedule/class-schedule-item.php:532
 msgid "Manage on MindBody Site"
 msgstr ""
 
@@ -425,7 +510,7 @@ msgid "or"
 msgstr ""
 
 #: inc/common/class-global-strings.php:41
-#: inc/frontend/views/grid_schedule.php:61 inc/schedule/class-display.php:371
+#: inc/frontend/views/grid_schedule.php:61 inc/schedule/class-display.php:374
 msgid "with"
 msgstr ""
 
@@ -457,31 +542,88 @@ msgstr ""
 msgid "Schedule"
 msgstr ""
 
-#: inc/common/class-global-strings.php:49
+#: inc/common/class-global-strings.php:49 inc/schedule/class-display.php:389
+msgid "All Locations"
+msgstr ""
+
+#: inc/common/class-global-strings.php:50
+msgid "No events scheduled yet for this period."
+msgstr ""
+
+#: inc/common/class-global-strings.php:51
 msgid ""
 "There was an error retrieving the data. Details below. Could be a network "
 "connection. Consider trying again."
 msgstr ""
 
-#: inc/common/interfaces/class-retrieve-classes.php:224
-msgid ""
-"There was an error populating schedule. Details below. Could be a network "
-"connection. Consider trying again."
+#: inc/events/class-display.php:177
+msgid "Error returning events from Mindbody."
 msgstr ""
 
-#: inc/events/class-display.php:109 inc/schedule/class-display.php:227
-#: inc/schedule/class-display.php:425
-#: inc/schedule/class-retrieve-class-owners.php:46
-#: inc/staff/class-display.php:71
-msgid "Mindbody plugin settings error."
-msgstr ""
-
-#: inc/events/class-display.php:115
+#: inc/events/class-display.php:181 inc/events/class-display.php:296
 msgid "No Events in current cycle"
 msgstr ""
 
-#: inc/frontend/views/create_mbo_account.php:6
+#: inc/events/class-display.php:193
+msgid "Date"
+msgstr ""
+
+#: inc/events/class-display.php:194
+msgid "Time"
+msgstr ""
+
+#: inc/events/class-display.php:195
+msgid "Event"
+msgstr ""
+
+#: inc/events/class-display.php:196
+msgid "Location"
+msgstr ""
+
+#: inc/events/class-display.php:245
+msgid "Sorry but there was an error retrieving the events."
+msgstr ""
+
+#: inc/events/class-display.php:246 inc/schedule/class-display.php:383
+msgid "No biography listed for this staff member."
+msgstr ""
+
+#: inc/events/class-display.php:294
+msgid "Error returning events to display from Minbbody."
+msgstr ""
+
+#: inc/events/class-display.php:302
+#: inc/frontend/views/event_listing_container.php:3
+#, php-format
+msgid "Displaying events from %1$s to %2$s."
+msgstr ""
+
+#: inc/events/class-single-event.php:335
+#: inc/schedule/class-schedule-item.php:531
+#: inc/schedule/class-schedule-item.php:630
+msgid "Sign-Up"
+msgstr ""
+
+#: inc/frontend/views/create_mbo_account.php:5
 msgid "Create MBO Account"
+msgstr ""
+
+#: inc/frontend/views/event_listing_container.php:9
+msgid "Previous Events"
+msgstr ""
+
+#: inc/frontend/views/event_listing_container.php:10
+msgid "Future Events"
+msgstr ""
+
+#: inc/frontend/views/event_listing_full.php:33
+#: inc/frontend/views/horizontal_schedule.php:74
+msgid "at"
+msgstr ""
+
+#: inc/frontend/views/event_listing_full.php:58
+#: inc/frontend/views/event_listing_list.php:55
+msgid "Error Retrieving Events"
 msgstr ""
 
 #: inc/frontend/views/grid_schedule.php:37
@@ -494,7 +636,7 @@ msgid "Duration:"
 msgstr ""
 
 #: inc/frontend/views/horizontal_schedule.php:18
-msgid "Error Retrieving Schedule"
+msgid "No Classes To Display"
 msgstr ""
 
 #: inc/frontend/views/horizontal_schedule.php:27
@@ -509,10 +651,6 @@ msgstr ""
 msgid "Class Type"
 msgstr ""
 
-#: inc/frontend/views/horizontal_schedule.php:74
-msgid "at"
-msgstr ""
-
 #: inc/frontend/views/modal_footer.php:5
 msgid "My Classes"
 msgstr ""
@@ -525,16 +663,26 @@ msgstr ""
 msgid "Logout"
 msgstr ""
 
-#: inc/frontend/views/schedule_container.php:8
+#: inc/frontend/views/schedule_container.php:13
 msgid "Previous Week"
 msgstr ""
 
-#: inc/frontend/views/schedule_container.php:9
+#: inc/frontend/views/schedule_container.php:14
 msgid "Following Week"
 msgstr ""
 
-#: inc/frontend/views/staff_modal.php:15
+#: inc/frontend/views/staff_modal.php:14
 msgid "No biography for this staff member yet."
+msgstr ""
+
+#: inc/libraries/class-mbo-v5-api.php:177
+#: inc/libraries/class-mbo-v6-api.php:332
+msgid "Large amount of MBO API Calls"
+msgstr ""
+
+#: inc/libraries/class-mbo-v5-api.php:178
+#: inc/libraries/class-mbo-v6-api.php:333
+msgid "Check your website and MBO. There seems to be an issue."
 msgstr ""
 
 #: inc/libraries/class-wp-osa.php:609
@@ -545,109 +693,109 @@ msgstr ""
 msgid "Choose Image"
 msgstr ""
 
-#: inc/schedule/class-display.php:243 inc/schedule/class-display.php:249
+#: inc/schedule/class-display.php:230
+msgid "Error returning schedule from MBO for shortcode display."
+msgstr ""
+
+#: inc/schedule/class-display.php:246 inc/schedule/class-display.php:252
 msgid "Grid View"
 msgstr ""
 
-#: inc/schedule/class-display.php:244 inc/schedule/class-display.php:248
+#: inc/schedule/class-display.php:247 inc/schedule/class-display.php:251
 msgid "Horizontal View"
 msgstr ""
 
-#: inc/schedule/class-display.php:276
+#: inc/schedule/class-display.php:279
 msgid "Sunday"
 msgstr ""
 
-#: inc/schedule/class-display.php:277
+#: inc/schedule/class-display.php:280
 msgid "Monday"
 msgstr ""
 
-#: inc/schedule/class-display.php:278
+#: inc/schedule/class-display.php:281
 msgid "Tuesday"
 msgstr ""
 
-#: inc/schedule/class-display.php:279
+#: inc/schedule/class-display.php:282
 msgid "Wednesday"
 msgstr ""
 
-#: inc/schedule/class-display.php:280
+#: inc/schedule/class-display.php:283
 msgid "Thursday"
 msgstr ""
 
-#: inc/schedule/class-display.php:281
+#: inc/schedule/class-display.php:284
 msgid "Friday"
 msgstr ""
 
-#: inc/schedule/class-display.php:282
+#: inc/schedule/class-display.php:285
 msgid "Saturday"
 msgstr ""
 
-#: inc/schedule/class-display.php:376
+#: inc/schedule/class-display.php:379
 msgid "Registrants"
 msgstr ""
 
-#: inc/schedule/class-display.php:377
+#: inc/schedule/class-display.php:380
 msgid "Error retrieving class details."
 msgstr ""
 
-#: inc/schedule/class-display.php:378
+#: inc/schedule/class-display.php:381
 msgid "Sorry but there was an error retrieving the schedule."
 msgstr ""
 
-#: inc/schedule/class-display.php:379
+#: inc/schedule/class-display.php:382
 msgid "substitute for"
 msgstr ""
 
-#: inc/schedule/class-display.php:380
-msgid "No biography listed for this staff member."
-msgstr ""
-
-#: inc/schedule/class-display.php:381
+#: inc/schedule/class-display.php:384
 msgid "by teacher, class type"
 msgstr ""
 
-#: inc/schedule/class-display.php:382 inc/schedule/class-schedule-item.php:671
+#: inc/schedule/class-display.php:385 inc/schedule/class-schedule-item.php:698
 msgid "morning"
 msgstr ""
 
-#: inc/schedule/class-display.php:383 inc/schedule/class-schedule-item.php:675
+#: inc/schedule/class-display.php:386 inc/schedule/class-schedule-item.php:702
 msgid "afternoon"
 msgstr ""
 
-#: inc/schedule/class-display.php:384 inc/schedule/class-schedule-item.php:673
+#: inc/schedule/class-display.php:387 inc/schedule/class-schedule-item.php:700
 msgid "evening"
 msgstr ""
 
-#: inc/schedule/class-display.php:385
+#: inc/schedule/class-display.php:388
 msgid "Filter"
 msgstr ""
 
-#: inc/schedule/class-display.php:386
-msgid "All Locations"
+#: inc/schedule/class-display.php:431
+msgid "Error returning schedule from MBO for display."
 msgstr ""
 
-#: inc/schedule/class-display.php:457
+#: inc/schedule/class-display.php:463
 msgid "Error. Please try again."
 msgstr ""
 
-#: inc/schedule/class-retrieve-registrants.php:78
-msgid "Unable to retrieve registrants."
+#: inc/schedule/class-retrieve-class-owners.php:45
+msgid "Error deducing MBO class owners."
 msgstr ""
 
-#: inc/schedule/class-retrieve-registrants.php:82
+#: inc/schedule/class-retrieve-registrants.php:116
 msgid "No registrants yet."
 msgstr ""
 
-#: inc/schedule/class-schedule-item.php:515
-#: inc/schedule/class-schedule-item.php:603
-msgid "Sign-Up"
-msgstr ""
-
-#: inc/schedule/class-schedule-item.php:526
+#: inc/schedule/class-schedule-item.php:542
 msgid "Cancelled"
 msgstr ""
 
-#: tests/test-init.php:22
-msgid "Option Not Set"
+#: inc/staff/class-display.php:82
+msgid "Error displaying Staff from Mindbody."
+msgstr ""
+
+#: inc/staff/class-staff-member.php:144
+#, php-format
+msgid "See %s&apos;s Schedule"
 msgstr ""
 
 #. Plugin Name of the plugin/theme
