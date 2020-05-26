@@ -1,28 +1,26 @@
 === MZ Mindbody API ===
 Contributors: mikeill, rtzee
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A95ZEELLHGECE
-Tags: mindbody, schedule, calendar, yoga, MBO, mindbodyonline, gym
+Tags: mindbody, schedule, calendar, yoga, MBO, mindbodyonline, gym, parkour, mbo, mindbodyonline.
 Requires at least: 3.0.1
 Tested up to: 5.3.2
 Stable tag: 2.5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-MZ Mindbody API uses the Devin Crossman API to interface with MindBodyOnline and display Staff, Schedule and Workshops.
+Display special events, class schedules and instructors from Mindbody.
 
-This free plugin also enables users to register with MBO within your site, as well as signing up for classes.
+Customize displays within your own theme.
 
+Light weight, fast loading.
+
+Schedule display can be vertical or horizontal. User can switch between both.
 
 == Description ==
 
-MZ Mindbody API uses the Devin Crossman API to interface with MindBodyOnline and display Staff, Schedule and Workshops.
+Display special events, class schedules and instructors from Mindbody.
 
-Two important requirements are:
-
-    1. PEAR and SOAP must be installed/enabled on the web server
-    2. MindBodyOnline API Developer Account
-
-(NOW REQUIRES PHP 5.6 or GREATER)
+Customize displays within your own theme.
 
 Open Source on [GitHub](https://github.com/MikeiLL/mz-mindbody-api)
 
@@ -232,6 +230,7 @@ Initial release.
 == Upgrade Notice ==
 
 = 2.5.7 =
+Now requires php 7.1 or greater.
 Now using MBO v6 API. You will want to get your updated MBO v6 credentials ready before upgrading.
 
 = 2.4.9 =

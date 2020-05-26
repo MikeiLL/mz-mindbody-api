@@ -2,9 +2,8 @@
 /**
  * This file contains main plugin class and, defines and plugin loader.
  *
- * The mZoo Mindbody Interface plugin utilizes the Devin Crossman Mindbody API
- * to interface with mindbody's SOAP API. This particular file is responsible for
- * including the necessary dependencies and starting the plugin.
+ * Interface with the Mindbody Online API to display staff, schedules.
+ * Use custom templates from your own theme.
  *
  *
  * @link              http://mzoo.org
@@ -13,7 +12,7 @@
  *
  * @wordpress-plugin
  * Plugin Name: 	mZoo Mindbody Interface - Schedule, Events, Staff Display
- * Description: 	Interface Wordpress with MindbodyOnline data with Bootstrap Responsive Layout.
+ * Description: 	Display staff, events and class schedules from Mindbody Online. Customizable.
  * Version: 		2.5.7
  * Stable tag:      2.5.7
  * Tested up to:    5.3.2
