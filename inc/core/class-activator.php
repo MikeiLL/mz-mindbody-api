@@ -1,6 +1,8 @@
 <?php
 
 namespace MZ_Mindbody\Inc\Core;
+use MZ_Mindbody as NS;
+use MZ_Mindbody\Inc\Admin as Admin;
 
 /**
  * Fired during plugin activation
@@ -15,20 +17,20 @@ namespace MZ_Mindbody\Inc\Core;
 class Activator {
 
 	/**
-	 * Short Description.
+	 * Run when plugin is activated.
 	 *
-	 * Long Description.
+	 * 
 	 *
 	 * @since    2.4.7
 	 */
 	public static function activate() {
 
-			$min_php = '7.1.0';
-
 		// Check PHP Version and deactivate & die if it doesn't meet minimum requirements.
-		if ( version_compare( PHP_VERSION, $min_php, '<' ) ) {
-			deactivate_plugins( plugin_basename( __FILE__ ) );
-			wp_die( 'This plugin requires a minmum PHP Version of ' . $min_php );
+		if ( version_compare( PHP_VERSION, NS\MINIMUM_PHP_VERSION, '<' ) ) {
+			$admin_object = new Admin\Admin(NS\PLUGIN_NAME, NS\PLUGIN_VERSION, NS\PLUGIN_TEXT_DOMAIN);
+			add_action('admin_notices', array($admin_object, 'admin_notice'));
+			deactivate_plugins( NS\PLUGIN_BASENAME );
+			return;
 		}
 		
 		// Automatically create option to track api calls
@@ -41,5 +43,8 @@ class Activator {
 			wp_schedule_event( time(), 'hourly', 'fetch_mbo_access_token', $args );
 		}
 	}
+	
+
+	
 
 }

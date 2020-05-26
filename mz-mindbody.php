@@ -16,7 +16,7 @@
  * Version: 		2.5.7
  * Stable tag:      2.5.7
  * Tested up to:    5.3.2
- * Requires PHP:    5.6
+ * Requires PHP:    7.0
  * Author: 			mZoo.org
  * Author URI: 		http://www.mZoo.org/
  * Plugin URI: 		http://www.mzoo.org/mz-mindbody-wp
@@ -27,6 +27,7 @@
 */
 namespace MZ_Mindbody;
 
+use MZ_Mindbody as NS;
 use MZ_Mindbody\Inc\Core as Core;
 use MZ_Mindbody\Inc\Common as Common;
 use MZ_Mindbody\Inc\Client as Client;
@@ -56,6 +57,8 @@ define( NS . 'PLUGIN_NAME_URL', plugin_dir_url( __FILE__ ) );
 define( NS . 'PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 
 define( NS . 'PLUGIN_TEXT_DOMAIN', 'mz-mindbody-api' );
+
+define( NS . 'MINIMUM_PHP_VERSION', 7.0 );
 
 /**
  * Autoload Classes
@@ -156,10 +159,20 @@ function MZMBO() {
 		return MZ_Mindbody::instance();
 }
 
-$min_php = '7.1';
+function deactivate() {
+	deactivate_plugins( plugin_basename( __FILE__ ) );
+	$admin_object = new NS\Inc\Admin\Admin(NS\PLUGIN_NAME, NS\PLUGIN_VERSION, NS\PLUGIN_TEXT_DOMAIN);
+	add_action('admin_notices', array($admin_object, 'admin_notice'));
+}
 
 // Check the minimum required PHP version and run the plugin.
-if ( version_compare( PHP_VERSION, $min_php, '>=' ) ) {
+if ( version_compare( PHP_VERSION, NS\MINIMUM_PHP_VERSION, '>=' ) ) {
     // Get MZ_Mindbody_Api Instance.
     MZMBO();
+} else {
+	add_action( 'admin_init', __NAMESPACE__ . '\\deactivate' );
 }
+
+
+
+

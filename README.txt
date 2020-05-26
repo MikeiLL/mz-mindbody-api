@@ -3,8 +3,8 @@ Contributors: mikeill, rtzee
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A95ZEELLHGECE
 Tags: mindbody, schedule, calendar, yoga, MBO, mindbodyonline, gym, parkour, mbo, mindbodyonline.
 Requires at least: 3.0.1
-Tested up to: 5.3.2
-Stable tag: 2.5.6
+Tested up to: 5.4.1
+Stable tag: 2.5.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -61,7 +61,7 @@ You need to register a developer account with MindBody, which costs $5+ per webs
 Utilize v6 of the MBO API with v5 left for legacy purposes.
 Swap out "loading" with Bootstrap load.
 Upgrade to Bootstrap v4.
-Manage assets with Webpack.
+Manage assets with Webpack instead of Bower.
 Add support for MBO Access plugin.
 
 = 2.5.6 =

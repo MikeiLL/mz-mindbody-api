@@ -236,6 +236,20 @@ class Admin {
 			);
 		}
 	}
+	
+	/**
+	 * Notify Admin when plugin deactivated.
+	 *
+	 * TODO: abstract, maybe
+	 *
+	 * @since    2.5.7
+	 */
+	public function admin_notice() {
+		echo wp_kses_post( sprintf(
+			'<div class="notice notice-error"><p>%s</p></div>',
+			sprintf(__( 'Sorry, but "MZ Mindbody API" requires PHP %1$s or greater.', NS\PLUGIN_TEXT_DOMAIN ), NS\MINIMUM_PHP_VERSION)
+		  ) );
+	}
     
     /**
      * Call the clear all plugin transients
