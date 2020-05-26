@@ -189,6 +189,7 @@ class Admin {
 		$mz_mbo_api_calls['calls'] = 2;
 		add_option('mz_mbo_api_calls', $mz_mbo_api_calls);
 		$this->clear_previous_plugin_transients();
+		$this->prev_to_257();
      }
      
      
@@ -211,6 +212,7 @@ class Admin {
 			$mz_mbo_basic['mz_mbo_api_key'] = __('YOUR MINDBODY API KEY', 'mz-mindbody-api');
 			$mz_mbo_basic['mz_mindbody_show_sub_link'] = $old_options['mz_mindbody_show_sub_link'];
 			update_option('mz_mbo_basic', $mz_mbo_basic);
+			echo '<div class="notice notice-warning" style="padding:1.5em;"><strong>MZ Mindbody API</strong> Now using MBO v6 API. Check your credentials.</div>';
 		}
      }
     
