@@ -59,6 +59,10 @@ You need to register a developer account with MindBody, which costs $5+ per webs
 
 == Changelog ==
 
+= 2.5.7 =
+Utilize v6 of the MBO API with v5 left for legacy purposes.
+Swap out "loading" with Bootstrap load.
+
 = 2.5.6 =
 Alert admin when API calls get close to 1000 and short circuit calls when past 2000.
 
@@ -224,6 +228,9 @@ Initial release.
 
 == Upgrade Notice ==
 
+= 2.5.7 =
+Now using MBO v6 API. You will want to get your updated MBO v6 credentials ready before upgrading.
+
 = 2.4.9 =
 Events listing can now have an added Location Filter.
 
@@ -280,9 +287,7 @@ Now compatible with php versions less than 5.3
 
 == Notes ==
 
-This is not a terribly easy plugin to install. 
-Configuring the server may require input from your web hosting company (or you might get lucky).
-And getting all the MindBody details configured can also be a little laborious.
-Also mindbody is charging developers $5 per month per account connection now.
+Now that we're using Mindbody's v6 api, this should be pretty easy to get going.
+
 
 

@@ -215,6 +215,27 @@ class Admin {
 			echo '<div class="notice notice-warning" style="padding:1.5em;"><strong>MZ Mindbody API</strong> Now using MBO v6 API. Check your credentials.</div>';
 		}
      }
+     
+     
+    
+    /**
+     * Output message in plugins list for Upgrade Consideration
+     *
+     * @since 2.5.7
+     *
+     * source: https://wisdomplugin.com/add-inline-plugin-update-message/
+     *
+     * Options fields renamed so updating now
+     *
+     */
+     private function plugin_update_message( $data, $response ) {
+		if( isset( $data['upgrade_notice'] ) ) {
+			printf(
+				'<div class="update-message">%s</div>',
+				wpautop( $data['upgrade_notice'] )
+			);
+		}
+	}
     
     /**
      * Call the clear all plugin transients
