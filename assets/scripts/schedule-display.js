@@ -45,7 +45,7 @@ import './signup-modals';
             container.children().each( function (e){
                 $(this).html('');
             });
-            container.toggleClass('loader');
+            container.toggleClass('spinner-border');
             var buttons = [].slice.call(document.getElementById('mzScheduleNavHolder').children);
             // Update attributes
             var offset = atts.offset = this.dataset.offset;
@@ -67,7 +67,7 @@ import './signup-modals';
                 data: {action: 'mz_display_schedule', nonce: nonce, atts: atts},
                 success: function (json) {
                     if (json.type == "success") {
-                        container.toggleClass('loader');
+                        container.toggleClass('spinner-border');
                         if (json.grid && json.horizontal) {
                             document.getElementById("gridDisplay").innerHTML = json.grid;
                             document.getElementById("horizontalDisplay").innerHTML = json.horizontal;
@@ -79,7 +79,7 @@ import './signup-modals';
                         stripe_and_filter();
                     } else {
                         mz_reset_navigation(this, buttons);
-                        container.toggleClass('loader');
+                        container.toggleClass('spinner-border');
                         container.html(json.message);
                         stripe_and_filter();
                     }
@@ -87,7 +87,7 @@ import './signup-modals';
             })
                 .fail(function (json) {
                     mz_reset_navigation(this, buttons);
-                    container.toggleClass('loader');
+                    container.toggleClass('spinner-border');
                     container.html('Sorry but there was an error retrieving schedule.');
                 }); // End Ajax
         }); // End click navigation
