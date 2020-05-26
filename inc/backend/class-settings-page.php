@@ -382,16 +382,16 @@ class Settings_Page {
         // );
 
         // Field: Display Substitute Status
-        self::$wposa_obj->add_field(
-            'mz_mbo_advanced',
-            array(
-                'id'      => 'register_within_site',
-                'type'    => 'checkbox',
-                'name'    => __( 'Keep Users In Site to Register for MBO, Classes, Events', 'mz-mindbody-api' ),
-                'desc'    => __( 'When checked, users are not directed to MBO site for registering for classes and events.', 'mz-mindbody-api' ),
-                'default' => 'off'
-            )
-        );
+        // self::$wposa_obj->add_field(
+        //     'mz_mbo_advanced',
+        //     array(
+        //         'id'      => 'register_within_site',
+        //         'type'    => 'checkbox',
+        //         'name'    => __( 'Keep Users In Site to Register for MBO, Classes, Events', 'mz-mindbody-api' ),
+        //         'desc'    => __( 'When checked, users are not directed to MBO site for registering for classes and events.', 'mz-mindbody-api' ),
+        //         'default' => 'off'
+        //     )
+        // );
 
         // Field: Display Substitute Status
         self::$wposa_obj->add_field(
