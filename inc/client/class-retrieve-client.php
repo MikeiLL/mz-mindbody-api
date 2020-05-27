@@ -368,7 +368,7 @@ class Retrieve_Client extends Interfaces\Retrieve {
     }
     
     /**
-     * Get client purchases.
+     * Get client memberships.
      *
      * since: 2.5.7
      *
@@ -417,28 +417,6 @@ class Retrieve_Client extends Interfaces\Retrieve {
     public function check_client_logged(){
 
         return ( 1 == (bool) NS\MZMBO()->session->get('MBO_Client') ) ? 1 : 0;
-        
-    }
-    
-    /**
-     * Client has membership
-     *
-     * Since 2.5.7
-     *
-     * return true if active membership matches one in received array (or string)
-     * 
-     * @param $membership_types string or array of membership types 
-     * 
-     *
-     * @return bool
-     */
-    public function client_has_membership( $membership_types = [] ){
-		
-		$membership_types = is_array($membership_types) ? $membership_types : [$membership_types];
-		
-		$memberships = $this->get_active_client_memberships();
-		
-        //return ( 1 == (bool) NS\MZMBO()->session->get('MBO_Client') ) ? 1 : 0;
         
     }
 
