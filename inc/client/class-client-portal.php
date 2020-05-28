@@ -577,6 +577,8 @@ class Client_Portal extends Retrieve_Client {
     public function ajax_check_client_logged(){
 
         check_ajax_referer($_REQUEST['nonce'], "mz_check_client_logged", false);
+        
+        $result = array();
         		
         $result['type'] = 'success';
         $result['message'] =  $this->check_client_logged();
