@@ -14,13 +14,21 @@ Light weight, fast loading.
 
 Configurable with template over-rides in your theme.
 
+Easy to extend, includes feature for displaying registrants.
+
 Schedule display can be vertical or horizontal. User can switch between both.
+
+Open Source on [GitHub](https://github.com/MikeiLL/mz-mindbody-api)
 
 == Description ==
 
 Display special events, class schedules and instructors from Mindbody.
 
 Configurable with template over-rides in your theme.
+
+Easy to extend, includes feature for displaying registrants.
+
+Schedule display can be vertical or horizontal. User can switch between both.
 
 Open Source on [GitHub](https://github.com/MikeiLL/mz-mindbody-api)
 
