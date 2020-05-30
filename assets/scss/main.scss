@@ -35,6 +35,12 @@
   display: flex !important;
 }
 
+// XS Button
+.btn-xs {
+  // line-height: ensure proper height of button next to extra small input 
+  @include button-size($btn-padding-y-sm, $btn-padding-x-sm, $font-size-sm, 1em, 10px);
+}
+
 
 table { border-collapse: collapse; }
 

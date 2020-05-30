@@ -242,7 +242,7 @@ import './signup-modals';
          * Display either grid or horizontal schedule depending on user input from button
          */
         if (mz_mindbody_schedule.mode_select !== '0') {
-            $('#mzScheduleNavHolder').first().append($('<a id="mode-select" class="btn btn-xs mz-mode-select">' + mz_mindbody_schedule.initial + '</a>'));
+            $('#mzScheduleNavHolder').first().append($('<a id="mode-select" class="btn btn-primary btn-xs mz-mode-select">' + mz_mindbody_schedule.initial + '</a>'));
             $('#mode-select').click(function () {
                 $('.mz-schedule-display').each(function (i, item) {
                     $(item).toggleClass('mz_hidden');
