@@ -10,9 +10,9 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Display special events, class schedules and instructors from Mindbody.
 
-Customize displays within your own theme.
-
 Light weight, fast loading.
+
+Configurable with template over-rides in your theme.
 
 Schedule display can be vertical or horizontal. User can switch between both.
 
@@ -20,7 +20,7 @@ Schedule display can be vertical or horizontal. User can switch between both.
 
 Display special events, class schedules and instructors from Mindbody.
 
-Customize displays within your own theme.
+Configurable with template over-rides in your theme.
 
 Open Source on [GitHub](https://github.com/MikeiLL/mz-mindbody-api)
 
@@ -38,7 +38,7 @@ Steps to install and configure MZ Mindbody API:
 
 == Frequently Asked Questions ==
 
-= One of the elements I need to fill is are the *Event IDs*. Can you help me learn where to find those? =
+= One of the elements I need to fill out are the *Event IDs*. Can you help me learn where to find those? =
 
 I'm not sure if there's an easier way, but you can find them by, within MindBody,
 going to an Event EDIT page and viewing the source of the Dropdown menu items, which
