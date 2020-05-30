@@ -506,7 +506,6 @@ class Settings_Page {
         $return .= "<li><strong>hide_cancelled</strong>: " . __("(boolean) True will hide cancelled classes", 'mz-mindbody-api')."</li>";
         $return .= "<li><strong>registrants_count</strong>: " . __("(boolean) Display number of registrants in class", 'mz-mindbody-api')."</li>";
         $return .= "<li><strong>mode_select</strong>: " . __("(int) Allow user to select between grid and list view. 1 defaults to horizontal, 2 to grid.", 'mz-mindbody-api')."</li>";
-        $return .= "<li><strong>unlink</strong>: " . __(" ", 'mz-mindbody-api')."</li>";
         $return .= "</ul>";
 
         $return .= sprintf('<p>%1$s: [%2$s %3$s=%4$s %5$s="1, 2" %6$s=-99 %7$s="Meditation, Hot Yoga"]</p>',

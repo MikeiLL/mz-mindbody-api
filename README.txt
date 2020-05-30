@@ -58,16 +58,18 @@ You need to register a developer account with MindBody, which costs $5+ per webs
 
 == Screenshots ==
 
-1. Calendar Display
-2. Details Modal
-3. Teacher Bio Page
-4. Admin Page
+1. Horizontal Calendar Display 
+2. Grid Calendar Display
+3. Details Modal
+3. Staff Page Gallery
+4. Staff Page Full
+5. Admin Page
 
 == Changelog ==
 
 = 2.5.7 =
 Utilize v6 of the MBO API with v5 left for legacy purposes.
-Swap out "loading" with Bootstrap load.
+Swap out "loading" element with Bootstrap load.
 Upgrade to Bootstrap v4.
 Manage assets with Webpack instead of Bower.
 Add support for MBO Access plugin.
