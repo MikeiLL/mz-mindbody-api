@@ -68,12 +68,6 @@ svn co $SVNURL $SVNPATH
 echo "Clearing svn repo so we can overwrite it"
 rm -rf $SVNPATH/trunk/*
 
-# TODO automate new asset adding
-# echo "Copy assets to SVN repo "
-# cp -r wpassets/ $SVNPATH/assets/
-# echo "Clearing svn assets so we can overwrite them"
-# rm -rf $SVNPATH/assets/*
-
 echo "Exporting the HEAD of master from git to the trunk of SVN"
 git checkout-index -a -f --prefix=$SVNPATH/trunk/
 
@@ -104,11 +98,6 @@ svn status | grep -v "^.[ \t]*\..*" | grep "^?" | awk '{print $2}' | xargs svn a
 echo "Committing"
 svn commit --username=$SVNUSER -m "$COMMITMSG"
 
-# TODO automate new asset adding
-# 
-# echo "Creating new SVN tag & committing it"
-# cd $SVNPATH
-# svn add assets
 svn copy trunk/ tags/$NEWVERSION1/
 cd $SVNPATH/tags/$NEWVERSION1
 svn commit --username=$SVNUSER -m "Tagging version $NEWVERSION1"
