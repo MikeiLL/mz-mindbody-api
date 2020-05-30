@@ -68,29 +68,32 @@ svn co $SVNURL $SVNPATH
 echo "Clearing svn repo so we can overwrite it"
 rm -rf $SVNPATH/trunk/*
 
+# TODO automate new asset adding
+# echo "Copy assets to SVN repo "
+# cp -r wpassets/ $SVNPATH/assets/
+# echo "Clearing svn assets so we can overwrite them"
+# rm -rf $SVNPATH/assets/*
+
 echo "Exporting the HEAD of master from git to the trunk of SVN"
 git checkout-index -a -f --prefix=$SVNPATH/trunk/
 
 echo "Ignoring github specific files and deployment script"
-svn propset svn:ignore "deploy.sh
+svn propset svn:ignore "
 README.md
-bower_components
 node_modules
 tests
 .DS_Store
 .gitmodules
 assets
-gulpfile.js
-bower.json
 package.json
 bin/install-wp-tests.sh
 phpunit.xml.dist
 phpcs.ruleset.xml
 phpcs.xml.dist
 .git
-testDeploy.sh
-uru.sh
-demo.sh
+*.log
+*.sh
+wpassets
 .gitignore" "$SVNPATH/trunk/"
 
 echo "Changing directory to SVN and committing to trunk"
@@ -101,8 +104,11 @@ svn status | grep -v "^.[ \t]*\..*" | grep "^?" | awk '{print $2}' | xargs svn a
 echo "Committing"
 svn commit --username=$SVNUSER -m "$COMMITMSG"
 
-echo "Creating new SVN tag & committing it"
-cd $SVNPATH
+# TODO automate new asset adding
+# 
+# echo "Creating new SVN tag & committing it"
+# cd $SVNPATH
+# svn add assets
 svn copy trunk/ tags/$NEWVERSION1/
 cd $SVNPATH/tags/$NEWVERSION1
 svn commit --username=$SVNUSER -m "Tagging version $NEWVERSION1"
@@ -110,4 +116,4 @@ svn commit --username=$SVNUSER -m "Tagging version $NEWVERSION1"
 echo "Removing temporary directory $SVNPATH"
 rm -fr $SVNPATH/
 
-echo "*** FIN ***"
+echo "*** Deployment Complete ***"
