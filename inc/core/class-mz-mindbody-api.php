@@ -95,6 +95,15 @@ class MZ_Mindbody_Api
     public static $advanced_options;
 
     /**
+     * Saved Options array storing number of calls to MBO API.
+     *
+     * @since    2.5.7
+     * @access   protected
+     * @var      string $mz_mbo_api_calls number of daily calls to api.
+     */
+    public static $mz_mbo_api_calls;
+
+    /**
      * Number of days to retrieve Events for at a time.
      *
      * @since    2.4.7
@@ -155,6 +164,7 @@ class MZ_Mindbody_Api
         self::$basic_options = get_option('mz_mbo_basic', 'Error: No Basic Options');
         self::$events_options = get_option('mz_mbo_events');
         self::$advanced_options = get_option('mz_mbo_advanced');
+        self::$mz_mbo_api_calls = get_option('mz_mbo_api_calls');
         self::$timezone = DateTime\WpDateTimeZone::getWpTimezone();
         self::$event_calendar_duration = isset(self::$events_options['mz_mindbody_scheduleDuration']) ? self::$events_options['mz_mindbody_scheduleDuration'] : '60';
         self::$date_format = empty(self::$advanced_options['date_format']) ? get_option('date_format') : self::$advanced_options['date_format'];

@@ -325,16 +325,14 @@ class MBO_V6_API {
     	// Don't limit if using sandbox
     	if ((isset(NS\MZMBO()::$basic_options['mz_mindbody_siteID'])) && (NS\MZMBO()::$basic_options['mz_mindbody_siteID'] == '-99')) return true;
     	
-    	$mz_mbo_api_calls = get_option('mz_mbo_api_calls');
-
-    	if ($mz_mbo_api_calls['calls'] > 800) {
+    	if (NS\MZMBO()::$mz_mbo_api_calls['calls'] - 1200 > NS\MZMBO()::$advanced_options['api_call_limit']) {
     		$to = get_option('admin_email');
 			$subject = __( 'Large amount of MBO API Calls', 'mz-mindbody-api' );
 			$message = __( 'Check your website and MBO. There seems to be an issue.', 'mz-mindbody-api' );
 			$headers = array('Content-Type: text/html; charset=UTF-8');
 			wp_mail( $to, $subject, $message, $headers);
     	};
-    	if ($mz_mbo_api_calls['calls'] > 2000) {
+    	if ($mz_mbo_api_calls['calls'] > NS\MZMBO()::$mz_mbo_api_calls['calls']) {
     		return false;
     	};
     	return true;

@@ -1,8 +1,7 @@
 <?php
-
 namespace MZ_Mindbody\Inc\Backend;
 
-use MZ_Mindbody;
+use MZ_Mindbody as NS;
 use MZ_Mindbody\Inc\Core as Core;
 use MZ_Mindbody\Inc\Common as Common;
 use MZ_Mindbody\Inc\Libraries as Libraries;
@@ -347,6 +346,18 @@ class Settings_Page {
             )
         );
 
+        // Field: Clear Transients
+        self::$wposa_obj->add_field(
+            'mz_mbo_advanced',
+            array(
+                'id'      => 'api_call_limit',
+                'type'    => 'number',
+                'name'    => __( 'Max number of daily API calls', 'mz-mindbody-api' ),
+                'desc'    => $this->describe_api_call_limit(),
+                'default' => 2000
+            )
+        );
+
         // Field: Display Substitute Status
         self::$wposa_obj->add_field(
             'mz_mbo_advanced',
@@ -533,6 +544,11 @@ class Settings_Page {
         $return .= "<li><strong>week-only</strong>: " . __("(boolean) Set to `1` to display events for current week only.", 'mz-mindbody-api')."</li>";
         $return .= "</ul>";
         return $return;
+    }
+    
+    private function describe_api_call_limit(){
+    	return  sprintf(__('<p>MBO charges for daily API calls over 1000. Number of calls today: %1$s.</p> <p>Site will email admin at 1200 calls less than this number and stop calling MBO at this number.</p> <p>Default: %2$s.</p>',  'mz-mindbody-api'),
+            get_option('mz_mbo_api_calls')['calls'], 2000);
     }
 
     private function clear_transients(){
