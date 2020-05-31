@@ -55,7 +55,8 @@ cp -r wpassets/ $SVNPATH/assets/
 
 echo "Move to temp SVN repo location and add assets"
 cd $SVNPATH
-svn add assets
+# May have to do this manually:
+# svn add assets
 
 svn commit --username=$SVNUSER -m "$COMMITMSG"
 
