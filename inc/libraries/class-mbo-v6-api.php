@@ -332,7 +332,7 @@ class MBO_V6_API {
 			$headers = array('Content-Type: text/html; charset=UTF-8');
 			wp_mail( $to, $subject, $message, $headers);
     	};
-    	if ($mz_mbo_api_calls['calls'] > NS\MZMBO()::$mz_mbo_api_calls['calls']) {
+    	if (NS\MZMBO()::$mz_mbo_api_calls['calls'] > NS\MZMBO()::$mz_mbo_api_calls['calls']) {
     		return false;
     	};
     	return true;
