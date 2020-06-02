@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: mindbody, schedule, calendar, yoga, MBO, mindbodyonline, gym, parkour, mbo, mindbodyonline.
 Requires at least: 3.0.1
 Tested up to: 5.4.1
-Stable tag: 2.5.7
+Stable tag: 2.5.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,6 +66,9 @@ You need to register a developer account with MindBody, which costs $5+ per webs
 5. Admin Page
 
 == Changelog ==
+
+= 2.5.8 =
+Bugfix: fix php missing call to MZMBO to specify variable as class property.
 
 = 2.5.7 =
 Utilize v6 of the MBO API with v5 left for legacy purposes.
