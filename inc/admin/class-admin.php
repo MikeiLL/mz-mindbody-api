@@ -2,8 +2,6 @@
 
 namespace MZ_Mindbody\Inc\Admin;
 
-use MZ_Mindbody\Inc\Backend as Backend;
-
 use MZ_Mindbody as NS;
 
 /**

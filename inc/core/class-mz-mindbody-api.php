@@ -136,7 +136,7 @@ class MZ_Mindbody_Api
      * For example 'US/Eastern'
      *
      * @since    2.4.7
-     * @access   protected
+     * @access   public
      * @var      string $timezone PHP Date formatting string.
      */
     public static $timezone;
@@ -145,10 +145,19 @@ class MZ_Mindbody_Api
      * Wordpress option for start of week.
      *
      * @since    2.4.7
-     * @access   protected
+     * @access   public
      * @var      integer $start_of_week.
      */
     public static $start_of_week;
+
+    /**
+     * Setting page object to can be extended by other plugins.
+     *
+     * @since    2.5.8
+     * @access   public
+     * @var      obj $settings_page.
+     */
+    public static $settings_page;
 
     /**
      * Initialize and define the core functionality of the plugin.
@@ -165,8 +174,9 @@ class MZ_Mindbody_Api
         self::$events_options = get_option('mz_mbo_events');
         self::$advanced_options = get_option('mz_mbo_advanced');
         self::$mz_mbo_api_calls = get_option('mz_mbo_api_calls');
+        self::$mz_mbo_api_calls = empty(self::$mz_mbo_api_calls) ? 2000 : self::$mz_mbo_api_calls;
         self::$timezone = DateTime\WpDateTimeZone::getWpTimezone();
-        self::$event_calendar_duration = isset(self::$events_options['mz_mindbody_scheduleDuration']) ? self::$events_options['mz_mindbody_scheduleDuration'] : '60';
+        self::$event_calendar_duration = isset(self::$events_options['mz_mindbody_scheduleDuration']) ? self::$events_options['mz_mindbody_scheduleDuration'] : 60;
         self::$date_format = empty(self::$advanced_options['date_format']) ? get_option('date_format') : self::$advanced_options['date_format'];
         self::$time_format = empty(self::$advanced_options['time_format']) ? get_option('time_format') : self::$advanced_options['time_format'];
         self::$start_of_week = get_option('start_of_week');
@@ -394,8 +404,8 @@ class MZ_Mindbody_Api
      */
     public function add_settings_page()
     {
-        $settings_page = new Backend\Settings_Page();
-        $settings_page->addSections();
+        self::$settings_page = new Backend\Settings_Page();
+        self::$settings_page->addSections();
     }
 
     /**

@@ -28,7 +28,7 @@ use MZ_Mindbody\Inc\Schedule as Schedule;
 
 class Settings_Page {
 
-    static protected $wposa_obj;
+    static public $wposa_obj;
 
     public function __construct() {
         self::$wposa_obj = new Libraries\WP_OSA();
