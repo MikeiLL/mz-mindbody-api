@@ -9,6 +9,8 @@ use MZ_Mindbody as NS;
  *
  * Main class that deals with all other classes.
  *
+ * @source: https://github.com/ahmadawais/WP-OOP-Settings-API
+ *
  * @since   1.0.0
  * @package WPOSA
  */
