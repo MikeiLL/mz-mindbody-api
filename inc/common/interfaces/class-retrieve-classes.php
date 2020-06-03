@@ -235,7 +235,7 @@ abstract class Retrieve_Classes extends Retrieve {
             }
             
             $schedule_data = $mb->GetClasses($this->time_frame);
-			
+            
             if ( empty($schedule_data) || empty($schedule_data['Classes'][0]['Id']) ):
 
                 echo "<!-- " . $schedule_data['PaginationResponse'] . "<hr>" . $schedule_data['Classes'] . " --> ";
@@ -503,10 +503,11 @@ abstract class Retrieve_Classes extends Retrieve {
         if (!empty($this->atts['session_types'])) {
             if (!in_array($class['ClassDescription']['SessionType']['Name'], $this->atts['session_types'])) return true;
         }
-
-        // If configured to do so in shortcode, skip classes that are cancelled.
-        if ( ( !empty($this->atts['hide_cancelled']) ) && ( $class['IsCanceled'] == 1 ) ) return true;
-
+        // If shortcode not set to hide classes that are cancelled.
+        if ( !empty($this->atts['hide_cancelled']) ) {
+        	if ( $class['IsCanceled'] == 1  ) return false;
+        }
+        
         return true;
     }
 
