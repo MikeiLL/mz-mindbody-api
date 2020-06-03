@@ -69,6 +69,9 @@ You need to register a developer account with MindBody, which costs $5+ per webs
 
 = 2.5.8 =
 Bugfix: fix php missing call to MZMBO to specify variable as class property.
+Bugfix: Reinstate siteID used in signup links in class schedules.
+Bugfix: Fix way cancelled classes handled.
+Increase limit of items pulled from MBO from 100 to 200 (the max).
 
 = 2.5.7 =
 Utilize v6 of the MBO API with v5 left for legacy purposes.

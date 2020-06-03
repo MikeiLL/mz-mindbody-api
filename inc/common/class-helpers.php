@@ -112,12 +112,16 @@ class Helpers {
      * Also replace content with html entities.
      *
      * @since 2.4.7
+     *
+     * @depreciated Don't seem to need with v6 API,
+     * but still using in staff biography.
+     *
      * @param string Biography returned by MBO
      * @access public
      * @return string $bio Cleaned up HTML string.
      */
     public function prepare_html_string($bio){
-    
+
         // Remove empty tags
         $bio = str_replace("/<[^\/>]*>(\s|xC2xA0|&nbsp;)*<\/[^>]*>/", '', $bio);
         $bio = $this->str_last_replace("</p>", "", $bio);

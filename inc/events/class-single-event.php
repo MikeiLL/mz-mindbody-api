@@ -288,8 +288,8 @@ class Single_Event {
         	$this->staffName = $event['Staff']['Name'];
         }
         $this->staffImage = $event['Staff']['ImageURL'];
-        $this->staffBio = NS\MZMBO()->helpers->prepare_html_string($event['Staff']['Bio']);
-        $this->Description = NS\MZMBO()->helpers->prepare_html_string($event['ClassDescription']['Description']);
+        $this->staffBio = $event['Staff']['Bio'];
+        $this->Description = $event['ClassDescription']['Description'];
         $this->classImage = $event['ClassDescription']['ImageURL'];
         $this->location_ID = $event['Location']['Id'];
         $this->location_Name = $event['Location']['Name'];
