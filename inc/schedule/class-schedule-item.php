@@ -532,7 +532,7 @@ class Schedule_Item {
         $this->manage_text = __('Manage on MindBody Site', 'mz-mindbody-api');
         $this->sType = -7;
         $this->staffID = $schedule_item['Staff']['Id'];
-        $this->siteID = $schedule_item['Location']['SiteID'];
+        $this->siteID = !empty($atts['account']) ? $atts['account'] : Core\MZ_Mindbody_Api::$basic_options['mz_mindbody_siteID'];
         $this->mbo_url = $this->mbo_url();
         $this->day_num = $this->get_day_number(date_i18n("N", strtotime($schedule_item['StartDateTime'])));
         $this->session_type_css = 'mz_' . sanitize_html_class($this->sessionTypeName, 'mz_session_type');

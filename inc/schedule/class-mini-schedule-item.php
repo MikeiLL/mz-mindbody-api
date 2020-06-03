@@ -240,7 +240,7 @@ class Mini_Schedule_Item {
         // $this->mbo_url = $this->mbo_url();
         // $this->sType = -7;
         // $this->staffID = $schedule_item['Staff']['Id'];
-        // $this->siteID = $schedule_item['Location']['SiteID'];
+        $this->siteID = !empty($atts['account']) ? $atts['account'] : Core\MZ_Mindbody_Api::$basic_options['mz_mindbody_siteID'];
         // $this->session_type_css = 'mz_' . sanitize_html_class($this->sessionTypeName, 'mz_session_type');
         // $this->class_name_css = 'mz_' . sanitize_html_class($this->className, 'mz_class_name');
         // $this->class_duration = $this->get_schedule_event_duration();
@@ -273,7 +273,7 @@ class Mini_Schedule_Item {
      * @return urlstring
      */
     private function mbo_url() {
-        return "https://clients.mindbodyonline.com/ws.asp?sDate={$this->sDate}&amp;sLoc={$this->sLoc}&amp;sType={$this->sType}&amp;sclassid={$this->class_schedule_id}&amp;studioid={$this->studioid}";
+        return "https://clients.mindbodyonline.com/ws.asp?sDate={$this->sDate}&amp;sLoc={$this->sLoc}&amp;sType={$this->sType}&amp;sclassid={$this->class_schedule_id}&amp;studioid={$this->siteID}";
     }
 
 
