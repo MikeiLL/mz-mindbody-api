@@ -157,7 +157,8 @@ class MBO_V6_API {
 			$request_body = array_merge( $requestData,
 							array( 
 									'Username' => $this->format_username(), 
-									'Password' => $this->extraCredentials['Password'] 
+									'Password' => $this->extraCredentials['Password'],
+									'Limit' => 200
 							)
 						);
 					
