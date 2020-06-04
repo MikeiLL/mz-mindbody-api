@@ -6,6 +6,8 @@ namespace MZ_Mindbody\Inc\Libraries\WP_Session;
  * Standardizes WordPress session data using database-backed options for storage.
  * for storing user session information.
  *
+ * @source https://github.com/ericmann/wp-session-manager
+ *
  * @package WordPress
  * @subpackage Session
  * @since   3.7.0
