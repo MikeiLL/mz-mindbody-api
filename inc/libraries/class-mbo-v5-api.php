@@ -177,7 +177,7 @@ class MBO_V5_API {
 			$headers = array('Content-Type: text/html; charset=UTF-8');
 			wp_mail( $to, $subject, $message, $headers);
     	};
-    	if ($mz_mbo_api_calls['calls'] > NS\MZMBO()::$mz_mbo_api_calls['calls']) {
+    	if (NS\MZMBO()::$mz_mbo_api_calls['calls'] > NS\MZMBO()::$advanced_options['api_call_limit']) {
     		return false;
     	};
     	return true;
