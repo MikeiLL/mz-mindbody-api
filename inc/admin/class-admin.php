@@ -215,24 +215,65 @@ class Admin {
      }
      
      
-    
+     /**
+	 * Displays an update message for plugin list screens.
+	 * Shows only the version updates from the current until the newest version
+	 * 
+	 * @since 2.5.8
+	 * source: https://wordpress.stackexchange.com/a/33529/48604
+	 * orig source: https://wisdomplugin.com/add-inline-plugin-update-message/
+	 *
+	 * @param (array) $plugin_data
+	 * @param (object) $r
+	 * @return (string) $output
+	 */
+	function plugin_update_message( $plugin_data, $r ) {
+
+		// readme contents
+		$data       = file_get_contents( 'http://plugins.trac.wordpress.org/browser/mz-mindbody-api/trunk/README.txt?format=txt' );
+
+		// assuming you've got a Changelog section
+		// @example == Changelog ==
+		$changelog  = stristr( $data, '== Changelog ==' );
+
+		// assuming you've got a Screenshots section
+		// @example == Screenshots ==
+		$changelog  = stristr( $changelog, '== Screenshots ==', true );
+
+		// only return for the current & later versions
+		$curr_ver   = get_plugin_data('Version');
+
+		// assuming you use "= v" to prepend your version numbers
+		// @example = v0.2.1 =
+		$changelog  = stristr( $changelog, "= v{$curr_ver}" );
+
+		// uncomment the next line to var_export $var contents for dev:
+		# echo '<pre>'.var_export( $plugin_data, false ).'<br />'.var_export( $r, false ).'</pre>';
+
+		// echo stuff....
+		$output = __('Now requires php version 7.0 or greater. Check with your hosts before upgrading if unsure.', 'mz-mindbody-api');
+		
+		return print $output;
+	}
+	
+	
     /**
      * Output message in plugins list for Upgrade Consideration
      *
-     * @since 2.5.7
+     * @since 2.5.8
      *
-     * source: https://wisdomplugin.com/add-inline-plugin-update-message/
+     * source: https://wordpress.stackexchange.com/a/33529/48604
      *
-     * Options fields renamed so updating now
      *
      */
-     private function plugin_update_message( $data, $response ) {
-		if( isset( $data['upgrade_notice'] ) ) {
-			printf(
-				'<div class="update-message">%s</div>',
-				wpautop( $data['upgrade_notice'] )
-			);
+	public function set_plugin_update_message(){
+		
+		if ( 'plugins' === get_current_screen()->base )
+		{
+			$hook = "in_plugin_update_message-" . NS\PLUGIN_BASENAME;
+			add_action($hook, array($this, 'plugin_update_message'), 20, 2 );
 		}
+
 	}
 	
 	/**
