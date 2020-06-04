@@ -236,8 +236,9 @@ class MZ_Mindbody_Api
 
         $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts');
         $this->loader->add_action('plugins_loaded', $plugin_admin, 'check_version');
-        $this->loader->add_action('in_plugin_update_message-mz-mindbody-api/mz-mindbody.php', $plugin_admin, 'plugin_update_message');
-
+        $this->loader->add_action('admin_head', $plugin_admin, 'set_plugin_update_message');
+        
+        // TODO move this?
         if ((isset(self::$advanced_options['elect_display_substitutes'])) && (self::$advanced_options['elect_display_substitutes'] == 'on')) {
             // Create the "Class Owners" transient, if not already created
             $class_owners_object = new Schedule\Retrieve_Class_Owners;
@@ -250,19 +251,6 @@ class MZ_Mindbody_Api
             }
 
         }
-
-        /*
-         * Additional Hooks go here
-         *
-         * e.g.
-         *
-         * //admin menu pages
-         * $this->loader->add_action('admin_menu', $plugin_admin, 'add_plugin_admin_menu');
-         *
-         *  //plugin action links
-         * $this->loader->add_filter( 'plugin_action_links_' . $this->plugin_basename, $plugin_admin, 'add_additional_action_link' );
-         *
-         */
     }
 
     /**
