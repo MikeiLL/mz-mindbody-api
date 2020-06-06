@@ -3,6 +3,7 @@
 namespace MZ_Mindbody\Inc\Admin;
 
 use MZ_Mindbody as NS;
+use MZ_Mindbody\Inc\Backend as Backend;
 
 /**
  * The admin-specific functionality of the plugin.
@@ -362,12 +363,13 @@ class Admin {
 
         check_ajax_referer($_REQUEST['nonce'], "mz_admin_nonce", false);
 
-
         $return =  "<p>";
         $return .= sprintf(__('Once credentials have been set and saved, look for %1$s in the box below to confirm settings are correct and credentials work.',  'mz-mindbody-api'),
             '<code>PaginationResponse</code> and <code>Classes</code>');
         $return .=  "<p></br></p>";
+
         $debug_object = new Backend\Retrieve_Debug;
+
         $debug = $debug_object->get_mbo_results();
 
         $result['type'] = "success";
