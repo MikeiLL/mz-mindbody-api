@@ -37,7 +37,18 @@ class Activator {
 		$mz_mbo_api_calls = array();
 		$mz_mbo_api_calls['today'] = date("Y-m-d");
 		$mz_mbo_api_calls['calls'] = 2;
-		add_option('mz_mbo_api_calls', $mz_mbo_api_calls);
+		update_option('mz_mbo_api_calls', $mz_mbo_api_calls);
+		
+		// Set default advanced options
+		$advanced_options = (
+			['date_format'] => 'l, F j'
+			['time_format'] => 'g:i a'
+			['api_call_limit'] => 2000
+			['elect_display_substitutes'] => 'on'
+			['log_api_calls'] => 'off'
+		);
+		update_option('mz_mbo_advanced', $advanced_options );
+		
 		$args = array( $args_1, $args_2 );
 		if (! wp_next_scheduled ( 'fetch_mbo_access_token', $args )) {
 			wp_schedule_event( time(), 'hourly', 'fetch_mbo_access_token', $args );
