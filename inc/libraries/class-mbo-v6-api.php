@@ -32,7 +32,7 @@ class MBO_V6_API {
 	* Initialize the apiServices and apiMethods arrays
 	*/
 	public function __construct( $mbo_dev_credentials = array()) {
-	
+		NS\MZMBO()->helpers->log("API __construct");
         // $mbo_dev_credentials = $this->basic_options = Core\MZ_Mindbody_Api::$basic_options;
 		$this->basic_options = $mbo_dev_credentials;
 		// set credentials into headers
@@ -302,7 +302,7 @@ class MBO_V6_API {
     			'today' => date("Y-m-d")
     		);
     	}
-    	if ($mz_mbo_api_calls['today'] > date("Y-m-d")) {
+    	if ($mz_mbo_api_calls['today'] < date("Y-m-d")) {
     		// If it's a new day, reinitialize the matrix
     		$mz_mbo_api_calls = array('today' => date("Y-m-d"), 'calls' => 1);
             update_option('mz_mbo_api_calls', $mz_mbo_api_calls);

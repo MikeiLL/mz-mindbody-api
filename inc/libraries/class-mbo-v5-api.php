@@ -146,7 +146,7 @@ class MBO_V5_API {
     			'today' => date("Y-m-d")
     		);
     	}
-    	if ($mz_mbo_api_calls['today'] > date("Y-m-d")) {
+    	if ($mz_mbo_api_calls['today'] < date("Y-m-d")) {
     		// If it's a new day, reinitialize the matrix
     		$mz_mbo_api_calls = array('today' => date("Y-m-d"), 'calls' => 1);
             update_option('mz_mbo_api_calls', $mz_mbo_api_calls);
