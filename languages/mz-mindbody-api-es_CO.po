@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mZoo Mindbody Interface - Schedule, Events, Staff "
 "Display\n"
-"POT-Creation-Date: 2020-05-30 00:38-0500\n"
-"PO-Revision-Date: 2020-05-30 00:40-0500\n"
+"POT-Creation-Date: 2020-06-05 21:23-0500\n"
+"PO-Revision-Date: 2020-06-05 21:24-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_CO\n"
@@ -22,36 +22,44 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: inc/admin/class-admin.php:165 inc/admin/class-admin.php:211
+#: inc/admin/class-admin.php:164 inc/admin/class-admin.php:211
 #: inc/backend/class-settings-page.php:109
 #, fuzzy
 #| msgid "YOUR SOURCE NAME"
 msgid "YOUR MBO APP NAME"
 msgstr "SU SOURCE NAME"
 
-#: inc/admin/class-admin.php:166 inc/admin/class-admin.php:212
+#: inc/admin/class-admin.php:165 inc/admin/class-admin.php:212
 #: inc/backend/class-settings-page.php:121
 #, fuzzy
 #| msgid "YOUR MINDBODY PASSWORD"
 msgid "YOUR MINDBODY API KEY"
 msgstr "SU CONTRASEÑA DE MINDBODY"
 
-#: inc/admin/class-admin.php:250
+#: inc/admin/class-admin.php:261
+msgid ""
+"Now requires php version 7.0 or greater. Check with your hosts before "
+"upgrading if unsure."
+msgstr ""
+"Ahora requiere php versión 7.0 o superior. Consulte con sus hosts antes de "
+"actualizar si no está seguro."
+
+#: inc/admin/class-admin.php:296
 #, php-format
 msgid "Sorry, but \"MZ Mindbody API\" requires PHP %1$s or greater."
 msgstr "Lo sentimos, pero \"MZ Mindbody API\" requiere PHP %1$s o superior."
 
-#: inc/admin/class-admin.php:271
+#: inc/admin/class-admin.php:317
 msgid "No transients to clear."
 msgstr "No hay transitorios que despejar."
 
-#: inc/admin/class-admin.php:274
+#: inc/admin/class-admin.php:320
 #, fuzzy, php-format
 #| msgid "Transients cleared. Page reloads will re-set them."
 msgid "Cleared %d transients. Page reloads will re-set them."
 msgstr "Transitorios despejó. Recargas de página volverá a la posición les."
 
-#: inc/admin/class-admin.php:328
+#: inc/admin/class-admin.php:373
 #, fuzzy, php-format
 #| msgid ""
 #| "Once credentials have been set and activated, look for %1$s in the \n"
@@ -65,7 +73,7 @@ msgstr ""
 "cuadro de GetClassesResponse a continuación para confirmar los ajustes son "
 "correctos."
 
-#: inc/admin/class-admin.php:361
+#: inc/admin/class-admin.php:408
 #, fuzzy, php-format
 #| msgid ""
 #| "Once credentials have been set and activated, look for %1$s in the \n"
@@ -790,20 +798,28 @@ msgid "No biography for this staff member yet."
 msgstr "Ninguna biografía de este funcionario sin embargo."
 
 #: inc/libraries/class-mbo-v5-api.php:175
-#: inc/libraries/class-mbo-v6-api.php:330
+#: inc/libraries/class-mbo-v6-api.php:331
 msgid "Large amount of MBO API Calls"
 msgstr "Gran cantidad de llamadas a la API de MBO"
 
 #: inc/libraries/class-mbo-v5-api.php:176
-#: inc/libraries/class-mbo-v6-api.php:331
 msgid "Check your website and MBO. There seems to be an issue."
 msgstr "Consulte su sitio web y MBO. Parece que hay un problema."
 
-#: inc/libraries/class-wp-osa.php:609
+#: inc/libraries/class-mbo-v6-api.php:332
+#, php-format
+msgid ""
+"Check your website and MBO. There have been %1$s calls to the API so far "
+"today. You have set a maximum of %2$s in the Admin."
+msgstr ""
+"Consulte su sitio web y MBO. Ha habido llamadas %1$s a la API hasta ahora. "
+"Ha establecido un máximo de %2$s en el administrador."
+
+#: inc/libraries/class-wp-osa.php:611
 msgid "Choose File"
 msgstr "Elige archivo"
 
-#: inc/libraries/class-wp-osa.php:630
+#: inc/libraries/class-wp-osa.php:632
 msgid "Choose Image"
 msgstr "Elegir imagen"
 
