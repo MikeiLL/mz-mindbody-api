@@ -369,6 +369,18 @@ class MBO_V6_API_METHODS {
 										'endpoint' => $this->endpointPayroll . '/locations',
 										'headers' => $this->headersBasic
 									 ],
+				'GetGenders' => [
+										'method' => 'GET',
+										'name' => 'GetGenders', 
+										'endpoint' => $this->endpointPayroll . '/genders',
+										'headers' => $this->headersBasic
+									 ],
+				'GetMemberships' => [
+										'method' => 'GET',
+										'name' => 'GetMemberships', 
+										'endpoint' => $this->endpointPayroll . '/memberships',
+										'headers' => $this->headersBasic
+									 ],
 				'GetPrograms' => [
 										'method' => 'GET',
 										'name' => 'GetPrograms', 
