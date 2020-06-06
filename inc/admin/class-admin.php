@@ -215,7 +215,7 @@ class Admin {
 			
 			// Set default for new advanced option
 			$advanced_options = get_option('mz_mbo_advanced');
-			$advanced_options['api_call_limit'] => 2000;
+			$advanced_options['api_call_limit'] = 2000;
 			update_option('mz_mbo_advanced', $advanced_options );
 			echo '<div class="notice notice-warning" style="padding:1.5em;"><strong>MZ Mindbody API</strong> Now using MBO v6 API. Check your credentials.</div>';
 		}

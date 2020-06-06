@@ -39,14 +39,22 @@ class Activator {
 		$mz_mbo_api_calls['calls'] = 2;
 		update_option('mz_mbo_api_calls', $mz_mbo_api_calls);
 		
+		$advanced_options = get_option('mz_mbo_advanced');
+
 		// Set default advanced options
-		$advanced_options = (
-			['date_format'] => 'l, F j'
-			['time_format'] => 'g:i a'
-			['api_call_limit'] => 2000
-			['elect_display_substitutes'] => 'on'
-			['log_api_calls'] => 'off'
-		);
+		// If completely empty set all
+		if (empty($advanced_options)) {
+			$advanced_options = array(
+				'date_format' => 'l, F j',
+				'time_format' => 'g:i a',
+				'api_call_limit' => 2000,
+				'elect_display_substitutes' => 'on',
+				'log_api_calls' => 'off'
+			);
+		} else if (empty($advanced_options['api_call_limit'])){
+			// Maybe it's been installed before pre v2.5.7
+			$advanced_options['api_call_limit'];
+		}
 		update_option('mz_mbo_advanced', $advanced_options );
 		
 		$args = array( $args_1, $args_2 );
