@@ -385,6 +385,25 @@ class Retrieve_Client extends Interfaces\Retrieve {
 				
 		return $result;
     }
+    
+    /**
+     * Get client services.
+     *
+     * since: 2.5.7
+     *
+     * return array numeric array of required fields
+     */
+    public function get_client_services() {
+    
+    	$client = $this->get_client_details();
+
+        // Create the MBO Object
+        $this->get_mbo_results();
+		
+		$result = $this->mb->GetClientServices(['clientId' => $client['ID']]); // UniqueID ??
+				
+		return $result;
+    }
 
     /**
      * Create MBO Account
@@ -421,8 +440,7 @@ class Retrieve_Client extends Interfaces\Retrieve {
     }
 
     /**
-     * Get a timestamp, return data from MBO api, store it in a transient and
-     * as object attribute.
+     * Get API version, create API Interface Object
      *
      * @since 2.4.7
      *
