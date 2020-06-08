@@ -30,6 +30,24 @@ class Retrieve_Client extends Interfaces\Retrieve {
      * @access private
      */
     private $clientID;
+    
+    /**
+     * MBO Client
+     *
+     * GetClient result from MBO
+     *
+     * @access private
+     */
+    private $mbo_client;
+    
+    /**
+     * Client Services
+     *
+     * Services returned from MBO
+     *
+     * @access private
+     */
+    private $services;
 
     /**
      * Format for date display, specific to MBO API Plugin.
@@ -126,9 +144,11 @@ class Retrieve_Client extends Interfaces\Retrieve {
 		
 		if (!empty($validateLoginResult['ValidateLoginResult']['GUID'])) {
 
-			// If validated, create two session variables and store
-
-			NS\MZMBO()->session->set( 'MBO_Client', $validateLoginResult['ValidateLoginResult']['Client'] );
+			// If validated, create session variables and store
+			$client_details = array(
+				'mbo_result' => $validateLoginResult['ValidateLoginResult']['Client']
+			);
+			NS\MZMBO()->session->set( 'MBO_Client', $client_details );
 
 			return true;
 
@@ -196,7 +216,7 @@ class Retrieve_Client extends Interfaces\Retrieve {
     	
     	if (empty($client_info)) return __('Please Login', 'mz-mindbody-api');
     	
-    	return $client_info;
+    	return $client_info['mbo_result'];
     	
     }
     
@@ -365,25 +385,6 @@ class Retrieve_Client extends Interfaces\Retrieve {
 		$result = $this->mb->GetClientPurchases(['clientId' => $client['ID']]); // UniqueID ??
 				
 		return $result['Purchases'];
-    }
-    
-    /**
-     * Get client memberships.
-     *
-     * since: 2.5.7
-     *
-     * return array numeric array of required fields
-     */
-    public function get_active_client_memberships() {
-    
-    	$client = $this->get_client_details();
-
-        // Create the MBO Object
-        $this->get_mbo_results();
-		
-		$result = $this->mb->GetActiveClientMemberships(['clientId' => $client['ID']]); // UniqueID ??
-				
-		return $result;
     }
     
     /**

@@ -225,7 +225,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
 
         $template_loader = new Core\Template_Loader();
         $this->schedule_object = new Retrieve_Schedule($this->atts);
-        NS\MZMBO()->helpers->print(NS\MZMBO()::$advanced_options);
+
         // Call the API and if fails, return error message.
         if (false == $this->schedule_object->get_mbo_results()) return "<div>" . __("Error returning schedule from MBO for shortcode display.", 'mz-mindbody-api') . "</div>";
 
@@ -397,7 +397,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'loggedMBO' => ( 1 == (bool) NS\MZMBO()->session->get('MBO_Client') ) ? 1 : 0,
             'siteID' => $this->siteID,
             'location' => $this->sLoc,
-            'client_first_name' => (!empty(NS\MZMBO()->session->get('MBO_Client')['FirstName']) ? NS\MZMBO()->session->get('MBO_Client')['FirstName'] : '')
+            'client_first_name' => (!empty(NS\MZMBO()->session->get('MBO_Client')['mbo_result']['FirstName']) ? NS\MZMBO()->session->get('MBO_Client')['mbo_result']['FirstName'] : '')
         );
         wp_localize_script('mz_display_schedule_script', 'mz_mindbody_schedule', $params);
     }

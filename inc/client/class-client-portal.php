@@ -162,7 +162,7 @@ class Client_Portal extends Retrieve_Client {
 
             $template_data = array();
 
-            $this->clientID = NS\MZMBO()->session->get('MBO_Client')['Id'];
+            $this->clientID = NS\MZMBO()->session->get('MBO_Client')['mbo_result']['Id'];
 
             $add_client_to_class_result = $this->add_client_to_class($_REQUEST['classID']);
 
@@ -542,7 +542,7 @@ class Client_Portal extends Retrieve_Client {
 
         $additions['EndDate'] = $end_date->format('Y-m-d');
 
-        $this->clientID = NS\MZMBO()->session->get('MBO_Client')['Id'];
+        $this->clientID = NS\MZMBO()->session->get('MBO_Client')['mbo_result']['Id'];
 
         $additions['ClientID'] = $this->clientID;
 
@@ -557,7 +557,7 @@ class Client_Portal extends Retrieve_Client {
             $result['message'] = array(NS\MZMBO()->i18n->get('result_error'),
                 $schedule_data['GetClientScheduleResult']['Status'],
                 $schedule_data['GetClientScheduleResult']);
-            $result['message'] = NS\MZMBO()->session->get('MBO_Client')['Id'];
+            $result['message'] = NS\MZMBO()->session->get('MBO_Client')['mbo_result']['Id'];
         else:
             $result['message'] = $this->sort_classes_by_date_then_time($client_schedule);
         endif;

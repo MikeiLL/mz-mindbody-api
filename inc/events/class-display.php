@@ -255,7 +255,7 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'siteID' => $this->siteID,
             'location' => $this->sLoc,
             'with' => NS\MZMBO()->i18n->get('with'),
-            'client_first_name' => (!empty(NS\MZMBO()->session->get('MBO_Client')['FirstName']) ? NS\MZMBO()->session->get('MBO_Client')['FirstName'] : '')
+            'client_first_name' => (!empty(NS\MZMBO()->session->get('MBO_Client')['mbo_result']['FirstName']) ? NS\MZMBO()->session->get('MBO_Client')['mbo_result']['FirstName'] : '')
         );
         wp_localize_script('mz_mbo_events', 'mz_mindbody_schedule', $params);
     }
