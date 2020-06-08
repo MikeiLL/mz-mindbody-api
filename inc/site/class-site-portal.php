@@ -251,7 +251,7 @@ class Site_Portal extends Retrieve_Site {
                 'additions' => $additions,
                 'signupData'   => $signupData
             ];
-            NS\MZMBO()->helpers->log(array($this->clientID => $debug_data));
+            // NS\MZMBO()->helpers->log(array($this->clientID => $debug_data));
         endif;
 
         if ( $signupData['AddClientsToClassesResult']['ErrorCode'] != 200 ) {

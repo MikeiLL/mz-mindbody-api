@@ -32,7 +32,7 @@ class MBO_V6_API {
 	* Initialize the apiServices and apiMethods arrays
 	*/
 	public function __construct( $mbo_dev_credentials = array()) {
-		NS\MZMBO()->helpers->log("API __construct");
+
         // $mbo_dev_credentials = $this->basic_options = Core\MZ_Mindbody_Api::$basic_options;
 		$this->basic_options = $mbo_dev_credentials;
 		// set credentials into headers
