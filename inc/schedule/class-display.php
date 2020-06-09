@@ -339,14 +339,14 @@ class Display extends Interfaces\ShortCode_Script_Loader
             wp_register_style('mz_mindbody_style', NS\PLUGIN_NAME_URL . 'dist/styles/main.css');
             wp_enqueue_style('mz_mindbody_style');
 
-            wp_register_script('mz_mbo_bootstrap_script', NS\PLUGIN_NAME_URL . 'dist/scripts/main.js', array('jquery'), 1.0, true);
+            wp_register_script('mz_mbo_bootstrap_script', NS\PLUGIN_NAME_URL . 'dist/scripts/main.js', array('jquery'), NS\PLUGIN_VERSION, true);
             wp_enqueue_script('mz_mbo_bootstrap_script');
 
-            wp_register_script('mz_display_schedule_script', NS\PLUGIN_NAME_URL . 'dist/scripts/schedule-display.js', array('jquery', 'mz_mbo_bootstrap_script'), 1.0, true);
+            wp_register_script('mz_display_schedule_script', NS\PLUGIN_NAME_URL . 'dist/scripts/schedule-display.js', array('jquery', 'mz_mbo_bootstrap_script'), NS\PLUGIN_VERSION, true);
             wp_enqueue_script('mz_display_schedule_script');
 
             if ($this->atts['filter'] == 1):
-                wp_register_script('filterTable', NS\PLUGIN_NAME_URL . 'dist/scripts/mz_filtertable.js', array('jquery', 'mz_display_schedule_script'), null, true);
+                wp_register_script('filterTable', NS\PLUGIN_NAME_URL . 'dist/scripts/mz_filtertable.js', array('jquery', 'mz_display_schedule_script'), NS\PLUGIN_VERSION, true);
                 wp_enqueue_script('filterTable');
             endif;
 

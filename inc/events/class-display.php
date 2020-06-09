@@ -220,10 +220,10 @@ class Display extends Interfaces\ShortCode_Script_Loader
             wp_register_style('mz_mindbody_style', NS\PLUGIN_NAME_URL . 'dist/styles/main.css');
             wp_enqueue_style('mz_mindbody_style');
 
-            wp_register_script('mz_mbo_bootstrap_script', NS\PLUGIN_NAME_URL . 'dist/scripts/main.js', array('jquery'), 1.0, true);
+            wp_register_script('mz_mbo_bootstrap_script', NS\PLUGIN_NAME_URL . 'dist/scripts/main.js', array('jquery'), NS\PLUGIN_VERSION, true);
             wp_enqueue_script('mz_mbo_bootstrap_script');
 
-            wp_register_script('mz_mbo_events', NS\PLUGIN_NAME_URL . 'dist/scripts/events-display.js', array('jquery'), 1.0, true);
+            wp_register_script('mz_mbo_events', NS\PLUGIN_NAME_URL . 'dist/scripts/events-display.js', array('jquery'), NS\PLUGIN_VERSION, true);
             wp_enqueue_script('mz_mbo_events');
 
             $this->localizeScript();
