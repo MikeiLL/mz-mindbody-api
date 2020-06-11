@@ -118,7 +118,6 @@ class MZ_Mindbody {
 			self::$instance = new Inc\Core\MZ_Mindbody_Api;
 			self::$instance->run();
 
-            self::$instance->session        = new Core\MZMBO_Session();
             self::$instance->i18n           = new Common\Global_Strings();
             self::$instance->helpers        = new Common\Helpers();
             self::$instance->client         = new Client\Retrieve_Client();
