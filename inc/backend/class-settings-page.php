@@ -435,7 +435,7 @@ class Settings_Page {
         $mz_requirements = 0;
 
         if (!file_exists('PEAR/Registry.php')) {
-            return '<p>SOAP warning (above).</p><div class="notice notice-warning" style="padding:1.5em;">Cannot confirm pear is installed. Check with server admin about pear/SOAP if you have issues.</div>';
+            return '<p>SOAP warning (above).</p><div class="notice notice-warning is-dismissible" style="padding:1.5em;">Cannot confirm pear is installed. Check with server admin about pear/SOAP if you have issues.<button type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button></div>';
         }
 
         include 'PEAR/Registry.php';
