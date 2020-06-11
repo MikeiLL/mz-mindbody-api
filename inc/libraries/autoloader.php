@@ -70,7 +70,7 @@ spl_autoload_register( function( $class_name ) {
 		include_once( $filepath );
 	} else {
 		wp_die(
-			esc_html( 'The file attempting to be loaded at ' . $filepath . ' does not exist.' )
+			esc_html( 'The file attempting to be loaded here: ' . $filepath . ' does not exist.' )
 		);
 	}
 } );

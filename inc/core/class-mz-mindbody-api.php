@@ -301,34 +301,6 @@ class MZ_Mindbody_Api
         // Start Ajax Get Staff
         $this->loader->add_action('wp_ajax_nopriv_mz_mbo_get_staff', $staff_object, 'get_staff_modal');
         $this->loader->add_action('wp_ajax_mz_mbo_get_staff', $staff_object, 'get_staff_modal');
-
-        // Start Ajax Client Check Logged
-        $this->loader->add_action('wp_ajax_nopriv_mz_register_for_class', $client_portal, 'ajax_register_for_class');
-        $this->loader->add_action('wp_ajax_mz_register_for_class', $client_portal, 'ajax_register_for_class');
-
-        // Start Ajax Client Create Account
-        $this->loader->add_action('wp_ajax_nopriv_mz_create_mbo_account', $client_portal, 'ajax_create_mbo_account');
-        $this->loader->add_action('wp_ajax_mz_create_mbo_account', $client_portal, 'ajax_create_mbo_account');
-
-        // Start Ajax Client Create Account
-        $this->loader->add_action('wp_ajax_nopriv_mz_generate_signup_form', $client_portal, 'ajax_generate_mbo_signup_form');
-        $this->loader->add_action('wp_ajax_mz_generate_signup_form', $client_portal, 'ajax_generate_mbo_signup_form');
-
-        // Start Ajax Client Log In
-        $this->loader->add_action('wp_ajax_nopriv_mz_client_log_in', $client_portal, 'ajax_client_log_in');
-        $this->loader->add_action('wp_ajax_mz_client_log_in', $client_portal, 'ajax_client_log_in');
-
-        // Start Ajax Client Log Out
-        $this->loader->add_action('wp_ajax_nopriv_mz_client_log_out', $client_portal, 'ajax_client_log_out');
-        $this->loader->add_action('wp_ajax_mz_client_log_out', $client_portal, 'ajax_client_log_out');
-
-        // Start Ajax Display Client Schedule
-        $this->loader->add_action('wp_ajax_nopriv_mz_display_client_schedule', $client_portal, 'ajax_display_client_schedule');
-        $this->loader->add_action('wp_ajax_mz_display_client_schedule', $client_portal, 'ajax_display_client_schedule');
-
-        // Start Ajax Check Client Logged Status
-        $this->loader->add_action('wp_ajax_nopriv_mz_check_client_logged', $client_portal, 'ajax_check_client_logged');
-        $this->loader->add_action('wp_ajax_mz_check_client_logged', $client_portal, 'ajax_check_client_logged');
         
         // Call api hourly to retrieve AccessToken
         $this->loader->add_action( 'fetch_mbo_access_token', $token_object, 'save_token', 10, 2 );
