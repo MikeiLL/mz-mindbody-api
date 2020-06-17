@@ -30,7 +30,6 @@ namespace MZ_Mindbody;
 use MZ_Mindbody as NS;
 use MZ_Mindbody\Inc\Core as Core;
 use MZ_Mindbody\Inc\Common as Common;
-use MZ_Mindbody\Inc\Client as Client;
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
@@ -120,7 +119,6 @@ class MZ_Mindbody {
 
             self::$instance->i18n           = new Common\Global_Strings();
             self::$instance->helpers        = new Common\Helpers();
-            self::$instance->client         = new Client\Retrieve_Client();
 		}
 
 		return self::$instance;

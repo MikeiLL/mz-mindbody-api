@@ -12,7 +12,6 @@ use MZ_Mindbody\Inc\Schedule as Schedule;
 use MZ_Mindbody\Inc\Staff as Staff;
 use MZ_Mindbody\Inc\Events as Events;
 use MZ_Mindbody\Inc\Client as Client;
-use MZ_Mindbody\Inc\Session as Session;
 use MZ_Mindbody\Inc\Libraries\Rarst\WordPress\DateTime as DateTime;
 
 /**
@@ -268,7 +267,6 @@ class MZ_Mindbody_Api
         $registrant_object = new Schedule\Retrieve_Registrants;
         $class_owners_object = new Schedule\Retrieve_Class_Owners;
         $staff_object = new Staff\Display;
-        $client_portal = new Client\Client_Portal;
         $token_object = new Common\Token_Management;
 
 
@@ -383,8 +381,6 @@ class MZ_Mindbody_Api
         $staff_display->register('mz-mindbody-staff-list');
         $events_display = new Events\Display();
         $events_display->register('mz-mindbody-show-events');
-        $session_display = new Session\Display();
-        $session_display->register('display_session');
     }
 
 }

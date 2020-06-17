@@ -501,7 +501,7 @@ abstract class Retrieve_Classes extends Retrieve {
             return false;
         }
         if (!empty($this->atts['session_types'])) {
-            if (!in_array($class['ClassDescription']['SessionType']['Name'], $this->atts['session_types'])) return true;
+            if (!in_array($class['ClassDescription']['SessionType']['Name'], $this->atts['session_types'])) return false;
         }
         // If shortcode not set to hide classes that are cancelled.
         if ( !empty($this->atts['hide_cancelled']) ) {

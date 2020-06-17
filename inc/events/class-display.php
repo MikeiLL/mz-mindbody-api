@@ -251,12 +251,9 @@ class Display extends Interfaces\ShortCode_Script_Loader
             'signup_heading' => $translated_strings['signup_heading'],
             'Locations_dict' => json_encode($locations_dictionary),
             'signup_nonce' =>  wp_create_nonce('mz_signup_nonce'),
-            'loggedMBO' => ( 1 == (bool) NS\MZMBO()->session->get('MBO_Client') ) ? 1 : 0,
             'siteID' => $this->siteID,
             'location' => $this->sLoc,
-            'with' => NS\MZMBO()->i18n->get('with'),
-            'client_first_name' => (!empty(NS\MZMBO()->session->get('MBO_Client')['mbo_result']['FirstName']) ? NS\MZMBO()->session->get('MBO_Client')['mbo_result']['FirstName'] : '')
-        );
+            'with' => NS\MZMBO()->i18n->get('with')        );
         wp_localize_script('mz_mbo_events', 'mz_mindbody_schedule', $params);
     }
 
