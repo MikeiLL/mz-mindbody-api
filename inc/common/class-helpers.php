@@ -156,6 +156,29 @@ class Helpers {
         }
         return htmlentities($bio);
     }
+    
+    
+    /**
+     * Use array_map on multidimensional arrays
+     *
+     * @since 2.5.9
+     * @source: https://stackoverflow.com/a/39637749/2223106
+     *
+     *
+     * @param function $callback 
+     * @param array $array to be operated on
+     * 
+     * @access public
+     * @return array $array, with each item operated on by callback.
+     */
+    public function array_map_recursive($callback, $array)
+	{
+	  $func = function ($item) use (&$func, &$callback) {
+		return is_array($item) ? array_map($func, $item) : call_user_func($callback, $item);
+	  };
+
+	  return array_map($func, $array);
+	}
 
     /**
      * String Left Replace
