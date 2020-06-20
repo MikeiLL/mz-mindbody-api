@@ -100,10 +100,13 @@ echo "Doing the file adding"
 svn status | grep -v "^.[ \t]*\..*" | grep "^?" | awk '{print $2}' | xargs svn add
 echo "Committing"
 svn commit --username=$SVNUSER -m "$COMMITMSG"
-
+cd $SVNPATH
 svn copy trunk/ tags/$NEWVERSION1/
 cd $SVNPATH/tags/$NEWVERSION1
 svn commit --username=$SVNUSER -m "Tagging version $NEWVERSION1"
+
+echo "Returning home"
+cd $CURRENTDIR
 
 echo "Removing temporary directory $SVNPATH"
 rm -fr $SVNPATH/
