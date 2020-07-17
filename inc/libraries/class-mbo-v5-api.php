@@ -26,6 +26,7 @@ class MBO_V5_API {
 	* Initialize the apiServices and apiMethods arrays
 	*/
 	public function __construct($sourceCredentials = array()) {
+        NS\MZMBO()->helpers->log("Construct");
 
 		$this->soapOptions = array(
             'soap_version'=>SOAP_1_1,
@@ -59,7 +60,7 @@ class MBO_V5_API {
 		    try {
 			    $this->client = new \SoapClient($serviceWSDL, $this->soapOptions);
 			}  catch ( \SoapFault $s ) {
-                    return 'Soap service is down: ' . $s;
+                    throw new \Exception('NO_API_SERVICE: ' . $s);
             }
 			$this->apiMethods = array_merge($this->apiMethods, array($serviceName=>array_map(
 				function($n){
