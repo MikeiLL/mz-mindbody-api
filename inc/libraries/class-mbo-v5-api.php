@@ -56,7 +56,11 @@ class MBO_V5_API {
 		);
 		// set apiMethods array with available methods from Mindbody services
 		foreach($this->apiServices as $serviceName => $serviceWSDL) {
-			$this->client = new \SoapClient($serviceWSDL, $this->soapOptions);
+		    try {
+			    $this->client = new \SoapClient($serviceWSDL, $this->soapOptions);
+			}  catch ( \SoapFault $s ) {
+                    return 'Soap service is down: ' . $s;
+            }
 			$this->apiMethods = array_merge($this->apiMethods, array($serviceName=>array_map(
 				function($n){
 					$start = 1+strpos($n, ' ');
@@ -192,6 +196,7 @@ class MBO_V5_API {
 	** boolean $returnObject - Optional: Return the SOAP response object
 	*/
 	protected function callMindbodyService($serviceName, $methodName, $requestData = array(), $returnObject = false, $debugErrors = false) {
+
 		$request = array_merge(array("SourceCredentials"=>$this->sourceCredentials),$requestData);
 		if(!empty($this->userCredentials)) {
 			$request = array_merge(array("UserCredentials"=>$this->userCredentials), $request);
@@ -206,8 +211,8 @@ class MBO_V5_API {
 			}
 		} catch (\SoapFault $s) {
 		// Uncomment following line for debugging request errors.
-		 //NS\MZMBO()->helpers->print($s);
-		 //NS\MZMBO()->helpers->print($this->debugSoapErrors);
+		//NS\MZMBO()->helpers->print($s);
+		//NS\MZMBO()->helpers->print($this->debugSoapErrors);
 			if($this->debugSoapErrors && $debugErrors) {
 				echo 'ERROR: [' . $s->faultcode . '] ' . $s->faultstring;
 				$this->debug();
@@ -233,9 +238,8 @@ class MBO_V5_API {
 
 	public function debug() {
 
-		$return = "<textarea rows='6' cols='90'>".print_r($this->getXMLRequest(),1)."</textarea>";
-		$return .= "<br/>";
-		$return .= "<textarea rows='6' cols='90'>".print_r($this->getXMLResponse(),1)."</textarea>";
+		$return = "<h3>Request:</h3><textarea rows='6' cols='90'>".print_r($this->getXMLRequest(),1)."</textarea>";
+		$return .= "<h3>Response:</h3><textarea rows='6' cols='90'>".print_r($this->getXMLResponse(),1)."</textarea>";
 
 		return $return;
 	}
