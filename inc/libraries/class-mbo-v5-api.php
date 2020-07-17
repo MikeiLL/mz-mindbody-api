@@ -10,7 +10,6 @@ class MBO_V5_API {
 	protected $classServiceWSDL = "https://api.mindbodyonline.com/0_5/ClassService.asmx?WSDL";
 	protected $clientServiceWSDL = "https://api.mindbodyonline.com/0_5/ClientService.asmx?WSDL";
 	protected $dataServiceWSDL = "https://api.mindbodyonline.com/0_5/DataService.asmx?WSDL";
-	protected $finderServiceWSDL = "https://api.mindbodyonline.com/0_5/FinderService.asmx?WSDL";
 	protected $saleServiceWSDL = "https://api.mindbodyonline.com/0_5/SaleService.asmx?WSDL";
 	protected $siteServiceWSDL = "https://api.mindbodyonline.com/0_5/SiteService.asmx?WSDL";
 	protected $staffServiceWSDL = "https://api.mindbodyonline.com/0_5/StaffService.asmx?WSDL";
@@ -50,7 +49,6 @@ class MBO_V5_API {
 			'ClassService' => $this->classServiceWSDL,
 			'ClientService' => $this->clientServiceWSDL,
 			'DataService' => $this->dataServiceWSDL,
-			'FinderService' => $this->finderServiceWSDL,
 			'SaleService' => $this->saleServiceWSDL,
 			'SiteService' => $this->siteServiceWSDL,
 			'StaffService' => $this->staffServiceWSDL
