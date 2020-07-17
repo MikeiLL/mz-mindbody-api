@@ -7,11 +7,9 @@ use MZ_Mindbody\Inc\Admin as Admin;
 use MZ_Mindbody\Inc\Frontend as Frontend;
 use MZ_Mindbody\Inc\Backend as Backend;
 use MZ_Mindbody\Inc\Common as Common;
-use MZ_Mindbody\Inc\Common as Token_Management;
 use MZ_Mindbody\Inc\Schedule as Schedule;
 use MZ_Mindbody\Inc\Staff as Staff;
 use MZ_Mindbody\Inc\Events as Events;
-use MZ_Mindbody\Inc\Client as Client;
 use MZ_Mindbody\Inc\Libraries\Rarst\WordPress\DateTime as DateTime;
 
 /**
@@ -301,7 +299,7 @@ class MZ_Mindbody_Api
         $this->loader->add_action('wp_ajax_mz_mbo_get_staff', $staff_object, 'get_staff_modal');
         
         // Call api hourly to retrieve AccessToken
-        $this->loader->add_action( 'fetch_mbo_access_token', $token_object, 'save_token', 10, 2 );
+        $this->loader->add_action( 'fetch_mbo_access_token', $token_object, 'get_and_save_token', 10, 2 );
 
     }
 
