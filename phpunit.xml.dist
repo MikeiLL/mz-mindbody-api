@@ -13,5 +13,8 @@
 		<testsuite name="Access">
 			<directory prefix="test-" suffix=".php">/appTwo/tests/</directory>
 		</testsuite>
+		<testsuite name="Classes">
+			<directory prefix="test-" suffix=".php">/appThree/tests/</directory>
+		</testsuite>
 	</testsuites>
 </phpunit>

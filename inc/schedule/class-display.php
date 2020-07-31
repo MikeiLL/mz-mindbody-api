@@ -6,7 +6,7 @@ use MZ_Mindbody\Inc\Core as Core;
 use MZ_Mindbody\Inc\Common as Common;
 use MZ_Mindbody\Inc\Common\Interfaces as Interfaces;
 
-class Display extends Interfaces\ShortCode_Script_Loader
+class Display extends Interfaces\Shortcode_Script_Loader
 {
 
     /**

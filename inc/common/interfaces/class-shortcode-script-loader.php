@@ -9,7 +9,7 @@ namespace MZ_Mindbody\Inc\Common\Interfaces;
  * The idea is you have a shortcode that needs a script loaded, but you only
  * want to load it if the shortcode is actually called.
  */
-abstract class ShortCode_Script_Loader extends ShortCode_Loader {
+abstract class Shortcode_Script_Loader extends Shortcode_Loader {
 
     var $doAddScript;
 

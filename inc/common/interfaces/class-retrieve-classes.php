@@ -209,7 +209,7 @@ abstract class Retrieve_Classes extends Retrieve {
      *
      * @return array of MBO schedule data
      */
-    public function get_mbo_results($timestamp = null){
+    public function get_mbo_results($timestamp = null, $stored = false){
 
         $timestamp = isset($timestamp) ? $timestamp : current_time( 'timestamp' );
 
@@ -226,7 +226,7 @@ abstract class Retrieve_Classes extends Retrieve {
         
         $transient_string = $this->generate_transient_name($sc_string);
         
-        if ( false === get_transient( $transient_string ) ) {
+        if ( false === get_transient( $transient_string ) || false == $stored) {
             // If there's not a transient already, call the API and create one
 
             if ($this->mbo_account !== 0) {
