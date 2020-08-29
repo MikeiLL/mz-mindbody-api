@@ -1,4 +1,4 @@
-import './signup-modals';
+// import './signup-modals';
 
 (function ($) {
     $(document).ready(function ($) {

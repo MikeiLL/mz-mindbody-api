@@ -224,6 +224,7 @@ class Display extends Interfaces\Shortcode_Script_Loader
 
         $template_loader = new Core\Template_Loader();
         $this->schedule_object = new Retrieve_Schedule($this->atts);
+        NS\MZMBO()->helpers->print($this->schedule_object);
 
         // Call the API and if fails, return error message.
         if (false == $this->schedule_object->get_mbo_results()) return "<div>" . __("Error returning schedule from MBO for shortcode display.", 'mz-mindbody-api') . "</div>";
