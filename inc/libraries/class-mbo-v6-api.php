@@ -104,7 +104,7 @@ class MBO_V6_API {
 			if (isset($trace['class'])){
 				$caller_details .= ' in:' . $trace['class'];
 			}
-			NS\MZMBO()->helpers->api_log($restMethod . ' caller:' . $caller_details);
+			NS\MZMBO()->helpers->api_log(print_r($restMethod, true) . ' caller:' . $caller_details);
 		endif;
 		
 		if(empty($arguments)) {
