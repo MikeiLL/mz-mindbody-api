@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: mindbody, schedule, calendar, yoga, MBO, mindbodyonline, gym, parkour, mbo, mindbodyonline.
 Requires at least: 3.0.1
 Tested up to: 5.4.5
-Stable tag: 2.6.3
+Stable tag: 2.6.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,6 +66,9 @@ You need to register a developer account with MindBody, which costs $5+ per webs
 5. Admin Page
 
 == Changelog ==
+
+= v2.6.4 =
+Bugfix: Stop importing sign-up script that was calling a non-existent method.
 
 = v2.6.3 =
 Bugfix: get_and_save_token from private to public to hook accessible.
