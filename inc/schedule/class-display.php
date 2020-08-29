@@ -306,6 +306,7 @@ class Display extends Interfaces\Shortcode_Script_Loader
             'siteID' => $this->siteID,
             'week_names' => $week_names,
             'start_date' => $this->schedule_object->start_date,
+            'end_date' => $this->schedule_object->current_week_end,
             'display_type' => $this->display_type,
             'hide' => $this->atts['hide'],
             'table_class' => $this->table_class,
