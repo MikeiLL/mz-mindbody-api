@@ -23,5 +23,3 @@ endif; ?>
      aria-hidden="true"></div>
 <div class="modal fade" id="mzSignUpModal" tabindex="-1" role="dialog" aria-labelledby="mzSmallModalLabel"
      aria-hidden="true"></div>
-
-<?php include('login_form.php'); ?>
