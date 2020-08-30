@@ -218,7 +218,10 @@ class MBO_V6_API {
 	*
 	* @since 2.5.7
 	*
-	* As above, but specifically for token requests
+	* As above, but specifically for token requests.
+	*
+	* Get a stored token if there's a good one availaible,
+	* if not, request one from the API.
 	*
 	* return string of MBO API Response data
 	*/
@@ -229,15 +232,15 @@ class MBO_V6_API {
 		$tm = new Common\Token_Management;
 		
 		$token = $tm->get_stored_token();
-		
+				
 		if ( ctype_alnum($token) ) return $token;
-		
+				
 		$request_body = array( 
 								'Username' => $this->format_username(), 
 								'Password' => $this->extraCredentials['Password'] 
 						);
 		
-		$response = wp_remote_post( $restMethod['endpoint'], 
+		$response = wp_remote_post( "https://api.mindbodyonline.com/public/v6/usertoken/issue", 
 			array(
 				'method' => 'POST',
 				'timeout' => 90,
@@ -247,7 +250,7 @@ class MBO_V6_API {
 				'body' => json_encode($request_body),
 				'cookies' => array()
 			) );
-	 		
+			
 		if ( is_wp_error( $response ) ) {
 		
 			$error_message = $response->get_error_message();
@@ -258,12 +261,14 @@ class MBO_V6_API {
 				$response_body = json_decode($response['body']);
 				if ( property_exists( $response_body, 'Error' ) && strpos($response_body->Error->Message, 'Please try again') ) {
 					// OK try again after three seconds
-					//sleep(3);
+					sleep(3);
 					if($this->tokenRequestTries > 1) {
 						return $this->tokenRequest($restMethod);
 					}
 					return false;
 				}
+
+				$tm->save_token_to_option($response_body);
 				return $response_body;
 		}
 	}
