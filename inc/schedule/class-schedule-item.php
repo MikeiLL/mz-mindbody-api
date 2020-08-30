@@ -631,24 +631,25 @@ class Schedule_Item {
                 endif;
 
                 $linkArray['data-time'] = date_i18n(Core\MZ_Mindbody_Api::$date_format . ' ' . Core\MZ_Mindbody_Api::$time_format, strtotime($this->startDateTime));
+                
+                // May being back option to register within site. For now, comment out.
+                // if ((!empty($this->atts['advanced']) && ($this->atts['advanced'] == '1')) || (Core\MZ_Mindbody_Api::$advanced_options['register_within_site'] == 'on')):
 
-                if ((!empty($this->atts['advanced']) && ($this->atts['advanced'] == '1')) || (Core\MZ_Mindbody_Api::$advanced_options['register_within_site'] == 'on')):
+                    // $linkArray['data-target'] = 'mzSignUpModal';
+                    // $linkArray['data-nonce'] = wp_create_nonce('mz_signup_nonce');
+                    // $linkArray['data-siteID'] = $this->siteID;
+                    // $linkArray['data-classID'] = $this->ID;
+                    // $linkArray['data-className'] = $this->className;
+                    // $linkArray['data-staffName'] = $this->staffName;
+                    // $linkArray['data-location'] = $this->sLoc;
+                    // $link->set('href', NS\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php');
 
-                    $linkArray['data-target'] = 'mzSignUpModal';
-                    $linkArray['data-nonce'] = wp_create_nonce('mz_signup_nonce');
-                    $linkArray['data-siteID'] = $this->siteID;
-                    $linkArray['data-classID'] = $this->ID;
-                    $linkArray['data-className'] = $this->className;
-                    $linkArray['data-staffName'] = $this->staffName;
-                    $linkArray['data-location'] = $this->sLoc;
-                    $link->set('href', NS\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php');
-
-                else:
+                // else:
 
                     $linkArray['target'] = '_blank';
                     $link->set('href', $this->mbo_url);
 
-                endif;
+                // endif;
 
                 break;
 
