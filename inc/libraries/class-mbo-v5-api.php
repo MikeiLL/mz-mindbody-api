@@ -2,6 +2,7 @@
 namespace MZ_Mindbody\Inc\Libraries;
 
 use MZ_Mindbody as NS;
+use \Exception as Exception;
 
 class MBO_V5_API {
 	protected $client;
@@ -105,7 +106,7 @@ class MBO_V5_API {
 			$this->track_daily_api_calls();
 			
 			if (!$this->api_call_limiter()) {
-				return 'Too many API Calls.';
+			    throw new Exception('Too many API Calls.');
 			}
 
             if ((isset(NS\Inc\Core\MZ_Mindbody_Api::$advanced_options['log_api_calls'])) && (NS\Inc\Core\MZ_Mindbody_Api::$advanced_options['log_api_calls'] == 'on')):

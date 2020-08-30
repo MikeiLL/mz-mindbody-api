@@ -234,11 +234,16 @@ abstract class Retrieve_Classes extends Retrieve {
                 $mb->sourceCredentials['SiteIDs'][0] = $this->mbo_account;
             }
             
-            $schedule_data = $mb->GetClasses($this->time_frame);
-            
+            try {
+                $schedule_data = $mb->GetClasses($this->time_frame);
+            } catch ( \Exception $e ) {
+                NS\MZMBO()->helpers->print($e->getMessage());
+                return false;
+            }
+                        
             if ( empty($schedule_data) || empty($schedule_data['Classes'][0]['Id']) ):
 
-                echo "<!-- " . $schedule_data['PaginationResponse'] . "<hr>" . $schedule_data['Classes'] . " --> ";
+                echo "<!-- " . print_r($schedule_data, true) . " --> ";
 
                 return false;
 
@@ -248,9 +253,6 @@ abstract class Retrieve_Classes extends Retrieve {
 
             // Otherwise (if successful API call) assign result to $this->classes.
             $this->classes = $schedule_data['Classes'];
-            
-            // print_r('%%%% first -> class keys: %%%%');
-			// print_r(array_keys($this->classes[0]));
 
             // Store the transient for 12 hours
             set_transient($transient_string, $this->classes, 60 * 60 * 12);

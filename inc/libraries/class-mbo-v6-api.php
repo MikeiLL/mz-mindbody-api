@@ -4,6 +4,7 @@ namespace MZ_Mindbody\Inc\Libraries;
 use MZ_Mindbody as NS;
 use MZ_Mindbody\Inc\Common as Common;
 use MZ_Mindbody\Inc\Core as Core;
+use \Exception as Exception;
 
 
 /*
@@ -95,7 +96,7 @@ class MBO_V6_API {
 		$this->track_daily_api_calls();
 		
 		if (!$this->api_call_limiter()) {
-			return 'Too many API Calls.';
+			throw new Exception('Too many API Calls.');
 		}
 
 		if ((isset(NS\Inc\Core\MZ_Mindbody_Api::$advanced_options['log_api_calls'])) && (NS\Inc\Core\MZ_Mindbody_Api::$advanced_options['log_api_calls'] == 'on')):
@@ -261,7 +262,7 @@ class MBO_V6_API {
 				$response_body = json_decode($response['body']);
 				if ( property_exists( $response_body, 'Error' ) && strpos($response_body->Error->Message, 'Please try again') ) {
 					// OK try again after three seconds
-					sleep(3);
+					//sleep(3);
 					if($this->tokenRequestTries > 1) {
 						return $this->tokenRequest($restMethod);
 					}
