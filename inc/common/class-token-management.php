@@ -48,8 +48,6 @@ class Token_Management extends Interfaces\Retrieve {
         if ( !$mb ) return false;
         
         $response = $mb->TokenIssue();
-	 	NS\MZMBO()->helpers->print("in get_mbo_results: ");
-	 	NS\MZMBO()->helpers->print($response);
                         
         return $response->AccessToken;
         
