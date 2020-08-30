@@ -48,6 +48,8 @@ class Token_Management extends Interfaces\Retrieve {
         if ( !$mb ) return false;
         
         $response = $mb->TokenIssue();
+	 	NS\MZMBO()->helpers->print("in get_mbo_results: ");
+	 	NS\MZMBO()->helpers->print($response);
                         
         return $response->AccessToken;
         
@@ -95,7 +97,7 @@ class Token_Management extends Interfaces\Retrieve {
 	 	// Get the option or return an empty array with two keys
 	 	
 	 	$stored_token = get_option('mz_mbo_token', ['stored_time' => '', 'AccessToken' => '']);
-	 	
+
      	if (empty( $stored_token['AccessToken'] ) || !ctype_alnum($stored_token['AccessToken'])) return false;
 	 	
      	// If there is a mz_mbo_token, let's see if it's less than 12 hours old
@@ -133,7 +135,37 @@ class Token_Management extends Interfaces\Retrieve {
 		$current = new \DateTime();
 		$current->format('Y-m-d H:i:s');
 		
-		if( !ctype_alnum($token) ) {
+		if( !ctype_alnum($token->AccessToken) ) {
+			// In case we have returned something bad from the API
+			// let's not save it to the option.
+			return false;
+		}
+		
+	 	update_option('mz_mbo_token', [
+	 		'stored_time' => $current, 
+	 		'AccessToken' => $token
+	 	]);
+	 		 	
+	 	return $token;
+	 }
+	 
+	 /**
+     * 
+     * Save MBO AccessToken to WP option
+     *
+     * @since 2.5.9
+     *
+     * Update (or create) mz_mbo_token option which holds datetime object 
+     * as well as AccessToken string
+     *
+     * @return AccessToken string as administered by MBO Api
+     */
+	 public function save_token_to_option($token) {
+	 
+		$current = new \DateTime();
+		$current->format('Y-m-d H:i:s');
+		
+		if( !ctype_alnum($token->AccessToken) ) {
 			// In case we have returned something bad from the API
 			// let's not save it to the option.
 			return false;
