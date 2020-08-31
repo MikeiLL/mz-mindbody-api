@@ -262,7 +262,7 @@ class MBO_V6_API {
 				$response_body = json_decode($response['body']);
 				if ( property_exists( $response_body, 'Error' ) && strpos($response_body->Error->Message, 'Please try again') ) {
 					// OK try again after three seconds
-					//sleep(3);
+					sleep(3);
 					if($this->tokenRequestTries > 1) {
 						return $this->tokenRequest($restMethod);
 					}
