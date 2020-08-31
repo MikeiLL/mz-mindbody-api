@@ -68,6 +68,8 @@ You need to register a developer account with MindBody, which costs $5+ per webs
 == Changelog ==
 
 = v2.6.4 =
+Pad empty calendar days with blank rows.
+Bugfix: Fix transient usage. Had been calling API every time.
 Bugfix: Stop importing sign-up script that was calling a non-existent method.
 Bugfix: Alphanumeric validity check was targeting object rather than string.
 
