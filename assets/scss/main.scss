@@ -60,6 +60,11 @@ td.hidden { display:none; }
 
 .red {background:red}
 
+// Pad empty schedule cells
+.mz_description_holder_empty td {
+    padding: 1em;
+}
+
 .mz_add_to_class { cursor:pointer; }
 
 .mz-modal {

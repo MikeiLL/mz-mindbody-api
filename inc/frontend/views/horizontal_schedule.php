@@ -39,6 +39,7 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
             </tr>
         </thead>
         <tbody>
+        <?php if (!empty($classes)): ?>
         <?php foreach ($classes as $k => $class): ?>
 
             <tr class="mz_schedule_table mz_description_holder mz_location_<?php echo $class->sLoc . ' ' . $class->session_type_css . ' ' . $class->class_name_css; ?>">
@@ -79,6 +80,30 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
                 <?php endif; ?>
             </tr>
         <?php endforeach; ?>
+        
+        <?php else: ?>
+        
+            <tr class="mz_schedule_table mz_description_holder mz_description_holder_empty">
+                <td class="mz_date_display">
+                
+                </td>
+                <td class="mz_classDetails">
+                
+                </td>
+                <?php if ( !in_array('teacher', $data->hide ) ): ?>
+                <td class="mz_staffName">
+                
+                </td>
+                <?php endif; ?>
+                <?php if ( !in_array('session-type', $data->hide ) ): ?>
+                <td class="mz_sessionTypeName">
+                    
+                </td>
+                <?php endif; ?>
+            </tr>
+            
+        <?php endif; // if $classes or else block ?>
+        
         </tbody>
     <?php endforeach; ?>
 </table>
