@@ -374,8 +374,21 @@ abstract class Retrieve_Classes extends Retrieve {
                 return $a->startDateTime < $b->startDateTime ? -1 : 1;
             });
         }
+        
+        return $this->pad_empty_calendar_days($this->classesByDateThenTime);
+    }
+    
+    /*
+     * Get Classes By Date Then Time and return, padded for any days without events.
+     *
+     */
+    private function pad_empty_calendar_days($classesByDateThenTime){
 
-        return $this->classesByDateThenTime;
+        $week_of_dates = [$this->start_date->format('Y-m-d') => ''];
+        for($i = 1; $i < 7; $i++){
+            $week_of_dates[$this->start_date->add(new \DateInterval('P1D'))->format('Y-m-d')] = '';
+        }
+        return array_merge($week_of_dates, $classesByDateThenTime);
     }
 
     /**
