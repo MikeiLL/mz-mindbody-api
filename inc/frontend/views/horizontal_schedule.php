@@ -13,7 +13,6 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
  *
  * @author    Mike iLL/mZoo.org
  */
-
 ?>
 <?php if (empty($data->horizontal_schedule)) echo sprintf(__('No Classes To Display (%1$s - %2$s)', 'mz-mindbody-api'), date_i18n($data->date_format, $data->start_date->getTimestamp()), date_i18n($data->date_format, $data->end_date->getTimestamp())); ?>
 <table id="mz_horizontal_schedule" class="<?php echo $data->table_class; ?>">
@@ -107,4 +106,3 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
         </tbody>
     <?php endforeach; ?>
 </table>
-

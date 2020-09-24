@@ -374,13 +374,19 @@ abstract class Retrieve_Classes extends Retrieve {
                 return $a->startDateTime < $b->startDateTime ? -1 : 1;
             });
         }
-        
-        return $this->pad_empty_calendar_days($this->classesByDateThenTime);
+        //TODO Make pad_empty_calendar_days work
+        return $this->classesByDateThenTime;
     }
     
     /*
      * Get Classes By Date Then Time and return, padded for any days without events.
+     * @since 2.6.4
      *
+     * Currently not working because $this->start_date is start of week as per WP config.
+     * Needs to be current day of week, but not necessarily THIS week.
+     *
+     * @param array classesByDateThenTime array of sequenced classes.
+     * @return array of classes, padded to a full seven days, wether or not classes exist
      */
     private function pad_empty_calendar_days($classesByDateThenTime){
 
@@ -508,7 +514,9 @@ abstract class Retrieve_Classes extends Retrieve {
      * @return boolean
      */
     protected function filter_class($class){
-
+        
+        
+        //NS\MZMBO()->helpers->print($class['ClassDescription']['Program']['ScheduleType']);
         if (
             (!in_array($class['Location']['Id'], $this->atts['locations'])) ||
             (!in_array($class['ClassDescription']['Program']['ScheduleType'], $this->schedule_types))
@@ -516,13 +524,20 @@ abstract class Retrieve_Classes extends Retrieve {
             return false;
         }
         if (!empty($this->atts['session_types'])) {
-            if (!in_array($class['ClassDescription']['SessionType']['Name'], $this->atts['session_types'])) return false;
+            if (!in_array($class['ClassDescription']['SessionType']['Name'], $this->atts['session_types'])) {       
+                return false;
+            }
+        }
+        // Support old "class_types" shortcode att:
+        if (!empty($this->atts['class_types'])) {
+            if (!in_array($class['ClassDescription']['SessionType']['Name'], $this->atts['class_types'])) {
+                return false;
+            }
         }
         // If shortcode not set to hide classes that are cancelled.
         if ( !empty($this->atts['hide_cancelled']) ) {
         	if ( $class['IsCanceled'] == 1  ) return false;
         }
-        
         return true;
     }
 
