@@ -515,8 +515,6 @@ abstract class Retrieve_Classes extends Retrieve {
      */
     protected function filter_class($class){
         
-        
-        //NS\MZMBO()->helpers->print($class['ClassDescription']['Program']['ScheduleType']);
         if (
             (!in_array($class['Location']['Id'], $this->atts['locations'])) ||
             (!in_array($class['ClassDescription']['Program']['ScheduleType'], $this->schedule_types))
@@ -538,6 +536,10 @@ abstract class Retrieve_Classes extends Retrieve {
         if ( !empty($this->atts['hide_cancelled']) ) {
         	if ( $class['IsCanceled'] == 1  ) return false;
         }
+        
+        if ($class['ClassDescription']['SessionType']['Name'] == "Adult Drop in Clinic") {
+        }
+        
         return true;
     }
 

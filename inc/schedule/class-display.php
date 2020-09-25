@@ -183,7 +183,6 @@ class Display extends Interfaces\Shortcode_Script_Loader
             'calendar_format' => 'horizontal',
             'schedule_type' => null, // allow over-ridding of global setting
             'show_registrants' => 0,
-            'hide_cancelled' => 1,
             'registrants_count' => 0,
             'classesByDateThenTime' => array(),
             'mode_select' => 0,
