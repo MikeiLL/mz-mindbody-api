@@ -258,7 +258,7 @@ class Admin {
 		# echo '<pre>'.var_export( $plugin_data, false ).'<br />'.var_export( $r, false ).'</pre>';
 
 		// echo stuff....
-		$output = __('Now requires php version 7.0 or greater. Check with your hosts before upgrading if unsure.', 'mz-mindbody-api');
+		$output = __(' Now requires php version 7.0 or greater. Check with your hosts before upgrading if unsure.', 'mz-mindbody-api');
 		
 		return print $output;
 	}
