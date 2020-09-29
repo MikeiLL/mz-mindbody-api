@@ -129,11 +129,11 @@ class Token_Management extends Interfaces\Retrieve {
 	 public function get_and_save_token() {
 	 
 	 	$token = $this->get_mbo_results();
-	 	
+
 		$current = new \DateTime();
 		$current->format('Y-m-d H:i:s');
 		
-		if( !ctype_alnum($token->AccessToken) ) {
+		if( !ctype_alnum($token) ) {
 			// In case we have returned something bad from the API
 			// let's not save it to the option.
 			return false;
@@ -163,7 +163,7 @@ class Token_Management extends Interfaces\Retrieve {
 		$current = new \DateTime();
 		$current->format('Y-m-d H:i:s');
 		
-		if( !ctype_alnum($token->AccessToken) ) {
+		if( !ctype_alnum($token) ) {
 			// In case we have returned something bad from the API
 			// let's not save it to the option.
 			return false;
