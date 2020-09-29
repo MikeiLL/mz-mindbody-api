@@ -23,8 +23,8 @@
         $(window).resize(resizeColorBox);
         window.addEventListener("orientationchange", resizeColorBox, false);
 
-        $("a[data-target=#mzStaffModal]").click(function(ev) {
-            ev.preventDefault();
+        $(document).on('click', "a[data-target=mzModal]", function(e) {
+            e.preventDefault();
             var target = $(this).attr("href");
             var staffBio = decodeURIComponent($(this).attr('data-staffBio'));
             var staffName = $(this).attr('data-staffName');

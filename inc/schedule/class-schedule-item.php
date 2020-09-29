@@ -624,7 +624,7 @@ class Schedule_Item {
 
             case 'signup':
                 
-                if ($this->total_booked >= $this->max_capacity && false === $this->is_waitlist_available):
+                if ($this->total_booked >= $this->max_capacity && false == $this->is_waitlist_available):
                     $linkArray['class'] = 'btn btn-primary disabled';
                 else:
                     $linkArray['class'] = 'btn btn-primary';

@@ -537,6 +537,13 @@ abstract class Retrieve_Classes extends Retrieve {
         	if ( $class['IsCanceled'] == 1  ) return false;
         }
         
+        if ($class['ClassDescription']['SessionType']['Name'] == "Adult Drop in Clinic") {
+            //NS\MZMBO()->helpers->print(date_i18n(Core\MZ_Mindbody_Api::$date_format, strtotime($class['StartDateTime'])));
+            //NS\MZMBO()->helpers->print($class['TotalBooked']);
+            //NS\MZMBO()->helpers->print($class['MaxCapacity']);
+            //NS\MZMBO()->helpers->print("Waitlist Available " . $class['IsWaitlistAvailable']);
+            //NS\MZMBO()->helpers->print($class['TotalBooked'] >= $class['MaxCapacity']);
+        }
         return true;
     }
 
