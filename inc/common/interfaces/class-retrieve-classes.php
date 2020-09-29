@@ -537,9 +537,6 @@ abstract class Retrieve_Classes extends Retrieve {
         	if ( $class['IsCanceled'] == 1  ) return false;
         }
         
-        if ($class['ClassDescription']['SessionType']['Name'] == "Adult Drop in Clinic") {
-        }
-        
         return true;
     }
 

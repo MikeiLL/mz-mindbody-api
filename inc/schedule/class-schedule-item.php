@@ -522,6 +522,9 @@ class Schedule_Item {
         $this->classDescription = isset($schedule_item['ClassDescription']['Description']) ? $schedule_item['ClassDescription']['Description'] : '';
         $this->level = isset($schedule_item['ClassDescription']['Level']['Name']) ? $schedule_item['ClassDescription']['Level']['Name'] : '';
         $this->staffImage = isset($schedule_item['Staff']['ImageUrl']) ? $schedule_item['Staff']['ImageUrl'] : '';
+        $this->is_waitlist_available = isset($schedule_item['IsWaitlistAvailable']) ? $schedule_item['IsWaitlistAvailable']: '';
+        $this->total_booked = isset($schedule_item['TotalBooked']) ? $schedule_item['TotalBooked']: '';
+        $this->max_capacity = isset($schedule_item['MaxCapacity']) ? $schedule_item['MaxCapacity']: '';
         $this->ID = $schedule_item['Id'];
         $this->sTG = $schedule_item['ClassDescription']['Program']['Id'];
         $this->class_schedule_id = $schedule_item['ClassScheduleId'];
@@ -620,9 +623,12 @@ class Schedule_Item {
                 break;
 
             case 'signup':
-
-                $linkArray['class'] = 'btn btn-primary';
-
+                
+                if ($this->total_booked >= $this->max_capacity && false === $this->is_waitlist_available):
+                    $linkArray['class'] = 'btn btn-primary disabled';
+                else:
+                    $linkArray['class'] = 'btn btn-primary';
+                endif;
                 // If grid, we want icon and not text copy for signup.
                 if ($sub_type === 'grid'):
                     $linkArray['text'] = '<svg class="icon sign-up"><use xlink:href="#si-bootstrap-log-in"/></use></svg>';
@@ -646,11 +652,11 @@ class Schedule_Item {
 
                 // else:
 
-                    $linkArray['target'] = '_blank';
-                    $link->set('href', $this->mbo_url);
+                $linkArray['target'] = '_blank';
+                $link->set('href', $this->mbo_url);
 
                 // endif;
-
+                
                 break;
 
         }
