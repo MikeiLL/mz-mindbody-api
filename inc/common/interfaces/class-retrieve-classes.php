@@ -254,13 +254,14 @@ abstract class Retrieve_Classes extends Retrieve {
             // Otherwise (if successful API call) assign result to $this->classes.
             $this->classes = $schedule_data['Classes'];
 
-            // Store the transient for 12 hours
-            set_transient($transient_string, $this->classes, 60 * 60 * 12);
+            // Store the transient for 12 hours or admin set duration
+            $transient_duration = !empty(Core\MZ_Mindbody_Api::$advanced_options['schedule_transient_duration']) ? Core\MZ_Mindbody_Api::$advanced_options['schedule_transient_duration'] : 43200;
+            set_transient($transient_string, $this->classes, $transient_duration);
 
         } else {
             $this->classes = get_transient( $transient_string );
         }
-        
+
         return $this->classes;
     }
 

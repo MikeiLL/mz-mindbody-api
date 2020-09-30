@@ -50,10 +50,13 @@ class Activator {
 				'api_call_limit' => 2000,
 				'elect_display_substitutes' => 'on',
 				'log_api_calls' => 'off'
+				'schedule_transient_duration' => 43200
 			);
 		} else if (empty($advanced_options['api_call_limit'])){
 			// Maybe it's been installed before pre v2.5.7
-			$advanced_options['api_call_limit'];
+			$advanced_options['api_call_limit'] = 2000;
+			// Maybe it's been installed before pre v2.6.7
+			$advanced_options['schedule_transient_duration'] = 43200;
 		}
 		update_option('mz_mbo_advanced', $advanced_options );
 		

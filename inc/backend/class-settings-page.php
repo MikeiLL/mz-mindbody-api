@@ -303,6 +303,18 @@ class Settings_Page {
             )
         );
 
+        // Field: Clear Transients
+        self::$wposa_obj->add_field(
+            'mz_mbo_advanced',
+            array(
+                'id'      => 'schedule_transient_duration',
+                'type'    => 'number',
+                'name'    => __( 'Seconds to store schedule transient for', 'mz-mindbody-api' ),
+                'desc'    => __('Default is 43200 (12 hours - 60 x 60 x 12)', 'mz-mindbody-api'),
+                'default' => 43200
+            )
+        );
+
         // Field: Display Substitute Status
         self::$wposa_obj->add_field(
             'mz_mbo_advanced',
