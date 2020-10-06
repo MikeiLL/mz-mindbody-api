@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: mindbody, schedule, calendar, yoga, MBO, mindbodyonline, gym, parkour, mbo, mindbodyonline.
 Requires at least: 3.0.1
 Tested up to: 5.4.5
-Stable tag: 2.6.7
+Stable tag: 2.6.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -67,12 +67,14 @@ You need to register a developer account with MindBody, which costs $5+ per webs
 
 == Changelog ==pad_empty_calendar_days
 
+= v2.6.8 =
+Enhancement: Allow specification of SessionTypeIds in shortcode to specify retrieval data 
+
 = v2.6.7 =
 Bugfix: Just passing token string, as opposed to object so don't try to get property.
 Enhancement: Disable signup button when class is at capacity and no waitlist available.
 Bugfix: jQuery Staff popup conflict resolved.
 Enhancement: Allow admin to set schedule transient duration.
-Enhancement: Allow specification of SessionTypeIds in shortcode to specify retrieval data 
 
 = v2.6.6 =
 Bugfix: Cancelled classes were being hidden even when not configured to be hidden.
