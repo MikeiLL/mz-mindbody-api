@@ -28,14 +28,25 @@ class MBO_V6_API {
 	protected $extraCredentials = array();
 	
 	protected $basic_options;
+	
+	/*
+     * Shortcode Attributes
+     *
+     * @since 2.6.7
+     * @access private
+     */
+	private $atts;
 
 	/**
 	* Initialize the apiServices and apiMethods arrays
 	*/
-	public function __construct( $mbo_dev_credentials = array()) {
+	public function __construct( $mbo_dev_credentials = array(), $atts = array() ) {
 
         // $mbo_dev_credentials = $this->basic_options = Core\MZ_Mindbody_Api::$basic_options;
 		$this->basic_options = $mbo_dev_credentials;
+		
+		$this->atts = $atts;
+		
 		// set credentials into headers
 		if (!empty($mbo_dev_credentials)) {
 			//if(!empty($mbo_dev_credentials['mz_mbo_app_name'])) {
@@ -159,7 +170,7 @@ class MBO_V6_API {
 							array( 
 									'Username' => $this->format_username(), 
 									'Password' => $this->extraCredentials['Password'],
-									'Limit' => 200
+									'Limit' => 200,
 							)
 						);
 					
@@ -169,6 +180,10 @@ class MBO_V6_API {
 		
 			$request_body = $requestData;
 			
+		}
+		
+		if (!empty($this->atts['session_type_ids'])) {
+		    $request_body['SessionTypeIds'] = $this->atts['session_type_ids'];
 		}
 		
 		if ( in_array($restMethod['name'], $encoded_request_body) ) {

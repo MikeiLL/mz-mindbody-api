@@ -177,8 +177,9 @@ class Display extends Interfaces\Shortcode_Script_Loader
             'advanced' => 0,
             'this_week' => 0,
             'hide' => '',
-            'class_types' => '', // migrating to session_types
+            'class_types' => '', // migrating to session_types 2019 December(ish)
             'session_types' => '',
+            'session_type_ids' => '',
             'show_registrants' => 0,
             'calendar_format' => 'horizontal',
             'schedule_type' => null, // allow over-ridding of global setting
@@ -208,6 +209,18 @@ class Display extends Interfaces\Shortcode_Script_Loader
                 endforeach;
         } else {
             $this->atts['session_types'] == '';
+        }
+        
+        // If set, turn Session/Class Types into an Array and call it session_types
+        if ($this->atts['session_type_ids'] !== '') {
+            if (!is_array($this->atts['session_type_ids'])) // if not already an array
+                $this->atts['session_type_ids'] = explode(',', $this->atts['session_type_ids']);
+            // TODO: is this sometimes done reduntantly?
+                foreach ($this->atts['session_type_ids'] as $key => $type):
+                    $this->atts['session_type_ids'][$key] = trim($type);
+                endforeach;
+        } else {
+            $this->atts['session_type_ids'] == '';
         }
 
         // Break locations up into array, if it hasn't already been.

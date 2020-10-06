@@ -72,6 +72,7 @@ Bugfix: Just passing token string, as opposed to object so don't try to get prop
 Enhancement: Disable signup button when class is at capacity and no waitlist available.
 Bugfix: jQuery Staff popup conflict resolved.
 Enhancement: Allow admin to set schedule transient duration.
+Enhancement: Allow specification of SessionTypeIds in shortcode to specify retrieval data 
 
 = v2.6.6 =
 Bugfix: Cancelled classes were being hidden even when not configured to be hidden.

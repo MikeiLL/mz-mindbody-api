@@ -37,6 +37,7 @@ abstract class Retrieve
      */
     public function instantiate_mbo_API( $api_version = 6 )
     {
+
 		// TODO can we avoid this call to get_option?
         $basic_options = get_option('mz_mbo_basic', 'Error: No Options');
         if ($basic_options == 'Error: No Options' || empty($basic_options)) {
@@ -48,8 +49,8 @@ abstract class Retrieve
                 'mz_mbo_app_name' => $basic_options['mz_mbo_app_name'],
                 'mz_mbo_api_key' => $basic_options['mz_mbo_api_key'],
                 'sourcename_not_staff' => $basic_options['sourcename_not_staff'],
-                'mz_mindbody_siteID' => $basic_options['mz_mindbody_siteID']
-            ));
+                'mz_mindbody_siteID' => $basic_options['mz_mindbody_siteID'],
+            ), $this->atts); // Need attributes in API now for ScheduleTypeIds
         } else {
             try {
                 return new Libraries\MBO_V5_API(array(
