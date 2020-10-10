@@ -599,9 +599,6 @@ class Schedule_Item {
                 }
                 $linkArray['data-staffImage'] = ($this->staffImage != '') ? $this->staffImage : '';
                 $link->set('href', NS\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php');
-// print_r('linkArray:');
-// print_r($linkArray);
-// die();
                 break;
 
             case 'class':
@@ -624,16 +621,28 @@ class Schedule_Item {
 
             case 'signup':
                 
-                if ($this->total_booked >= $this->max_capacity && false == $this->is_waitlist_available):
-                    $linkArray['class'] = 'btn btn-primary disabled';
-                else:
-                    $linkArray['class'] = 'btn btn-primary';
+                $linkArray['class'] = 'btn btn-primary';
+                
+                $linkArray['title'] = apply_filters( 'mz-mbo-registrations-available', __('Registrations Available', 'mz-mindbody-api'));
+                
+                if ($this->total_booked >= $this->max_capacity):
+                    if (false == $this->is_waitlist_available):
+                        $linkArray['class'] = 'btn btn-primary disabled';
+                    endif;
+                    if (true == $this->is_waitlist_available):
+                        $linkArray['class'] = 'btn btn-primary waitlist-only';
+                        $linkArray['title'] = apply_filters( 'mz-mbo-waitlist-only', __('Waitlist Only', 'mz-mindbody-api'));
+                    endif;
                 endif;
+                
                 // If grid, we want icon and not text copy for signup.
                 if ($sub_type === 'grid'):
                     $linkArray['text'] = '<svg class="icon sign-up"><use xlink:href="#si-bootstrap-log-in"/></use></svg>';
                 else:
                     $linkArray['text'] = __('Sign-Up', 'mz-mindbody-api');
+                    if ($this->total_booked >= $this->max_capacity && true == $this->is_waitlist_available):
+                        $linkArray['text'] = apply_filters( 'mz-mbo-waitlist-button-text', __('Waitlist', 'mz-mindbody-api'));
+                    endif;
                 endif;
 
                 $linkArray['data-time'] = date_i18n(Core\MZ_Mindbody_Api::$date_format . ' ' . Core\MZ_Mindbody_Api::$time_format, strtotime($this->startDateTime));
