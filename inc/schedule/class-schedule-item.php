@@ -625,7 +625,7 @@ class Schedule_Item {
                 
                 $linkArray['title'] = apply_filters( 'mz-mbo-registrations-available', __('Registrations Available', 'mz-mindbody-api'));
                 
-                if ($this->total_booked >= $this->max_capacity):
+                if (!empty($this->max_capacity) && $this->total_booked >= $this->max_capacity):
                     if (false == $this->is_waitlist_available):
                         $linkArray['class'] = 'btn btn-primary disabled';
                     endif;
