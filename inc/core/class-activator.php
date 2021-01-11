@@ -24,7 +24,6 @@ class Activator {
 	 * @since    2.4.7
 	 */
 	public static function activate() {
-
 		// Check PHP Version and deactivate & die if it doesn't meet minimum requirements.
 		if ( version_compare( PHP_VERSION, NS\MINIMUM_PHP_VERSION, '<' ) ) {
 			$admin_object = new Admin\Admin(NS\PLUGIN_NAME, NS\PLUGIN_VERSION, NS\PLUGIN_TEXT_DOMAIN);
@@ -52,17 +51,18 @@ class Activator {
 				'log_api_calls' => 'off',
 				'schedule_transient_duration' => 43200
 			);
-		} else if (empty($advanced_options['api_call_limit'])){
-			// Maybe it's been installed before pre v2.5.7
+		} 
+		
+		if (!empty($advanced_options) && empty($advanced_options['api_call_limit'])){
+			// Maybe it's been installed pre v2.5.7
 			$advanced_options['api_call_limit'] = 2000;
-			// Maybe it's been installed before pre v2.6.7
+			// Maybe it's been installed pre v2.6.7
 			$advanced_options['schedule_transient_duration'] = 43200;
 		}
 		update_option('mz_mbo_advanced', $advanced_options );
 		
-		$args = array( $args_1, $args_2 );
-		if (! wp_next_scheduled ( 'fetch_mbo_access_token', $args )) {
-			wp_schedule_event( time(), 'hourly', 'fetch_mbo_access_token', $args );
+		if (! wp_next_scheduled ( 'fetch_mbo_access_token')) {
+			wp_schedule_event( time(), 'hourly', 'fetch_mbo_access_token');
 		}
 	}
 	
