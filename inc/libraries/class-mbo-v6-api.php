@@ -194,7 +194,7 @@ class MBO_V6_API {
 		
 		// For some reason, for this call, we don't want to convert
 		// 'body' into a json string, as we do in the token request
-		$response = wp_remote_post( $restMethod['endpoint'], 
+		$response = wp_remote_request( $restMethod['endpoint'], 
 			array(
 				'method' => $restMethod['method'],
 				'timeout' => 45,

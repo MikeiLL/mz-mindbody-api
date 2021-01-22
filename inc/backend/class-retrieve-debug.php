@@ -37,17 +37,9 @@ class Retrieve_Debug extends Interfaces\Retrieve {
      * @return array of MBO schedule data
      */
     public function get_mbo_results($timestamp = null, $version_five = false ){
-        // NS\MZMBO()->helpers->log("top get_mbo_results");
-
-        $mb = ($version_five === false) ? $this->instantiate_mbo_API() : $this->instantiate_mbo_API( 5 );
-				
-        if (!$mb) return false;
-
-        if ( strpos($mb, 'NO_API_SERVICE') ) {
-            return $mb;
-        }
-        
-        if ($version_five !== false) $this->classes = $mb->GetClasses($this->time_frame());
+    
+        $mb = $this->instantiate_mbo_API();
+		$this->classes = $mb->GetClasses($this->time_frame());
         
         return $mb->debug();
     }
