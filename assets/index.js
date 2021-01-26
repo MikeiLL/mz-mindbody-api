@@ -1,5 +1,3 @@
-// import 'bootstrap';
-import 'bootstrap'
 
 // JavaScript
 import './scripts/main';
@@ -8,3 +6,6 @@ import './scripts/main';
 import './scss/main.scss';
 import './scss/admin-style.scss';
 
+(function ($) {
+
+})(jQuery);
