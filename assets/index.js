@@ -1,6 +1,5 @@
 // import 'bootstrap';
-import 'bootstrap/js/src/modal';
-import 'bootstrap/js/src/button';
+import 'bootstrap'
 
 // JavaScript
 import './scripts/main';
