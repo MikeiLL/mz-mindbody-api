@@ -160,7 +160,8 @@ class MBO_V6_API {
 		// Certain methods want json strings
 		$encoded_request_body = [
 			'AddClient',
-			'SendPasswordResetEmail'
+			'SendPasswordResetEmail',
+			'CheckoutShoppingCart'
 		];
 		
 		// Certain methods don't require credentials

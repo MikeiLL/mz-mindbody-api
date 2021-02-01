@@ -106,7 +106,7 @@ class Token_Management extends Interfaces\Retrieve {
 		$twleve_hours_ago->sub(new \DateInterval('PT12H'));
      	
      	if ( is_object($stored_token['stored_time']) && ($stored_token['stored_time'] > $twleve_hours_ago) && ctype_alnum($stored_token['AccessToken']) ) {
-	 	
+	 	    die($stored_token['AccessToken']);
 			return $stored_token['AccessToken'];
 		
 		}
