@@ -369,49 +369,49 @@ class MBO_V6_API_METHODS {
 				'GetActivationCode' => [
 										'method' => 'GET',
 										'name' => 'GetActivationCode', 
-										'endpoint' => $this->endpointPayroll . '/activationcode',
+										'endpoint' => $this->endpointSite . '/activationcode',
 										'headers' => $this->headersBasic
 									 ],
 				'GetLocations' => [
 										'method' => 'GET',
 										'name' => 'GetLocations', 
-										'endpoint' => $this->endpointPayroll . '/locations',
+										'endpoint' => $this->endpointSite . '/locations',
 										'headers' => $this->headersBasic
 									 ],
 				'GetGenders' => [
 										'method' => 'GET',
 										'name' => 'GetGenders', 
-										'endpoint' => $this->endpointPayroll . '/genders',
+										'endpoint' => $this->endpointSite . '/genders',
 										'headers' => $this->headersBasic
 									 ],
 				'GetMemberships' => [
 										'method' => 'GET',
 										'name' => 'GetMemberships', 
-										'endpoint' => $this->endpointPayroll . '/memberships',
+										'endpoint' => $this->endpointSite . '/memberships',
 										'headers' => $this->headersBasic
 									 ],
 				'GetPrograms' => [
 										'method' => 'GET',
 										'name' => 'GetPrograms', 
-										'endpoint' => $this->endpointPayroll . '/programs',
+										'endpoint' => $this->endpointSite . '/programs',
 										'headers' => $this->headersBasic
 									 ],
 				'GetResources' => [
 										'method' => 'GET',
 										'name' => 'GetResources', 
-										'endpoint' => $this->endpointPayroll . '/resources',
+										'endpoint' => $this->endpointSite . '/resources',
 										'headers' => $this->headersBasic
 									 ],
 				'GetSessionTypes' => [
 										'method' => 'GET',
 										'name' => 'GetSessionTypes', 
-										'endpoint' => $this->endpointPayroll . '/sessiontypes',
+										'endpoint' => $this->endpointSite . '/sessiontypes',
 										'headers' => $this->headersBasic
 									 ],
 				'GetSites' => [
 										'method' => 'GET',
 										'name' => 'GetSites', 
-										'endpoint' => $this->endpointPayroll . '/sites',
+										'endpoint' => $this->endpointSite . '/sites',
 										'headers' => $this->headersBasic
 									 ]
 			],
