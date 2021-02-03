@@ -487,7 +487,7 @@ class WP_OSA {
 	function callback_multicheck( $args ) {
 
 		$value = $this->get_option( $args['id'], $args['section'], $args['std'] );
-
+        echo "<pre>" . print_r(array( $args['id'], $args['section'], $args['std'] )) . "</pre>";
 		$html = '<fieldset>';
 		foreach ( $args['options'] as $key => $label ) {
 			$checked = isset( $value[ $key ] ) ? $value[ $key ] : '0';

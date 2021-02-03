@@ -320,7 +320,7 @@ class MBO_V6_API_METHODS {
 										'method' => 'GET',
 										'name' => 'GetContracts', 
 										'endpoint' => $this->endpointSale . '/contracts',
-										'headers' => $this->headersBasic
+										'headers' => $this->headersAuthorized
 									 ],
 				'GetCustomPaymentMethods' => [
 										'method' => 'GET',

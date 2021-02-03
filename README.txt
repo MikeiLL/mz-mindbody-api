@@ -68,7 +68,8 @@ You need to register a developer account with MindBody, which costs $5+ per webs
 == Changelog ==pad_empty_calendar_days
 
 = v2.7.5 =
-Correct endpoint for Site requests.
+Bugfix: Correct endpoint for Site requests.
+Add authorization header for some endpoints.
 
 = v2.7.4 =
 Support Authorized MBO transactions.
