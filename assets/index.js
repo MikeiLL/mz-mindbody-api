@@ -1,4 +1,4 @@
-
+import 'bootstrap';
 // JavaScript
 import './scripts/main';
 

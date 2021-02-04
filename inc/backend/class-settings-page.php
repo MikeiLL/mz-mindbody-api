@@ -271,7 +271,7 @@ class Settings_Page {
             array(
                 'id'      => 'schedule_types',
                 'type'    => 'multicheck',
-                'name'    => __( 'Schedule Types Types', 'mz-mindbody-api' ),
+                'name'    => __( 'Schedule Types', 'mz-mindbody-api' ),
                 'desc'    => __('Which MBO schedule types to display in "schedule" (defaults to Class.)', 'mz-mindbody-api'),
                 'options' => array(
                                     'Enrollment' => 'Enrollment',
@@ -288,6 +288,17 @@ class Settings_Page {
                 'type'    => 'html',
                 'name'    => __( 'Clear Transients', 'mz-mindbody-api' ),
                 'desc'    => $this->clear_transients()
+            )
+        );
+
+        // Field: Clear Transients
+        self::$wposa_obj->add_field(
+            'mz_mbo_advanced',
+            array(
+                'id'      => 'update_mbo_site_token',
+                'type'    => 'html',
+                'name'    => __( 'Update MBO Site Token', 'mz-mindbody-api' ),
+                'desc'    => $this->update_mbo_site_token()
             )
         );
 
@@ -459,6 +470,11 @@ class Settings_Page {
 
     private function clear_transients(){
         $return = '<a href="#" class="button" id="mzClearTransients">' . __('Clear Transients', 'mz-mindbody-api') . '</a>';
+        return $return;
+    }
+
+    private function update_mbo_site_token(){
+        $return = '<a href="#" class="button" id="mzUpdateSiteToken">' . __('Update Site Token', 'mz-mindbody-api') . '</a>';
         return $return;
     }
 

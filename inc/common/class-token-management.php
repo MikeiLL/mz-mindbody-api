@@ -48,8 +48,15 @@ class Token_Management extends Interfaces\Retrieve {
         if ( !$mb ) return false;
         
         $response = $mb->TokenIssue();
-                        
-        return $response->AccessToken;
+        
+        if (!empty($response->AccessToken)){
+            return $response->AccessToken;
+        }
+        if (!empty($response->Error->Message)){
+            return $response->Error->Message;
+        }
+        throw new \Exception(" Error getting token from MBO.");
+        
         
 	 }
 	 
@@ -67,7 +74,7 @@ class Token_Management extends Interfaces\Retrieve {
      */
 	 public function serve_token() {
 	 	
-	 	$token = $this->get_stored_token();
+	 	$token = $this->get_stored_token()['AccessToken'];
 	 	
 	 	if (empty($token)) {
 	 	
@@ -106,8 +113,8 @@ class Token_Management extends Interfaces\Retrieve {
 		$twleve_hours_ago->sub(new \DateInterval('PT12H'));
      	
      	if ( is_object($stored_token['stored_time']) && ($stored_token['stored_time'] > $twleve_hours_ago) && ctype_alnum($stored_token['AccessToken']) ) {
-	 	    die($stored_token['AccessToken']);
-			return $stored_token['AccessToken'];
+
+			return $stored_token;
 		
 		}
 		
@@ -127,23 +134,24 @@ class Token_Management extends Interfaces\Retrieve {
      * @return AccessToken string as administered by MBO Api
      */
 	 public function get_and_save_token() {
-	 
+	 		 
 	 	$token = $this->get_mbo_results();
-
+	 	
 		$current = new \DateTime();
 		$current->format('Y-m-d H:i:s');
-		
+	 		 			
 		if( !ctype_alnum($token) ) {
+	 	
 			// In case we have returned something bad from the API
 			// let's not save it to the option.
-			return false;
+			return $token;
 		}
 		
 	 	update_option('mz_mbo_token', [
 	 		'stored_time' => $current, 
 	 		'AccessToken' => $token
 	 	]);
-	 		 	
+	 		 		 	
 	 	return $token;
 	 }
 	 

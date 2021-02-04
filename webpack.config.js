@@ -9,7 +9,7 @@ module.exports = {
 		main: './scripts/main.js',
 		admin: './scripts/admin.js',
 		colorbox: './scripts/colorbox.js',
-		bootstrap: './scripts/bootstrap.js',
+		//bootstrap: './scripts/bootstrap.js',
 		'events-display': './scripts/events-display.js',
 		mz_filtertable: './scripts/jquery.filtertable.mz.js',
 		'schedule-display': './scripts/schedule-display.js',

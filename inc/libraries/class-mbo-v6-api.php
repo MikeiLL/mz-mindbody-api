@@ -30,6 +30,13 @@ class MBO_V6_API {
 	protected $basic_options;
 	
 	/*
+	 * Get stored tokens when good and store new ones
+	 *
+	 */
+	protected $token_management;
+	
+	
+	/*
      * Shortcode Attributes
      *
      * @since 2.6.7
@@ -46,6 +53,8 @@ class MBO_V6_API {
 		$this->basic_options = $mbo_dev_credentials;
 		
 		$this->atts = $atts;
+		
+		$this->token_management = new Common\Token_Management;		
 		
 		// set credentials into headers
 		if (!empty($mbo_dev_credentials)) {
@@ -174,9 +183,16 @@ class MBO_V6_API {
 									'Limit' => 200,
 							)
 						);
-					
-			$request_body['Access'] = $this->tokenRequest( $restMethod );
 			
+			// Maybe there's a stored token to use
+			$token = $this->token_management->get_stored_token();
+			
+		    if ( ctype_alnum($token['AccessToken']) ) {
+		        $request_body['Access'] = $token['AccessToken'];
+		    } else {
+		        $request_body['Access'] = $this->tokenRequest( $restMethod );
+		    }
+								
 		} else {
 		
 			$request_body = $requestData;
@@ -245,13 +261,7 @@ class MBO_V6_API {
 	protected function tokenRequest($restMethod) {
 	
 		$this->tokenRequestTries--;
-		
-		$tm = new Common\Token_Management;
-		
-		$token = $tm->get_stored_token();
-				
-		if ( ctype_alnum($token) ) return $token;
-				
+						
 		$request_body = array( 
 								'Username' => $this->format_username(), 
 								'Password' => $this->extraCredentials['Password'] 
@@ -285,7 +295,7 @@ class MBO_V6_API {
 					return false;
 				}
 
-				$tm->save_token_to_option($response_body);
+				$this->token_management->save_token_to_option($response_body);
 				return $response_body;
 		}
 	}

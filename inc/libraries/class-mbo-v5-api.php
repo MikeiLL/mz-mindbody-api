@@ -26,7 +26,6 @@ class MBO_V5_API {
 	* Initialize the apiServices and apiMethods arrays
 	*/
 	public function __construct($sourceCredentials = array()) {
-        NS\MZMBO()->helpers->log("Construct");
 
 		$this->soapOptions = array(
             'soap_version'=>SOAP_1_1,

@@ -35,6 +35,34 @@
         }); // End Clear Transients
 
         /**
+         * Update Site Token
+         *
+         *
+         */
+        $('#mzUpdateSiteToken').on('click', function (e) {
+            e.preventDefault();
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                context: this,
+                url: mz_mindbody_schedule.ajaxurl,
+                data: {action: 'mz_mbo_get_and_save_token', nonce: nonce},
+                success: function (json) {
+                    if (json.type == "success") {
+                        alert(" New token retrieved and saved: " + json.message);
+                    } else {
+                        alert('Something went wrong.');
+                    }
+                }
+            }) // End ajax
+                .fail(function (json) {
+                    console.log('fail');
+                    console.log(json);
+                    alert('Something went wrong.');
+                });
+        }); // End Clear Transients
+
+        /**
          * Test Credentials
          *
          *

@@ -4,6 +4,7 @@ namespace MZ_Mindbody\Inc\Admin;
 
 use MZ_Mindbody as NS;
 use MZ_Mindbody\Inc\Backend as Backend;
+use MZ_Mindbody\Inc\Common as Common;
 
 /**
  * The admin-specific functionality of the plugin.
@@ -318,6 +319,41 @@ class Admin {
 
         if (false != $sql_response):
             $result['message'] = sprintf(__("Cleared %d transients. Page reloads will re-set them.", 'mz-mindbody-api'), $sql_response);
+        endif;
+        		
+        if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+            $result = json_encode($result);
+            echo $result;
+        }
+        else {
+            header("Location: ".$_SERVER["HTTP_REFERER"]);
+        }
+
+        die();
+    }
+    
+    /**
+     * Call the clear all plugin transients
+     *
+     * Called via ajax in admin
+     *
+     *
+     * @since 2.7.5
+     */
+    public function ajax_get_and_save_token () {
+
+        check_ajax_referer($_REQUEST['nonce'], "mz_admin_nonce", false);
+
+        $token_object = new Common\Token_Management;
+        $token = $token_object->get_and_save_token();
+
+        $result['type'] = "success";
+
+        // Initialize message
+        $result['message'] = sprintf(__("Error getting token %s .", 'mz-mindbody-api'), $token);
+
+        if (ctype_alnum($token)):
+            $result['message'] = sprintf(__("Fetched and stored %s .", 'mz-mindbody-api'), $token);
         endif;
         		
         if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
