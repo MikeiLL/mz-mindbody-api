@@ -374,12 +374,12 @@ class MBO_V6_API {
      * 
      */
     public function admin_call_excess_alert(){
-            $to = get_option('admin_email');
-            $subject = __( 'Large amount of MBO API Calls', 'mz-mindbody-api' );
-            $message = sprintf(__('Check your website and MBO. There have been %1$s calls to the API so far today. You have set a maximum of %2$s in the Admin.', 'mz-mindbody-api'),
-                                NS\MZMBO()::$mz_mbo_api_calls['calls'], NS\MZMBO()::$advanced_options['api_call_limit']);
-            $headers = array('Content-Type: text/html; charset=UTF-8');
-            wp_mail($to, $subject, $message, $headers);
+        $to = get_option('admin_email');
+        $subject = __( 'Large amount of MBO API Calls', 'mz-mindbody-api' );
+        $message = sprintf(__('Check your website and MBO. There have been %1$s calls to the API so far today. You have set a maximum of %2$s in the Admin.', 'mz-mindbody-api'),
+                            NS\MZMBO()::$mz_mbo_api_calls['calls'], NS\MZMBO()::$advanced_options['api_call_limit']);
+        $headers = array('Content-Type: text/html; charset=UTF-8');
+        wp_mail($to, $subject, $message, $headers);
     }
     
 	public function debug() {

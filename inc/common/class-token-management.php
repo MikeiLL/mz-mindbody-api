@@ -134,8 +134,13 @@ class Token_Management extends Interfaces\Retrieve {
      * @return AccessToken string as administered by MBO Api
      */
 	 public function get_and_save_token() {
-	 		 
-	 	$token = $this->get_mbo_results();
+	 		
+	 	try {
+	 	    $token = $this->get_mbo_results();
+	 	} catch (\Exception $e) {
+	 	    return "Couldn't fetch token. " . $e;
+	 	}
+	 	
 	 	
 		$current = new \DateTime();
 		$current->format('Y-m-d H:i:s');
