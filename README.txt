@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: mindbody, schedule, calendar, yoga, MBO, mindbodyonline, gym, parkour, mbo, mindbodyonline.
 Requires at least: 3.0.1
 Tested up to: 5.6.1
-Stable tag: 2.7.8
+Stable tag: 2.7.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -65,7 +65,10 @@ You need to register a developer account with MindBody, which costs $5+ per webs
 4. Staff Page Full
 5. Admin Page
 
-== Changelog ==pad_empty_calendar_days
+== Changelog ==
+
+= v2.7.9 =
+Notify admin of too many API calls within add_action plugins_loaded hook.
 
 = v2.7.8 =
 Just in case faulty deploy not fixed previously.

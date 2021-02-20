@@ -354,22 +354,32 @@ class MBO_V6_API {
      * 
      */
     private function api_call_limiter() {
-    
+        
     	// Don't limit if using sandbox
     	if ((isset(NS\MZMBO()::$basic_options['mz_mindbody_siteID'])) && (NS\MZMBO()::$basic_options['mz_mindbody_siteID'] == '-99')) return true;
     	
     	if (NS\MZMBO()::$mz_mbo_api_calls['calls'] - 1200 > NS\MZMBO()::$advanced_options['api_call_limit']) {
-    		$to = get_option('admin_email');
-			$subject = __( 'Large amount of MBO API Calls', 'mz-mindbody-api' );
-			$message = sprintf(__('Check your website and MBO. There have been %1$s calls to the API so far today. You have set a maximum of %2$s in the Admin.', 'mz-mindbody-api'),
-            					NS\MZMBO()::$mz_mbo_api_calls['calls'], NS\MZMBO()::$advanced_options['api_call_limit']);
-			$headers = array('Content-Type: text/html; charset=UTF-8');
-			wp_mail( $to, $subject, $message, $headers);
+    		add_action( 'plugins_loaded', array($this, 'admin_call_excess_alert'), 10);
     	};
     	if (NS\MZMBO()::$mz_mbo_api_calls['calls'] > NS\MZMBO()::$advanced_options['api_call_limit']) {
     		return false;
     	};
     	return true;
+    }
+    
+    
+    /*
+     * Make the admin notification via wp_mail
+     * 
+     * 
+     */
+    public function admin_call_excess_alert(){
+            $to = get_option('admin_email');
+            $subject = __( 'Large amount of MBO API Calls', 'mz-mindbody-api' );
+            $message = sprintf(__('Check your website and MBO. There have been %1$s calls to the API so far today. You have set a maximum of %2$s in the Admin.', 'mz-mindbody-api'),
+                                NS\MZMBO()::$mz_mbo_api_calls['calls'], NS\MZMBO()::$advanced_options['api_call_limit']);
+            $headers = array('Content-Type: text/html; charset=UTF-8');
+            wp_mail($to, $subject, $message, $headers);
     }
     
 	public function debug() {
