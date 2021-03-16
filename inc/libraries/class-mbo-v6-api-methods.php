@@ -31,7 +31,7 @@ class MBO_V6_API_METHODS {
 		$this->headersBasic = $headers;
 		
 		$this->headersAuthorized = array_merge($headers, [
-		                                        'Authorization' => get_option('mz_mbo_token', ['stored_time' => '', 'AccessToken' => ''])['AccessToken']
+		                                        'Authorization' => get_option('mz_mbo_token', ['stored_time' => '', 'AccessToken' => ''])
 		                                        ]);
 		
 		$this->methods = [
