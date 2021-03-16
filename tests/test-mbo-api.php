@@ -20,7 +20,7 @@ class Tests_MBO_Api extends MZMBO_WPUnitTestCase {
         
         $result = $mbo_api->TokenIssue();
                 
-        $this->assertTrue(ctype_alnum($result));
+        $this->assertTrue(ctype_alnum($result->AccessToken));
                         
         $basic_options_set = array(
             'mz_source_name' => Test_Options::$_MYSOURCENAME,
