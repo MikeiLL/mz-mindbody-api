@@ -1,18 +1,18 @@
 <?php
 
-use MzMindbody\Inc\Core;
-use MzMindbody\Inc\Libraries as Libraries;
-
 /**
- * Provide a public-facing view for the plugin
+ * Template to isplay schedule in grid format
  *
- * This file is used to markup the public-facing aspects of the plugin.
+ * May be loaded along with horizontal schedule to be swapped via DOM request
  *
  * @link       http://mzoo.org
  * @since      2.4.7
  *
  * @author    Mike iLL/mZoo.org
  */
+
+use MzMindbody\Inc\Core;
+use MzMindbody\Inc\Libraries as Libraries;
 
 ?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" style="width:0;height:0;position:absolute;overflow:hidden;">

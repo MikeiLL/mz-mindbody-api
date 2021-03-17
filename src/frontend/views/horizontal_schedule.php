@@ -1,18 +1,18 @@
 <?php
 
-use MzMindbody\Inc\Core;
-use MzMindbody\Inc\Libraries as Libraries;
-
 /**
- * Provide a public-facing view for the plugin
+ * Template to isplay schedule in horizontal format
  *
- * This file is used to markup the public-facing aspects of the plugin.
+ * May be loaded along with grid schedule to be swapped via DOM request
  *
  * @link       http://mzoo.org
- * @since      1.0.0
+ * @since      2.4.7
  *
  * @author    Mike iLL/mZoo.org
  */
+
+use MzMindbody\Inc\Core;
+use MzMindbody\Inc\Libraries as Libraries;
 
 ?>
 <?php if (empty($data->horizontal_schedule)) {
