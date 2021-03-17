@@ -1,27 +1,26 @@
 
 <?php
+
 use MZ_Mindbody as NS;
 use MZ_Mindbody\Inc\Core as Core;
 
-if (($data->atts['location_filter'] == 1) && (count($data->locations_dictionary) >=2 ))
-{
+if (($data->atts['location_filter'] == 1) && (count($data->locations_dictionary) >= 2 )) {
     // Print out Location Filter Buttons
     ?>
     <div id="locations_filter">
         <a class="btn btn-primary filter_btn active" data-location="all"><?php echo $data->all_locations_copy; ?></a>
         <?php
-        foreach($data->locations_dictionary as $key => $loc): ?>
+        foreach ($data->locations_dictionary as $key => $loc) : ?>
             <a class="btn btn-primary filter_btn" data-location="<?php echo $loc['class']; ?>"><?php echo $loc['name']; ?></a>
-        <?php
+            <?php
         endforeach; ?>
     </div>
     <?php
 }
 
-if ((is_array($data->events)) && !empty($data->events)): ?>
-
-    <?php foreach ($data->events as $date => $events): ?>
-        <?php foreach ($events as $event): ?>
+if ((is_array($data->events)) && !empty($data->events)) : ?>
+    <?php foreach ($data->events as $date => $events) : ?>
+        <?php foreach ($events as $event) : ?>
         <div class="mz_full_listing_event <?php echo $data->locations_dictionary[$event->location_ID]['class']; ?>">
             <h3 class="mz_full_listing_event__title"><?php echo $event->className; ?></h3>
             <span class="mz_full_listing_event__staff">
@@ -29,7 +28,7 @@ if ((is_array($data->events)) && !empty($data->events)): ?>
             </span>
             <?php
             // Display location if showing schedule for more than one location
-            if($data->locations_count >= 2): ?>
+            if ($data->locations_count >= 2) : ?>
                 <span><?php echo __('at', 'mz_mindbody_api') . ' ' . $data->locations_dictionary[$event->location_ID]['link']; ?></span>
             <?php endif; ?>
             <div class="mz_full_listing_event__date">
@@ -52,10 +51,10 @@ if ((is_array($data->events)) && !empty($data->events)): ?>
         <?php endforeach; ?>
     <?php endforeach; ?>
 
-<?php elseif (count($data->events) == 0 ): ?>
+<?php elseif (count($data->events) == 0) : ?>
     <h4><?php echo $data->no_events; ?></h4>
-<?php else: ?>
+<?php else : ?>
     <div class="error"><?php _e('Error Retrieving Events', 'mz_mindbody_api'); ?></div>
-    <p><?php var_dump( $data->events ); ?></p>
+    <p><?php var_dump($data->events); ?></p>
 
 <?php endif; ?>

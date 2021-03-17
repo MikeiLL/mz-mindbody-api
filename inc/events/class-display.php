@@ -1,4 +1,5 @@
 <?php
+
 namespace MZ_Mindbody\Inc\Events;
 
 use MZ_Mindbody as NS;
@@ -150,7 +151,7 @@ class Display extends Interfaces\Shortcode_Script_Loader
     public function handleShortcode($atts, $content = null)
     {
 
-        $this->atts = shortcode_atts( array(
+        $this->atts = shortcode_atts(array(
             'location' => '1',
             'locations' => '1',
             'list' => 0,
@@ -159,7 +160,7 @@ class Display extends Interfaces\Shortcode_Script_Loader
             'week-only' => 0,
             'offset' => 0,
             'location_filter' => 0
-        ), $atts );
+        ), $atts);
 
         // Set siteID to option if not set explicitly in shortcode
         $this->siteID = (!empty($atts['account'])) ? $atts['account'] : Core\MZ_Mindbody_Api::$basic_options['mz_mindbody_siteID'];
@@ -174,13 +175,15 @@ class Display extends Interfaces\Shortcode_Script_Loader
         $this->events_object = new Retrieve_Events($this->atts);
 
         // Call the API and if fails, return error message.
-        if (!$response = $this->events_object->get_mbo_results()) return "<div>" . __("Error returning events from Mindbody.", 'mz-mindbody-api') . "</div>";
+        if (!$response = $this->events_object->get_mbo_results()) {
+            return "<div>" . __("Error returning events from Mindbody.", 'mz-mindbody-api') . "</div>";
+        }
         // Add Style with script adder
         self::addScript();
-        
+
         $events = (count($response) >= 1) ? $response : __('No Events in current cycle', 'mz-mindbody-api');
-		
-		//NS\MZMBO()->helpers->print($events);
+
+        //NS\MZMBO()->helpers->print($events);
         $events = $this->events_object->sort_events_by_time();
 
         $this->template_data = array(
@@ -288,7 +291,9 @@ class Display extends Interfaces\Shortcode_Script_Loader
         $this->handleShortcode($atts);
 
         // Call the API and if fails, return error message.
-        if (!$response = $this->events_object->get_mbo_results()) return "<div>" . __("Error returning events to display from Minbbody.", 'mz-mindbody-api') . "</div>";
+        if (!$response = $this->events_object->get_mbo_results()) {
+            return "<div>" . __("Error returning events to display from Minbbody.", 'mz-mindbody-api') . "</div>";
+        }
 
         $events = ($response['GetClassesResult']['ResultCount'] >= 1) ? $response['GetClassesResult']['Classes']['Class'] : __('No Events in current cycle', 'mz-mindbody-api');
 
@@ -296,18 +301,20 @@ class Display extends Interfaces\Shortcode_Script_Loader
 
         // Assign the date range to the $result
         $date_range = $this->events_object->display_time_frame;
-        $result['date_range'] = sprintf(__('Displaying events from %1$s to %2$s.', 'mz-mindbody-api'),
+        $result['date_range'] = sprintf(
+            __('Displaying events from %1$s to %2$s.', 'mz-mindbody-api'),
             $date_range['start']->format('F j'),
-            $date_range['end']->format('F j'));
+            $date_range['end']->format('F j')
+        );
 
         // Update the data array
         $this->template_data['events'] = $events;
         $this->template_data['atts'] = $atts;
 
         $template_loader->set_template_data($this->template_data);
-        if ($atts['list'] != 1):
+        if ($atts['list'] != 1) :
             $template_loader->get_template_part('event_listing_full');
-        else:
+        else :
             $template_loader->get_template_part('event_listing_list');
         endif;
 
@@ -321,10 +328,5 @@ class Display extends Interfaces\Shortcode_Script_Loader
         }
 
         die();
-
     }
-
-
 }
-
-?>

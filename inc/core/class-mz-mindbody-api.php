@@ -184,7 +184,6 @@ class MZ_Mindbody_Api
         $this->define_public_hooks();
         $this->register_shortcodes();
         $this->add_settings_page();
-
     }
 
     /**
@@ -200,7 +199,6 @@ class MZ_Mindbody_Api
     private function load_dependencies()
     {
         $this->loader = new Loader();
-
     }
 
     /**
@@ -217,7 +215,6 @@ class MZ_Mindbody_Api
         $plugin_i18n = new Internationalization_I18n($this->plugin_text_domain);
 
         $this->loader->add_action('plugins_loaded', $plugin_i18n, 'load_plugin_textdomain');
-
     }
 
     /**
@@ -234,19 +231,18 @@ class MZ_Mindbody_Api
         $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts');
         $this->loader->add_action('plugins_loaded', $plugin_admin, 'check_version');
         $this->loader->add_action('admin_head', $plugin_admin, 'set_plugin_update_message');
-        
+
         // TODO move this?
         if ((isset(self::$advanced_options['elect_display_substitutes'])) && (self::$advanced_options['elect_display_substitutes'] == 'on')) {
             // Create the "Class Owners" transient, if not already created
-            $class_owners_object = new Schedule\Retrieve_Class_Owners;
+            $class_owners_object = new Schedule\Retrieve_Class_Owners();
             $this->loader->add_action('create_class_owners_transient', $class_owners_object, 'deduce_class_owners');
             //add_action('create_class_owners_transient', array($class_owners_object, 'deduce_class_owners'));
             // We delay it just in case because of only one MBO call at a time being allowed.
             $three_seconds_from_now = time() + 3000;
-            if (!wp_next_scheduled( 'create_class_owners_transient' )){
-             wp_schedule_event($three_seconds_from_now, 'daily', 'create_class_owners_transient');
+            if (!wp_next_scheduled('create_class_owners_transient')) {
+                wp_schedule_event($three_seconds_from_now, 'daily', 'create_class_owners_transient');
             }
-
         }
     }
 
@@ -260,18 +256,18 @@ class MZ_Mindbody_Api
     {
 
         $admin_object = new Admin\Admin($this->get_plugin_name(), $this->get_version(), $this->get_plugin_text_domain());
-        $schedule_object = new Schedule\Display;
-        $events_object = new Events\Display;
-        $registrant_object = new Schedule\Retrieve_Registrants;
-        $class_owners_object = new Schedule\Retrieve_Class_Owners;
-        $staff_object = new Staff\Display;
-        $token_object = new Common\Token_Management;
+        $schedule_object = new Schedule\Display();
+        $events_object = new Events\Display();
+        $registrant_object = new Schedule\Retrieve_Registrants();
+        $class_owners_object = new Schedule\Retrieve_Class_Owners();
+        $staff_object = new Staff\Display();
+        $token_object = new Common\Token_Management();
 
 
         // Start Ajax Clear Transients
         $this->loader->add_action('wp_ajax_nopriv_mz_mbo_clear_transients', $admin_object, 'ajax_clear_plugin_transients');
         $this->loader->add_action('wp_ajax_mz_mbo_clear_transients', $admin_object, 'ajax_clear_plugin_transients');
-        
+
         // Start Ajax New Token
         $this->loader->add_action('wp_ajax_nopriv_mz_mbo_get_and_save_token', $admin_object, 'ajax_get_and_save_token');
         $this->loader->add_action('wp_ajax_mz_mbo_get_and_save_token', $admin_object, 'ajax_get_and_save_token');
@@ -301,10 +297,9 @@ class MZ_Mindbody_Api
         // Start Ajax Get Staff
         $this->loader->add_action('wp_ajax_nopriv_mz_mbo_get_staff', $staff_object, 'get_staff_modal');
         $this->loader->add_action('wp_ajax_mz_mbo_get_staff', $staff_object, 'get_staff_modal');
-        
-        // Call api hourly to retrieve AccessToken
-        $this->loader->add_action( 'fetch_mbo_access_token', $token_object, 'get_and_save_token', 10, 2 );
 
+        // Call api hourly to retrieve AccessToken
+        $this->loader->add_action('fetch_mbo_access_token', $token_object, 'get_and_save_token', 10, 2);
     }
 
 
@@ -384,5 +379,4 @@ class MZ_Mindbody_Api
         $events_display = new Events\Display();
         $events_display->register('mz-mindbody-show-events');
     }
-
 }

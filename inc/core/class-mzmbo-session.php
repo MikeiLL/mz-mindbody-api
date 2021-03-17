@@ -19,11 +19,12 @@ use MZ_Mindbody as NS;
 use MZ_Mindbody\Inc\Libraries\WP_Session as WP_Session;
 use MZ_Mindbody\Inc\Libraries\WP_Session_Utils as WP_Session_Utils;
 
-if ( ! defined( 'ABSPATH' ) ) {
+if (! defined('ABSPATH')) {
     exit;
 }
 
-class MZMBO_Session {
+class MZMBO_Session
+{
 
     /**
      * Holds our session data
@@ -63,53 +64,48 @@ class MZMBO_Session {
      * @since  3.0
      * @access public
      */
-    public function __construct() {
+    public function __construct()
+    {
 
         $this->use_php_sessions = $this->use_php_sessions();
 
         // Use PHP Sessions.
-        if ( $this->use_php_sessions ) {
-
-            if ( is_multisite() ) {
-
+        if ($this->use_php_sessions) {
+            if (is_multisite()) {
                 $this->prefix = '_' . get_current_blog_id();
             }
 
             // Start PHP session immediately instead of on init hook (Give & EDD use hook).
             $this->maybe_start_php_session();
             //add_action( 'init', array( $this, 'maybe_start_session' ), - 2 );
-
         } else {
-
-            if ( ! $this->should_start_session() ) {
+            if (! $this->should_start_session()) {
                 return;
             }
 
             // Use WP_Session.
 
             // Let users change the session cookie name.
-            if ( ! defined( 'WP_SESSION_COOKIE' ) ) {
-                define( 'WP_SESSION_COOKIE', 'mzmbo_wp_session' );
+            if (! defined('WP_SESSION_COOKIE')) {
+                define('WP_SESSION_COOKIE', 'mzmbo_wp_session');
             }
 
             // Only include the functionality if it's not pre-defined.
-            if ( ! class_exists( 'WP_Session' ) ) {
-                require_once( NS\PLUGIN_NAME_DIR . '/inc/libraries/wp-session/wp-session.php' );
+            if (! class_exists('WP_Session')) {
+                require_once(NS\PLUGIN_NAME_DIR . '/inc/libraries/wp-session/wp-session.php');
             }
 
-            add_filter( 'wp_session_expiration_variant', array( $this, 'set_expiration_variant_time' ), 99999 );
-            add_filter( 'wp_session_expiration', array( $this, 'set_expiration_time' ), 99999 );
+            add_filter('wp_session_expiration_variant', array( $this, 'set_expiration_variant_time' ), 99999);
+            add_filter('wp_session_expiration', array( $this, 'set_expiration_time' ), 99999);
 
-            add_action( 'admin_init', array( $this, 'create_sm_sessions_table' ) );
-            add_action( 'wp_session_init', array( $this, 'create_sm_sessions_table' ) );
+            add_action('admin_init', array( $this, 'create_sm_sessions_table' ));
+            add_action('wp_session_init', array( $this, 'create_sm_sessions_table' ));
         }
 
         // Init Session.
-        if ( empty( $this->session ) && ! $this->use_php_sessions ) {
-
-            add_action( 'plugins_loaded', array( $this, 'init' ), 9999 );
+        if (empty($this->session) && ! $this->use_php_sessions) {
+            add_action('plugins_loaded', array( $this, 'init' ), 9999);
         } else {
-
             // Init WP_Session immediately instead of on init hook (Give & EDD use hook).
             $this->init();
             //add_action( 'init', array( $this, 'init' ), - 1 );
@@ -126,10 +122,11 @@ class MZMBO_Session {
      *
      * @return WP_Session/array instance
      */
-    public function init() {
+    public function init()
+    {
 
-        if ( $this->use_php_sessions ) {
-            $this->session = isset( $_SESSION[ $this->prefix ] ) && is_array( $_SESSION[ $this->prefix ] ) ? $_SESSION[ $this->prefix ] : array();
+        if ($this->use_php_sessions) {
+            $this->session = isset($_SESSION[ $this->prefix ]) && is_array($_SESSION[ $this->prefix ]) ? $_SESSION[ $this->prefix ] : array();
         } else {
             $this->session = WP_Session\WP_Session::get_instance();
         }
@@ -147,7 +144,8 @@ class MZMBO_Session {
      *
      * @return string Session ID.
      */
-    public function get_id() {
+    public function get_id()
+    {
         return $this->session->session_id;
     }
 
@@ -166,32 +164,32 @@ class MZMBO_Session {
      *
      * @return string|array      Session variable
      */
-    public function get( $key ) {
+    public function get($key)
+    {
 
-        $key    = sanitize_key( $key );
+        $key    = sanitize_key($key);
         $return = false;
 
-        if ( isset( $this->session[ $key ] ) && ! empty( $this->session[ $key ] ) ) {
-        
-			// Check session create and update time
-			if (isset($this->session[$this->prefix . 'LAST_ACTIVITY']) && (time() - $this->session[$this->prefix . 'LAST_ACTIVITY'] > 14400)) {
-				// last request was more than four hours ago
-				$this->clear();     // unset $_SESSION variable for the run-time 
-			}
-			$this->session[$this->prefix . 'LAST_ACTIVITY'] = time(); // update last activity time stamp
-			
-			if (!isset($this->session[$this->prefix . 'CREATED'])) {
-				$this->session[$this->prefix . 'CREATED'] = time();
-			} else if (time() - $this->session[$this->prefix . 'CREATED'] > 14400) {
-				// session started more than four hours ago
-				$this->clear();    // change session ID for the current session and invalidate old session ID
-				$this->session[$this->prefix . 'CREATED'] = time();  // update creation time
-			}
-			
+        if (isset($this->session[ $key ]) && ! empty($this->session[ $key ])) {
+            // Check session create and update time
+            if (isset($this->session[$this->prefix . 'LAST_ACTIVITY']) && (time() - $this->session[$this->prefix . 'LAST_ACTIVITY'] > 14400)) {
+                // last request was more than four hours ago
+                $this->clear();     // unset $_SESSION variable for the run-time
+            }
+            $this->session[$this->prefix . 'LAST_ACTIVITY'] = time(); // update last activity time stamp
+
+            if (!isset($this->session[$this->prefix . 'CREATED'])) {
+                $this->session[$this->prefix . 'CREATED'] = time();
+            } elseif (time() - $this->session[$this->prefix . 'CREATED'] > 14400) {
+                // session started more than four hours ago
+                $this->clear();    // change session ID for the current session and invalidate old session ID
+                $this->session[$this->prefix . 'CREATED'] = time();  // update creation time
+            }
+
             // EDD & Give use regext matching & JSON decoding when retrieving session values.
-            $return = maybe_unserialize( $this->session[ $key ] );
+            $return = maybe_unserialize($this->session[ $key ]);
         }
-        
+
 
 
         return $return;
@@ -210,22 +208,23 @@ class MZMBO_Session {
      *
      * @return string        Session variable
      */
-    public function set( $key, $value ) {
+    public function set($key, $value)
+    {
 
         // Ninja Forms & Give manually set cookie here.
         //$this->session->set_cookie();
 
-        $key = sanitize_key( $key );
+        $key = sanitize_key($key);
 
         // Give sets & retrieves JSON instead of full objects here.
         // Currently we're passing various value types including strings, arrays & objects.
         $this->session[ $key ] = $value;
-        
+
         // Also track session time
         $this->session[ $this->prefix . 'LAST_ACTIVITY' ] = time();
         $this->session[ $this->prefix . 'CREATED' ] = time();
 
-        if ( $this->use_php_sessions ) {
+        if ($this->use_php_sessions) {
             $_SESSION[ $this->prefix ] = $this->session;
         }
 
@@ -240,13 +239,14 @@ class MZMBO_Session {
      * @since  3.0
      * @access public
      */
-    public function clear() {
+    public function clear()
+    {
 
-        if ( $this->use_php_sessions ) {
-            unset( $_SESSION[ $this->prefix ] );
+        if ($this->use_php_sessions) {
+            unset($_SESSION[ $this->prefix ]);
         } else {
             $this->session->reset();
-        	$this->set( 'cleanup_hack', '1');
+            $this->set('cleanup_hack', '1');
             $this->session->write_data();
             WP_Session\WP_Session_Utils::delete_session($this->get_id());
         }
@@ -262,7 +262,8 @@ class MZMBO_Session {
      *
      * @return int
      */
-    public function set_expiration_variant_time() {
+    public function set_expiration_variant_time()
+    {
 
         return ( 60 * 23 );
     }
@@ -277,7 +278,8 @@ class MZMBO_Session {
      *
      * @return int
      */
-    public function set_expiration_time() {
+    public function set_expiration_time()
+    {
 
         return ( 60 * 24 );
     }
@@ -291,13 +293,14 @@ class MZMBO_Session {
      * @param bool $set Whether to set or destroy
      * @return void
      */
-    public function set_cart_cookie( $set = true ) {
-        if( ! headers_sent() ) {
-            if( $set ) {
-                @setcookie( 'edd_items_in_cart', '1', time() + 30 * 60, COOKIEPATH, COOKIE_DOMAIN, false );
+    public function set_cart_cookie($set = true)
+    {
+        if (! headers_sent()) {
+            if ($set) {
+                @setcookie('edd_items_in_cart', '1', time() + 30 * 60, COOKIEPATH, COOKIE_DOMAIN, false);
             } else {
-                if ( isset($_COOKIE['edd_items_in_cart']) ) {
-                    @setcookie( 'edd_items_in_cart', '', time() - 3600, COOKIEPATH, COOKIE_DOMAIN, false );
+                if (isset($_COOKIE['edd_items_in_cart'])) {
+                    @setcookie('edd_items_in_cart', '', time() - 3600, COOKIEPATH, COOKIE_DOMAIN, false);
                 }
             }
         }
@@ -309,12 +312,13 @@ class MZMBO_Session {
      * @since  2.5
      * @return bool If the store should use the edd_items_in_cart cookie to help avoid caching
      */
-    public function use_cart_cookie() {
+    public function use_cart_cookie()
+    {
         $ret = true;
-        if ( defined( 'MZMBO_USE_CART_COOKIE' ) && ! MZMBO_USE_CART_COOKIE ) {
+        if (defined('MZMBO_USE_CART_COOKIE') && ! MZMBO_USE_CART_COOKIE) {
             $ret = false;
         }
-        return (bool) apply_filters( 'mzmbo_use_cart_cookie', $ret );
+        return (bool) apply_filters('mzmbo_use_cart_cookie', $ret);
     }
 
     /**
@@ -327,28 +331,28 @@ class MZMBO_Session {
      *
      * @return bool $ret True if we are using PHP sessions, false otherwise.
      */
-    public function use_php_sessions() {
+    public function use_php_sessions()
+    {
 
         // By default, use our custom logic from WP Session Manager.
         $ret = false;
 
         // Special case: Detect if Pantheon's Native PHP Sessions plugin is active.
         // If true, force using native PHP sessions as their plugin overrides native PHP sessions.
-        if ( class_exists( 'Pantheon_Sessions\Session' ) ) {
-
-            if ( ! defined( 'MZMBO_USE_PHP_SESSIONS' ) ) {
-                define( 'MZMBO_USE_PHP_SESSIONS', true );
+        if (class_exists('Pantheon_Sessions\Session')) {
+            if (! defined('MZMBO_USE_PHP_SESSIONS')) {
+                define('MZMBO_USE_PHP_SESSIONS', true);
             }
         }
 
         // Enable or disable PHP Sessions based on the MZMBO_USE_PHP_SESSIONS constant.
-        if ( defined( 'MZMBO_USE_PHP_SESSIONS' ) && MZMBO_USE_PHP_SESSIONS ) {
+        if (defined('MZMBO_USE_PHP_SESSIONS') && MZMBO_USE_PHP_SESSIONS) {
             $ret = true;
-        } elseif ( defined( 'MZMBO_USE_PHP_SESSIONS' ) && ! MZMBO_USE_PHP_SESSIONS ) {
+        } elseif (defined('MZMBO_USE_PHP_SESSIONS') && ! MZMBO_USE_PHP_SESSIONS) {
             $ret = false;
         }
 
-        return (bool) apply_filters( 'mzmbo_use_php_sessions', $ret );
+        return (bool) apply_filters('mzmbo_use_php_sessions', $ret);
     }
 
     /**
@@ -361,24 +365,24 @@ class MZMBO_Session {
      *
      * @return bool
      */
-    public function should_start_session() {
+    public function should_start_session()
+    {
 
         $start_session = true;
 
-        if ( ! empty( $_SERVER['REQUEST_URI'] ) ) {
-
+        if (! empty($_SERVER['REQUEST_URI'])) {
             $blacklist = $blacklist = $this->get_blacklist();
-            $uri       = ltrim( $_SERVER['REQUEST_URI'], '/' );
-            $uri       = untrailingslashit( $uri );
-            if ( in_array( $uri, $blacklist ) ) {
+            $uri       = ltrim($_SERVER['REQUEST_URI'], '/');
+            $uri       = untrailingslashit($uri);
+            if (in_array($uri, $blacklist)) {
                 $start_session = false;
             }
-            if ( false !== strpos( $uri, 'feed=' ) ) {
+            if (false !== strpos($uri, 'feed=')) {
                 $start_session = false;
             }
         }
 
-        return apply_filters( 'mzmbo_start_session', $start_session );
+        return apply_filters('mzmbo_start_session', $start_session);
     }
 
     /**
@@ -389,19 +393,20 @@ class MZMBO_Session {
      * @since  2.4.7
      * @return array
      */
-    public function get_blacklist() {
-        $blacklist = apply_filters( 'mzmbo_session_start_uri_blacklist', array(
+    public function get_blacklist()
+    {
+        $blacklist = apply_filters('mzmbo_session_start_uri_blacklist', array(
             'feed',
             'feed/rss',
             'feed/rss2',
             'feed/rdf',
             'feed/atom',
             'comments/feed'
-        ) );
+        ));
         // Look to see if WordPress is in a sub folder or this is a network site that uses sub folders
-        $folder = str_replace( network_home_url(), '', get_site_url() );
-        if( ! empty( $folder ) ) {
-            foreach( $blacklist as $path ) {
+        $folder = str_replace(network_home_url(), '', get_site_url());
+        if (! empty($folder)) {
+            foreach ($blacklist as $path) {
                 $blacklist[] = $folder . '/' . $path;
             }
         }
@@ -420,13 +425,14 @@ class MZMBO_Session {
      *
      * @return void
      */
-    public function maybe_start_php_session() {
+    public function maybe_start_php_session()
+    {
 
-        if ( ! $this->should_start_session() ) {
+        if (! $this->should_start_session()) {
             return;
         }
 
-        if ( ! session_id() && ! headers_sent() ) {
+        if (! session_id() && ! headers_sent()) {
             session_start();
         }
     }
@@ -444,20 +450,21 @@ class MZMBO_Session {
      * @since  2.4.7
      * @access public
      */
-    public function create_sm_sessions_table() {
+    public function create_sm_sessions_table()
+    {
 
-        if ( defined( 'WP_SESSION_USE_OPTIONS' ) && WP_SESSION_USE_OPTIONS ) {
+        if (defined('WP_SESSION_USE_OPTIONS') && WP_SESSION_USE_OPTIONS) {
             return;
         }
 
         $current_db_version = '0.1';
-        $created_db_version = get_option( 'sm_session_db_version', '0.0' );
+        $created_db_version = get_option('sm_session_db_version', '0.0');
 
-        if ( version_compare( $created_db_version, $current_db_version, '<' ) ) {
+        if (version_compare($created_db_version, $current_db_version, '<')) {
             global $wpdb;
 
             $collate = '';
-            if ( $wpdb->has_cap( 'collation' ) ) {
+            if ($wpdb->has_cap('collation')) {
                 $collate = $wpdb->get_charset_collate();
             }
 
@@ -470,10 +477,10 @@ class MZMBO_Session {
 		  UNIQUE KEY session_id (session_id)
 		) $collate;";
 
-            require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-            dbDelta( $table );
+            require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+            dbDelta($table);
 
-            add_option( 'sm_session_db_version', '0.1', '', 'no' );
+            add_option('sm_session_db_version', '0.1', '', 'no');
 
             WP_Session\WP_Session_Utils::delete_all_sessions_from_options();
         }

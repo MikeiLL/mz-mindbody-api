@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains main plugin class and, defines and plugin loader.
  *
@@ -11,20 +12,21 @@
  * @package           MZ_Mindbody
  *
  * @wordpress-plugin
- * Plugin Name: 	mZoo Mindbody Interface - Schedule, Events, Staff Display
- * Description: 	Display staff, events and class schedules from Mindbody Online. Customizable.
- * Version: 		2.8.0
+ * Plugin Name:     mZoo Mindbody Interface - Schedule, Events, Staff Display
+ * Description:     Display staff, events and class schedules from Mindbody Online. Customizable.
+ * Version:         2.8.0
  * Stable tag:      2.8.0
  * Tested up to:    5.6.1
  * Requires PHP:    7.0
- * Author: 			mZoo.org
- * Author URI: 		http://www.mZoo.org/
- * Plugin URI: 		http://www.mzoo.org/mz-mindbody-wp
+ * Author:          mZoo.org
+ * Author URI:      http://www.mZoo.org/
+ * Plugin URI:      http://www.mzoo.org/mz-mindbody-wp
  * License:         GPL-2.0+
  * License URI:     http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain: 	mz-mindbody-api
- * Domain Path: 	/languages
+ * Text Domain:     mz-mindbody-api
+ * Domain Path:     /languages
 */
+
 namespace MZ_Mindbody;
 
 use MZ_Mindbody as NS;
@@ -32,8 +34,8 @@ use MZ_Mindbody\Inc\Core as Core;
 use MZ_Mindbody\Inc\Common as Common;
 
 // If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) ) {
-	die;
+if (! defined('WPINC')) {
+    die;
 }
 
 /**
@@ -43,41 +45,41 @@ if ( ! defined( 'WPINC' ) ) {
  * see: https://stackoverflow.com/questions/18247726/php-define-constants-inside-namespace-clarification
  */
 
-define( __NAMESPACE__ . '\NS', __NAMESPACE__ . '\\' );
+define(__NAMESPACE__ . '\NS', __NAMESPACE__ . '\\');
 
-define( NS . 'PLUGIN_NAME', 'mz-mindbody-api' );
+define(NS . 'PLUGIN_NAME', 'mz-mindbody-api');
 
-define( NS . 'PLUGIN_VERSION', '2.8.0' );
+define(NS . 'PLUGIN_VERSION', '2.8.0');
 
-define( NS . 'PLUGIN_NAME_DIR', plugin_dir_path( __FILE__ ) );
+define(NS . 'PLUGIN_NAME_DIR', plugin_dir_path(__FILE__));
 
-define( NS . 'PLUGIN_NAME_URL', plugin_dir_url( __FILE__ ) );
+define(NS . 'PLUGIN_NAME_URL', plugin_dir_url(__FILE__));
 
-define( NS . 'PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
+define(NS . 'PLUGIN_BASENAME', plugin_basename(__FILE__));
 
-define( NS . 'PLUGIN_TEXT_DOMAIN', 'mz-mindbody-api' );
+define(NS . 'PLUGIN_TEXT_DOMAIN', 'mz-mindbody-api');
 
-define( NS . 'MINIMUM_PHP_VERSION', 7.0 );
+define(NS . 'MINIMUM_PHP_VERSION', 7.0);
 
 /**
  * Autoload Classes
  */
 
-require_once( PLUGIN_NAME_DIR . 'inc/libraries/autoloader.php' );
+require_once(PLUGIN_NAME_DIR . 'inc/libraries/autoloader.php');
 
 /**
  * Register Activation and Deactivation Hooks
  * This action is documented in inc/core/class-activator.php
  */
 
-register_activation_hook( __FILE__, array( NS . 'Inc\Core\Activator', 'activate' ) );
+register_activation_hook(__FILE__, array( NS . 'Inc\Core\Activator', 'activate' ));
 
 /**
  * The code that runs during plugin deactivation.
  * This action is documented inc/core/class-deactivator.php
  */
 
-register_deactivation_hook( __FILE__, array( NS . 'Inc\Core\Deactivator', 'deactivate' ) );
+register_deactivation_hook(__FILE__, array( NS . 'Inc\Core\Deactivator', 'deactivate' ));
 
 /**
  * Plugin Singleton Container
@@ -86,15 +88,16 @@ register_deactivation_hook( __FILE__, array( NS . 'Inc\Core\Deactivator', 'deact
  *
  * @since    2.4.7
  */
-class MZ_Mindbody {
+class MZ_Mindbody
+{
 
-	/**
-	 * The instance of the plugin.
-	 *
-	 * @since    2.4.7
-	 * @var      Init $init Instance of the plugin.
-	 */
-	private static $instance;
+    /**
+     * The instance of the plugin.
+     *
+     * @since    2.4.7
+     * @var      Init $init Instance of the plugin.
+     */
+    private static $instance;
 
     /**
      * Main MZ_Mindbody Instance.
@@ -111,19 +114,19 @@ class MZ_Mindbody {
      * @see MZMBO()
      * @return object|MZ_Mindbody The one true MZ_Mindbody
      */
-	public static function instance() {
+    public static function instance()
+    {
 
-		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof MZ_Mindbody_Api ) ) {
-			self::$instance = new Inc\Core\MZ_Mindbody_Api;
-			self::$instance->run();
+        if (! isset(self::$instance) && ! ( self::$instance instanceof MZ_Mindbody_Api )) {
+            self::$instance = new Inc\Core\MZ_Mindbody_Api();
+            self::$instance->run();
 
             self::$instance->i18n           = new Common\Global_Strings();
             self::$instance->helpers        = new Common\Helpers();
-		}
+        }
 
-		return self::$instance;
-	}
-
+        return self::$instance;
+    }
 }
 
 /**
@@ -152,24 +155,22 @@ class MZ_Mindbody {
  * @since 1.4
  * @return object|MZ_Mindbody_Api The one true MZ_Mindbody_Api Instance.
  **/
-function MZMBO() {
-		return MZ_Mindbody::instance();
+function MZMBO()
+{
+        return MZ_Mindbody::instance();
 }
 
-function deactivate() {
-	deactivate_plugins( plugin_basename( __FILE__ ) );
-	$admin_object = new NS\Inc\Admin\Admin(NS\PLUGIN_NAME, NS\PLUGIN_VERSION, NS\PLUGIN_TEXT_DOMAIN);
-	add_action('admin_notices', array($admin_object, 'admin_notice'));
+function deactivate()
+{
+    deactivate_plugins(plugin_basename(__FILE__));
+    $admin_object = new NS\Inc\Admin\Admin(NS\PLUGIN_NAME, NS\PLUGIN_VERSION, NS\PLUGIN_TEXT_DOMAIN);
+    add_action('admin_notices', array($admin_object, 'admin_notice'));
 }
 
 // Check the minimum required PHP version and run the plugin.
-if ( version_compare( PHP_VERSION, NS\MINIMUM_PHP_VERSION, '>=' ) ) {
+if (version_compare(PHP_VERSION, NS\MINIMUM_PHP_VERSION, '>=')) {
     // Get MZ_Mindbody_Api Instance.
     MZMBO();
 } else {
-	add_action( 'admin_init', __NAMESPACE__ . '\\deactivate' );
+    add_action('admin_init', __NAMESPACE__ . '\\deactivate');
 }
-
-
-
-

@@ -8,11 +8,11 @@
 <div class="modal__wrapper">
     <div class="modal__content" id="AddedToClass">
 
-        <?php if ($data->type == 'success'): ?>
+        <?php if ($data->type == 'success') : ?>
             <svg><use xlink:href="#si-ant-check-circle-o"></use></svg>
-        <?php elseif ($data->type == 'booked'): ?>
+        <?php elseif ($data->type == 'booked') : ?>
             <svg><use xlink:href="#si-ant-smile"></use></svg>
-        <?php else: ?>
+        <?php else : ?>
             <svg><use xlink:href="#si-ant-frown"></use></svg>
         <?php endif; ?>
 

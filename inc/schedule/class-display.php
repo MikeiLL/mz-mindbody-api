@@ -1,4 +1,5 @@
 <?php
+
 namespace MZ_Mindbody\Inc\Schedule;
 
 use MZ_Mindbody as NS;
@@ -165,7 +166,7 @@ class Display extends Interfaces\Shortcode_Script_Loader
 
     public function handleShortcode($atts, $content = null)
     {
-    
+
         $this->atts = shortcode_atts(array(
             'type' => 'week',
             'location' => '', // stop using this eventually, in preference "int, int" format
@@ -201,24 +202,26 @@ class Display extends Interfaces\Shortcode_Script_Loader
 
         // If set, turn Session/Class Types into an Array and call it session_types
         if ($this->atts['session_types'] !== '') {
-            if (!is_array($this->atts['session_types'])) // if not already an array
+            if (!is_array($this->atts['session_types'])) { // if not already an array
                 $this->atts['session_types'] = explode(',', $this->atts['session_types']);
+            }
             // TODO: is this sometimes done reduntantly?
-                foreach ($this->atts['session_types'] as $key => $type):
-                    $this->atts['session_types'][$key] = trim($type);
-                endforeach;
+            foreach ($this->atts['session_types'] as $key => $type) :
+                $this->atts['session_types'][$key] = trim($type);
+            endforeach;
         } else {
             $this->atts['session_types'] == '';
         }
-        
+
         // If set, turn Session/Class Types into an Array and call it session_types
         if ($this->atts['session_type_ids'] !== '') {
-            if (!is_array($this->atts['session_type_ids'])) // if not already an array
+            if (!is_array($this->atts['session_type_ids'])) { // if not already an array
                 $this->atts['session_type_ids'] = explode(',', $this->atts['session_type_ids']);
+            }
             // TODO: is this sometimes done reduntantly?
-                foreach ($this->atts['session_type_ids'] as $key => $type):
-                    $this->atts['session_type_ids'][$key] = trim($type);
-                endforeach;
+            foreach ($this->atts['session_type_ids'] as $key => $type) :
+                $this->atts['session_type_ids'][$key] = trim($type);
+            endforeach;
         } else {
             $this->atts['session_type_ids'] == '';
         }
@@ -238,30 +241,34 @@ class Display extends Interfaces\Shortcode_Script_Loader
         $this->schedule_object = new Retrieve_Schedule($this->atts);
 
         // Call the API and if fails, return error message.
-        if (false == $this->schedule_object->get_mbo_results()) return "<div>" . __("Error returning schedule from MBO for shortcode display.", 'mz-mindbody-api') . "</div>";
-        
+        if (false == $this->schedule_object->get_mbo_results()) {
+            return "<div>" . __("Error returning schedule from MBO for shortcode display.", 'mz-mindbody-api') . "</div>";
+        }
+
         /*
          * Configure the display type based on shortcode atts.
          */
         $this->display_type = (!empty($atts['grid'])) ? 'grid' : 'horizontal';
 
         // If mode_select is on, render both grid and horizontal
-        if (!empty($atts['mode_select'])) $this->display_type = 'both';
+        if (!empty($atts['mode_select'])) {
+            $this->display_type = 'both';
+        }
 
         // Define styling variables based on shortcode attribute values
         $this->table_class = ($this->atts['filter'] == 1) ? 'mz-schedule-filter' : 'mz-schedule-table';
 
-        if ($this->atts['mode_select'] == 1):
+        if ($this->atts['mode_select'] == 1) :
             $this->grid_class = ' mz_hidden';
             $this->horizontal_class = '';
             $this->initial_button_text = __('Grid View', 'mz-mindbody-api');
             $this->swap_button_text = __('Horizontal View', 'mz-mindbody-api');
-        elseif ($this->atts['mode_select'] == 2):
+        elseif ($this->atts['mode_select'] == 2) :
             $this->horizontal_class = ' mz_hidden';
             $this->grid_class = '';
             $this->initial_button_text = __('Horizontal View', 'mz-mindbody-api');
             $this->swap_button_text = __('Grid View', 'mz-mindbody-api');
-        else:
+        else :
             $this->horizontal_class = $this->grid_class = '';
             $this->initial_button_text = 0;
             $this->swap_button_text = 0;
@@ -279,10 +286,10 @@ class Display extends Interfaces\Shortcode_Script_Loader
         $horizontal_schedule = '';
         $grid_schedule = '';
 
-        if ($this->display_type == 'grid' || $this->display_type == 'both'):
+        if ($this->display_type == 'grid' || $this->display_type == 'both') :
             $grid_schedule = $this->schedule_object->sort_classes_by_time_then_date();
         endif;
-        if ($this->display_type == 'horizontal' || $this->display_type == 'both'):
+        if ($this->display_type == 'horizontal' || $this->display_type == 'both') :
             $horizontal_schedule = $this->schedule_object->sort_classes_by_date_then_time();
         endif;
 
@@ -300,7 +307,7 @@ class Display extends Interfaces\Shortcode_Script_Loader
          * If wordpress-configured week starts on Monday instead of Sunday,
          * we shift our week names array
          */
-        if ( Core\MZ_Mindbody_Api::$start_of_week != 0 ) {
+        if (Core\MZ_Mindbody_Api::$start_of_week != 0) {
             array_push($week_names, array_shift($week_names));
         }
 
@@ -357,13 +364,12 @@ class Display extends Interfaces\Shortcode_Script_Loader
             wp_register_script('mz_display_schedule_script', NS\PLUGIN_NAME_URL . 'dist/scripts/schedule-display.js', array('jquery', 'mz_mbo_bootstrap_script'), NS\PLUGIN_VERSION, true);
             wp_enqueue_script('mz_display_schedule_script');
 
-            if ($this->atts['filter'] == 1):
+            if ($this->atts['filter'] == 1) :
                 wp_register_script('filterTable', NS\PLUGIN_NAME_URL . 'dist/scripts/mz_filtertable.js', array('jquery', 'mz_display_schedule_script'), NS\PLUGIN_VERSION, true);
                 wp_enqueue_script('filterTable');
             endif;
 
             $this->localizeScript();
-
         }
     }
 
@@ -371,7 +377,7 @@ class Display extends Interfaces\Shortcode_Script_Loader
     {
         // Clean out unneeded strings from Locations Dictionary
         $locations_dictionary = $this->schedule_object->locations_dictionary;
-        foreach($locations_dictionary as $k => $v){
+        foreach ($locations_dictionary as $k => $v) {
             unset($locations_dictionary[$k]['link']);
         }
 
@@ -437,7 +443,9 @@ class Display extends Interfaces\Shortcode_Script_Loader
         $this->schedule_object = new Retrieve_Schedule($atts);
 
         // Call the API and if fails, return error message.
-        if (false == $this->schedule_object->get_mbo_results()) echo "<div>" . __("Error returning schedule from MBO for display.", 'mz-mindbody-api') . "</div>";
+        if (false == $this->schedule_object->get_mbo_results()) {
+            echo "<div>" . __("Error returning schedule from MBO for display.", 'mz-mindbody-api') . "</div>";
+        }
 
         // Register attributes
         $this->handleShortcode($atts);
@@ -451,7 +459,7 @@ class Display extends Interfaces\Shortcode_Script_Loader
         // Initialize the variables, so won't be un-set:
         $horizontal_schedule = '';
         $grid_schedule = '';
-        if ($this->display_type == 'grid' || $this->display_type == 'both'):
+        if ($this->display_type == 'grid' || $this->display_type == 'both') :
             ob_start();
             $grid_schedule = $this->schedule_object->sort_classes_by_time_then_date();
             // Update the data array
@@ -460,7 +468,7 @@ class Display extends Interfaces\Shortcode_Script_Loader
             $result['grid'] = ob_get_clean();
         endif;
 
-        if ($this->display_type == 'horizontal' || $this->display_type == 'both'):
+        if ($this->display_type == 'horizontal' || $this->display_type == 'both') :
             ob_start();
             $horizontal_schedule = $this->schedule_object->sort_classes_by_date_then_time();
             // Update the data array
@@ -479,9 +487,5 @@ class Display extends Interfaces\Shortcode_Script_Loader
         }
 
         die();
-
     }
-
 }
-
-?>

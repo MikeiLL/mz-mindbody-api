@@ -40,24 +40,24 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
     <thead>
         <tr>
             <th scope="header"></th>
-            <?php foreach($data->week_names as $name): ?>
+            <?php foreach ($data->week_names as $name) : ?>
                 <th scope="header"><?php echo $name; ?></th>
             <?php endforeach; ?>
         </tr>
     </thead>
     <tbody>
-        <?php foreach($data->grid_schedule as $time => $days): ?>
+        <?php foreach ($data->grid_schedule as $time => $days) : ?>
         <tr>
             <td class="mz_hidden"><?php echo $days['part_of_day']; ?></td>
             <td><?php echo $days['display_time']; ?></td>
-            <?php foreach($days['classes'] as $day_slot): ?>
-                <td><?php $classes = count( $day_slot ); ?>
-                <?php foreach($day_slot as $class): $classes--; ?>
+            <?php foreach ($days['classes'] as $day_slot) : ?>
+                <td><?php $classes = count($day_slot); ?>
+                <?php foreach ($day_slot as $class) :
+                    $classes--; ?>
                     <div class="mz_schedule_table mz_description_holder mz_location_<?php echo $class->sLoc . ' ' . $class->session_type_css . ' ' . $class->class_name_css; ?>">
                         <?php $class->class_name_link->output(); ?>&nbsp;
                         <?php
-                        if ( !in_array('teacher', $data->hide ) ):
-
+                        if (!in_array('teacher', $data->hide)) :
                             _e('with', 'mz-mindbody-api'); ?> <?php
 
                             $class->staff_name_link->output();
@@ -65,27 +65,27 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
                         ?> <?php echo $class->displayCancelled; ?>
                         <br />
                         <?php
-                        if ( !in_array('signup', $data->hide ) ):
-                        ?>
+                        if (!in_array('signup', $data->hide)) :
+                            ?>
                             <?php $class->grid_sign_up_link->output(); ?><br/>
                         <?php endif; ?>
                         <?php
-                        if  (!in_array('duration', $data->hide ) ):
+                        if (!in_array('duration', $data->hide)) :
                             _e('Duration:', 'mz-mindbody-api'); ?> &nbsp;<?php echo $class->class_duration->format('%H:%I');
                         endif;
                         ?>
                         <?php
-                        if(!in_array('location', $data->hide ) ):
+                        if (!in_array('location', $data->hide)) :
                             // Display location if showing schedule for more than one location
-                            if(count($data->locations_dictionary) >= 2):
+                            if (count($data->locations_dictionary) >= 2) :
                                 echo '<br/>' . $data->locations_dictionary[$class->sLoc]['link'];
                             endif;
                         endif;
                         ?>
                     </div>
-                <?php if ($classes >= 1): ?>
+                    <?php if ($classes >= 1) : ?>
                     <hr/>
-                <?php endif; ?>
+                    <?php endif; ?>
                 <?php endforeach; ?>
                 </td>
             <?php endforeach; ?>

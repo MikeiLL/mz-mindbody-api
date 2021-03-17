@@ -1,5 +1,7 @@
 <?php
+
 use MZ_Mindbody as NS;
+
 ?>
 <div class="modal__footer btn-group" class="signupModalFooter">
     <a class="btn btn-primary" data-nonce="<?php echo $data->nonce; ?>" id="MBOSchedule" target="_blank"><?php _e('My Classes', 'mz-mindbody-api'); ?></a>

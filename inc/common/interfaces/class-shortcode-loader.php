@@ -1,5 +1,7 @@
 <?php
+
 namespace MZ_Mindbody\Inc\Common\Interfaces;
+
 /*
     "WordPress Plugin Template" Copyright (C) 2018 Michael Simpson  (email : michael.d.simpson@gmail.com)
 
@@ -20,7 +22,10 @@ namespace MZ_Mindbody\Inc\Common\Interfaces;
     If not, see http://www.gnu.org/licenses/gpl-3.0.html
 */
 
-abstract class Shortcode_Loader {
+abstract class Shortcode_Loader
+{
+
+
 
     /**
      * @param  $shortcodeName mixed either string name of the shortcode
@@ -29,7 +34,8 @@ abstract class Shortcode_Loader {
      * for the same shortcode
      * @return void
      */
-    public function register($shortcodeName) {
+    public function register($shortcodeName)
+    {
         $this->registerShortcodeToFunction($shortcodeName, 'handleShortcode');
     }
 
@@ -42,13 +48,13 @@ abstract class Shortcode_Loader {
      * shortcode handler
      * @return void
      */
-    protected function registerShortcodeToFunction($shortcodeName, $functionName) {
+    protected function registerShortcodeToFunction($shortcodeName, $functionName)
+    {
         if (is_array($shortcodeName)) {
             foreach ($shortcodeName as $aName) {
                 add_shortcode($aName, array($this, $functionName));
             }
-        }
-        else {
+        } else {
             add_shortcode($shortcodeName, array($this, $functionName));
         }
     }
@@ -58,6 +64,5 @@ abstract class Shortcode_Loader {
      * @param  $atts shortcode inputs
      * @return string shortcode content
      */
-    public abstract function handleShortcode($atts, $content = 'hello');
-
+    abstract public function handleShortcode($atts, $content = 'hello');
 }

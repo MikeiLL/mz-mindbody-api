@@ -1,8 +1,9 @@
 <?php
+
 use MZ_Mindbody as NS;
 use MZ_Mindbody\Inc\Core as Core;
 
-if ((is_array($data->events)) && !empty($data->events)): ?>
+if ((is_array($data->events)) && !empty($data->events)) : ?>
     <table class="mz_event_list_listing">
 
         <thead>
@@ -16,7 +17,7 @@ if ((is_array($data->events)) && !empty($data->events)): ?>
                 <th class="mz_event_name" scope="header">
                     <?php echo $data->heading_event; ?>
                 </th>
-                <?php if ( $data->locations_count >= 2 ): ?>
+                <?php if ($data->locations_count >= 2) : ?>
                     <th class="mz_event_location" scope="header">
                         <?php echo $data->heading_location; ?>
                     </th>
@@ -24,8 +25,8 @@ if ((is_array($data->events)) && !empty($data->events)): ?>
             </tr>
         </thead>
 
-    <?php foreach ($data->events as $date => $events): ?>
-        <?php foreach ($events as $event): ?>
+    <?php foreach ($data->events as $date => $events) : ?>
+        <?php foreach ($events as $event) : ?>
         <tbody>
             <tr>
                 <td><?php echo date_i18n(Core\MZ_Mindbody_Api::$date_format, strtotime($event->startDateTime)); ?> <br /><?php echo $event->sign_up_link->build(); ?></td>
@@ -39,20 +40,20 @@ if ((is_array($data->events)) && !empty($data->events)): ?>
                 </td>
                 <?php
                 // Display location if showing schedule for more than one location
-                if($data->locations_count >= 2): ?>
+                if ($data->locations_count >= 2) : ?>
                 <td>
                     <?php echo $data->locations_dictionary[$event->location_ID]['link']; ?>
                 </td>
                 <?php endif; ?>
             </tr>
-            <?php endforeach; ?>
         <?php endforeach; ?>
+    <?php endforeach; ?>
         </tbody>
     </table>
-<?php elseif (count($data->events) == 0 ): ?>
+<?php elseif (count($data->events) == 0) : ?>
     <h4><?php echo $data->no_events; ?></h4>
-<?php else: ?>
+<?php else : ?>
     <div class="error"><?php _e('Error Retrieving Events', 'mz_mindbody_api'); ?></div>
-    <p><?php var_dump( $data->events ); ?></p>
+    <p><?php var_dump($data->events); ?></p>
 
 <?php endif; ?>

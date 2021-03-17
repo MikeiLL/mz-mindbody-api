@@ -1,4 +1,4 @@
-<?php foreach($data->staff as $staff): ?>
+<?php foreach ($data->staff as $staff) : ?>
 <div class="MZ_Staff_profile clearfix">
     <div class="MZ_Staff_caption">
         <h3><?php echo $staff->Name; ?></h3>

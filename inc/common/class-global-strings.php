@@ -9,7 +9,8 @@ namespace MZ_Mindbody\Inc\Common;
  * Store i18n strings that may be used throughout plugin
  */
 
-class Global_Strings {
+class Global_Strings
+{
 
     /**
      * @var array i18n Strings we use through the plugin.
@@ -23,7 +24,8 @@ class Global_Strings {
      * Assign the i18n strings array.
      * @access public
      */
-    public function __construct(){
+    public function __construct()
+    {
 
         $this->i18n_strings = array(
             'username' => __('Username', 'mz-mindbody-api'),
@@ -54,15 +56,13 @@ class Global_Strings {
 
 
 
-    public function get($key = false) {
+    public function get($key = false)
+    {
 
-        if ($key){
+        if ($key) {
             return $this->i18n_strings[$key];
         } else {
             return $this->i18n_strings;
         }
-
     }
-
 }
-?>

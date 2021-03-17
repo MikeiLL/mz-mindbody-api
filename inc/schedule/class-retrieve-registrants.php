@@ -15,7 +15,7 @@ use MZ_Mindbody\Inc\Common\Interfaces as Interfaces;
 
 class Retrieve_Registrants extends Interfaces\Retrieve
 {
-    
+
     /**
      * Holds the Get Class Visits Results for a given class.
      *
@@ -50,11 +50,15 @@ class Retrieve_Registrants extends Interfaces\Retrieve
     public function get_mbo_results($classid = 0)
     {
 
-        if (empty($classid)) return false;
+        if (empty($classid)) {
+            return false;
+        }
 
         $mb = $this->instantiate_mbo_API();
 
-        if (!$mb || $mb == 'NO_API_SERVICE') return false;
+        if (!$mb || $mb == 'NO_API_SERVICE') {
+            return false;
+        }
 
         if ($this->mbo_account !== 0) {
             // If account has been specified in shortcode, update credentials
@@ -79,13 +83,13 @@ class Retrieve_Registrants extends Interfaces\Retrieve
         $classid = $_REQUEST['classID'];
 
         $result['type'] = "success";
-        
+
         $registrants = $this->get_registrants($classid);
 
-        if (!$registrants):
+        if (!$registrants) :
             $result['type'] = "error";
         endif;
-        
+
         $result['message'] = $registrants;
 
         if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
@@ -98,7 +102,7 @@ class Retrieve_Registrants extends Interfaces\Retrieve
         die();
     }
     //End Ajax Get Registrants
-    
+
     /**
      * Get Registrants from MBO
      *
@@ -108,44 +112,42 @@ class Retrieve_Registrants extends Interfaces\Retrieve
     {
 
         $class_visits = $this->get_mbo_results($classid);
-        
-        if (!$class_visits):
+
+        if (!$class_visits) :
             return false;
-        else:
+        else :
             if (empty($class_visits['Class']['Visits'])) :
                 return __("No registrants yet.", 'mz-mindbody-api');
-            else:
-            
+            else :
                 $registrant_ids = array();
-                
+
                 // Build array of registrant ids to send to GetClients
                 foreach ($class_visits['Class']['Visits'] as $registrant) {
-                    	$registrant_ids[] = $registrant['ClientId'];
+                        $registrant_ids[] = $registrant['ClientId'];
                 }
-                
+
                 // send list of registrants to GetRegistrants
                 $mb = $this->instantiate_mbo_API();
 
-				if (!$mb || $mb == 'NO_API_SERVICE') return false;
+                if (!$mb || $mb == 'NO_API_SERVICE') {
+                    return false;
+                }
 
-				if ($this->mbo_account !== 0) {
-					// If account has been specified in shortcode, update credentials
-					$mb->sourceCredentials['SiteIDs'][0] = $this->mbo_account;
-				}
+                if ($this->mbo_account !== 0) {
+                    // If account has been specified in shortcode, update credentials
+                    $mb->sourceCredentials['SiteIDs'][0] = $this->mbo_account;
+                }
 
-				$this->registrants = $mb->GetClients(['clientIds' => $registrant_ids]);
-				
+                $this->registrants = $mb->GetClients(['clientIds' => $registrant_ids]);
+
                 $registrant_names = array();
-				// Add first name, last initial
-				foreach ($this->registrants['Clients'] as $registrant) {
-					$registrant_names[] = $registrant['FirstName'] . ' ' . substr($registrant['LastName'], 0, 1) . '.';
-				}
-
+                // Add first name, last initial
+                foreach ($this->registrants['Clients'] as $registrant) {
+                    $registrant_names[] = $registrant['FirstName'] . ' ' . substr($registrant['LastName'], 0, 1) . '.';
+                }
             endif;
         endif;
-        
-    	return $registrant_names;
+
+        return $registrant_names;
     }
-
-
 }

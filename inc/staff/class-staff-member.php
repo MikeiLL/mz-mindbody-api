@@ -1,4 +1,5 @@
 <?php
+
 namespace MZ_Mindbody\Inc\Staff;
 
 use MZ_Mindbody as NS;
@@ -15,7 +16,8 @@ use MZ_Mindbody\Inc\Libraries\HTML_Element;
  *
  * @param $staff_member array
  */
-class Staff_Member {
+class Staff_Member
+{
 
     /**
      * Staff Member ID
@@ -123,8 +125,9 @@ class Staff_Member {
      * @param array $staff_member array of staff_member attributes.
      * @param array $atts array of shortcode attributes from calling shortcode.
      */
-    public function __construct($staff_member, $atts = array()) {
-    	
+    public function __construct($staff_member, $atts = array())
+    {
+
         $this->ID = $staff_member['Id'];
         $this->FirstName = $staff_member['FirstName'];
         $this->LastName = $staff_member['LastName'];// Set Staff Name up.
@@ -132,7 +135,7 @@ class Staff_Member {
         $this->Name = isset($this->FirstName) ? $this->FirstName . ' ' . $this->LastName : '';
         // If "Name" has been set, use that
         if (isset($staff_member['Name'])) {
-        	$this->Name = $staff_member['Name'];
+            $this->Name = $staff_member['Name'];
         }
         $this->SortOrder = $staff_member['SortOrder'];
         $this->ImageURL = isset($staff_member['ImageUrl']) ? $staff_member['ImageUrl'] : '';
@@ -141,8 +144,6 @@ class Staff_Member {
         $this->siteID = isset($this->atts['siteID']) ? $this->atts['siteID'] : NS\Inc\Core\MZ_Mindbody_Api::$basic_options['mz_mindbody_siteID'];
         // If there's an image create a tag, otherwise empty string.
         $this->ImageTag = isset($staff_member['ImageUrl']) ? '<img src="' . $this->ImageURL . '" alt="' . $this->Name . '" class="img-responsive mz_modal_staff_image_body">' : '';
-        $this->ScheduleButton = '<a href="http://clients.mindbodyonline.com/ws.asp?studioid=' . $this->siteID . '&stype=-7&sView=week&sTrn=' . $this->ID . '" class="btn btn-info mz-btn-info" target="_blank">'.sprintf(__('See %s&apos;s Schedule', 'mz-mindbody-api'), $this->Name).'</a>';
+        $this->ScheduleButton = '<a href="http://clients.mindbodyonline.com/ws.asp?studioid=' . $this->siteID . '&stype=-7&sView=week&sTrn=' . $this->ID . '" class="btn btn-info mz-btn-info" target="_blank">' . sprintf(__('See %s&apos;s Schedule', 'mz-mindbody-api'), $this->Name) . '</a>';
     }
-
-
 }

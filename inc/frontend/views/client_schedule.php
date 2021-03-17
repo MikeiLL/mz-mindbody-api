@@ -1,9 +1,11 @@
 <?php
+
 use MZ_Mindbody as NS;
+
 // This is already in the modal content window \\ ?>
     <table class="client-schedule">
-        <?php foreach ($data->classes as $date => $classes): ?>
-            <?php foreach ($classes as $class): ?>
+        <?php foreach ($data->classes as $date => $classes) : ?>
+            <?php foreach ($classes as $class) : ?>
                 <tr>
                     <td>
                         <?php echo date_i18n($data->date_format, strtotime($date)); ?>

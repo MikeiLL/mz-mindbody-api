@@ -19,7 +19,7 @@ abstract class Retrieve
      * @var      int    $mbo_account    MBO Account to retrieve data for.
      */
     protected $mbo_account;
-    
+
     public $atts;
 
     public function __construct($atts = array())
@@ -35,14 +35,14 @@ abstract class Retrieve
      *
      * @param int api_version since we need to use api v5 for login for time being
      */
-    public function instantiate_mbo_API( $api_version = 6 )
+    public function instantiate_mbo_API($api_version = 6)
     {
 
-		// TODO can we avoid this call to get_option?
+        // TODO can we avoid this call to get_option?
         $basic_options = get_option('mz_mbo_basic', 'Error: No Options');
         if ($basic_options == 'Error: No Options' || empty($basic_options)) {
             return false;
-        } else if ( $api_version == 6 ) {
+        } elseif ($api_version == 6) {
             return new Libraries\MBO_V6_API(array(
                 'mz_source_name' => $basic_options['mz_source_name'],
                 'mz_mindbody_password' => $basic_options['mz_mindbody_password'],
@@ -58,8 +58,7 @@ abstract class Retrieve
                     'Password' => $basic_options['mz_mindbody_password'],
                     'SiteIDs' => array($basic_options['mz_mindbody_siteID'])
                 ));
-            }
-            catch (\Exception $e) {
+            } catch (\Exception $e) {
                 return "Error with SOAP Call: <pre>" . $e . "</pre>";
             }
         }
@@ -88,8 +87,12 @@ abstract class Retrieve
         $prefix = 'mz_mbo_';
         $transient_string = $shortcode . '_';
         foreach ($this->atts as $k => $attr) {
-            if (empty($attr) || ($attr == '0')) continue;
-            if (is_array($attr)) $attr = implode('_', $attr);
+            if (empty($attr) || ($attr == '0')) {
+                continue;
+            }
+            if (is_array($attr)) {
+                $attr = implode('_', $attr);
+            }
             $transient_string .= '_' . substr($k, 0, 4) . '_' . substr($attr, 0, 3);
         }
         // append today's date
@@ -101,7 +104,7 @@ abstract class Retrieve
 
     /*
      * Log via Sandbox dev plugin
-     * 
+     *
      * If sandbox plugin located at
      * https://github.com/MikeiLL/mz-mbo-sandbox
      * is loaded, use it to log debug info.
@@ -109,7 +112,7 @@ abstract class Retrieve
     private function sandbox()
     {
         include_once(ABSPATH . 'wp-admin/includes/plugin.php');
-        if (is_plugin_active('mz-mbo-sandbox/mZ-mbo-sandbox.php')):
+        if (is_plugin_active('mz-mbo-sandbox/mZ-mbo-sandbox.php')) :
             $mbo_sandbox = new MZ_MBO_Sandbox_Admin('1.0');
             $mbo_sandbox->load_sandbox();
             $mbo_sandbox->run_sandbox("MBO Instantiation via " . $_SERVER['REQUEST_URI']);
@@ -122,5 +125,4 @@ abstract class Retrieve
      * @since 2.4.7
      */
     abstract public function get_mbo_results();
-
 }

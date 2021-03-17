@@ -1,4 +1,5 @@
 <?php
+
 namespace MZ_Mindbody\Inc\Events;
 
 use MZ_Mindbody as NS;
@@ -17,7 +18,8 @@ use MZ_Mindbody\Inc\Libraries as Library;
  * @param $event array from MBO
  * @param $atts array from shortcode attribute call
  */
-class Single_Event {
+class Single_Event
+{
 
     /**
      * Event Class Schedule ID
@@ -270,14 +272,15 @@ class Single_Event {
      * @param array $event array of class/event attributes.
      * @param array $atts array of shortcode attributes from calling shortcode.
      */
-    public function __construct($event, $atts = array()) {
+    public function __construct($event, $atts = array())
+    {
 
         $this->class_schedule_id = $event['ClassScheduleId'];
         $this->startDateTime = $event['StartDateTime'];
         $this->endDateTime = $event['EndDateTime'];
         $this->className = $event['ClassDescription']['Name'];
         $this->ID = $event['ClassDescription']['Id'];
-        
+
         $this->FirstName = $event['Staff']['FirstName'];
         $this->LastName = $event['Staff']['LastName'];
         // Set Staff Name up.
@@ -285,7 +288,7 @@ class Single_Event {
         $this->staffName = isset($this->FirstName) ? $this->FirstName . ' ' . $this->LastName : '';
         // If "Name" has been set, use that
         if (isset($event['Staff']['Name'])) {
-        	$this->staffName = $event['Staff']['Name'];
+            $this->staffName = $event['Staff']['Name'];
         }
         $this->staffImage = $event['Staff']['ImageURL'];
         $this->staffBio = $event['Staff']['Bio'];
@@ -299,10 +302,10 @@ class Single_Event {
         $this->location_StateProvCode = $event['Location']['StateProvCode'];
         $this->location_PostalCode = $event['Location']['PostalCode'];
         $this->start_date = date_i18n(Core\MZ_Mindbody_Api::$date_format, strtotime($event['StartDateTime']));
-        $this->start_time = date_i18n(Core\MZ_Mindbody_Api::$time_format,  strtotime($event['StartDateTime']));
-        
+        $this->start_time = date_i18n(Core\MZ_Mindbody_Api::$time_format, strtotime($event['StartDateTime']));
+
         // Leave end_date blank if same as start day
-        $maybe_end_date = date_i18n(Core\MZ_Mindbody_Api::$date_format,  strtotime($event['EndDateTime']));
+        $maybe_end_date = date_i18n(Core\MZ_Mindbody_Api::$date_format, strtotime($event['EndDateTime']));
         $this->end_date = ($this->start_date == $maybe_end_date) ? '' : $maybe_end_date;
         $this->end_time = date_i18n(Core\MZ_Mindbody_Api::$time_format, strtotime($event['EndDateTime']));
         $this->atts = $atts;
@@ -313,12 +316,12 @@ class Single_Event {
         $this->sign_up_link = $this->event_link_maker('signup');
     }
 
-    private function event_link_maker($type = 'class'){
+    private function event_link_maker($type = 'class')
+    {
         $class_name_link = new Library\HTML_Element('a');
         $class_name_link->set('href', NS\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php');
         $linkArray = array();
         switch ($type) {
-
             case 'staff':
                 $linkArray['data-staffImage'] = ($this->staffImage != '') ? $this->staffImage : '';
                 $linkArray['data-staffBio'] = ($this->staffBio != '') ? $this->staffBio : '';
@@ -329,15 +332,13 @@ class Single_Event {
                 break;
 
             case 'signup':
-
                 $linkArray['class'] = 'btn btn-primary';
 
                 $linkArray['text'] = __('Sign-Up', 'mz-mindbody-api');
 
                 $linkArray['data-time'] = date_i18n(Core\MZ_Mindbody_Api::$date_format . ' ' . Core\MZ_Mindbody_Api::$time_format, strtotime($this->startDateTime));
 
-                if ((!empty($this->atts['advanced']) && ($this->atts['advanced'] == '1')) || (Core\MZ_Mindbody_Api::$advanced_options['register_within_site'] == 'on')):
-
+                if ((!empty($this->atts['advanced']) && ($this->atts['advanced'] == '1')) || (Core\MZ_Mindbody_Api::$advanced_options['register_within_site'] == 'on')) :
                     $linkArray['data-target'] = 'mzSignUpModal';
                     $linkArray['data-nonce'] = wp_create_nonce('mz_signup_nonce');
                     $linkArray['data-siteID'] = $this->siteID;
@@ -346,12 +347,9 @@ class Single_Event {
                     $linkArray['data-staffName'] = $this->staffName;
                     $linkArray['data-location'] = $this->location_ID;
                     $class_name_link->set('href', NS\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php');
-
-                else:
-
+                else :
                     $linkArray['target'] = '_blank';
                     $class_name_link->set('href', $this->mbo_url);
-
                 endif;
                 break;
 
@@ -363,7 +361,6 @@ class Single_Event {
                 $linkArray['text'] = $this->className;
                 $linkArray['data-target'] = 'mzDescriptionModal';
                 $linkArray['class'] = 'modal-toggle ' . sanitize_html_class($this->className, 'mz_class_name');
-
         }
 
         $class_name_link->set($linkArray);
@@ -378,10 +375,8 @@ class Single_Event {
      *
      * @return urlstring
      */
-    private function mbo_url() {
+    private function mbo_url()
+    {
         return "https://clients.mindbodyonline.com/ws.asp?sDate={$this->sDate}&amp;sLoc={$this->location_ID}&amp;sType=7&amp;sclassid={$this->class_schedule_id}&amp;studioid={$this->siteID}";
     }
-
 }
-
-?>

@@ -1,5 +1,7 @@
 <?php
+
 use MZ_Mindbody\Inc\Core as Core;
+
 ?>
 
 <div style="display:none" id="mzLogInContainer">

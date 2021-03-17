@@ -14,7 +14,8 @@ use MZ_Mindbody as NS;
  *
  */
 
-class Helpers {
+class Helpers
+{
 
     /**
      * Helper function to print out arrays
@@ -37,13 +38,13 @@ class Helpers {
      * @param $message the content to be written to file.
      * @param $file_path string optional path to write file to.
      */
-    public function log($message, $file_path='')
+    public function log($message, $file_path = '')
     {
         $file_path = ( ($file_path == '') || !file_exists($file_path) ) ? WP_CONTENT_DIR . '/mz_mbo_arbitrary.log' : $file_path;
         $header = date('l dS \o\f F Y h:i:s A', strtotime("now")) . "\t ";
 
         // Just keep up to seven days worth of data
-        if (file_exists($file_path)){
+        if (file_exists($file_path)) {
             if (time() - filemtime($file_path) >= 60 * 60 * 24 * 7) { // 7 days
                 unlink($file_path);
             }
@@ -68,12 +69,12 @@ class Helpers {
      * @param $message the content to be written to file.
      * @param $file_path string optional path to write file to.
      */
-    public function api_log($message, $file_path='')
+    public function api_log($message, $file_path = '')
     {
         $file_path = ( ($file_path == '') || !file_exists($file_path) ) ? WP_CONTENT_DIR . '/mbo_api.log' : $file_path;
 
         // Just keep up to seven days worth of data
-        if (file_exists($file_path)){
+        if (file_exists($file_path)) {
             if (time() - filemtime($file_path) >= 60 * 60 * 24 * 7) { // 7 days
                 unlink($file_path);
             }
@@ -94,36 +95,38 @@ class Helpers {
      *
      * Used in deactivation hook to clear all log files
      */
-    public function clear_log_files(){
+    public function clear_log_files()
+    {
         $files = array(
             WP_CONTENT_DIR . '/mz_mbo_arbitrary.log',
             WP_CONTENT_DIR . '/mbo_api.log'
         );
-        foreach ($files as $file){
-            if (file_exists($file)){
+        foreach ($files as $file) {
+            if (file_exists($file)) {
                 unlink($file);
             }
         }
     }
-    
-    
+
+
     /**
      * Delete Old Sessions
      *
      * @since 2.5.8
      * Sometimes, particularly in development, when creating and clearing
-     * sessions over and over again, the session class seems to get bogged 
+     * sessions over and over again, the session class seems to get bogged
      * down.
      */
-     public function delete_old_sessions(){
-		
-		$session_utils = new NS\Inc\Libraries\WP_Session\WP_Session_Utils;
-		$count = $session_utils->count_sessions();
-		$session_utils->delete_old_sessions();
-		return "Cleared " . $count . "sessions.";
-	}
-	
-	
+    public function delete_old_sessions()
+    {
+
+        $session_utils = new NS\Inc\Libraries\WP_Session\WP_Session_Utils();
+        $count = $session_utils->count_sessions();
+        $session_utils->delete_old_sessions();
+        return "Cleared " . $count . "sessions.";
+    }
+
+
     /**
      * Clean up staff biography
      *
@@ -140,7 +143,8 @@ class Helpers {
      * @access public
      * @return string $bio Cleaned up HTML string.
      */
-    public function prepare_html_string($bio){
+    public function prepare_html_string($bio)
+    {
 
         // Remove empty tags
         $bio = str_replace("/<[^\/>]*>(\s|xC2xA0|&nbsp;)*<\/[^>]*>/", '', $bio);
@@ -148,16 +152,16 @@ class Helpers {
         $bio = $this->str_last_replace("</div>", "", $bio);
         if (substr($bio, 0, 3) == '<p>') {
             $mz_staff_bio = substr($bio, 3);
-        } else if (substr($bio, 0, 5) == '<div>'){
+        } elseif (substr($bio, 0, 5) == '<div>') {
             $bio = substr($bio, 5);
             $mz_staff_bio = substr($bio, 3);
-        } else if (substr($bio, 0, 5) == '<span>'){
+        } elseif (substr($bio, 0, 5) == '<span>') {
             $bio = substr($bio, 6);
         }
         return htmlentities($bio);
     }
-    
-    
+
+
     /**
      * Use array_map on multidimensional arrays
      *
@@ -165,20 +169,20 @@ class Helpers {
      * @source: https://stackoverflow.com/a/39637749/2223106
      *
      *
-     * @param function $callback 
+     * @param function $callback
      * @param array $array to be operated on
-     * 
+     *
      * @access public
      * @return array $array, with each item operated on by callback.
      */
     public function array_map_recursive($callback, $array)
-	{
-	  $func = function ($item) use (&$func, &$callback) {
-		return is_array($item) ? array_map($func, $item) : call_user_func($callback, $item);
-	  };
+    {
+        $func = function ($item) use (&$func, &$callback) {
+            return is_array($item) ? array_map($func, $item) : call_user_func($callback, $item);
+        };
 
-	  return array_map($func, $array);
-	}
+        return array_map($func, $array);
+    }
 
     /**
      * String Left Replace
@@ -191,14 +195,10 @@ class Helpers {
     {
         $pos = strrpos($subject, $search);
 
-        if($pos !== false)
-        {
+        if ($pos !== false) {
             $subject = substr_replace($subject, $replace, $pos, strlen($search));
         }
 
         return $subject;
     }
-
-
 }
-?>

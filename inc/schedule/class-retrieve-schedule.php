@@ -1,4 +1,5 @@
 <?php
+
 namespace MZ_Mindbody\Inc\Schedule;
 
 use MZ_Mindbody;
@@ -6,53 +7,57 @@ use MZ_Mindbody\Inc\Core as Core;
 use MZ_Mindbody\Inc\Common as Common;
 use MZ_Mindbody\Inc\Common\Interfaces as Interfaces;
 
-class Retrieve_Schedule extends Interfaces\Retrieve_Classes {
+class Retrieve_Schedule extends Interfaces\Retrieve_Classes
+{
 
-	/**
-	 * Return Time Frame for request to MBO API
-	 *
-	 * @since 2.4.7
-	 *
-	 * Default time_frame is two dates, start of current week as set in WP, and seven days from "now.
+    /**
+     * Return Time Frame for request to MBO API
+     *
+     * @since 2.4.7
+     *
+     * Default time_frame is two dates, start of current week as set in WP, and seven days from "now.
      *
      * @throws \Exception
-	 *
-	 * @return array of start and end dates as required for MBO API
-	 */
+     *
+     * @return array of start and end dates as required for MBO API
+     */
 
-    public function time_frame($timestamp = null){
-    	
-    	$timestamp = isset($timestamp) ? $timestamp : current_time( 'timestamp' );
-	    // override timestamp here for testing
+    public function time_frame($timestamp = null)
+    {
+
+        $timestamp = isset($timestamp) ? $timestamp : current_time('timestamp');
+        // override timestamp here for testing
         // $timestamp = '2020-5-1';
 
-		$current_week = $this->single_week($timestamp);
-		$seven_days_later = $this->seven_days_later($timestamp);
-		if ((!empty($this->atts['type']) && ($this->atts['type'] === 'day'))):
-            $today = current_time( 'timestamp' );
-            $start_time = new \Datetime( date_i18n('Y-m-d', $today) );
-            $end_time = new \Datetime( date_i18n('Y-m-d', $today) );
+        $current_week = $this->single_week($timestamp);
+        $seven_days_later = $this->seven_days_later($timestamp);
+        if ((!empty($this->atts['type']) && ($this->atts['type'] === 'day'))) :
+            $today = current_time('timestamp');
+            $start_time = new \Datetime(date_i18n('Y-m-d', $today));
+            $end_time = new \Datetime(date_i18n('Y-m-d', $today));
             // test with $end_time = new \DateTime('tomorrow');
-		else:
-            $start_time = new \Datetime( date_i18n('Y-m-d', $current_week['start']) );
-		    $end_time = new \Datetime( date_i18n('Y-m-d', $seven_days_later) );
-		endif;
-      	$current_day_offset = new \Datetime( date_i18n('Y-m-d') );
-      	$current_week_end = new \Datetime( date_i18n('Y-m-d', $current_week['end']) );
-      	//print_r("OFFSET: ");
-		//print_r($this->atts['offset']);
-		// If we are going in future or past based on offset
-		if ( !empty($this->atts['offset']) ) {
-		    // Insure that we have an absolute number, because attr may be negative
-		    $abs = abs($this->atts['offset']);
-            if ((!empty($this->atts['type']) && ($this->atts['type'] === 'day'))):
-		        $di = new \DateInterval('P'.$abs.'D');
-            else:
-                $di = new \DateInterval('P'.$abs.'W');
+        else :
+            $start_time = new \Datetime(date_i18n('Y-m-d', $current_week['start']));
+            $end_time = new \Datetime(date_i18n('Y-m-d', $seven_days_later));
+        endif;
+        $current_day_offset = new \Datetime(date_i18n('Y-m-d'));
+        $current_week_end = new \Datetime(date_i18n('Y-m-d', $current_week['end']));
+        //print_r("OFFSET: ");
+        //print_r($this->atts['offset']);
+        // If we are going in future or past based on offset
+        if (!empty($this->atts['offset'])) {
+            // Insure that we have an absolute number, because attr may be negative
+            $abs = abs($this->atts['offset']);
+            if ((!empty($this->atts['type']) && ($this->atts['type'] === 'day'))) :
+                $di = new \DateInterval('P' . $abs . 'D');
+            else :
+                $di = new \DateInterval('P' . $abs . 'W');
             endif;
 
-		    // If it's a negative number, invert the interval
-            if ($this->atts['offset'] < 0) $di->invert = 1;
+            // If it's a negative number, invert the interval
+            if ($this->atts['offset'] < 0) {
+                $di->invert = 1;
+            }
             $start_time->add($di);
             $end_time->add($di);
             $current_week_end->add($di);
@@ -62,13 +67,10 @@ class Retrieve_Schedule extends Interfaces\Retrieve_Classes {
         // Set current_day_offset for filtering by sort_classes_by_date_then_time().
         $this->current_day_offset = $current_day_offset;
 
-		// Assign start_date & end_date to instance so can be accessed in grid schedule display
+        // Assign start_date & end_date to instance so can be accessed in grid schedule display
         $this->start_date = $start_time;
         $this->current_week_end = $current_week_end;
 
-		return array('StartDateTime'=> $start_time->format('Y-m-d'), 'EndDateTime'=> $end_time->format('Y-m-d'));
-	}
-
-	
-	
+        return array('StartDateTime' => $start_time->format('Y-m-d'), 'EndDateTime' => $end_time->format('Y-m-d'));
+    }
 }

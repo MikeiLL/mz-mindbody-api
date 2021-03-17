@@ -1,4 +1,5 @@
 <?php
+
 namespace MZ_Mindbody\Inc\Site;
 
 use MZ_Mindbody\Inc\Core as Core;
@@ -13,7 +14,8 @@ use MZ_Mindbody as NS;
  *
  *
  */
-class Retrieve_Site extends Interfaces\Retrieve {
+class Retrieve_Site extends Interfaces\Retrieve
+{
 
     /**
      * The Mindbody API Object
@@ -21,7 +23,7 @@ class Retrieve_Site extends Interfaces\Retrieve {
      * @access private
      */
     private $mb;
-    
+
     /**
      * Format for date display, specific to MBO API Plugin.
      *
@@ -45,57 +47,58 @@ class Retrieve_Site extends Interfaces\Retrieve {
      *
      * @since 2.5.9
      */
-    public function __construct(){
+    public function __construct()
+    {
         $this->date_format = Core\MZ_Mindbody_Api::$date_format;
         $this->time_format = Core\MZ_Mindbody_Api::$time_format;
     }
-    
+
     /**
      * Get All Site Memberships
      *
      * @since 2.5.9
      */
-    public function get_site_memberships(){
+    public function get_site_memberships()
+    {
 
         $this->get_mbo_results();
-		
-		$result = $this->mb->GetMemberships();
-		
-		return $result;
-		
+
+        $result = $this->mb->GetMemberships();
+
+        return $result;
     }
-    
+
     /**
      * Get All Site Programs
      *
      * @since 2.5.9
      */
-    public function get_site_programs(){
+    public function get_site_programs()
+    {
 
         $this->get_mbo_results();
-		
-		$result = $this->mb->GetPrograms();
-		
-		return $result;
-		
+
+        $result = $this->mb->GetPrograms();
+
+        return $result;
     }
-    
+
     /**
      * Get All Site Resources
      *
      * @since 2.5.9
      */
-    public function get_site_resources(){
+    public function get_site_resources()
+    {
 
         $this->get_mbo_results();
-		
-		$result = $this->mb->GetResources();
-		
-		return $result;
-		
+
+        $result = $this->mb->GetResources();
+
+        return $result;
     }
-    
-    
+
+
     /**
      * Create API Interface Object
      *
@@ -105,15 +108,15 @@ class Retrieve_Site extends Interfaces\Retrieve {
      *
      * @return array of MBO schedule data
      */
-    public function get_mbo_results( ){
-		
+    public function get_mbo_results()
+    {
+
         $this->mb = $this->instantiate_mbo_API();
-        
-        if ( !$this->mb || $this->mb == 'NO_API_SERVICE' ) return false;
+
+        if (!$this->mb || $this->mb == 'NO_API_SERVICE') {
+            return false;
+        }
 
         return true;
     }
-    
-
-
 }

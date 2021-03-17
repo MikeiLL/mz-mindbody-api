@@ -1,10 +1,12 @@
 <?php
+
 namespace MZ_Mindbody\Inc\Core;
 
 use MZ_Mindbody\Inc\Libraries as Libraries;
 use MZ_Mindbody as NS;
 
-class Template_Loader extends Libraries\Gamajo_Template_Loader {
+class Template_Loader extends Libraries\Gamajo_Template_Loader
+{
 
     /**
      * Prefix for filter names.
@@ -48,7 +50,4 @@ class Template_Loader extends Libraries\Gamajo_Template_Loader {
      * @var string
      */
     protected $plugin_template_directory = 'inc/frontend/views';
-
 }
-
-?>

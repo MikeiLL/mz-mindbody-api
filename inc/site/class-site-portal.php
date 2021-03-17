@@ -1,4 +1,5 @@
 <?php
+
 namespace MZ_Mindbody\Inc\Site;
 
 use MZ_Mindbody\Inc\Core as Core;
@@ -15,7 +16,8 @@ use MZ_Mindbody as NS;
  *
  * Not currently in use
  */
-class Site_Portal extends Retrieve_Site {
+class Site_Portal extends Retrieve_Site
+{
 
     /**
      * The Mindbody API Object
@@ -63,12 +65,9 @@ class Site_Portal extends Retrieve_Site {
      *
      * Since 2.4.7
      */
-    public function __construct(){
+    public function __construct()
+    {
         $this->date_format = Core\MZ_Mindbody_Api::$date_format;
         $this->time_format = Core\MZ_Mindbody_Api::$time_format;
     }
-
-
-    
-
 }

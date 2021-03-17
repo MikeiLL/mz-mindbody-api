@@ -1,4 +1,5 @@
 <?php
+
 namespace MZ_Mindbody\Inc\Staff;
 
 use MZ_Mindbody as NS;
@@ -66,9 +67,10 @@ class Display extends Interfaces\Shortcode_Script_Loader
 
         // If set, turn hide into an Array
         if ($this->atts['hide'] !== '') {
-            if (!is_array($this->atts['hide'])) // if not already an array
+            if (!is_array($this->atts['hide'])) { // if not already an array
                 $this->atts['hide'] = explode(',', $this->atts['hide']);
-            foreach ($this->atts['hide'] as $key => $type):
+            }
+            foreach ($this->atts['hide'] as $key => $type) :
                 $this->atts['hide'][$key] = trim($type);
             endforeach;
         }
@@ -79,11 +81,13 @@ class Display extends Interfaces\Shortcode_Script_Loader
         $this->staff_object = new Retrieve_Staff($this->atts);
 
         // Call the API and if fails, return error message.
-        if (false === $this->staff_object->get_mbo_results()) return "<div>" . __("Error displaying Staff from Mindbody.", 'mz-mindbody-api') . "</div>";
+        if (false === $this->staff_object->get_mbo_results()) {
+            return "<div>" . __("Error displaying Staff from Mindbody.", 'mz-mindbody-api') . "</div>";
+        }
 
-        if (isset($this->staff_object->staff_result)):
+        if (isset($this->staff_object->staff_result)) :
             $mz_staff_list = $this->staff_object->sort_staff_by_sort_order($this->atts);
-        else:
+        else :
             NS\MZMBO()->helpers->print($this->staff_object);
             die('Something went wrong.');
         endif;
@@ -117,7 +121,6 @@ class Display extends Interfaces\Shortcode_Script_Loader
 
             wp_register_script('mz_mbo_bootstrap_script', NS\PLUGIN_NAME_URL . 'dist/scripts/main.js', array('jquery'), NS\PLUGIN_VERSION, true);
             wp_enqueue_script('mz_mbo_bootstrap_script');
-
         }
     }
 
@@ -141,7 +144,7 @@ class Display extends Interfaces\Shortcode_Script_Loader
         $this->staff_object = new Retrieve_Staff();
 
         // Send an array of staffID
-        $staff_result = $this->staff_object->get_mbo_results( array($staffID) );
+        $staff_result = $this->staff_object->get_mbo_results(array($staffID));
 
         $this->template_data = array(
             'staff_details' => new Staff_Member($staff_result[0]), // returns an array
@@ -165,5 +168,3 @@ class Display extends Interfaces\Shortcode_Script_Loader
     }
     //End Ajax Get Staff
 }
-
-?>

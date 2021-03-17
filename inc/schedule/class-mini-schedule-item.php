@@ -1,4 +1,5 @@
 <?php
+
 namespace MZ_Mindbody\Inc\Schedule;
 
 use MZ_Mindbody;
@@ -17,7 +18,8 @@ use MZ_Mindbody\Inc\Libraries as Libraries;
  *
  * @param $schedule_item array
  */
-class Mini_Schedule_Item {
+class Mini_Schedule_Item
+{
 
     // All of the attributes from MBO
     /**
@@ -74,30 +76,30 @@ class Mini_Schedule_Item {
     public $ID;
 
     /**
-     * 
+     *
      *
      * @since    2.4.7
      * @access   public
-     * @var      string 
+     * @var      string
      */
     public $manage_text;
 
 
     /**
-     * 
+     *
      *
      * @since    2.4.7
      * @access   public
-     * @var      string 
+     * @var      string
      */
     public $scheduleType;
 
     /**
-     * 
+     *
      *
      * @since    2.4.7
      * @access   public
-     * @var      string 
+     * @var      string
      */
     public $staffName;
 
@@ -106,7 +108,7 @@ class Mini_Schedule_Item {
      *
      * @since    2.4.7
      * @access   public
-     * @var      string 
+     * @var      string
      */
     public $locationName;
 
@@ -118,7 +120,7 @@ class Mini_Schedule_Item {
      * @var      string $studioID ID of location associated with class
      */
     public $siteID;
-    
+
     // Attributes we create
 
 
@@ -145,7 +147,7 @@ class Mini_Schedule_Item {
     public $staffID;
 
     /**
-     * 
+     *
      *
      * @since    2.4.7
      * @access   public
@@ -163,7 +165,7 @@ class Mini_Schedule_Item {
     public $mbo_url;
 
     /**
-     * 
+     *
      *
      * @since    2.4.7
      * @access   public
@@ -172,7 +174,7 @@ class Mini_Schedule_Item {
     public $event_start_and_end;
 
     /**
-     * 
+     *
      *
      * @since    2.4.7
      * @access   public
@@ -219,7 +221,8 @@ class Mini_Schedule_Item {
      *
      * @param array $schedule_item array of item attributes. See class description.
      */
-    public function __construct($schedule_item, $atts = array()) {
+    public function __construct($schedule_item, $atts = array())
+    {
 
         $this->className = isset($schedule_item['Name']) ? $schedule_item['Name'] : '';
         $this->startDateTime = $schedule_item['StartDateTime'];
@@ -245,7 +248,6 @@ class Mini_Schedule_Item {
         // $this->class_name_css = 'mz_' . sanitize_html_class($this->className, 'mz_class_name');
         // $this->class_duration = $this->get_schedule_event_duration();
         // $this->dislayCancelled = ($schedule_item['LateCanceled'] == 1) ? '<div class="mz_cancelled_class">' . __('Cancelled', 'mz-mindbody-api') . '</div>' : '';
-
     }
 
 
@@ -258,7 +260,8 @@ class Mini_Schedule_Item {
      *
      * @return string "morning", "afternoon" or "night", translated
      */
-    private function get_schedule_event_duration(){
+    private function get_schedule_event_duration()
+    {
         $start = new DateTime\WpDateTime($this->startDateTime);
         $end = new DateTime\WpDateTime($this->endDateTime);
         return $start->diff($end);
@@ -272,11 +275,8 @@ class Mini_Schedule_Item {
      *
      * @return urlstring
      */
-    private function mbo_url() {
+    private function mbo_url()
+    {
         return "https://clients.mindbodyonline.com/ws.asp?sDate={$this->sDate}&amp;sLoc={$this->sLoc}&amp;sType={$this->sType}&amp;sclassid={$this->class_schedule_id}&amp;studioid={$this->siteID}";
     }
-
-
 }
-
-?>
