@@ -4,7 +4,7 @@ namespace MzMindbody\Inc\Schedule;
 
 use MzMindbody;
 use MzMindbody\Inc\Core as Core;
-use MzMindbody\Inc\Libraries\HTML_Element;
+use MzMindbody\Inc\Libraries\HtmlElement;
 use MzMindbody\Inc\Libraries\Rarst\WordPress\DateTime as DateTime;
 use MzMindbody\Inc\Libraries as Libraries;
 

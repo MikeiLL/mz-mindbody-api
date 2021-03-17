@@ -43,7 +43,7 @@ abstract class Retrieve
         if ($basic_options == 'Error: No Options' || empty($basic_options)) {
             return false;
         } elseif ($api_version == 6) {
-            return new Libraries\MBO_V6_API(array(
+            return new Libraries\MboV6Api(array(
                 'mz_source_name' => $basic_options['mz_source_name'],
                 'mz_mindbody_password' => $basic_options['mz_mindbody_password'],
                 'mz_mbo_app_name' => $basic_options['mz_mbo_app_name'],
@@ -53,7 +53,7 @@ abstract class Retrieve
             ), $this->atts); // Need attributes in API now for ScheduleTypeIds
         } else {
             try {
-                return new Libraries\MBO_V5_API(array(
+                return new Libraries\MboV5Api(array(
                     'SourceName' => $basic_options['mz_source_name'],
                     'Password' => $basic_options['mz_mindbody_password'],
                     'SiteIDs' => array($basic_options['mz_mindbody_siteID'])

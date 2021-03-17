@@ -5,7 +5,7 @@ namespace MzMindbody\Inc\Backend;
 use MzMindbody as NS;
 use MzMindbody\Inc\Common\Interfaces as Interfaces;
 
-class Retrieve_Debug extends Interfaces\Retrieve
+class RetrieveDebug extends Interfaces\Retrieve
 {
 
 

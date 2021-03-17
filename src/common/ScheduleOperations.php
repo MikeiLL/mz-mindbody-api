@@ -4,7 +4,7 @@ namespace MzMindbody\Inc\Common;
 
 use MzMindbody as NS;
 
-class Schedule_Operations
+class ScheduleOperations
 {
     /**
      * Summary.

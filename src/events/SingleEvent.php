@@ -311,14 +311,14 @@ class SingleEvent
         $this->atts = $atts;
         $this->siteID = !empty($atts['account']) ? $atts['account'] : Core\MzMindbody_Api::$basic_options['mz_mindbody_siteID'];
         $this->mbo_url = $this->mbo_url();
-        $this->class_name_link = $this->event_link_maker('class');
-        $this->staff_name_link = $this->event_link_maker('staff');
-        $this->sign_up_link = $this->event_link_maker('signup');
+        $this->class_name_link = $this->eventLinkMaker('class');
+        $this->staff_name_link = $this->eventLinkMaker('staff');
+        $this->sign_up_link = $this->eventLinkMaker('signup');
     }
 
-    private function event_link_maker($type = 'class')
+    private function eventLinkMaker($type = 'class')
     {
-        $class_name_link = new Library\HTML_Element('a');
+        $class_name_link = new Library\HtmlElement('a');
         $class_name_link->set('href', NS\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php');
         $linkArray = array();
         switch ($type) {

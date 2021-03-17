@@ -12,7 +12,7 @@ use Exception as Exception;
  *
  *
  */
-class MBO_V6_API
+class MboV6Api
 {
 
     private $tokenRequestTries = 6;
@@ -34,7 +34,7 @@ class MBO_V6_API
      * Get stored tokens when good and store new ones
      *
      */
-    protected $token_management;
+    protected $TokenManagement;
 
 
     /*
@@ -56,7 +56,7 @@ class MBO_V6_API
 
         $this->atts = $atts;
 
-        $this->token_management = new Common\Token_Management();
+        $this->TokenManagement = new Common\TokenManagement();
 
         // set credentials into headers
         if (!empty($mbo_dev_credentials)) {
@@ -87,7 +87,7 @@ class MBO_V6_API
 
         // set apiServices array with Mindbody endpoints
         // moved to a separate file for convenience.
-        $mbo_methods = new MBO_V6_API_METHODS($this->headersBasic);
+        $mbo_methods = new MboV6ApiMethods($this->headersBasic);
 
         $this->apiMethods = $mbo_methods->methods;
     }
@@ -189,7 +189,7 @@ class MBO_V6_API
             );
 
             // Maybe there's a stored token to use
-            $token = $this->token_management->get_stored_token();
+            $token = $this->TokenManagement->get_stored_token();
 
             if (ctype_alnum($token['AccessToken'])) {
                 $request_body['Access'] = $token['AccessToken'];
@@ -294,7 +294,7 @@ class MBO_V6_API
                 return false;
             }
 
-                $this->token_management->save_token_to_option($response_body);
+                $this->TokenManagement->save_token_to_option($response_body);
                 return $response_body;
         }
     }

@@ -29,7 +29,8 @@ class RetrieveEvents extends Interfaces\RetrieveClasses
      *
      * @since    2.4.7
      * @access   public
-     * @var      array    $display_timeFrame    StartDateTime and endDateTime Timestamps used in MBO API call, displayed in navigation.
+     * @var      array    $display_timeFrame    StartDateTime and endDateTime Timestamps
+     *                                          used in MBO API call, displayed in navigation.
      */
     public $display_timeFrame;
 /**
@@ -96,7 +97,7 @@ class RetrieveEvents extends Interfaces\RetrieveClasses
      *
      * @return array of MBO schedule data, time
      */
-    public function sort_events_by_time()
+    public function sortEventsByTime()
     {
 
 

@@ -5,7 +5,7 @@ namespace MzMindbody\Inc\Libraries;
 /* create an html element, like in js
  * Source: https://davidwalsh.name/create-html-elements-php-htmlelement-class
  */
-class HTML_Element
+class HtmlElement
 {
     /* vars */
     var $type;

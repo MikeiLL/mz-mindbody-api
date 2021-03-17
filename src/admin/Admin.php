@@ -356,7 +356,7 @@ class Admin
 
         check_ajax_referer($_REQUEST['nonce'], "mz_admin_nonce", false);
 
-        $token_object = new Common\Token_Management();
+        $token_object = new Common\TokenManagement();
         $token = $token_object->get_and_save_token();
 
         $result['type'] = "success";
@@ -426,7 +426,7 @@ class Admin
         );
         $return .=  "<p></br></p>";
 
-        $debug_object = new Backend\Retrieve_Debug();
+        $debug_object = new Backend\RetrieveDebug();
 
         $debug = $debug_object->getMboResults();
 
@@ -463,7 +463,7 @@ class Admin
             '<code>&lt;ErrorCode&gt;200&lt;/ErrorCode&gt;</code>'
         );
         $return .=  "</p>";
-        $debug_object = new Backend\Retrieve_Debug();
+        $debug_object = new Backend\RetrieveDebug();
         $debug = $debug_object->getMboResults(null, 5);
 
         $result['type'] = "success";

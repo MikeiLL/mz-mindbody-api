@@ -261,7 +261,7 @@ class MzMindbody_Api
         $registrant_object = new Schedule\Retrieve_Registrants();
         $class_owners_object = new Schedule\Retrieve_Class_Owners();
         $staff_object = new Staff\Display();
-        $token_object = new Common\Token_Management();
+        $token_object = new Common\TokenManagement();
 
 
         // Start Ajax Clear Transients
@@ -283,8 +283,8 @@ class MzMindbody_Api
         $this->loader->add_action('wp_ajax_mz_display_schedule', $schedule_object, 'display_schedule');
 
         // Start Ajax Display Schedule
-        $this->loader->add_action('wp_ajax_nopriv_mz_display_events', $events_object, 'display_events');
-        $this->loader->add_action('wp_ajax_mz_display_events', $events_object, 'display_events');
+        $this->loader->add_action('wp_ajax_nopriv_mz_displayEvents', $events_object, 'displayEvents');
+        $this->loader->add_action('wp_ajax_mz_displayEvents', $events_object, 'displayEvents');
 
         // Start Ajax Get Registrants
         $this->loader->add_action('wp_ajax_nopriv_mz_mbo_get_registrants', $registrant_object, 'ajax_get_registrants');

@@ -131,7 +131,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
      * @since    2.4.7
      * @access   public
      *
-     * @used in handleShortcode, display_events
+     * @used in handleShortcode, displayEvents
      * @var      @array
      */
     public $clientID;
@@ -184,7 +184,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
         $events = (count($response) >= 1) ? $response : __('No Events in current cycle', 'mz-mindbody-api');
 
         //NS\MZMBO()->helpers->print($events);
-        $events = $this->events_object->sort_events_by_time();
+        $events = $this->events_object->sortEventsByTime();
 
         $this->template_data = array(
             'atts' => $this->atts,
@@ -272,7 +272,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
      *
      * Echo json json_encode() version of HTML from template
      */
-    public function display_events()
+    public function displayEvents()
     {
 
         ob_start();
@@ -297,7 +297,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
 
         $events = ($response['GetClassesResult']['ResultCount'] >= 1) ? $response['GetClassesResult']['Classes']['Class'] : __('No Events in current cycle', 'mz-mindbody-api');
 
-        $events = $this->events_object->sort_events_by_time();
+        $events = $this->events_object->sortEventsByTime();
 
         // Assign the date range to the $result
         $date_range = $this->events_object->display_timeFrame;

@@ -4,7 +4,7 @@ namespace MzMindbody\Inc\Schedule;
 
 use MzMindbody as NS;
 use MzMindbody\Inc\Core as Core;
-use MzMindbody\Inc\Libraries\HTML_Element;
+use MzMindbody\Inc\Libraries\HtmlElement;
 use MzMindbody\Inc\Libraries\Rarst\WordPress\DateTime as DateTime;
 use MzMindbody\Inc\Libraries as Libraries;
 
@@ -574,7 +574,7 @@ class Schedule_Item
     /**
      * Build the Class Name link object
      *
-     * @return HTML_Element anchor tag.
+     * @return HtmlElement anchor tag.
      */
     private function class_link_maker($type = 'class', $sub_type = false)
     {
@@ -584,7 +584,7 @@ class Schedule_Item
         // 'data-accountNumber');
 
         $linkArray = array();
-        $link = new Libraries\HTML_Element('a');
+        $link = new Libraries\HtmlElement('a');
 
         switch ($type) {
             case 'staff':

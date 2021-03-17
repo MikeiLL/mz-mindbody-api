@@ -39,7 +39,7 @@
                 dataType: "json",
                 context: this,
                 url: mz_mindbody_schedule.ajaxurl,
-                data: {action: 'mz_display_events', nonce: mz_mindbody_schedule.nonce, atts: atts},
+                data: {action: 'mz_displayEvents', nonce: mz_mindbody_schedule.nonce, atts: atts},
                 success: function (json) {
                     if (json.type == "success") {
                         container.toggleClass('loader');

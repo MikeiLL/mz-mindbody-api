@@ -4,7 +4,7 @@ namespace MzMindbody\Inc\Staff;
 
 use MzMindbody as NS;
 use MzMindbody\Inc\Core as Core;
-use MzMindbody\Inc\Libraries\HTML_Element;
+use MzMindbody\Inc\Libraries\HtmlElement;
 
 /**
  * Class that holds and formats a single staff member from MBO API Staff Result.

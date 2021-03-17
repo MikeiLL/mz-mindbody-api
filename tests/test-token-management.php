@@ -3,7 +3,7 @@
 require_once('MZMBO_WPUnitTestCase.php');
 require_once('Test_Options.php');
 
-class Tests_Token_Management extends MZMBO_WPUnitTestCase
+class Tests_TokenManagement extends MZMBO_WPUnitTestCase
 {
 
     public function tearDown()
@@ -16,9 +16,9 @@ class Tests_Token_Management extends MZMBO_WPUnitTestCase
 
         parent::setUp();
 
-        $this->assertTrue(class_exists('MzMindbody\Inc\Common\Token_Management'));
+        $this->assertTrue(class_exists('MzMindbody\Inc\Common\TokenManagement'));
 
-        $tm = new MzMindbody\Inc\Common\Token_Management();
+        $tm = new MzMindbody\Inc\Common\TokenManagement();
 
         $token = $tm->serve_token();
 
@@ -30,13 +30,13 @@ class Tests_Token_Management extends MZMBO_WPUnitTestCase
 
         parent::setUp();
 
-        $this->assertTrue(class_exists('MzMindbody\Inc\Common\Token_Management'));
+        $this->assertTrue(class_exists('MzMindbody\Inc\Common\TokenManagement'));
 
-        $tm = new MzMindbody\Inc\Common\Token_Management();
+        $tm = new MzMindbody\Inc\Common\TokenManagement();
 
         $initial_token = $tm->serve_token(); // this should save and return a new token
 
-        $tm = new MzMindbody\Inc\Common\Token_Management();
+        $tm = new MzMindbody\Inc\Common\TokenManagement();
 
         $new_token = $tm->serve_token(); // this should serve saved token
 

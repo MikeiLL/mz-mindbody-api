@@ -6,7 +6,7 @@ use MzMindbody as NS;
 use MzMindbody\Inc\Core as Core;
 use MzMindbody\Inc\Common\Interfaces as Interfaces;
 
-class Token_Management extends Interfaces\Retrieve
+class TokenManagement extends Interfaces\Retrieve
 {
     /**
      * Intermittently fetch, store and serve mbo api AccessTokens.

@@ -5,7 +5,7 @@ namespace MzMindbody\Inc\Libraries;
 use MzMindbody as NS;
 use Exception as Exception;
 
-class MBO_V5_API
+class MboV5Api
 {
     protected $client;
 

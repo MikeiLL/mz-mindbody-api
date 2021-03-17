@@ -58,7 +58,7 @@ class RetrieveSite extends Interfaces\Retrieve
      *
      * @since 2.5.9
      */
-    public function get_site_memberships()
+    public function getSiteMemberships()
     {
 
         $this->getMboResults();
@@ -73,7 +73,7 @@ class RetrieveSite extends Interfaces\Retrieve
      *
      * @since 2.5.9
      */
-    public function get_site_programs()
+    public function getSitePrograms()
     {
 
         $this->getMboResults();
@@ -88,7 +88,7 @@ class RetrieveSite extends Interfaces\Retrieve
      *
      * @since 2.5.9
      */
-    public function get_site_resources()
+    public function getSiteResources()
     {
 
         $this->getMboResults();
