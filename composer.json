@@ -18,10 +18,22 @@
       "role": "Developer"
     }
    ],
-  "type": "wordpress-plugin",
-  "require": {
-    "php": ">=7.1",
-    "composer/installers": "~1.0",
-    "squizlabs/php_codesniffer": "*"
-  }
+   "type": "wordpress-plugin",
+   "require": {
+     "php": ">=7.1",
+     "composer/installers": "~1.0",
+     "squizlabs/php_codesniffer": "*",
+     "wp-coding-standards/wpcs": "*"
+   },
+   "config": {
+     "optimize-autoloader": true,
+     "preferred-install": "dist",
+     "sort-packages": true
+   },
+   "scripts": {
+     "lint": [
+       "phpcs --extensions=php --standard=PSR12 ."
+     ],
+     "fix": ["phpcbf --extensions=php --standard=PSR12 ."]
+   }
 }
