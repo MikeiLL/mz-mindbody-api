@@ -117,8 +117,8 @@ class MzMindbody
     public static function instance()
     {
 
-        if (! isset(self::$instance) && ! ( self::$instance instanceof MzMindbody_Api )) {
-            self::$instance = new Inc\Core\MzMindbody_Api();
+        if (! isset(self::$instance) && ! ( self::$instance instanceof MzMindbodyApi )) {
+            self::$instance = new Inc\Core\MzMindbodyApi();
             self::$instance->run();
 
             self::$instance->i18n           = new Common\GlobalStrings();
@@ -132,9 +132,9 @@ class MzMindbody
 /**
  * Begins execution of the plugin
  *
- * The main function for that returns MzMindbody_Api
+ * The main function for that returns MzMindbodyApi
  *
- * The main function responsible for returning the one true MzMindbody_Api
+ * The main function responsible for returning the one true MzMindbodyApi
  * Instance to functions everywhere.
  *
  * Borrowed from Easy_Digital_Downloads.
@@ -153,7 +153,7 @@ class MzMindbody
  * can interact with the plugin's hooks contained within.
  *
  * @since 1.4
- * @return object|MzMindbody_Api The one true MzMindbody_Api Instance.
+ * @return object|MzMindbodyApi The one true MzMindbodyApi Instance.
  **/
 function MZMBO()
 {
@@ -169,7 +169,7 @@ function deactivate()
 
 // Check the minimum required PHP version and run the plugin.
 if (version_compare(PHP_VERSION, NS\MINIMUM_PHP_VERSION, '>=')) {
-    // Get MzMindbody_Api Instance.
+    // Get MzMindbodyApi Instance.
     MZMBO();
 } else {
     add_action('admin_init', __NAMESPACE__ . '\\deactivate');

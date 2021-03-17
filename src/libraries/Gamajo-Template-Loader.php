@@ -5,7 +5,7 @@ namespace MzMindbody\Inc\Libraries;
 /**
  * Template Loader for Plugins.
  *
- * @package   Gamajo_Template_Loader
+ * @package   Gamajo_TemplateLoader
  * @author    Gary Jones
  * @link      http://github.com/GaryJones/Gamajo-Template-Loader
  * @copyright 2013 Gary Jones
@@ -21,10 +21,10 @@ namespace MzMindbody\Inc\Libraries;
  *
  * When using in a plugin, create a new class that extends this one and just overrides the properties.
  *
- * @package Gamajo_Template_Loader
+ * @package Gamajo_TemplateLoader
  * @author  Gary Jones
  */
-class Gamajo_Template_Loader
+class Gamajo_TemplateLoader
 {
     /**
      * Prefix for filter names.
@@ -138,7 +138,7 @@ class Gamajo_Template_Loader
      * @param string $var_name Optional. Variable under which the custom data is available in the template.
      *                         Default is 'data'.
      *
-     * @return Gamajo_Template_Loader
+     * @return Gamajo_TemplateLoader
      */
     public function set_template_data($data, $var_name = 'data')
     {
@@ -161,7 +161,7 @@ class Gamajo_Template_Loader
      *
      * @since 1.2.0
      *
-     * @return Gamajo_Template_Loader
+     * @return Gamajo_TemplateLoader
      */
     public function unset_template_data()
     {

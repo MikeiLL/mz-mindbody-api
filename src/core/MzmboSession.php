@@ -23,7 +23,7 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
-class MZMBO_Session
+class MzMboSession
 {
 
     /**
@@ -395,7 +395,7 @@ class MZMBO_Session
      */
     public function get_blacklist()
     {
-        $blacklist = apply_filters('mzmbo_session_start_uri_blacklist', array(
+        $blacklist = apply_filters('MzMboSession_start_uri_blacklist', array(
             'feed',
             'feed/rss',
             'feed/rss2',

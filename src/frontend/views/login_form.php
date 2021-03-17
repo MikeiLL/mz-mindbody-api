@@ -41,7 +41,7 @@ use MzMindbody\Inc\Core as Core;
 
             <div class="form-group col-xs-8 col-sm-6">
 
-                <?php //if (Core\MzMindbody_Api::$advanced_options['allow_remember_me_cookie'] == 'on'): ?>
+                <?php //if (Core\MzMindbodyApi::$advanced_options['allow_remember_me_cookie'] == 'on'): ?>
                     <div class="checkbox">
 
                         <label><input name="keep_me_logged_in" type="checkbox"> <?php //_e('Keep me logged in.', 'mz-mindbody-api'); ?> </label>

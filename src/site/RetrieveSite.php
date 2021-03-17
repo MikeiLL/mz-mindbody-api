@@ -49,8 +49,8 @@ class RetrieveSite extends Interfaces\Retrieve
      */
     public function __construct()
     {
-        $this->date_format = Core\MzMindbody_Api::$date_format;
-        $this->time_format = Core\MzMindbody_Api::$time_format;
+        $this->date_format = Core\MzMindbodyApi::$date_format;
+        $this->time_format = Core\MzMindbodyApi::$time_format;
     }
 
     /**

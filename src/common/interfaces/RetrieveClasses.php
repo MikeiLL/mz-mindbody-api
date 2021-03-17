@@ -172,19 +172,19 @@ abstract class RetrieveClasses extends Retrieve
     {
 
         parent::__construct();
-        $this->date_format = Core\MzMindbody_Api::$date_format;
-        $this->time_format = Core\MzMindbody_Api::$time_format;
+        $this->date_format = Core\MzMindbodyApi::$date_format;
+        $this->time_format = Core\MzMindbodyApi::$time_format;
         $this->classesByDateThenTime = array();
         $this->classes = array();
         $this->atts = $atts;
-        if (!empty(Core\MzMindbody_Api::$basic_options['mz_mindbody_siteID'])) :
-            $this->mbo_account = !empty($atts['account']) ? $atts['account'] : Core\MzMindbody_Api::$basic_options['mz_mindbody_siteID'];
+        if (!empty(Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'])) :
+            $this->mbo_account = !empty($atts['account']) ? $atts['account'] : Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
         else :
             $this->mbo_account = '-99';
         endif;
         $this->timeFrame = $this->timeFrame();
         $this->locations_dictionary = array();
-        $this->schedule_types = !empty(Core\MzMindbody_Api::$advanced_options['schedule_types']) ? Core\MzMindbody_Api::$advanced_options['schedule_types'] : array('Class');
+        $this->schedule_types = !empty(Core\MzMindbodyApi::$advanced_options['schedule_types']) ? Core\MzMindbodyApi::$advanced_options['schedule_types'] : array('Class');
 // Allow shortcode to override global setting for schedule_types
         if (!empty($this->atts['schedule_types'])) {
             $this->schedule_types = $this->atts['schedule_types'];
@@ -246,7 +246,7 @@ abstract class RetrieveClasses extends Retrieve
             // Otherwise (if successful API call) assign result to $this->classes.
             $this->classes = $schedule_data['Classes'];
 // Store the transient for 12 hours or admin set duration
-            $transient_duration = !empty(Core\MzMindbody_Api::$advanced_options['schedule_transient_duration']) ? Core\MzMindbody_Api::$advanced_options['schedule_transient_duration'] : 43200;
+            $transient_duration = !empty(Core\MzMindbodyApi::$advanced_options['schedule_transient_duration']) ? Core\MzMindbodyApi::$advanced_options['schedule_transient_duration'] : 43200;
             set_transient($transient_string, $this->classes, $transient_duration);
         } else {
             $this->classes = get_transient($transient_string);
@@ -267,7 +267,7 @@ abstract class RetrieveClasses extends Retrieve
      */
     public function singleWeek($timestamp)
     {
-        return get_weekstartend(date("Y-m-d H:i:s", $timestamp), Core\MzMindbody_Api::$start_of_week);
+        return get_weekstartend(date("Y-m-d H:i:s", $timestamp), Core\MzMindbodyApi::$start_of_week);
     }
 
     /**
@@ -343,7 +343,7 @@ abstract class RetrieveClasses extends Retrieve
             /* Create a new array with a key for each date YYYY-MM-DD
             and corresponding value an array of class details */
 
-            $single_event = new Schedule\Schedule_Item($class, $this->atts);
+            $single_event = new Schedule\ScheduleItem($class, $this->atts);
             if (!empty($this->classesByDateThenTime[$just_date])) {
                 array_push($this->classesByDateThenTime[$just_date], $single_event);
             } else {
@@ -443,14 +443,14 @@ abstract class RetrieveClasses extends Retrieve
             $classTime = date_i18n("G.i", strtotime($class['StartDateTime']));
 // for numerical sorting
 
-            $single_event = new Schedule\Schedule_Item($class, $this->atts);
+            $single_event = new Schedule\ScheduleItem($class, $this->atts);
 // If there's is already an array for this time slot, add to it.
             if (!empty($this->classesByTimeThenDate[$classTime])) {
 // Create a $single_event which is a "class" object, and start the classes array with it.
                 array_push($this->classesByTimeThenDate[$classTime]['classes'], $single_event);
             } else {
             // Assign the first element of this time slot.
-                $display_time = (date_i18n(Core\MzMindbody_Api::$time_format, strtotime($class['StartDateTime'])));
+                $display_time = (date_i18n(Core\MzMindbodyApi::$time_format, strtotime($class['StartDateTime'])));
                 $this->classesByTimeThenDate[$classTime] = array(
                                                                 'display_time' => $display_time,
                                                                 // Add part_of_day for filter as well
@@ -533,7 +533,7 @@ abstract class RetrieveClasses extends Retrieve
         }
 
         // Uncomment to view date in browser
-        //NS\MZMBO()->helpers->print(date_i18n(Core\MzMindbody_Api::$date_format, strtotime($class['StartDateTime'])));
+        //NS\MZMBO()->helpers->print(date_i18n(Core\MzMindbodyApi::$date_format, strtotime($class['StartDateTime'])));
 
         return true;
     }

@@ -93,13 +93,13 @@ class Display extends Interfaces\ShortcodeScriptLoader
 
 
     /**
-     * Instance of Retrieve_Schedule.
+     * Instance of RetrieveSchedule.
      *
      * @since    2.4.7
      * @access   public
      * @populated in handleShortcode
      * @used in handleShortcode, localizeScript, display_schedule
-     * @var      object $schedule_object Instance of Retrieve_Schedule.
+     * @var      object $schedule_object Instance of RetrieveSchedule.
      */
     public $schedule_object;
 
@@ -193,7 +193,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
         ), $atts);
 
         // Set siteID to option if not set explicitly in shortcode
-        $this->siteID = (isset($atts['account'])) ? $atts['account'] : Core\MzMindbody_Api::$basic_options['mz_mindbody_siteID'];
+        $this->siteID = (isset($atts['account'])) ? $atts['account'] : Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
 
         $this->class_modal_link = NS\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php';
 
@@ -237,8 +237,8 @@ class Display extends Interfaces\ShortcodeScriptLoader
         // Begin generating output
         ob_start();
 
-        $template_loader = new Core\Template_Loader();
-        $this->schedule_object = new Retrieve_Schedule($this->atts);
+        $TemplateLoader = new Core\TemplateLoader();
+        $this->schedule_object = new RetrieveSchedule($this->atts);
 
         // Call the API and if fails, return error message.
         if (false == $this->schedule_object->getMboResults()) {
@@ -307,7 +307,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
          * If wordpress-configured week starts on Monday instead of Sunday,
          * we shift our week names array
          */
-        if (Core\MzMindbody_Api::$start_of_week != 0) {
+        if (Core\MzMindbodyApi::$start_of_week != 0) {
             array_push($week_names, array_shift($week_names));
         }
 
@@ -340,8 +340,8 @@ class Display extends Interfaces\ShortcodeScriptLoader
             'grid_schedule' => $grid_schedule
         );
 
-        $template_loader->set_template_data($this->template_data);
-        $template_loader->get_template_part('schedule_container');
+        $TemplateLoader->set_template_data($this->template_data);
+        $TemplateLoader->get_template_part('schedule_container');
 
 
         // Add Style with script adder
@@ -390,7 +390,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
             'nonce' => wp_create_nonce('mz_schedule_display_nonce'),
             'atts' => $this->atts,
             'with' => __('with', 'mz-mindbody-api'),
-            'account' => Core\MzMindbody_Api::$basic_options['mz_mindbody_siteID'],
+            'account' => Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'],
             'initial' => $this->initial_button_text,
             'mode_select' => $this->atts['mode_select'],
             'swap' => $this->swap_button_text,
@@ -438,9 +438,9 @@ class Display extends Interfaces\ShortcodeScriptLoader
 
         $result['type'] = "success";
 
-        $template_loader = new Core\Template_Loader();
+        $TemplateLoader = new Core\TemplateLoader();
 
-        $this->schedule_object = new Retrieve_Schedule($atts);
+        $this->schedule_object = new RetrieveSchedule($atts);
 
         // Call the API and if fails, return error message.
         if (false == $this->schedule_object->getMboResults()) {
@@ -454,7 +454,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
         $this->template_data['time_format'] = $this->schedule_object->time_format;
         $this->template_data['date_format'] = $this->schedule_object->date_format;
 
-        $template_loader->set_template_data($this->template_data);
+        $TemplateLoader->set_template_data($this->template_data);
 
         // Initialize the variables, so won't be un-set:
         $horizontal_schedule = '';
@@ -464,7 +464,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
             $grid_schedule = $this->schedule_object->sortClassesByTimeThenDate();
             // Update the data array
             $this->template_data['grid_schedule'] = $grid_schedule;
-            $template_loader->get_template_part('grid_schedule');
+            $TemplateLoader->get_template_part('grid_schedule');
             $result['grid'] = ob_get_clean();
         endif;
 
@@ -473,7 +473,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
             $horizontal_schedule = $this->schedule_object->sortClassesByDateThenTime();
             // Update the data array
             $this->template_data['horizontal_schedule'] = $horizontal_schedule;
-            $template_loader->get_template_part('horizontal_schedule');
+            $TemplateLoader->get_template_part('horizontal_schedule');
             $result['horizontal'] = ob_get_clean();
         endif;
 

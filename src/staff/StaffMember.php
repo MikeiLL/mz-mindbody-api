@@ -141,7 +141,7 @@ class StaffMember
         $this->ImageURL = isset($staff_member['ImageUrl']) ? $staff_member['ImageUrl'] : '';
         $this->Bio = isset($staff_member['Bio']) ? NS\MZMBO()->helpers->prepareHtmlString($staff_member['Bio']) : '';
         $this->atts = $atts;
-        $this->siteID = isset($this->atts['siteID']) ? $this->atts['siteID'] : NS\Inc\Core\MzMindbody_Api::$basic_options['mz_mindbody_siteID'];
+        $this->siteID = isset($this->atts['siteID']) ? $this->atts['siteID'] : NS\Inc\Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
         // If there's an image create a tag, otherwise empty string.
         $this->ImageTag = isset($staff_member['ImageUrl']) ? '<img src="' . $this->ImageURL . '" alt="' . $this->Name . '" class="img-responsive mz_modal_staff_image_body">' : '';
         $this->ScheduleButton = '<a href="http://clients.mindbodyonline.com/ws.asp?studioid=' . $this->siteID . '&stype=-7&sView=week&sTrn=' . $this->ID . '" class="btn btn-info mz-btn-info" target="_blank">' . sprintf(__('See %s&apos;s Schedule', 'mz-mindbody-api'), $this->Name) . '</a>';

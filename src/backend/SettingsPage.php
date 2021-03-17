@@ -34,7 +34,7 @@ class SettingsPage
 
     public function __construct()
     {
-        self::$wposa_obj = new Libraries\WP_OSA();
+        self::$wposa_obj = new Libraries\WpOsa();
     }
 
     public function addSections()

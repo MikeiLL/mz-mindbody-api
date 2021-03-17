@@ -32,8 +32,8 @@ class RetrieveStaff extends Interfaces\Retrieve
 
         parent::__construct();
         $this->atts = $atts;
-        if (!empty(Core\MzMindbody_Api::$basic_options['mz_mindbody_siteID'])) :
-            $this->mbo_account = !empty($atts['account']) ? $atts['account'] : Core\MzMindbody_Api::$basic_options['mz_mindbody_siteID'];
+        if (!empty(Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'])) :
+            $this->mbo_account = !empty($atts['account']) ? $atts['account'] : Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
         else :
             $this->mbo_account = '-99';
         endif;

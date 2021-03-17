@@ -139,7 +139,7 @@
         /**
          * Reset Class Owners
          *
-         * Call the mz_deduce_class_owners method of the Retrieve_Class_Owners class
+         * Call the mz_deduce_class_owners method of the RetrieveClassOwners class
          * via Ajax.
          *
          * This function is used by the Admin Options Advanced section

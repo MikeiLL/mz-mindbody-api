@@ -7,7 +7,7 @@ use MzMindbody\Inc\Core as Core;
 use MzMindbody\Inc\Common as Common;
 use MzMindbody\Inc\Common\Interfaces as Interfaces;
 
-class Retrieve_Class_Owners extends Interfaces\RetrieveClasses
+class RetrieveClassOwners extends Interfaces\RetrieveClasses
 {
 
     /**
@@ -113,7 +113,7 @@ class Retrieve_Class_Owners extends Interfaces\RetrieveClasses
                 continue;
             }
 
-                $classStartTime = new \DateTime($class['StartDateTime'], Core\MzMindbody_Api::$timezone);
+                $classStartTime = new \DateTime($class['StartDateTime'], Core\MzMindbodyApi::$timezone);
 
                 $day_of_class = $classStartTime->format('l');
 
@@ -172,7 +172,7 @@ class Retrieve_Class_Owners extends Interfaces\RetrieveClasses
 
         // Create an object that will be compared against the $class_owners matrix
 
-        $classStartTime = new \DateTime($class['StartDateTime'], Core\MzMindbody_Api::$timezone);
+        $classStartTime = new \DateTime($class['StartDateTime'], Core\MzMindbodyApi::$timezone);
 
         $day_of_class = $classStartTime->format('l');
 

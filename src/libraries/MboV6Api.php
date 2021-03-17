@@ -51,7 +51,7 @@ class MboV6Api
     public function __construct($mbo_dev_credentials = array(), $atts = array())
     {
 
-        // $mbo_dev_credentials = $this->basic_options = Core\MzMindbody_Api::$basic_options;
+        // $mbo_dev_credentials = $this->basic_options = Core\MzMindbodyApi::$basic_options;
         $this->basic_options = $mbo_dev_credentials;
 
         $this->atts = $atts;
@@ -122,7 +122,7 @@ class MboV6Api
             throw new Exception('Too many API Calls.');
         }
 
-        if ((isset(NS\Inc\Core\MzMindbody_Api::$advanced_options['log_api_calls'])) && (NS\Inc\Core\MzMindbody_Api::$advanced_options['log_api_calls'] == 'on')) :
+        if ((isset(NS\Inc\Core\MzMindbodyApi::$advanced_options['log_api_calls'])) && (NS\Inc\Core\MzMindbodyApi::$advanced_options['log_api_calls'] == 'on')) :
             $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1];
             $caller_details = $trace['function'];
             if (isset($trace['class'])) {

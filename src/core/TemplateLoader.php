@@ -5,7 +5,7 @@ namespace MzMindbody\Inc\Core;
 use MzMindbody\Inc\Libraries as Libraries;
 use MzMindbody as NS;
 
-class Template_Loader extends Libraries\Gamajo_Template_Loader
+class TemplateLoader extends Libraries\Gamajo_TemplateLoader
 {
 
     /**

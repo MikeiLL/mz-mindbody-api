@@ -13,7 +13,7 @@ use MzMindbody\Inc\Common\Interfaces as Interfaces;
  *
  */
 
-class Retrieve_Registrants extends Interfaces\Retrieve
+class RetrieveRegistrants extends Interfaces\Retrieve
 {
 
     /**

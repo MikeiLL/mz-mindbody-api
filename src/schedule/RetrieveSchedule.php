@@ -7,7 +7,7 @@ use MzMindbody\Inc\Core as Core;
 use MzMindbody\Inc\Common as Common;
 use MzMindbody\Inc\Common\Interfaces as Interfaces;
 
-class Retrieve_Schedule extends Interfaces\RetrieveClasses
+class RetrieveSchedule extends Interfaces\RetrieveClasses
 {
 
     /**

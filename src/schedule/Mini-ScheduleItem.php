@@ -9,16 +9,16 @@ use MzMindbody\Inc\Libraries\Rarst\WordPress\DateTime as DateTime;
 use MzMindbody\Inc\Libraries as Libraries;
 
 /**
- * Simplified version of the Schedule_Item class.
+ * Simplified version of the ScheduleItem class.
  *
  * These objects hold the schedule items returned in a Client Schedule
  * returned by GetClientSchedule.
  *
  * @Used By Class_ClientPortal
  *
- * @param $schedule_item array
+ * @param $ScheduleItem array
  */
-class Mini_Schedule_Item
+class MiniScheduleItem
 {
 
     // All of the attributes from MBO
@@ -67,7 +67,7 @@ class Mini_Schedule_Item
      * This is the integer associated with the specific instance of a class in MBO. This
      * is what we send to the API to register or de-register for a class.
      *
-     * $schedule_item['Id']
+     * $ScheduleItem['Id']
      *
      * @since    2.4.7
      * @access   public
@@ -219,35 +219,35 @@ class Mini_Schedule_Item
      *
      * @since 2.4.7
      *
-     * @param array $schedule_item array of item attributes. See class description.
+     * @param array $ScheduleItem array of item attributes. See class description.
      */
-    public function __construct($schedule_item, $atts = array())
+    public function __construct($ScheduleItem, $atts = array())
     {
 
-        $this->className = isset($schedule_item['Name']) ? $schedule_item['Name'] : '';
-        $this->startDateTime = $schedule_item['StartDateTime'];
-        $this->endDateTime = $schedule_item['EndDateTime'];
+        $this->className = isset($ScheduleItem['Name']) ? $ScheduleItem['Name'] : '';
+        $this->startDateTime = $ScheduleItem['StartDateTime'];
+        $this->endDateTime = $ScheduleItem['EndDateTime'];
 
-        // $this->sessionTypeName = isset($schedule_item['ClassDescription']['SessionType']['Name']) ? $schedule_item['ClassDescription']['SessionType']['Name'] : '';
+        // $this->sessionTypeName = isset($ScheduleItem['ClassDescription']['SessionType']['Name']) ? $ScheduleItem['ClassDescription']['SessionType']['Name'] : '';
 
-        $this->staffName = isset($schedule_item['Staff']['Name']) ? $schedule_item['Staff']['Name'] : '';
+        $this->staffName = isset($ScheduleItem['Staff']['Name']) ? $ScheduleItem['Staff']['Name'] : '';
 
-        $this->ID = $schedule_item['Id'];
-        // $this->class_schedule_id = $schedule_item['ClassScheduleId'];
-        // $this->sLoc = $schedule_item['Location']['Id'];
+        $this->ID = $ScheduleItem['Id'];
+        // $this->class_schedule_id = $ScheduleItem['ClassScheduleId'];
+        // $this->sLoc = $ScheduleItem['Location']['Id'];
 
-        //$this->locationName = $schedule_item['Location']['Name'];
+        //$this->locationName = $ScheduleItem['Location']['Name'];
 
-        // $this->sDate = date_i18n('m/d/Y', strtotime($schedule_item['StartDateTime']));
-        // $this->sTG = $schedule_item['ClassDescription']['Program']['Id'];
+        // $this->sDate = date_i18n('m/d/Y', strtotime($ScheduleItem['StartDateTime']));
+        // $this->sTG = $ScheduleItem['ClassDescription']['Program']['Id'];
         // $this->mbo_url = $this->mbo_url();
         // $this->sType = -7;
-        // $this->staffID = $schedule_item['Staff']['Id'];
-        $this->siteID = !empty($atts['account']) ? $atts['account'] : Core\MzMindbody_Api::$basic_options['mz_mindbody_siteID'];
+        // $this->staffID = $ScheduleItem['Staff']['Id'];
+        $this->siteID = !empty($atts['account']) ? $atts['account'] : Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
         // $this->session_type_css = 'mz_' . sanitize_html_class($this->sessionTypeName, 'mz_session_type');
         // $this->class_name_css = 'mz_' . sanitize_html_class($this->className, 'mz_class_name');
         // $this->class_duration = $this->get_schedule_event_duration();
-        // $this->dislayCancelled = ($schedule_item['LateCanceled'] == 1) ? '<div class="mz_cancelled_class">' . __('Cancelled', 'mz-mindbody-api') . '</div>' : '';
+        // $this->dislayCancelled = ($ScheduleItem['LateCanceled'] == 1) ? '<div class="mz_cancelled_class">' . __('Cancelled', 'mz-mindbody-api') . '</div>' : '';
     }
 
 

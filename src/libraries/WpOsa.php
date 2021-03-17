@@ -5,7 +5,7 @@ namespace MzMindbody\Inc\Libraries;
 use MzMindbody as NS;
 
 /**
- * Main Class file for `WP_OSA`
+ * Main Class file for `WpOsa`
  *
  * Main class that deals with all other classes.
  *
@@ -21,7 +21,7 @@ if (! defined('ABSPATH')) {
 }
 
 /**
- * WP_OSA.
+ * WpOsa.
  *
  * WP Settings API Class.
  *
@@ -29,7 +29,7 @@ if (! defined('ABSPATH')) {
  */
 
 
-class WP_OSA
+class WpOsa
 {
 
     /**
@@ -951,5 +951,5 @@ class WP_OSA
         </style>
         <?php
     }
-} // WP_OSA ended.
+} // WpOsa ended.
 

@@ -12,12 +12,12 @@ use MzMindbody\Inc\Libraries as Libraries;
  * Class that holds and formats a single item from MBO API Schedule
  * for display.
  *
- * Schedule_Item construct receives a single schedule item from the MBO API array containing
+ * ScheduleItem construct receives a single schedule item from the MBO API array containing
  * sub-arrays like ClassDescription, Location, IsCancelled
  *
- * @param $schedule_item array
+ * @param $ScheduleItem array
  */
-class Schedule_Item
+class ScheduleItem
 {
 
     // All of the attributes from MBO
@@ -89,7 +89,7 @@ class Schedule_Item
      * This is the integer associated with the specific instance of a class in MBO. This
      * is what we send to the API to register or de-register for a class.
      *
-     * $schedule_item['Id']
+     * $ScheduleItem['Id']
      *
      * @since    2.4.7
      * @access   public
@@ -505,55 +505,55 @@ class Schedule_Item
      *
      * @since 2.4.7
      *
-     * @param array $schedule_item array of item attributes. See class description.
+     * @param array $ScheduleItem array of item attributes. See class description.
      */
-    public function __construct($schedule_item, $atts = array())
+    public function __construct($ScheduleItem, $atts = array())
     {
 
-        $this->className = isset($schedule_item['ClassDescription']['Name']) ? $schedule_item['ClassDescription']['Name'] : '';
-        $this->classImage = isset($schedule_item['ClassDescription']['ImageURL']) ? $schedule_item['ClassDescription']['ImageURL'] : '';
-        $this->startDateTime = $schedule_item['StartDateTime'];
-        $this->endDateTime = $schedule_item['EndDateTime'];
-        $this->sessionTypeName = isset($schedule_item['ClassDescription']['SessionType']['Name']) ? $schedule_item['ClassDescription']['SessionType']['Name'] : '';
+        $this->className = isset($ScheduleItem['ClassDescription']['Name']) ? $ScheduleItem['ClassDescription']['Name'] : '';
+        $this->classImage = isset($ScheduleItem['ClassDescription']['ImageURL']) ? $ScheduleItem['ClassDescription']['ImageURL'] : '';
+        $this->startDateTime = $ScheduleItem['StartDateTime'];
+        $this->endDateTime = $ScheduleItem['EndDateTime'];
+        $this->sessionTypeName = isset($ScheduleItem['ClassDescription']['SessionType']['Name']) ? $ScheduleItem['ClassDescription']['SessionType']['Name'] : '';
         // Set Staff Name up.
         // First set first, last with default to blank string
-        $this->staffName = isset($schedule_item['Staff']['FirstName']) ? $schedule_item['Staff']['FirstName'] . ' ' . $schedule_item['Staff']['LastName'] : '';
+        $this->staffName = isset($ScheduleItem['Staff']['FirstName']) ? $ScheduleItem['Staff']['FirstName'] . ' ' . $ScheduleItem['Staff']['LastName'] : '';
         // If "Name" has been set, use that
-        if (isset($schedule_item['Staff']['Name'])) {
-            $this->staffName = $schedule_item['Staff']['Name'];
+        if (isset($ScheduleItem['Staff']['Name'])) {
+            $this->staffName = $ScheduleItem['Staff']['Name'];
         }
-        $this->classDescription = isset($schedule_item['ClassDescription']['Description']) ? $schedule_item['ClassDescription']['Description'] : '';
-        $this->level = isset($schedule_item['ClassDescription']['Level']['Name']) ? $schedule_item['ClassDescription']['Level']['Name'] : '';
-        $this->staffImage = isset($schedule_item['Staff']['ImageUrl']) ? $schedule_item['Staff']['ImageUrl'] : '';
-        $this->is_waitlist_available = isset($schedule_item['IsWaitlistAvailable']) ? $schedule_item['IsWaitlistAvailable'] : '';
-        $this->total_booked = isset($schedule_item['TotalBooked']) ? $schedule_item['TotalBooked'] : '';
-        $this->max_capacity = isset($schedule_item['MaxCapacity']) ? $schedule_item['MaxCapacity'] : '';
-        $this->ID = $schedule_item['Id'];
-        $this->sTG = $schedule_item['ClassDescription']['Program']['Id'];
-        $this->class_schedule_id = $schedule_item['ClassScheduleId'];
-        $this->sLoc = $schedule_item['Location']['Id'];
-        $this->locationName = $schedule_item['Location']['Name'];
-        $this->sDate = date_i18n('m/d/Y', strtotime($schedule_item['StartDateTime']));
+        $this->classDescription = isset($ScheduleItem['ClassDescription']['Description']) ? $ScheduleItem['ClassDescription']['Description'] : '';
+        $this->level = isset($ScheduleItem['ClassDescription']['Level']['Name']) ? $ScheduleItem['ClassDescription']['Level']['Name'] : '';
+        $this->staffImage = isset($ScheduleItem['Staff']['ImageUrl']) ? $ScheduleItem['Staff']['ImageUrl'] : '';
+        $this->is_waitlist_available = isset($ScheduleItem['IsWaitlistAvailable']) ? $ScheduleItem['IsWaitlistAvailable'] : '';
+        $this->total_booked = isset($ScheduleItem['TotalBooked']) ? $ScheduleItem['TotalBooked'] : '';
+        $this->max_capacity = isset($ScheduleItem['MaxCapacity']) ? $ScheduleItem['MaxCapacity'] : '';
+        $this->ID = $ScheduleItem['Id'];
+        $this->sTG = $ScheduleItem['ClassDescription']['Program']['Id'];
+        $this->class_schedule_id = $ScheduleItem['ClassScheduleId'];
+        $this->sLoc = $ScheduleItem['Location']['Id'];
+        $this->locationName = $ScheduleItem['Location']['Name'];
+        $this->sDate = date_i18n('m/d/Y', strtotime($ScheduleItem['StartDateTime']));
         $this->sign_up_title = __('Sign-Up', 'mz-mindbody-api');
         $this->manage_text = __('Manage on MindBody Site', 'mz-mindbody-api');
         $this->sType = -7;
-        $this->staffID = $schedule_item['Staff']['Id'];
-        $this->siteID = !empty($atts['account']) ? $atts['account'] : Core\MzMindbody_Api::$basic_options['mz_mindbody_siteID'];
+        $this->staffID = $ScheduleItem['Staff']['Id'];
+        $this->siteID = !empty($atts['account']) ? $atts['account'] : Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
         $this->mbo_url = $this->mbo_url();
-        $this->day_num = $this->get_day_number(date_i18n("N", strtotime($schedule_item['StartDateTime'])));
+        $this->day_num = $this->get_day_number(date_i18n("N", strtotime($ScheduleItem['StartDateTime'])));
         $this->session_type_css = 'mz_' . sanitize_html_class($this->sessionTypeName, 'mz_session_type');
         $this->class_name_css = 'mz_' . sanitize_html_class($this->className, 'mz_class_name');
         $this->part_of_day = $this->part_of_day();
         $this->class_duration = $this->get_schedule_event_duration();
-        $this->dislayCancelled = ($schedule_item['IsCanceled'] == 1) ? '<div class="mz_cancelled_class">' . __('Cancelled', 'mz-mindbody-api') . '</div>' : '';
-        $this->is_substitute = $schedule_item['Substitute'];
-        $this->scheduleType = $schedule_item['ClassDescription']['Program']['ScheduleType'];
+        $this->dislayCancelled = ($ScheduleItem['IsCanceled'] == 1) ? '<div class="mz_cancelled_class">' . __('Cancelled', 'mz-mindbody-api') . '</div>' : '';
+        $this->is_substitute = $ScheduleItem['Substitute'];
+        $this->scheduleType = $ScheduleItem['ClassDescription']['Program']['ScheduleType'];
         $this->atts = $atts;
-        if ((Core\MzMindbody_Api::$advanced_options['elect_display_substitutes'] == 'on') && empty($atts['mbo_pages_call'])) :
+        if ((Core\MzMindbodyApi::$advanced_options['elect_display_substitutes'] == 'on') && empty($atts['mbo_pages_call'])) :
             // We add the mbo_pages_call attribute if calling from MBO Pages plugin so that sub details will be skipped
             if ($this->is_substitute === true) :
-                $owners = new Retrieve_Class_Owners();
-                $owner = $owners->find_class_owner($schedule_item);
+                $owners = new RetrieveClassOwners();
+                $owner = $owners->find_class_owner($ScheduleItem);
                 if ($owner !== false) {
                     $this->sub_details = $owner['class_owner'];
                 }
@@ -644,10 +644,10 @@ class Schedule_Item
                     endif;
                 endif;
 
-                $linkArray['data-time'] = date_i18n(Core\MzMindbody_Api::$date_format . ' ' . Core\MzMindbody_Api::$time_format, strtotime($this->startDateTime));
+                $linkArray['data-time'] = date_i18n(Core\MzMindbodyApi::$date_format . ' ' . Core\MzMindbodyApi::$time_format, strtotime($this->startDateTime));
 
                 // May being back option to register within site. For now, comment out.
-                // if ((!empty($this->atts['advanced']) && ($this->atts['advanced'] == '1')) || (Core\MzMindbody_Api::$advanced_options['register_within_site'] == 'on')):
+                // if ((!empty($this->atts['advanced']) && ($this->atts['advanced'] == '1')) || (Core\MzMindbodyApi::$advanced_options['register_within_site'] == 'on')):
 
                     // $linkArray['data-target'] = 'mzSignUpModal';
                     // $linkArray['data-nonce'] = wp_create_nonce('mz_signup_nonce');
@@ -690,7 +690,7 @@ class Schedule_Item
          * and for now we're ignoring week starts aside from
          * Sunday or Monday. Sorry.
          */
-        if (Core\MzMindbody_Api::$start_of_week != 0) {
+        if (Core\MzMindbodyApi::$start_of_week != 0) {
             return $php_day_number;
         }
         switch ($php_day_number) {

@@ -163,14 +163,14 @@ class Display extends Interfaces\ShortcodeScriptLoader
         ), $atts);
 
         // Set siteID to option if not set explicitly in shortcode
-        $this->siteID = (!empty($atts['account'])) ? $atts['account'] : Core\MzMindbody_Api::$basic_options['mz_mindbody_siteID'];
+        $this->siteID = (!empty($atts['account'])) ? $atts['account'] : Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
 
         // Break locations up into array, if it hasn't already been.
         $this->atts['locations'] = (!is_array($this->atts['locations'])) ? explode(',', str_replace(' ', '', $this->atts['locations'])) : $this->atts['locations'];
 
         ob_start();
 
-        $template_loader = new Core\Template_Loader();
+        $TemplateLoader = new Core\TemplateLoader();
 
         $this->events_object = new RetrieveEvents($this->atts);
 
@@ -209,8 +209,8 @@ class Display extends Interfaces\ShortcodeScriptLoader
             'all_locations_copy' => NS\MZMBO()->i18n->get('all_locations_copy')
         );
 
-        $template_loader->set_template_data($this->template_data);
-        $template_loader->get_template_part('event_listing_container');
+        $TemplateLoader->set_template_data($this->template_data);
+        $TemplateLoader->get_template_part('event_listing_container');
 
         return ob_get_clean();
     }
@@ -244,7 +244,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
             'ajaxurl' => admin_url('admin-ajax.php', $protocol),
             'nonce' => wp_create_nonce('mz_events_display_nonce'),
             'atts' => $this->atts,
-            'account' => Core\MzMindbody_Api::$basic_options['mz_mindbody_siteID'],
+            'account' => Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'],
             'error' => __('Sorry but there was an error retrieving the events.', 'mz-mindbody-api'),
             'no_bio' => __('No biography listed for this staff member.', 'mz-mindbody-api'),
             'login' => $translated_strings['login'],
@@ -283,7 +283,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
 
         $result['type'] = "success";
 
-        $template_loader = new Core\Template_Loader();
+        $TemplateLoader = new Core\TemplateLoader();
 
         $this->events_object = new RetrieveEvents($atts);
 
@@ -311,11 +311,11 @@ class Display extends Interfaces\ShortcodeScriptLoader
         $this->template_data['events'] = $events;
         $this->template_data['atts'] = $atts;
 
-        $template_loader->set_template_data($this->template_data);
+        $TemplateLoader->set_template_data($this->template_data);
         if ($atts['list'] != 1) :
-            $template_loader->get_template_part('event_listing_full');
+            $TemplateLoader->get_template_part('event_listing_full');
         else :
-            $template_loader->get_template_part('event_listing_list');
+            $TemplateLoader->get_template_part('event_listing_list');
         endif;
 
         $result['message'] = ob_get_clean();

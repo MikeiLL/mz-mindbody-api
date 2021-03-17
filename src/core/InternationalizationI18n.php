@@ -13,7 +13,7 @@ namespace MzMindbody\Inc\Core;
  *
  * @author     Mike iLL/mZoo.org
  */
-class Internationalization_I18n
+class InternationalizationI18n
 {
 
     /**

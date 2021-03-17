@@ -21,10 +21,10 @@ use MzMindbody\Inc\Libraries\Rarst\WordPress\DateTime as DateTime;
  *
  * @author     Mike iLL/mZoo.org
  */
-class MzMindbody_Api
+class MzMindbodyApi
 {
     /**
-     * @var MzMindbody_API The one true MzMindbody_API
+     * @var MzMindbodyApi The one true MzMindbodyApi
      * @since 2.4.7
      */
     private static $instance;
@@ -190,7 +190,7 @@ class MzMindbody_Api
      * Loads the following required dependencies for this plugin.
      *
      * - Loader - Orchestrates the hooks of the plugin.
-     * - Internationalization_I18n - Defines internationalization functionality.
+     * - InternationalizationI18n - Defines internationalization functionality.
      * - Admin - Defines all hooks for the admin area.
      * - Frontend - Defines all hooks for the public side of the site.
      *
@@ -204,7 +204,7 @@ class MzMindbody_Api
     /**
      * Define the locale for this plugin for internationalization.
      *
-     * Uses the Internationalization_I18n class in order to set the domain and to register the hook
+     * Uses the InternationalizationI18n class in order to set the domain and to register the hook
      * with WordPress.
      *
      * @access    private
@@ -212,7 +212,7 @@ class MzMindbody_Api
     private function set_locale()
     {
 
-        $plugin_i18n = new Internationalization_I18n($this->plugin_text_domain);
+        $plugin_i18n = new InternationalizationI18n($this->plugin_text_domain);
 
         $this->loader->add_action('plugins_loaded', $plugin_i18n, 'load_plugin_textdomain');
     }
@@ -235,7 +235,7 @@ class MzMindbody_Api
         // TODO move this?
         if ((isset(self::$advanced_options['elect_display_substitutes'])) && (self::$advanced_options['elect_display_substitutes'] == 'on')) {
             // Create the "Class Owners" transient, if not already created
-            $class_owners_object = new Schedule\Retrieve_Class_Owners();
+            $class_owners_object = new Schedule\RetrieveClassOwners();
             $this->loader->add_action('create_class_owners_transient', $class_owners_object, 'deduce_class_owners');
             //add_action('create_class_owners_transient', array($class_owners_object, 'deduce_class_owners'));
             // We delay it just in case because of only one MBO call at a time being allowed.
@@ -258,8 +258,8 @@ class MzMindbody_Api
         $admin_object = new Admin\Admin($this->get_plugin_name(), $this->get_version(), $this->get_plugin_text_domain());
         $schedule_object = new Schedule\Display();
         $events_object = new Events\Display();
-        $registrant_object = new Schedule\Retrieve_Registrants();
-        $class_owners_object = new Schedule\Retrieve_Class_Owners();
+        $registrant_object = new Schedule\RetrieveRegistrants();
+        $class_owners_object = new Schedule\RetrieveClassOwners();
         $staff_object = new Staff\Display();
         $token_object = new Common\TokenManagement();
 
