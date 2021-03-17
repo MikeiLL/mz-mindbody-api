@@ -25,6 +25,11 @@
      "squizlabs/php_codesniffer": "*",
      "wp-coding-standards/wpcs": "*"
    },
+   "autoload": {
+     "psr-4": {
+       "MzMindbody\\": "inc"
+     }
+   },
    "config": {
      "optimize-autoloader": true,
      "preferred-install": "dist",
@@ -32,8 +37,8 @@
    },
    "scripts": {
      "lint": [
-       "phpcs --extensions=php --standard=PSR12 inc *.php"
+       "phpcs --extensions=php --standard=PSR12 src *.php"
      ],
-     "fix": ["phpcbf --extensions=php --standard=PSR12 inc *.php"]
+     "fix": ["phpcbf --extensions=php --standard=PSR12 src *.php"]
    }
 }

@@ -9,7 +9,7 @@
  *
  * @link              http://mzoo.org
  * @since             1.0.0
- * @package           MZ_Mindbody
+ * @package           MzMindbody
  *
  * @wordpress-plugin
  * Plugin Name:     mZoo Mindbody Interface - Schedule, Events, Staff Display
@@ -27,11 +27,11 @@
  * Domain Path:     /languages
 */
 
-namespace MZ_Mindbody;
+namespace MzMindbody;
 
-use MZ_Mindbody as NS;
-use MZ_Mindbody\Inc\Core as Core;
-use MZ_Mindbody\Inc\Common as Common;
+use MzMindbody as NS;
+use MzMindbody\Inc\Core as Core;
+use MzMindbody\Inc\Common as Common;
 
 // If this file is called directly, abort.
 if (! defined('WPINC')) {
@@ -88,7 +88,7 @@ register_deactivation_hook(__FILE__, array( NS . 'Inc\Core\Deactivator', 'deacti
  *
  * @since    2.4.7
  */
-class MZ_Mindbody
+class MzMindbody
 {
 
     /**
@@ -100,9 +100,9 @@ class MZ_Mindbody
     private static $instance;
 
     /**
-     * Main MZ_Mindbody Instance.
+     * Main MzMindbody Instance.
      *
-     * Insures that only one instance of MZ_Mindbody exists in memory at any one
+     * Insures that only one instance of MzMindbody exists in memory at any one
      * time. Also prevents needing to define globals all over the place.
      *
      * Totally borrowed from Easy_Digital_Downloads, and certainly used with some ignorance
@@ -112,16 +112,16 @@ class MZ_Mindbody
      * @static
      * @staticvar array $instance
      * @see MZMBO()
-     * @return object|MZ_Mindbody The one true MZ_Mindbody
+     * @return object|MzMindbody The one true MzMindbody
      */
     public static function instance()
     {
 
-        if (! isset(self::$instance) && ! ( self::$instance instanceof MZ_Mindbody_Api )) {
-            self::$instance = new Inc\Core\MZ_Mindbody_Api();
+        if (! isset(self::$instance) && ! ( self::$instance instanceof MzMindbody_Api )) {
+            self::$instance = new Inc\Core\MzMindbody_Api();
             self::$instance->run();
 
-            self::$instance->i18n           = new Common\Global_Strings();
+            self::$instance->i18n           = new Common\GlobalStrings();
             self::$instance->helpers        = new Common\Helpers();
         }
 
@@ -132,9 +132,9 @@ class MZ_Mindbody
 /**
  * Begins execution of the plugin
  *
- * The main function for that returns MZ_Mindbody_Api
+ * The main function for that returns MzMindbody_Api
  *
- * The main function responsible for returning the one true MZ_Mindbody_Api
+ * The main function responsible for returning the one true MzMindbody_Api
  * Instance to functions everywhere.
  *
  * Borrowed from Easy_Digital_Downloads.
@@ -142,8 +142,8 @@ class MZ_Mindbody
  * Use this function like you would a global variable, except without needing
  * to declare the global.
  *
- * Example 1: <?php $mZmbo = MZ_Mindbody\MZMBO(); ?>
- * Example 2: <?php $basic_options = MZ_Mindbody\MZMBO()::$basic_options ?>
+ * Example 1: <?php $mZmbo = MzMindbody\MZMBO(); ?>
+ * Example 2: <?php $basic_options = MzMindbody\MZMBO()::$basic_options ?>
  *
  * Since everything within the plugin is registered via hooks,
  * then kicking off the plugin from this point in the file does
@@ -153,11 +153,11 @@ class MZ_Mindbody
  * can interact with the plugin's hooks contained within.
  *
  * @since 1.4
- * @return object|MZ_Mindbody_Api The one true MZ_Mindbody_Api Instance.
+ * @return object|MzMindbody_Api The one true MzMindbody_Api Instance.
  **/
 function MZMBO()
 {
-        return MZ_Mindbody::instance();
+        return MzMindbody::instance();
 }
 
 function deactivate()
@@ -169,7 +169,7 @@ function deactivate()
 
 // Check the minimum required PHP version and run the plugin.
 if (version_compare(PHP_VERSION, NS\MINIMUM_PHP_VERSION, '>=')) {
-    // Get MZ_Mindbody_Api Instance.
+    // Get MzMindbody_Api Instance.
     MZMBO();
 } else {
     add_action('admin_init', __NAMESPACE__ . '\\deactivate');

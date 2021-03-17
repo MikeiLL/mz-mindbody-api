@@ -22,7 +22,7 @@
  * @link       http://mzoo.org
  * @since      1.0.0
  *
- * @package    MZ_Mindbody
+ * @package    MzMindbody
  */
 
 // If uninstall not called from WordPress, then exit.

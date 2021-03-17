@@ -23,14 +23,14 @@ class ScheduleDisplayTest extends MZMBO_WPUnitTestCase
     {
         parent::setUp();
 
-        $this->assertTrue(class_exists('MZ_Mindbody\Inc\Core\MZ_Mindbody_Api'));
+        $this->assertTrue(class_exists('MzMindbody\Inc\Core\MzMindbody_Api'));
         // Manually initialize static variable.
-        MZ_Mindbody\Inc\Core\MZ_Mindbody_Api::$basic_options = get_option('mz_mbo_basic');
-        $this->assertTrue(class_exists('MZ_Mindbody\Inc\Schedule\Retrieve_Schedule'));
-        $schedule_object = new MZ_Mindbody\Inc\Schedule\Retrieve_Schedule();
-        $time_frame = $schedule_object->time_frame();
-        $this->assertTrue(count($time_frame) === 2);
-        $response = $schedule_object->get_mbo_results();
+        MzMindbody\Inc\Core\MzMindbody_Api::$basic_options = get_option('mz_mbo_basic');
+        $this->assertTrue(class_exists('MzMindbody\Inc\Schedule\Retrieve_Schedule'));
+        $schedule_object = new MzMindbody\Inc\Schedule\Retrieve_Schedule();
+        $timeFrame = $schedule_object->timeFrame();
+        $this->assertTrue(count($timeFrame) === 2);
+        $response = $schedule_object->getMboResults();
         $this->assertTrue(is_array($response));
         $this->assertTrue(is_array($response[0]));
         $this->assertTrue(is_string($response[0]['StartDateTime']));
@@ -41,18 +41,18 @@ class ScheduleDisplayTest extends MZMBO_WPUnitTestCase
     /**
      * Confirm that horizontal schedule display method is operational
      */
-    function test_sort_classes_by_date_then_time()
+    function test_sortClassesByDateThenTime()
     {
 
         parent::setUp();
 
-        $this->assertTrue(class_exists('MZ_Mindbody\Inc\Schedule\Retrieve_Schedule'));
+        $this->assertTrue(class_exists('MzMindbody\Inc\Schedule\Retrieve_Schedule'));
 
-        $schedule_object = new MZ_Mindbody\Inc\Schedule\Retrieve_Schedule();
+        $schedule_object = new MzMindbody\Inc\Schedule\Retrieve_Schedule();
 
-        $response = $schedule_object->get_mbo_results();
+        $response = $schedule_object->getMboResults();
 
-        $sequenced_classes = $schedule_object->sort_classes_by_date_then_time();
+        $sequenced_classes = $schedule_object->sortClassesByDateThenTime();
 
         /*
          * Test that first date is today
@@ -78,18 +78,18 @@ class ScheduleDisplayTest extends MZMBO_WPUnitTestCase
     /**
      * Confirm that grid schedule display method is operational
      */
-    function test_sort_classes_by_time_then_date()
+    function test_sortClassesByTimeThenDate()
     {
 
         parent::setUp();
 
-        $this->assertTrue(class_exists('MZ_Mindbody\Inc\Schedule\Retrieve_Schedule'));
+        $this->assertTrue(class_exists('MzMindbody\Inc\Schedule\Retrieve_Schedule'));
 
-        $schedule_object = new MZ_Mindbody\Inc\Schedule\Retrieve_Schedule();
+        $schedule_object = new MzMindbody\Inc\Schedule\Retrieve_Schedule();
 
-        $response = $schedule_object->get_mbo_results();
+        $response = $schedule_object->getMboResults();
 
-        $sequenced_classes = $schedule_object->sort_classes_by_time_then_date();
+        $sequenced_classes = $schedule_object->sortClassesByTimeThenDate();
 
         /*
          * Each subsequent time slot should be equal to or greater than current,
@@ -117,11 +117,11 @@ class ScheduleDisplayTest extends MZMBO_WPUnitTestCase
         // For some reason this test fails without specifying locations attribute.
         // I don't know why for the day display the locations attr isn't receiving
         // the default value.
-        $schedule_object = new MZ_Mindbody\Inc\Schedule\Retrieve_Schedule(array('type' => 'day', 'locations' => array(1)));
+        $schedule_object = new MzMindbody\Inc\Schedule\Retrieve_Schedule(array('type' => 'day', 'locations' => array(1)));
 
-        $response = $schedule_object->get_mbo_results();
+        $response = $schedule_object->getMboResults();
 
-        $sequenced_classes = $schedule_object->sort_classes_by_time_then_date();
+        $sequenced_classes = $schedule_object->sortClassesByTimeThenDate();
 
         /*
          * Each subsequent date should be equal to or greater than current,
@@ -138,18 +138,18 @@ class ScheduleDisplayTest extends MZMBO_WPUnitTestCase
     /**
      * Test Time Frame
      */
-    function test_time_frame()
+    function test_timeFrame()
     {
         parent::setUp();
 
-        $this->assertTrue(class_exists('MZ_Mindbody\Inc\Core\MZ_Mindbody_Api'));
+        $this->assertTrue(class_exists('MzMindbody\Inc\Core\MzMindbody_Api'));
         // Manually initialize static variable.
-        MZ_Mindbody\Inc\Core\MZ_Mindbody_Api::$basic_options = get_option('mz_mbo_basic');
-        $this->assertTrue(class_exists('MZ_Mindbody\Inc\Schedule\Retrieve_Schedule'));
-        $schedule_object = new MZ_Mindbody\Inc\Schedule\Retrieve_Schedule();
-        $time_frame = $schedule_object->time_frame(strtotime('+1 week'));
-        $this->assertTrue(count($time_frame) === 2);
-        $response = $schedule_object->get_mbo_results();
+        MzMindbody\Inc\Core\MzMindbody_Api::$basic_options = get_option('mz_mbo_basic');
+        $this->assertTrue(class_exists('MzMindbody\Inc\Schedule\Retrieve_Schedule'));
+        $schedule_object = new MzMindbody\Inc\Schedule\Retrieve_Schedule();
+        $timeFrame = $schedule_object->timeFrame(strtotime('+1 week'));
+        $this->assertTrue(count($timeFrame) === 2);
+        $response = $schedule_object->getMboResults();
         $this->assertTrue(is_array($response));
         $this->assertTrue(is_array($response[0]));
         $this->assertTrue(is_string($response[0]['StartDateTime']));
@@ -164,14 +164,14 @@ class ScheduleDisplayTest extends MZMBO_WPUnitTestCase
     {
         parent::setUp();
 
-        $this->assertTrue(class_exists('MZ_Mindbody\Inc\Core\MZ_Mindbody_Api'));
+        $this->assertTrue(class_exists('MzMindbody\Inc\Core\MzMindbody_Api'));
         // Manually initialize static variable.
-        MZ_Mindbody\Inc\Core\MZ_Mindbody_Api::$basic_options = get_option('mz_mbo_basic');
-        $this->assertTrue(class_exists('MZ_Mindbody\Inc\Schedule\Retrieve_Schedule'));
-        $schedule_object = new MZ_Mindbody\Inc\Schedule\Retrieve_Schedule();
-        $time_frame = $schedule_object->time_frame(strtotime('+1 week'));
-        $this->assertTrue(count($time_frame) === 2);
-        $response = $schedule_object->get_mbo_results();
+        MzMindbody\Inc\Core\MzMindbody_Api::$basic_options = get_option('mz_mbo_basic');
+        $this->assertTrue(class_exists('MzMindbody\Inc\Schedule\Retrieve_Schedule'));
+        $schedule_object = new MzMindbody\Inc\Schedule\Retrieve_Schedule();
+        $timeFrame = $schedule_object->timeFrame(strtotime('+1 week'));
+        $this->assertTrue(count($timeFrame) === 2);
+        $response = $schedule_object->getMboResults();
         $this->assertTrue(is_array($response));
         $this->assertTrue(is_array($response[0]));
         $this->assertTrue(is_string($response[0]['StartDateTime']));

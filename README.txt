@@ -131,7 +131,7 @@ Bugfix: get_and_save_token from private to public to hook accessible.
 Update npm dependencies as per DependaBot.
 
 = v2.6.2 =
-Enhancement: Support override for transient in get_mbo_results.
+Enhancement: Support override for transient in getMboResults.
 
 = v2.6.1 =
 Bugfix: Class method name had changed in one place, but not in another.
@@ -172,7 +172,7 @@ Bugfix: fix event registration URL.
 Bugfix: some registrations were pulling user data from previous class registration.
 
 = v2.5.2 =
-Bugfix: reinstate default timestamp in retrieve classes time_frame method.
+Bugfix: reinstate default timestamp in retrieve classes timeFrame method.
 
 = v2.5.1 =
 Bugfix: url for class sign-up via MBO

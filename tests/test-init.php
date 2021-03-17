@@ -20,9 +20,9 @@ class InitilizationTest extends MZMBO_WPUnitTestCase
      */
     function test_instantiate_api()
     {
-        $this->assertTrue(class_exists('MZ_Mindbody\Inc\Schedule\Retrieve_Schedule'));
-        $mb = new MZ_Mindbody\Inc\Schedule\Retrieve_Schedule();
-        $mb->instantiate_mbo_API();
+        $this->assertTrue(class_exists('MzMindbody\Inc\Schedule\Retrieve_Schedule'));
+        $mb = new MzMindbody\Inc\Schedule\Retrieve_Schedule();
+        $mb->instantiateMboApi();
         $options = get_option('mz_mbo_basic', 'Error: No Options');
         $this->assertTrue(Test_Options::$_MYPASSWORD == $options['mz_mindbody_password']);
     }

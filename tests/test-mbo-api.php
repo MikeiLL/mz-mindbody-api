@@ -16,11 +16,11 @@ class Tests_MBO_Api extends MZMBO_WPUnitTestCase
 
         parent::setUp();
 
-        $this->assertTrue(class_exists('MZ_Mindbody\Inc\Libraries\MBO_V6_API'));
+        $this->assertTrue(class_exists('MzMindbody\Inc\Libraries\MBO_V6_API'));
 
         $basic_options = get_option('mz_mbo_basic');
 
-        $mbo_api = new MZ_Mindbody\Inc\Libraries\MBO_V6_API($basic_options);
+        $mbo_api = new MzMindbody\Inc\Libraries\MBO_V6_API($basic_options);
 
         $result = $mbo_api->TokenIssue();
 
@@ -42,7 +42,7 @@ class Tests_MBO_Api extends MZMBO_WPUnitTestCase
 
         $bad_basic_options = get_option('mz_mbo_basic');
 
-        $bad_mbo_api = new MZ_Mindbody\Inc\Libraries\MBO_V6_API($bad_basic_options);
+        $bad_mbo_api = new MzMindbody\Inc\Libraries\MBO_V6_API($bad_basic_options);
 
         $result_error = $bad_mbo_api->TokenIssue();
 
