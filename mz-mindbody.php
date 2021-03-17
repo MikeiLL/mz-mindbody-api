@@ -64,8 +64,14 @@ define(NS . 'MINIMUM_PHP_VERSION', 7.0);
 /**
  * Autoload Classes
  */
+$wp_mindbody_api_autoload = NS\PLUGIN_NAME_DIR . '/vendor/autoload.php';
+if (file_exists($wp_mindbody_api_autoload)) {
+    include_once $wp_mindbody_api_autoload;
+}
 
-require_once(PLUGIN_NAME_DIR . 'inc/libraries/autoloader.php');
+if (! class_exists('\MzMindbodyApi\Core\MzMindbodyApi')) {
+    exit('MZ Mindbody Api requires Composer autoloading, which is not configured');
+}
 
 /**
  * Register Activation and Deactivation Hooks
