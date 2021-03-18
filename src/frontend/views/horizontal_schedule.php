@@ -16,14 +16,14 @@ use MzMindbody\Libraries as Libraries;
 
 ?>
 <?php if (empty($data->horizontal_schedule)) {
-    echo sprintf(__('No Classes To Display (%1$s - %2$s)', 'mz-mindbody-api'), date_i18n($data->date_format, $data->start_date->getTimestamp()), date_i18n($data->date_format, $data->end_date->getTimestamp()));
+    echo sprintf(__('No Classes To Display (%1$s - %2$s)', 'mz-mindbody-api'), wp_date($data->date_format, $data->start_date->getTimestamp()), wp_date($data->date_format, $data->end_date->getTimestamp()));
 } ?>
 <table id="mz_horizontal_schedule" class="<?php echo $data->table_class; ?>">
     <?php foreach ($data->horizontal_schedule as $day => $classes) : ?>
         <thead>
             <tr class="header visible striped" style="display: table-row">
                 <th class="mz_date_display" scope="header">
-                    <?php echo date_i18n($data->date_format, strtotime($day)); ?>
+                    <?php echo wp_date($data->date_format, strtotime($day)); ?>
                 </th>
                 <th class="mz_classDetails" scope="header">
                     <?php _e('Class Name', 'mz-mindbody-api'); ?>
@@ -45,7 +45,7 @@ use MzMindbody\Libraries as Libraries;
             <?php foreach ($classes as $k => $class) : ?>
             <tr class="mz_schedule_table mz_description_holder mz_location_<?php echo $class->sLoc . ' ' . $class->session_type_css . ' ' . $class->class_name_css; ?>">
                 <td class="mz_date_display" data-time="<?php echo $class->startDateTime; ?>">
-                    <?php echo date_i18n($data->time_format, strtotime($class->startDateTime)) . ' - ' . date_i18n($data->time_format, strtotime($class->endDateTime)); ?><br />
+                    <?php echo wp_date($data->time_format, strtotime($class->startDateTime)) . ' - ' . wp_date($data->time_format, strtotime($class->endDateTime)); ?><br />
                     <span class="mz_hidden mz_time_of_day"><?php echo $class->part_of_day; ?></span>
                     <?php if (!in_array('signup', $data->hide)) : ?>
                         <?php $class->sign_up_link->output(); ?>

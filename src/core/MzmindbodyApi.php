@@ -10,7 +10,6 @@ use MzMindbody\Common as Common;
 use MzMindbody\Schedule as Schedule;
 use MzMindbody\Staff as Staff;
 use MzMindbody\Events as Events;
-use MzMindbody\Libraries\Rarst\WordPress\DateTime as DateTime;
 
 /**
  * The core plugin class.

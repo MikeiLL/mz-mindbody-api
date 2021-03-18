@@ -29,10 +29,10 @@ if ((is_array($data->events)) && !empty($data->events)) : ?>
         <?php foreach ($events as $event) : ?>
         <tbody>
             <tr>
-                <td><?php echo date_i18n(Core\MzMindbodyApi::$date_format, strtotime($event->startDateTime)); ?> <br /><?php echo $event->sign_up_link->build(); ?></td>
+                <td><?php echo wp_date(Core\MzMindbodyApi::$date_format, strtotime($event->startDateTime)); ?> <br /><?php echo $event->sign_up_link->build(); ?></td>
                 <td>
-                    <?php echo date_i18n(Core\MzMindbodyApi::$time_format, strtotime($event->startDateTime)); ?> -
-                    <?php echo date_i18n(Core\MzMindbodyApi::$time_format, strtotime($event->endDateTime)); ?>
+                    <?php echo wp_date(Core\MzMindbodyApi::$time_format, strtotime($event->startDateTime)); ?> -
+                    <?php echo wp_date(Core\MzMindbodyApi::$time_format, strtotime($event->endDateTime)); ?>
                 </td>
                 <td>
                     <?php echo $event->class_name_link->build() . ' ' . $data->with . ' ' . $event->staff_name_link->build(); ?>
