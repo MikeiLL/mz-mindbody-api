@@ -1,12 +1,12 @@
 <?php
 
-namespace MzMindbody\Inc\Schedule;
+namespace MzMindbody\Schedule;
 
 use MzMindbody as NS;
-use MzMindbody\Inc\Core as Core;
-use MzMindbody\Inc\Libraries\HtmlElement;
-use MzMindbody\Inc\Libraries\Rarst\WordPress\DateTime as DateTime;
-use MzMindbody\Inc\Libraries as Libraries;
+use MzMindbody\Core as Core;
+use MzMindbody\Libraries\HtmlElement;
+use MzMindbody\Libraries\Rarst\WordPress\DateTime as DateTime;
+use MzMindbody\Libraries as Libraries;
 
 /**
  * Class that holds and formats a single item from MBO API Schedule
@@ -724,17 +724,16 @@ class ScheduleItem
     }
 
     /**
-     * Calculate class duration
+     * Get event duration
      *
-     * Note the part of day class occurs in. Used to filter in display table for schedules
+     * Calculate diff between start and end of event
      *
-     *
-     * @return string "morning", "afternoon" or "night", translated
+     * @return DateInterval between start and end of event
      */
     private function get_schedule_event_duration()
     {
-        $start = new DateTime\WpDateTime($this->startDateTime);
-        $end = new DateTime\WpDateTime($this->endDateTime);
+        $start = new \DateTime($this->startDateTime);
+        $end = new \DateTime($this->endDateTime);
         return $start->diff($end);
     }
 
