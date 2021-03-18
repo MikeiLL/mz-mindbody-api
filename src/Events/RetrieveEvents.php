@@ -59,13 +59,13 @@ class RetrieveEvents extends Interfaces\RetrieveClasses
     {
 
         $timestamp = isset($timestamp) ? $timestamp : current_time('timestamp');
-        $start_time =  new \Datetime(date_i18n('Y-m-d', $timestamp));
-        $end_time = new \Datetime(date_i18n('Y-m-d', $timestamp));
+        $start_time =  new \Datetime(wp_date('Y-m-d', $timestamp));
+        $end_time = new \Datetime(wp_date('Y-m-d', $timestamp));
         $session_types = explode(',', Core\MzMindbodyApi::$events_options['mz_mindbody_eventID']);
         $duration = ((!empty($this->atts['week-only'])) && ($this->atts['week-only'] == 1)) ? 7 : Core\MzMindbodyApi::$event_calendar_duration;
         $di = new \DateInterval('P' . $duration . 'D');
         $end_time->add($di);
-        $current_day_offset = new \Datetime(date_i18n('Y-m-d'));
+        $current_day_offset = new \Datetime(wp_date('Y-m-d'));
 // If we are going in future or past based on offset
         if (!empty($this->atts['offset'])) {
 // Insure that we have an absolute number, because attr may be negative

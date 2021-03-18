@@ -33,15 +33,15 @@ class RetrieveSchedule extends Interfaces\RetrieveClasses
         $sevenDaysLater = $this->sevenDaysLater($timestamp);
         if ((!empty($this->atts['type']) && ($this->atts['type'] === 'day'))) :
             $today = current_time('timestamp');
-            $start_time = new \Datetime(date_i18n('Y-m-d', $today));
-            $end_time = new \Datetime(date_i18n('Y-m-d', $today));
+            $start_time = new \Datetime(wp_date('Y-m-d', $today));
+            $end_time = new \Datetime(wp_date('Y-m-d', $today));
             // test with $end_time = new \DateTime('tomorrow');
         else :
-            $start_time = new \Datetime(date_i18n('Y-m-d', $current_week['start']));
-            $end_time = new \Datetime(date_i18n('Y-m-d', $sevenDaysLater));
+            $start_time = new \Datetime(wp_date('Y-m-d', $current_week['start']));
+            $end_time = new \Datetime(wp_date('Y-m-d', $sevenDaysLater));
         endif;
-        $current_day_offset = new \Datetime(date_i18n('Y-m-d'));
-        $current_week_end = new \Datetime(date_i18n('Y-m-d', $current_week['end']));
+        $current_day_offset = new \Datetime(wp_date('Y-m-d'));
+        $current_week_end = new \Datetime(wp_date('Y-m-d', $current_week['end']));
         //print_r("OFFSET: ");
         //print_r($this->atts['offset']);
         // If we are going in future or past based on offset

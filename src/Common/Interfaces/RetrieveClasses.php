@@ -439,7 +439,7 @@ abstract class RetrieveClasses extends Retrieve
              *
              */
 
-            $classTime = date_i18n("G.i", strtotime($class['StartDateTime']));
+            $classTime = wp_date("G.i", strtotime($class['StartDateTime']));
 // for numerical sorting
 
             $single_event = new Schedule\ScheduleItem($class, $this->atts);
@@ -449,7 +449,7 @@ abstract class RetrieveClasses extends Retrieve
                 array_push($this->classesByTimeThenDate[$classTime]['classes'], $single_event);
             } else {
             // Assign the first element of this time slot.
-                $display_time = (date_i18n(Core\MzMindbodyApi::$time_format, strtotime($class['StartDateTime'])));
+                $display_time = (wp_date(Core\MzMindbodyApi::$time_format, strtotime($class['StartDateTime'])));
                 $this->classesByTimeThenDate[$classTime] = array(
                                                                 'display_time' => $display_time,
                                                                 // Add part_of_day for filter as well
@@ -467,7 +467,7 @@ abstract class RetrieveClasses extends Retrieve
              */
             usort($classes['classes'], function ($a, $b) {
 
-                if (date_i18n("N", strtotime($a->startDateTime)) == date_i18n("N", strtotime($b->startDateTime))) {
+                if (wp_date("N", strtotime($a->startDateTime)) == wp_date("N", strtotime($b->startDateTime))) {
                     return 0;
                 }
                 return $a->startDateTime < $b->startDateTime ? -1 : 1;
@@ -532,7 +532,7 @@ abstract class RetrieveClasses extends Retrieve
         }
 
         // Uncomment to view date in browser
-        //NS\MZMBO()->helpers->print(date_i18n(Core\MzMindbodyApi::$date_format, strtotime($class['StartDateTime'])));
+        //NS\MZMBO()->helpers->print(wp_date(Core\MzMindbodyApi::$date_format, strtotime($class['StartDateTime'])));
 
         return true;
     }

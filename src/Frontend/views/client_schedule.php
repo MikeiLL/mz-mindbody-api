@@ -8,10 +8,10 @@ use MzMindbody as NS;
             <?php foreach ($classes as $class) : ?>
                 <tr>
                     <td>
-                        <?php echo date_i18n($data->date_format, strtotime($date)); ?>
+                        <?php echo wp_date($data->date_format, strtotime($date)); ?>
                     </td>
                     <td>
-                        <?php echo date_i18n($data->time_format, strtotime($class->startDateTime)) . ' - ' . date_i18n($data->time_format, strtotime($class->endDateTime)); ?>
+                        <?php echo wp_date($data->time_format, strtotime($class->startDateTime)) . ' - ' . wp_date($data->time_format, strtotime($class->endDateTime)); ?>
                     </td>
                     <td>
                         <?php echo $class->className . ' with ' . $class->staffName; ?>

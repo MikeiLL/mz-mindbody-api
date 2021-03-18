@@ -23,8 +23,8 @@ class RetrieveClassOwners extends Interfaces\RetrieveClasses
      */
     public function timeFrame($timestamp = null)
     {
-        $start_time = new \Datetime(date_i18n('Y-m-d', current_time('timestamp')));
-        $end_time = new \Datetime(date_i18n('Y-m-d', current_time('timestamp')));
+        $start_time = new \Datetime(wp_date('Y-m-d', current_time('timestamp')));
+        $end_time = new \Datetime(wp_date('Y-m-d', current_time('timestamp')));
         $di = new \DateInterval('P4W');
         $end_time->add($di);
         // Now let's go four weeks previous as well.
