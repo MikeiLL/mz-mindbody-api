@@ -349,9 +349,12 @@ class Display extends Interfaces\ShortcodeScriptLoader
 
         $result['message'] = ob_get_clean();
 
-        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-            $result = json_encode($result);
-            echo $result;
+        if (
+            (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])) &&
+            (strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')
+        ) {
+                $result = json_encode($result);
+                echo $result;
         } else {
             header("Location: " . $_SERVER["HTTP_REFERER"]);
         }
