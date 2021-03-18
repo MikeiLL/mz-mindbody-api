@@ -67,6 +67,11 @@ You need to register a developer account with MindBody, which costs $5+ per webs
 
 == Changelog ==
 
+= v2.8.1 =
+Refactor to meet PSR12 standard recommendations.
+Replace date_i18n with wp_date.
+Replace rarst wordpress datetime with new WP native functions.
+
 = v2.8.0 =
 Bugfix: Catch error thrown when Too Many API Calls level reached.
 

@@ -14,12 +14,12 @@ class Display extends Interfaces\ShortcodeScriptLoader
      * If shortcode script has been enqueued.
      *
      * @since    2.4.7
-     * @access   public
+     * @access   private
      *
      * @used in handleShortcode, addScript
      * @var      boolean $addedAlready True if shorcdoe scripts have been enqueued.
      */
-    static $addedAlready = false;
+    private static $addedAlready = false;
 
     // Table styling option holders
     /**

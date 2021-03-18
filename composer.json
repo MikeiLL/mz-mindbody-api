@@ -37,8 +37,8 @@
    },
    "scripts": {
      "lint": [
-       "phpcs --extensions=php --standard=PSR12 src *.php --ignore=src/libraries/Gamajo-Template-Loader.php src/libraries/wposa.php src/libraries/rarst"
+       "phpcs --extensions=php --standard=PSR12 src *.php --ignore=src/libraries/Gamajo-Template-Loader.php. "
      ],
-     "fix": ["phpcbf --extensions=php --standard=PSR12 src *.php --ignore=src/libraries/Gamajo-Template-Loader.php src/libraries/rarst/*"]
+     "fix": ["phpcbf --extensions=php --standard=PSR12 src *.php --ignore=src/libraries/Gamajo-Template-Loader.php . "]
    }
 }

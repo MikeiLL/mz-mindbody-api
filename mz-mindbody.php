@@ -68,10 +68,6 @@ if (file_exists($wp_mindbody_api_autoload)) {
     include_once $wp_mindbody_api_autoload;
 }
 
-if (! class_exists('\MzMindbody\Core\MzMindbodyApi')) {
-    exit('MZ Mindbody Api requires Composer autoloading, which is not configured');
-}
-
 /**
  * Register Activation and Deactivation Hooks
  * This action is documented in inc/core/class-activator.php

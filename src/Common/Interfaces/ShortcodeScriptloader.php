@@ -14,8 +14,15 @@ abstract class ShortcodeScriptLoader extends ShortcodeLoader
 {
 
 
-
-    var $doAddScript;
+    /**
+     * If shortcode script should be enqueued.
+     *
+     * @since    2.4.7
+     * @access   private
+     
+     * @var      boolean $doAddScript True if handling shortcode wrapper.
+     */
+    private var $doAddScript;
 
     public function register($shortcodeName)
     {
