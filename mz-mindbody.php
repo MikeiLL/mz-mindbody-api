@@ -68,7 +68,7 @@ if (file_exists($wp_mindbody_api_autoload)) {
     include_once $wp_mindbody_api_autoload;
 }
 
-if (! class_exists('\MzMindbody\Core\MzMindbodyApi')) {
+if (! class_exists('MZoo\MzMindbody\Core\MzMindbodyApi')) {
     exit('MZ Mindbody Api requires Composer autoloading, which is not configured');
 }
 
@@ -77,14 +77,14 @@ if (! class_exists('\MzMindbody\Core\MzMindbodyApi')) {
  * This action is documented in inc/core/class-activator.php
  */
 
-register_activation_hook(__FILE__, array( NS . 'Core\Activator', 'activate' ));
+register_activation_hook(__FILE__, array( NS . 'MZoo\Core\Activator', 'activate' ));
 
 /**
  * The code that runs during plugin deactivation.
  * This action is documented inc/core/class-deactivator.php
  */
 
-register_deactivation_hook(__FILE__, array( NS . 'Core\Deactivator', 'deactivate' ));
+register_deactivation_hook(__FILE__, array( NS . 'MZoo\Core\Deactivator', 'deactivate' ));
 
 /**
  * Plugin Singleton Container

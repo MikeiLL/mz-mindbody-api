@@ -23,10 +23,10 @@ class ScheduleDisplayTest extends MZMBO_WPUnitTestCase
     {
         parent::setUp();
 
-        $this->assertTrue(class_exists('MzMindbody\Core\MzMindbodyApi'));
+        $this->assertTrue(class_exists('MZoo\MzMindbody\Core\MzMindbodyApi'));
         // Manually initialize static variable.
         MzMindbody\Core\MzMindbodyApi::$basic_options = get_option('mz_mbo_basic');
-        $this->assertTrue(class_exists('MzMindbody\Schedule\RetrieveSchedule'));
+        $this->assertTrue(class_exists('MZoo\MzMindbody\Schedule\RetrieveSchedule'));
         $schedule_object = new MzMindbody\Schedule\RetrieveSchedule();
         $timeFrame = $schedule_object->timeFrame();
         $this->assertTrue(count($timeFrame) === 2);
@@ -46,7 +46,7 @@ class ScheduleDisplayTest extends MZMBO_WPUnitTestCase
 
         parent::setUp();
 
-        $this->assertTrue(class_exists('MzMindbody\Schedule\RetrieveSchedule'));
+        $this->assertTrue(class_exists('MZoo\MzMindbody\Schedule\RetrieveSchedule'));
 
         $schedule_object = new MzMindbody\Schedule\RetrieveSchedule();
 
@@ -83,7 +83,7 @@ class ScheduleDisplayTest extends MZMBO_WPUnitTestCase
 
         parent::setUp();
 
-        $this->assertTrue(class_exists('MzMindbody\Schedule\RetrieveSchedule'));
+        $this->assertTrue(class_exists('MZoo\MzMindbody\Schedule\RetrieveSchedule'));
 
         $schedule_object = new MzMindbody\Schedule\RetrieveSchedule();
 
@@ -142,10 +142,10 @@ class ScheduleDisplayTest extends MZMBO_WPUnitTestCase
     {
         parent::setUp();
 
-        $this->assertTrue(class_exists('MzMindbody\Core\MzMindbodyApi'));
+        $this->assertTrue(class_exists('MZoo\MzMindbody\Core\MzMindbodyApi'));
         // Manually initialize static variable.
         MzMindbody\Core\MzMindbodyApi::$basic_options = get_option('mz_mbo_basic');
-        $this->assertTrue(class_exists('MzMindbody\Schedule\RetrieveSchedule'));
+        $this->assertTrue(class_exists('MZoo\MzMindbody\Schedule\RetrieveSchedule'));
         $schedule_object = new MzMindbody\Schedule\RetrieveSchedule();
         $timeFrame = $schedule_object->timeFrame(strtotime('+1 week'));
         $this->assertTrue(count($timeFrame) === 2);
@@ -164,10 +164,10 @@ class ScheduleDisplayTest extends MZMBO_WPUnitTestCase
     {
         parent::setUp();
 
-        $this->assertTrue(class_exists('MzMindbody\Core\MzMindbodyApi'));
+        $this->assertTrue(class_exists('MZoo\MzMindbody\Core\MzMindbodyApi'));
         // Manually initialize static variable.
         MzMindbody\Core\MzMindbodyApi::$basic_options = get_option('mz_mbo_basic');
-        $this->assertTrue(class_exists('MzMindbody\Schedule\RetrieveSchedule'));
+        $this->assertTrue(class_exists('MZoo\MzMindbody\Schedule\RetrieveSchedule'));
         $schedule_object = new MzMindbody\Schedule\RetrieveSchedule();
         $timeFrame = $schedule_object->timeFrame(strtotime('+1 week'));
         $this->assertTrue(count($timeFrame) === 2);

@@ -16,7 +16,7 @@ class Tests_TokenManagement extends MZMBO_WPUnitTestCase
 
         parent::setUp();
 
-        $this->assertTrue(class_exists('MzMindbody\Common\TokenManagement'));
+        $this->assertTrue(class_exists('MZoo\MzMindbody\Common\TokenManagement'));
 
         $tm = new MzMindbody\Common\TokenManagement();
 
@@ -30,7 +30,7 @@ class Tests_TokenManagement extends MZMBO_WPUnitTestCase
 
         parent::setUp();
 
-        $this->assertTrue(class_exists('MzMindbody\Common\TokenManagement'));
+        $this->assertTrue(class_exists('MZoo\MzMindbody\Common\TokenManagement'));
 
         $tm = new MzMindbody\Common\TokenManagement();
 

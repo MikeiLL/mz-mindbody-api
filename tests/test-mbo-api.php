@@ -16,7 +16,7 @@ class Tests_MBO_Api extends MZMBO_WPUnitTestCase
 
         parent::setUp();
 
-        $this->assertTrue(class_exists('MzMindbody\Libraries\MboV6Api'));
+        $this->assertTrue(class_exists('MZoo\MzMindbody\Libraries\MboV6Api'));
 
         $basic_options = get_option('mz_mbo_basic');
 
