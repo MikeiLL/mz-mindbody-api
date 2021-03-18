@@ -1,6 +1,6 @@
 <?php
 
-use MzMindbody as NS;
+use MZoo\MzMindbody as NS;
 
 ?>
 <div class="modal__footer btn-group" class="signupModalFooter">

@@ -1,7 +1,7 @@
 <?php
 
-use MzMindbody as NS;
-use MzMindbody\Core as Core;
+use MZoo\MzMindbody as NS;
+use MZoo\MzMindbody\Core as Core;
 
 if (($data->atts['location_filter'] == 1) && (count($data->locations_dictionary) >= 2 )) {
     // Print out Location Filter Buttons

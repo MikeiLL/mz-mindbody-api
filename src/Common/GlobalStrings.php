@@ -1,6 +1,6 @@
 <?php
 
-namespace MzMindbody\Common;
+namespace MZoo\MzMindbody\Common;
 
 /**
  * Class GlobalStrings

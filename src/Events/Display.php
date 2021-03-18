@@ -1,11 +1,11 @@
 <?php
 
-namespace MzMindbody\Events;
+namespace MZoo\MzMindbody\Events;
 
-use MzMindbody as NS;
-use MzMindbody\Core as Core;
-use MzMindbody\Common as Common;
-use MzMindbody\Common\Interfaces as Interfaces;
+use MZoo\MzMindbody as NS;
+use MZoo\MzMindbody\Core as Core;
+use MZoo\MzMindbody\Common as Common;
+use MZoo\MzMindbody\Common\Interfaces as Interfaces;
 
 class Display extends Interfaces\ShortcodeScriptLoader
 {

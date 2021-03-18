@@ -1,6 +1,6 @@
 <?php
 
-namespace MzMindbody\Core;
+namespace MZoo\MzMindbody\Core;
 
 /**
  * Define the internationalization functionality.

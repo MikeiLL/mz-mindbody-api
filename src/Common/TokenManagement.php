@@ -1,10 +1,10 @@
 <?php
 
-namespace MzMindbody\Common;
+namespace MZoo\MzMindbody\Common;
 
-use MzMindbody as NS;
-use MzMindbody\Core as Core;
-use MzMindbody\Common\Interfaces as Interfaces;
+use MZoo\MzMindbody as NS;
+use MZoo\MzMindbody\Core as Core;
+use MZoo\MzMindbody\Common\Interfaces as Interfaces;
 
 class TokenManagement extends Interfaces\Retrieve
 {

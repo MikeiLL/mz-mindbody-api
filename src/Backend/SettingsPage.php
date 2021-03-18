@@ -1,12 +1,12 @@
 <?php
 
-namespace MzMindbody\Backend;
+namespace MZoo\MzMindbody\Backend;
 
-use MzMindbody as NS;
-use MzMindbody\Core as Core;
-use MzMindbody\Common as Common;
-use MzMindbody\Libraries as Libraries;
-use MzMindbody\Schedule as Schedule;
+use MZoo\MzMindbody as NS;
+use MZoo\MzMindbody\Core as Core;
+use MZoo\MzMindbody\Common as Common;
+use MZoo\MzMindbody\Libraries as Libraries;
+use MZoo\MzMindbody\Schedule as Schedule;
 
 /**
  * This file contains the class which holds all the actions and methods to create the admin dashboard sections

@@ -1,8 +1,8 @@
 <?php
 
-namespace MzMindbody\Libraries;
+namespace MZoo\MzMindbody\Libraries;
 
-use MzMindbody as MZ;
+use MZoo\MzMindbody as MZ;
 
 class MboV6ApiMethods
 {

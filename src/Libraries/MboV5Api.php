@@ -1,8 +1,8 @@
 <?php
 
-namespace MzMindbody\Libraries;
+namespace MZoo\MzMindbody\Libraries;
 
-use MzMindbody as NS;
+use MZoo\MzMindbody as NS;
 use Exception as Exception;
 
 class MboV5Api

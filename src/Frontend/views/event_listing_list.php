@@ -1,7 +1,7 @@
 <?php
 
-use MzMindbody as NS;
-use MzMindbody\Core as Core;
+use MZoo\MzMindbody as NS;
+use MZoo\MzMindbody\Core as Core;
 
 if ((is_array($data->events)) && !empty($data->events)) : ?>
     <table class="mz_event_list_listing">

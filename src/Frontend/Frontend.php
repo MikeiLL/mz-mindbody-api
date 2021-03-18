@@ -1,6 +1,6 @@
 <?php
 
-namespace MzMindbody\Frontend;
+namespace MZoo\MzMindbody\Frontend;
 
 /**
  * The public-facing functionality of the plugin.

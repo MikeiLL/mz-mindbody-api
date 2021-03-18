@@ -1,11 +1,11 @@
 <?php
 
-namespace MzMindbody\Schedule;
+namespace MZoo\MzMindbody\Schedule;
 
-use MzMindbody;
-use MzMindbody\Core as Core;
-use MzMindbody\Common as Common;
-use MzMindbody\Common\Interfaces as Interfaces;
+use MZoo\MzMindbody;
+use MZoo\MzMindbody\Core as Core;
+use MZoo\MzMindbody\Common as Common;
+use MZoo\MzMindbody\Common\Interfaces as Interfaces;
 
 class RetrieveSchedule extends Interfaces\RetrieveClasses
 {

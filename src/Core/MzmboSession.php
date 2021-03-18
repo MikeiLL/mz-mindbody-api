@@ -1,6 +1,6 @@
 <?php
 
-namespace MzMindbody\Core;
+namespace MZoo\MzMindbody\Core;
 
 /**
  * MZ Session Class borrowed from WP Simple Pay Session Class
@@ -15,9 +15,9 @@ namespace MzMindbody\Core;
  * Some session logic taken from EDD, Give & Ninja Forms.
  */
 
-use MzMindbody as NS;
-use MzMindbody\Libraries\WP_Session as WP_Session;
-use MzMindbody\Libraries\WP_Session_Utils as WP_Session_Utils;
+use MZoo\MzMindbody as NS;
+use MZoo\MzMindbody\Libraries\WP_Session as WP_Session;
+use MZoo\MzMindbody\Libraries\WP_Session_Utils as WP_Session_Utils;
 
 if (! defined('ABSPATH')) {
     exit;

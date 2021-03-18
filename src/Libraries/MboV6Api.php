@@ -1,10 +1,10 @@
 <?php
 
-namespace MzMindbody\Libraries;
+namespace MZoo\MzMindbody\Libraries;
 
-use MzMindbody as NS;
-use MzMindbody\Common as Common;
-use MzMindbody\Core as Core;
+use MZoo\MzMindbody as NS;
+use MZoo\MzMindbody\Common as Common;
+use MZoo\MzMindbody\Core as Core;
 use Exception as Exception;
 
 /*

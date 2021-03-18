@@ -27,11 +27,11 @@
  * Domain Path:     /languages
 */
 
-namespace MzMindbody;
+namespace MZoo\MzMindbody;
 
-use MzMindbody as NS;
-use MzMindbody\Core as Core;
-use MzMindbody\Common as Common;
+use MZoo\MzMindbody as NS;
+use MZoo\MzMindbody\Core as Core;
+use MZoo\MzMindbody\Common as Common;
 
 // If this file is called directly, abort.
 // on further research, just code consciously:

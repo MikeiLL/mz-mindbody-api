@@ -1,6 +1,6 @@
 <?php
 
-use MzMindbody as NS;
+use MZoo\MzMindbody as NS;
 
 // This is already in the modal content window \\ ?>
     <table class="client-schedule">

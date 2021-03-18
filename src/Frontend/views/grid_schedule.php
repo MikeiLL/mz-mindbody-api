@@ -11,8 +11,8 @@
  * @author    Mike iLL/mZoo.org
  */
 
-use MzMindbody\Core;
-use MzMindbody\Libraries as Libraries;
+use MZoo\MzMindbody\Core;
+use MZoo\MzMindbody\Libraries as Libraries;
 
 ?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" style="width:0;height:0;position:absolute;overflow:hidden;">

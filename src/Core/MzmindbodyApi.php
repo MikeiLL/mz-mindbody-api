@@ -1,15 +1,15 @@
 <?php
 
-namespace MzMindbody\Core;
+namespace MZoo\MzMindbody\Core;
 
-use MzMindbody as NS;
-use MzMindbody\Admin as Admin;
-use MzMindbody\Frontend as Frontend;
-use MzMindbody\Backend as Backend;
-use MzMindbody\Common as Common;
-use MzMindbody\Schedule as Schedule;
-use MzMindbody\Staff as Staff;
-use MzMindbody\Events as Events;
+use MZoo\MzMindbody as NS;
+use MZoo\MzMindbody\Admin as Admin;
+use MZoo\MzMindbody\Frontend as Frontend;
+use MZoo\MzMindbody\Backend as Backend;
+use MZoo\MzMindbody\Common as Common;
+use MZoo\MzMindbody\Schedule as Schedule;
+use MZoo\MzMindbody\Staff as Staff;
+use MZoo\MzMindbody\Events as Events;
 
 /**
  * The core plugin class.

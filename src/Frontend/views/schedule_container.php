@@ -1,7 +1,7 @@
 <?php
 
-use MzMindbody as NS;
-use MzMindbody\Core as Core;
+use MZoo\MzMindbody as NS;
+use MZoo\MzMindbody\Core as Core;
 
 /**
  * This file is the wrapper for Horizontal and/or Grid classes.

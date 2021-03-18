@@ -1,6 +1,6 @@
 <?php
 
-namespace MzMindbody\Common\Interfaces;
+namespace MZoo\MzMindbody\Common\Interfaces;
 
 /**
  * "WordPress Plugin Template" Copyright (C) 2018 Michael Simpson  (email : michael.d.simpson@gmail.com)
@@ -22,7 +22,7 @@ abstract class ShortcodeScriptLoader extends ShortcodeLoader
 
      * @var      boolean $doAddScript True if handling shortcode wrapper.
      */
-    private var $doAddScript;
+    private $doAddScript;
 
     public function register($shortcodeName)
     {

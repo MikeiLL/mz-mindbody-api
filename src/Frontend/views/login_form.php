@@ -1,6 +1,6 @@
 <?php
 
-use MzMindbody\Core as Core;
+use MZoo\MzMindbody\Core as Core;
 
 ?>
 

@@ -1,12 +1,12 @@
 <?php
 
-namespace MzMindbody\Staff;
+namespace MZoo\MzMindbody\Staff;
 
-use MzMindbody as NS;
-use MzMindbody\Core as Core;
-use MzMindbody\Libraries as Libraries;
-use MzMindbody\Schedule as Schedule;
-use MzMindbody\Common\Interfaces as Interfaces;
+use MZoo\MzMindbody as NS;
+use MZoo\MzMindbody\Core as Core;
+use MZoo\MzMindbody\Libraries as Libraries;
+use MZoo\MzMindbody\Schedule as Schedule;
+use MZoo\MzMindbody\Common\Interfaces as Interfaces;
 
 /**
  * Class that is extended for Staff Display Shortcode(s)

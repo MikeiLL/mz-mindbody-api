@@ -1,11 +1,11 @@
 <?php
 
-namespace MzMindbody\Schedule;
+namespace MZoo\MzMindbody\Schedule;
 
-use MzMindbody;
-use MzMindbody\Core as Core;
-use MzMindbody\Libraries\HtmlElement;
-use MzMindbody\Libraries as Libraries;
+use MZoo\MzMindbody;
+use MZoo\MzMindbody\Core as Core;
+use MZoo\MzMindbody\Libraries\HtmlElement;
+use MZoo\MzMindbody\Libraries as Libraries;
 
 /**
  * Simplified version of the ScheduleItem class.

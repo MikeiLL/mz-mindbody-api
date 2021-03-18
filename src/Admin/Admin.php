@@ -1,10 +1,10 @@
 <?php
 
-namespace MzMindbody\Admin;
+namespace MZoo\MzMindbody\Admin;
 
-use MzMindbody as NS;
-use MzMindbody\Backend as Backend;
-use MzMindbody\Common as Common;
+use MZoo\MzMindbody as NS;
+use MZoo\MzMindbody\Backend as Backend;
+use MZoo\MzMindbody\Common as Common;
 
 /**
  * The admin-specific functionality of the plugin.

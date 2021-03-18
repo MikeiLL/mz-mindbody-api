@@ -1,10 +1,10 @@
 <?php
 
-namespace MzMindbody\Events;
+namespace MZoo\MzMindbody\Events;
 
-use MzMindbody as NS;
-use MzMindbody\Core as Core;
-use MzMindbody\Libraries as Library;
+use MZoo\MzMindbody as NS;
+use MZoo\MzMindbody\Core as Core;
+use MZoo\MzMindbody\Libraries as Library;
 
 /**
  * Class that holds and formats a single event from MBO API GetClasses Result.

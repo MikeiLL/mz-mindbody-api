@@ -1,12 +1,12 @@
 <?php
 
-namespace MzMindbody\Schedule;
+namespace MZoo\MzMindbody\Schedule;
 
-use MzMindbody as NS;
-use MzMindbody\Core as Core;
-use MzMindbody\Libraries\HtmlElement;
-use MzMindbody\Libraries\Rarst\WordPress\DateTime as DateTime;
-use MzMindbody\Libraries as Libraries;
+use MZoo\MzMindbody as NS;
+use MZoo\MzMindbody\Core as Core;
+use MZoo\MzMindbody\Libraries\HtmlElement;
+use MZoo\MzMindbody\Libraries\Rarst\WordPress\DateTime as DateTime;
+use MZoo\MzMindbody\Libraries as Libraries;
 
 /**
  * Class that holds and formats a single item from MBO API Schedule

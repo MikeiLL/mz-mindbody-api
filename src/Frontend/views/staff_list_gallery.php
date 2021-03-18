@@ -1,6 +1,6 @@
 <?php
 
-use MzMindbody as NS;
+use MZoo\MzMindbody as NS;
 
 //foreach($data->staff as $staff):
 //    NS\MZMBO()->helpers->print($staff);

@@ -1,8 +1,8 @@
 <?php
 
-namespace MzMindbody\Common;
+namespace MZoo\MzMindbody\Common;
 
-use MzMindbody as NS;
+use MZoo\MzMindbody as NS;
 
 /**
  * Class GlobalStrings
