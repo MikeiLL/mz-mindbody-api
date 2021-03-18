@@ -99,10 +99,12 @@ class Display extends Interfaces\ShortcodeScriptLoader
     /**
      * Event Account
      *
+     * Default in Options, overridden in shortcode atts
+     *
      * @since 2.0.0 (estimate)
      *
      * @access public
-     * @var $account int The MBO account to retrieve and display events from. Default in Options, overridden in shortcode atts
+     * @var $account int MBO account to retrieve events from.
      */
     public $account;
 
@@ -163,11 +165,16 @@ class Display extends Interfaces\ShortcodeScriptLoader
             'location_filter' => 0
         ), $atts);
 
-        // Set siteID to option if not set explicitly in shortcode
-        $this->siteID = (!empty($atts['account'])) ? $atts['account'] : Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
+        // Set siteID to option unless set explicitly in shortcode
+        $this->siteID = Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
+        if (!empty($atts['account'])) {
+            $atts['account'];
+        }
 
         // Break locations up into array, if it hasn't already been.
-        $this->atts['locations'] = (!is_array($this->atts['locations'])) ? explode(',', str_replace(' ', '', $this->atts['locations'])) : $this->atts['locations'];
+        if (!is_array($this->atts['locations'])) {
+            explode(',', str_replace(' ', '', $this->atts['locations']))
+        }
 
         ob_start();
 
@@ -184,7 +191,6 @@ class Display extends Interfaces\ShortcodeScriptLoader
 
         $events = (count($response) >= 1) ? $response : __('No Events in current cycle', 'mz-mindbody-api');
 
-        //NS\MZMBO()->helpers->print($events);
         $events = $this->events_object->sortEventsByTime();
 
         $this->template_data = array(
@@ -221,13 +227,28 @@ class Display extends Interfaces\ShortcodeScriptLoader
         if (!self::$addedAlready) {
             self::$addedAlready = true;
 
-            wp_register_style('mz_mindbody_style', NS\PLUGIN_NAME_URL . 'dist/styles/main.css');
+            wp_register_style(
+                'mz_mindbody_style',
+                NS\PLUGIN_NAME_URL . 'dist/styles/main.css'
+            );
             wp_enqueue_style('mz_mindbody_style');
 
-            wp_register_script('mz_mbo_bootstrap_script', NS\PLUGIN_NAME_URL . 'dist/scripts/main.js', array('jquery'), NS\PLUGIN_VERSION, true);
+            wp_register_script(
+                'mz_mbo_bootstrap_script',
+                NS\PLUGIN_NAME_URL . 'dist/scripts/main.js',
+                array('jquery'),
+                NS\PLUGIN_VERSION,
+                true
+            );
             wp_enqueue_script('mz_mbo_bootstrap_script');
 
-            wp_register_script('mz_mbo_events', NS\PLUGIN_NAME_URL . 'dist/scripts/events-display.js', array('jquery'), NS\PLUGIN_VERSION, true);
+            wp_register_script(
+                'mz_mbo_events',
+                NS\PLUGIN_NAME_URL . 'dist/scripts/events-display.js',
+                array('jquery'),
+                NS\PLUGIN_VERSION,
+                true
+            );
             wp_enqueue_script('mz_mbo_events');
 
             $this->localizeScript();
@@ -293,10 +314,17 @@ class Display extends Interfaces\ShortcodeScriptLoader
 
         // Call the API and if fails, return error message.
         if (!$response = $this->events_object->getMboResults()) {
-            return "<div>" . __("Error returning events to display from Minbbody.", 'mz-mindbody-api') . "</div>";
+            $result = "<div>";
+            $result .= __("Error returning events to display from Minbbody.", 'mz-mindbody-api');
+            $result .= "</div>";
+            return $result;
         }
 
-        $events = ($response['GetClassesResult']['ResultCount'] >= 1) ? $response['GetClassesResult']['Classes']['Class'] : __('No Events in current cycle', 'mz-mindbody-api');
+        // TODO following does nothing. This still work?
+        // $events = __('No Events in current cycle', 'mz-mindbody-api');
+        // if ($response['GetClassesResult']['ResultCount'] >= 1) {
+        //     $events = $response['GetClassesResult']['Classes']['Class'];
+        // }
 
         $events = $this->events_object->sortEventsByTime();
 

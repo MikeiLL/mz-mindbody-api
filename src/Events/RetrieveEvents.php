@@ -62,17 +62,23 @@ class RetrieveEvents extends Interfaces\RetrieveClasses
         $start_time =  new \Datetime(wp_date('Y-m-d', $timestamp));
         $end_time = new \Datetime(wp_date('Y-m-d', $timestamp));
         $session_types = explode(',', Core\MzMindbodyApi::$events_options['mz_mindbody_eventID']);
-        $duration = ((!empty($this->atts['week-only'])) && ($this->atts['week-only'] == 1)) ? 7 : Core\MzMindbodyApi::$event_calendar_duration;
+
+        $duration = Core\MzMindbodyApi::$event_calendar_duration;
+        if ((!empty($this->atts['week-only'])) && ($this->atts['week-only'] == 1)) {
+            $duration = 7;
+        }
+
         $di = new \DateInterval('P' . $duration . 'D');
         $end_time->add($di);
         $current_day_offset = new \Datetime(wp_date('Y-m-d'));
-// If we are going in future or past based on offset
+
+        // If we are going in future or past based on offset
         if (!empty($this->atts['offset'])) {
-// Insure that we have an absolute number, because attr may be negative
+            // Insure that we have an absolute number, because attr may be negative
             $abs = abs($this->atts['offset']);
             $days_to_offset = $duration * $abs + 1;
             $di = new \DateInterval('P' . $days_to_offset . 'D');
-// If it's a negative number, invert the interval
+            // If it's a negative number, invert the interval
             if ($this->atts['offset'] < 0) {
                 $di->invert = 1;
             }
@@ -81,7 +87,11 @@ class RetrieveEvents extends Interfaces\RetrieveClasses
         }
 
         $this->display_timeFrame = array('start' => $start_time, 'end' => $end_time);
-        $simple_timeframe = array('StartDateTime' => $start_time->format('Y-m-d'), 'EndDateTime' => $end_time->format('Y-m-d'));
+        $simple_timeframe = array(
+                                    'StartDateTime' => $start_time->format('Y-m-d'),
+                                    'EndDateTime' => $end_time->format('Y-m-d')
+                                );
+
         $full_call = array_merge($simple_timeframe, array('SessionTypeIDs' => $session_types));
         return $full_call;
     }
@@ -102,8 +112,8 @@ class RetrieveEvents extends Interfaces\RetrieveClasses
 
 
         foreach ($this->classes as $class) {
-//NS\MZMBO()->helpers->print($this->atts['locations']);
-        //NS\MZMBO()->helpers->print($class);
+            //NS\MZMBO()->helpers->print($this->atts['locations']);
+            //NS\MZMBO()->helpers->print($class);
             // Make a timestamp of just the day to use as key for that day's classes
             if (!empty($class['StartDateTime'])) {
                 $dt = new \DateTime($class['StartDateTime']);

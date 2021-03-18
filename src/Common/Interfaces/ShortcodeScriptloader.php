@@ -19,7 +19,7 @@ abstract class ShortcodeScriptLoader extends ShortcodeLoader
      *
      * @since    2.4.7
      * @access   private
-     
+
      * @var      boolean $doAddScript True if handling shortcode wrapper.
      */
     private var $doAddScript;
