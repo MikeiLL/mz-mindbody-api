@@ -224,31 +224,12 @@ class MiniScheduleItem
      */
     public function __construct($ScheduleItem, $atts = array())
     {
-
         $this->className = isset($ScheduleItem['Name']) ? $ScheduleItem['Name'] : '';
         $this->startDateTime = $ScheduleItem['StartDateTime'];
         $this->endDateTime = $ScheduleItem['EndDateTime'];
-
-        // $this->sessionTypeName = isset($ScheduleItem['ClassDescription']['SessionType']['Name']) ? $ScheduleItem['ClassDescription']['SessionType']['Name'] : '';
-
         $this->staffName = isset($ScheduleItem['Staff']['Name']) ? $ScheduleItem['Staff']['Name'] : '';
-
         $this->ID = $ScheduleItem['Id'];
-        // $this->class_schedule_id = $ScheduleItem['ClassScheduleId'];
-        // $this->sLoc = $ScheduleItem['Location']['Id'];
-
-        //$this->locationName = $ScheduleItem['Location']['Name'];
-
-        // $this->sDate = date_i18n('m/d/Y', strtotime($ScheduleItem['StartDateTime']));
-        // $this->sTG = $ScheduleItem['ClassDescription']['Program']['Id'];
-        // $this->mbo_url = $this->mbo_url();
-        // $this->sType = -7;
-        // $this->staffID = $ScheduleItem['Staff']['Id'];
         $this->siteID = !empty($atts['account']) ? $atts['account'] : Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
-        // $this->session_type_css = 'mz_' . sanitize_html_class($this->sessionTypeName, 'mz_session_type');
-        // $this->class_name_css = 'mz_' . sanitize_html_class($this->className, 'mz_class_name');
-        // $this->class_duration = $this->get_schedule_event_duration();
-        // $this->dislayCancelled = ($ScheduleItem['LateCanceled'] == 1) ? '<div class="mz_cancelled_class">' . __('Cancelled', 'mz-mindbody-api') . '</div>' : '';
     }
 
 
