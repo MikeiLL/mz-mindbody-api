@@ -77,14 +77,14 @@ if (! class_exists('MZoo\MzMindbody\Core\MzMindbodyApi')) {
  * This action is documented in inc/core/class-activator.php
  */
 
-register_activation_hook(__FILE__, array( NS . 'MZoo\Core\Activator', 'activate' ));
+register_activation_hook(__FILE__, array( NS . 'MZoo\MzMindbody\Core\Activator', 'activate' ));
 
 /**
  * The code that runs during plugin deactivation.
  * This action is documented inc/core/class-deactivator.php
  */
 
-register_deactivation_hook(__FILE__, array( NS . 'MZoo\Core\Deactivator', 'deactivate' ));
+register_deactivation_hook(__FILE__, array( NS . 'MZoo\MzMindbody\Core\Deactivator', 'deactivate' ));
 
 /**
  * Plugin Singleton Container
@@ -123,7 +123,7 @@ class MzMindbody
     {
 
         if (! isset(self::$instance) && ! ( self::$instance instanceof MzMindbodyApi )) {
-            self::$instance = new Inc\Core\MzMindbodyApi();
+            self::$instance = new NS\Core\MzMindbodyApi();
             self::$instance->run();
 
             self::$instance->i18n           = new Common\GlobalStrings();
@@ -168,7 +168,7 @@ function MZMBO()
 function deactivate()
 {
     deactivate_plugins(plugin_basename(__FILE__));
-    $admin_object = new NS\Inc\Admin\Admin(NS\PLUGIN_NAME, NS\PLUGIN_VERSION, NS\PLUGIN_TEXT_DOMAIN);
+    $admin_object = new NS\Admin\Admin(NS\PLUGIN_NAME, NS\PLUGIN_VERSION, NS\PLUGIN_TEXT_DOMAIN);
     add_action('admin_notices', array($admin_object, 'admin_notice'));
 }
 

@@ -113,9 +113,7 @@ class RetrieveClassOwners extends Interfaces\RetrieveClasses
                 continue;
             }
 
-                $classStartTime = new \DateTime($class['StartDateTime'], Core\MzMindbodyApi::$timezone);
-
-                $day_of_class = $classStartTime->format('l');
+                $day_of_class = wp_date('l', $class['StartDateTime']);
 
                 $class_image = isset($class['ClassDescription']['ImageURL']) ? $class['ClassDescription']['ImageURL'] : '';
 
@@ -129,7 +127,7 @@ class RetrieveClassOwners extends Interfaces\RetrieveClasses
                     'class_name' => strip_tags($class['ClassDescription']['Name']),
                     'class_description' => $class_description_substring,
                     'image_url' => array_shift($image_path_array),
-                    'time' => $classStartTime->format('g:ia'),
+                    'time' => wp_date('g:ia', $class['StartDateTime']),
                     'location' => $class['Location']['Id'],
                     'day' => $day_of_class,
                     'class_owner' => strip_tags($staff_name),
@@ -172,9 +170,7 @@ class RetrieveClassOwners extends Interfaces\RetrieveClasses
 
         // Create an object that will be compared against the $class_owners matrix
 
-        $classStartTime = new \DateTime($class['StartDateTime'], Core\MzMindbodyApi::$timezone);
-
-        $day_of_class = $classStartTime->format('l');
+        $day_of_class = wp_date('l', $class['StartDateTime']);
 
         $class_image = isset($class['ClassDescription']['ImageURL']) ? $class['ClassDescription']['ImageURL'] : '';
 
@@ -186,7 +182,7 @@ class RetrieveClassOwners extends Interfaces\RetrieveClasses
             'class_name' => strip_tags($class['ClassDescription']['Name']),
             'class_description' => $class_description_substring,
             'image_url' => array_shift($image_path_array),
-            'time' => $classStartTime->format('g:ia'),
+            'time' => wp_date('g:ia', $class['StartDateTime']),
             'location' => $class['Location']['Id'],
             'day' => $day_of_class,
             'class_owner' => strip_tags($class['Staff']['Name']),

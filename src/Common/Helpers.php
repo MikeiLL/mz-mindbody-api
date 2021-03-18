@@ -120,7 +120,7 @@ class Helpers
     public function deleteOldSessions()
     {
 
-        $session_utils = new NS\Inc\Libraries\WP_Session\WP_Session_Utils();
+        $session_utils = new NS\Libraries\WP_Session\WP_Session_Utils();
         $count = $session_utils->count_sessions();
         $session_utils->deleteOldSessions();
         return "Cleared " . $count . "sessions.";

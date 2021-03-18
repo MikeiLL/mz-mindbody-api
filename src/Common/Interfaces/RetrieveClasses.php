@@ -27,8 +27,6 @@ use MZoo\MzMindbody as NS;
 abstract class RetrieveClasses extends Retrieve
 {
 
-
-
     /**
      * Date Format for php date display
      *
@@ -38,7 +36,8 @@ abstract class RetrieveClasses extends Retrieve
      */
 
     public $date_format;
-/**
+    
+    /**
      * Time format for php time display
      *
      * @since    2.4.7
@@ -46,7 +45,8 @@ abstract class RetrieveClasses extends Retrieve
      * @var
      */
     public $time_format;
-/**
+    
+    /**
      *
      *
      * @since    2.4.7
@@ -54,7 +54,8 @@ abstract class RetrieveClasses extends Retrieve
      * @var
      */
     public $this_week;
-/**
+    
+    /**
      * Schedule array sorted by first date then time.
      *
      * Used in horizontal schedule display
@@ -64,7 +65,8 @@ abstract class RetrieveClasses extends Retrieve
      * @var      arrray $classesByDateThenTime
      */
     public $classesByDateThenTime;
-/**
+    
+    /**
      * Schedule array sorted by time, then date
      *
      * Used in grid schedule display
@@ -74,7 +76,8 @@ abstract class RetrieveClasses extends Retrieve
      * @var      array $classesByTimeThenDate
      */
     public $classesByTimeThenDate;
-/**
+    
+    /**
      *
      *
      * @since    2.4.7
@@ -82,7 +85,8 @@ abstract class RetrieveClasses extends Retrieve
      * @var
      */
     public $classes;
-/**
+    
+    /**
      * All locations included in current schedule
      *
      * Used to filter by location via jQuery in display, also to
@@ -94,7 +98,8 @@ abstract class RetrieveClasses extends Retrieve
      * @var      array $locations_dictionary
      */
     public $locations_dictionary;
-/**
+
+    /**
      * Attributes sent to shortcode.
      *
      * @since    2.4.7
@@ -102,7 +107,8 @@ abstract class RetrieveClasses extends Retrieve
      * @var      array    $atts    Shortcode attributes filtered via shortcode_atts().
      */
     public $atts;
-/**
+    
+    /**
      * MBO Account.
      *
      * Which MBO account to pull data from, default to Options setting, but can be overridden in shortcode
@@ -112,7 +118,8 @@ abstract class RetrieveClasses extends Retrieve
      * @var      int    $mbo_account    Which MBO account to pull data from.
      */
     protected $mbo_account;
-/**
+    
+    /**
      * Holds the time frame for the instance.
      *
      * @since    2.4.7
@@ -120,7 +127,8 @@ abstract class RetrieveClasses extends Retrieve
      * @var      array    $timeFrame    StartDateTime and endDateTime for MBO API call.
      */
     public $timeFrame;
-/**
+    
+    /**
      * Holds the current day, with offset, based on "offset" attribute/parameter.
      *
      * set by timeFrame() and used by sortClassesByDateThenTime()
@@ -130,7 +138,8 @@ abstract class RetrieveClasses extends Retrieve
      * @var      string    $current_day_offset    Formatted Datetime object.
      */
     public $current_day_offset;
-/**
+    
+    /**
      * Holds the native MBO "schedule type".
      *
      * $class_type MBO API has native 'Enrollment' and 'Class'. 'Enrolment' is a "workshop". Default: 'Enrollment'
@@ -140,7 +149,8 @@ abstract class RetrieveClasses extends Retrieve
      * @var      array    $schedule_types    Array containing MBO "class types" to display.
      */
     public $schedule_types;
-/**
+    
+    /**
      * Holds the first date of current results.
      *
      * This is used to display current week in grid schedule.
@@ -152,7 +162,8 @@ abstract class RetrieveClasses extends Retrieve
      * @var      Datetime object    $start_date    Datetime containing start of week requested.
      */
     public $start_date;
-/**
+    
+    /**
      * Holds the last date of current week.
      *
      * This is used to set end of current week in grid array sorting in sortClassesByTimeThenDate() method.
@@ -323,7 +334,7 @@ abstract class RetrieveClasses extends Retrieve
         */
 
         foreach ($this->classes as $class) {
-// TODO Don't do this twice. Filter once for BOTH schedule displays
+            // TODO Don't do this twice. Filter once for BOTH schedule displays
             // Filter out some items
             if ($this->filterClass($class) === false) {
                 continue;
@@ -331,10 +342,9 @@ abstract class RetrieveClasses extends Retrieve
 
             // Populate the Locations Dictionary
             $this->populateLocationsDictionary($class);
-// Make a timestamp of just the day to use as key for that day's classes
-            $dt = wp_date('Y-m-d', $class['StartDateTime']);
-            $just_date =  $dt->format('Y-m-d');
-// If class was previous to today ignore it
+            // Make a timestamp of just the day to use as key for that day's classes
+            $just_date = wp_date('Y-m-d', $visit['StartDateTime']);
+            // If class was previous to today ignore it
             if ($just_date < $this->current_day_offset->format('Y-m-d')) {
                 continue;
             }

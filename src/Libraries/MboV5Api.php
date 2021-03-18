@@ -112,7 +112,7 @@ class MboV5Api
                 throw new Exception('Too many API Calls.');
             }
 
-            if ((isset(NS\Inc\Core\MzMindbodyApi::$advanced_options['log_api_calls'])) && (NS\Inc\Core\MzMindbodyApi::$advanced_options['log_api_calls'] == 'on')) :
+            if ((isset(NS\Core\MzMindbodyApi::$advanced_options['log_api_calls'])) && (NS\Core\MzMindbodyApi::$advanced_options['log_api_calls'] == 'on')) :
                 $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1];
                 $caller_details = $trace['function'];
                 if (isset($trace['class'])) {

@@ -173,7 +173,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
 
         // Break locations up into array, if it hasn't already been.
         if (!is_array($this->atts['locations'])) {
-            explode(',', str_replace(' ', '', $this->atts['locations']))
+            explode(',', str_replace(' ', '', $this->atts['locations']));
         }
 
         ob_start();

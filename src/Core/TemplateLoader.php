@@ -49,5 +49,5 @@ class TemplateLoader extends \MZMBO_Gamajo_Template_Loader
      *
      * @var string
      */
-    protected $plugin_template_directory = 'inc/frontend/views';
+    protected $plugin_template_directory = 'src/frontend/views';
 }

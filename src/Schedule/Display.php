@@ -342,8 +342,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
 
         $TemplateLoader->set_template_data($this->template_data);
         $TemplateLoader->get_template_part('schedule_container');
-
-
+        
         // Add Style with script adder
         self::addScript();
 
