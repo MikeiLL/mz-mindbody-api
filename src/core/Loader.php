@@ -1,6 +1,6 @@
 <?php
 
-namespace MzMindbody\Inc\Core;
+namespace MzMindbody\Core;
 
 /**
  * Register all actions and filters for the plugin

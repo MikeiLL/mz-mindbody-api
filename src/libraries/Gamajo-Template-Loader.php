@@ -1,6 +1,6 @@
 <?php
 
-namespace MzMindbody\Inc\Libraries;
+namespace MzMindbody\Libraries;
 
 /**
  * Template Loader for Plugins.

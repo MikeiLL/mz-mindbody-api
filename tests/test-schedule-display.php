@@ -23,11 +23,11 @@ class ScheduleDisplayTest extends MZMBO_WPUnitTestCase
     {
         parent::setUp();
 
-        $this->assertTrue(class_exists('MzMindbody\Inc\Core\MzMindbodyApi'));
+        $this->assertTrue(class_exists('MzMindbody\Core\MzMindbodyApi'));
         // Manually initialize static variable.
-        MzMindbody\Inc\Core\MzMindbodyApi::$basic_options = get_option('mz_mbo_basic');
-        $this->assertTrue(class_exists('MzMindbody\Inc\Schedule\RetrieveSchedule'));
-        $schedule_object = new MzMindbody\Inc\Schedule\RetrieveSchedule();
+        MzMindbody\Core\MzMindbodyApi::$basic_options = get_option('mz_mbo_basic');
+        $this->assertTrue(class_exists('MzMindbody\Schedule\RetrieveSchedule'));
+        $schedule_object = new MzMindbody\Schedule\RetrieveSchedule();
         $timeFrame = $schedule_object->timeFrame();
         $this->assertTrue(count($timeFrame) === 2);
         $response = $schedule_object->getMboResults();
@@ -46,9 +46,9 @@ class ScheduleDisplayTest extends MZMBO_WPUnitTestCase
 
         parent::setUp();
 
-        $this->assertTrue(class_exists('MzMindbody\Inc\Schedule\RetrieveSchedule'));
+        $this->assertTrue(class_exists('MzMindbody\Schedule\RetrieveSchedule'));
 
-        $schedule_object = new MzMindbody\Inc\Schedule\RetrieveSchedule();
+        $schedule_object = new MzMindbody\Schedule\RetrieveSchedule();
 
         $response = $schedule_object->getMboResults();
 
@@ -83,9 +83,9 @@ class ScheduleDisplayTest extends MZMBO_WPUnitTestCase
 
         parent::setUp();
 
-        $this->assertTrue(class_exists('MzMindbody\Inc\Schedule\RetrieveSchedule'));
+        $this->assertTrue(class_exists('MzMindbody\Schedule\RetrieveSchedule'));
 
-        $schedule_object = new MzMindbody\Inc\Schedule\RetrieveSchedule();
+        $schedule_object = new MzMindbody\Schedule\RetrieveSchedule();
 
         $response = $schedule_object->getMboResults();
 
@@ -117,7 +117,7 @@ class ScheduleDisplayTest extends MZMBO_WPUnitTestCase
         // For some reason this test fails without specifying locations attribute.
         // I don't know why for the day display the locations attr isn't receiving
         // the default value.
-        $schedule_object = new MzMindbody\Inc\Schedule\RetrieveSchedule(array('type' => 'day', 'locations' => array(1)));
+        $schedule_object = new MzMindbody\Schedule\RetrieveSchedule(array('type' => 'day', 'locations' => array(1)));
 
         $response = $schedule_object->getMboResults();
 
@@ -142,11 +142,11 @@ class ScheduleDisplayTest extends MZMBO_WPUnitTestCase
     {
         parent::setUp();
 
-        $this->assertTrue(class_exists('MzMindbody\Inc\Core\MzMindbodyApi'));
+        $this->assertTrue(class_exists('MzMindbody\Core\MzMindbodyApi'));
         // Manually initialize static variable.
-        MzMindbody\Inc\Core\MzMindbodyApi::$basic_options = get_option('mz_mbo_basic');
-        $this->assertTrue(class_exists('MzMindbody\Inc\Schedule\RetrieveSchedule'));
-        $schedule_object = new MzMindbody\Inc\Schedule\RetrieveSchedule();
+        MzMindbody\Core\MzMindbodyApi::$basic_options = get_option('mz_mbo_basic');
+        $this->assertTrue(class_exists('MzMindbody\Schedule\RetrieveSchedule'));
+        $schedule_object = new MzMindbody\Schedule\RetrieveSchedule();
         $timeFrame = $schedule_object->timeFrame(strtotime('+1 week'));
         $this->assertTrue(count($timeFrame) === 2);
         $response = $schedule_object->getMboResults();
@@ -164,11 +164,11 @@ class ScheduleDisplayTest extends MZMBO_WPUnitTestCase
     {
         parent::setUp();
 
-        $this->assertTrue(class_exists('MzMindbody\Inc\Core\MzMindbodyApi'));
+        $this->assertTrue(class_exists('MzMindbody\Core\MzMindbodyApi'));
         // Manually initialize static variable.
-        MzMindbody\Inc\Core\MzMindbodyApi::$basic_options = get_option('mz_mbo_basic');
-        $this->assertTrue(class_exists('MzMindbody\Inc\Schedule\RetrieveSchedule'));
-        $schedule_object = new MzMindbody\Inc\Schedule\RetrieveSchedule();
+        MzMindbody\Core\MzMindbodyApi::$basic_options = get_option('mz_mbo_basic');
+        $this->assertTrue(class_exists('MzMindbody\Schedule\RetrieveSchedule'));
+        $schedule_object = new MzMindbody\Schedule\RetrieveSchedule();
         $timeFrame = $schedule_object->timeFrame(strtotime('+1 week'));
         $this->assertTrue(count($timeFrame) === 2);
         $response = $schedule_object->getMboResults();

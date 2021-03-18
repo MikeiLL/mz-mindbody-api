@@ -1,9 +1,9 @@
 <?php
 
-namespace MzMindbody\Inc\Backend;
+namespace MzMindbody\Backend;
 
 use MzMindbody as NS;
-use MzMindbody\Inc\Common\Interfaces as Interfaces;
+use MzMindbody\Common\Interfaces as Interfaces;
 
 class RetrieveDebug extends Interfaces\Retrieve
 {

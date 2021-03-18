@@ -1,10 +1,10 @@
 <?php
 
-namespace MzMindbody\Inc\Common;
+namespace MzMindbody\Common;
 
 use MzMindbody as NS;
-use MzMindbody\Inc\Core as Core;
-use MzMindbody\Inc\Common\Interfaces as Interfaces;
+use MzMindbody\Core as Core;
+use MzMindbody\Common\Interfaces as Interfaces;
 
 class TokenManagement extends Interfaces\Retrieve
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace MzMindbody\Inc\Common;
+namespace MzMindbody\Common;
 
 use MzMindbody as NS;
 

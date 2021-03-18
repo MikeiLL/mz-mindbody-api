@@ -1,6 +1,6 @@
 <?php
 
-namespace MzMindbody\Inc\Libraries\Rarst\WordPress\DateTime;
+namespace MzMindbody\Libraries\Rarst\WordPress\DateTime;
 
 /**
  * Concrete implementation, shared by regular and Immutable WpDateTime classes.

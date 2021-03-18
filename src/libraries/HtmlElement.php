@@ -1,6 +1,6 @@
 <?php
 
-namespace MzMindbody\Inc\Libraries;
+namespace MzMindbody\Libraries;
 
 /* create an html element, like in js
  * Source: https://davidwalsh.name/create-html-elements-php-htmlelement-class

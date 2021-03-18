@@ -1,9 +1,9 @@
 <?php
 
-namespace MzMindbody\Inc\Core;
+namespace MzMindbody\Core;
 
 use MzMindbody as NS;
-use MzMindbody\Inc\Admin as Admin;
+use MzMindbody\Admin as Admin;
 
 /**
  * Fired during plugin activation

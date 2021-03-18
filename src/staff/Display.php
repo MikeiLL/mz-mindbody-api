@@ -1,11 +1,11 @@
 <?php
 
-namespace MzMindbody\Inc\Staff;
+namespace MzMindbody\Staff;
 
 use MzMindbody as NS;
-use MzMindbody\Inc\Core as Core;
-use MzMindbody\Inc\Common as Common;
-use MzMindbody\Inc\Common\Interfaces as Interfaces;
+use MzMindbody\Core as Core;
+use MzMindbody\Common as Common;
+use MzMindbody\Common\Interfaces as Interfaces;
 
 class Display extends Interfaces\ShortcodeScriptLoader
 {

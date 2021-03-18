@@ -1,16 +1,16 @@
 <?php
 
-namespace MzMindbody\Inc\Core;
+namespace MzMindbody\Core;
 
 use MzMindbody as NS;
-use MzMindbody\Inc\Admin as Admin;
-use MzMindbody\Inc\Frontend as Frontend;
-use MzMindbody\Inc\Backend as Backend;
-use MzMindbody\Inc\Common as Common;
-use MzMindbody\Inc\Schedule as Schedule;
-use MzMindbody\Inc\Staff as Staff;
-use MzMindbody\Inc\Events as Events;
-use MzMindbody\Inc\Libraries\Rarst\WordPress\DateTime as DateTime;
+use MzMindbody\Admin as Admin;
+use MzMindbody\Frontend as Frontend;
+use MzMindbody\Backend as Backend;
+use MzMindbody\Common as Common;
+use MzMindbody\Schedule as Schedule;
+use MzMindbody\Staff as Staff;
+use MzMindbody\Events as Events;
+use MzMindbody\Libraries\Rarst\WordPress\DateTime as DateTime;
 
 /**
  * The core plugin class.
@@ -172,7 +172,7 @@ class MzMindbodyApi
         self::$advanced_options = get_option('mz_mbo_advanced');
         self::$mz_mbo_api_calls = get_option('mz_mbo_api_calls');
         self::$mz_mbo_api_calls = empty(self::$mz_mbo_api_calls) ? 2000 : self::$mz_mbo_api_calls;
-        self::$timezone = DateTime\WpDateTimeZone::getWpTimezone();
+        self::$timezone = wp_timezone_string();
         self::$event_calendar_duration = isset(self::$events_options['mz_mindbody_scheduleDuration']) ? self::$events_options['mz_mindbody_scheduleDuration'] : 60;
         self::$date_format = empty(self::$advanced_options['date_format']) ? get_option('date_format') : self::$advanced_options['date_format'];
         self::$time_format = empty(self::$advanced_options['time_format']) ? get_option('time_format') : self::$advanced_options['time_format'];

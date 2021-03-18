@@ -1,8 +1,8 @@
 <?php
 
-namespace MzMindbody\Inc\Core;
+namespace MzMindbody\Core;
 
-use MzMindbody\Inc\Libraries as Libraries;
+use MzMindbody\Libraries as Libraries;
 use MzMindbody as NS;
 
 class TemplateLoader extends Libraries\Gamajo_TemplateLoader

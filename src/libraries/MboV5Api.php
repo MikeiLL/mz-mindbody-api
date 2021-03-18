@@ -1,6 +1,6 @@
 <?php
 
-namespace MzMindbody\Inc\Libraries;
+namespace MzMindbody\Libraries;
 
 use MzMindbody as NS;
 use Exception as Exception;

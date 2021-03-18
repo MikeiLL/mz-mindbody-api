@@ -1,12 +1,11 @@
 <?php
 
-namespace MzMindbody\Inc\Common\Interfaces;
+namespace MzMindbody\Common\Interfaces;
 
-use MzMindbody\Inc\Core as Core;
-use MzMindbody\Inc\Libraries as Libraries;
-use MzMindbody\Inc\Schedule as Schedule;
+use MzMindbody\Core as Core;
+use MzMindbody\Libraries as Libraries;
+use MzMindbody\Schedule as Schedule;
 use MzMindbody as NS;
-use MzMindbody\Inc\Libraries\Rarst\WordPress\DateTime as Datetime;
 
 /**
  * Class that is extended for Schedule Display Shortcode(s)
@@ -333,7 +332,7 @@ abstract class RetrieveClasses extends Retrieve
             // Populate the Locations Dictionary
             $this->populateLocationsDictionary($class);
 // Make a timestamp of just the day to use as key for that day's classes
-            $dt = new \DateTime($class['StartDateTime']);
+            $dt = wp_date('Y-m-d', $class['StartDateTime']);
             $just_date =  $dt->format('Y-m-d');
 // If class was previous to today ignore it
             if ($just_date < $this->current_day_offset->format('Y-m-d')) {

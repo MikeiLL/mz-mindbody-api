@@ -1,10 +1,10 @@
 <?php
 
-namespace MzMindbody\Inc\Common\Interfaces;
+namespace MzMindbody\Common\Interfaces;
 
 use MzMindbody as NS;
-use MzMindbody\Inc\Core as Core;
-use MzMindbody\Inc\Libraries as Libraries;
+use MzMindbody\Core as Core;
+use MzMindbody\Libraries as Libraries;
 
 abstract class Retrieve
 {

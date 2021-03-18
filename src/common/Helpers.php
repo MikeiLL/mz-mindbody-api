@@ -1,12 +1,12 @@
 <?php
 
-namespace MzMindbody\Inc\Common;
+namespace MzMindbody\Common;
 
 use MzMindbody as NS;
 
 /**
  * Class GlobalStrings
- * @package MzMindbody\Inc\Common
+ * @package MzMindbody\Common
  *
  * Store i18n strings that may be used throughout plugin
  *

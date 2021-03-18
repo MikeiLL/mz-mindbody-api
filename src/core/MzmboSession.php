@@ -1,6 +1,6 @@
 <?php
 
-namespace MzMindbody\Inc\Core;
+namespace MzMindbody\Core;
 
 /**
  * MZ Session Class borrowed from WP Simple Pay Session Class
@@ -16,8 +16,8 @@ namespace MzMindbody\Inc\Core;
  */
 
 use MzMindbody as NS;
-use MzMindbody\Inc\Libraries\WP_Session as WP_Session;
-use MzMindbody\Inc\Libraries\WP_Session_Utils as WP_Session_Utils;
+use MzMindbody\Libraries\WP_Session as WP_Session;
+use MzMindbody\Libraries\WP_Session_Utils as WP_Session_Utils;
 
 if (! defined('ABSPATH')) {
     exit;

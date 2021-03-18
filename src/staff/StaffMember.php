@@ -1,10 +1,10 @@
 <?php
 
-namespace MzMindbody\Inc\Staff;
+namespace MzMindbody\Staff;
 
 use MzMindbody as NS;
-use MzMindbody\Inc\Core as Core;
-use MzMindbody\Inc\Libraries\HtmlElement;
+use MzMindbody\Core as Core;
+use MzMindbody\Libraries\HtmlElement;
 
 /**
  * Class that holds and formats a single staff member from MBO API Staff Result.

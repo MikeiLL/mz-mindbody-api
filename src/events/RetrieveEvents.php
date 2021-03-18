@@ -1,12 +1,12 @@
 <?php
 
-namespace MzMindbody\Inc\Events;
+namespace MzMindbody\Events;
 
 use MzMindbody as NS;
-use MzMindbody\Inc\Core as Core;
-use MzMindbody\Inc\Libraries as Libraries;
-use MzMindbody\Inc\Schedule as Schedule;
-use MzMindbody\Inc\Common\Interfaces as Interfaces;
+use MzMindbody\Core as Core;
+use MzMindbody\Libraries as Libraries;
+use MzMindbody\Schedule as Schedule;
+use MzMindbody\Common\Interfaces as Interfaces;
 
 /**
  * Class that is extended for Events Display Shortcode(s)

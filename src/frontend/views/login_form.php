@@ -1,6 +1,6 @@
 <?php
 
-use MzMindbody\Inc\Core as Core;
+use MzMindbody\Core as Core;
 
 ?>
 

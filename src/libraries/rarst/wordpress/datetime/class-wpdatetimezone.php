@@ -1,6 +1,6 @@
 <?php
 
-namespace MzMindbody\Inc\Libraries\Rarst\WordPress\DateTime;
+namespace MzMindbody\Libraries\Rarst\WordPress\DateTime;
 
 /**
  * Extension of DateTimeZone for WordPress.

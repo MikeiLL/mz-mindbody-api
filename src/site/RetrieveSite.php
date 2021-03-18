@@ -1,12 +1,12 @@
 <?php
 
-namespace MzMindbody\Inc\Site;
+namespace MzMindbody\Site;
 
-use MzMindbody\Inc\Core as Core;
-use MzMindbody\Inc\Common as Common;
-use MzMindbody\Inc\Libraries as Libraries;
-use MzMindbody\Inc\Schedule as Schedule;
-use MzMindbody\Inc\Common\Interfaces as Interfaces;
+use MzMindbody\Core as Core;
+use MzMindbody\Common as Common;
+use MzMindbody\Libraries as Libraries;
+use MzMindbody\Schedule as Schedule;
+use MzMindbody\Common\Interfaces as Interfaces;
 use MzMindbody as NS;
 
 /*

@@ -30,13 +30,12 @@
 namespace MzMindbody;
 
 use MzMindbody as NS;
-use MzMindbody\Inc\Core as Core;
-use MzMindbody\Inc\Common as Common;
+use MzMindbody\Core as Core;
+use MzMindbody\Common as Common;
 
 // If this file is called directly, abort.
-if (! defined('WPINC')) {
-    die;
-}
+// on further research, just code consciously:
+// https://wordpress.stackexchange.com/a/63004/48604
 
 /**
  * Define Constants
@@ -69,7 +68,7 @@ if (file_exists($wp_mindbody_api_autoload)) {
     include_once $wp_mindbody_api_autoload;
 }
 
-if (! class_exists('\MzMindbodyApi\Core\MzMindbodyApi')) {
+if (! class_exists('\MzMindbody\Core\MzMindbodyApi')) {
     exit('MZ Mindbody Api requires Composer autoloading, which is not configured');
 }
 
@@ -78,14 +77,14 @@ if (! class_exists('\MzMindbodyApi\Core\MzMindbodyApi')) {
  * This action is documented in inc/core/class-activator.php
  */
 
-register_activation_hook(__FILE__, array( NS . 'Inc\Core\Activator', 'activate' ));
+register_activation_hook(__FILE__, array( NS . 'Core\Activator', 'activate' ));
 
 /**
  * The code that runs during plugin deactivation.
  * This action is documented inc/core/class-deactivator.php
  */
 
-register_deactivation_hook(__FILE__, array( NS . 'Inc\Core\Deactivator', 'deactivate' ));
+register_deactivation_hook(__FILE__, array( NS . 'Core\Deactivator', 'deactivate' ));
 
 /**
  * Plugin Singleton Container

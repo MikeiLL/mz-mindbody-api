@@ -11,8 +11,8 @@
  * @author    Mike iLL/mZoo.org
  */
 
-use MzMindbody\Inc\Core;
-use MzMindbody\Inc\Libraries as Libraries;
+use MzMindbody\Core;
+use MzMindbody\Libraries as Libraries;
 
 ?>
 <?php if (empty($data->horizontal_schedule)) {

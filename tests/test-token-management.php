@@ -16,9 +16,9 @@ class Tests_TokenManagement extends MZMBO_WPUnitTestCase
 
         parent::setUp();
 
-        $this->assertTrue(class_exists('MzMindbody\Inc\Common\TokenManagement'));
+        $this->assertTrue(class_exists('MzMindbody\Common\TokenManagement'));
 
-        $tm = new MzMindbody\Inc\Common\TokenManagement();
+        $tm = new MzMindbody\Common\TokenManagement();
 
         $token = $tm->serve_token();
 
@@ -30,13 +30,13 @@ class Tests_TokenManagement extends MZMBO_WPUnitTestCase
 
         parent::setUp();
 
-        $this->assertTrue(class_exists('MzMindbody\Inc\Common\TokenManagement'));
+        $this->assertTrue(class_exists('MzMindbody\Common\TokenManagement'));
 
-        $tm = new MzMindbody\Inc\Common\TokenManagement();
+        $tm = new MzMindbody\Common\TokenManagement();
 
         $initial_token = $tm->serve_token(); // this should save and return a new token
 
-        $tm = new MzMindbody\Inc\Common\TokenManagement();
+        $tm = new MzMindbody\Common\TokenManagement();
 
         $new_token = $tm->serve_token(); // this should serve saved token
 
