@@ -533,14 +533,14 @@ class ScheduleItem
         $this->class_schedule_id = $ScheduleItem['ClassScheduleId'];
         $this->sLoc = $ScheduleItem['Location']['Id'];
         $this->locationName = $ScheduleItem['Location']['Name'];
-        $this->sDate = date_i18n('m/d/Y', strtotime($ScheduleItem['StartDateTime']));
+        $this->sDate = wp_date('m/d/Y', strtotime($ScheduleItem['StartDateTime']));
         $this->sign_up_title = __('Sign-Up', 'mz-mindbody-api');
         $this->manage_text = __('Manage on MindBody Site', 'mz-mindbody-api');
         $this->sType = -7;
         $this->staffID = $ScheduleItem['Staff']['Id'];
         $this->siteID = !empty($atts['account']) ? $atts['account'] : Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
         $this->mbo_url = $this->mbo_url();
-        $this->day_num = $this->get_day_number(date_i18n("N", strtotime($ScheduleItem['StartDateTime'])));
+        $this->day_num = $this->get_day_number(wp_date("N", strtotime($ScheduleItem['StartDateTime'])));
         $this->session_type_css = 'mz_' . sanitize_html_class($this->sessionTypeName, 'mz_session_type');
         $this->class_name_css = 'mz_' . sanitize_html_class($this->className, 'mz_class_name');
         $this->part_of_day = $this->part_of_day();
@@ -644,7 +644,7 @@ class ScheduleItem
                     endif;
                 endif;
 
-                $linkArray['data-time'] = date_i18n(Core\MzMindbodyApi::$date_format . ' ' . Core\MzMindbodyApi::$time_format, strtotime($this->startDateTime));
+                $linkArray['data-time'] = wp_date(Core\MzMindbodyApi::$date_format . ' ' . Core\MzMindbodyApi::$time_format, strtotime($this->startDateTime));
 
                 // May being back option to register within site. For now, comment out.
                 // if ((!empty($this->atts['advanced']) && ($this->atts['advanced'] == '1')) || (Core\MzMindbodyApi::$advanced_options['register_within_site'] == 'on')):
@@ -712,7 +712,7 @@ class ScheduleItem
      */
     private function part_of_day()
     {
-        $time_by_integer = date_i18n("G.i", strtotime($this->startDateTime));
+        $time_by_integer = wp_date("G.i", strtotime($this->startDateTime));
         if ($time_by_integer < 12) {
             return __('morning', 'mz-mindbody-api');
         } elseif ($time_by_integer > 16) {
