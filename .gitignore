@@ -7,3 +7,4 @@ bower_components
 node_modules
 upload.sh
 tests/Test_Options.php
+composer.lock
