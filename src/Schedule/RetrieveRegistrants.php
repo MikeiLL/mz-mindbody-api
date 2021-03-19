@@ -13,141 +13,135 @@ use MZoo\MzMindbody\Common\Interfaces as Interfaces;
  *
  */
 
-class RetrieveRegistrants extends Interfaces\Retrieve
-{
-
-    /**
-     * Holds the Get Class Visits Results for a given class.
-     *
-     * @since    2.4.7
-     * @access   public
-     * @var      array $class_visits Array of names of class registrants.
-     */
-    public $class_visits;
+class RetrieveRegistrants extends Interfaces\Retrieve {
 
 
-    /**
-     * Holds the registrants for a given class.
-     *
-     * @since    2.4.7
-     * @access   public
-     * @var      array $registrants Array of names of class registrants.
-     */
-    public $registrants;
+	/**
+	 * Holds the Get Class Visits Results for a given class.
+	 *
+	 * @since    2.4.7
+	 * @access   public
+	 * @var      array $class_visits Array of names of class registrants.
+	 */
+	public $class_visits;
 
 
-    /**
-     * Get a timestamp, return data from MBO api, store it in a transient and
-     * as object attribute.
-     *
-     * @since 2.4.7
-     *
-     * @param @timestamp defaults to current time
-     *
-     *
-     * @return array of MBO schedule data
-     */
-    public function getMboResults($classid = 0)
-    {
+	/**
+	 * Holds the registrants for a given class.
+	 *
+	 * @since    2.4.7
+	 * @access   public
+	 * @var      array $registrants Array of names of class registrants.
+	 */
+	public $registrants;
 
-        if (empty($classid)) {
-            return false;
-        }
 
-        $mb = $this->instantiateMboApi();
+	/**
+	 * Get a timestamp, return data from MBO api, store it in a transient and
+	 * as object attribute.
+	 *
+	 * @since 2.4.7
+	 *
+	 * @param @timestamp defaults to current time
+	 *
+	 * @return array of MBO schedule data
+	 */
+	public function getMboResults( $classid = 0 ) {
 
-        if (!$mb || $mb == 'NO_API_SERVICE') {
-            return false;
-        }
+		if ( empty( $classid ) ) {
+			return false;
+		}
 
-        if ($this->mbo_account !== 0) {
-            // If account has been specified in shortcode, update credentials
-            $mb->sourceCredentials['SiteIDs'][0] = $this->mbo_account;
-        }
+		$mb = $this->instantiateMboApi();
 
-        $this->class_visits = $mb->GetClassVisits(array('ClassID' => $classid));
+		if ( ! $mb || $mb == 'NO_API_SERVICE' ) {
+			return false;
+		}
 
-        return $this->class_visits;
-    }
+		if ( $this->mbo_account !== 0 ) {
+			// If account has been specified in shortcode, update credentials
+			$mb->sourceCredentials['SiteIDs'][0] = $this->mbo_account;
+		}
 
-    /**
-     * Get Registrants called via Ajax
-     *
-     *
-     */
-    function ajax_get_registrants()
-    {
+		$this->class_visits = $mb->GetClassVisits( array( 'ClassID' => $classid ) );
 
-        check_ajax_referer($_REQUEST['nonce'], "mz_MBO_get_registrants_nonce", false);
+		return $this->class_visits;
+	}
 
-        $classid = $_REQUEST['classID'];
+	/**
+	 * Get Registrants called via Ajax
+	 */
+	function ajax_get_registrants() {
 
-        $result['type'] = "success";
+		check_ajax_referer( $_REQUEST['nonce'], 'mz_MBO_get_registrants_nonce', false );
 
-        $registrants = $this->get_registrants($classid);
+		$classid = $_REQUEST['classID'];
 
-        if (!$registrants) :
-            $result['type'] = "error";
-        endif;
+		$result['type'] = 'success';
 
-        $result['message'] = $registrants;
+		$registrants = $this->get_registrants( $classid );
 
-        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-            $result = json_encode($result);
-            echo $result;
-        } else {
-            header("Location: " . $_SERVER["HTTP_REFERER"]);
-        }
+		if ( ! $registrants ) :
+			$result['type'] = 'error';
+		endif;
 
-        die();
-    }
-    //End Ajax Get Registrants
+		$result['message'] = $registrants;
 
-    /**
-     * Get Registrants from MBO
-     *
-     * @param int $classid
-     */
-    function get_registrants($classid)
-    {
+		if ( ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) == 'xmlhttprequest' ) {
+			$result = json_encode( $result );
+			echo $result;
+		} else {
+			header( 'Location: ' . $_SERVER['HTTP_REFERER'] );
+		}
 
-        $class_visits = $this->getMboResults($classid);
+		die();
+	}
+	// End Ajax Get Registrants
 
-        if (!$class_visits) :
-            return false;
-        else :
-            if (empty($class_visits['Class']['Visits'])) :
-                return __("No registrants yet.", 'mz-mindbody-api');
-            else :
-                $registrant_ids = array();
+	/**
+	 * Get Registrants from MBO
+	 *
+	 * @param int $classid
+	 */
+	function get_registrants( $classid ) {
 
-                // Build array of registrant ids to send to GetClients
-                foreach ($class_visits['Class']['Visits'] as $registrant) {
-                        $registrant_ids[] = $registrant['ClientId'];
-                }
+		$class_visits = $this->getMboResults( $classid );
 
-                // send list of registrants to GetRegistrants
-                $mb = $this->instantiateMboApi();
+		if ( ! $class_visits ) :
+			return false;
+		else :
+			if ( empty( $class_visits['Class']['Visits'] ) ) :
+				return __( 'No registrants yet.', 'mz-mindbody-api' );
+			else :
+				$registrant_ids = array();
 
-                if (!$mb || $mb == 'NO_API_SERVICE') {
-                    return false;
-                }
+				// Build array of registrant ids to send to GetClients
+				foreach ( $class_visits['Class']['Visits'] as $registrant ) {
+						$registrant_ids[] = $registrant['ClientId'];
+				}
 
-                if ($this->mbo_account !== 0) {
-                    // If account has been specified in shortcode, update credentials
-                    $mb->sourceCredentials['SiteIDs'][0] = $this->mbo_account;
-                }
+				// send list of registrants to GetRegistrants
+				$mb = $this->instantiateMboApi();
 
-                $this->registrants = $mb->GetClients(['clientIds' => $registrant_ids]);
+				if ( ! $mb || $mb == 'NO_API_SERVICE' ) {
+					return false;
+				}
 
-                $registrant_names = array();
-                // Add first name, last initial
-                foreach ($this->registrants['Clients'] as $registrant) {
-                    $registrant_names[] = $registrant['FirstName'] . ' ' . substr($registrant['LastName'], 0, 1) . '.';
-                }
-            endif;
-        endif;
+				if ( $this->mbo_account !== 0 ) {
+					// If account has been specified in shortcode, update credentials
+					$mb->sourceCredentials['SiteIDs'][0] = $this->mbo_account;
+				}
 
-        return $registrant_names;
-    }
+				$this->registrants = $mb->GetClients( array( 'clientIds' => $registrant_ids ) );
+
+				$registrant_names = array();
+				// Add first name, last initial
+				foreach ( $this->registrants['Clients'] as $registrant ) {
+					$registrant_names[] = $registrant['FirstName'] . ' ' . substr( $registrant['LastName'], 0, 1 ) . '.';
+				}
+			endif;
+		endif;
+
+		return $registrant_names;
+	}
 }

@@ -38,9 +38,9 @@
    },
    "scripts": {
      "lint": [
-       "phpcs --extensions=php --standard=PSR12 src *.php --ignore=src/libraries/Gamajo-Template-Loader.php. "
+       "phpcs --extensions=php src *.php --ignore=src/libraries/Gamajo-Template-Loader.php. "
      ],
-     "fix": ["phpcbf --extensions=php --standard=PSR12 src *.php --ignore=src/libraries/Gamajo-Template-Loader.php . "]
+     "fix": ["phpcbf --extensions=php src *.php --ignore=src/libraries/Gamajo-Template-Loader.php . "]
    },
    "extra": {
     "mozart": {

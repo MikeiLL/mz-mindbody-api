@@ -18,365 +18,355 @@ use MZoo\MzMindbody\Libraries as Library;
  * @param $event array from MBO
  * @param $atts array from shortcode attribute call
  */
-class SingleEvent
-{
+class SingleEvent {
 
-    /**
-     * Event Class Schedule ID
-     *
-     * @since 2.4.7
-     *
-     * @used in making link to signup
-     *
-     * @access public
-     * @var $class_schedule_id int TODO differentiate from ['ClassDescription']['Id']
-     */
-    public $class_schedule_id;
 
-    /**
-     * Event Class ID
-     *
-     * @since 2.4.7
-     *
-     * @access public
-     * @var $ID int TODO differentiate from ['ClassScheduleId']
-     */
-    public $ID;
+	/**
+	 * Event Class Schedule ID
+	 *
+	 * @since 2.4.7
+	 *
+	 * @used in making link to signup
+	 *
+	 * @access public
+	 * @var $class_schedule_id int TODO differentiate from ['ClassDescription']['Id']
+	 */
+	public $class_schedule_id;
 
-    /**
-     * Event Start Time
-     *
-     * @since 2.4.7
-     *
-     * @access public
-     * @var $startDateTime datetime as pulled in from MBO
-     */
-    public $startDateTime;
+	/**
+	 * Event Class ID
+	 *
+	 * @since 2.4.7
+	 *
+	 * @access public
+	 * @var $ID int TODO differentiate from ['ClassScheduleId']
+	 */
+	public $ID;
 
-    /**
-     * Event End Time
-     *
-     * @since 2.4.7
-     *
-     * @access public
-     * @var $endDateTime datetime as pulled in from MBO
-     */
-    public $endDateTime;
+	/**
+	 * Event Start Time
+	 *
+	 * @since 2.4.7
+	 *
+	 * @access public
+	 * @var $startDateTime datetime as pulled in from MBO
+	 */
+	public $startDateTime;
 
-    /**
-     * Event Name
-     *
-     * @since 2.4.7
-     *
-     * @access public
-     * @var $className string as pulled in from ['ClassDescription']['Name']
-     */
-    public $className;
+	/**
+	 * Event End Time
+	 *
+	 * @since 2.4.7
+	 *
+	 * @access public
+	 * @var $endDateTime datetime as pulled in from MBO
+	 */
+	public $endDateTime;
 
-    /**
-     * Event Image
-     *
-     * @since 2.4.7
-     *
-     * @access public
-     * @var $classImage string url to image hosted with MBO
-     */
-    public $classImage;
+	/**
+	 * Event Name
+	 *
+	 * @since 2.4.7
+	 *
+	 * @access public
+	 * @var $className string as pulled in from ['ClassDescription']['Name']
+	 */
+	public $className;
 
-    /**
-     * Event Staff Name
-     *
-     * @since 2.4.7
-     *
-     * @access public
-     * @var $staffName string as pulled in from ['Staff']['Name']
-     */
-    public $staffName;
+	/**
+	 * Event Image
+	 *
+	 * @since 2.4.7
+	 *
+	 * @access public
+	 * @var $classImage string url to image hosted with MBO
+	 */
+	public $classImage;
 
-    /**
-     * Event Staff Biography
-     *
-     * @since 2.4.7
-     *
-     * @access public
-     * @var $staffName string as pulled in from ['Staff']['Bio']
-     */
-    public $staffBio;
+	/**
+	 * Event Staff Name
+	 *
+	 * @since 2.4.7
+	 *
+	 * @access public
+	 * @var $staffName string as pulled in from ['Staff']['Name']
+	 */
+	public $staffName;
 
-    /**
-     * Event Image
-     *
-     * @since 2.4.7
-     *
-     * @access public
-     * @var $staffImage string url to image hosted with MBO
-     */
-    public $staffImage;
+	/**
+	 * Event Staff Biography
+	 *
+	 * @since 2.4.7
+	 *
+	 * @access public
+	 * @var $staffName string as pulled in from ['Staff']['Bio']
+	 */
+	public $staffBio;
 
-    /**
-     * Event Name
-     *
-     * @since 2.4.7
-     *
-     * @access public
-     * @var $Description string as pulled in from ['ClassDescription']['Description']
-     */
-    public $Description;
+	/**
+	 * Event Image
+	 *
+	 * @since 2.4.7
+	 *
+	 * @access public
+	 * @var $staffImage string url to image hosted with MBO
+	 */
+	public $staffImage;
 
-    /**
-     * Event Location ID
-     *
-     * @since 2.4.7
-     *
-     * @access public
-     * @var $location_ID string
-     */
-    public $location_ID;
+	/**
+	 * Event Name
+	 *
+	 * @since 2.4.7
+	 *
+	 * @access public
+	 * @var $Description string as pulled in from ['ClassDescription']['Description']
+	 */
+	public $Description;
 
-    /**
-     * Event Location Name
-     *
-     * @since 2.4.7
-     *
-     * @access public
-     * @var $location_Name string
-     */
-    public $location_Name;
+	/**
+	 * Event Location ID
+	 *
+	 * @since 2.4.7
+	 *
+	 * @access public
+	 * @var $location_ID string
+	 */
+	public $location_ID;
 
-    /**
-     * Event Location Address
-     *
-     * @since 2.4.7
-     *
-     * @access public
-     * @var $location_Address string
-     */
-    public $location_Address;
+	/**
+	 * Event Location Name
+	 *
+	 * @since 2.4.7
+	 *
+	 * @access public
+	 * @var $location_Name string
+	 */
+	public $location_Name;
 
-    /**
-     * Event Location Address2
-     *
-     * @since 2.4.7
-     *
-     * @access public
-     * @var $location_Address2 string
-     */
-    public $location_Address2;
+	/**
+	 * Event Location Address
+	 *
+	 * @since 2.4.7
+	 *
+	 * @access public
+	 * @var $location_Address string
+	 */
+	public $location_Address;
 
-    /**
-     * Event Location City
-     *
-     * @since 2.4.7
-     *
-     * @access public
-     * @var $location_City string
-     */
-    public $location_City;
+	/**
+	 * Event Location Address2
+	 *
+	 * @since 2.4.7
+	 *
+	 * @access public
+	 * @var $location_Address2 string
+	 */
+	public $location_Address2;
 
-    /**
-     * Event Location State Provo Code
-     *
-     * @since 2.4.7
-     *
-     * @access public
-     * @var $location_StateProvCode string
-     */
-    public $location_StateProvCode;
+	/**
+	 * Event Location City
+	 *
+	 * @since 2.4.7
+	 *
+	 * @access public
+	 * @var $location_City string
+	 */
+	public $location_City;
 
-    /**
-     * Event Location Postal/Zip Code
-     *
-     * @since 2.4.7
-     *
-     * @access public
-     * @var $location_PostalCode string
-     */
-    public $location_PostalCode;
+	/**
+	 * Event Location State Provo Code
+	 *
+	 * @since 2.4.7
+	 *
+	 * @access public
+	 * @var $location_StateProvCode string
+	 */
+	public $location_StateProvCode;
 
-    /**
-     * Shortcode Attributes
-     *
-     * @since 2.4.7
-     *
-     * @access protected
-     * @var $atts array The shortcode atts from shortcode out of which Event is instantiated
-     */
-    protected $atts;
+	/**
+	 * Event Location Postal/Zip Code
+	 *
+	 * @since 2.4.7
+	 *
+	 * @access public
+	 * @var $location_PostalCode string
+	 */
+	public $location_PostalCode;
 
-    /**
-     * Class Name Link object for display in schedules.
-     *
-     *
-     * @since    2.4.7
-     * @access   public
-     * @var      string    $sDate    'Y/m/d' date string for MBO link.
-     */
-    public $sDate;
+	/**
+	 * Shortcode Attributes
+	 *
+	 * @since 2.4.7
+	 *
+	 * @access protected
+	 * @var $atts array The shortcode atts from shortcode out of which Event is instantiated
+	 */
+	protected $atts;
 
-    /**
-     * Class Name Link object for display in schedules.
-     *
-     *
-     * @since    2.4.7
-     * @access   public
-     * @var      int    $siteID    MBO Account for this event.
-     */
-    public $siteID;
+	/**
+	 * Class Name Link object for display in schedules.
+	 *
+	 * @since    2.4.7
+	 * @access   public
+	 * @var      string    $sDate    'Y/m/d' date string for MBO link.
+	 */
+	public $sDate;
 
-    /**
-     * Link object for display in schedules.
-     *
-     *
-     * @since    2.4.7
-     * @access   public
-     * @var      string    $mbo_url    URL to event on MBO site.
-     */
-    public $mbo_url;
+	/**
+	 * Class Name Link object for display in schedules.
+	 *
+	 * @since    2.4.7
+	 * @access   public
+	 * @var      int    $siteID    MBO Account for this event.
+	 */
+	public $siteID;
 
-    /**
-     * Class Name Link object for display in schedules.
-     *
-     *
-     * @since    2.4.7
-     * @access   public
-     * @var      HTML object     $class_name_link    Link to be rendered with ->build() method.
-     */
-    public $class_name_link;
+	/**
+	 * Link object for display in schedules.
+	 *
+	 * @since    2.4.7
+	 * @access   public
+	 * @var      string    $mbo_url    URL to event on MBO site.
+	 */
+	public $mbo_url;
 
-    /**
-     * Class Name Link object for display in schedules.
-     *
-     *
-     * @since    2.4.7
-     * @access   public
-     * @var      HTML object     $staff_name_link    Link to be rendered with ->build() method.
-     */
-    public $staff_name_link;
+	/**
+	 * Class Name Link object for display in schedules.
+	 *
+	 * @since    2.4.7
+	 * @access   public
+	 * @var      HTML object     $class_name_link    Link to be rendered with ->build() method.
+	 */
+	public $class_name_link;
 
-    /**
-     * Class Name Link object for display in schedules.
-     *
-     *
-     * @since    2.4.7
-     * @access   public
-     * @var      HTML object    $sign_up_link    Link to be rendered with ->build() method.
-     */
-    public $sign_up_link;
+	/**
+	 * Class Name Link object for display in schedules.
+	 *
+	 * @since    2.4.7
+	 * @access   public
+	 * @var      HTML object     $staff_name_link    Link to be rendered with ->build() method.
+	 */
+	public $staff_name_link;
 
-    /**
-     * Populate attributes with data from MBO
-     *
-     * @since 2.4.7
-     *
-     * @access public
-     * @param array $event array of class/event attributes.
-     * @param array $atts array of shortcode attributes from calling shortcode.
-     */
-    public function __construct($event, $atts = array())
-    {
+	/**
+	 * Class Name Link object for display in schedules.
+	 *
+	 * @since    2.4.7
+	 * @access   public
+	 * @var      HTML object    $sign_up_link    Link to be rendered with ->build() method.
+	 */
+	public $sign_up_link;
 
-        $this->class_schedule_id = $event['ClassScheduleId'];
-        $this->startDateTime = $event['StartDateTime'];
-        $this->endDateTime = $event['EndDateTime'];
-        $this->className = $event['ClassDescription']['Name'];
-        $this->ID = $event['ClassDescription']['Id'];
+	/**
+	 * Populate attributes with data from MBO
+	 *
+	 * @since 2.4.7
+	 *
+	 * @access public
+	 * @param array $event array of class/event attributes.
+	 * @param array $atts array of shortcode attributes from calling shortcode.
+	 */
+	public function __construct( $event, $atts = array() ) {
 
-        $this->FirstName = $event['Staff']['FirstName'];
-        $this->LastName = $event['Staff']['LastName'];
-        // Set Staff Name up.
-        // First set first, last with default to blank string
-        $this->staffName = isset($this->FirstName) ? $this->FirstName . ' ' . $this->LastName : '';
-        // If "Name" has been set, use that
-        if (isset($event['Staff']['Name'])) {
-            $this->staffName = $event['Staff']['Name'];
-        }
-        $this->staffImage = $event['Staff']['ImageURL'];
-        $this->staffBio = $event['Staff']['Bio'];
-        $this->Description = $event['ClassDescription']['Description'];
-        $this->classImage = $event['ClassDescription']['ImageURL'];
-        $this->location_ID = $event['Location']['Id'];
-        $this->location_Name = $event['Location']['Name'];
-        $this->location_Address = $event['Location']['Address'];
-        $this->location_Address2 = $event['Location']['Address2'];
-        $this->location_City = $event['Location']['City'];
-        $this->location_StateProvCode = $event['Location']['StateProvCode'];
-        $this->location_PostalCode = $event['Location']['PostalCode'];
-        $this->start_date = wp_date(Core\MzMindbodyApi::$date_format, strtotime($event['StartDateTime']));
-        $this->start_time = wp_date(Core\MzMindbodyApi::$time_format, strtotime($event['StartDateTime']));
+		$this->class_schedule_id = $event['ClassScheduleId'];
+		$this->startDateTime     = $event['StartDateTime'];
+		$this->endDateTime       = $event['EndDateTime'];
+		$this->className         = $event['ClassDescription']['Name'];
+		$this->ID                = $event['ClassDescription']['Id'];
 
-        // Leave end_date blank if same as start day
-        $maybe_end_date = wp_date(Core\MzMindbodyApi::$date_format, strtotime($event['EndDateTime']));
-        $this->end_date = ($this->start_date == $maybe_end_date) ? '' : $maybe_end_date;
-        $this->end_time = wp_date(Core\MzMindbodyApi::$time_format, strtotime($event['EndDateTime']));
-        $this->atts = $atts;
-        $this->siteID = !empty($atts['account']) ? $atts['account'] : Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
-        $this->mbo_url = $this->mbo_url();
-        $this->class_name_link = $this->eventLinkMaker('class');
-        $this->staff_name_link = $this->eventLinkMaker('staff');
-        $this->sign_up_link = $this->eventLinkMaker('signup');
-    }
+		$this->FirstName = $event['Staff']['FirstName'];
+		$this->LastName  = $event['Staff']['LastName'];
+		// Set Staff Name up.
+		// First set first, last with default to blank string
+		$this->staffName = isset( $this->FirstName ) ? $this->FirstName . ' ' . $this->LastName : '';
+		// If "Name" has been set, use that
+		if ( isset( $event['Staff']['Name'] ) ) {
+			$this->staffName = $event['Staff']['Name'];
+		}
+		$this->staffImage             = $event['Staff']['ImageURL'];
+		$this->staffBio               = $event['Staff']['Bio'];
+		$this->Description            = $event['ClassDescription']['Description'];
+		$this->classImage             = $event['ClassDescription']['ImageURL'];
+		$this->location_ID            = $event['Location']['Id'];
+		$this->location_Name          = $event['Location']['Name'];
+		$this->location_Address       = $event['Location']['Address'];
+		$this->location_Address2      = $event['Location']['Address2'];
+		$this->location_City          = $event['Location']['City'];
+		$this->location_StateProvCode = $event['Location']['StateProvCode'];
+		$this->location_PostalCode    = $event['Location']['PostalCode'];
+		$this->start_date             = wp_date( Core\MzMindbodyApi::$date_format, strtotime( $event['StartDateTime'] ) );
+		$this->start_time             = wp_date( Core\MzMindbodyApi::$time_format, strtotime( $event['StartDateTime'] ) );
 
-    private function eventLinkMaker($type = 'class')
-    {
-        $class_name_link = new Library\HtmlElement('a');
-        $class_name_link->set('href', NS\PLUGIN_NAME_URL . 'src/Frontend/views/modals/modal_descriptions.php');
-        $linkArray = array();
-        switch ($type) {
-            case 'staff':
-                $linkArray['data-staffImage'] = ($this->staffImage != '') ? $this->staffImage : '';
-                $linkArray['data-staffBio'] = ($this->staffBio != '') ? $this->staffBio : '';
-                $linkArray['text'] = $this->staffName;
-                $linkArray['data-staffName'] = $this->staffName;
-                $linkArray['data-target'] = 'mzStaffScheduleModal';
-                $linkArray['class'] = 'modal-toggle ' . sanitize_html_class($this->staffName, 'mz_staff_name');
-                break;
+		// Leave end_date blank if same as start day
+		$maybe_end_date        = wp_date( Core\MzMindbodyApi::$date_format, strtotime( $event['EndDateTime'] ) );
+		$this->end_date        = ( $this->start_date == $maybe_end_date ) ? '' : $maybe_end_date;
+		$this->end_time        = wp_date( Core\MzMindbodyApi::$time_format, strtotime( $event['EndDateTime'] ) );
+		$this->atts            = $atts;
+		$this->siteID          = ! empty( $atts['account'] ) ? $atts['account'] : Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
+		$this->mbo_url         = $this->mbo_url();
+		$this->class_name_link = $this->eventLinkMaker( 'class' );
+		$this->staff_name_link = $this->eventLinkMaker( 'staff' );
+		$this->sign_up_link    = $this->eventLinkMaker( 'signup' );
+	}
 
-            case 'signup':
-                $linkArray['class'] = 'btn btn-primary';
+	private function eventLinkMaker( $type = 'class' ) {
+		$class_name_link = new Library\HtmlElement( 'a' );
+		$class_name_link->set( 'href', NS\PLUGIN_NAME_URL . 'src/Frontend/views/modals/modal_descriptions.php' );
+		$linkArray = array();
+		switch ( $type ) {
+			case 'staff':
+				$linkArray['data-staffImage'] = ( $this->staffImage != '' ) ? $this->staffImage : '';
+				$linkArray['data-staffBio']   = ( $this->staffBio != '' ) ? $this->staffBio : '';
+				$linkArray['text']            = $this->staffName;
+				$linkArray['data-staffName']  = $this->staffName;
+				$linkArray['data-target']     = 'mzStaffScheduleModal';
+				$linkArray['class']           = 'modal-toggle ' . sanitize_html_class( $this->staffName, 'mz_staff_name' );
+				break;
 
-                $linkArray['text'] = __('Sign-Up', 'mz-mindbody-api');
+			case 'signup':
+				$linkArray['class'] = 'btn btn-primary';
 
-                $linkArray['data-time'] = wp_date(Core\MzMindbodyApi::$date_format . ' ' . Core\MzMindbodyApi::$time_format, strtotime($this->startDateTime));
+				$linkArray['text'] = __( 'Sign-Up', 'mz-mindbody-api' );
 
-                if ((!empty($this->atts['advanced']) && ($this->atts['advanced'] == '1')) || (Core\MzMindbodyApi::$advanced_options['register_within_site'] == 'on')) :
-                    $linkArray['data-target'] = 'mzSignUpModal';
-                    $linkArray['data-nonce'] = wp_create_nonce('mz_signup_nonce');
-                    $linkArray['data-siteID'] = $this->siteID;
-                    $linkArray['data-classID'] = $this->ID;
-                    $linkArray['data-className'] = $this->className;
-                    $linkArray['data-staffName'] = $this->staffName;
-                    $linkArray['data-location'] = $this->location_ID;
-                    $class_name_link->set('href', NS\PLUGIN_NAME_URL . 'src/Frontend/views/modals/modal_descriptions.php');
-                else :
-                    $linkArray['target'] = '_blank';
-                    $class_name_link->set('href', $this->mbo_url);
-                endif;
-                break;
+				$linkArray['data-time'] = wp_date( Core\MzMindbodyApi::$date_format . ' ' . Core\MzMindbodyApi::$time_format, strtotime( $this->startDateTime ) );
 
-            case 'class':
-                $linkArray['data-className'] = $this->className;
-                $linkArray['data-staffName'] = $this->staffName;
-                $linkArray['data-classDescription'] = ($this->Description != '') ? $this->Description : '';
-                $linkArray['data-eventImage'] = ($this->classImage != '') ? $this->classImage : '';
-                $linkArray['text'] = $this->className;
-                $linkArray['data-target'] = 'mzDescriptionModal';
-                $linkArray['class'] = 'modal-toggle ' . sanitize_html_class($this->className, 'mz_class_name');
-        }
+				if ( ( ! empty( $this->atts['advanced'] ) && ( $this->atts['advanced'] == '1' ) ) || ( Core\MzMindbodyApi::$advanced_options['register_within_site'] == 'on' ) ) :
+					$linkArray['data-target']    = 'mzSignUpModal';
+					$linkArray['data-nonce']     = wp_create_nonce( 'mz_signup_nonce' );
+					$linkArray['data-siteID']    = $this->siteID;
+					$linkArray['data-classID']   = $this->ID;
+					$linkArray['data-className'] = $this->className;
+					$linkArray['data-staffName'] = $this->staffName;
+					$linkArray['data-location']  = $this->location_ID;
+					$class_name_link->set( 'href', NS\PLUGIN_NAME_URL . 'src/Frontend/views/modals/modal_descriptions.php' );
+				else :
+					$linkArray['target'] = '_blank';
+					$class_name_link->set( 'href', $this->mbo_url );
+				endif;
+				break;
 
-        $class_name_link->set($linkArray);
-        return $class_name_link;
-    }
+			case 'class':
+				$linkArray['data-className']        = $this->className;
+				$linkArray['data-staffName']        = $this->staffName;
+				$linkArray['data-classDescription'] = ( $this->Description != '' ) ? $this->Description : '';
+				$linkArray['data-eventImage']       = ( $this->classImage != '' ) ? $this->classImage : '';
+				$linkArray['text']                  = $this->className;
+				$linkArray['data-target']           = 'mzDescriptionModal';
+				$linkArray['class']                 = 'modal-toggle ' . sanitize_html_class( $this->className, 'mz_class_name' );
+		}
 
-    /**
-     * Generate MBO URL
-     *
-     * Create a URL for signing up for class.
-     *
-     *
-     * @return urlstring
-     */
-    private function mbo_url()
-    {
-        return "https://clients.mindbodyonline.com/ws.asp?sDate={$this->sDate}&amp;sLoc={$this->location_ID}&amp;sType=7&amp;sclassid={$this->class_schedule_id}&amp;studioid={$this->siteID}";
-    }
+		$class_name_link->set( $linkArray );
+		return $class_name_link;
+	}
+
+	/**
+	 * Generate MBO URL
+	 *
+	 * Create a URL for signing up for class.
+	 *
+	 * @return urlstring
+	 */
+	private function mbo_url() {
+		return "https://clients.mindbodyonline.com/ws.asp?sDate={$this->sDate}&amp;sLoc={$this->location_ID}&amp;sType=7&amp;sclassid={$this->class_schedule_id}&amp;studioid={$this->siteID}";
+	}
 }

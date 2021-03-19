@@ -1,45 +1,42 @@
 <?php
 
-require_once('MZMBO_WPUnitTestCase.php');
-require_once('Test_Options.php');
+require_once 'MZMBO_WPUnitTestCase.php';
+require_once 'Test_Options.php';
 
-class Tests_TokenManagement extends MZMBO_WPUnitTestCase
-{
+class Tests_TokenManagement extends MZMBO_WPUnitTestCase {
 
-    public function tearDown()
-    {
-        parent::tearDown();
-    }
 
-    public function test_get_access_token()
-    {
+	public function tearDown() {
+		parent::tearDown();
+	}
 
-        parent::setUp();
+	public function test_get_access_token() {
 
-        $this->assertTrue(class_exists('MZoo\MzMindbody\Common\TokenManagement'));
+		parent::setUp();
 
-        $tm = new MZoo\MzMindbody\Common\TokenManagement();
+		$this->assertTrue( class_exists( 'MZoo\MzMindbody\Common\TokenManagement' ) );
 
-        $token = $tm->serve_token();
+		$tm = new MZoo\MzMindbody\Common\TokenManagement();
 
-        $this->assertTrue(ctype_alnum($token));
-    }
+		$token = $tm->serve_token();
 
-    public function test_stored_token_storage()
-    {
+		$this->assertTrue( ctype_alnum( $token ) );
+	}
 
-        parent::setUp();
+	public function test_stored_token_storage() {
 
-        $this->assertTrue(class_exists('MZoo\MzMindbody\Common\TokenManagement'));
+		parent::setUp();
 
-        $tm = new MZoo\MzMindbody\Common\TokenManagement();
+		$this->assertTrue( class_exists( 'MZoo\MzMindbody\Common\TokenManagement' ) );
 
-        $initial_token = $tm->serve_token(); // this should save and return a new token
+		$tm = new MZoo\MzMindbody\Common\TokenManagement();
 
-        $tm = new MZoo\MzMindbody\Common\TokenManagement();
+		$initial_token = $tm->serve_token(); // this should save and return a new token
 
-        $new_token = $tm->serve_token(); // this should serve saved token
+		$tm = new MZoo\MzMindbody\Common\TokenManagement();
 
-        $this->assertTrue($new_token == $initial_token);
-    }
+		$new_token = $tm->serve_token(); // this should serve saved token
+
+		$this->assertTrue( $new_token == $initial_token );
+	}
 }

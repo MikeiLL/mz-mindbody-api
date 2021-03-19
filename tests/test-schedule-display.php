@@ -1,7 +1,7 @@
 <?php
 
-require_once('MZMBO_WPUnitTestCase.php');
-require_once('Test_Options.php');
+require_once 'MZMBO_WPUnitTestCase.php';
+require_once 'Test_Options.php';
 
 /**
  * Class ScheduleDisplayTest
@@ -13,169 +13,168 @@ require_once('Test_Options.php');
 /**
  * Sample test case.
  */
-class ScheduleDisplayTest extends MZMBO_WPUnitTestCase
-{
+class ScheduleDisplayTest extends MZMBO_WPUnitTestCase {
 
-    /**
-     * Test Results from MBO Sandbox account
-     */
-    function test_get_classes_result()
-    {
-        parent::setUp();
 
-        $this->assertTrue(class_exists('MZoo\MzMindbody\Core\MzMindbodyApi'));
-        // Manually initialize static variable.
-        MZoo\MzMindbody\Core\MzMindbodyApi::$basic_options = get_option('mz_mbo_basic');
-        $this->assertTrue(class_exists('MZoo\MzMindbody\Schedule\RetrieveSchedule'));
-        $schedule_object = new MZoo\MzMindbody\Schedule\RetrieveSchedule();
-        $timeFrame = $schedule_object->timeFrame();
-        $this->assertTrue(count($timeFrame) === 2);
-        $response = $schedule_object->getMboResults();
-        $this->assertTrue(is_array($response));
-        $this->assertTrue(is_array($response[0]));
-        $this->assertTrue(is_string($response[0]['StartDateTime']));
-        $this->assertTrue(is_string($response[0]['ClassDescription']['Name']));
-        parent::tearDown();
-    }
+	/**
+	 * Test Results from MBO Sandbox account
+	 */
+	function test_get_classes_result() {
+		parent::setUp();
 
-    /**
-     * Confirm that horizontal schedule display method is operational
-     */
-    function test_sortClassesByDateThenTime()
-    {
+		$this->assertTrue( class_exists( 'MZoo\MzMindbody\Core\MzMindbodyApi' ) );
+		// Manually initialize static variable.
+		MZoo\MzMindbody\Core\MzMindbodyApi::$basic_options = get_option( 'mz_mbo_basic' );
+		$this->assertTrue( class_exists( 'MZoo\MzMindbody\Schedule\RetrieveSchedule' ) );
+		$schedule_object = new MZoo\MzMindbody\Schedule\RetrieveSchedule();
+		$timeFrame       = $schedule_object->timeFrame();
+		$this->assertTrue( count( $timeFrame ) === 2 );
+		$response = $schedule_object->getMboResults();
+		$this->assertTrue( is_array( $response ) );
+		$this->assertTrue( is_array( $response[0] ) );
+		$this->assertTrue( is_string( $response[0]['StartDateTime'] ) );
+		$this->assertTrue( is_string( $response[0]['ClassDescription']['Name'] ) );
+		parent::tearDown();
+	}
 
-        parent::setUp();
+	/**
+	 * Confirm that horizontal schedule display method is operational
+	 */
+	function test_sortClassesByDateThenTime() {
 
-        $this->assertTrue(class_exists('MZoo\MzMindbody\Schedule\RetrieveSchedule'));
+		parent::setUp();
 
-        $schedule_object = new MZoo\MzMindbody\Schedule\RetrieveSchedule();
+		$this->assertTrue( class_exists( 'MZoo\MzMindbody\Schedule\RetrieveSchedule' ) );
 
-        $response = $schedule_object->getMboResults();
+		$schedule_object = new MZoo\MzMindbody\Schedule\RetrieveSchedule();
 
-        $sequenced_classes = $schedule_object->sortClassesByDateThenTime();
-        
-        /*
-         * Test that first date is today
-         */
-        $key = reset($sequenced_classes);
-        $first = array_shift($key);
-        $first_event_date = date('Y-m-d', strtotime($first->startDateTime));
-        $now = date('Y-m-d', current_time('timestamp'));
-        $this->assertTrue($first_event_date == $now);
+		$response = $schedule_object->getMboResults();
 
-        /*
-         * Each subsequent date should be equal to or greater than current,
-         * which is set according to first date in the matrix.
-         */
-        foreach ($sequenced_classes as $date => $class) {
-            $current = isset($current) ? $current : $date;
-            $this->assertTrue($date >= $current);
-        }
+		$sequenced_classes = $schedule_object->sortClassesByDateThenTime();
 
-        parent::tearDown();
-    }
+		/*
+		 * Test that first date is today
+		 */
+		$key              = reset( $sequenced_classes );
+		$first            = array_shift( $key );
+		$first_event_date = date( 'Y-m-d', strtotime( $first->startDateTime ) );
+		$now              = date( 'Y-m-d', current_time( 'timestamp' ) );
+		$this->assertTrue( $first_event_date == $now );
 
-    /**
-     * Confirm that grid schedule display method is operational
-     */
-    function test_sortClassesByTimeThenDate()
-    {
+		/*
+		 * Each subsequent date should be equal to or greater than current,
+		 * which is set according to first date in the matrix.
+		 */
+		foreach ( $sequenced_classes as $date => $class ) {
+			$current = isset( $current ) ? $current : $date;
+			$this->assertTrue( $date >= $current );
+		}
 
-        parent::setUp();
+		parent::tearDown();
+	}
 
-        $this->assertTrue(class_exists('MZoo\MzMindbody\Schedule\RetrieveSchedule'));
+	/**
+	 * Confirm that grid schedule display method is operational
+	 */
+	function test_sortClassesByTimeThenDate() {
 
-        $schedule_object = new MZoo\MzMindbody\Schedule\RetrieveSchedule();
+		parent::setUp();
 
-        $response = $schedule_object->getMboResults();
+		$this->assertTrue( class_exists( 'MZoo\MzMindbody\Schedule\RetrieveSchedule' ) );
 
-        $sequenced_classes = $schedule_object->sortClassesByTimeThenDate();
+		$schedule_object = new MZoo\MzMindbody\Schedule\RetrieveSchedule();
 
-        /*
-         * Each subsequent time slot should be equal to or greater than current,
-         * which is set according to first time-like key in the matrix.
-         */
-        foreach ($sequenced_classes as $time_like_key => $class) {
-            $current = isset($current) ? $current : $time_like_key;
-            $this->assertTrue($time_like_key >= $time_like_key);
-            $this->assertTrue(is_array($class['classes']));
-            // Is it an array of seven days?
-            $this->assertTrue(count($class['classes']) === 7);
-        }
+		$response = $schedule_object->getMboResults();
 
-        parent::tearDown();
-    }
+		$sequenced_classes = $schedule_object->sortClassesByTimeThenDate();
 
-    /**
-     * Confirm that day schedule display works.
-     */
-    function test_day_schedule_result()
-    {
+		/*
+		 * Each subsequent time slot should be equal to or greater than current,
+		 * which is set according to first time-like key in the matrix.
+		 */
+		foreach ( $sequenced_classes as $time_like_key => $class ) {
+			$current = isset( $current ) ? $current : $time_like_key;
+			$this->assertTrue( $time_like_key >= $time_like_key );
+			$this->assertTrue( is_array( $class['classes'] ) );
+			// Is it an array of seven days?
+			$this->assertTrue( count( $class['classes'] ) === 7 );
+		}
 
-        parent::setUp();
+		parent::tearDown();
+	}
 
-        // For some reason this test fails without specifying locations attribute.
-        // I don't know why for the day display the locations attr isn't receiving
-        // the default value.
-        $schedule_object = new MZoo\MzMindbody\Schedule\RetrieveSchedule(array('type' => 'day', 'locations' => array(1)));
+	/**
+	 * Confirm that day schedule display works.
+	 */
+	function test_day_schedule_result() {
 
-        $response = $schedule_object->getMboResults();
+		parent::setUp();
 
-        $sequenced_classes = $schedule_object->sortClassesByTimeThenDate();
+		// For some reason this test fails without specifying locations attribute.
+		// I don't know why for the day display the locations attr isn't receiving
+		// the default value.
+		$schedule_object = new MZoo\MzMindbody\Schedule\RetrieveSchedule(
+			array(
+				'type'      => 'day',
+				'locations' => array( 1 ),
+			)
+		);
 
-        /*
-         * Each subsequent date should be equal to or greater than current,
-         * which is set according to first date in the matrix.
-         */
-        foreach ($sequenced_classes as $date => $class) {
-            $current = isset($current) ? $current : $date;
-            $this->assertTrue($date >= $current);
-        }
+		$response = $schedule_object->getMboResults();
 
-        parent::tearDown();
-    }
+		$sequenced_classes = $schedule_object->sortClassesByTimeThenDate();
 
-    /**
-     * Test Time Frame
-     */
-    function test_timeFrame()
-    {
-        parent::setUp();
+		/*
+		 * Each subsequent date should be equal to or greater than current,
+		 * which is set according to first date in the matrix.
+		 */
+		foreach ( $sequenced_classes as $date => $class ) {
+			$current = isset( $current ) ? $current : $date;
+			$this->assertTrue( $date >= $current );
+		}
 
-        $this->assertTrue(class_exists('MZoo\MzMindbody\Core\MzMindbodyApi'));
-        // Manually initialize static variable.
-        MZoo\MzMindbody\Core\MzMindbodyApi::$basic_options = get_option('mz_mbo_basic');
-        $this->assertTrue(class_exists('MZoo\MzMindbody\Schedule\RetrieveSchedule'));
-        $schedule_object = new MZoo\MzMindbody\Schedule\RetrieveSchedule();
-        $timeFrame = $schedule_object->timeFrame(strtotime('+1 week'));
-        $this->assertTrue(count($timeFrame) === 2);
-        $response = $schedule_object->getMboResults();
-        $this->assertTrue(is_array($response));
-        $this->assertTrue(is_array($response[0]));
-        $this->assertTrue(is_string($response[0]['StartDateTime']));
-        $this->assertTrue(is_string($response[0]['ClassDescription']['Name']));
-        parent::tearDown();
-    }
+		parent::tearDown();
+	}
 
-    /**
-     * Test Following Week
-     */
-    function test_following_week()
-    {
-        parent::setUp();
+	/**
+	 * Test Time Frame
+	 */
+	function test_timeFrame() {
+		parent::setUp();
 
-        $this->assertTrue(class_exists('MZoo\MzMindbody\Core\MzMindbodyApi'));
-        // Manually initialize static variable.
-        MZoo\MzMindbody\Core\MzMindbodyApi::$basic_options = get_option('mz_mbo_basic');
-        $this->assertTrue(class_exists('MZoo\MzMindbody\Schedule\RetrieveSchedule'));
-        $schedule_object = new MZoo\MzMindbody\Schedule\RetrieveSchedule();
-        $timeFrame = $schedule_object->timeFrame(strtotime('+1 week'));
-        $this->assertTrue(count($timeFrame) === 2);
-        $response = $schedule_object->getMboResults();
-        $this->assertTrue(is_array($response));
-        $this->assertTrue(is_array($response[0]));
-        $this->assertTrue(is_string($response[0]['StartDateTime']));
-        $this->assertTrue(is_string($response[0]['ClassDescription']['Name']));
-        parent::tearDown();
-    }
+		$this->assertTrue( class_exists( 'MZoo\MzMindbody\Core\MzMindbodyApi' ) );
+		// Manually initialize static variable.
+		MZoo\MzMindbody\Core\MzMindbodyApi::$basic_options = get_option( 'mz_mbo_basic' );
+		$this->assertTrue( class_exists( 'MZoo\MzMindbody\Schedule\RetrieveSchedule' ) );
+		$schedule_object = new MZoo\MzMindbody\Schedule\RetrieveSchedule();
+		$timeFrame       = $schedule_object->timeFrame( strtotime( '+1 week' ) );
+		$this->assertTrue( count( $timeFrame ) === 2 );
+		$response = $schedule_object->getMboResults();
+		$this->assertTrue( is_array( $response ) );
+		$this->assertTrue( is_array( $response[0] ) );
+		$this->assertTrue( is_string( $response[0]['StartDateTime'] ) );
+		$this->assertTrue( is_string( $response[0]['ClassDescription']['Name'] ) );
+		parent::tearDown();
+	}
+
+	/**
+	 * Test Following Week
+	 */
+	function test_following_week() {
+		parent::setUp();
+
+		$this->assertTrue( class_exists( 'MZoo\MzMindbody\Core\MzMindbodyApi' ) );
+		// Manually initialize static variable.
+		MZoo\MzMindbody\Core\MzMindbodyApi::$basic_options = get_option( 'mz_mbo_basic' );
+		$this->assertTrue( class_exists( 'MZoo\MzMindbody\Schedule\RetrieveSchedule' ) );
+		$schedule_object = new MZoo\MzMindbody\Schedule\RetrieveSchedule();
+		$timeFrame       = $schedule_object->timeFrame( strtotime( '+1 week' ) );
+		$this->assertTrue( count( $timeFrame ) === 2 );
+		$response = $schedule_object->getMboResults();
+		$this->assertTrue( is_array( $response ) );
+		$this->assertTrue( is_array( $response[0] ) );
+		$this->assertTrue( is_string( $response[0]['StartDateTime'] ) );
+		$this->assertTrue( is_string( $response[0]['ClassDescription']['Name'] ) );
+		parent::tearDown();
+	}
 }

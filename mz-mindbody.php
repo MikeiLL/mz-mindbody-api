@@ -6,7 +6,6 @@
  * Interface with the Mindbody Online API to display staff, schedules.
  * Use custom templates from your own theme.
  *
- *
  * @link              http://mzoo.org
  * @since             1.0.0
  * @package           MzMindbody
@@ -25,7 +24,7 @@
  * License URI:     http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:     mz-mindbody-api
  * Domain Path:     /languages
-*/
+ */
 
 namespace MZoo\MzMindbody;
 
@@ -44,32 +43,32 @@ use MZoo\MzMindbody\Common as Common;
  * see: https://stackoverflow.com/questions/18247726/php-define-constants-inside-namespace-clarification
  */
 
-define(__NAMESPACE__ . '\NS', __NAMESPACE__ . '\\');
+define( __NAMESPACE__ . '\NS', __NAMESPACE__ . '\\' );
 
-define(NS . 'PLUGIN_NAME', 'mz-mindbody-api');
+define( NS . 'PLUGIN_NAME', 'mz-mindbody-api' );
 
-define(NS . 'PLUGIN_VERSION', '2.8.0');
+define( NS . 'PLUGIN_VERSION', '2.8.0' );
 
-define(NS . 'PLUGIN_NAME_DIR', plugin_dir_path(__FILE__));
+define( NS . 'PLUGIN_NAME_DIR', plugin_dir_path( __FILE__ ) );
 
-define(NS . 'PLUGIN_NAME_URL', plugin_dir_url(__FILE__));
+define( NS . 'PLUGIN_NAME_URL', plugin_dir_url( __FILE__ ) );
 
-define(NS . 'PLUGIN_BASENAME', plugin_basename(__FILE__));
+define( NS . 'PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 
-define(NS . 'PLUGIN_TEXT_DOMAIN', 'mz-mindbody-api');
+define( NS . 'PLUGIN_TEXT_DOMAIN', 'mz-mindbody-api' );
 
-define(NS . 'MINIMUM_PHP_VERSION', 7.0);
+define( NS . 'MINIMUM_PHP_VERSION', 7.0 );
 
 /**
  * Autoload Classes
  */
 $wp_mindbody_api_autoload = NS\PLUGIN_NAME_DIR . '/vendor/autoload.php';
-if (file_exists($wp_mindbody_api_autoload)) {
-    include_once $wp_mindbody_api_autoload;
+if ( file_exists( $wp_mindbody_api_autoload ) ) {
+	include_once $wp_mindbody_api_autoload;
 }
 
-if (! class_exists('MZoo\MzMindbody\Core\MzMindbodyApi')) {
-    exit('MZ Mindbody Api requires Composer autoloading, which is not configured');
+if ( ! class_exists( 'MZoo\MzMindbody\Core\MzMindbodyApi' ) ) {
+	exit( 'MZ Mindbody Api requires Composer autoloading, which is not configured' );
 }
 
 /**
@@ -77,14 +76,14 @@ if (! class_exists('MZoo\MzMindbody\Core\MzMindbodyApi')) {
  * This action is documented in src/Core/class-activator.php
  */
 
-register_activation_hook(__FILE__, array( NS . 'MZoo\MzMindbody\Core\Activator', 'activate' ));
+register_activation_hook( __FILE__, array( NS . 'MZoo\MzMindbody\Core\Activator', 'activate' ) );
 
 /**
  * The code that runs during plugin deactivation.
  * This action is documented src/Core/class-deactivator.php
  */
 
-register_deactivation_hook(__FILE__, array( NS . 'MZoo\MzMindbody\Core\Deactivator', 'deactivate' ));
+register_deactivation_hook( __FILE__, array( NS . 'MZoo\MzMindbody\Core\Deactivator', 'deactivate' ) );
 
 /**
  * Plugin Singleton Container
@@ -93,45 +92,44 @@ register_deactivation_hook(__FILE__, array( NS . 'MZoo\MzMindbody\Core\Deactivat
  *
  * @since    2.4.7
  */
-class MzMindbody
-{
+class MzMindbody {
 
-    /**
-     * The instance of the plugin.
-     *
-     * @since    2.4.7
-     * @var      Init $init Instance of the plugin.
-     */
-    private static $instance;
 
-    /**
-     * Main MzMindbody Instance.
-     *
-     * Insures that only one instance of MzMindbody exists in memory at any one
-     * time. Also prevents needing to define globals all over the place.
-     *
-     * Totally borrowed from Easy_Digital_Downloads, and certainly used with some ignorance
-     * as EDD doesn't actually include a construct in it's class.
-     *
-     * @since 2.4.7
-     * @static
-     * @staticvar array $instance
-     * @see MZMBO()
-     * @return object|MzMindbody The one true MzMindbody
-     */
-    public static function instance()
-    {
+	/**
+	 * The instance of the plugin.
+	 *
+	 * @since    2.4.7
+	 * @var      Init $init Instance of the plugin.
+	 */
+	private static $instance;
 
-        if (! isset(self::$instance) && ! ( self::$instance instanceof MzMindbodyApi )) {
-            self::$instance = new NS\Core\MzMindbodyApi();
-            self::$instance->run();
+	/**
+	 * Main MzMindbody Instance.
+	 *
+	 * Insures that only one instance of MzMindbody exists in memory at any one
+	 * time. Also prevents needing to define globals all over the place.
+	 *
+	 * Totally borrowed from Easy_Digital_Downloads, and certainly used with some ignorance
+	 * as EDD doesn't actually include a construct in it's class.
+	 *
+	 * @since 2.4.7
+	 * @static
+	 * @staticvar array $instance
+	 * @see MZMBO()
+	 * @return object|MzMindbody The one true MzMindbody
+	 */
+	public static function instance() {
 
-            self::$instance->i18n           = new Common\GlobalStrings();
-            self::$instance->helpers        = new Common\Helpers();
-        }
+		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof MzMindbodyApi ) ) {
+			self::$instance = new NS\Core\MzMindbodyApi();
+			self::$instance->run();
 
-        return self::$instance;
-    }
+			self::$instance->i18n    = new Common\GlobalStrings();
+			self::$instance->helpers = new Common\Helpers();
+		}
+
+		return self::$instance;
+	}
 }
 
 /**
@@ -160,22 +158,20 @@ class MzMindbody
  * @since 1.4
  * @return object|MzMindbodyApi The one true MzMindbodyApi Instance.
  **/
-function MZMBO()
-{
-        return MzMindbody::instance();
+function MZMBO() {
+	  return MzMindbody::instance();
 }
 
-function deactivate()
-{
-    deactivate_plugins(plugin_basename(__FILE__));
-    $admin_object = new NS\Admin\Admin(NS\PLUGIN_NAME, NS\PLUGIN_VERSION, NS\PLUGIN_TEXT_DOMAIN);
-    add_action('admin_notices', array($admin_object, 'admin_notice'));
+function deactivate() {
+	 deactivate_plugins( plugin_basename( __FILE__ ) );
+	$admin_object = new NS\Admin\Admin( NS\PLUGIN_NAME, NS\PLUGIN_VERSION, NS\PLUGIN_TEXT_DOMAIN );
+	add_action( 'admin_notices', array( $admin_object, 'admin_notice' ) );
 }
 
 // Check the minimum required PHP version and run the plugin.
-if (version_compare(PHP_VERSION, NS\MINIMUM_PHP_VERSION, '>=')) {
-    // Get MzMindbodyApi Instance.
-    MZMBO();
+if ( version_compare( PHP_VERSION, NS\MINIMUM_PHP_VERSION, '>=' ) ) {
+	// Get MzMindbodyApi Instance.
+	MZMBO();
 } else {
-    add_action('admin_init', __NAMESPACE__ . '\\deactivate');
+	add_action( 'admin_init', __NAMESPACE__ . '\\deactivate' );
 }
