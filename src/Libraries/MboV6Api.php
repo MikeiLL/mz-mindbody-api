@@ -204,7 +204,7 @@ class MboV6Api
         }
 
         if (in_array($restMethod['name'], $encoded_request_body) ) {
-            $request_body = json_encode($request_body);
+            $request_body = wp_json_encode($request_body);
         }
 
         // For some reason, for this call, we don't want to convert
@@ -274,7 +274,7 @@ class MboV6Api
             'httpversion' => '1.0',
             'blocking'    => true,
             'headers'     => $restMethod['headers'],
-            'body'        => json_encode($request_body),
+            'body'        => wp_json_encode($request_body),
             'cookies'     => array(),
             )
         );

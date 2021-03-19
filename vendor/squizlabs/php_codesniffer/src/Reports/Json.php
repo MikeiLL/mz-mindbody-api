@@ -57,7 +57,7 @@ class Json implements Report
                     $messagesObject->column  = $column;
                     $messagesObject->fixable = $fixable;
 
-                    $messages .= json_encode($messagesObject) . ",";
+                    $messages .= wp_json_encode($messagesObject) . ",";
                 }
             }
         }//end foreach

@@ -80,7 +80,7 @@ class NamespaceReplacerIntegrationTest extends TestCase
 
         $composer->require["mpdf/mpdf"] = "8.0.10";
 
-        file_put_contents($this->testsWorkingDir . '/composer.json', json_encode($composer));
+        file_put_contents($this->testsWorkingDir . '/composer.json', wp_json_encode($composer));
 
         chdir($this->testsWorkingDir);
 

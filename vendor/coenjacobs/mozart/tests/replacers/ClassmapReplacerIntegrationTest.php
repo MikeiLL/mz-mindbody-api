@@ -83,7 +83,7 @@ class ClassmapReplacerIntegrationTest extends TestCase
 
         $composer->require["brianhenryie/wp-logger"] = "dev-master#dd2bb0665e01e11b282178e76a2334198d3860c5";
 
-        $composer_json_string = json_encode($composer);
+        $composer_json_string = wp_json_encode($composer);
         $composer_json_string = str_replace('minimum_stability', 'minimum-stability', $composer_json_string);
 
         file_put_contents($this->testsWorkingDir . '/composer.json', $composer_json_string);

@@ -128,7 +128,7 @@ class MoverTest extends TestCase
                                     . DIRECTORY_SEPARATOR . $packageString;
             @mkdir($testDummyComposerDir, 0777, true);
             $testDummyComposerPath = $testDummyComposerDir . DIRECTORY_SEPARATOR . 'composer.json';
-            $testDummyComposerContents = json_encode(new stdClass());
+            $testDummyComposerContents = wp_json_encode(new stdClass());
 
             file_put_contents($testDummyComposerPath, $testDummyComposerContents);
             $parsedPackage = new Package($testDummyComposerDir, $this->config->override_autoload[$packageString]);

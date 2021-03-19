@@ -286,7 +286,7 @@ class Cache
      */
     public static function save()
     {
-        file_put_contents(self::$path, json_encode(self::$cache));
+        file_put_contents(self::$path, wp_json_encode(self::$cache));
     }//end save()
 
 

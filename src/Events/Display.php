@@ -278,7 +278,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
         'confirm_signup' => $translated_strings['confirm_signup'],
         'logout'         => $translated_strings['logout'],
         'signup_heading' => $translated_strings['signup_heading'],
-        'Locations_dict' => json_encode($locations_dictionary),
+        'Locations_dict' => wp_json_encode($locations_dictionary),
         'signup_nonce'   => wp_create_nonce('mz_signup_nonce'),
         'siteID'         => $this->siteID,
         'location'       => $this->sLoc,
@@ -297,7 +297,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
      *
      *
      *
-     * Echo json json_encode() version of HTML from template
+     * Echo json wp_json_encode() version of HTML from template
      */
     public function displayEvents()
     {
@@ -357,7 +357,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
      if (( ! empty($_SERVER['HTTP_X_REQUESTED_WITH']) ) 
          && ( strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' )
      ) {
-         $result = json_encode($result);
+         $result = wp_json_encode($result);
          echo $result;
      } else {
          header('Location: ' . $_SERVER['HTTP_REFERER']);
