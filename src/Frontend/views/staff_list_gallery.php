@@ -14,7 +14,7 @@ use MZoo\MzMindbody as NS;
             data-staffName="<?php echo $staff->Name; ?>"
             data-siteID="<?php echo $staff->siteID; ?>"
             data-staffID="<?php echo $staff->ID; ?>"
-            data-staffBio="<?php echo (!empty($staff->Bio)) ? $staff->Bio : ' '; ?>" href="<?php echo NS\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php'; ?>">
+            data-staffBio="<?php echo (!empty($staff->Bio)) ? $staff->Bio : ' '; ?>" href="<?php echo NS\PLUGIN_NAME_URL . 'src/Frontend/views/modals/modal_descriptions.php'; ?>">
                 <img class="img-fluid img-thumbnail mz-staff-image" src="<?php echo $staff->ImageURL; ?>" alt="<?php echo $staff->Name; ?>">
                 <div class="mz-staff-name"><?php echo $staff->Name; ?></div>
             </a>

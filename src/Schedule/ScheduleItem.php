@@ -599,7 +599,7 @@ class ScheduleItem
                     $linkArray['data-sub'] = (!empty($this->sub_details)) ? $this->sub_details : '';
                 }
                 $linkArray['data-staffImage'] = ($this->staffImage != '') ? $this->staffImage : '';
-                $link->set('href', NS\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php');
+                $link->set('href', NS\PLUGIN_NAME_URL . 'src/Frontend/views/modals/modal_descriptions.php');
                 break;
 
             case 'class':
@@ -616,7 +616,7 @@ class ScheduleItem
                     $linkArray['data-target'] = 'registrantModal';
                 }
                 $linkArray['data-staffImage'] = ($this->staffImage != '') ? $this->staffImage : '';
-                $link->set('href', NS\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php');
+                $link->set('href', NS\PLUGIN_NAME_URL . 'src/Frontend/views/modals/modal_descriptions.php');
                 break;
 
             case 'signup':
@@ -656,7 +656,7 @@ class ScheduleItem
                     // $linkArray['data-className'] = $this->className;
                     // $linkArray['data-staffName'] = $this->staffName;
                     // $linkArray['data-location'] = $this->sLoc;
-                    // $link->set('href', NS\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php');
+                    // $link->set('href', NS\PLUGIN_NAME_URL . 'src/Frontend/views/modals/modal_descriptions.php');
 
                 // else:
 

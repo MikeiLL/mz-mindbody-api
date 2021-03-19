@@ -64,7 +64,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
             'include_imageless' => 0
         ), $atts);
 
-        $this->class_modal_link = NS\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php';
+        $this->class_modal_link = NS\PLUGIN_NAME_URL . 'src/Frontend/views/modals/modal_descriptions.php';
 
         // If set, turn hide into an Array
         if ($this->atts['hide'] !== '') {

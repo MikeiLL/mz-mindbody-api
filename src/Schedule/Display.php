@@ -195,7 +195,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
         // Set siteID to option if not set explicitly in shortcode
         $this->siteID = (isset($atts['account'])) ? $atts['account'] : Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
 
-        $this->class_modal_link = NS\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php';
+        $this->class_modal_link = NS\PLUGIN_NAME_URL . 'src/Frontend/views/modals/modal_descriptions.php';
 
         // Support the old 'class_types' shortcode attr
         $this->atts['session_types'] = !empty($this->atts['class_types']) ? $this->atts['class_types'] : $this->atts['session_types'];

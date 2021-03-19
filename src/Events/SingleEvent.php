@@ -319,7 +319,7 @@ class SingleEvent
     private function eventLinkMaker($type = 'class')
     {
         $class_name_link = new Library\HtmlElement('a');
-        $class_name_link->set('href', NS\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php');
+        $class_name_link->set('href', NS\PLUGIN_NAME_URL . 'src/Frontend/views/modals/modal_descriptions.php');
         $linkArray = array();
         switch ($type) {
             case 'staff':
@@ -346,7 +346,7 @@ class SingleEvent
                     $linkArray['data-className'] = $this->className;
                     $linkArray['data-staffName'] = $this->staffName;
                     $linkArray['data-location'] = $this->location_ID;
-                    $class_name_link->set('href', NS\PLUGIN_NAME_URL . 'inc/frontend/views/modals/modal_descriptions.php');
+                    $class_name_link->set('href', NS\PLUGIN_NAME_URL . 'src/Frontend/views/modals/modal_descriptions.php');
                 else :
                     $linkArray['target'] = '_blank';
                     $class_name_link->set('href', $this->mbo_url);

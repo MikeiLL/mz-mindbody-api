@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '985b3373690c07fe2cd020e3cac011735958a55e',
+    'reference' => 'b0c859224e2b7b58a8ae7730d6e95192d7f25aed',
     'name' => 'mikeill/mz-mindbody-api',
   ),
   'versions' => 
@@ -63,7 +63,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '985b3373690c07fe2cd020e3cac011735958a55e',
+      'reference' => 'b0c859224e2b7b58a8ae7730d6e95192d7f25aed',
     ),
     'psr/container' => 
     array (

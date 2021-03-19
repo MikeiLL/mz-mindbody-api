@@ -92,7 +92,7 @@ class MzMboSession
 
             // Only include the functionality if it's not pre-defined.
             if (! class_exists('WP_Session')) {
-                require_once(NS\PLUGIN_NAME_DIR . '/inc/libraries/wp-session/wp-session.php');
+                require_once(NS\PLUGIN_NAME_DIR . '/src/Libraries/wp-session/wp-session.php');
             }
 
             add_filter('wp_session_expiration_variant', array( $this, 'set_expiration_variant_time' ), 99999);

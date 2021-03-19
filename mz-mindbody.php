@@ -74,14 +74,14 @@ if (! class_exists('MZoo\MzMindbody\Core\MzMindbodyApi')) {
 
 /**
  * Register Activation and Deactivation Hooks
- * This action is documented in inc/core/class-activator.php
+ * This action is documented in src/Core/class-activator.php
  */
 
 register_activation_hook(__FILE__, array( NS . 'MZoo\MzMindbody\Core\Activator', 'activate' ));
 
 /**
  * The code that runs during plugin deactivation.
- * This action is documented inc/core/class-deactivator.php
+ * This action is documented src/Core/class-deactivator.php
  */
 
 register_deactivation_hook(__FILE__, array( NS . 'MZoo\MzMindbody\Core\Deactivator', 'deactivate' ));
