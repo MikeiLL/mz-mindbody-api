@@ -41,7 +41,7 @@ class SitePortal extends RetrieveSite
      *
      * @access private
      */
-    private $clientID;
+    private $client_id;
 
     /**
      * Format for date display, specific to MBO API Plugin.

@@ -138,7 +138,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
      * @used in handleShortcode, displayEvents
      * @var  @array
      */
-    public $clientID;
+    public $client_id;
 
     /**
      * Site ID
