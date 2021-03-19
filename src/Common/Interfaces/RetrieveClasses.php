@@ -343,7 +343,10 @@ abstract class RetrieveClasses extends Retrieve
             // Populate the Locations Dictionary
             $this->populateLocationsDictionary($class);
             // Make a timestamp of just the day to use as key for that day's classes
-            $just_date = wp_date('Y-m-d', $visit['StartDateTime']);
+            $just_date = wp_date(
+                                'Y-m-d', 
+                                strtotime($class['StartDateTime'])
+                                );
             // If class was previous to today ignore it
             if ($just_date < $this->current_day_offset->format('Y-m-d')) {
                 continue;
@@ -416,7 +419,7 @@ abstract class RetrieveClasses extends Retrieve
     {
 
         $classesByTime = array();
-/* When there is only a single event in the client
+        /* When there is only a single event in the client
          * schedule, the 'Classes' array contains that event, but when there are multiple
          * visits then the array of events is under 'Events'/'Event'
          *
@@ -430,36 +433,39 @@ abstract class RetrieveClasses extends Retrieve
         */
 
         foreach ($this->classes as $class) {
-// Filter out some items
+            // Filter out some items
             if ($this->filterClass($class) === false) {
                 continue;
             }
 
             // Populate the Locations Dictionary
             $this->populateLocationsDictionary($class);
-// Ignore classes that are not part of current week (ending Sunday)
-            $class_datetime = new \DateTime($class['StartDateTime']);
-            if ($class_datetime->format('Y-m-d') > $this->current_week_end->format('Y-m-d')) :
+            // Ignore classes that are not part of current week (ending Sunday)
+            if (wp_date('Y-m-d', $class['StartDateTime']) > $this->current_week_end->format('Y-m-d')) :
                 continue;
             endif;
-/*
+            
+            /*
              * Create a new array with a key for each TIME (time of day, not date)
              * and corresponding value an array of class details
              * for classes at that time.
              *
              */
-
             $classTime = wp_date("G.i", strtotime($class['StartDateTime']));
-// for numerical sorting
+            // for numerical sorting
 
             $single_event = new Schedule\ScheduleItem($class, $this->atts);
-// If there's is already an array for this time slot, add to it.
+            
+            // If there's is already an array for this time slot, add to it.
             if (!empty($this->classesByTimeThenDate[$classTime])) {
-// Create a $single_event which is a "class" object, and start the classes array with it.
+                // Create a $single_event which is a "class" object, and start the classes array with it.
                 array_push($this->classesByTimeThenDate[$classTime]['classes'], $single_event);
             } else {
-            // Assign the first element of this time slot.
-                $display_time = (wp_date(Core\MzMindbodyApi::$time_format, strtotime($class['StartDateTime'])));
+                // Assign the first element of this time slot.
+                $display_time = wp_date(
+                                        Core\MzMindbodyApi::$time_format, 
+                                        strtotime($class['StartDateTime'])
+                                        );
                 $this->classesByTimeThenDate[$classTime] = array(
                                                                 'display_time' => $display_time,
                                                                 // Add part_of_day for filter as well
@@ -471,13 +477,13 @@ abstract class RetrieveClasses extends Retrieve
         // Timeslot keys in new array are not time-sequenced so do so.
         ksort($this->classesByTimeThenDate);
         foreach ($this->classesByTimeThenDate as $scheduleTime => &$classes) {
-        /*
+            /*
              * $classes is an array of all class_event objects for given time
              * Take each of the class arrays and order it by days 1-7
              */
             usort($classes['classes'], function ($a, $b) {
 
-                if (wp_date("N", strtotime($a->startDateTime)) == wp_date("N", strtotime($b->startDateTime))) {
+                if ( wp_date("N", strtotime($a->startDateTime)) == wp_date("N", strtotime($b->startDateTime)) ) {
                     return 0;
                 }
                 return $a->startDateTime < $b->startDateTime ? -1 : 1;
