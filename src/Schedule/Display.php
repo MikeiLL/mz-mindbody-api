@@ -485,7 +485,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
 
         if (! empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' ) {
             $result = wp_json_encode($result);
-            echo $result;
+            esc_html_e($result);;
         } else {
             header('Location: ' . $_SERVER['HTTP_REFERER']);
         }
