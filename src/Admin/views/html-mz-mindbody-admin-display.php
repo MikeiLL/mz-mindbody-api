@@ -5,10 +5,10 @@
  *
  * This file is used to markup the admin-facing aspects of the plugin.
  *
- * @link       http://mzoo.org
- * @since      1.0.0
+ * @link  http://mzoo.org
+ * @since 1.0.0
  *
- * @author    Mike iLL/mZoo.org
+ * @author Mike iLL/mZoo.org
  */
 
 ?>

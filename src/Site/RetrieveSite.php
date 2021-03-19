@@ -14,102 +14,108 @@ use MZoo\MzMindbody as NS;
  *
  *
  */
-class RetrieveSite extends Interfaces\Retrieve {
+class RetrieveSite extends Interfaces\Retrieve
+{
 
 
-	/**
-	 * The Mindbody API Object
-	 *
-	 * @access private
-	 */
-	private $mb;
+    /**
+     * The Mindbody API Object
+     *
+     * @access private
+     */
+    private $mb;
 
-	/**
-	 * Format for date display, specific to MBO API Plugin.
-	 *
-	 * @since 2.5.9
-	 * @access   public
-	 * @var      string $date_format WP date format option.
-	 */
-	public $date_format;
+    /**
+     * Format for date display, specific to MBO API Plugin.
+     *
+     * @since  2.5.9
+     * @access public
+     * @var    string $date_format WP date format option.
+     */
+    public $date_format;
 
-	/**
-	 * Format for time display, specific to MBO API Plugin.
-	 *
-	 * @since 2.5.9
-	 * @access   public
-	 * @var      string $time_format
-	 */
-	public $time_format;
+    /**
+     * Format for time display, specific to MBO API Plugin.
+     *
+     * @since  2.5.9
+     * @access public
+     * @var    string $time_format
+     */
+    public $time_format;
 
-	/**
-	 * Class constructor
-	 *
-	 * @since 2.5.9
-	 */
-	public function __construct() {
-		$this->date_format = Core\MzMindbodyApi::$date_format;
-		$this->time_format = Core\MzMindbodyApi::$time_format;
-	}
+    /**
+     * Class constructor
+     *
+     * @since 2.5.9
+     */
+    public function __construct()
+    {
+        $this->date_format = Core\MzMindbodyApi::$date_format;
+        $this->time_format = Core\MzMindbodyApi::$time_format;
+    }
 
-	/**
-	 * Get All Site Memberships
-	 *
-	 * @since 2.5.9
-	 */
-	public function getSiteMemberships() {
+    /**
+     * Get All Site Memberships
+     *
+     * @since 2.5.9
+     */
+    public function getSiteMemberships()
+    {
 
-		$this->getMboResults();
+        $this->getMboResults();
 
-		$result = $this->mb->GetMemberships();
+        $result = $this->mb->GetMemberships();
 
-		return $result;
-	}
+        return $result;
+    }
 
-	/**
-	 * Get All Site Programs
-	 *
-	 * @since 2.5.9
-	 */
-	public function getSitePrograms() {
+    /**
+     * Get All Site Programs
+     *
+     * @since 2.5.9
+     */
+    public function getSitePrograms()
+    {
 
-		$this->getMboResults();
+        $this->getMboResults();
 
-		$result = $this->mb->GetPrograms();
+        $result = $this->mb->GetPrograms();
 
-		return $result;
-	}
+        return $result;
+    }
 
-	/**
-	 * Get All Site Resources
-	 *
-	 * @since 2.5.9
-	 */
-	public function getSiteResources() {
+    /**
+     * Get All Site Resources
+     *
+     * @since 2.5.9
+     */
+    public function getSiteResources()
+    {
 
-		$this->getMboResults();
+        $this->getMboResults();
 
-		$result = $this->mb->GetResources();
+        $result = $this->mb->GetResources();
 
-		return $result;
-	}
+        return $result;
+    }
 
 
-	/**
-	 * Create API Interface Object
-	 *
-	 * @since 2.5.9
-	 *
-	 * @return array of MBO schedule data
-	 */
-	public function getMboResults() {
+    /**
+     * Create API Interface Object
+     *
+     * @since 2.5.9
+     *
+     * @return array of MBO schedule data
+     */
+    public function getMboResults()
+    {
 
-		$this->mb = $this->instantiateMboApi();
+        $this->mb = $this->instantiateMboApi();
 
-		if ( ! $this->mb || $this->mb == 'NO_API_SERVICE' ) {
-			return false;
-		}
+        if (! $this->mb || $this->mb == 'NO_API_SERVICE' ) {
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 }

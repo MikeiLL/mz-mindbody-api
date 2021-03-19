@@ -19,14 +19,14 @@
  * For more information, see the following discussion:
  * https://github.com/tommcfarlin/WordPress-Plugin-Boilerplate/pull/123#issuecomment-28541913
  *
- * @link       http://mzoo.org
- * @since      1.0.0
+ * @link  http://mzoo.org
+ * @since 1.0.0
  *
- * @package    MzMindbody
+ * @package MzMindbody
  */
 
 // If uninstall not called from WordPress, then exit.
-if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
-	exit;
-	// TODO remove options.
+if (! defined('WP_UNINSTALL_PLUGIN') ) {
+    exit;
+    // TODO remove options.
 }
