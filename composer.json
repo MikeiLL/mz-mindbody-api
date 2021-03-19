@@ -42,19 +42,20 @@
      "fix": ["phpcbf --extensions=php src *.php"]
    },
    "extra": {
-    "mozart": {
-        "dep_namespace": "MZoo\\MzMindbody\\Dependencies\\",
-        "dep_directory": "/src/Dependencies/",
-        "classmap_directory": "/src/Classes/",
-        "classmap_prefix": "MZMBO_",
-        "packages": [
-            "gamajo/template-loader"
-        ],
-        "delete_vendor_directories": true
-    }
-},
+        "mozart": {
+            "dep_namespace": "MZoo\\MzMindbody\\Dependencies\\",
+            "dep_directory": "/src/Dependencies/",
+            "classmap_directory": "/src/Classes/",
+            "classmap_prefix": "MZMBO_",
+            "packages": [
+                "gamajo/template-loader"
+            ],
+            "delete_vendor_directories": true
+        }
+    },
   "require-dev": {
     "coenjacobs/mozart": "^0.7.1",
+    "dealerdirect/phpcodesniffer-composer-installer": "^0.7.1",
     "squizlabs/php_codesniffer": "*",
     "wp-coding-standards/wpcs": "*"
   }
