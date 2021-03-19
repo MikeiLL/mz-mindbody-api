@@ -1,7 +1,7 @@
 
 <div style="max-width:90%;margin: 0 auto;">
 
-    <h3><?php _e('Create MBO Account', 'mz-mindbody-api'); ?></h3>
+    <h3><?php esc_html_e('Create MBO Account', 'mz-mindbody-api'); ?></h3>
 
     <form style="margin:1em 0;" class="mz_mbo_signup" data-async id="mzSignUp" data-target="#mzSignUpModal" method="POST">
 

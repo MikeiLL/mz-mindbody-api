@@ -60,7 +60,7 @@ use MZoo\MzMindbody\Libraries as Libraries;
                     <?php $class->class_name_link->output(); ?>&nbsp;
                     <?php
                     if (! in_array('teacher', $data->hide) ) :
-                        _e('with', 'mz-mindbody-api');
+                        esc_html_e('with', 'mz-mindbody-api');
                         ?>
                         <?php
 
@@ -76,7 +76,7 @@ use MZoo\MzMindbody\Libraries as Libraries;
                     <?php endif; ?>
                     <?php
                     if (! in_array('duration', $data->hide) ) :
-                        _e('Duration:', 'mz-mindbody-api');
+                        esc_html_e('Duration:', 'mz-mindbody-api');
                         ?>
                              &nbsp;
                         <?php

@@ -28,16 +28,16 @@ if (empty($data->horizontal_schedule) ) {
         <?php echo wp_date($data->date_format, strtotime($day)); ?>
                 </th>
                 <th class="mz_classDetails" scope="header">
-        <?php _e('Class Name', 'mz-mindbody-api'); ?>
+        <?php esc_html_e('Class Name', 'mz-mindbody-api'); ?>
                 </th>
         <?php if (! in_array('teacher', $data->hide) ) : ?>
                 <th class="mz_staffName" scope="header">
-            <?php _e('Instructor', 'mz-mindbody-api'); ?>
+            <?php esc_html_e('Instructor', 'mz-mindbody-api'); ?>
                 </th>
         <?php endif; ?>
         <?php if (! in_array('session-type', $data->hide) ) : ?>
                 <th class="mz_sessionTypeName" scope="header">
-            <?php _e('Class Type', 'mz-mindbody-api'); ?>
+            <?php esc_html_e('Class Type', 'mz-mindbody-api'); ?>
                 </th>
         <?php endif; ?>
             </tr>
@@ -75,7 +75,7 @@ if (empty($data->horizontal_schedule) ) {
                     <?php
                     // Display location if showing schedule for more than one location
                     if (count($data->locations_dictionary) >= 2 ) :
-                        _e('at', 'mz-mindbody-api');
+                        esc_html_e('at', 'mz-mindbody-api');
                         echo ' ' . $data->locations_dictionary[ $class->sLoc ]['link'];
                     endif;
                     ?>

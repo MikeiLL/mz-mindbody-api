@@ -44,7 +44,7 @@ use MZoo\MzMindbody\Core as Core;
                 <?php // if (Core\MzMindbodyApi::$advanced_options['allow_remember_me_cookie'] == 'on'): ?>
                     <div class="checkbox">
 
-                        <label><input name="keep_me_logged_in" type="checkbox"> <?php // _e('Keep me logged in.', 'mz-mindbody-api'); ?> </label>
+                        <label><input name="keep_me_logged_in" type="checkbox"> <?php // esc_html_e('Keep me logged in.', 'mz-mindbody-api'); ?> </label>
 
                     </div>
                 <?php // endif; ?>

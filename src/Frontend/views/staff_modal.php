@@ -18,7 +18,7 @@ use MZoo\MzMindbody as NS;
             <?php
         else :
             ?>
-            <?php _e('No biography for this staff member yet.', 'mz-mindbody-api'); ?>
+            <?php esc_html_e('No biography for this staff member yet.', 'mz-mindbody-api'); ?>
             <?php
         endif;
         ?>

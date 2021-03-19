@@ -10,8 +10,8 @@ use MZoo\MzMindbody\Core as Core;
 ?>
 <?php if ($data->atts['type'] == 'week' ) : ?>
 <div id="mzScheduleNavHolder">
-    <a href="#" class="previous" data-offset="-1"><?php _e('Previous Week', 'mz-mindbody-api'); ?></a> -
-    <a href="#" class="following" data-offset="1"><?php _e('Following Week', 'mz-mindbody-api'); ?></a>
+    <a href="#" class="previous" data-offset="-1"><?php esc_html_e('Previous Week', 'mz-mindbody-api'); ?></a> -
+    <a href="#" class="following" data-offset="1"><?php esc_html_e('Following Week', 'mz-mindbody-api'); ?></a>
 </div>
 <?php endif; ?>
 

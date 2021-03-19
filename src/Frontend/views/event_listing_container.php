@@ -9,8 +9,8 @@ echo sprintf(
 
 <?php if (empty($data->atts['week-only']) ) : ?>
 <div id="mzEventsNavHolder">
-    <a href="#" class="previous" data-offset="-1"><?php _e('Previous Events', 'mz-mindbody-api'); ?></a> -
-    <a href="#" class="following" data-offset="1"><?php _e('Future Events', 'mz-mindbody-api'); ?></a>
+    <a href="#" class="previous" data-offset="-1"><?php esc_html_e('Previous Events', 'mz-mindbody-api'); ?></a> -
+    <a href="#" class="following" data-offset="1"><?php esc_html_e('Future Events', 'mz-mindbody-api'); ?></a>
 </div>
 <?php endif; ?>
 <div id="mzEventsDisplay">
