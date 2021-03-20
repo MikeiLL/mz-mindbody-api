@@ -9,12 +9,12 @@ use MZoo\MzMindbody as NS;
         <?php
         if (! empty($data->staff_details->ImageURL) ) :
             ?>
-            <img src="<?php echo $data->staff_details->ImageURL; ?>" class="mz_modal_staff_image_body"/>
+            <img src="<?php esc_html_e($data->staff_details->ImageURL); ?>" class="mz_modal_staff_image_body"/>
             <?php
         endif;
         if (! empty($data->staff_details->Bio) ) :
             ?>
-            <?php echo $data->staff_details->Bio; ?>
+            <?php esc_html_e($data->staff_details->Bio); ?>
             <?php
         else :
             ?>
@@ -23,7 +23,7 @@ use MZoo\MzMindbody as NS;
         endif;
         ?>
     </p>
-        <?php echo $data->staff_details->ScheduleButton; ?>
+        <?php esc_html_e($data->staff_details->ScheduleButton); ?>
 
 </div>
 

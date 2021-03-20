@@ -20,14 +20,14 @@ use MZoo\MzMindbody\Core as Core;
         <?php
         if ($data->display_type == 'grid' || $data->display_type == 'both' ) :
             ?>
-        <div id="gridDisplay" class="mz-schedule-display<?php echo $data->grid_class; ?>">
+        <div id="gridDisplay" class="mz-schedule-display<?php esc_html_e($data->grid_class); ?>">
             <?php include 'grid_schedule.php'; ?>
         </div>
             <?php
         endif;
         if ($data->display_type == 'horizontal' || $data->display_type == 'both' ) :
             ?>
-        <div id="horizontalDisplay" class="mz-schedule-display<?php echo $data->horizontal_class; ?>">
+        <div id="horizontalDisplay" class="mz-schedule-display<?php esc_html_e($data->horizontal_class); ?>">
             <?php include 'horizontal_schedule.php'; ?>
         </div>
             <?php

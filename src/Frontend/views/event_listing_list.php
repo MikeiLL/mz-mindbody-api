@@ -9,17 +9,17 @@ if (( is_array($data->events) ) && ! empty($data->events) ) : ?>
         <thead>
             <tr class="header" style="display: table-row">
                 <th class="mz_event_date_display" scope="header">
-                    <?php echo $data->heading_date; ?>
+                    <?php esc_html_e($data->heading_date); ?>
                 </th>
                 <th class="mz_event_classDetails" scope="header">
-                    <?php echo $data->heading_time; ?>
+                    <?php esc_html_e($data->heading_time); ?>
                 </th>
                 <th class="mz_event_name" scope="header">
-                    <?php echo $data->heading_event; ?>
+                    <?php esc_html_e($data->heading_event); ?>
                 </th>
                 <?php if ($data->locations_count >= 2 ) : ?>
                     <th class="mz_event_location" scope="header">
-                    <?php echo $data->heading_location; ?>
+                    <?php esc_html_e($data->heading_location); ?>
                     </th>
                 <?php endif; ?>
             </tr>
@@ -29,13 +29,13 @@ if (( is_array($data->events) ) && ! empty($data->events) ) : ?>
         <?php foreach ( $events as $event ) : ?>
         <tbody>
             <tr>
-                <td><?php echo wp_date(Core\MzMindbodyApi::$date_format, strtotime($event->startDateTime)); ?> <br /><?php echo $event->sign_up_link->build(); ?></td>
+                <td><?php echo wp_date(Core\MzMindbodyApi::$date_format, strtotime($event->startDateTime)); ?> <br /><?php esc_html_e($event->sign_up_link->build()); ?></td>
                 <td>
             <?php echo wp_date(Core\MzMindbodyApi::$time_format, strtotime($event->startDateTime)); ?> -
             <?php echo wp_date(Core\MzMindbodyApi::$time_format, strtotime($event->endDateTime)); ?>
                 </td>
                 <td>
-            <?php echo $event->class_name_link->build() . ' ' . $data->with . ' ' . $event->staff_name_link->build(); ?>
+            <?php esc_html_e($event->class_name_link->build() . ' ' . $data->with . ' ' . $event->staff_name_link->build()); ?>
 
                 </td>
             <?php
@@ -43,7 +43,7 @@ if (( is_array($data->events) ) && ! empty($data->events) ) : ?>
             if ($data->locations_count >= 2 ) :
                 ?>
                 <td>
-                <?php echo $data->locations_dictionary[ $event->location_ID ]['link']; ?>
+                <?php esc_html_e($data->locations_dictionary[ $event->location_ID ]['link']); ?>
                 </td>
             <?php endif; ?>
             </tr>
@@ -52,7 +52,7 @@ if (( is_array($data->events) ) && ! empty($data->events) ) : ?>
         </tbody>
     </table>
 <?php elseif (count($data->events) == 0 ) : ?>
-    <h4><?php echo $data->no_events; ?></h4>
+    <h4><?php esc_html_e($data->no_events); ?></h4>
 <?php else : ?>
     <div class="error"><?php esc_html_e('Error Retrieving Events', 'mz_mindbody_api'); ?></div>
     <p><?php var_dump($data->events); ?></p>

@@ -7,11 +7,11 @@ use MZoo\MzMindbody\Core as Core;
 <div style="display:none" id="mzLogInContainer">
     <form role="form" class="form-group" style="margin:1em 0;" data-async id="mzLogIn" data-target="#mzSignUpModal" method="POST">
 
-        <h2><?php echo $data->login_to_sign_up; ?></h2>
+        <h2><?php esc_html_e($data->login_to_sign_up); ?></h2>
 
-        <input type="hidden" name="nonce" value="<?php echo $data->signup_nonce; ?>"/>
+        <input type="hidden" name="nonce" value="<?php esc_html_e($data->signup_nonce); ?>"/>
 
-        <input type="hidden" name="siteID" value="<?php echo $data->siteID; ?>" />
+        <input type="hidden" name="siteID" value="<?php esc_html_e($data->siteID); ?>" />
 
         <div class="row">
 
@@ -19,7 +19,7 @@ use MZoo\MzMindbody\Core as Core;
 
                 <label for="username">Username</label>
 
-                <input type="text" size="10" class="form-control" id="username" name="username" placeholder="<?php echo $data->username; ?>">
+                <input type="text" size="10" class="form-control" id="username" name="username" placeholder="<?php esc_html_e($data->username); ?>">
 
             </div>
 
@@ -31,7 +31,7 @@ use MZoo\MzMindbody\Core as Core;
 
                 <label for="password">Password</label>
 
-                <input type="password" size="10" class="form-control" name="password" id="password" placeholder="<?php echo $data->password; ?>">
+                <input type="password" size="10" class="form-control" name="password" id="password" placeholder="<?php esc_html_e($data->password); ?>">
 
             </div>
 
@@ -57,11 +57,11 @@ use MZoo\MzMindbody\Core as Core;
 
             <div class="col-12">
 
-                <button type="submit" class="btn btn-primary"><?php echo $data->login; ?></button>
+                <button type="submit" class="btn btn-primary"><?php esc_html_e($data->login); ?></button>
 
-                <a id="createMBOAccount" href="#" data-nonce="<?php echo $data->signup_nonce; ?>" data-classID="<?php echo $data->classID; ?>" class="btn btn-primary btn-xs"><?php echo $data->registration_button; ?></a>
+                <a id="createMBOAccount" href="#" data-nonce="<?php esc_html_e($data->signup_nonce; ?>" data-classID="<?php echo $data->classID; ?>" class="btn btn-primary btn-xs"><?php echo $data->registration_button); ?></a>
 
-                <a href="https://clients.mindbodyonline.com/ws.asp?&amp;sLoc=1&studioid=<?php echo $data->siteID; ?>" class="btn btn-primary btn-xs" id="MBOSite"><?php echo $data->manage_on_mbo; ?></a>
+                <a href="https://clients.mindbodyonline.com/ws.asp?&amp;sLoc=1&studioid=<?php esc_html_e($data->siteID; ?>" class="btn btn-primary btn-xs" id="MBOSite"><?php echo $data->manage_on_mbo); ?></a>
 
             </div>
 

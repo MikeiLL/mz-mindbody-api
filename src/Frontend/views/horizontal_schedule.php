@@ -20,7 +20,7 @@ if (empty($data->horizontal_schedule) ) {
     echo sprintf(__('No Classes To Display (%1$s - %2$s)', 'mz-mindbody-api'), wp_date($data->date_format, $data->start_date->getTimestamp()), wp_date($data->date_format, $data->end_date->getTimestamp()));
 }
 ?>
-<table id="mz_horizontal_schedule" class="<?php echo $data->table_class; ?>">
+<table id="mz_horizontal_schedule" class="<?php esc_html_e($data->table_class); ?>">
     <?php foreach ( $data->horizontal_schedule as $day => $classes ) : ?>
         <thead>
             <tr class="header visible striped" style="display: table-row">
@@ -45,10 +45,10 @@ if (empty($data->horizontal_schedule) ) {
         <tbody>
         <?php if (! empty($classes) ) : ?>
             <?php foreach ( $classes as $k => $class ) : ?>
-            <tr class="mz_schedule_table mz_description_holder mz_location_<?php echo $class->sLoc . ' ' . $class->session_type_css . ' ' . $class->class_name_css; ?>">
-                <td class="mz_date_display" data-time="<?php echo $class->startDateTime; ?>">
+            <tr class="mz_schedule_table mz_description_holder mz_location_<?php esc_html_e($class->sLoc . ' ' . $class->session_type_css . ' ' . $class->class_name_css); ?>">
+                <td class="mz_date_display" data-time="<?php esc_html_e($class->startDateTime); ?>">
                 <?php echo wp_date($data->time_format, strtotime($class->startDateTime)) . ' - ' . wp_date($data->time_format, strtotime($class->endDateTime)); ?><br />
-                    <span class="mz_hidden mz_time_of_day"><?php echo $class->part_of_day; ?></span>
+                    <span class="mz_hidden mz_time_of_day"><?php esc_html_e($class->part_of_day); ?></span>
                 <?php if (! in_array('signup', $data->hide) ) : ?>
                     <?php $class->sign_up_link->output(); ?>
                 <?php endif; ?>
@@ -58,7 +58,7 @@ if (empty($data->horizontal_schedule) ) {
                 <?php
                 $class->class_name_link->output();
                 ?>
-                <?php echo $class->displayCancelled; ?>
+                <?php esc_html_e($class->displayCancelled); ?>
 
                 </td>
                 <?php if (! in_array('teacher', $data->hide) ) : ?>
@@ -71,7 +71,7 @@ if (empty($data->horizontal_schedule) ) {
                 <?php endif; ?>
                 <?php if (! in_array('session-type', $data->hide) ) : ?>
                 <td class="mz_sessionTypeName">
-                    <?php echo $class->sessionTypeName; ?>
+                    <?php esc_html_e($class->sessionTypeName); ?>
                     <?php
                     // Display location if showing schedule for more than one location
                     if (count($data->locations_dictionary) >= 2 ) :
