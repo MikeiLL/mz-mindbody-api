@@ -57,7 +57,7 @@ define(NS . 'PLUGIN_BASENAME', plugin_basename(__FILE__));
 
 define(NS . 'PLUGIN_TEXT_DOMAIN', 'mz-mindbody-api');
 
-define(NS . 'MINIMUM_PHP_VERSION', 7.0);
+define(NS . 'MINIMUM_PHP_VERSION', 7.1);
 
 /**
  * Autoload Classes
