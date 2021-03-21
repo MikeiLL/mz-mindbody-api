@@ -29,7 +29,7 @@ class Deactivator
     public static function deactivate()
     {
         NS\MZMBO()->helpers->clearLogFiles();
-        $admin_obj = new Admin\Admin(NS\PLUGIN_NAME, NS\PLUGIN_VERSION, NS\PLUGIN_TEXT_DOMAIN);
+        $admin_obj = new Admin\Admin(NS\PLUGIN_NAME, NS\PLUGIN_VERSION, 'mz-mindbody-api');
         $admin_obj->clear_plugin_transients();
         wp_clear_scheduled_hook('fetch_mbo_access_token');
         // TODO clear out options when plugin removed

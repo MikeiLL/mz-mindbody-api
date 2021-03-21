@@ -168,7 +168,7 @@ function MZMBO()
 function deactivate()
 {
     deactivate_plugins(plugin_basename(__FILE__));
-    $admin_object = new NS\Admin\Admin(NS\PLUGIN_NAME, NS\PLUGIN_VERSION, NS\PLUGIN_TEXT_DOMAIN);
+    $admin_object = new NS\Admin\Admin(NS\PLUGIN_NAME, NS\PLUGIN_VERSION, 'mz-mindbody-api');
     add_action('admin_notices', array( $admin_object, 'admin_notice' ));
 }
 

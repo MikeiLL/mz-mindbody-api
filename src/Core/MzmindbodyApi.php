@@ -165,7 +165,7 @@ class MzMindbodyApi
         $this->plugin_name        = NS\PLUGIN_NAME;
         $this->version            = NS\PLUGIN_VERSION;
         $this->plugin_basename    = NS\PLUGIN_BASENAME;
-        $this->plugin_text_domain = NS\PLUGIN_TEXT_DOMAIN;
+        $this->plugin_text_domain = 'mz-mindbody-api';
 
         self::$basic_options           = get_option('mz_mbo_basic', 'Error: No Basic Options');
         self::$events_options          = get_option('mz_mbo_events');

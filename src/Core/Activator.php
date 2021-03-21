@@ -28,7 +28,7 @@ class Activator
     {
         // Check PHP Version and deactivate & die if it doesn't meet minimum requirements.
         if (version_compare(PHP_VERSION, NS\MINIMUM_PHP_VERSION, '<') ) {
-            $admin_object = new Admin\Admin(NS\PLUGIN_NAME, NS\PLUGIN_VERSION, NS\PLUGIN_TEXT_DOMAIN);
+            $admin_object = new Admin\Admin(NS\PLUGIN_NAME, NS\PLUGIN_VERSION, 'mz-mindbody-api');
             add_action('admin_notices', array( $admin_object, 'admin_notice' ));
             deactivate_plugins(NS\PLUGIN_BASENAME);
             if (isset($_GET['activate']) ) {
