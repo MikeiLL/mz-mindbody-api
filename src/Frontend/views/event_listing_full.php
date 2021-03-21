@@ -28,7 +28,7 @@ if (( is_array($data->events) ) && ! empty($data->events) ) :
     ?>
     <?php foreach ( $data->events as $date => $events ) : ?>
         <?php foreach ( $events as $event ) : ?>
-        <?php $ev_class = $data->locations_dictionary[ $event->location_ID ]['class']; ?>
+            <?php $ev_class = $data->locations_dictionary[ $event->location_ID ]['class']; ?>
         <div class="mz_full_listing_event <?php esc_html_e(($ev_class); ?>">
             <h3 class="mz_full_listing_event__title">
                 <?php esc_html_e($event->className); ?>

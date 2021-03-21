@@ -333,10 +333,10 @@ class SingleEvent
 
             $linkArray['data-time'] = wp_date(Core\MzMindbodyApi::$date_format . ' ' . Core\MzMindbodyApi::$time_format, strtotime($this->startDateTime));
 
-            if (( ! empty($this->atts['advanced']) &&
-                    ( $this->atts['advanced'] == '1' ) ) ||
-                    ( Core\MzMindbodyApi::$advanced_options['register_within_site'] == 'on'
-                ) ) :
+            if (( ! empty($this->atts['advanced']) 
+                && ( $this->atts['advanced'] == '1' ) ) 
+                || ( Core\MzMindbodyApi::$advanced_options['register_within_site'] == 'on') 
+            ) :
                     $linkArray['data-target']    = 'mzSignUpModal';
                     $linkArray['data-nonce']     = wp_create_nonce('mz_signup_nonce');
                     $linkArray['data-siteID']    = $this->siteID;
@@ -345,9 +345,9 @@ class SingleEvent
                     $linkArray['data-staffName'] = $this->staffName;
                     $linkArray['data-location']  = $this->location_ID;
                     $class_name_link->set(
-                                    'href', 
-                                    NS\PLUGIN_NAME_URL . 'src/Frontend/views/modals/modal_descriptions.php'
-                                    );
+                        'href', 
+                        NS\PLUGIN_NAME_URL . 'src/Frontend/views/modals/modal_descriptions.php'
+                    );
                 else :
                       $linkArray['target'] = '_blank';
                       $class_name_link->set('href', $this->mbo_url);
@@ -362,9 +362,9 @@ class SingleEvent
             $linkArray['text']                  = $this->className;
             $linkArray['data-target']           = 'mzDescriptionModal';
             $linkArray['class'] = 'modal-toggle ' . sanitize_html_class(
-                                                        $this->className,
-                                                        'mz_class_name'
-                                                    );
+                $this->className,
+                'mz_class_name'
+            );
         }
 
         $class_name_link->set($linkArray);

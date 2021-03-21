@@ -31,9 +31,10 @@ class Activator
             $admin_object = new Admin\Admin(NS\PLUGIN_NAME, NS\PLUGIN_VERSION, NS\PLUGIN_TEXT_DOMAIN);
             add_action('admin_notices', array( $admin_object, 'admin_notice' ));
             deactivate_plugins(NS\PLUGIN_BASENAME);
-			if ( isset( $_GET['activate'] ) ) {
-    -			unset( $_GET['activate'] );
-    -		}
+            if (isset($_GET['activate']) ) {
+                -            unset($_GET['activate']);
+                -        
+            }
         }
 
         // Automatically create option to track api calls
