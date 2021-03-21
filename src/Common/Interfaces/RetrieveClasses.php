@@ -63,9 +63,9 @@ abstract class RetrieveClasses extends Retrieve
      *
      * @since  2.4.7
      * @access public
-     * @var    arrray $classesByDateThenTime
+     * @var    arrray $classes_by_date_then_time
      */
-    public $classesByDateThenTime;
+    public $classes_by_date_then_time;
 
     /**
      * Schedule array sorted by time, then date
@@ -369,7 +369,7 @@ abstract class RetrieveClasses extends Retrieve
             /*
             * $classes is an array of all classes for given date
             * Take each of the class arrays and order it by time
-            * $classesByDateThenTime should have a length of seven, one for
+            * $classes_by_date_then_time should have a length of seven, one for
             * each day of the week.
             */
             usort(
@@ -397,14 +397,14 @@ abstract class RetrieveClasses extends Retrieve
     * @param array classesByDateThenTime array of sequenced classes.
     * @return array of classes, padded to a full seven days, wether or not classes exist
     */
-    private function padEmptyCalendarDays( $classesByDateThenTime )
+    private function padEmptyCalendarDays( $classes_by_date_then_time )
     {
 
         $week_of_dates = array( $this->start_date->format('Y-m-d') => '' );
         for ( $i = 1; $i < 7; $i++ ) {
             $week_of_dates[ $this->start_date->add(new \DateInterval('P1D'))->format('Y-m-d') ] = '';
         }
-        return array_merge($week_of_dates, $classesByDateThenTime);
+        return array_merge($week_of_dates, $classes_by_date_then_time);
     }
 
     /**

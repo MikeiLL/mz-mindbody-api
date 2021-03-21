@@ -149,7 +149,7 @@ class RetrieveEvents extends Interfaces\RetrieveClasses
             /*
             * $classes is an array of all classes for given date
             * Take each of the class arrays and order it by time
-            * $classesByDateThenTime should have a length of seven, one for
+            * $classes_by_date_then_time should have a length of seven, one for
             * each day of the week.
             */
             usort(
