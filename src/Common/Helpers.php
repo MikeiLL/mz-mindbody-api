@@ -22,7 +22,7 @@ class Helpers
      * Helper function to print out arrays
      *
      * @since 1.0.0
-     string|array * @param $message which will be printed to screen (or console)
+     * @param string|array $message which will be printed to screen (or console)
      */
     public function print( $message = '' )
     {
