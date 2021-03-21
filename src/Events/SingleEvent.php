@@ -333,19 +333,25 @@ class SingleEvent
 
             $linkArray['data-time'] = wp_date(Core\MzMindbodyApi::$date_format . ' ' . Core\MzMindbodyApi::$time_format, strtotime($this->startDateTime));
 
-            if (( ! empty($this->atts['advanced']) && ( $this->atts['advanced'] == '1' ) ) || ( Core\MzMindbodyApi::$advanced_options['register_within_site'] == 'on' ) ) :
-                $linkArray['data-target']    = 'mzSignUpModal';
-                $linkArray['data-nonce']     = wp_create_nonce('mz_signup_nonce');
-                $linkArray['data-siteID']    = $this->siteID;
-                $linkArray['data-classID']   = $this->ID;
-                $linkArray['data-className'] = $this->className;
-                $linkArray['data-staffName'] = $this->staffName;
-                $linkArray['data-location']  = $this->location_ID;
-                $class_name_link->set('href', NS\PLUGIN_NAME_URL . 'src/Frontend/views/modals/modal_descriptions.php');
-                  else :
+            if (( ! empty($this->atts['advanced']) &&
+                    ( $this->atts['advanced'] == '1' ) ) ||
+                    ( Core\MzMindbodyApi::$advanced_options['register_within_site'] == 'on'
+                ) ) :
+                    $linkArray['data-target']    = 'mzSignUpModal';
+                    $linkArray['data-nonce']     = wp_create_nonce('mz_signup_nonce');
+                    $linkArray['data-siteID']    = $this->siteID;
+                    $linkArray['data-classID']   = $this->ID;
+                    $linkArray['data-className'] = $this->className;
+                    $linkArray['data-staffName'] = $this->staffName;
+                    $linkArray['data-location']  = $this->location_ID;
+                    $class_name_link->set(
+                                    'href', 
+                                    NS\PLUGIN_NAME_URL . 'src/Frontend/views/modals/modal_descriptions.php'
+                                    );
+                else :
                       $linkArray['target'] = '_blank';
                       $class_name_link->set('href', $this->mbo_url);
-                  endif;
+                endif;
             break;
 
         case 'class':
@@ -355,7 +361,10 @@ class SingleEvent
             $linkArray['data-eventImage']       = ( $this->classImage != '' ) ? $this->classImage : '';
             $linkArray['text']                  = $this->className;
             $linkArray['data-target']           = 'mzDescriptionModal';
-            $linkArray['class']                 = 'modal-toggle ' . sanitize_html_class($this->className, 'mz_class_name');
+            $linkArray['class'] = 'modal-toggle ' . sanitize_html_class(
+                                                        $this->className,
+                                                        'mz_class_name'
+                                                    );
         }
 
         $class_name_link->set($linkArray);
@@ -371,6 +380,12 @@ class SingleEvent
      */
     private function mbo_url()
     {
-        return "https://clients.mindbodyonline.com/ws.asp?sDate={$this->sDate}&amp;sLoc={$this->location_ID}&amp;sType=7&amp;sclassid={$this->class_schedule_id}&amp;studioid={$this->siteID}";
+        $mbo_link = 'https://clients.mindbodyonline.com/ws.asp';
+        $mbo_link .= "?sDate={$this->sDate}";
+        $mbo_link .= "&amp;sLoc={$this->location_ID}";
+        $mbo_link .= "&amp;sType=7";
+        $mbo_link .= "&amp;sclassid={$this->class_schedule_id}";
+        $mbo_link .= "&amp;studioid={$this->siteID}";
+        return $mbo_link;
     }
 }

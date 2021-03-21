@@ -256,6 +256,12 @@ class MiniScheduleItem
      */
     private function mbo_url()
     {
-        return "https://clients.mindbodyonline.com/ws.asp?sDate={$this->sDate}&amp;sLoc={$this->sLoc}&amp;sType={$this->sType}&amp;sclassid={$this->class_schedule_id}&amp;studioid={$this->siteID}";
+        $mbo_link = 'https://clients.mindbodyonline.com/ws.asp';
+        $mbo_link .= "?sDate={$this->sDate}";
+        $mbo_link .= "&amp;sLoc={$this->location_ID}";
+        $mbo_link .= "&amp;sType=7";
+        $mbo_link .= "&amp;sclassid={$this->class_schedule_id}";
+        $mbo_link .= "&amp;studioid={$this->siteID}";
+        return $mbo_link;
     }
 }

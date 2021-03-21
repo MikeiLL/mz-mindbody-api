@@ -57,11 +57,29 @@ use MZoo\MzMindbody\Core as Core;
 
             <div class="col-12">
 
-                <button type="submit" class="btn btn-primary"><?php esc_html_e($data->login); ?></button>
+                <button type="submit" class="btn btn-primary">
+                    <?php esc_html_e($data->login); ?>
+                </button>
 
-                <a id="createMBOAccount" href="#" data-nonce="<?php esc_html_e($data->signup_nonce; ?>" data-classID="<?php echo $data->classID; ?>" class="btn btn-primary btn-xs"><?php echo $data->registration_button); ?></a>
-
-                <a href="https://clients.mindbodyonline.com/ws.asp?&amp;sLoc=1&studioid=<?php esc_html_e($data->siteID; ?>" class="btn btn-primary btn-xs" id="MBOSite"><?php echo $data->manage_on_mbo); ?></a>
+                <a id="createMBOAccount" 
+                    href="#" 
+                    data-nonce="<?php esc_html_e($data->signup_nonce); ?>" 
+                    data-classID="<?php esc_html_e($data->classID); ?>" 
+                    class="btn btn-primary btn-xs">
+                    <?php esc_html_e($data->registration_button); ?>
+                </a>
+                
+                <?php 
+                $mbo_link = 'https://clients.mindbodyonline.com/ws.asp';
+                $mbo_link .= '?&amp;sLoc=' . $data->location; 
+                $mbo_link .= '&studioid=' . $data->siteID;
+                ?>
+                
+                <a href="<?php esc_html_e($mbo_link); ?>" 
+                    class="btn btn-primary btn-xs" 
+                    style="text-decoration:none;" id="MBOSite">
+                    <?php esc_html_e($data->manage_on_mbo); ?>
+                </a>
 
             </div>
 
