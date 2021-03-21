@@ -97,7 +97,7 @@ class MboV6Api
      * magic method will search $this->apiMethods array for $name and call the
      * appropriate Mindbody API method if found
      *
-     * since 2.5.7
+     * @since 2.5.7
      *
      * @param $name      string that matches method in matrix of MBO API v6 Methods
      * @param $arguments array used in API request

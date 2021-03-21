@@ -150,7 +150,7 @@ class MzMindbody
  * Example 1: <?php $mZmbo = MzMindbody\MZMBO(); ?>
  * Example 2: <?php $basic_options = MzMindbody\MZMBO()::$basic_options ?>
  *
- * Since everything within the plugin is registered via hooks,
+ * @since everything within the plugin is registered via hooks,
  * then kicking off the plugin from this point in the file does
  * not affect the page life cycle.
  *

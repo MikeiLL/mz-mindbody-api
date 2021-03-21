@@ -64,7 +64,7 @@ class SitePortal extends RetrieveSite
     /**
      * Class constructor
      *
-     * Since 2.4.7
+     * @since 2.4.7
      */
     public function __construct()
     {
