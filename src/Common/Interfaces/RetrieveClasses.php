@@ -125,7 +125,7 @@ abstract class RetrieveClasses extends Retrieve
      *
      * @since  2.4.7
      * @access public
-     * @var    array    $timeFrame    StartDateTime and endDateTime for MBO API call.
+     * @var    array    $timeFrame    StartDateTime and end_datetime for MBO API call.
      */
     public $timeFrame;
 
@@ -376,10 +376,10 @@ abstract class RetrieveClasses extends Retrieve
                 $classes,
                 function ( $a, $b ) {
 
-                    if ($a->startDateTime == $b->startDateTime ) {
+                    if ($a->start_datetime == $b->start_datetime ) {
                         return 0;
                     }
-                    return $a->startDateTime < $b->startDateTime ? -1 : 1;
+                    return $a->start_datetime < $b->start_datetime ? -1 : 1;
                 }
             );
         }
@@ -488,10 +488,10 @@ abstract class RetrieveClasses extends Retrieve
                 $classes['classes'],
                 function ( $a, $b ) {
 
-                    if (wp_date('N', strtotime($a->startDateTime)) == wp_date('N', strtotime($b->startDateTime)) ) {
+                    if (wp_date('N', strtotime($a->start_datetime)) == wp_date('N', strtotime($b->start_datetime)) ) {
                         return 0;
                     }
-                    return $a->startDateTime < $b->startDateTime ? -1 : 1;
+                    return $a->start_datetime < $b->start_datetime ? -1 : 1;
                 }
             );
             $classes['classes'] = $this->weekOfTimeslot($classes['classes'], 'day_num');

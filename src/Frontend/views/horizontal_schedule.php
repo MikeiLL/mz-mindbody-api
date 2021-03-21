@@ -46,8 +46,8 @@ if (empty($data->horizontal_schedule) ) {
         <?php if (! empty($classes) ) : ?>
             <?php foreach ( $classes as $k => $class ) : ?>
             <tr class="mz_schedule_table mz_description_holder mz_location_<?php esc_html_e($class->sLoc . ' ' . $class->session_type_css . ' ' . $class->class_name_css); ?>">
-                <td class="mz_date_display" data-time="<?php esc_html_e($class->startDateTime); ?>">
-                <?php echo wp_date($data->time_format, strtotime($class->startDateTime)) . ' - ' . wp_date($data->time_format, strtotime($class->endDateTime)); ?><br />
+                <td class="mz_date_display" data-time="<?php esc_html_e($class->start_datetime); ?>">
+                <?php echo wp_date($data->time_format, strtotime($class->start_datetime)) . ' - ' . wp_date($data->time_format, strtotime($class->end_datetime)); ?><br />
                     <span class="mz_hidden mz_time_of_day"><?php esc_html_e($class->part_of_day); ?></span>
                 <?php if (! in_array('signup', $data->hide) ) : ?>
                     <?php $class->sign_up_link->output(); ?>

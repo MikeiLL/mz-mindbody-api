@@ -36,18 +36,18 @@ class ScheduleItem
      *
      * @since  2.4.7
      * @access public
-     * @var    string $startDateTime Format is '2018-05-21T08:30:00'.
+     * @var    string $start_datetime Format is '2018-05-21T08:30:00'.
      */
-    public $startDateTime;
+    public $start_datetime;
 
     /**
      * Timestamp when class ends.
      *
      * @since  2.4.7
      * @access public
-     * @var    string $endDateTime Format is '2018-05-21T08:30:00'.
+     * @var    string $end_datetime Format is '2018-05-21T08:30:00'.
      */
-    public $endDateTime;
+    public $end_datetime;
 
     /**
      * Location ID from MBO.
@@ -509,8 +509,8 @@ class ScheduleItem
 
         $this->className       = isset($ScheduleItem['ClassDescription']['Name']) ? $ScheduleItem['ClassDescription']['Name'] : '';
         $this->classImage      = isset($ScheduleItem['ClassDescription']['ImageURL']) ? $ScheduleItem['ClassDescription']['ImageURL'] : '';
-        $this->startDateTime   = $ScheduleItem['StartDateTime'];
-        $this->endDateTime     = $ScheduleItem['EndDateTime'];
+        $this->start_datetime   = $ScheduleItem['StartDateTime'];
+        $this->end_datetime     = $ScheduleItem['EndDateTime'];
         $this->sessionTypeName = isset($ScheduleItem['ClassDescription']['SessionType']['Name']) ? $ScheduleItem['ClassDescription']['SessionType']['Name'] : '';
         // Set Staff Name up.
         // First set first, last with default to blank string
@@ -641,7 +641,7 @@ class ScheduleItem
                     endif;
                 endif;
 
-                $linkArray['data-time'] = wp_date(Core\MzMindbodyApi::$date_format . ' ' . Core\MzMindbodyApi::$time_format, strtotime($this->startDateTime));
+                $linkArray['data-time'] = wp_date(Core\MzMindbodyApi::$date_format . ' ' . Core\MzMindbodyApi::$time_format, strtotime($this->start_datetime));
 
                 // May being back option to register within site. For now, comment out.
                 // if ((!empty($this->atts['advanced']) && ($this->atts['advanced'] == '1')) || (Core\MzMindbodyApi::$advanced_options['register_within_site'] == 'on')):
@@ -708,7 +708,7 @@ class ScheduleItem
      */
     private function part_of_day()
     {
-        $time_by_integer = wp_date('G.i', strtotime($this->startDateTime));
+        $time_by_integer = wp_date('G.i', strtotime($this->start_datetime));
         if ($time_by_integer < 12 ) {
             return __('morning', 'mz-mindbody-api');
         } elseif ($time_by_integer > 16 ) {
@@ -728,8 +728,8 @@ class ScheduleItem
      */
     private function get_schedule_event_duration()
     {
-        $start = new \DateTime($this->startDateTime);
-        $end   = new \DateTime($this->endDateTime);
+        $start = new \DateTime($this->start_datetime);
+        $end   = new \DateTime($this->end_datetime);
         return $start->diff($end);
     }
 

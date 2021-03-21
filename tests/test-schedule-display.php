@@ -57,7 +57,7 @@ class ScheduleDisplayTest extends MZMBO_WPUnitTestCase {
 		 */
 		$key              = reset( $sequenced_classes );
 		$first            = array_shift( $key );
-		$first_event_date = date( 'Y-m-d', strtotime( $first->startDateTime ) );
+		$first_event_date = date( 'Y-m-d', strtotime( $first->start_datetime ) );
 		$now              = date( 'Y-m-d', current_time( 'timestamp' ) );
 		$this->assertTrue( $first_event_date == $now );
 

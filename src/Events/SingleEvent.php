@@ -50,9 +50,9 @@ class SingleEvent
      * @since 2.4.7
      *
      * @access public
-     * @var    $startDateTime datetime as pulled in from MBO
+     * @var    $start_datetime datetime as pulled in from MBO
      */
-    public $startDateTime;
+    public $start_datetime;
 
     /**
      * Event End Time
@@ -60,9 +60,9 @@ class SingleEvent
      * @since 2.4.7
      *
      * @access public
-     * @var    $endDateTime datetime as pulled in from MBO
+     * @var    $end_datetime datetime as pulled in from MBO
      */
-    public $endDateTime;
+    public $end_datetime;
 
     /**
      * Event Name
@@ -271,8 +271,8 @@ class SingleEvent
     {
 
         $this->class_schedule_id = $event['ClassScheduleId'];
-        $this->startDateTime     = $event['StartDateTime'];
-        $this->endDateTime       = $event['EndDateTime'];
+        $this->start_datetime     = $event['StartDateTime'];
+        $this->end_datetime       = $event['EndDateTime'];
         $this->className         = $event['ClassDescription']['Name'];
         $this->ID                = $event['ClassDescription']['Id'];
 
@@ -331,7 +331,7 @@ class SingleEvent
 
             $linkArray['text'] = __('Sign-Up', 'mz-mindbody-api');
 
-            $linkArray['data-time'] = wp_date(Core\MzMindbodyApi::$date_format . ' ' . Core\MzMindbodyApi::$time_format, strtotime($this->startDateTime));
+            $linkArray['data-time'] = wp_date(Core\MzMindbodyApi::$date_format . ' ' . Core\MzMindbodyApi::$time_format, strtotime($this->start_datetime));
 
             if (( ! empty($this->atts['advanced']) 
                 && ( $this->atts['advanced'] == '1' ) ) 

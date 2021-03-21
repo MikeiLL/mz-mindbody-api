@@ -38,18 +38,18 @@ class MiniScheduleItem
      *
      * @since  2.4.7
      * @access public
-     * @var    string $startDateTime Format is '2018-05-21T08:30:00'.
+     * @var    string $start_datetime Format is '2018-05-21T08:30:00'.
      */
-    public $startDateTime;
+    public $start_datetime;
 
     /**
      * Timestamp when class ends.
      *
      * @since  2.4.7
      * @access public
-     * @var    string $endDateTime Format is '2018-05-21T08:30:00'.
+     * @var    string $end_datetime Format is '2018-05-21T08:30:00'.
      */
-    public $endDateTime;
+    public $end_datetime;
 
 
     /**
@@ -225,8 +225,8 @@ class MiniScheduleItem
     public function __construct( $ScheduleItem, $atts = array() )
     {
         $this->className     = isset($ScheduleItem['Name']) ? $ScheduleItem['Name'] : '';
-        $this->startDateTime = $ScheduleItem['StartDateTime'];
-        $this->endDateTime   = $ScheduleItem['EndDateTime'];
+        $this->start_datetime = $ScheduleItem['StartDateTime'];
+        $this->end_datetime   = $ScheduleItem['EndDateTime'];
         $this->staffName     = isset($ScheduleItem['Staff']['Name']) ? $ScheduleItem['Staff']['Name'] : '';
         $this->ID            = $ScheduleItem['Id'];
         $this->siteID        = ! empty($atts['account']) ? $atts['account'] : Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
@@ -242,8 +242,8 @@ class MiniScheduleItem
      */
     private function get_schedule_event_duration()
     {
-        $start = new \DateTime($this->startDateTime);
-        $end   = new \DateTime($this->endDateTime);
+        $start = new \DateTime($this->start_datetime);
+        $end   = new \DateTime($this->end_datetime);
         return $start->diff($end);
     }
 
