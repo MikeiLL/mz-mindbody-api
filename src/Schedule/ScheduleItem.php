@@ -744,7 +744,7 @@ class ScheduleItem
     {
         $mbo_link = 'https://clients.mindbodyonline.com/ws.asp';
         $mbo_link .= "?sDate={$this->sDate}";
-        $mbo_link .= "&amp;sLoc={$this->location_ID}";
+        $mbo_link .= "&amp;sLoc={$this->sLoc}"; // may be schedule_ID in places.
         $mbo_link .= "&amp;sType=7";
         $mbo_link .= "&amp;sclassid={$this->class_schedule_id}";
         $mbo_link .= "&amp;studioid={$this->siteID}";
