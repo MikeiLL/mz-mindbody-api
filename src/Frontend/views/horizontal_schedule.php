@@ -30,12 +30,12 @@ if (empty($data->horizontal_schedule) ) {
                 <th class="mz_classDetails" scope="header">
         <?php esc_html_e('Class Name', 'mz-mindbody-api'); ?>
                 </th>
-        <?php if (! in_array('teacher', $data->hide) ) : ?>
+        <?php if (! in_array('teacher', $data->hide, true) ) : ?>
                 <th class="mz_staffName" scope="header">
             <?php esc_html_e('Instructor', 'mz-mindbody-api'); ?>
                 </th>
         <?php endif; ?>
-        <?php if (! in_array('session-type', $data->hide) ) : ?>
+        <?php if (! in_array('session-type', $data->hide, true) ) : ?>
                 <th class="mz_sessionTypeName" scope="header">
             <?php esc_html_e('Class Type', 'mz-mindbody-api'); ?>
                 </th>
@@ -49,7 +49,7 @@ if (empty($data->horizontal_schedule) ) {
                 <td class="mz_date_display" data-time="<?php esc_html_e($class->start_datetime); ?>">
                 <?php echo wp_date($data->time_format, strtotime($class->start_datetime)) . ' - ' . wp_date($data->time_format, strtotime($class->end_datetime)); ?><br />
                     <span class="mz_hidden mz_time_of_day"><?php esc_html_e($class->part_of_day); ?></span>
-                <?php if (! in_array('signup', $data->hide) ) : ?>
+                <?php if (! in_array('signup', $data->hide, true) ) : ?>
                     <?php $class->sign_up_link->output(); ?>
                 <?php endif; ?>
                 </td>
@@ -61,7 +61,7 @@ if (empty($data->horizontal_schedule) ) {
                 <?php esc_html_e($class->displayCancelled); ?>
 
                 </td>
-                <?php if (! in_array('teacher', $data->hide) ) : ?>
+                <?php if (! in_array('teacher', $data->hide, true) ) : ?>
                 <td class="mz_staffName">
 
                     <?php
@@ -69,7 +69,7 @@ if (empty($data->horizontal_schedule) ) {
                     ?>
                 </td>
                 <?php endif; ?>
-                <?php if (! in_array('session-type', $data->hide) ) : ?>
+                <?php if (! in_array('session-type', $data->hide, true) ) : ?>
                 <td class="mz_sessionTypeName">
                     <?php esc_html_e($class->sessionTypeName); ?>
                     <?php
@@ -92,12 +92,12 @@ if (empty($data->horizontal_schedule) ) {
                 <td class="mz_classDetails">
                 
                 </td>
-            <?php if (! in_array('teacher', $data->hide) ) : ?>
+            <?php if (! in_array('teacher', $data->hide, true) ) : ?>
                 <td class="mz_staffName">
                 
                 </td>
             <?php endif; ?>
-            <?php if (! in_array('session-type', $data->hide) ) : ?>
+            <?php if (! in_array('session-type', $data->hide, true) ) : ?>
                 <td class="mz_sessionTypeName">
                     
                 </td>

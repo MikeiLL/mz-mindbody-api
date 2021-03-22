@@ -539,19 +539,19 @@ abstract class RetrieveClasses extends Retrieve
     protected function filterClass( $class )
     {
 
-        if (( ! in_array($class['Location']['Id'], $this->atts['locations']) ) 
-            || ( ! in_array($class['ClassDescription']['Program']['ScheduleType'], $this->schedule_types) )
+        if (( ! in_array($class['Location']['Id'], $this->atts['locations'], true) ) 
+            || ( ! in_array($class['ClassDescription']['Program']['ScheduleType'], $this->schedule_types, true) )
         ) {
             return false;
         }
         if (! empty($this->atts['session_types']) ) {
-            if (! in_array($class['ClassDescription']['SessionType']['Name'], $this->atts['session_types']) ) {
+            if (! in_array($class['ClassDescription']['SessionType']['Name'], $this->atts['session_types'], true) ) {
                 return false;
             }
         }
         // Support old "class_types" shortcode att:
         if (! empty($this->atts['class_types']) ) {
-            if (! in_array($class['ClassDescription']['SessionType']['Name'], $this->atts['class_types']) ) {
+            if (! in_array($class['ClassDescription']['SessionType']['Name'], $this->atts['class_types'], true) ) {
                 return false;
             }
         }

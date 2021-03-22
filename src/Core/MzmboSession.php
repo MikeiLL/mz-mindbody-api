@@ -373,7 +373,7 @@ class MzMboSession
             $blacklist = $blacklist = $this->get_blacklist();
             $uri       = ltrim($_SERVER['REQUEST_URI'], '/');
             $uri       = untrailingslashit($uri);
-            if (in_array($uri, $blacklist) ) {
+            if (in_array($uri, $blacklist, true) ) {
                 $start_session = false;
             }
             if (false !== strpos($uri, 'feed=') ) {

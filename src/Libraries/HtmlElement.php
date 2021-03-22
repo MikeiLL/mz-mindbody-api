@@ -75,7 +75,7 @@ class HtmlElement
         }
 
         // closing
-        if (! in_array($this->type, $this->self_closers) ) {
+        if (! in_array($this->type, $this->self_closers, true) ) {
             $build .= '>' . $this->attributes['text'] . '</' . $this->type . '>';
         } else {
             $build .= ' />';

@@ -59,7 +59,7 @@ use MZoo\MzMindbody\Libraries as Libraries;
                     <div class="mz_schedule_table mz_description_holder mz_location_<?php esc_html_e($class->sLoc . ' ' . $class->session_type_css . ' ' . $class->class_name_css); ?>">
                     <?php $class->class_name_link->output(); ?>&nbsp;
                     <?php
-                    if (! in_array('teacher', $data->hide) ) :
+                    if (! in_array('teacher', $data->hide, true) ) :
                         esc_html_e('with', 'mz-mindbody-api');
                         ?>
                         <?php
@@ -70,12 +70,12 @@ use MZoo\MzMindbody\Libraries as Libraries;
                     <?php esc_html_e($class->displayCancelled); ?>
                         <br />
                     <?php
-                    if (! in_array('signup', $data->hide) ) :
+                    if (! in_array('signup', $data->hide, true) ) :
                         ?>
                         <?php $class->grid_sign_up_link->output(); ?><br/>
                     <?php endif; ?>
                     <?php
-                    if (! in_array('duration', $data->hide) ) :
+                    if (! in_array('duration', $data->hide, true) ) :
                         esc_html_e('Duration:', 'mz-mindbody-api');
                         ?>
                              &nbsp;
@@ -84,7 +84,7 @@ use MZoo\MzMindbody\Libraries as Libraries;
                     endif;
                     ?>
                     <?php
-                    if (! in_array('location', $data->hide) ) :
+                    if (! in_array('location', $data->hide, true) ) :
                         // Display location if showing schedule for more than one location
                         if (count($data->locations_dictionary) >= 2 ) :
                                 echo '<br/>' . $data->locations_dictionary[ $class->sLoc ]['link'];

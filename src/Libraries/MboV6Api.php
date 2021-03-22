@@ -177,7 +177,7 @@ class MboV6Api
         );
 
         // Certain methods don't require credentials
-        if (! in_array($restMethod['name'], $method_without_username) ) {
+        if (! in_array($restMethod['name'], $method_without_username, true) ) {
             $request_body = array_merge(
                 $requestData,
                 array(
@@ -203,7 +203,7 @@ class MboV6Api
             $request_body['SessionTypeIds'] = $this->atts['session_type_ids'];
         }
 
-        if (in_array($restMethod['name'], $encoded_request_body) ) {
+        if (in_array($restMethod['name'], $encoded_request_body, true) ) {
             $request_body = wp_json_encode($request_body);
         }
 
