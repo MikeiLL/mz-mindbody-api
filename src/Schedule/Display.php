@@ -197,7 +197,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
         );
 
         // Set siteID to option if not set explicitly in shortcode
-        $this->siteID = ( isset($atts['account']) ) ? $atts['account'] : Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
+        $this->site_id = ( isset($atts['account']) ) ? $atts['account'] : Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
 
         $this->class_modal_link = NS\PLUGIN_NAME_URL . 'src/Frontend/views/modals/modal_descriptions.php';
 
@@ -325,7 +325,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
       'time_format'          => $this->schedule_object->time_format,
       'date_format'          => $this->schedule_object->date_format,
       'data_nonce'           => wp_create_nonce('mz_schedule_display_nonce'),
-      'siteID'               => $this->siteID,
+      'siteID'               => $this->site_id,
       'week_names'           => $week_names,
       'start_date'           => $this->schedule_object->start_date,
       'end_date'             => $this->schedule_object->current_week_end,
@@ -415,7 +415,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
         'signup_heading'        => $translated_strings['signup_heading'],
         'Locations_dict'        => wp_json_encode($locations_dictionary),
         'signup_nonce'          => wp_create_nonce('mz_signup_nonce'),
-        'siteID'                => $this->siteID,
+        'siteID'                => $this->site_id,
         'location'              => $this->sLoc,
         );
         wp_localize_script('mz_display_schedule_script', 'mz_mindbody_schedule', $params);

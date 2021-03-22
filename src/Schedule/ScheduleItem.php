@@ -535,7 +535,7 @@ class ScheduleItem
         $this->manage_text           = __('Manage on MindBody Site', 'mz-mindbody-api');
         $this->sType                 = -7;
         $this->staffID               = $ScheduleItem['Staff']['Id'];
-        $this->siteID                = ! empty($atts['account']) ? $atts['account'] : Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
+        $this->site_id                = ! empty($atts['account']) ? $atts['account'] : Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
         $this->mbo_url               = $this->mbo_url();
         $this->day_num               = $this->get_day_number(wp_date('N', strtotime($ScheduleItem['StartDateTime'])));
         $this->session_type_css      = 'mz_' . sanitize_html_class($this->sessionTypeName, 'mz_session_type');
@@ -591,7 +591,7 @@ class ScheduleItem
             $linkArray['text']           = $this->staffName;
             $linkArray['data-target']    = 'mzStaffScheduleModal';
             $linkArray['data-nonce']     = wp_create_nonce('mz_staff_retrieve_nonce');
-            $linkArray['data-siteID']    = $this->siteID;
+            $linkArray['data-siteID']    = $this->site_id;
             if (( $this->is_substitute === true ) && ( ! empty($this->sub_details) ) ) {
                  $linkArray['data-sub'] = ( ! empty($this->sub_details) ) ? $this->sub_details : '';
             }
@@ -648,7 +648,7 @@ class ScheduleItem
 
                 // $linkArray['data-target'] = 'mzSignUpModal';
                 // $linkArray['data-nonce'] = wp_create_nonce('mz_signup_nonce');
-                // $linkArray['data-siteID'] = $this->siteID;
+                // $linkArray['data-siteID'] = $this->site_id;
                 // $linkArray['data-classID'] = $this->ID;
                 // $linkArray['data-className'] = $this->className;
                 // $linkArray['data-staffName'] = $this->staffName;
@@ -747,7 +747,7 @@ class ScheduleItem
         $mbo_link .= "&amp;sLoc={$this->sLoc}"; // may be schedule_ID in places.
         $mbo_link .= "&amp;sType=7";
         $mbo_link .= "&amp;sclassid={$this->class_schedule_id}";
-        $mbo_link .= "&amp;studioid={$this->siteID}";
+        $mbo_link .= "&amp;studioid={$this->site_id}";
         return $mbo_link;
     }
 }

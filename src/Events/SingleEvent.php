@@ -304,7 +304,7 @@ class SingleEvent
         $this->end_date        = ( $this->start_date == $maybe_end_date ) ? '' : $maybe_end_date;
         $this->end_time        = wp_date(Core\MzMindbodyApi::$time_format, strtotime($event['EndDateTime']));
         $this->atts            = $atts;
-        $this->siteID          = ! empty($atts['account']) ? $atts['account'] : Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
+        $this->site_id          = ! empty($atts['account']) ? $atts['account'] : Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
         $this->mbo_url         = $this->mbo_url();
         $this->class_name_link = $this->eventLinkMaker('class');
         $this->staff_name_link = $this->eventLinkMaker('staff');
@@ -339,7 +339,7 @@ class SingleEvent
             ) :
                     $linkArray['data-target']    = 'mzSignUpModal';
                     $linkArray['data-nonce']     = wp_create_nonce('mz_signup_nonce');
-                    $linkArray['data-siteID']    = $this->siteID;
+                    $linkArray['data-siteID']    = $this->site_id;
                     $linkArray['data-classID']   = $this->ID;
                     $linkArray['data-className'] = $this->className;
                     $linkArray['data-staffName'] = $this->staffName;
@@ -385,7 +385,7 @@ class SingleEvent
         $mbo_link .= "&amp;sLoc={$this->location_ID}";
         $mbo_link .= "&amp;sType=7";
         $mbo_link .= "&amp;sclassid={$this->class_schedule_id}";
-        $mbo_link .= "&amp;studioid={$this->siteID}";
+        $mbo_link .= "&amp;studioid={$this->site_id}";
         return $mbo_link;
     }
 }

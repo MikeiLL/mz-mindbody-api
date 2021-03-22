@@ -11,7 +11,7 @@ use MZoo\MzMindbody as NS;
     <?php 
     $mbo_link = 'https://clients.mindbodyonline.com/ws.asp';
     $mbo_link .= '?&amp;sLoc=' . $data->location; 
-    $mbo_link .= '&studioid=' . $data->siteID;
+    $mbo_link .= '&studioid=' . $data->site_id;
     ?>
     <a href="<?php esc_html_e($mbo_link); ?>" class="btn btn-primary btn-xs" 
         id="MBOSite">

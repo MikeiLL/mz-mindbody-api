@@ -229,7 +229,7 @@ class MiniScheduleItem
         $this->end_datetime   = $ScheduleItem['EndDateTime'];
         $this->staffName     = isset($ScheduleItem['Staff']['Name']) ? $ScheduleItem['Staff']['Name'] : '';
         $this->ID            = $ScheduleItem['Id'];
-        $this->siteID        = ! empty($atts['account']) ? $atts['account'] : Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
+        $this->site_id        = ! empty($atts['account']) ? $atts['account'] : Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
     }
 
 
@@ -261,7 +261,7 @@ class MiniScheduleItem
         $mbo_link .= "&amp;sLoc={$this->location_ID}";
         $mbo_link .= "&amp;sType=7";
         $mbo_link .= "&amp;sclassid={$this->class_schedule_id}";
-        $mbo_link .= "&amp;studioid={$this->siteID}";
+        $mbo_link .= "&amp;studioid={$this->site_id}";
         return $mbo_link;
     }
 }

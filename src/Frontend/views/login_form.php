@@ -11,7 +11,7 @@ use MZoo\MzMindbody\Core as Core;
 
         <input type="hidden" name="nonce" value="<?php esc_html_e($data->signup_nonce); ?>"/>
 
-        <input type="hidden" name="siteID" value="<?php esc_html_e($data->siteID); ?>" />
+        <input type="hidden" name="siteID" value="<?php esc_html_e($data->site_id); ?>" />
 
         <div class="row">
 
@@ -72,7 +72,7 @@ use MZoo\MzMindbody\Core as Core;
                 <?php 
                 $mbo_link = 'https://clients.mindbodyonline.com/ws.asp';
                 $mbo_link .= '?&amp;sLoc=' . $data->location; 
-                $mbo_link .= '&studioid=' . $data->siteID;
+                $mbo_link .= '&studioid=' . $data->site_id;
                 ?>
                 
                 <a href="<?php esc_html_e($mbo_link); ?>" 
