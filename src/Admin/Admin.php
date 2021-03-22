@@ -89,12 +89,13 @@ class Admin
         $this->localizeScript();
     }
 
-
-    /**
-     * Localize admin script.
-     *
-     * @since 2.4.7
-     */
+	/**
+	 * Localize Script.
+	 *
+	 * Send required variables as javascript object.
+	 *
+	 * @return   void
+	 */
     public function localizeScript()
     {
 

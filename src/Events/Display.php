@@ -233,6 +233,13 @@ class Display extends Interfaces\ShortcodeScriptLoader
         return ob_get_clean();
     }
 
+    /**
+     * Add Script.
+     *
+     * Add scripts if not added already.
+     *
+     * @return   void
+     */
     public function addScript()
     {
         if (! self::$added_already ) {
@@ -266,6 +273,13 @@ class Display extends Interfaces\ShortcodeScriptLoader
         }
     }
 
+	/**
+	 * Localize Script.
+	 *
+	 * Send required variables as javascript object.
+	 *
+	 * @return   void
+	 */
     public function localizeScript()
     {
 
