@@ -182,7 +182,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
 
         ob_start();
 
-        $TemplateLoader = new Core\TemplateLoader();
+        $template_loader = new Core\TemplateLoader();
 
         $this->events_object = new RetrieveEvents($this->atts);
 
@@ -220,8 +220,8 @@ class Display extends Interfaces\ShortcodeScriptLoader
         'all_locations_copy'   => NS\MZMBO()->i18n->get('all_locations_copy'),
         );
 
-        $TemplateLoader->set_template_data($this->template_data);
-        $TemplateLoader->get_template_part('event_listing_container');
+        $template_loader->set_template_data($this->template_data);
+        $template_loader->get_template_part('event_listing_container');
 
         return ob_get_clean();
     }
@@ -310,7 +310,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
 
         $result['type'] = 'success';
 
-        $TemplateLoader = new Core\TemplateLoader();
+        $template_loader = new Core\TemplateLoader();
 
         $this->events_object = new RetrieveEvents($atts);
 
@@ -345,11 +345,11 @@ class Display extends Interfaces\ShortcodeScriptLoader
         $this->template_data['events'] = $events;
         $this->template_data['atts']   = $atts;
 
-        $TemplateLoader->set_template_data($this->template_data);
+        $template_loader->set_template_data($this->template_data);
         if ($atts['list'] != 1 ) :
-            $TemplateLoader->get_template_part('event_listing_full');
+            $template_loader->get_template_part('event_listing_full');
      else :
-         $TemplateLoader->get_template_part('event_listing_list');
+         $template_loader->get_template_part('event_listing_list');
      endif;
 
      $result['message'] = ob_get_clean();

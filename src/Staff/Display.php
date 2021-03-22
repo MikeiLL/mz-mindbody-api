@@ -82,7 +82,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
 
         ob_start();
 
-        $TemplateLoader     = new Core\TemplateLoader();
+        $template_loader     = new Core\TemplateLoader();
         $this->staff_object = new RetrieveStaff($this->atts);
 
         // Call the API and if fails, return error message.
@@ -105,12 +105,12 @@ class Display extends Interfaces\ShortcodeScriptLoader
       'staff' => $mz_staff_list,
      );
 
-     $TemplateLoader->set_template_data($this->template_data);
+     $template_loader->set_template_data($this->template_data);
 
      if ($this->atts['gallery'] != '0' ) {
-         $TemplateLoader->get_template_part('staff_list_gallery');
+         $template_loader->get_template_part('staff_list_gallery');
      } else {
-         $TemplateLoader->get_template_part('staff_list_horizontal');
+         $template_loader->get_template_part('staff_list_horizontal');
      }
 
      return ob_get_clean();
@@ -140,7 +140,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
         check_ajax_referer($_REQUEST['nonce'], 'mz_staff_retrieve_nonce', false);
 
         ob_start();
-        $TemplateLoader = new Core\TemplateLoader();
+        $template_loader = new Core\TemplateLoader();
 
         $staffID = $_REQUEST['staffID'];
 
@@ -157,8 +157,8 @@ class Display extends Interfaces\ShortcodeScriptLoader
         'siteID'        => $_REQUEST['siteID'],
         );
 
-        $TemplateLoader->set_template_data($this->template_data);
-        $TemplateLoader->get_template_part('staff_modal');
+        $template_loader->set_template_data($this->template_data);
+        $template_loader->get_template_part('staff_modal');
 
         $result['message'] = ob_get_clean();
 

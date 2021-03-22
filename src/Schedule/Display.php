@@ -241,7 +241,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
         // Begin generating output
         ob_start();
 
-        $TemplateLoader        = new Core\TemplateLoader();
+        $template_loader        = new Core\TemplateLoader();
         $this->schedule_object = new RetrieveSchedule($this->atts);
 
         // Call the API and if fails, return error message.
@@ -344,8 +344,8 @@ class Display extends Interfaces\ShortcodeScriptLoader
       'grid_schedule'        => $grid_schedule,
      );
 
-     $TemplateLoader->set_template_data($this->template_data);
-     $TemplateLoader->get_template_part('schedule_container');
+     $template_loader->set_template_data($this->template_data);
+     $template_loader->get_template_part('schedule_container');
 
      // Add Style with script adder
      self::addScript();
@@ -442,7 +442,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
 
         $result['type'] = 'success';
 
-        $TemplateLoader = new Core\TemplateLoader();
+        $template_loader = new Core\TemplateLoader();
 
         $this->schedule_object = new RetrieveSchedule($atts);
 
@@ -458,7 +458,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
         $this->template_data['time_format'] = $this->schedule_object->time_format;
         $this->template_data['date_format'] = $this->schedule_object->date_format;
 
-        $TemplateLoader->set_template_data($this->template_data);
+        $template_loader->set_template_data($this->template_data);
 
         // Initialize the variables, so won't be un-set:
         $horizontal_schedule = '';
@@ -468,7 +468,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
             $grid_schedule = $this->schedule_object->sortClassesByTimeThenDate();
             // Update the data array
             $this->template_data['grid_schedule'] = $grid_schedule;
-            $TemplateLoader->get_template_part('grid_schedule');
+            $template_loader->get_template_part('grid_schedule');
             $result['grid'] = ob_get_clean();
         endif;
 
@@ -477,7 +477,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
             $horizontal_schedule = $this->schedule_object->sortClassesByDateThenTime();
             // Update the data array
             $this->template_data['horizontal_schedule'] = $horizontal_schedule;
-            $TemplateLoader->get_template_part('horizontal_schedule');
+            $template_loader->get_template_part('horizontal_schedule');
             $result['horizontal'] = ob_get_clean();
         endif;
 
