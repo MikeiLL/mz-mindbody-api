@@ -54,7 +54,14 @@ class Display extends Interfaces\ShortcodeScriptLoader
      * @var  @array    $data    array to send template.
      */
     public $template_data;
-
+    
+    /**
+     * Handle Shortcode 
+     *
+     * @param    string $atts shortcode inputs
+     * @param    string $content any content between start and end shortcode tags.
+     * @return   string shortcode content
+     */
     public function handleShortcode( $atts, $content = null )
     {
 

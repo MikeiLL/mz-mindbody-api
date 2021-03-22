@@ -151,7 +151,14 @@ class Display extends Interfaces\ShortcodeScriptLoader
      * @var    int $site_id
      */
     public $site_id;
-
+    
+    /**
+     * Handle Shortcode 
+     *
+     * @param    string $atts shortcode inputs
+     * @param    string $content any content between start and end shortcode tags.
+     * @return   string shortcode content
+     */
     public function handleShortcode( $atts, $content = null )
     {
 
