@@ -218,9 +218,9 @@ class SingleEvent
      *
      * @since  2.4.7
      * @access public
-     * @var    int    $siteID    MBO Account for this event.
+     * @var    int    $site_id    MBO Account for this event.
      */
-    public $siteID;
+    public $site_id;
 
     /**
      * Link object for display in schedules.

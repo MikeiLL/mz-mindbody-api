@@ -112,9 +112,9 @@ class Display extends Interfaces\ShortcodeScriptLoader
      *
      * @since  2.4.7
      * @access public
-     * @var    int $siteID
+     * @var    int $site_id
      */
-    public $siteID;
+    public $site_id;
 
     /**
      * Shortcode attributes.

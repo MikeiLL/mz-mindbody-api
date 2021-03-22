@@ -121,7 +121,7 @@ class MiniScheduleItem
      * @access public
      * @var    string $studioID ID of location associated with class
      */
-    public $siteID;
+    public $site_id;
 
     // Attributes we create
 

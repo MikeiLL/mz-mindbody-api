@@ -280,7 +280,7 @@ class ScheduleItem
      * @access public
      * @var    string $studioID ID of location associated with class
      */
-    public $siteID;
+    public $site_id;
 
     /**
      * Level

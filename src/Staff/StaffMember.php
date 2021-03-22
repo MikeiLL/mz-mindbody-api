@@ -113,9 +113,9 @@ class StaffMember
      * Site ID for MBO account AKA MBO Account ID
      *
      * @access public
-     * @var    $siteID int The siteID as set in shortcode or defaulting to options
+     * @var    $site_id int The siteID as set in shortcode or defaulting to options
      */
-    public $siteID;
+    public $site_id;
 
     /**
      * Populate attributes with data from MBO
