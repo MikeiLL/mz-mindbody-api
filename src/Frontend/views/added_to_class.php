@@ -16,7 +16,7 @@
             <svg><use xlink:href="#si-ant-frown"></use></svg>
         <?php endif; ?>
 
-        <h3><?php esc_html_e($data->message); ?></h3>
+        <h3><?php echo $data->message; ?></h3>
 
     </div>
 

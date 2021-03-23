@@ -88,7 +88,7 @@ class HtmlElement
     /* spit it out */
     function output()
     {
-        esc_html_e($this->build());
+        echo $this->build();
     }
 }
 // EOF create an html element

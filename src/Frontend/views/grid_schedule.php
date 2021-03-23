@@ -36,27 +36,27 @@ use MZoo\MzMindbody\Libraries as Libraries;
     ?>
     <?php printf(__('Week of %1$s', 'mz-mindbody-api'), $this_week_start); ?>
 </h4>
-<table class="<?php esc_html_e($data->table_class); ?>">
+<table class="<?php echo $data->table_class; ?>">
     <thead>
         <tr>
             <th scope="header"></th>
             <?php foreach ( $data->week_names as $name ) : ?>
-                <th scope="header"><?php esc_html_e($name); ?></th>
+                <th scope="header"><?php echo $name; ?></th>
             <?php endforeach; ?>
         </tr>
     </thead>
     <tbody>
         <?php foreach ( $data->grid_schedule as $time => $days ) : ?>
         <tr>
-            <td class="mz_hidden"><?php esc_html_e($days['part_of_day']); ?></td>
-            <td><?php esc_html_e($days['display_time']); ?></td>
+            <td class="mz_hidden"><?php echo $days['part_of_day']; ?></td>
+            <td><?php echo $days['display_time']; ?></td>
             <?php foreach ( $days['classes'] as $day_slot ) : ?>
                 <td><?php $classes = count($day_slot); ?>
                 <?php
                 foreach ( $day_slot as $class ) :
                     $classes--;
                     ?>
-                    <div class="mz_schedule_table mz_description_holder mz_location_<?php esc_html_e($class->sLoc . ' ' . $class->session_type_css . ' ' . $class->class_name_css); ?>">
+                    <div class="mz_schedule_table mz_description_holder mz_location_<?php echo $class->sLoc . ' ' . $class->session_type_css . ' ' . $class->class_name_css; ?>">
                     <?php $class->class_name_link->output(); ?>&nbsp;
                     <?php
                     if (! in_array('teacher', $data->hide, true) ) :
@@ -67,7 +67,7 @@ use MZoo\MzMindbody\Libraries as Libraries;
                         $class->staff_name_link->output();
                     endif;
                     ?>
-                    <?php esc_html_e($class->displayCancelled); ?>
+                    <?php echo $class->displayCancelled; ?>
                         <br />
                     <?php
                     if (! in_array('signup', $data->hide, true) ) :
@@ -80,7 +80,7 @@ use MZoo\MzMindbody\Libraries as Libraries;
                         ?>
                              &nbsp;
                         <?php
-                        esc_html_e($class->class_duration->format('%H:%I'));
+                        echo $class->class_duration->format('%H:%I');
                     endif;
                     ?>
                     <?php

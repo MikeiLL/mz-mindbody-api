@@ -430,7 +430,7 @@ class WpOsa
         $type = isset($args['type']) ? $args['type'] : 'title';
 
         $html = '';
-        esc_html_e($html);
+        echo $html;
     }
 
 
@@ -449,7 +449,7 @@ class WpOsa
         $html  = sprintf('<input type="%1$s" class="%2$s-text" id="%3$s[%4$s]" name="%3$s[%4$s]" value="%5$s"placeholder="%6$s"/>', $type, $size, $args['section'], $args['id'], $value, $args['placeholder']);
         $html .= $this->get_field_description($args);
 
-        esc_html_e($html);
+        echo $html;
     }
 
 
@@ -490,7 +490,7 @@ class WpOsa
         $html .= sprintf('%1$s</label>', $args['desc']);
         $html .= '</fieldset>';
 
-        esc_html_e($html);
+        echo $html;
     }
 
     /**
@@ -512,7 +512,7 @@ class WpOsa
         $html .= $this->get_field_description($args);
         $html .= '</fieldset>';
 
-        esc_html_e($html);
+        echo $html;
     }
 
     /**
@@ -534,7 +534,7 @@ class WpOsa
         $html .= $this->get_field_description($args);
         $html .= '</fieldset>';
 
-        esc_html_e($html);
+        echo $html;
     }
 
     /**
@@ -555,7 +555,7 @@ class WpOsa
         $html .= sprintf('</select>');
         $html .= $this->get_field_description($args);
 
-        esc_html_e($html);
+        echo $html;
     }
 
     /**
@@ -572,7 +572,7 @@ class WpOsa
         $html  = sprintf('<textarea rows="5" cols="55" class="%1$s-text" id="%2$s[%3$s]" name="%2$s[%3$s]">%4$s</textarea>', $size, $args['section'], $args['id'], $value);
         $html .= $this->get_field_description($args);
 
-        esc_html_e($html);
+        echo $html;
     }
 
     /**
@@ -583,7 +583,7 @@ class WpOsa
      */
     function callback_html( $args )
     {
-        esc_html_e($this->get_field_description($args));
+        echo $this->get_field_description($args);
     }
 
     /**
@@ -612,7 +612,7 @@ class WpOsa
 
         echo '</div>';
 
-        esc_html_e($this->get_field_description($args));
+        echo $this->get_field_description($args);
     }
 
     /**
@@ -634,7 +634,7 @@ class WpOsa
         $html .= '<input type="button" class="button wpsa-browse" value="' . $label . '" />';
         $html .= $this->get_field_description($args);
 
-        esc_html_e($html);
+        echo $html;
     }
 
     /**
@@ -657,7 +657,7 @@ class WpOsa
         $html .= $this->get_field_description($args);
         $html .= '<p class="wpsa-image-preview"><img src=""/></p>';
 
-        esc_html_e($html);
+        echo $html;
     }
 
     /**
@@ -674,7 +674,7 @@ class WpOsa
         $html  = sprintf('<input type="password" class="%1$s-text" id="%2$s[%3$s]" name="%2$s[%3$s]" value="%4$s"/>', $size, $args['section'], $args['id'], $value);
         $html .= $this->get_field_description($args);
 
-        esc_html_e($html);
+        echo $html;
     }
 
     /**
@@ -691,7 +691,7 @@ class WpOsa
         $html  = sprintf('<input type="text" class="%1$s-text color-picker" id="%2$s[%3$s]" name="%2$s[%3$s]" value="%4$s" data-default-color="%5$s" placeholder="%6$s" />', $size, $args['section'], $args['id'], $value, $args['std'], $args['placeholder']);
         $html .= $this->get_field_description($args);
 
-        esc_html_e($html);
+        echo $html;
     }
 
 
@@ -706,7 +706,7 @@ class WpOsa
 
         $html  = '';
         $html .= '<div class="wpsa-settings-separator"></div>';
-        esc_html_e($html);
+        echo $html;
     }
 
 
@@ -779,7 +779,7 @@ class WpOsa
 
         $html .= '</h2>';
 
-        esc_html_e($html);
+        echo $html;
     }
 
     /**
@@ -793,7 +793,7 @@ class WpOsa
         <div class="metabox-holder">
         <?php foreach ( $this->sections_array as $form ) { ?>
                 <!-- style="display: none;" -->
-                <div id="<?php esc_html_e($form['id']); ?>" class="group" >
+                <div id="<?php echo $form['id']; ?>" class="group" >
                     <form method="post" action="options.php">
             <?php
             do_action('wsa_form_top_' . $form['id'], $form);
