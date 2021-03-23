@@ -19,30 +19,6 @@ use MZoo\MzMindbody as NS;
 class SitePortal extends RetrieveSite
 {
 
-
-    /**
-     * The Mindbody API Object
-     *
-     * @access private
-     */
-    private $_mb;
-
-    /**
-     * Template Date for sending to template partials
-     *
-     * @access private
-     */
-    private $template_data;
-
-    /**
-     * Client ID
-     *
-     * The MBO ID of the Current User/Client
-     *
-     * @access private
-     */
-    private $client_id;
-
     /**
      * Format for date display, specific to MBO API Plugin.
      *
