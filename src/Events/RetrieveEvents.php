@@ -137,15 +137,15 @@ class RetrieveEvents extends Interfaces\RetrieveClasses
             and corresponding value an array of class details */
 
             $single_event = new SingleEvent($class, $this->atts);
-            if (! empty($this->classesByDateThenTime[ $just_date ]) ) {
-                array_push($this->classesByDateThenTime[ $just_date ], $single_event);
+            if (! empty($this->classes_by_date_then_time[ $just_date ]) ) {
+                array_push($this->classes_by_date_then_time[ $just_date ], $single_event);
             } else {
-                $this->classesByDateThenTime[ $just_date ] = array( $single_event );
+                $this->classes_by_date_then_time[ $just_date ] = array( $single_event );
             }
         }
         /* They are not ordered by date so order them by date */
-        ksort($this->classesByDateThenTime);
-        foreach ( $this->classesByDateThenTime as $classDate => &$classes ) {
+        ksort($this->classes_by_date_then_time);
+        foreach ( $this->classes_by_date_then_time as $classDate => &$classes ) {
             /*
             * $classes is an array of all classes for given date
             * Take each of the class arrays and order it by time
@@ -164,6 +164,6 @@ class RetrieveEvents extends Interfaces\RetrieveClasses
             );
         }
 
-        return $this->classesByDateThenTime;
+        return $this->classes_by_date_then_time;
     }
 }

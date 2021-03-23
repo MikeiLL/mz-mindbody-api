@@ -74,9 +74,9 @@ abstract class RetrieveClasses extends Retrieve
      *
      * @since  2.4.7
      * @access public
-     * @var    array $classesByTimeThenDate
+     * @var    array $classes_by_time_then_date
      */
-    public $classesByTimeThenDate;
+    public $classes_by_time_then_date;
 
     /**
      *
@@ -185,7 +185,7 @@ abstract class RetrieveClasses extends Retrieve
         parent::__construct();
         $this->date_format           = Core\MzMindbodyApi::$date_format;
         $this->time_format           = Core\MzMindbodyApi::$time_format;
-        $this->classesByDateThenTime = array();
+        $this->classes_by_date_then_time = array();
         $this->classes               = array();
         $this->atts                  = $atts;
         if (! empty(Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID']) ) :
@@ -357,15 +357,15 @@ abstract class RetrieveClasses extends Retrieve
             and corresponding value an array of class details */
 
             $single_event = new Schedule\ScheduleItem($class, $this->atts);
-            if (! empty($this->classesByDateThenTime[ $just_date ]) ) {
-                array_push($this->classesByDateThenTime[ $just_date ], $single_event);
+            if (! empty($this->classes_by_date_then_time[ $just_date ]) ) {
+                array_push($this->classes_by_date_then_time[ $just_date ], $single_event);
             } else {
-                $this->classesByDateThenTime[ $just_date ] = array( $single_event );
+                $this->classes_by_date_then_time[ $just_date ] = array( $single_event );
             }
         }
         /* They are not ordered by date so order them by date */
-        ksort($this->classesByDateThenTime);
-        foreach ( $this->classesByDateThenTime as $classDate => &$classes ) {
+        ksort($this->classes_by_date_then_time);
+        foreach ( $this->classes_by_date_then_time as $classDate => &$classes ) {
             /*
             * $classes is an array of all classes for given date
             * Take each of the class arrays and order it by time
@@ -386,7 +386,7 @@ abstract class RetrieveClasses extends Retrieve
         // TODO Make padEmptyCalendarDays work
 print_r($this->classes);
 die();
-        return $this->classesByDateThenTime;
+        return $this->classes_by_date_then_time;
     }
 
     /*
@@ -462,16 +462,16 @@ die();
             $single_event = new Schedule\ScheduleItem($class, $this->atts);
 
             // If there's is already an array for this time slot, add to it.
-            if (! empty($this->classesByTimeThenDate[ $classTime ]) ) {
+            if (! empty($this->classes_by_time_then_date[ $classTime ]) ) {
                 // Create a $single_event which is a "class" object, and start the classes array with it.
-                array_push($this->classesByTimeThenDate[ $classTime ]['classes'], $single_event);
+                array_push($this->classes_by_time_then_date[ $classTime ]['classes'], $single_event);
             } else {
                 // Assign the first element of this time slot.
                 $display_time                              = wp_date(
                     Core\MzMindbodyApi::$time_format,
                     strtotime($class['StartDateTime'])
                 );
-                $this->classesByTimeThenDate[ $classTime ] = array(
+                $this->classes_by_time_then_date[ $classTime ] = array(
                 'display_time' => $display_time,
                 // Add part_of_day for filter as well
                 'part_of_day'  => $single_event->part_of_day,
@@ -480,8 +480,8 @@ die();
             }
         }
         // Timeslot keys in new array are not time-sequenced so do so.
-        ksort($this->classesByTimeThenDate);
-        foreach ( $this->classesByTimeThenDate as $scheduleTime => &$classes ) {
+        ksort($this->classes_by_time_then_date);
+        foreach ( $this->classes_by_time_then_date as $scheduleTime => &$classes ) {
             /*
             * $classes is an array of all class_event objects for given time
             * Take each of the class arrays and order it by days 1-7
@@ -499,7 +499,7 @@ die();
             $classes['classes'] = $this->weekOfTimeslot($classes['classes'], 'day_num');
         }
 
-        return $this->classesByTimeThenDate;
+        return $this->classes_by_time_then_date;
     }
 
 
