@@ -25,7 +25,7 @@ class SitePortal extends RetrieveSite
      *
      * @access private
      */
-    private $mb;
+    private $_mb;
 
     /**
      * Template Date for sending to template partials

@@ -255,10 +255,17 @@ abstract class RetrieveClasses extends Retrieve
 
             // Otherwise (if successful API call) assign result to $this->classes.
             $this->classes = $schedule_data['Classes'];
+
             // Store the transient for 12 hours or admin set duration
-            $transient_duration = ! empty(Core\MzMindbodyApi::$advanced_options['schedule_transient_duration']) ? Core\MzMindbodyApi::$advanced_options['schedule_transient_duration'] : 43200;
+            $transient_duration = 43200;
+            if (! empty(Core\MzMindbodyApi::$advanced_options['schedule_transient_duration'])) {
+                $transient_duration = Core\MzMindbodyApi::$advanced_options['schedule_transient_duration'];
+            }
+
             set_transient($transient_string, $this->classes, $transient_duration);
+
         } else {
+            
             $this->classes = get_transient($transient_string);
         }
 
@@ -277,7 +284,10 @@ abstract class RetrieveClasses extends Retrieve
      */
     public function singleWeek( $timestamp )
     {
-        return get_weekstartend(date('Y-m-d H:i:s', $timestamp), Core\MzMindbodyApi::$start_of_week);
+        return get_weekstartend(
+                                date('Y-m-d H:i:s', $timestamp),
+                                Core\MzMindbodyApi::$start_of_week
+                            );
     }
 
     /**
