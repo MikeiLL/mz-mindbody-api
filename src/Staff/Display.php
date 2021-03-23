@@ -168,7 +168,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
         $this->template_data = array(
         'staff_details' => new StaffMember($staff_result[0]), // returns an array
         'staffID'       => $staffID,
-        'siteID'        => $_REQUEST['siteID'],
+        'site_id'        => $_REQUEST['site_id'],
         );
 
         $template_loader->set_template_data($this->template_data);

@@ -215,7 +215,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
         'heading_time'         => __('Time', 'mz_mindbody-api'),
         'heading_event'        => __('Event', 'mz_mindbody-api'),
         'heading_location'     => __('Location', 'mz_mindbody-api'),
-        'siteID'               => $this->site_id,
+        'site_id'               => $this->site_id,
         'with'                 => NS\MZMBO()->i18n->get('with'),
         'login'                => NS\MZMBO()->i18n->get('login'),
         'login_to_sign_up'     => NS\MZMBO()->i18n->get('login_to_sign_up'),
@@ -301,7 +301,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
         'signup_heading' => $translated_strings['signup_heading'],
         'Locations_dict' => wp_json_encode($locations_dictionary),
         'signup_nonce'   => wp_create_nonce('mz_signup_nonce'),
-        'siteID'         => $this->site_id,
+        'site_id'         => $this->site_id,
         'location'       => $this->sLoc,
         'with'           => NS\MZMBO()->i18n->get('with'),
         );

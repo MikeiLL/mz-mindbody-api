@@ -69,7 +69,7 @@ use MZoo\MzMindbody\Core as Core;
                     <?php echo esc_html($data->registration_button); ?>
                 </a>
                 
-                <a href="https://clients.mindbodyonline.com/ws.asp?&amp;sLoc=1&studioid=<?php echo $data->siteID; ?>" class="btn btn-primary btn-xs" id="MBOSite"><?php echo $data->manage_on_mbo; ?></a>
+                <a href="https://clients.mindbodyonline.com/ws.asp?&amp;sLoc=1&studioid=<?php echo $data->site_id; ?>" class="btn btn-primary btn-xs" id="MBOSite"><?php echo $data->manage_on_mbo; ?></a>
                 $mbo_link = 'https://clients.mindbodyonline.com/ws.asp';
                 $mbo_link .= '?&amp;sLoc=' . $data->location; 
                 $mbo_link .= '&studioid=' . $data->site_id;
