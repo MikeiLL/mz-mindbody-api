@@ -13,35 +13,35 @@
             <label for="Password"> <?php echo $data->password; ?></label> <input type="password" name="data[Client][Password]" id="Password" placeholder="<?php echo $data->password; ?>" required /><br />
             <label for="FirstName"> <?php echo $data->firstname; ?></label> <input type="text" name="data[Client][FirstName]" id="FirstName" placeholder="<?php echo $data->firstname; ?>" required /><br />
             <label for="LastName"> <?php echo $data->lastname; ?></label> <input type="text" name="data[Client][LastName]" id="LastName" placeholder="<?php echo $data->lastname; ?>" required /><br />
-            <?php echo $data->requiredFieldsInputs; ?><br />
+            <?php echo esc_html($data->requiredFieldsInputs); ?><br />
             <button type="submit" class="btn btn-primary"><?php echo $data->sign_up; ?></button>
-                <?php esc_html_e($data->clientemail); ?>
+                <?php echo esc_html($data->clientemail); ?>
             </label>
             <input type="text" name="data[Client][Email]" id="Email" 
                 placeholder="<?php esc_html_e($data->clientemail); ?>" required />
             <br />
             <label for="Password">
-                <?php esc_html_e($data->password); ?>
+                <?php echo esc_html($data->password); ?>
             </label>
             <input type="password" name="data[Client][Password]" id="Password" 
                 placeholder="<?php esc_html_e($data->password); ?>" required />
             <br />
             <label for="FirstName">
-                <?php esc_html_e($data->firstname); ?>
+                <?php echo esc_html($data->firstname); ?>
             </label>
             <input type="text" name="data[Client][FirstName]" id="FirstName" 
                 placeholder="<?php esc_html_e($data->firstname); ?>" required />
             <br />
             <label for="LastName">
-                <?php esc_html_e($data->lastname); ?>
+                <?php echo esc_html($data->lastname); ?>
             </label>
             <input type="text" name="data[Client][LastName]" id="LastName" 
                 placeholder="<?php esc_html_e($data->lastname); ?>" required />
             <br />
-            <?php esc_html_e($data->requiredFieldsInputs); ?>
+            <?php echo esc_html($data->requiredFieldsInputs); ?>
             <br />
             <button type="submit" class="btn btn-primary">
-                <?php esc_html_e($data->sign_up); ?>
+                <?php echo esc_html($data->sign_up); ?>
             </button>
 
     </form>

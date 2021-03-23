@@ -8,14 +8,14 @@ if (( $data->atts['location_filter'] == 1 ) && ( count($data->locations_dictiona
     ?>
     <div id="locations_filter">
         <a class="btn btn-primary filter_btn active" data-location="all"><?php echo $data->all_locations_copy; ?></a>
-            <?php esc_html_e($data->all_locations_copy); ?>
+            <?php echo esc_html($data->all_locations_copy); ?>
         </a>
     <?php
     foreach ( $data->locations_dictionary as $key => $loc ) :
         ?>
             <a class="btn btn-primary filter_btn" data-location="<?php echo $loc['class']; ?>"><?php echo $loc['name']; ?></a>
                 data-location="<?php esc_html_e($loc['class']); ?>">
-                <?php esc_html_e($loc['name']); ?>
+                <?php echo esc_html($loc['name']); ?>
             </a>
         <?php
     endforeach;
@@ -31,7 +31,7 @@ if (( is_array($data->events) ) && ! empty($data->events) ) :
         <div class="mz_full_listing_event <?php echo $data->locations_dictionary[ $event->location_ID ]['class']; ?>">
             <h3 class="mz_full_listing_event__title"><?php echo $event->className; ?></h3>
             <h3 class="mz_full_listing_event__title">
-                <?php esc_html_e($event->className); ?>
+                <?php echo esc_html($event->className); ?>
             </h3>
             <span class="mz_full_listing_event__staff">
             <?php echo $data->with . ' ' . $event->staff_name_link->build(); ?>
@@ -65,7 +65,7 @@ if (( is_array($data->events) ) && ! empty($data->events) ) :
 <?php elseif (count($data->events) == 0 ) : ?>
     <h4><?php echo $data->no_events; ?></h4>
 <?php else : ?>
-    <div class="error"><?php esc_html_e('Error Retrieving Events', 'mz-mindbody-api'); ?></div>
+    <div class="error"><?php echo esc_html('Error Retrieving Events', 'mz-mindbody-api'); ?></div>
     <p><?php var_dump($data->events); ?></p>
 
 <?php endif; ?>

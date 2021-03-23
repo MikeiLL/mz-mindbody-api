@@ -13,7 +13,7 @@ use MZoo\MzMindbody as NS;
     $mbo_link .= '?&amp;sLoc=' . $data->location; 
     $mbo_link .= '&studioid=' . $data->site_id;
     ?>
-    <a href="<?php esc_html_e($mbo_link); ?>" class="btn btn-primary btn-xs" 
+    <a href="<?php echo esc_html($mbo_link); ?>" class="btn btn-primary btn-xs" 
         id="MBOSite">
         <?php esc_html_e('Manage on Mindbody Site', 'mz-mindbody-api'); ?>
     </a>

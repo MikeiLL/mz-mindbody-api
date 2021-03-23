@@ -376,7 +376,7 @@ abstract class RetrieveClasses extends Retrieve
                 $classes,
                 function ( $a, $b ) {
 
-                    if ($a->start_datetime == $b->start_datetime ) {
+                    if ($a->start_datetime === $b->start_datetime ) {
                         return 0;
                     }
                     return $a->start_datetime < $b->start_datetime ? -1 : 1;
@@ -384,6 +384,8 @@ abstract class RetrieveClasses extends Retrieve
             );
         }
         // TODO Make padEmptyCalendarDays work
+print_r($this->classes);
+die();
         return $this->classesByDateThenTime;
     }
 

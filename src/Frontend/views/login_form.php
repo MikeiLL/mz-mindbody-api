@@ -58,15 +58,15 @@ use MZoo\MzMindbody\Core as Core;
             <div class="col-12">
 
                 <button type="submit" class="btn btn-primary"><?php echo $data->login; ?></button>
-                    <?php esc_html_e($data->login); ?>
+                    <?php echo esc_html($data->login); ?>
                 </button>
 
                 <a id="createMBOAccount" href="#" data-nonce="<?php echo $data->signup_nonce; ?>" data-classID="<?php echo $data->classID; ?>" class="btn btn-primary btn-xs"><?php echo $data->registration_button; ?></a>
                     href="#" 
-                    data-nonce="<?php esc_html_e($data->signup_nonce); ?>" 
-                    data-classID="<?php esc_html_e($data->classID); ?>" 
+                    data-nonce="<?php echo esc_html($data->signup_nonce); ?>" 
+                    data-classID="<?php echo esc_html($data->classID); ?>" 
                     class="btn btn-primary btn-xs">
-                    <?php esc_html_e($data->registration_button); ?>
+                    <?php echo esc_html($data->registration_button); ?>
                 </a>
                 
                 <a href="https://clients.mindbodyonline.com/ws.asp?&amp;sLoc=1&studioid=<?php echo $data->siteID; ?>" class="btn btn-primary btn-xs" id="MBOSite"><?php echo $data->manage_on_mbo; ?></a>
@@ -78,7 +78,7 @@ use MZoo\MzMindbody\Core as Core;
                 <a href="<?php esc_html_e($mbo_link); ?>" 
                     class="btn btn-primary btn-xs" 
                     style="text-decoration:none;" id="MBOSite">
-                    <?php esc_html_e($data->manage_on_mbo); ?>
+                    <?php echo esc_html($data->manage_on_mbo); ?>
                 </a>
 
             </div>
