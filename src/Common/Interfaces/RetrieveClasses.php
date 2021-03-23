@@ -63,7 +63,7 @@ abstract class RetrieveClasses extends Retrieve
      *
      * @since  2.4.7
      * @access public
-     * @var    arrray $classes_by_date_then_time
+     * @var    array $classes_by_date_then_time
      */
     public $classes_by_date_then_time;
 
@@ -384,8 +384,6 @@ abstract class RetrieveClasses extends Retrieve
             );
         }
         // TODO Make padEmptyCalendarDays work
-print_r($this->classes);
-die();
         return $this->classes_by_date_then_time;
     }
 
@@ -541,11 +539,12 @@ die();
     protected function filterClass( $class )
     {
 
-        if (( ! in_array($class['Location']['Id'], $this->atts['locations'], true) ) 
+        if (( ! in_array($class['Location']['Id'], $this->atts['locations']) ) 
             || ( ! in_array($class['ClassDescription']['Program']['ScheduleType'], $this->schedule_types, true) )
         ) {
             return false;
         }
+        
         if (! empty($this->atts['session_types']) ) {
             if (! in_array($class['ClassDescription']['SessionType']['Name'], $this->atts['session_types'], true) ) {
                 return false;
