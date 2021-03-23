@@ -23,7 +23,7 @@ class RetrieveSite extends Interfaces\Retrieve
      *
      * @access private
      */
-    private $_mb;
+    private $mb;
 
     /**
      * Format for date display, specific to MBO API Plugin.
@@ -64,7 +64,7 @@ class RetrieveSite extends Interfaces\Retrieve
 
         $this->getMboResults();
 
-        $result = $this->_mb->GetMemberships();
+        $result = $this->mb->GetMemberships();
 
         return $result;
     }
@@ -79,7 +79,7 @@ class RetrieveSite extends Interfaces\Retrieve
 
         $this->getMboResults();
 
-        $result = $this->_mb->GetPrograms();
+        $result = $this->mb->GetPrograms();
 
         return $result;
     }
@@ -94,7 +94,7 @@ class RetrieveSite extends Interfaces\Retrieve
 
         $this->getMboResults();
 
-        $result = $this->_mb->GetResources();
+        $result = $this->mb->GetResources();
 
         return $result;
     }
