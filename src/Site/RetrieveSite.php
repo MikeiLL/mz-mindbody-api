@@ -112,7 +112,7 @@ class RetrieveSite extends Interfaces\Retrieve
 
         $this->mb = $this->instantiateMboApi();
 
-        if (! $this->mb || $this->mb == 'NO_API_SERVICE' ) {
+        if (! $this->mb || 'NO_API_SERVICE' === $this->mb  ) {
             return false;
         }
 
