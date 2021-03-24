@@ -43,7 +43,7 @@ abstract class Retrieve
         $basic_options = get_option('mz_mbo_basic', 'Error: No Options');
         if ($basic_options == 'Error: No Options' || empty($basic_options) ) {
             return false;
-        } elseif ($api_version == 6 ) {
+        } elseif (6 === $api_version ) {
             return new Libraries\MboV6Api(
                 array(
                 'mz_source_name'       => $basic_options['mz_source_name'],
