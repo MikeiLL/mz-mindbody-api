@@ -333,25 +333,10 @@ class SingleEvent
 
             $linkArray['data-time'] = wp_date(Core\MzMindbodyApi::$date_format . ' ' . Core\MzMindbodyApi::$time_format, strtotime($this->start_datetime));
 
-            if (( ! empty($this->atts['advanced']) 
-                && ( $this->atts['advanced'] == '1' ) ) 
-                || ( Core\MzMindbodyApi::$advanced_options['register_within_site'] == 'on') 
-            ) :
-                    $linkArray['data-target']    = 'mzSignUpModal';
-                    $linkArray['data-nonce']     = wp_create_nonce('mz_signup_nonce');
-                    $linkArray['data-siteID']    = $this->site_id;
-                    $linkArray['data-classID']   = $this->ID;
-                    $linkArray['data-className'] = $this->className;
-                    $linkArray['data-staffName'] = $this->staffName;
-                    $linkArray['data-location']  = $this->location_ID;
-                    $class_name_link->set(
-                        'href', 
-                        NS\PLUGIN_NAME_URL . 'src/Frontend/views/modals/modal_descriptions.php'
-                    );
-                else :
-                      $linkArray['target'] = '_blank';
-                      $class_name_link->set('href', $this->mbo_url);
-                endif;
+            $linkArray['target'] = '_blank';
+            
+            $class_name_link->set('href', $this->mbo_url);
+            
             break;
 
         case 'class':

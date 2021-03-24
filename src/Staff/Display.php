@@ -151,7 +151,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
     function get_staff_modal()
     {
 
-        check_ajax_referer($_REQUEST['nonce'], 'mz_staff_retrieve_nonce');
+        check_ajax_referer('mz_staff_retrieve_nonce', 'nonce');
 
         ob_start();
         $template_loader = new Core\TemplateLoader();

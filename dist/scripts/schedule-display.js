@@ -100,7 +100,7 @@
 (function ($) {
   $(document).ready(function ($) {
     // Initialize some variables
-    var nonce = mz_mindbody_schedule.nonce,
+    var display_schedule_nonce = mz_mindbody_schedule.display_schedule_nonce,
         atts = mz_mindbody_schedule.atts,
         container = $('#mzScheduleDisplay'),
         htmlRegistrants = '',
@@ -165,7 +165,7 @@
         url: mz_mindbody_schedule.ajaxurl,
         data: {
           action: 'mz_display_schedule',
-          nonce: nonce,
+          nonce: display_schedule_nonce,
           atts: atts
         },
         success: function success(json) {

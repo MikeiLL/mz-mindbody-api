@@ -331,8 +331,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
       'swap_button_text'     => $this->swap_button_text,
       'time_format'          => $this->schedule_object->time_format,
       'date_format'          => $this->schedule_object->date_format,
-      'data_nonce'           => wp_create_nonce('mz_schedule_display_nonce'),
-      'site_id'               => $this->site_id,
+      'site_id'              => $this->site_id,
       'week_names'           => $week_names,
       'start_date'           => $this->schedule_object->start_date,
       'end_date'             => $this->schedule_object->current_week_end,
@@ -342,7 +341,6 @@ class Display extends Interfaces\ShortcodeScriptLoader
       'locations_dictionary' => $this->schedule_object->locations_dictionary,
       'login'                => NS\MZMBO()->i18n->get('login'),
       'login_to_sign_up'     => NS\MZMBO()->i18n->get('login_to_sign_up'),
-      'signup_nonce'         => wp_create_nonce('mz_signup_nonce'),
       'registration_button'  => NS\MZMBO()->i18n->get('registration_button'),
       'username'             => NS\MZMBO()->i18n->get('username'),
       'password'             => NS\MZMBO()->i18n->get('password'),
@@ -411,7 +409,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
 
         $params = array(
         'ajaxurl'               => admin_url('admin-ajax.php', $protocol),
-        'nonce'                 => wp_create_nonce('mz_schedule_display_nonce'),
+        'display_schedule_nonce' => wp_create_nonce('mz_display_schedule'),
         'atts'                  => $this->atts,
         'with'                  => __('with', 'mz-mindbody-api'),
         'account'               => Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'],
@@ -435,7 +433,6 @@ class Display extends Interfaces\ShortcodeScriptLoader
         'logout'                => $translated_strings['logout'],
         'signup_heading'        => $translated_strings['signup_heading'],
         'Locations_dict'        => wp_json_encode($locations_dictionary),
-        'signup_nonce'          => wp_create_nonce('mz_signup_nonce'),
         'site_id'                => $this->site_id,
         'location'              => $this->sLoc,
         );
@@ -457,12 +454,12 @@ class Display extends Interfaces\ShortcodeScriptLoader
     public function display_schedule()
     {
 
-        check_ajax_referer($_REQUEST['nonce'], 'mz_schedule_display_nonce');
+        check_ajax_referer( 'mz_display_schedule', 'nonce' );
 
         $atts = $_REQUEST['atts'];
-
+        
         $result['type'] = 'success';
-
+                
         $template_loader = new Core\TemplateLoader();
 
         $this->schedule_object = new RetrieveSchedule($atts);
