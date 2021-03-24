@@ -3,7 +3,12 @@
     $(document).ready(function ($) {
 
         // Initialize some variables
-        var nonce = mz_mindbody_schedule.nonce,
+        var mz_admin_nonce = mz_mindbody_schedule.admin_nonce,
+            clear_transients_nonce = mz_mindbody_schedule.clear_transients_nonce,
+            get_save_token_nonce = mz_mindbody_schedule.get_save_token_nonce,
+            test_credentials_nonce = mz_mindbody_schedule.test_credentials_nonce,
+            test_credentials_v5_nonce = mz_mindbody_schedule.test_credentials_v5_nonce,
+            deduce_class_owners_nonce = mz_mindbody_schedule.deduce_class_owners_nonce,
             atts = mz_mindbody_schedule.atts;
 
         /**
@@ -18,7 +23,7 @@
                 dataType: "json",
                 context: this,
                 url: mz_mindbody_schedule.ajaxurl,
-                data: {action: 'mz_mbo_clear_transients', nonce: nonce},
+                data: {action: 'mz_mbo_clear_transients', nonce: clear_transients_nonce},
                 success: function (json) {
                     if (json.type == "success") {
                         alert(json.message);
@@ -46,7 +51,7 @@
                 dataType: "json",
                 context: this,
                 url: mz_mindbody_schedule.ajaxurl,
-                data: {action: 'mz_mbo_get_and_save_token', nonce: nonce},
+                data: {action: 'mz_mbo_get_and_save_token', nonce: get_save_token_nonce},
                 success: function (json) {
                     if (json.type == "success") {
                         alert(" New token retrieved and saved: " + json.message);
@@ -77,7 +82,7 @@
                 dataType: "json",
                 context: this,
                 url: mz_mindbody_schedule.ajaxurl,
-                data: {action: 'mz_mbo_test_credentials', nonce: nonce},
+                data: {action: 'mz_mbo_test_credentials', nonce: test_credentials_nonce},
                 success: function (json) {
                     if (json.type == "success") {
                         self.removeClass('disabled');
@@ -114,7 +119,7 @@
                 dataType: "json",
                 context: this,
                 url: mz_mindbody_schedule.ajaxurl,
-                data: {action: 'mz_mbo_test_credentials_v5', nonce: nonce},
+                data: {action: 'mz_mbo_test_credentials_v5', nonce: test_credentials_v5_nonce},
                 success: function (json) {
                     if (json.type == "success") {
                         self.removeClass('disabled');
@@ -163,7 +168,7 @@
                 dataType: "json",
                 context: this,
                 url: mz_mindbody_schedule.ajaxurl,
-                data: {action: 'mz_deduce_class_owners', nonce: nonce},
+                data: {action: 'mz_deduce_class_owners', nonce: deduce_class_owners_nonce},
                 success: function (json) {
                     self.removeClass('disabled');
                     $('#class_owners_spinner').remove();

@@ -96,14 +96,17 @@ class Admin
      */
     public function localizeScript()
     {
-
+        
         $protocol = isset($_SERVER['HTTPS']) ? 'https://' : 'http://';
-
-        $nonce = wp_create_nonce('mz_admin_nonce');
-
+        
         $params = array(
         'ajaxurl' => admin_url('admin-ajax.php', $protocol),
-        'nonce'   => $nonce,
+        'admin_nonce'   => $admin_nonce,
+        'get_save_token_nonce'   => wp_create_nonce('mz_mbo_get_and_save_token'),
+        'clear_transients_nonce'   => wp_create_nonce('mz_mbo_clear_transients'),
+        'test_credentials_nonce'   => wp_create_nonce('mz_mbo_test_credentials'),
+        'test_credentials_v5_nonce'   => wp_create_nonce('mz_mbo_test_credentials_v5'),
+        'deduce_class_owners_nonce'   => wp_create_nonce('mz_deduce_class_owners'),
         'spinner' => site_url('/wp-includes/js/thickbox/loadingAnimation.gif'),
         );
 
@@ -317,8 +320,7 @@ class Admin
      */
     public function ajax_clear_plugin_transients()
     {
-
-        check_ajax_referer($_REQUEST['nonce'], 'mz_admin_nonce');
+        check_admin_referer('mz_mbo_clear_transients', 'nonce');
 
         $sql_response = $this->clear_plugin_transients();
 
@@ -326,12 +328,16 @@ class Admin
 
         // Initialize message
         $result['message'] = __('No transients to clear.', 'mz-mindbody-api');
-
+        //$result['message'] = wp_verify_nonce( $_REQUEST[ 'nonce' ], 'mz_mbo_clear_transients' );
+        //$result['message'] = print_r($_REQUEST, true);
+        //$result['message'] .= print_r(wp_verify_nonce( $_REQUEST['nonce'], 'mz_mbo_clear_transients' ), true);
         if (false != $sql_response ) :
             $result['message'] = sprintf(__('Cleared %d transients. Page reloads will re-set them.', 'mz-mindbody-api'), $sql_response);
         endif;
 
-        if (! empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' ) {
+        if (! empty($_SERVER['HTTP_X_REQUESTED_WITH'])  
+            && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' 
+        ) {
             $result = wp_json_encode($result);
             echo $result;
         } else {
@@ -351,8 +357,8 @@ class Admin
     public function ajax_get_and_save_token()
     {
 
-        check_ajax_referer($_REQUEST['nonce'], 'mz_admin_nonce');
-
+        check_admin_referer('mz_mbo_get_and_save_token', 'nonce');
+        
         $token_object = new Common\TokenManagement();
         $token        = $token_object->get_and_save_token();
 
@@ -361,10 +367,11 @@ class Admin
         // Initialize message
         $result['message'] = sprintf(__('Error getting token %s .', 'mz-mindbody-api'), $token);
 
-        if (ctype_alnum($token) ) :
-            $result['message'] = sprintf(__('Fetched and stored %s .', 'mz-mindbody-api'), $token);
-        endif;
-
+        // if (ctype_alnum($token) ) :
+        //     $result['message'] = sprintf(__('Fetched and stored %s .', 'mz-mindbody-api'), $token);
+        // endif;
+        $result['message'] = print_r($_REQUEST, true);
+        $result['message'] .= print_r(wp_verify_nonce($_REQUEST['nonce'], 'mz_admin_nonce'), true);
         if (! empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' ) {
             $result = wp_json_encode($result);
             echo $result;
@@ -413,7 +420,7 @@ class Admin
     public function test_credentials()
     {
 
-        check_ajax_referer($_REQUEST['nonce'], 'mz_admin_nonce');
+        check_admin_referer('mz_mbo_test_credentials', 'nonce');
 
         $return  = '<p>';
         $return .= sprintf(
@@ -449,7 +456,7 @@ class Admin
     public function test_credentials_v5()
     {
 
-        check_ajax_referer($_REQUEST['nonce'], 'mz_admin_nonce');
+        check_admin_referer('mz_mbo_test_credentials_v5', 'nonce');
 
         $return       = '<p>';
         $return      .= sprintf(

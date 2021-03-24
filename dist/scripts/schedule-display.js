@@ -1,2 +1,459 @@
-!function(t){var e={};function a(s){if(e[s])return e[s].exports;var i=e[s]={i:s,l:!1,exports:{}};return t[s].call(i.exports,i,i.exports,a),i.l=!0,i.exports}a.m=t,a.c=e,a.d=function(t,e,s){a.o(t,e)||Object.defineProperty(t,e,{enumerable:!0,get:s})},a.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},a.t=function(t,e){if(1&e&&(t=a(t)),8&e)return t;if(4&e&&"object"==typeof t&&t&&t.__esModule)return t;var s=Object.create(null);if(a.r(s),Object.defineProperty(s,"default",{enumerable:!0,value:t}),2&e&&"string"!=typeof t)for(var i in t)a.d(s,i,function(e){return t[e]}.bind(null,i));return s},a.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return a.d(e,"a",e),e},a.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},a.p="",a(a.s=13)}({13:function(t,e,a){"use strict";jQuery(document).ready((function(t){var e,a=mz_mindbody_schedule.nonce,s=mz_mindbody_schedule.atts,i=t("#mzScheduleDisplay"),n="";function o(){e&&clearTimeout(e),e=setTimeout((function(){jQuery("#cboxOverlay").is(":visible")&&jQuery.colorbox.resize({width:"90%",height:"90%"})}),300)}function d(t,e){"previous"==t.className?e.forEach((function(t){t.setAttribute("data-offset",parseInt(t.getAttribute("data-offset"))+parseInt(1))})):"following"==t.className&&e.forEach((function(t){t.setAttribute("data-offset",t.getAttribute("data-offset")-1)}))}function l(){var e=function(t){t.find("tr").removeClass("striped").filter(":visible:even").addClass("striped")};t("table.mz-schedule-filter").length?(t("table.mz-schedule-filter").filterTable({callback:function(t,a){e(a)},placeholder:mz_mindbody_schedule.filter_default,highlightClass:"alt",inputType:"search",label:mz_mindbody_schedule.label,selector:mz_mindbody_schedule.selector,quickListClass:"mz_quick_filter",quickList:[mz_mindbody_schedule.quick_1,mz_mindbody_schedule.quick_2,mz_mindbody_schedule.quick_3],locations:mz_mindbody_schedule.Locations_dict}),e(t("table.mz-schedule-filter"))):e(t("table.mz-schedule-table")),t(".mz_date_display").each((function(e,a){this.dataset.time&&Date.parse(this.dataset.time.replace(/-/g,"/").replace(/T/g," "))<Date.now()&&t(this).find("a").addClass("disabled")})),t(".grid-sign-up-button").each((function(e,a){this.dataset.time&&Date.parse(this.dataset.time.replace(/-/g,"/").replace(/T/g," "))<Date.now()&&t(this).addClass("disabled")})),t("a[data-target=mzStaffScheduleModal]").each((function(e,a){this.dataset.sub&&!this.dataset.marked_as_sub&&(t(this).after('&nbsp;<a href="#" title="'+mz_mindbody_schedule.sub_by_text+" "+this.dataset.sub+'" style="text-decoration:none;" onclick="return false"><svg height="20" width="20"><circle cx="10" cy="10" r="8" stroke="black" stroke-width="1" fill="white" /><text x="50%" y="50%" text-anchor="middle" fill="black" font-size="15px" font-family="Arial" dy=".25em">s</text></svg></a>'),this.dataset.marked_as_sub=!0)}))}t.colorbox.settings.width=t(window).innerWidth()<=500?"95%":"75%",t.colorbox.settings.height="75%",t(window).resize(o),window.addEventListener("orientationchange",o,!1),l(),t("#mzScheduleNavHolder .following, #mzScheduleNavHolder .previous").on("click",(function(e){e.preventDefault(),i.children().each((function(e){t(this).html("")})),i.toggleClass("spinner-border");var n=[].slice.call(document.getElementById("mzScheduleNavHolder").children);s.offset=this.dataset.offset,"following"==this.className?n.forEach((function(t){t.setAttribute("data-offset",parseInt(t.getAttribute("data-offset"))+parseInt(1))})):"previous"==this.className&&n.forEach((function(t){t.setAttribute("data-offset",t.getAttribute("data-offset")-1)})),t.ajax({type:"post",dataType:"json",context:this,url:mz_mindbody_schedule.ajaxurl,data:{action:"mz_display_schedule",nonce:a,atts:s},success:function(t){"success"==t.type?(i.toggleClass("spinner-border"),t.grid&&t.horizontal?(document.getElementById("gridDisplay").innerHTML=t.grid,document.getElementById("horizontalDisplay").innerHTML=t.horizontal):t.grid?document.getElementById("gridDisplay").innerHTML=t.grid:document.getElementById("horizontalDisplay").innerHTML=t.horizontal,l()):(d(this,n),i.toggleClass("spinner-border"),i.html(t.message),l())}}).fail((function(t){d(this,n),i.toggleClass("spinner-border"),i.html("Sorry but there was an error retrieving schedule.")}))})),t(document).on("click","a[data-target=mzModal]",(function(e){e.preventDefault();var a=t(this).attr("href"),s=this.getAttribute("data-staffName"),i=decodeURIComponent(this.getAttribute("data-classDescription")),n="<h3>"+this.innerHTML+" "+mz_mindbody_schedule.with+" "+s+"</h3>";return void 0!==t(this).attr("data-sub")&&mz_mindbody_schedule.sub_by_text,n+='<div class="mz-staffInfo" id="StaffInfo">'+i+"</div>",t("#mzModal").load(a,(function(){t.colorbox({html:n,href:a}),t("#mzModal").colorbox()})),!1})),t(document).on("click","a[data-target=registrantModal]",(function(e){e.preventDefault();var a=t(this).attr("href"),s=t(this).attr("data-classDescription"),i=t(this).attr("data-staffName"),o=t(this).attr("data-staffImage"),l=t(this).attr("data-className"),r=t(this).attr("data-classID"),c=t(this).attr("data-nonce"),u='<div class="mz-classInfo">';void 0!==t(this).attr("data-sub")&&mz_mindbody_schedule.sub_by_text,u+="<h3>"+l+"</h3>",u+="<h4>"+mz_mindbody_schedule.with+" "+i+"</h4>",void 0!==o&&(u+='<img class="mz-staffImage" src="'+o+'" />');var f='<div class="mz_modalClassDescription">';return f+="<div class='class-description'>"+decodeURIComponent(s)+"</div></div>",u+=f,u+="</div>",u+="<h3>"+mz_mindbody_schedule.registrants_header+"</h3>",u+='<div id="modalRegistrants"><div id="ClassRegistrants" style="min-height:90px;">',u+='<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>',u+="</div></div>",t("#registrantModal").load(a,(function(){t.colorbox({html:u,href:a}),t("#registrantModal").colorbox()})),t.ajax({type:"GET",dataType:"json",url:mz_mindbody_schedule.ajaxurl,data:{action:"mz_mbo_get_registrants",nonce:c,classID:r},success:function(e){"success"==e.type?(n='<ul class="mz-classRegistrants">',t.isArray(e.message)?e.message.forEach((function(t){n+="<li>"+t.replace("_"," ")+"</li>"})):n+="<li>"+e.message+"</li>",n+="</ul>",t("#modalRegistrants").find("#ClassRegistrants")[0].innerHTML=n):t("#modalRegistrants").find("#ClassRegistrants")[0].innerHTML=mz_mindbody_schedule.get_registrants_error}}).fail((function(e){d(this,buttons),console.log("fail"),console.log(e),t("#modalRegistrants").find("#ClassRegistrants")[0].innerHTML=mz_mindbody_schedule.get_registrants_error})),!1})),t(document).on("click","a[data-target=mzStaffScheduleModal]",(function(e){e.preventDefault();var a=t(this).attr("href"),s=t(this).attr("data-staffID"),i=t(this).attr("data-siteID"),n=t(this).attr("data-staffName"),o=t(this).attr("data-nonce"),d="<h3>"+n+" "+(void 0!==t(this).attr("data-sub")?' <span class="sub-text">('+mz_mindbody_schedule.sub_by_text+" "+t(this).attr("data-sub")+") </span> ":" ")+'</h3><div class="mz-staffInfo" id="StaffInfo"></div>';d+='<i class="fa fa-spinner fa-3x fa-spin" style="position: fixed; top: 50%; left: 50%;"></i>',t("#mzStaffScheduleModal").load(a,(function(){t.colorbox({html:d,href:a}),t("#mzStaffScheduleModal").colorbox()})),t.ajax({type:"GET",dataType:"json",url:mz_mindbody_schedule.ajaxurl,data:{action:"mz_mbo_get_staff",nonce:o,staffID:s,siteID:i},success:function(e){"success"==e.type?(t(".fa-spinner").remove(),t("#StaffInfo").html(e.message)):t("#StaffInfo").html("ERROR FINDING STAFF INFO")}}).fail((function(e){t("#StaffInfo").html("ERROR RETURNING STAFF INFO")}))})),"0"!==mz_mindbody_schedule.mode_select&&(t("#mzScheduleNavHolder").first().append(t('<a id="mode-select" class="btn btn-primary btn-xs mz-mode-select">'+mz_mindbody_schedule.initial+"</a>")),t("#mode-select").click((function(){t(".mz-schedule-display").each((function(e,a){t(a).toggleClass("mz_hidden"),t(a).toggleClass("mz_schedule_filter")})),l(),t("#mode-select").text((function(t,e){return e==mz_mindbody_schedule.initial?mz_mindbody_schedule.swap:mz_mindbody_schedule.initial}))})))}))}});
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = "./scripts/schedule-display.js");
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ "./scripts/schedule-display.js":
+/*!*************************************!*\
+  !*** ./scripts/schedule-display.js ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+// import './signup-modals';
+(function ($) {
+  $(document).ready(function ($) {
+    // Initialize some variables
+    var nonce = mz_mindbody_schedule.nonce,
+        atts = mz_mindbody_schedule.atts,
+        container = $('#mzScheduleDisplay'),
+        htmlRegistrants = '',
+        // TODO use Ajax event handlers to globally handle loader spinners: https://stackoverflow.com/a/40513161/2223106
+    spinner = '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>'; // Some colorbox global settings
+
+    $.colorbox.settings.width = $(window).innerWidth() <= 500 ? '95%' : '75%';
+    $.colorbox.settings.height = '75%';
+    /** Colorbox resize function
+     * source: https://github.com/jackmoore/colorbox/issues/158
+     */
+
+    var resizeTimer;
+
+    function resizeColorBox() {
+      if (resizeTimer) clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function () {
+        if (jQuery('#cboxOverlay').is(':visible')) {
+          jQuery.colorbox.resize({
+            width: '90%',
+            height: '90%'
+          });
+        }
+      }, 300);
+    } // Resize Colorbox when resizing window or changing mobile device orientation
+
+
+    $(window).resize(resizeColorBox);
+    window.addEventListener("orientationchange", resizeColorBox, false); // Run our Init function
+
+    stripe_and_filter();
+    /**
+     * Navigate Schedule
+     *
+     *
+     */
+
+    $('#mzScheduleNavHolder .following, #mzScheduleNavHolder .previous').on('click', function (e) {
+      e.preventDefault();
+      container.children().each(function (e) {
+        $(this).html('');
+      });
+      container.toggleClass('spinner-border');
+      var buttons = [].slice.call(document.getElementById('mzScheduleNavHolder').children); // Update attributes
+
+      var offset = atts.offset = this.dataset.offset; // Update nav link "offset" data attribute
+
+      if (this.className == 'following') {
+        buttons.forEach(function (button) {
+          button.setAttribute('data-offset', parseInt(button.getAttribute('data-offset')) + parseInt(1));
+        });
+      } else if (this.className == 'previous') {
+        buttons.forEach(function (button) {
+          button.setAttribute('data-offset', button.getAttribute('data-offset') - 1);
+        });
+      }
+
+      $.ajax({
+        type: "post",
+        dataType: "json",
+        context: this,
+        url: mz_mindbody_schedule.ajaxurl,
+        data: {
+          action: 'mz_display_schedule',
+          nonce: nonce,
+          atts: atts
+        },
+        success: function success(json) {
+          if (json.type == "success") {
+            container.toggleClass('spinner-border');
+
+            if (json.grid && json.horizontal) {
+              document.getElementById("gridDisplay").innerHTML = json.grid;
+              document.getElementById("horizontalDisplay").innerHTML = json.horizontal;
+            } else if (json.grid) {
+              document.getElementById("gridDisplay").innerHTML = json.grid;
+            } else {
+              document.getElementById("horizontalDisplay").innerHTML = json.horizontal;
+            }
+
+            stripe_and_filter();
+          } else {
+            mz_reset_navigation(this, buttons);
+            container.toggleClass('spinner-border');
+            container.html(json.message);
+            stripe_and_filter();
+          }
+        }
+      }).fail(function (json) {
+        mz_reset_navigation(this, buttons);
+        container.toggleClass('spinner-border');
+        container.html('Sorry but there was an error retrieving schedule.');
+      }); // End Ajax
+    }); // End click navigation
+
+    function mz_reset_navigation(el, buttons) {
+      // Reset nav link "offset" data attribute
+      if (el.className == 'previous') {
+        buttons.forEach(function (button) {
+          button.setAttribute('data-offset', parseInt(button.getAttribute('data-offset')) + parseInt(1));
+        });
+      } else if (el.className == 'following') {
+        buttons.forEach(function (button) {
+          button.setAttribute('data-offset', button.getAttribute('data-offset') - 1);
+        });
+      }
+    }
+    /**
+     * Class Description Modal
+     *
+     *
+     */
+
+
+    $(document).on('click', "a[data-target=mzModal]", function (e) {
+      e.preventDefault();
+      var target = $(this).attr("href"),
+          staffName = this.getAttribute('data-staffName'),
+          classDescription = decodeURIComponent(this.getAttribute('data-classDescription')),
+          popUpContent = '<h3>' + this.innerHTML + ' ' + mz_mindbody_schedule.with + ' ' + staffName + '</h3>';
+      var subText = $(this).attr("data-sub") !== undefined ? '<span class="sub-text">' + mz_mindbody_schedule.sub_by_text + '</span>' + ' ' : ' ';
+      popUpContent += '<div class="mz-staffInfo" id="StaffInfo">' + classDescription + '</div>'; // load the url and show modal on success
+
+      $("#mzModal").load(target, function () {
+        $.colorbox({
+          html: popUpContent,
+          href: target
+        });
+        $("#mzModal").colorbox();
+      });
+      return false;
+    });
+    /**
+     * Show Registrants
+     *
+     *
+     */
+
+    $(document).on('click', "a[data-target=registrantModal]", function (e) {
+      e.preventDefault();
+      var target = $(this).attr("href");
+      var classDescription = $(this).attr('data-classDescription');
+      var staffName = $(this).attr('data-staffName');
+      var staffImage = $(this).attr('data-staffImage');
+      var className = $(this).attr("data-className");
+      var classID = $(this).attr("data-classID");
+      var nonce = $(this).attr("data-nonce");
+      var popUpContent = '<div class="mz-classInfo">';
+      var subText = $(this).attr("data-sub") !== undefined ? '<span class="sub-text">' + mz_mindbody_schedule.sub_by_text + '</span>' + ' ' : ' ';
+      popUpContent += '<h3>' + className + '</h3>';
+      popUpContent += '<h4>' + mz_mindbody_schedule.with + ' ' + staffName + '</h4>';
+
+      if (typeof staffImage != 'undefined') {
+        popUpContent += '<img class="mz-staffImage" src="' + staffImage + '" />';
+      }
+
+      var htmlClassDescription = '<div class="mz_modalClassDescription">';
+      htmlClassDescription += "<div class='class-description'>" + decodeURIComponent(classDescription) + "</div></div>";
+      popUpContent += htmlClassDescription;
+      popUpContent += '</div>';
+      popUpContent += '<h3>' + mz_mindbody_schedule.registrants_header + '</h3>';
+      popUpContent += '<div id="modalRegistrants"><div id="ClassRegistrants" style="min-height:90px;">';
+      popUpContent += spinner;
+      popUpContent += '</div></div>';
+      $("#registrantModal").load(target, function () {
+        $.colorbox({
+          html: popUpContent,
+          href: target
+        });
+        $("#registrantModal").colorbox();
+      });
+      $.ajax({
+        type: "GET",
+        dataType: 'json',
+        url: mz_mindbody_schedule.ajaxurl,
+        data: {
+          action: 'mz_mbo_get_registrants',
+          nonce: nonce,
+          classID: classID
+        },
+        success: function success(json) {
+          if (json.type == "success") {
+            htmlRegistrants = '<ul class="mz-classRegistrants">';
+
+            if ($.isArray(json.message)) {
+              json.message.forEach(function (name) {
+                htmlRegistrants += '<li>' + name.replace('_', ' ') + '</li>';
+              });
+            } else {
+              htmlRegistrants += '<li>' + json.message + '</li>';
+            }
+
+            htmlRegistrants += '</ul>';
+            $('#modalRegistrants').find('#ClassRegistrants')[0].innerHTML = htmlRegistrants;
+          } else {
+            $('#modalRegistrants').find('#ClassRegistrants')[0].innerHTML = mz_mindbody_schedule.get_registrants_error;
+          }
+        } // ./ Ajax Success
+
+      }) // End Ajax
+      .fail(function (json) {
+        mz_reset_navigation(this, buttons);
+        console.log('fail');
+        console.log(json);
+        $('#modalRegistrants').find('#ClassRegistrants')[0].innerHTML = mz_mindbody_schedule.get_registrants_error;
+      }); // End Fail
+
+      return false;
+    }); // End click
+
+    /**
+     * Staff Modal
+     *
+     *
+     */
+
+    $(document).on('click', "a[data-target=mzStaffScheduleModal]", function (ev) {
+      ev.preventDefault();
+      var target = $(this).attr("href");
+      var staffID = $(this).attr('data-staffID');
+      var siteID = $(this).attr('data-siteID');
+      var staffName = $(this).attr('data-staffName');
+      var nonce = $(this).attr("data-nonce");
+      var subText = $(this).attr("data-sub") !== undefined ? ' <span class="sub-text">(' + mz_mindbody_schedule.sub_by_text + ' ' + $(this).attr("data-sub") + ') </span>' + ' ' : ' ';
+      var popUpContent = '<h3>' + staffName + ' ' + subText + '</h3><div class="mz-staffInfo" id="StaffInfo"></div>';
+      popUpContent += '<i class="fa fa-spinner fa-3x fa-spin" style="position: fixed; top: 50%; left: 50%;"></i>';
+      $("#mzStaffScheduleModal").load(target, function () {
+        $.colorbox({
+          html: popUpContent,
+          href: target
+        });
+        $("#mzStaffScheduleModal").colorbox();
+      });
+      $.ajax({
+        type: "GET",
+        dataType: 'json',
+        url: mz_mindbody_schedule.ajaxurl,
+        data: {
+          action: 'mz_mbo_get_staff',
+          nonce: nonce,
+          staffID: staffID,
+          siteID: siteID
+        },
+        success: function success(json) {
+          if (json.type == "success") {
+            $('.fa-spinner').remove();
+            $('#StaffInfo').html(json.message);
+          } else {
+            $('#StaffInfo').html('ERROR FINDING STAFF INFO');
+          }
+        } // ./ Ajax Success
+
+      }) // End Ajax
+      .fail(function (json) {
+        $('#StaffInfo').html('ERROR RETURNING STAFF INFO');
+      }); // End Fail
+    });
+    /**
+     * Mode Select
+     *
+     * Display either grid or horizontal schedule depending on user input from button
+     */
+
+    if (mz_mindbody_schedule.mode_select !== '0') {
+      $('#mzScheduleNavHolder').first().append($('<a id="mode-select" class="btn btn-primary btn-xs mz-mode-select">' + mz_mindbody_schedule.initial + '</a>'));
+      $('#mode-select').click(function () {
+        $('.mz-schedule-display').each(function (i, item) {
+          $(item).toggleClass('mz_hidden');
+          $(item).toggleClass('mz_schedule_filter');
+        });
+        stripe_and_filter();
+        $('#mode-select').text(function (i, text) {
+          return text == mz_mindbody_schedule.initial ? mz_mindbody_schedule.swap : mz_mindbody_schedule.initial;
+        });
+      });
+    } // if mode button = 1
+
+    /**
+     * Stripe the Table and if Filter is enabled, init the filter.
+     */
+
+
+    function stripe_and_filter() {
+      /*
+       * Filter Table Init
+       *
+       */
+      var stripeTable = function stripeTable(table) {
+        //stripe the table (jQuery selector)
+        table.find('tr').removeClass('striped').filter(':visible:even').addClass('striped');
+      };
+
+      if ($('table.mz-schedule-filter').length) {
+        $('table.mz-schedule-filter').filterTable({
+          callback: function callback(term, table) {
+            stripeTable(table);
+          },
+          // call the striping after every change to the filter term
+          placeholder: mz_mindbody_schedule.filter_default,
+          highlightClass: 'alt',
+          inputType: 'search',
+          label: mz_mindbody_schedule.label,
+          selector: mz_mindbody_schedule.selector,
+          quickListClass: 'mz_quick_filter',
+          quickList: [mz_mindbody_schedule.quick_1, mz_mindbody_schedule.quick_2, mz_mindbody_schedule.quick_3],
+          locations: mz_mindbody_schedule.Locations_dict
+        });
+        stripeTable($('table.mz-schedule-filter')); //stripe the table for the first time
+      } else {
+        // No filter
+        stripeTable($('table.mz-schedule-table')); //stripe the table for the first time
+      }
+      /**
+       * Disable sign-up buttons that occur prior to present time
+       */
+
+
+      $('.mz_date_display').each(function (key, value) {
+        if (this.dataset.time) {
+          // Get rid of the T and replace - with / for Safari
+          if (Date.parse(this.dataset.time.replace(/-/g, '/').replace(/T/g, ' ')) < Date.now()) {
+            $(this).find('a').addClass('disabled');
+          }
+        }
+      });
+      /**
+       * Disable grid sign-up buttons that occur prior to present time
+       */
+
+      $('.grid-sign-up-button').each(function (key, value) {
+        if (this.dataset.time) {
+          // Get rid of the T and replace - with / for Safari
+          if (Date.parse(this.dataset.time.replace(/-/g, '/').replace(/T/g, ' ')) < Date.now()) {
+            $(this).addClass('disabled');
+          }
+        }
+      });
+      /**
+       * Loop through and display sub-details
+       */
+
+      $("a[data-target=mzStaffScheduleModal]").each(function (key, value) {
+        if (this.dataset.sub && !this.dataset.marked_as_sub) {
+          $(this).after('&nbsp;<a href="#" title="' + mz_mindbody_schedule.sub_by_text + ' ' + this.dataset.sub + '" style="text-decoration:none;" onclick="return false"><svg height="20" width="20">' + '<circle cx="10" cy="10" r="8" stroke="black" stroke-width="1" fill="white" />' + '<text x="50%" y="50%" text-anchor="middle" fill="black" font-size="15px" font-family="Arial" dy=".25em">s</text>' + '</svg></a>'); // Only do this once
+
+          this.dataset.marked_as_sub = true;
+        }
+      });
+    }
+  }); // End document ready
+})(jQuery);
+
+/***/ })
+
+/******/ });
 //# sourceMappingURL=schedule-display.js.map
