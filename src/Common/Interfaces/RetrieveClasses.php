@@ -285,9 +285,9 @@ abstract class RetrieveClasses extends Retrieve
     public function singleWeek( $timestamp )
     {
         return get_weekstartend(
-                                date('Y-m-d H:i:s', $timestamp),
-                                Core\MzMindbodyApi::$start_of_week
-                            );
+            date('Y-m-d H:i:s', $timestamp),
+            Core\MzMindbodyApi::$start_of_week
+        );
     }
 
     /**

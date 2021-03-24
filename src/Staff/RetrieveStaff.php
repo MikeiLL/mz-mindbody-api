@@ -107,15 +107,17 @@ class RetrieveStaff extends Interfaces\Retrieve
         // Obtain a list of columns
         foreach ( $this->staff_result as $key => $row ) {
             // Remove any Staff members that are in the hide shortcode attribute
-            if (! empty($atts['hide']) &&
-                ( in_array(strtolower($row['Name']), array_map('strtolower', $atts['hide']), true) ) ) {
+            if (! empty($atts['hide']) 
+                && ( in_array(strtolower($row['Name']), array_map('strtolower', $atts['hide']), true) ) 
+            ) {
                 unset($this->staff_result[ $count ]);
                 $count++;
                 continue;
             }
             // Remove staff members without image unless set to display them in shortcode
-            if (! ( isset($atts['include_imageless']) && ( $atts['include_imageless'] != 0 ) ) &&
-                ( empty($this->staff_result[ $count ]['ImageUrl']) ) ) {
+            if (! ( isset($atts['include_imageless']) && ( $atts['include_imageless'] != 0 ) ) 
+                && ( empty($this->staff_result[ $count ]['ImageUrl']) ) 
+            ) {
                 unset($this->staff_result[ $count ]);
                 $count++;
                 continue;

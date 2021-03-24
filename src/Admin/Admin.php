@@ -57,8 +57,7 @@ class Admin
      * @param string $plugin_text_domain The text domain of this plugin.
      */
     public function __construct( $plugin_name, $version, $plugin_text_domain )
-    {
-
+    {   
         $this->plugin_name        = $plugin_name;
         $this->version            = $version;
         $this->plugin_text_domain = $plugin_text_domain;
@@ -71,7 +70,6 @@ class Admin
      */
     public function enqueue_styles()
     {
-
         wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/mz-mindbody-api-admin.css', array(), $this->version, 'all');
     }
 
@@ -89,13 +87,13 @@ class Admin
         $this->localizeScript();
     }
 
-	/**
-	 * Localize Script.
-	 *
-	 * Send required variables as javascript object.
-	 *
-	 * @return   void
-	 */
+    /**
+     * Localize Script.
+     *
+     * Send required variables as javascript object.
+     *
+     * @return void
+     */
     public function localizeScript()
     {
 
@@ -320,7 +318,7 @@ class Admin
     public function ajax_clear_plugin_transients()
     {
 
-        check_ajax_referer($_REQUEST['nonce'], 'mz_admin_nonce', false);
+        check_ajax_referer($_REQUEST['nonce'], 'mz_admin_nonce');
 
         $sql_response = $this->clear_plugin_transients();
 
@@ -353,7 +351,7 @@ class Admin
     public function ajax_get_and_save_token()
     {
 
-        check_ajax_referer($_REQUEST['nonce'], 'mz_admin_nonce', false);
+        check_ajax_referer($_REQUEST['nonce'], 'mz_admin_nonce');
 
         $token_object = new Common\TokenManagement();
         $token        = $token_object->get_and_save_token();
@@ -415,7 +413,7 @@ class Admin
     public function test_credentials()
     {
 
-        check_ajax_referer($_REQUEST['nonce'], 'mz_admin_nonce', false);
+        check_ajax_referer($_REQUEST['nonce'], 'mz_admin_nonce');
 
         $return  = '<p>';
         $return .= sprintf(
@@ -451,7 +449,7 @@ class Admin
     public function test_credentials_v5()
     {
 
-        check_ajax_referer($_REQUEST['nonce'], 'mz_admin_nonce', false);
+        check_ajax_referer($_REQUEST['nonce'], 'mz_admin_nonce');
 
         $return       = '<p>';
         $return      .= sprintf(

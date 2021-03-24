@@ -58,9 +58,9 @@ class Display extends Interfaces\ShortcodeScriptLoader
     /**
      * Handle Shortcode 
      *
-     * @param    string $atts shortcode inputs
-     * @param    string $content any content between start and end shortcode tags.
-     * @return   string shortcode content
+     * @param  string $atts    shortcode inputs
+     * @param  string $content any content between start and end shortcode tags.
+     * @return string shortcode content
      */
     public function handleShortcode( $atts, $content = null )
     {
@@ -128,7 +128,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
      *
      * Add scripts if not added already.
      *
-     * @return   void
+     * @return void
      */
     public function addScript()
     {
@@ -151,7 +151,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
     function get_staff_modal()
     {
 
-        check_ajax_referer($_REQUEST['nonce'], 'mz_staff_retrieve_nonce', false);
+        check_ajax_referer($_REQUEST['nonce'], 'mz_staff_retrieve_nonce');
 
         ob_start();
         $template_loader = new Core\TemplateLoader();

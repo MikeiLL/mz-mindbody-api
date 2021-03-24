@@ -155,9 +155,9 @@ class Display extends Interfaces\ShortcodeScriptLoader
     /**
      * Handle Shortcode 
      *
-     * @param    string $atts shortcode inputs
-     * @param    string $content any content between start and end shortcode tags.
-     * @return   string shortcode content
+     * @param  string $atts    shortcode inputs
+     * @param  string $content any content between start and end shortcode tags.
+     * @return string shortcode content
      */
     public function handleShortcode( $atts, $content = null )
     {
@@ -238,7 +238,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
      *
      * Add scripts if not added already.
      *
-     * @return   void
+     * @return void
      */
     public function addScript()
     {
@@ -273,13 +273,13 @@ class Display extends Interfaces\ShortcodeScriptLoader
         }
     }
 
-	/**
-	 * Localize Script.
-	 *
-	 * Send required variables as javascript object.
-	 *
-	 * @return   void
-	 */
+    /**
+     * Localize Script.
+     *
+     * Send required variables as javascript object.
+     *
+     * @return void
+     */
     public function localizeScript()
     {
 
@@ -325,7 +325,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
 
         ob_start();
 
-        check_ajax_referer($_REQUEST['nonce'], 'mz_events_display_nonce', false);
+        check_ajax_referer($_REQUEST['nonce'], 'mz_events_display_nonce');
 
         $atts = $_REQUEST['atts'];
 
