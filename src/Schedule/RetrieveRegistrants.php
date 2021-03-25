@@ -76,7 +76,7 @@ class RetrieveRegistrants extends Interfaces\Retrieve
     function ajax_get_registrants()
     {
 
-        check_ajax_referer( 'mz_mbo_get_registrants', 'nonce' );
+        check_ajax_referer('mz_mbo_get_registrants', 'nonce');
 
         $classid = $_REQUEST['classID'];
 

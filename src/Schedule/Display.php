@@ -454,7 +454,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
     public function display_schedule()
     {
 
-        check_ajax_referer( 'mz_display_schedule', 'nonce' );
+        check_ajax_referer('mz_display_schedule', 'nonce');
 
         $atts = $_REQUEST['atts'];
         

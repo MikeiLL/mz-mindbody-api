@@ -2,7 +2,7 @@
     $(document).ready(function ($) {
 
         // Initialize some variables
-        var nonce = mz_mindbody_schedule.signup_nonce,
+        var nonce = mz_mindbody_schedule.login_nonce,
             // Shortcode atts for current page.
             atts = mz_mindbody_schedule.atts,
             // Just one location for use in general MBO site link
@@ -211,7 +211,7 @@
             $.ajax({
                 dataType: 'json',
                 url: mz_mindbody_schedule.ajaxurl,
-                data: {action: 'mz_client_log_out', nonce: nonce},
+                data: {action: 'mz_client_logout', nonce: nonce},
                 beforeSend: function() {
                     mz_mbo_state.action = 'processing';
                     render_mbo_modal_activity();
