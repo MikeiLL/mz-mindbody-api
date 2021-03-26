@@ -102,10 +102,15 @@ class Admin
         $params = array(
         'ajaxurl' => admin_url('admin-ajax.php', $protocol),
         'admin_nonce'   => $admin_nonce,
+        // Used in ajax_get_and_save_token below.
         'get_save_token_nonce'   => wp_create_nonce('mz_mbo_get_and_save_token'),
+        // Used in clear_plugin_transients below.
         'clear_transients_nonce'   => wp_create_nonce('mz_mbo_clear_transients'),
+        // Used in test_credentials below.
         'test_credentials_nonce'   => wp_create_nonce('mz_mbo_test_credentials'),
+        // Used in test_credentials_v5 below.
         'test_credentials_v5_nonce'   => wp_create_nonce('mz_mbo_test_credentials_v5'),
+        // Used in Schedule\RetrieveClassOwners.
         'deduce_class_owners_nonce'   => wp_create_nonce('mz_deduce_class_owners'),
         'spinner' => site_url('/wp-includes/js/thickbox/loadingAnimation.gif'),
         );
@@ -320,6 +325,7 @@ class Admin
      */
     public function ajax_clear_plugin_transients()
     {
+        // Generated in localizeScript() above.
         check_admin_referer('mz_mbo_clear_transients', 'nonce');
 
         $sql_response = $this->clear_plugin_transients();
@@ -356,7 +362,7 @@ class Admin
      */
     public function ajax_get_and_save_token()
     {
-
+        // Generated in localizeScript() above.
         check_admin_referer('mz_mbo_get_and_save_token', 'nonce');
         
         $token_object = new Common\TokenManagement();
@@ -419,7 +425,7 @@ class Admin
      */
     public function test_credentials()
     {
-
+        // Generated in localizeScript() above.
         check_admin_referer('mz_mbo_test_credentials', 'nonce');
 
         $return  = '<p>';
@@ -455,7 +461,7 @@ class Admin
      */
     public function test_credentials_v5()
     {
-
+        // Generated in localizeScript() above.
         check_admin_referer('mz_mbo_test_credentials_v5', 'nonce');
 
         $return       = '<p>';

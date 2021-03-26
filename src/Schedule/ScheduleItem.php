@@ -609,6 +609,7 @@ class ScheduleItem
             $linkArray['data-target']           = 'mzModal';
 
             if (isset($this->atts['show_registrants']) && ( $this->atts['show_registrants'] == 1 ) ) {
+                // Used in Schedule\RetrieveRegistrants.
                 $linkArray['data-nonce']   = wp_create_nonce('mz_mbo_get_registrants');
                 $linkArray['data-classID'] = $this->ID;
                 $linkArray['data-target']  = 'registrantModal';

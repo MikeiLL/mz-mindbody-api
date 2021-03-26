@@ -75,7 +75,7 @@ class RetrieveRegistrants extends Interfaces\Retrieve
      */
     function ajax_get_registrants()
     {
-
+        // Generated in Schedule\ScheduleItem.
         check_ajax_referer('mz_mbo_get_registrants', 'nonce');
 
         $classid = $_REQUEST['classID'];
