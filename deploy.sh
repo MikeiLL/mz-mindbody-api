@@ -87,9 +87,16 @@ bin/install-wp-tests.sh
 phpunit.xml.dist
 phpcs.ruleset.xml
 phpcs.xml.dist
+.babelrc
+.idea
 .git
 *.log
 *.sh
+vendor/coenjacobs
+vendor/dealerdirect
+vendor/symfony
+vendor/wp-coding-standards
+vendor/squizlabs
 webpack.config.js
 .gitignore" "$SVNPATH/trunk/"
 
