@@ -150,7 +150,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
      */
     function get_staff_modal()
     {
-
+        // Generated in Schedule\ScheduleItem
         check_ajax_referer('mz_staff_retrieve_nonce', 'nonce');
 
         ob_start();
