@@ -590,6 +590,7 @@ class ScheduleItem
             $linkArray['class']          = 'modal-toggle ' . sanitize_html_class($this->staffName, 'mz_staff_name');
             $linkArray['text']           = $this->staffName;
             $linkArray['data-target']    = 'mzStaffScheduleModal';
+            // Used in Staff\Display.
             $linkArray['data-nonce']     = wp_create_nonce('mz_staff_retrieve_nonce');
             $linkArray['data-siteID']    = $this->site_id;
             if (( $this->is_substitute === true ) && ( ! empty($this->sub_details) ) ) {

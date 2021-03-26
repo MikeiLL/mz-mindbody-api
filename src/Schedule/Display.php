@@ -409,6 +409,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
 
         $params = array(
         'ajaxurl'               => admin_url('admin-ajax.php', $protocol),
+        // Used in display_schedule below.
         'display_schedule_nonce' => wp_create_nonce('mz_display_schedule'),
         'atts'                  => $this->atts,
         'with'                  => __('with', 'mz-mindbody-api'),
@@ -453,7 +454,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
      */
     public function display_schedule()
     {
-
+        // Generated in localizeScript above.
         check_ajax_referer('mz_display_schedule', 'nonce');
 
         $atts = $_REQUEST['atts'];

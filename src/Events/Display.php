@@ -219,7 +219,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
         'with'                 => NS\MZMBO()->i18n->get('with'),
         'login'                => NS\MZMBO()->i18n->get('login'),
         'login_to_sign_up'     => NS\MZMBO()->i18n->get('login_to_sign_up'),
-        'signup_nonce'         => wp_create_nonce('mz_signup_nonce'),
+         //'signup_nonce'         => wp_create_nonce('mz_signup_nonce'), // out of use
         'registration_button'  => NS\MZMBO()->i18n->get('registration_button'),
         'username'             => NS\MZMBO()->i18n->get('username'),
         'password'             => NS\MZMBO()->i18n->get('password'),
@@ -289,6 +289,7 @@ class Display extends Interfaces\ShortcodeScriptLoader
 
         $params = array(
         'ajaxurl'        => admin_url('admin-ajax.php', $protocol),
+        // Used in displayEvents below.
         'nonce'          => wp_create_nonce('mz_events_display_nonce'),
         'atts'           => $this->atts,
         'account'        => Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'],
@@ -324,8 +325,9 @@ class Display extends Interfaces\ShortcodeScriptLoader
     {
 
         ob_start();
-
-        check_ajax_referer($_REQUEST['nonce'], 'mz_events_display_nonce');
+        
+        // Generated in handleShortcode above, template_data.
+        check_ajax_referer('mz_events_display_nonce', 'nonce');
 
         $atts = $_REQUEST['atts'];
 
