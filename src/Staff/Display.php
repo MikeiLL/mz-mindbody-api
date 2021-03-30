@@ -1,4 +1,11 @@
 <?php
+/**
+ * This file contains the class with methods to handle the [mz-mindbody-staff-list] shortcode.
+ *
+ * It has been used to display php objects, text, arrays for view in the browser.
+ *
+ * @package MzMindbody
+ */
 
 namespace MZoo\MzMindbody\Staff;
 
@@ -7,6 +14,11 @@ use MZoo\MzMindbody\Core as Core;
 use MZoo\MzMindbody\Common as Common;
 use MZoo\MzMindbody\Common\Interfaces as Interfaces;
 
+/**
+ * Staff Display Shortcode class
+ *
+ * Display MBO staff in a page via shortcode.
+ */
 class Display extends Interfaces\ShortcodeScriptLoader
 {
 

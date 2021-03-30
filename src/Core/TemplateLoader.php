@@ -1,10 +1,22 @@
 <?php
+/**
+ * Template Loader
+ *
+ * Extend Gamajo Template Loader
+ *
+ * @package MzMindbody
+ */
 
 namespace MZoo\MzMindbody\Core;
 
 use MZoo\MzMindbody\Libraries as Libraries;
 use MZoo\MzMindbody as NS;
 
+/**
+ * Template Loader
+ *
+ * Extend Gamajo Template Loader
+ */
 class TemplateLoader extends \MZMBO_Gamajo_Template_Loader
 {
 
