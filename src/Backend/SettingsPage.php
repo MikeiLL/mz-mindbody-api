@@ -25,18 +25,33 @@ use MZoo\MzMindbody\Schedule as Schedule;
  *
  * @since 1.0.0
  */
-
 class SettingsPage
 {
 
-
+    /**
+	 * The OOP SettingsPage class.
+	 *
+	 * @var object $wposa_obj Instance of SettingsPage class.
+	 */
     public static $wposa_obj;
-
+    
+    /**
+	 * Class Constructor
+	 * 
+	 * Intanciate the settings page class.
+	 *
+	 * @return void.
+	 */
     public function __construct()
     {
         self::$wposa_obj = new Libraries\WpOsa();
     }
-
+    
+    /**
+	 * Add Sections
+	 *
+	 * Add sections and fields.
+	 */
     public function addSections()
     {
 
