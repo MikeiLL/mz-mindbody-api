@@ -19,458 +19,443 @@ use MZoo\MzMindbody as NS;
 use MZoo\MzMindbody\Libraries\WP_Session as WP_Session;
 use MZoo\MzMindbody\Libraries\WP_Session_Utils as WP_Session_Utils;
 
-if (! defined('ABSPATH') ) {
-    exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
-class MzMboSession
-{
+class MzMboSession {
 
 
-    /**
-     * Holds our session data
-     *
-     * @since  3.0
-     * @access private
-     *
-     * @var WP_Session/array
-     */
-    private $session;
 
-    /**
-     * Whether to use PHP $_SESSION or WP_Session
-     *
-     * @since  3.0
-     * @access private
-     *
-     * @var bool
-     */
-    private $use_php_sessions = false;
+	/**
+	 * Holds our session data
+	 *
+	 * @since  3.0
+	 * @access private
+	 *
+	 * @var WP_Session/array
+	 */
+	private $session;
 
-    /**
-     * Session index prefix
-     *
-     * @since  3.0
-     * @access private
-     *
-     * @var string
-     */
-    private $prefix = 'mz_mbo_';
+	/**
+	 * Whether to use PHP $_SESSION or WP_Session
+	 *
+	 * @since  3.0
+	 * @access private
+	 *
+	 * @var bool
+	 */
+	private $use_php_sessions = false;
 
-    /**
-     * Class Constructor
-     *
-     * Defines our session constants, includes the necessary libraries and retrieves the session instance.
-     *
-     * @since  3.0
-     * @access public
-     */
-    public function __construct()
-    {
+	/**
+	 * Session index prefix
+	 *
+	 * @since  3.0
+	 * @access private
+	 *
+	 * @var string
+	 */
+	private $prefix = 'mz_mbo_';
 
-        $this->use_php_sessions = $this->use_php_sessions();
+	/**
+	 * Class Constructor
+	 *
+	 * Defines our session constants, includes the necessary libraries and retrieves the session instance.
+	 *
+	 * @since  3.0
+	 * @access public
+	 */
+	public function __construct() {
 
-        // Use PHP Sessions.
-        if ($this->use_php_sessions ) {
-            if (is_multisite() ) {
-                $this->prefix = '_' . get_current_blog_id();
-            }
+		$this->use_php_sessions = $this->use_php_sessions();
 
-            // Start PHP session immediately instead of on init hook (Give & EDD use hook).
-            $this->maybe_start_php_session();
-            // add_action( 'init', array( $this, 'maybe_start_session' ), - 2 );
-        } else {
-            if (! $this->should_start_session() ) {
-                return;
-            }
+		// Use PHP Sessions.
+		if ( $this->use_php_sessions ) {
+			if ( is_multisite() ) {
+				$this->prefix = '_' . get_current_blog_id();
+			}
 
-            // Use WP_Session.
+			// Start PHP session immediately instead of on init hook (Give & EDD use hook).
+			$this->maybe_start_php_session();
+			// add_action( 'init', array( $this, 'maybe_start_session' ), - 2 );
+		} else {
+			if ( ! $this->should_start_session() ) {
+				return;
+			}
 
-            // Let users change the session cookie name.
-            if (! defined('WP_SESSION_COOKIE') ) {
-                define('WP_SESSION_COOKIE', 'mzmbo_wp_session');
-            }
+			// Use WP_Session.
 
-            // Only include the functionality if it's not pre-defined.
-            if (! class_exists('WP_Session') ) {
-                include_once NS\PLUGIN_NAME_DIR . '/src/Libraries/wp-session/wp-session.php';
-            }
+			// Let users change the session cookie name.
+			if ( ! defined( 'WP_SESSION_COOKIE' ) ) {
+				define( 'WP_SESSION_COOKIE', 'mzmbo_wp_session' );
+			}
 
-            add_filter('wp_session_expiration_variant', array( $this, 'set_expiration_variant_time' ), 99999);
-            add_filter('wp_session_expiration', array( $this, 'set_expiration_time' ), 99999);
+			// Only include the functionality if it's not pre-defined.
+			if ( ! class_exists( 'WP_Session' ) ) {
+				include_once NS\PLUGIN_NAME_DIR . '/src/Libraries/wp-session/wp-session.php';
+			}
 
-            add_action('admin_init', array( $this, 'create_sm_sessions_table' ));
-            add_action('wp_session_init', array( $this, 'create_sm_sessions_table' ));
-        }
+			add_filter( 'wp_session_expiration_variant', array( $this, 'set_expiration_variant_time' ), 99999 );
+			add_filter( 'wp_session_expiration', array( $this, 'set_expiration_time' ), 99999 );
 
-        // Init Session.
-        if (empty($this->session) && ! $this->use_php_sessions ) {
-            add_action('plugins_loaded', array( $this, 'init' ), 9999);
-        } else {
-            // Init WP_Session immediately instead of on init hook (Give & EDD use hook).
-            $this->init();
-            // add_action( 'init', array( $this, 'init' ), - 1 );
-        }
-    }
+			add_action( 'admin_init', array( $this, 'create_sm_sessions_table' ) );
+			add_action( 'wp_session_init', array( $this, 'create_sm_sessions_table' ) );
+		}
 
-    /**
-     * Session Init
-     *
-     * Setup the Session instance.
-     *
-     * @since  2.4.7
-     * @access public
-     *
-     * @return WP_Session/array instance
-     */
-    public function init()
-    {
+		// Init Session.
+		if ( empty( $this->session ) && ! $this->use_php_sessions ) {
+			add_action( 'plugins_loaded', array( $this, 'init' ), 9999 );
+		} else {
+			// Init WP_Session immediately instead of on init hook (Give & EDD use hook).
+			$this->init();
+			// add_action( 'init', array( $this, 'init' ), - 1 );
+		}
+	}
 
-        if ($this->use_php_sessions ) {
-            $this->session = isset($_SESSION[ $this->prefix ]) && is_array($_SESSION[ $this->prefix ]) ? $_SESSION[ $this->prefix ] : array();
-        } else {
-            $this->session = WP_Session\WP_Session::get_instance();
-        }
+	/**
+	 * Session Init
+	 *
+	 * Setup the Session instance.
+	 *
+	 * @since  2.4.7
+	 * @access public
+	 *
+	 * @return WP_Session/array instance
+	 */
+	public function init() {
 
-        return $this->session;
-    }
+		if ( $this->use_php_sessions ) {
+			$this->session = isset( $_SESSION[ $this->prefix ] ) && is_array( $_SESSION[ $this->prefix ] ) ? $_SESSION[ $this->prefix ] : array();
+		} else {
+			$this->session = WP_Session\WP_Session::get_instance();
+		}
 
-    /**
-     * Get Session ID
-     *
-     * Retrieve session ID.
-     *
-     * @since  3.0
-     * @access public
-     *
-     * @return string Session ID.
-     */
-    public function get_id()
-    {
-        return $this->session->session_id;
-    }
+		return $this->session;
+	}
 
-    /**
-     * Get Session
-     *
-     * Retrieve session variable for a given session key.
-     *
-     * source for adding four hour time limit
-     * https://stackoverflow.com/a/1270960/2223106
-     *
-     * @since  3.0
-     * @access public
-     *
-     * @param string $key Session key
-     *
-     * @return string|array      Session variable
-     */
-    public function get( $key )
-    {
+	/**
+	 * Get Session ID
+	 *
+	 * Retrieve session ID.
+	 *
+	 * @since  3.0
+	 * @access public
+	 *
+	 * @return string Session ID.
+	 */
+	public function get_id() {
+		return $this->session->session_id;
+	}
 
-        $key    = sanitize_key($key);
-        $return = false;
+	/**
+	 * Get Session
+	 *
+	 * Retrieve session variable for a given session key.
+	 *
+	 * source for adding four hour time limit
+	 * https://stackoverflow.com/a/1270960/2223106
+	 *
+	 * @since  3.0
+	 * @access public
+	 *
+	 * @param string $key Session key
+	 *
+	 * @return string|array      Session variable
+	 */
+	public function get( $key ) {
 
-        if (isset($this->session[ $key ]) && ! empty($this->session[ $key ]) ) {
-            // Check session create and update time
-            if (isset($this->session[ $this->prefix . 'LAST_ACTIVITY' ]) && ( time() - $this->session[ $this->prefix . 'LAST_ACTIVITY' ] > 14400 ) ) {
-                // last request was more than four hours ago
-                $this->clear();     // unset $_SESSION variable for the run-time
-            }
-            $this->session[ $this->prefix . 'LAST_ACTIVITY' ] = time(); // update last activity time stamp
+		$key    = sanitize_key( $key );
+		$return = false;
 
-            if (! isset($this->session[ $this->prefix . 'CREATED' ]) ) {
-                $this->session[ $this->prefix . 'CREATED' ] = time();
-            } elseif (time() - $this->session[ $this->prefix . 'CREATED' ] > 14400 ) {
-                // session started more than four hours ago
-                $this->clear();    // change session ID for the current session and invalidate old session ID
-                $this->session[ $this->prefix . 'CREATED' ] = time();  // update creation time
-            }
+		if ( isset( $this->session[ $key ] ) && ! empty( $this->session[ $key ] ) ) {
+			// Check session create and update time
+			if ( isset( $this->session[ $this->prefix . 'LAST_ACTIVITY' ] ) && ( time() - $this->session[ $this->prefix . 'LAST_ACTIVITY' ] > 14400 ) ) {
+				// last request was more than four hours ago
+				$this->clear();     // unset $_SESSION variable for the run-time
+			}
+			$this->session[ $this->prefix . 'LAST_ACTIVITY' ] = time(); // update last activity time stamp
 
-            // EDD & Give use regext matching & JSON decoding when retrieving session values.
-            $return = maybe_unserialize($this->session[ $key ]);
-        }
+			if ( ! isset( $this->session[ $this->prefix . 'CREATED' ] ) ) {
+				$this->session[ $this->prefix . 'CREATED' ] = time();
+			} elseif ( time() - $this->session[ $this->prefix . 'CREATED' ] > 14400 ) {
+				// session started more than four hours ago
+				$this->clear();    // change session ID for the current session and invalidate old session ID
+				$this->session[ $this->prefix . 'CREATED' ] = time();  // update creation time
+			}
 
-        return $return;
-    }
+			// EDD & Give use regext matching & JSON decoding when retrieving session values.
+			$return = maybe_unserialize( $this->session[ $key ] );
+		}
 
-    /**
-     * Set Session
-     *
-     * Create a new session.
-     *
-     * @since  3.0
-     * @access public
-     *
-     * @param string $key   Session key
-     * @param mixed  $value Session variable
-     *
-     * @return string        Session variable
-     */
-    public function set( $key, $value )
-    {
+		return $return;
+	}
 
-        // Ninja Forms & Give manually set cookie here.
-        // $this->session->set_cookie();
+	/**
+	 * Set Session
+	 *
+	 * Create a new session.
+	 *
+	 * @since  3.0
+	 * @access public
+	 *
+	 * @param string $key   Session key
+	 * @param mixed  $value Session variable
+	 *
+	 * @return string        Session variable
+	 */
+	public function set( $key, $value ) {
 
-        $key = sanitize_key($key);
+		// Ninja Forms & Give manually set cookie here.
+		// $this->session->set_cookie();
 
-        // Give sets & retrieves JSON instead of full objects here.
-        // Currently we're passing various value types including strings, arrays & objects.
-        $this->session[ $key ] = $value;
+		$key = sanitize_key( $key );
 
-        // Also track session time
-        $this->session[ $this->prefix . 'LAST_ACTIVITY' ] = time();
-        $this->session[ $this->prefix . 'CREATED' ]       = time();
+		// Give sets & retrieves JSON instead of full objects here.
+		// Currently we're passing various value types including strings, arrays & objects.
+		$this->session[ $key ] = $value;
 
-        if ($this->use_php_sessions ) {
-            $_SESSION[ $this->prefix ] = $this->session;
-        }
+		// Also track session time
+		$this->session[ $this->prefix . 'LAST_ACTIVITY' ] = time();
+		$this->session[ $this->prefix . 'CREATED' ]       = time();
 
-        return $this->session[ $key ];
-    }
+		if ( $this->use_php_sessions ) {
+			$_SESSION[ $this->prefix ] = $this->session;
+		}
 
-    /**
-     * Clear Session
-     *
-     * Unset all session vars.
-     *
-     * @since  3.0
-     * @access public
-     */
-    public function clear()
-    {
+		return $this->session[ $key ];
+	}
 
-        if ($this->use_php_sessions ) {
-            unset($_SESSION[ $this->prefix ]);
-        } else {
-            $this->session->reset();
-            $this->set('cleanup_hack', '1');
-            $this->session->write_data();
-            WP_Session\WP_Session_Utils::delete_session($this->get_id());
-        }
-    }
+	/**
+	 * Clear Session
+	 *
+	 * Unset all session vars.
+	 *
+	 * @since  3.0
+	 * @access public
+	 */
+	public function clear() {
 
-    /**
-     * Set Cookie Variant Time
-     *
-     * Force the cookie expiration variant time to 23 minutes.
-     *
-     * @since  3.0
-     * @access public
-     *
-     * @return int
-     */
-    public function set_expiration_variant_time()
-    {
+		if ( $this->use_php_sessions ) {
+			unset( $_SESSION[ $this->prefix ] );
+		} else {
+			$this->session->reset();
+			$this->set( 'cleanup_hack', '1' );
+			$this->session->write_data();
+			WP_Session\WP_Session_Utils::delete_session( $this->get_id() );
+		}
+	}
 
-        return ( 60 * 23 );
-    }
+	/**
+	 * Set Cookie Variant Time
+	 *
+	 * Force the cookie expiration variant time to 23 minutes.
+	 *
+	 * @since  3.0
+	 * @access public
+	 *
+	 * @return int
+	 */
+	public function set_expiration_variant_time() {
 
-    /**
-     * Set Cookie Expiration
-     *
-     * Force the cookie expiration time to 24 minutes.
-     *
-     * @since  3.0
-     * @access public
-     *
-     * @return int
-     */
-    public function set_expiration_time()
-    {
+		return ( 60 * 23 );
+	}
 
-        return ( 60 * 24 );
-    }
+	/**
+	 * Set Cookie Expiration
+	 *
+	 * Force the cookie expiration time to 24 minutes.
+	 *
+	 * @since  3.0
+	 * @access public
+	 *
+	 * @return int
+	 */
+	public function set_expiration_time() {
 
-    /**
-     * Set a cookie to store
-     *
-     * This is for hosts and caching plugins to identify if caching should be disabled
-     *
-     * @since  1.8
-     * @param  bool $set Whether to set or destroy
-     * @return void
-     */
-    public function set_cart_cookie( $set = true )
-    {
-        if (! headers_sent() ) {
-            if ($set ) {
-                @setcookie('edd_items_in_cart', '1', time() + 30 * 60, COOKIEPATH, COOKIE_DOMAIN, false);
-            } else {
-                if (isset($_COOKIE['edd_items_in_cart']) ) {
-                    @setcookie('edd_items_in_cart', '', time() - 3600, COOKIEPATH, COOKIE_DOMAIN, false);
-                }
-            }
-        }
-    }
+		return ( 60 * 24 );
+	}
 
-    /**
-     * Determines if a user has set the MZMBO_USE_CART_COOKIE
-     *
-     * @since  2.5
-     * @return bool If the store should use the edd_items_in_cart cookie to help avoid caching
-     */
-    public function use_cart_cookie()
-    {
-        $ret = true;
-        if (defined('MZMBO_USE_CART_COOKIE') && ! MZMBO_USE_CART_COOKIE ) {
-            $ret = false;
-        }
-        return (bool) apply_filters('mzmbo_use_cart_cookie', $ret);
-    }
+	/**
+	 * Set a cookie to store
+	 *
+	 * This is for hosts and caching plugins to identify if caching should be disabled
+	 *
+	 * @since  1.8
+	 * @param  bool $set Whether to set or destroy
+	 * @return void
+	 */
+	public function set_cart_cookie( $set = true ) {
+		if ( ! headers_sent() ) {
+			if ( $set ) {
+				@setcookie( 'edd_items_in_cart', '1', time() + 30 * 60, COOKIEPATH, COOKIE_DOMAIN, false );
+			} else {
+				if ( isset( $_COOKIE['edd_items_in_cart'] ) ) {
+					@setcookie( 'edd_items_in_cart', '', time() - 3600, COOKIEPATH, COOKIE_DOMAIN, false );
+				}
+			}
+		}
+	}
 
-    /**
-     * Starts a new session if one has not started yet.
-     *
-     * Checks to see if the MZMBO_USE_PHP_SESSIONS constant is defined.
-     *
-     * @since  3.0
-     * @access public
-     *
-     * @return bool $ret True if we are using PHP sessions, false otherwise.
-     */
-    public function use_php_sessions()
-    {
+	/**
+	 * Determines if a user has set the MZMBO_USE_CART_COOKIE
+	 *
+	 * @since  2.5
+	 * @return bool If the store should use the edd_items_in_cart cookie to help avoid caching
+	 */
+	public function use_cart_cookie() {
+		$ret = true;
+		if ( defined( 'MZMBO_USE_CART_COOKIE' ) && ! MZMBO_USE_CART_COOKIE ) {
+			$ret = false;
+		}
+		return (bool) apply_filters( 'mzmbo_use_cart_cookie', $ret );
+	}
 
-        // By default, use our custom logic from WP Session Manager.
-        $ret = false;
+	/**
+	 * Starts a new session if one has not started yet.
+	 *
+	 * Checks to see if the MZMBO_USE_PHP_SESSIONS constant is defined.
+	 *
+	 * @since  3.0
+	 * @access public
+	 *
+	 * @return bool $ret True if we are using PHP sessions, false otherwise.
+	 */
+	public function use_php_sessions() {
 
-        // Special case: Detect if Pantheon's Native PHP Sessions plugin is active.
-        // If true, force using native PHP sessions as their plugin overrides native PHP sessions.
-        if (class_exists('Pantheon_Sessions\Session') ) {
-            if (! defined('MZMBO_USE_PHP_SESSIONS') ) {
-                define('MZMBO_USE_PHP_SESSIONS', true);
-            }
-        }
+		// By default, use our custom logic from WP Session Manager.
+		$ret = false;
 
-        // Enable or disable PHP Sessions based on the MZMBO_USE_PHP_SESSIONS constant.
-        if (defined('MZMBO_USE_PHP_SESSIONS') && MZMBO_USE_PHP_SESSIONS ) {
-            $ret = true;
-        } elseif (defined('MZMBO_USE_PHP_SESSIONS') && ! MZMBO_USE_PHP_SESSIONS ) {
-            $ret = false;
-        }
+		// Special case: Detect if Pantheon's Native PHP Sessions plugin is active.
+		// If true, force using native PHP sessions as their plugin overrides native PHP sessions.
+		if ( class_exists( 'Pantheon_Sessions\Session' ) ) {
+			if ( ! defined( 'MZMBO_USE_PHP_SESSIONS' ) ) {
+				define( 'MZMBO_USE_PHP_SESSIONS', true );
+			}
+		}
 
-        return (bool) apply_filters('mzmbo_use_php_sessions', $ret);
-    }
+		// Enable or disable PHP Sessions based on the MZMBO_USE_PHP_SESSIONS constant.
+		if ( defined( 'MZMBO_USE_PHP_SESSIONS' ) && MZMBO_USE_PHP_SESSIONS ) {
+			$ret = true;
+		} elseif ( defined( 'MZMBO_USE_PHP_SESSIONS' ) && ! MZMBO_USE_PHP_SESSIONS ) {
+			$ret = false;
+		}
 
-    /**
-     * Should Start Session
-     *
-     * Determines if we should start sessions.
-     *
-     * @since  2.4.7
-     * @access public
-     *
-     * @return bool
-     */
-    public function should_start_session()
-    {
+		return (bool) apply_filters( 'mzmbo_use_php_sessions', $ret );
+	}
 
-        $start_session = true;
+	/**
+	 * Should Start Session
+	 *
+	 * Determines if we should start sessions.
+	 *
+	 * @since  2.4.7
+	 * @access public
+	 *
+	 * @return bool
+	 */
+	public function should_start_session() {
 
-        if (! empty($_SERVER['REQUEST_URI']) ) {
-            $blacklist = $blacklist = $this->get_blacklist();
-            $uri       = ltrim($_SERVER['REQUEST_URI'], '/');
-            $uri       = untrailingslashit($uri);
-            if (in_array($uri, $blacklist, true) ) {
-                $start_session = false;
-            }
-            if (false !== strpos($uri, 'feed=') ) {
-                $start_session = false;
-            }
-        }
+		$start_session = true;
 
-        return apply_filters('mzmbo_start_session', $start_session);
-    }
+		if ( ! empty( $_SERVER['REQUEST_URI'] ) ) {
+			$blacklist = $blacklist = $this->get_blacklist();
+			$uri       = ltrim( $_SERVER['REQUEST_URI'], '/' );
+			$uri       = untrailingslashit( $uri );
+			if ( in_array( $uri, $blacklist, true ) ) {
+				$start_session = false;
+			}
+			if ( false !== strpos( $uri, 'feed=' ) ) {
+				$start_session = false;
+			}
+		}
 
-    /**
-     * Retrieve the URI blacklist
-     *
-     * These are the URIs where we never start sessions
-     *
-     * @since  2.4.7
-     * @return array
-     */
-    public function get_blacklist()
-    {
-        $blacklist = apply_filters(
-            'MzMboSession_start_uri_blacklist',
-            array(
-            'feed',
-            'feed/rss',
-            'feed/rss2',
-            'feed/rdf',
-            'feed/atom',
-            'comments/feed',
-            )
-        );
-        // Look to see if WordPress is in a sub folder or this is a network site that uses sub folders
-        $folder = str_replace(network_home_url(), '', get_site_url());
-        if (! empty($folder) ) {
-            foreach ( $blacklist as $path ) {
-                $blacklist[] = $folder . '/' . $path;
-            }
-        }
-        return $blacklist;
-    }
+		return apply_filters( 'mzmbo_start_session', $start_session );
+	}
 
-    /**
-     * Maybe Start Session
-     *
-     * Starts a new session if one hasn't started yet.
-     *
-     * @since  3.0
-     * @access public
-     *
-     * @see http://php.net/manual/en/function.session-set-cookie-params.php
-     *
-     * @return void
-     */
-    public function maybe_start_php_session()
-    {
+	/**
+	 * Retrieve the URI blacklist
+	 *
+	 * These are the URIs where we never start sessions
+	 *
+	 * @since  2.4.7
+	 * @return array
+	 */
+	public function get_blacklist() {
+		$blacklist = apply_filters(
+			'MzMboSession_start_uri_blacklist',
+			array(
+				'feed',
+				'feed/rss',
+				'feed/rss2',
+				'feed/rdf',
+				'feed/atom',
+				'comments/feed',
+			)
+		);
+		// Look to see if WordPress is in a sub folder or this is a network site that uses sub folders
+		$folder = str_replace( network_home_url(), '', get_site_url() );
+		if ( ! empty( $folder ) ) {
+			foreach ( $blacklist as $path ) {
+				$blacklist[] = $folder . '/' . $path;
+			}
+		}
+		return $blacklist;
+	}
 
-        if (! $this->should_start_session() ) {
-            return;
-        }
+	/**
+	 * Maybe Start Session
+	 *
+	 * Starts a new session if one hasn't started yet.
+	 *
+	 * @since  3.0
+	 * @access public
+	 *
+	 * @see http://php.net/manual/en/function.session-set-cookie-params.php
+	 *
+	 * @return void
+	 */
+	public function maybe_start_php_session() {
 
-        if (! session_id() && ! headers_sent() ) {
-            session_start();
-        }
-    }
+		if ( ! $this->should_start_session() ) {
+			return;
+		}
 
-    /**
-     * Create table to hold session data.
-     *
-     * Create the new table for housing session data if we're not still using
-     * the legacy options mechanism. This code should be invoked before
-     * instantiating the singleton session manager to ensure the table exists
-     * before trying to use it.
-     *
-     * @see https://github.com/ericmann/wp-session-manager/issues/55
-     *
-     * @since  2.4.7
-     * @access public
-     */
-    public function create_sm_sessions_table()
-    {
+		if ( ! session_id() && ! headers_sent() ) {
+			session_start();
+		}
+	}
 
-        if (defined('WP_SESSION_USE_OPTIONS') && WP_SESSION_USE_OPTIONS ) {
-            return;
-        }
+	/**
+	 * Create table to hold session data.
+	 *
+	 * Create the new table for housing session data if we're not still using
+	 * the legacy options mechanism. This code should be invoked before
+	 * instantiating the singleton session manager to ensure the table exists
+	 * before trying to use it.
+	 *
+	 * @see https://github.com/ericmann/wp-session-manager/issues/55
+	 *
+	 * @since  2.4.7
+	 * @access public
+	 */
+	public function create_sm_sessions_table() {
 
-        $current_db_version = '0.1';
-        $created_db_version = get_option('sm_session_db_version', '0.0');
+		if ( defined( 'WP_SESSION_USE_OPTIONS' ) && WP_SESSION_USE_OPTIONS ) {
+			return;
+		}
 
-        if (version_compare($created_db_version, $current_db_version, '<') ) {
-            global $wpdb;
+		$current_db_version = '0.1';
+		$created_db_version = get_option( 'sm_session_db_version', '0.0' );
 
-            $collate = '';
-            if ($wpdb->has_cap('collation') ) {
-                $collate = $wpdb->get_charset_collate();
-            }
+		if ( version_compare( $created_db_version, $current_db_version, '<' ) ) {
+			global $wpdb;
 
-            $table = "CREATE TABLE {$wpdb->prefix}sm_sessions (
+			$collate = '';
+			if ( $wpdb->has_cap( 'collation' ) ) {
+				$collate = $wpdb->get_charset_collate();
+			}
+
+			$table = "CREATE TABLE {$wpdb->prefix}sm_sessions (
 		  session_id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
 		  session_key char(32) NOT NULL,
 		  session_value LONGTEXT NOT NULL,
@@ -479,12 +464,12 @@ class MzMboSession
 		  UNIQUE KEY session_id (session_id)
 		) $collate;";
 
-            include_once ABSPATH . 'wp-admin/includes/upgrade.php';
-            dbDelta($table);
+			include_once ABSPATH . 'wp-admin/includes/upgrade.php';
+			dbDelta( $table );
 
-            add_option('sm_session_db_version', '0.1', '', 'no');
+			add_option( 'sm_session_db_version', '0.1', '', 'no' );
 
-            WP_Session\WP_Session_Utils::delete_all_sessions_from_options();
-        }
-    }
+			WP_Session\WP_Session_Utils::delete_all_sessions_from_options();
+		}
+	}
 }

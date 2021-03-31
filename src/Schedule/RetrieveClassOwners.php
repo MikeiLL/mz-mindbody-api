@@ -7,223 +7,219 @@ use MZoo\MzMindbody\Core as Core;
 use MZoo\MzMindbody\Common as Common;
 use MZoo\MzMindbody\Common\Interfaces as Interfaces;
 
-class RetrieveClassOwners extends Interfaces\RetrieveClasses
-{
+class RetrieveClassOwners extends Interfaces\RetrieveClasses {
 
 
-    /**
-     * Return Time Frame for request to MBO API
-     *
-     * @since 2.4.7
-     *
-     * Default timeFrame is two dates, 4 weeks previous to start of current week as set in WP, and four weeks from now.
-     *
-     * @throws \Exception
-     *
-     * @return array or start and end dates as required for MBO API
-     */
-    public function timeFrame( $timestamp = null )
-    {
-        $start_time = new \Datetime(wp_date('Y-m-d', current_time('timestamp')));
-        $end_time   = new \Datetime(wp_date('Y-m-d', current_time('timestamp')));
-        $di         = new \DateInterval('P4W');
-        $end_time->add($di);
-        // Now let's go four weeks previous as well.
-        $di->invert = 1;
-        $start_time->add($di);
 
-        return array(
-        'StartDateTime' => $start_time->format('Y-m-d'),
-        'EndDateTime'   => $end_time->format('Y-m-d'),
-        );
-    }
+	/**
+	 * Return Time Frame for request to MBO API
+	 *
+	 * @since 2.4.7
+	 *
+	 * Default timeFrame is two dates, 4 weeks previous to start of current week as set in WP, and four weeks from now.
+	 *
+	 * @throws \Exception
+	 *
+	 * @return array or start and end dates as required for MBO API
+	 */
+	public function timeFrame( $timestamp = null ) {
+		$start_time = new \Datetime( wp_date( 'Y-m-d', current_time( 'timestamp' ) ) );
+		$end_time   = new \Datetime( wp_date( 'Y-m-d', current_time( 'timestamp' ) ) );
+		$di         = new \DateInterval( 'P4W' );
+		$end_time->add( $di );
+		// Now let's go four weeks previous as well.
+		$di->invert = 1;
+		$start_time->add( $di );
 
-    /**
-     * Deduce Class Owners
-     *
-     * Wrapper function for populate_regularly_scheduled_classes accessed by admin via ajax.
-     *
-     * Uses the helpers->print() method to output the matrix of probably "class owners" which is then
-     * logged to the console via javascript.
-     */
-    public function deduce_class_owners()
-    {
-        // Generated in Admin\Admin localizeScript().
-        check_admin_referer('mz_deduce_class_owners', 'nonce');
+		return array(
+			'StartDateTime' => $start_time->format( 'Y-m-d' ),
+			'EndDateTime'   => $end_time->format( 'Y-m-d' ),
+		);
+	}
 
-        if (false == $this->getMboResults() ) {
-            echo '<div>' . __('Error deducing MBO class owners.', 'mz-mindbody-api') . '</div>';
-        }
+	/**
+	 * Deduce Class Owners
+	 *
+	 * Wrapper function for populate_regularly_scheduled_classes accessed by admin via ajax.
+	 *
+	 * Uses the helpers->print() method to output the matrix of probably "class owners" which is then
+	 * logged to the console via javascript.
+	 */
+	public function deduce_class_owners() {
+		// Generated in Admin\Admin localizeScript().
+		check_admin_referer( 'mz_deduce_class_owners', 'nonce' );
 
-        ob_start();
-        $result['type'] = 'success';
+		if ( false == $this->getMboResults() ) {
+			echo '<div>' . __( 'Error deducing MBO class owners.', 'mz-mindbody-api' ) . '</div>';
+		}
 
-        $owners = $this->populate_regularly_scheduled_classes('message');
+		ob_start();
+		$result['type'] = 'success';
 
-        NS\MZMBO()->helpers->print($owners);
+		$owners = $this->populate_regularly_scheduled_classes( 'message' );
 
-        $result['message'] = ob_get_clean();
+		NS\MZMBO()->helpers->print( $owners );
 
-        if (! empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' ) {
-            $result = wp_json_encode($result);
-            echo $result;
-        } else {
-            header('Location: ' . $_SERVER['HTTP_REFERER']);
-        }
+		$result['message'] = ob_get_clean();
 
-        wp_die();
-    }
+		if ( ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) == 'xmlhttprequest' ) {
+			$result = wp_json_encode( $result );
+			echo $result;
+		} else {
+			header( 'Location: ' . $_SERVER['HTTP_REFERER'] );
+		}
 
-    /**
-     * Populate Matrix of Regularly Scheduled Classes
-     *
-     * This generates an array, saved as a transient, used when a Class Instructor is "Substitute" to see who the regular teacher is. It's an
-     * ugly approach to determining which classes are unique and assigned to a particular instructor.
-     *
-     * The array is a matrix of these:
-     * [59382] => Array
-     *      (
-     *      [class_name] => GX | Barre
-     *      [class_description] => <div><strong>Born of the original Lotte
-     *      [class_owner] => Darice Balamotti
-     *      [class_owner_id] => 117
-     *      [image_url] => https://clients.mindbodyonline.com/studios/Intensity/reservations/5.jpg
-     *      [time] => 16:16
-     *      [location] => 1
-     *      [day] => Array
-     *          (
-     *          )
-     * )
-     *
-     * @param string $message Whether or not to echo a message and return the resulting array
-     */
-    public function populate_regularly_scheduled_classes( $message = 'no message' )
-    {
-        $class_owners = array();
-        $class_count  = 0;
+		wp_die();
+	}
 
-        if (! isset($this->classes) ) :
-            // No classes so populate the classes array
-            $this->getMboResults();
-        endif;
+	/**
+	 * Populate Matrix of Regularly Scheduled Classes
+	 *
+	 * This generates an array, saved as a transient, used when a Class Instructor is "Substitute" to see who the regular teacher is. It's an
+	 * ugly approach to determining which classes are unique and assigned to a particular instructor.
+	 *
+	 * The array is a matrix of these:
+	 * [59382] => Array
+	 *      (
+	 *      [class_name] => GX | Barre
+	 *      [class_description] => <div><strong>Born of the original Lotte
+	 *      [class_owner] => Darice Balamotti
+	 *      [class_owner_id] => 117
+	 *      [image_url] => https://clients.mindbodyonline.com/studios/Intensity/reservations/5.jpg
+	 *      [time] => 16:16
+	 *      [location] => 1
+	 *      [day] => Array
+	 *          (
+	 *          )
+	 * )
+	 *
+	 * @param string $message Whether or not to echo a message and return the resulting array
+	 */
+	public function populate_regularly_scheduled_classes( $message = 'no message' ) {
+		$class_owners = array();
+		$class_count  = 0;
 
-        $schedules = $this->classes;
+		if ( ! isset( $this->classes ) ) :
+			// No classes so populate the classes array
+			$this->getMboResults();
+		endif;
 
-        foreach ( $schedules as $class ) :
-            $class_count++;
+		$schedules = $this->classes;
 
-            // If already a substitute, continue
-            if ($class['Substitute'] == '1' ) {
-                continue;
-            }
+		foreach ( $schedules as $class ) :
+			$class_count++;
 
-            $day_of_class = wp_date('l', $class['StartDateTime']);
+			// If already a substitute, continue
+			if ( $class['Substitute'] == '1' ) {
+				continue;
+			}
 
-            $class_image = isset($class['ClassDescription']['ImageURL']) ? $class['ClassDescription']['ImageURL'] : '';
+			$day_of_class = wp_date( 'l', $class['StartDateTime'] );
 
-            $image_path_array = explode('?imageversion=', $class_image);
+			$class_image = isset( $class['ClassDescription']['ImageURL'] ) ? $class['ClassDescription']['ImageURL'] : '';
 
-            $class_description_substring = substr(strip_tags($class['ClassDescription']['Description']), 0, 55);
+			$image_path_array = explode( '?imageversion=', $class_image );
 
-            $staff_name = isset($class['Staff']['Name']) ? $class['Staff']['Name'] : $class['Staff']['FirstName'] . ' ' . $class['Staff']['LastName'];
+			$class_description_substring = substr( strip_tags( $class['ClassDescription']['Description'] ), 0, 55 );
 
-            $temp = array(
-            'class_name'        => strip_tags($class['ClassDescription']['Name']),
-            'class_description' => $class_description_substring,
-            'image_url'         => array_shift($image_path_array),
-            'time'              => wp_date('g:ia', $class['StartDateTime']),
-            'location'          => $class['Location']['Id'],
-            'day'               => $day_of_class,
-            'class_owner'       => strip_tags($staff_name),
-            'class_owner_id'    => strip_tags($class['Staff']['Id']),
-            );
+			$staff_name = isset( $class['Staff']['Name'] ) ? $class['Staff']['Name'] : $class['Staff']['FirstName'] . ' ' . $class['Staff']['LastName'];
 
-            // Loop through the entire array, and sub-array and if there's already a match, do nothing
-            foreach ( $class_owners as $owner ) :
-                $diff = array_diff($owner, $temp);
-                if (count($diff) === 0 ) :
-                    // There's already one like this
-                    continue 2; // Jump out of first OUTER loop (2)
-                endif;
-                // DEBUG: Check to see if this is a class which matches in all but staff.
-                // $keys = array_keys($diff);
-                // if ( $keys[0] ==  'class_owner' && $keys[1] ==  'class_owner_id'):
-                // return array($owner, $temp);
-                // endif;
-            endforeach;
+			$temp = array(
+				'class_name'        => strip_tags( $class['ClassDescription']['Name'] ),
+				'class_description' => $class_description_substring,
+				'image_url'         => array_shift( $image_path_array ),
+				'time'              => wp_date( 'g:ia', $class['StartDateTime'] ),
+				'location'          => $class['Location']['Id'],
+				'day'               => $day_of_class,
+				'class_owner'       => strip_tags( $staff_name ),
+				'class_owner_id'    => strip_tags( $class['Staff']['Id'] ),
+			);
 
-            // If there isn't already a match add this item to the array.
-            $class_owners[] = $temp;
-        endforeach;
+			// Loop through the entire array, and sub-array and if there's already a match, do nothing
+			foreach ( $class_owners as $owner ) :
+				$diff = array_diff( $owner, $temp );
+				if ( count( $diff ) === 0 ) :
+					// There's already one like this
+					continue 2; // Jump out of first OUTER loop (2)
+				endif;
+				// DEBUG: Check to see if this is a class which matches in all but staff.
+				// $keys = array_keys($diff);
+				// if ( $keys[0] ==  'class_owner' && $keys[1] ==  'class_owner_id'):
+				// return array($owner, $temp);
+				// endif;
+			endforeach;
 
-        delete_transient('mz_class_owners');
-        set_transient('mz_class_owners', $class_owners, 60 * 60 * 24 * 7);
+			// If there isn't already a match add this item to the array.
+			$class_owners[] = $temp;
+		endforeach;
 
-        if ($message == 'message' ) :
-            return $class_owners;
-        endif;
-    }
+		delete_transient( 'mz_class_owners' );
+		set_transient( 'mz_class_owners', $class_owners, 60 * 60 * 24 * 7 );
 
-    /**
-     * Find Class Owner
-     *
-     * Compare Class against each "owner" in $class_owners and return first match.
-     */
-    public function find_class_owner( $class )
-    {
+		if ( $message == 'message' ) :
+			return $class_owners;
+		endif;
+	}
 
-        // Create an object that will be compared against the $class_owners matrix
+	/**
+	 * Find Class Owner
+	 *
+	 * Compare Class against each "owner" in $class_owners and return first match.
+	 */
+	public function find_class_owner( $class ) {
 
-        $day_of_class = wp_date('l', $class['StartDateTime']);
+		// Create an object that will be compared against the $class_owners matrix
 
-        $class_image = isset($class['ClassDescription']['ImageURL']) ? $class['ClassDescription']['ImageURL'] : '';
+		$day_of_class = wp_date( 'l', $class['StartDateTime'] );
 
-        $image_path_array = explode('?imageversion=', $class_image);
+		$class_image = isset( $class['ClassDescription']['ImageURL'] ) ? $class['ClassDescription']['ImageURL'] : '';
 
-        $class_description_substring = substr(strip_tags($class['ClassDescription']['Description']), 0, 55);
+		$image_path_array = explode( '?imageversion=', $class_image );
 
-        $temp = array(
-        'class_name'        => strip_tags($class['ClassDescription']['Name']),
-        'class_description' => $class_description_substring,
-        'image_url'         => array_shift($image_path_array),
-        'time'              => wp_date('g:ia', $class['StartDateTime']),
-        'location'          => $class['Location']['Id'],
-        'day'               => $day_of_class,
-        'class_owner'       => strip_tags($class['Staff']['Name']),
-        'class_owner_id'    => strip_tags($class['Staff']['Id']),
-        );
+		$class_description_substring = substr( strip_tags( $class['ClassDescription']['Description'] ), 0, 55 );
 
-        // Fetch the Class_Owners transient and loop through it 'till we find a match
-        // First make sure we have the "class_owners" and that it's not an empty set
-        if ($class_owners = get_transient('mz_class_owners') ) :
-            if (count($class_owners) === 0 ) :
-                // Class_owners were empty, so re-generate now
-                $this->populate_regularly_scheduled_classes();
-                // And run this again.
-                return $this->find_class_owner($class);
-            endif;
-            foreach ( $class_owners as $owner ) :
-                // If the only difference is the instructor, we have a match
-                $diff = array_diff($owner, $temp);
-                /*
-                * Check to see if this is a class which matches in all but staff.
-                * This works because class_owner and class_owner_id are the last
-                * two items in the $owner array. So if they are first in $diff, we know
-                * all the other keys matched.
-                */
-                $keys = array_keys($diff);
-                if ($keys[0] == 'class_owner' && $keys[1] == 'class_owner_id' ) :
-                    return $owner;
-                endif;
-            endforeach;
-     else :
-         // Couldn't fetch the transient, so generate it now
-         $this->populate_regularly_scheduled_classes();
-         // And run this again.
-         return $this->find_class_owner($class);
-     endif;
+		$temp = array(
+			'class_name'        => strip_tags( $class['ClassDescription']['Name'] ),
+			'class_description' => $class_description_substring,
+			'image_url'         => array_shift( $image_path_array ),
+			'time'              => wp_date( 'g:ia', $class['StartDateTime'] ),
+			'location'          => $class['Location']['Id'],
+			'day'               => $day_of_class,
+			'class_owner'       => strip_tags( $class['Staff']['Name'] ),
+			'class_owner_id'    => strip_tags( $class['Staff']['Id'] ),
+		);
 
-     // If we didn't find a likely "owner" return false.
-     return false;
-    }
+		// Fetch the Class_Owners transient and loop through it 'till we find a match
+		// First make sure we have the "class_owners" and that it's not an empty set
+		if ( $class_owners = get_transient( 'mz_class_owners' ) ) :
+			if ( count( $class_owners ) === 0 ) :
+				// Class_owners were empty, so re-generate now
+				$this->populate_regularly_scheduled_classes();
+				// And run this again.
+				return $this->find_class_owner( $class );
+			endif;
+			foreach ( $class_owners as $owner ) :
+				// If the only difference is the instructor, we have a match
+				$diff = array_diff( $owner, $temp );
+				/*
+				* Check to see if this is a class which matches in all but staff.
+				* This works because class_owner and class_owner_id are the last
+				* two items in the $owner array. So if they are first in $diff, we know
+				* all the other keys matched.
+				*/
+				$keys = array_keys( $diff );
+				if ( $keys[0] == 'class_owner' && $keys[1] == 'class_owner_id' ) :
+					return $owner;
+				endif;
+			endforeach;
+	 else :
+		 // Couldn't fetch the transient, so generate it now
+		 $this->populate_regularly_scheduled_classes();
+		 // And run this again.
+		 return $this->find_class_owner( $class );
+	 endif;
+
+	 // If we didn't find a likely "owner" return false.
+	 return false;
+	}
 }

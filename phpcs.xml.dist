@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<ruleset name="WordPress Coding Standards for Plugins">
+	<description>Generally-applicable sniffs for WordPress plugins</description>
+    <config name="installed_paths" value="vendor/wp-coding-standards/wpcs" />
+    <arg value="sp"/>
+	<arg name="extensions" value="php"/>
+	<arg name="basepath" value="."/>
+	<arg name="parallel" value="8"/>
+	
+	<exclude-pattern>index.php</exclude-pattern>
+	<exclude-pattern>class-gamajo-template-loader.php</exclude-pattern>
+		
+	<rule ref="WordPress-Core" >
+	    <exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
+	    <exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
+	</rule>
+	<rule ref="WordPress-Docs" />
+    
+	    
+    <exclude name="Internal.NoCodeFound">
+        <exclude-pattern>modal_body.php</exclude-pattern>
+    </exclude>
+    
+	<exclude-pattern>*/node_modules/*</exclude-pattern>
+	<exclude-pattern>*/vendor/*</exclude-pattern>
+</ruleset>
+<!-- also note // @codingStandardsIgnoreStart and // @codingStandardsIgnoreEnd.-->

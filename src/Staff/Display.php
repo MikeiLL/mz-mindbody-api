@@ -19,183 +19,180 @@ use MZoo\MzMindbody\Common\Interfaces as Interfaces;
  *
  * Display MBO staff in a page via shortcode.
  */
-class Display extends Interfaces\ShortcodeScriptLoader
-{
+class Display extends Interfaces\ShortcodeScriptLoader {
 
 
-    /**
-     * If shortcode script has been enqueued.
-     *
-     * @since  2.4.7
-     * @access private
-     *
-     * @used in handleShortcode, addScript
-     * @var  boolean $added_already True if shorcdoe scripts have been enqueued.
-     */
-    private static $added_already = false;
 
-    /**
-     * Shortcode attributes.
-     *
-     * @since  2.4.7
-     * @access public
-     *
-     * @used in handleShortcode, localizeScript, display_schedule
-     * @var  array $atts Shortcode attributes function called with.
-     */
-    public $atts;
+	/**
+	 * If shortcode script has been enqueued.
+	 *
+	 * @since  2.4.7
+	 * @access private
+	 *
+	 * @used in handleShortcode, addScript
+	 * @var  boolean $added_already True if shorcdoe scripts have been enqueued.
+	 */
+	private static $added_already = false;
 
-    /**
-     * Staff object.
-     *
-     * @since  2.4.7
-     * @access public
-     *
-     * @used in handleShortcode, get_staff_modal
-     * @var  object $staff_object The class that retrieves the MBO staff.
-     */
-    public $staff_object;
+	/**
+	 * Shortcode attributes.
+	 *
+	 * @since  2.4.7
+	 * @access public
+	 *
+	 * @used in handleShortcode, localizeScript, display_schedule
+	 * @var  array $atts Shortcode attributes function called with.
+	 */
+	public $atts;
 
-    /**
-     * Data to send to template
-     *
-     * @since  2.4.7
-     * @access public
-     *
-     * @used in handleShortcode, display_schedule
-     * @var  @array    $data    array to send template.
-     */
-    public $template_data;
-    
-    /**
-     * Handle Shortcode 
-     *
-     * @param  string $atts    shortcode inputs
-     * @param  string $content any content between start and end shortcode tags.
-     * @return string shortcode content
-     */
-    public function handleShortcode( $atts, $content = null )
-    {
+	/**
+	 * Staff object.
+	 *
+	 * @since  2.4.7
+	 * @access public
+	 *
+	 * @used in handleShortcode, get_staff_modal
+	 * @var  object $staff_object The class that retrieves the MBO staff.
+	 */
+	public $staff_object;
 
-        $this->atts = shortcode_atts(
-            array(
-            'account'           => '0',
-            'gallery'           => '0',
-            'hide'              => '',
-            'include_imageless' => 0,
-            ),
-            $atts
-        );
+	/**
+	 * Data to send to template
+	 *
+	 * @since  2.4.7
+	 * @access public
+	 *
+	 * @used in handleShortcode, display_schedule
+	 * @var  @array    $data    array to send template.
+	 */
+	public $template_data;
 
-        $this->class_modal_link = NS\PLUGIN_NAME_URL . 'src/Frontend/views/modals/modal_descriptions.php';
+	/**
+	 * Handle Shortcode
+	 *
+	 * @param  string $atts    shortcode inputs
+	 * @param  string $content any content between start and end shortcode tags.
+	 * @return string shortcode content
+	 */
+	public function handleShortcode( $atts, $content = null ) {
 
-        // If set, turn hide into an Array
-        if ($this->atts['hide'] !== '' ) {
-            if (! is_array($this->atts['hide']) ) { // if not already an array
-                $this->atts['hide'] = explode(',', $this->atts['hide']);
-            }
-            foreach ( $this->atts['hide'] as $key => $type ) :
-                $this->atts['hide'][ $key ] = trim($type);
-            endforeach;
-        }
+		$this->atts = shortcode_atts(
+			array(
+				'account'           => '0',
+				'gallery'           => '0',
+				'hide'              => '',
+				'include_imageless' => 0,
+			),
+			$atts
+		);
 
-        ob_start();
+		$this->class_modal_link = NS\PLUGIN_NAME_URL . 'src/Frontend/views/modals/modal_descriptions.php';
 
-        $template_loader     = new Core\TemplateLoader();
-        $this->staff_object = new RetrieveStaff($this->atts);
+		// If set, turn hide into an Array
+		if ( $this->atts['hide'] !== '' ) {
+			if ( ! is_array( $this->atts['hide'] ) ) { // if not already an array
+				$this->atts['hide'] = explode( ',', $this->atts['hide'] );
+			}
+			foreach ( $this->atts['hide'] as $key => $type ) :
+				$this->atts['hide'][ $key ] = trim( $type );
+			endforeach;
+		}
 
-        // Call the API and if fails, return error message.
-        if (false === $this->staff_object->getMboResults() ) {
-            return '<div>' . __('Error displaying Staff from Mindbody.', 'mz-mindbody-api') . '</div>';
-        }
+		ob_start();
 
-        if (isset($this->staff_object->staff_result) ) :
-            $mz_staff_list = $this->staff_object->sort_staff_by_sort_order($this->atts);
-     else :
-         NS\MZMBO()->helpers->print($this->staff_object);
-         die('Something went wrong.');
-     endif;
+		$template_loader    = new Core\TemplateLoader();
+		$this->staff_object = new RetrieveStaff( $this->atts );
 
-     // Add Style with script adder
-     self::addScript();
+		// Call the API and if fails, return error message.
+		if ( false === $this->staff_object->getMboResults() ) {
+			return '<div>' . __( 'Error displaying Staff from Mindbody.', 'mz-mindbody-api' ) . '</div>';
+		}
 
-     $this->template_data = array(
-      'atts'  => $this->atts,
-      'staff' => $mz_staff_list,
-     );
+		if ( isset( $this->staff_object->staff_result ) ) :
+			$mz_staff_list = $this->staff_object->sort_staff_by_sort_order( $this->atts );
+	 else :
+		 NS\MZMBO()->helpers->print( $this->staff_object );
+		 die( 'Something went wrong.' );
+	 endif;
 
-     $template_loader->set_template_data($this->template_data);
+	 // Add Style with script adder
+	 self::addScript();
 
-     if ($this->atts['gallery'] != '0' ) {
-         $template_loader->get_template_part('staff_list_gallery');
-     } else {
-         $template_loader->get_template_part('staff_list_horizontal');
-     }
+	 $this->template_data = array(
+		 'atts'  => $this->atts,
+		 'staff' => $mz_staff_list,
+	 );
 
-     return ob_get_clean();
-    }
+	 $template_loader->set_template_data( $this->template_data );
 
-    /**
-     * Add Script.
-     *
-     * Add scripts if not added already.
-     *
-     * @return void
-     */
-    public function addScript()
-    {
-        if (! self::$added_already ) {
-            self::$added_already = true;
+	 if ( $this->atts['gallery'] != '0' ) {
+		 $template_loader->get_template_part( 'staff_list_gallery' );
+	 } else {
+		 $template_loader->get_template_part( 'staff_list_horizontal' );
+	 }
 
-            wp_register_style('mz_mindbody_style', NS\PLUGIN_NAME_URL . 'dist/styles/main.css');
-            wp_enqueue_style('mz_mindbody_style');
+	 return ob_get_clean();
+	}
 
-            wp_register_script('mz_mbo_bootstrap_script', NS\PLUGIN_NAME_URL . 'dist/scripts/main.js', array( 'jquery' ), NS\PLUGIN_VERSION, true);
-            wp_enqueue_script('mz_mbo_bootstrap_script');
-        }
-    }
+	/**
+	 * Add Script.
+	 *
+	 * Add scripts if not added already.
+	 *
+	 * @return void
+	 */
+	public function addScript() {
+		if ( ! self::$added_already ) {
+			self::$added_already = true;
 
-    /**
-     * Get Staff called via Ajax
-     *
-     * Used in the get schedule staff member link modal.
-     */
-    function get_staff_modal()
-    {
-        // Generated in Schedule\ScheduleItem
-        check_ajax_referer('mz_staff_retrieve_nonce', 'nonce');
+			wp_register_style( 'mz_mindbody_style', NS\PLUGIN_NAME_URL . 'dist/styles/main.css' );
+			wp_enqueue_style( 'mz_mindbody_style' );
 
-        ob_start();
-        $template_loader = new Core\TemplateLoader();
+			wp_register_script( 'mz_mbo_bootstrap_script', NS\PLUGIN_NAME_URL . 'dist/scripts/main.js', array( 'jquery' ), NS\PLUGIN_VERSION, true );
+			wp_enqueue_script( 'mz_mbo_bootstrap_script' );
+		}
+	}
 
-        $staffID = $_REQUEST['staffID'];
+	/**
+	 * Get Staff called via Ajax
+	 *
+	 * Used in the get schedule staff member link modal.
+	 */
+	function get_staff_modal() {
+		// Generated in Schedule\ScheduleItem
+		check_ajax_referer( 'mz_staff_retrieve_nonce', 'nonce' );
 
-        $result['type'] = 'success';
+		ob_start();
+		$template_loader = new Core\TemplateLoader();
 
-        $this->staff_object = new RetrieveStaff();
+		$staffID = $_REQUEST['staffID'];
 
-        // Send an array of staffID
-        $staff_result = $this->staff_object->getMboResults(array( $staffID ));
+		$result['type'] = 'success';
 
-        $this->template_data = array(
-        'staff_details' => new StaffMember($staff_result[0]), // returns an array
-        'staffID'       => $staffID,
-        'site_id'        => $_REQUEST['site_id'],
-        );
+		$this->staff_object = new RetrieveStaff();
 
-        $template_loader->set_template_data($this->template_data);
-        $template_loader->get_template_part('staff_modal');
+		// Send an array of staffID
+		$staff_result = $this->staff_object->getMboResults( array( $staffID ) );
 
-        $result['message'] = ob_get_clean();
+		$this->template_data = array(
+			'staff_details' => new StaffMember( $staff_result[0] ), // returns an array
+			'staffID'       => $staffID,
+			'site_id'       => $_REQUEST['site_id'],
+		);
 
-        if (! empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' ) {
-            $result = wp_json_encode($result);
-            echo $result;
-        } else {
-            header('Location: ' . $_SERVER['HTTP_REFERER']);
-        }
+		$template_loader->set_template_data( $this->template_data );
+		$template_loader->get_template_part( 'staff_modal' );
 
-        die();
-    }
-    // End Ajax Get Staff
+		$result['message'] = ob_get_clean();
+
+		if ( ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) == 'xmlhttprequest' ) {
+			$result = wp_json_encode( $result );
+			echo $result;
+		} else {
+			header( 'Location: ' . $_SERVER['HTTP_REFERER'] );
+		}
+
+		die();
+	}
+	// End Ajax Get Staff
 }

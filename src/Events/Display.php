@@ -19,385 +19,381 @@ use MZoo\MzMindbody\Common\Interfaces as Interfaces;
  *
  * Display MBO events in a page via shortcode.
  */
-class Display extends Interfaces\ShortcodeScriptLoader
-{
+class Display extends Interfaces\ShortcodeScriptLoader {
 
 
-    /**
-     * If shortcode script has been enqueued.
-     *
-     * @since  2.4.7
-     * @access private
-     *
-     * @used in handleShortcode, addScript
-     * @var  boolean $added_already True if shorcdoe scripts have been enqueued.
-     */
-    private static $added_already = false;
 
-    /**
-     * Shortcode attributes.
-     *
-     * @since  2.4.7
-     * @access public
-     *
-     * @used in handleShortcode, localizeScript, display_schedule
-     * @var  array $atts Shortcode attributes function called with.
-     */
-    public $atts;
+	/**
+	 * If shortcode script has been enqueued.
+	 *
+	 * @since  2.4.7
+	 * @access private
+	 *
+	 * @used in handleShortcode, addScript
+	 * @var  boolean $added_already True if shorcdoe scripts have been enqueued.
+	 */
+	private static $added_already = false;
 
-    /**
-     * Events object.
-     *
-     * @since  2.4.7
-     * @access public
-     *
-     * @used in handleShortcode, get_events_modal
-     * @var  object $events_object The class that retrieves the MBO events.
-     */
-    public $events_object;
+	/**
+	 * Shortcode attributes.
+	 *
+	 * @since  2.4.7
+	 * @access public
+	 *
+	 * @used in handleShortcode, localizeScript, display_schedule
+	 * @var  array $atts Shortcode attributes function called with.
+	 */
+	public $atts;
 
-    /**
-     * Data to send to template
-     *
-     * @since  2.4.7
-     * @access public
-     *
-     * @used in handleShortcode, display_schedule
-     * @var  @array    $data    array to send template.
-     */
-    public $template_data;
+	/**
+	 * Events object.
+	 *
+	 * @since  2.4.7
+	 * @access public
+	 *
+	 * @used in handleShortcode, get_events_modal
+	 * @var  object $events_object The class that retrieves the MBO events.
+	 */
+	public $events_object;
 
-    /**
-     * Event Location
-     *
-     * @since 1.0.0
-     *
-     * For backwards compatibility
-     *
-     * @access public
-     * @var    $location array of locations to display events for
-     */
-    public $location;
+	/**
+	 * Data to send to template
+	 *
+	 * @since  2.4.7
+	 * @access public
+	 *
+	 * @used in handleShortcode, display_schedule
+	 * @var  @array    $data    array to send template.
+	 */
+	public $template_data;
 
-    /**
-     * Event Locations
-     *
-     * @since 2.0.0 (estimate)
-     *
-     * @access public
-     * @var    $locations array of locations to display events for
-     */
-    public $locations;
+	/**
+	 * Event Location
+	 *
+	 * @since 1.0.0
+	 *
+	 * For backwards compatibility
+	 *
+	 * @access public
+	 * @var    $location array of locations to display events for
+	 */
+	public $location;
 
-    /**
-     * Event List Only View
-     *
-     * @since 2.0.0 (estimate)
-     *
-     * @access public
-     * @var    $list_only boolean True indicates to just display a list of event Name, Date and Times
-     */
-    public $list_only;
+	/**
+	 * Event Locations
+	 *
+	 * @since 2.0.0 (estimate)
+	 *
+	 * @access public
+	 * @var    $locations array of locations to display events for
+	 */
+	public $locations;
 
-    /**
-     * Event Count
-     *
-     * @since 2.0.0 (estimate)
-     *
-     * @access public
-     * @var    $event_count int number of events returned per request to MBO
-     */
-    public $event_count;
+	/**
+	 * Event List Only View
+	 *
+	 * @since 2.0.0 (estimate)
+	 *
+	 * @access public
+	 * @var    $list_only boolean True indicates to just display a list of event Name, Date and Times
+	 */
+	public $list_only;
 
-    /**
-     * Event Account
-     *
-     * Default in Options, overridden in shortcode atts
-     *
-     * @since 2.0.0 (estimate)
-     *
-     * @access public
-     * @var    $account int MBO account to retrieve events from.
-     */
-    public $account;
+	/**
+	 * Event Count
+	 *
+	 * @since 2.0.0 (estimate)
+	 *
+	 * @access public
+	 * @var    $event_count int number of events returned per request to MBO
+	 */
+	public $event_count;
 
-    /**
-     * Event Single Week DIsplay
-     *
-     * @since 2.0.0 (estimate)
-     *
-     * @access public
-     * @var    $week_only boolean True indicates to only display a weeks worth of events, starting with current day
-     */
-    public $week_only;
+	/**
+	 * Event Account
+	 *
+	 * Default in Options, overridden in shortcode atts
+	 *
+	 * @since 2.0.0 (estimate)
+	 *
+	 * @access public
+	 * @var    $account int MBO account to retrieve events from.
+	 */
+	public $account;
 
-    /**
-     * Event Locations
-     *
-     * @since 2.0.0 (estimate)
-     *
-     * @access public
-     * @var    $locations array of locations to display events for
-     */
-    public $number_of_events;
+	/**
+	 * Event Single Week DIsplay
+	 *
+	 * @since 2.0.0 (estimate)
+	 *
+	 * @access public
+	 * @var    $week_only boolean True indicates to only display a weeks worth of events, starting with current day
+	 */
+	public $week_only;
 
-    /**
-     *
-     *
-     * @since  2.4.7
-     * @access public
-     *
-     * @used in handleShortcode, displayEvents
-     * @var  @array
-     */
-    public $client_id;
+	/**
+	 * Event Locations
+	 *
+	 * @since 2.0.0 (estimate)
+	 *
+	 * @access public
+	 * @var    $locations array of locations to display events for
+	 */
+	public $number_of_events;
 
-    /**
-     * Site ID
-     *
-     * Used in Display Schedule sent to studioID in show schedule button in teacher modal.
-     * Might be same as account.
-     *
-     * @since  2.4.7
-     * @access public
-     * @var    int $site_id
-     */
-    public $site_id;
-    
-    /**
-     * Handle Shortcode 
-     *
-     * @param  string $atts    shortcode inputs
-     * @param  string $content any content between start and end shortcode tags.
-     * @return string shortcode content
-     */
-    public function handleShortcode( $atts, $content = null )
-    {
+	/**
+	 *
+	 *
+	 * @since  2.4.7
+	 * @access public
+	 *
+	 * @used in handleShortcode, displayEvents
+	 * @var  @array
+	 */
+	public $client_id;
 
-        $this->atts = shortcode_atts(
-            array(
-            'location'        => '1',
-            'locations'       => '1',
-            'list'            => 0,
-            'event_count'     => '0',
-            'account'         => 0,
-            'week-only'       => 0,
-            'offset'          => 0,
-            'location_filter' => 0,
-            ),
-            $atts
-        );
+	/**
+	 * Site ID
+	 *
+	 * Used in Display Schedule sent to studioID in show schedule button in teacher modal.
+	 * Might be same as account.
+	 *
+	 * @since  2.4.7
+	 * @access public
+	 * @var    int $site_id
+	 */
+	public $site_id;
 
-        // Set siteID to option unless set explicitly in shortcode
-        $this->site_id = Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
-        if (! empty($atts['account']) ) {
-            $atts['account'];
-        }
+	/**
+	 * Handle Shortcode
+	 *
+	 * @param  string $atts    shortcode inputs
+	 * @param  string $content any content between start and end shortcode tags.
+	 * @return string shortcode content
+	 */
+	public function handleShortcode( $atts, $content = null ) {
 
-        // Break locations up into array, if it hasn't already been.
-        if (! is_array($this->atts['locations']) ) {
-            explode(',', str_replace(' ', '', $this->atts['locations']));
-        }
+		$this->atts = shortcode_atts(
+			array(
+				'location'        => '1',
+				'locations'       => '1',
+				'list'            => 0,
+				'event_count'     => '0',
+				'account'         => 0,
+				'week-only'       => 0,
+				'offset'          => 0,
+				'location_filter' => 0,
+			),
+			$atts
+		);
 
-        ob_start();
+		// Set siteID to option unless set explicitly in shortcode
+		$this->site_id = Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
+		if ( ! empty( $atts['account'] ) ) {
+			$atts['account'];
+		}
 
-        $template_loader = new Core\TemplateLoader();
+		// Break locations up into array, if it hasn't already been.
+		if ( ! is_array( $this->atts['locations'] ) ) {
+			explode( ',', str_replace( ' ', '', $this->atts['locations'] ) );
+		}
 
-        $this->events_object = new RetrieveEvents($this->atts);
+		ob_start();
 
-        // Call the API and if fails, return error message.
-        if (! $response = $this->events_object->getMboResults() ) {
-            return '<div>' . __('Error returning events from Mindbody.', 'mz-mindbody-api') . '</div>';
-        }
-        // Add Style with script adder
-        self::addScript();
+		$template_loader = new Core\TemplateLoader();
 
-        $events = ( count($response) >= 1 ) ? $response : __('No Events in current cycle', 'mz-mindbody-api');
+		$this->events_object = new RetrieveEvents( $this->atts );
 
-        $events = $this->events_object->sortEventsByTime();
+		// Call the API and if fails, return error message.
+		if ( ! $response = $this->events_object->getMboResults() ) {
+			return '<div>' . __( 'Error returning events from Mindbody.', 'mz-mindbody-api' ) . '</div>';
+		}
+		// Add Style with script adder
+		self::addScript();
 
-        $this->template_data = array(
-        'atts'                 => $this->atts,
-        'events'               => $events,
-        'display_timeFrame'    => $this->events_object->display_timeFrame,
-        'locations_dictionary' => $this->events_object->locations_dictionary,
-        'locations_count'      => count($this->atts['locations']),
-        'no_events'            => NS\MZMBO()->i18n->get('no_events_this_period'),
-        'heading_date'         => __('Date', 'mz_mindbody-api'),
-        'heading_time'         => __('Time', 'mz_mindbody-api'),
-        'heading_event'        => __('Event', 'mz_mindbody-api'),
-        'heading_location'     => __('Location', 'mz_mindbody-api'),
-        'site_id'               => $this->site_id,
-        'with'                 => NS\MZMBO()->i18n->get('with'),
-        'login'                => NS\MZMBO()->i18n->get('login'),
-        'login_to_sign_up'     => NS\MZMBO()->i18n->get('login_to_sign_up'),
-         //'signup_nonce'         => wp_create_nonce('mz_signup_nonce'), // out of use
-        'registration_button'  => NS\MZMBO()->i18n->get('registration_button'),
-        'username'             => NS\MZMBO()->i18n->get('username'),
-        'password'             => NS\MZMBO()->i18n->get('password'),
-        'manage_on_mbo'        => NS\MZMBO()->i18n->get('manage_on_mbo'),
-        'all_locations_copy'   => NS\MZMBO()->i18n->get('all_locations_copy'),
-        );
+		$events = ( count( $response ) >= 1 ) ? $response : __( 'No Events in current cycle', 'mz-mindbody-api' );
 
-        $template_loader->set_template_data($this->template_data);
-        $template_loader->get_template_part('event_listing_container');
+		$events = $this->events_object->sortEventsByTime();
 
-        return ob_get_clean();
-    }
+		$this->template_data = array(
+			'atts'                 => $this->atts,
+			'events'               => $events,
+			'display_timeFrame'    => $this->events_object->display_timeFrame,
+			'locations_dictionary' => $this->events_object->locations_dictionary,
+			'locations_count'      => count( $this->atts['locations'] ),
+			'no_events'            => NS\MZMBO()->i18n->get( 'no_events_this_period' ),
+			'heading_date'         => __( 'Date', 'mz_mindbody-api' ),
+			'heading_time'         => __( 'Time', 'mz_mindbody-api' ),
+			'heading_event'        => __( 'Event', 'mz_mindbody-api' ),
+			'heading_location'     => __( 'Location', 'mz_mindbody-api' ),
+			'site_id'              => $this->site_id,
+			'with'                 => NS\MZMBO()->i18n->get( 'with' ),
+			'login'                => NS\MZMBO()->i18n->get( 'login' ),
+			'login_to_sign_up'     => NS\MZMBO()->i18n->get( 'login_to_sign_up' ),
+			// 'signup_nonce'         => wp_create_nonce('mz_signup_nonce'), // out of use
+			'registration_button'  => NS\MZMBO()->i18n->get( 'registration_button' ),
+			'username'             => NS\MZMBO()->i18n->get( 'username' ),
+			'password'             => NS\MZMBO()->i18n->get( 'password' ),
+			'manage_on_mbo'        => NS\MZMBO()->i18n->get( 'manage_on_mbo' ),
+			'all_locations_copy'   => NS\MZMBO()->i18n->get( 'all_locations_copy' ),
+		);
 
-    /**
-     * Add Script.
-     *
-     * Add scripts if not added already.
-     *
-     * @return void
-     */
-    public function addScript()
-    {
-        if (! self::$added_already ) {
-            self::$added_already = true;
+		$template_loader->set_template_data( $this->template_data );
+		$template_loader->get_template_part( 'event_listing_container' );
 
-            wp_register_style(
-                'mz_mindbody_style',
-                NS\PLUGIN_NAME_URL . 'dist/styles/main.css'
-            );
-            wp_enqueue_style('mz_mindbody_style');
+		return ob_get_clean();
+	}
 
-            wp_register_script(
-                'mz_mbo_bootstrap_script',
-                NS\PLUGIN_NAME_URL . 'dist/scripts/main.js',
-                array( 'jquery' ),
-                NS\PLUGIN_VERSION,
-                true
-            );
-            wp_enqueue_script('mz_mbo_bootstrap_script');
+	/**
+	 * Add Script.
+	 *
+	 * Add scripts if not added already.
+	 *
+	 * @return void
+	 */
+	public function addScript() {
+		if ( ! self::$added_already ) {
+			self::$added_already = true;
 
-            wp_register_script(
-                'mz_mbo_events',
-                NS\PLUGIN_NAME_URL . 'dist/scripts/events-display.js',
-                array( 'jquery' ),
-                NS\PLUGIN_VERSION,
-                true
-            );
-            wp_enqueue_script('mz_mbo_events');
+			wp_register_style(
+				'mz_mindbody_style',
+				NS\PLUGIN_NAME_URL . 'dist/styles/main.css'
+			);
+			wp_enqueue_style( 'mz_mindbody_style' );
 
-            $this->localizeScript();
-        }
-    }
+			wp_register_script(
+				'mz_mbo_bootstrap_script',
+				NS\PLUGIN_NAME_URL . 'dist/scripts/main.js',
+				array( 'jquery' ),
+				NS\PLUGIN_VERSION,
+				true
+			);
+			wp_enqueue_script( 'mz_mbo_bootstrap_script' );
 
-    /**
-     * Localize Script.
-     *
-     * Send required variables as javascript object.
-     *
-     * @return void
-     */
-    public function localizeScript()
-    {
+			wp_register_script(
+				'mz_mbo_events',
+				NS\PLUGIN_NAME_URL . 'dist/scripts/events-display.js',
+				array( 'jquery' ),
+				NS\PLUGIN_VERSION,
+				true
+			);
+			wp_enqueue_script( 'mz_mbo_events' );
 
-        $protocol = isset($_SERVER['HTTPS']) ? 'https://' : 'http://';
+			$this->localizeScript();
+		}
+	}
 
-        $translated_strings = NS\MZMBO()->i18n->get();
+	/**
+	 * Localize Script.
+	 *
+	 * Send required variables as javascript object.
+	 *
+	 * @return void
+	 */
+	public function localizeScript() {
 
-        $params = array(
-        'ajaxurl'        => admin_url('admin-ajax.php', $protocol),
-        // Used in displayEvents below.
-        'nonce'          => wp_create_nonce('mz_events_display_nonce'),
-        'atts'           => $this->atts,
-        'account'        => Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'],
-        'error'          => __('Sorry but there was an error retrieving the events.', 'mz-mindbody-api'),
-        'no_bio'         => __('No biography listed for this staff member.', 'mz-mindbody-api'),
-        'login'          => $translated_strings['login'],
-        'signup'         => $translated_strings['sign_up'],
-        'confirm_signup' => $translated_strings['confirm_signup'],
-        'logout'         => $translated_strings['logout'],
-        'signup_heading' => $translated_strings['signup_heading'],
-        'Locations_dict' => wp_json_encode($locations_dictionary),
-         // 'signup_nonce'   => wp_create_nonce('mz_signup_nonce'), out of use.
-        'site_id'         => $this->site_id,
-        'location'       => $this->sLoc,
-        'with'           => NS\MZMBO()->i18n->get('with'),
-        );
-        wp_localize_script('mz_mbo_events', 'mz_mindbody_schedule', $params);
-    }
+		$protocol = isset( $_SERVER['HTTPS'] ) ? 'https://' : 'http://';
 
-    /**
-     * Ajax function to return mbo schedule
-     *
-     * @since 2.4.7
-     *
-     * This duplicates a lot of the handle_shortcode function, but
-     * is called via AJAX and used when navigating the schedule.
-     *
-     *
-     *
-     * Echo json wp_json_encode() version of HTML from template
-     */
-    public function displayEvents()
-    {
+		$translated_strings = NS\MZMBO()->i18n->get();
 
-        ob_start();
-        
-        // Generated in handleShortcode above, template_data.
-        check_ajax_referer('mz_events_display_nonce', 'nonce');
+		$params = array(
+			'ajaxurl'        => admin_url( 'admin-ajax.php', $protocol ),
+			// Used in displayEvents below.
+			'nonce'          => wp_create_nonce( 'mz_events_display_nonce' ),
+			'atts'           => $this->atts,
+			'account'        => Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'],
+			'error'          => __( 'Sorry but there was an error retrieving the events.', 'mz-mindbody-api' ),
+			'no_bio'         => __( 'No biography listed for this staff member.', 'mz-mindbody-api' ),
+			'login'          => $translated_strings['login'],
+			'signup'         => $translated_strings['sign_up'],
+			'confirm_signup' => $translated_strings['confirm_signup'],
+			'logout'         => $translated_strings['logout'],
+			'signup_heading' => $translated_strings['signup_heading'],
+			'Locations_dict' => wp_json_encode( $locations_dictionary ),
+			// 'signup_nonce'   => wp_create_nonce('mz_signup_nonce'), out of use.
+			'site_id'        => $this->site_id,
+			'location'       => $this->sLoc,
+			'with'           => NS\MZMBO()->i18n->get( 'with' ),
+		);
+		wp_localize_script( 'mz_mbo_events', 'mz_mindbody_schedule', $params );
+	}
 
-        $atts = $_REQUEST['atts'];
+	/**
+	 * Ajax function to return mbo schedule
+	 *
+	 * @since 2.4.7
+	 *
+	 * This duplicates a lot of the handle_shortcode function, but
+	 * is called via AJAX and used when navigating the schedule.
+	 *
+	 *
+	 *
+	 * Echo json wp_json_encode() version of HTML from template
+	 */
+	public function displayEvents() {
 
-        $result['type'] = 'success';
+		ob_start();
 
-        $template_loader = new Core\TemplateLoader();
+		// Generated in handleShortcode above, template_data.
+		check_ajax_referer( 'mz_events_display_nonce', 'nonce' );
 
-        $this->events_object = new RetrieveEvents($atts);
+		$atts = $_REQUEST['atts'];
 
-        // Register attributes
-        $this->handleShortcode($atts);
+		$result['type'] = 'success';
 
-        // Call the API and if fails, return error message.
-        if (! $response = $this->events_object->getMboResults() ) {
-            $result  = '<div>';
-            $result .= __('Error returning events to display from Minbbody.', 'mz-mindbody-api');
-            $result .= '</div>';
-            return $result;
-        }
+		$template_loader = new Core\TemplateLoader();
 
-        // TODO following does nothing. This still work?
-        // $events = __('No Events in current cycle', 'mz-mindbody-api');
-        // if ($response['GetClassesResult']['ResultCount'] >= 1) {
-        // $events = $response['GetClassesResult']['Classes']['Class'];
-        // }
+		$this->events_object = new RetrieveEvents( $atts );
 
-        $events = $this->events_object->sortEventsByTime();
+		// Register attributes
+		$this->handleShortcode( $atts );
 
-        // Assign the date range to the $result
-        $date_range           = $this->events_object->display_timeFrame;
-        $result['date_range'] = sprintf(
-            __('Displaying events from %1$s to %2$s.', 'mz-mindbody-api'),
-            $date_range['start']->format('F j'),
-            $date_range['end']->format('F j')
-        );
+		// Call the API and if fails, return error message.
+		if ( ! $response = $this->events_object->getMboResults() ) {
+			$result  = '<div>';
+			$result .= __( 'Error returning events to display from Minbbody.', 'mz-mindbody-api' );
+			$result .= '</div>';
+			return $result;
+		}
 
-        // Update the data array
-        $this->template_data['events'] = $events;
-        $this->template_data['atts']   = $atts;
+		// TODO following does nothing. This still work?
+		// $events = __('No Events in current cycle', 'mz-mindbody-api');
+		// if ($response['GetClassesResult']['ResultCount'] >= 1) {
+		// $events = $response['GetClassesResult']['Classes']['Class'];
+		// }
 
-        $template_loader->set_template_data($this->template_data);
-        if ($atts['list'] != 1 ) :
-            $template_loader->get_template_part('event_listing_full');
-     else :
-         $template_loader->get_template_part('event_listing_list');
-     endif;
+		$events = $this->events_object->sortEventsByTime();
 
-     $result['message'] = ob_get_clean();
+		// Assign the date range to the $result
+		$date_range           = $this->events_object->display_timeFrame;
+		$result['date_range'] = sprintf(
+			__( 'Displaying events from %1$s to %2$s.', 'mz-mindbody-api' ),
+			$date_range['start']->format( 'F j' ),
+			$date_range['end']->format( 'F j' )
+		);
 
-     if (( ! empty($_SERVER['HTTP_X_REQUESTED_WITH']) ) 
-         && ( strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' )
-     ) {
-         $result = wp_json_encode($result);
-         echo $result;
-     } else {
-         header('Location: ' . $_SERVER['HTTP_REFERER']);
-     }
+		// Update the data array
+		$this->template_data['events'] = $events;
+		$this->template_data['atts']   = $atts;
 
-     die();
-    }
+		$template_loader->set_template_data( $this->template_data );
+		if ( $atts['list'] != 1 ) :
+			$template_loader->get_template_part( 'event_listing_full' );
+	 else :
+		 $template_loader->get_template_part( 'event_listing_list' );
+	 endif;
+
+	 $result['message'] = ob_get_clean();
+
+	 if ( ( ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) )
+		 && ( strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) == 'xmlhttprequest' )
+	 ) {
+		 $result = wp_json_encode( $result );
+		 echo $result;
+	 } else {
+		 header( 'Location: ' . $_SERVER['HTTP_REFERER'] );
+	 }
+
+	 die();
+	}
 }

@@ -16,35 +16,34 @@ use MZoo\MzMindbody as NS;
  *
  * Not currently in use
  */
-class SitePortal extends RetrieveSite
-{
+class SitePortal extends RetrieveSite {
 
-    /**
-     * Format for date display, specific to MBO API Plugin.
-     *
-     * @since  2.4.7
-     * @access public
-     * @var    string $date_format WP date format option.
-     */
-    public $date_format;
 
-    /**
-     * Format for time display, specific to MBO API Plugin.
-     *
-     * @since  2.4.7
-     * @access public
-     * @var    string $time_format
-     */
-    public $time_format;
+	/**
+	 * Format for date display, specific to MBO API Plugin.
+	 *
+	 * @since  2.4.7
+	 * @access public
+	 * @var    string $date_format WP date format option.
+	 */
+	public $date_format;
 
-    /**
-     * Class constructor
-     *
-     * @since 2.4.7
-     */
-    public function __construct()
-    {
-        $this->date_format = Core\MzMindbodyApi::$date_format;
-        $this->time_format = Core\MzMindbodyApi::$time_format;
-    }
+	/**
+	 * Format for time display, specific to MBO API Plugin.
+	 *
+	 * @since  2.4.7
+	 * @access public
+	 * @var    string $time_format
+	 */
+	public $time_format;
+
+	/**
+	 * Class constructor
+	 *
+	 * @since 2.4.7
+	 */
+	public function __construct() {
+		$this->date_format = Core\MzMindbodyApi::$date_format;
+		$this->time_format = Core\MzMindbodyApi::$time_format;
+	}
 }
