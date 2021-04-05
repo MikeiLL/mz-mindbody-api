@@ -109,7 +109,7 @@ class HtmlElement {
 	 * @param HtmlElement $object An instance of this class.
 	 */
 	function inject( $object ) {
-		if ( __class__ == @get_class( $object ) ) {
+		if ( __class__ === get_class( $object ) ) {
 			$this->attributes['text'] .= $object->build();
 		}
 	}
