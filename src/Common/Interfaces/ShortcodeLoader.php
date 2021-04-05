@@ -68,9 +68,12 @@ abstract class ShortcodeLoader {
 	}
 
 	/**
-	 * @abstract Override this function and add actual shortcode handling here
-	 * @param    $atts shortcode inputs
-	 * @return   string shortcode content
+	 * Handle Shortcode
+	 *
+	 * @abstract Override this function and add actual shortcode handling here.
+	 * @param    array  $atts shortcode inputs.
+	 * @param    string $content What is between matching pair of shortcode tags.
+	 * @return   string shortcode content.
 	 */
 	abstract public function handle_shortcode( $atts, $content = 'hello');
 }
