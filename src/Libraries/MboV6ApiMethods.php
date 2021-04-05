@@ -48,20 +48,84 @@ class MboV6ApiMethods {
 	 */
 	private $headers_authorized = array();
 
-	protected $endpoint_classes     = 'https://api.mindbodyonline.com/public/v6/class';
+	/**
+	 * Endpoint Classes
+	 *
+	 * @access protected
+	 * @var string $endpoint_classes MBO API Endpoint.
+	 */
+	protected $endpoint_classes = 'https://api.mindbodyonline.com/public/v6/class';
+
+	/**
+	 * Endpoint Appointment
+	 *
+	 * @access protected
+	 * @var string $endpoint_appointment MBO API Endpoint.
+	 */
 	protected $endpoint_appointment = 'https://api.mindbodyonline.com/public/v6/appointment';
-	protected $endpoint_client      = 'https://api.mindbodyonline.com/public/v6/client';
-	protected $endpoint_enrollment  = 'https://api.mindbodyonline.com/public/v6/enrollment';
-	protected $endpoint_payroll     = 'https://api.mindbodyonline.com/public/v6/payroll';
-	protected $endpoint_sale        = 'https://api.mindbodyonline.com/public/v6/sale';
-	protected $endpoint_site        = 'https://api.mindbodyonline.com/public/v6/site';
-	protected $endpoint_staff       = 'https://api.mindbodyonline.com/public/v6/staff';
-	protected $endpoint_user_token  = 'https://api.mindbodyonline.com/public/v6/usertoken';
+
+	/**
+	 * Endpoint Client
+	 *
+	 * @access protected
+	 * @var string $endpoint_client MBO API Endpoint.
+	 */
+	protected $endpoint_client = 'https://api.mindbodyonline.com/public/v6/client';
+
+	/**
+	 * Endpoint Enrollment
+	 *
+	 * @access protected
+	 * @var string $endpoint_enrollment MBO API Endpoint.
+	 */
+	protected $endpoint_enrollment = 'https://api.mindbodyonline.com/public/v6/enrollment';
+
+	/**
+	 * Endpoint Payroll
+	 *
+	 * @access protected
+	 * @var string $endpoint_payroll MBO API Endpoint.
+	 */
+	protected $endpoint_payroll = 'https://api.mindbodyonline.com/public/v6/payroll';
+
+	/**
+	 * Endpoint Sale
+	 *
+	 * @access protected
+	 * @var string $endpoint_sale MBO API Endpoint.
+	 */
+	protected $endpoint_sale = 'https://api.mindbodyonline.com/public/v6/sale';
+
+	/**
+	 * Endpoint Site
+	 *
+	 * @access protected
+	 * @var string $endpoint_site MBO API Endpoint.
+	 */
+	protected $endpoint_site = 'https://api.mindbodyonline.com/public/v6/site';
+
+	/**
+	 * Endpoint Staff
+	 *
+	 * @access protected
+	 * @var string $endpoint_staff MBO API Endpoint.
+	 */
+	protected $endpoint_staff = 'https://api.mindbodyonline.com/public/v6/staff';
+
+	/**
+	 * Endpoint User Token
+	 *
+	 * @access protected
+	 * @var string $endpoint_user_token MBO API Endpoint.
+	 */
+	protected $endpoint_user_token = 'https://api.mindbodyonline.com/public/v6/usertoken';
 
 	/**
 	 * Initialize the apiServices and apiMethods arrays
 	 *
 	 * For calls which require higher levels of authorization, use headerAuthorized.
+	 *
+	 * @param array $headers required for api call.
 	 */
 	public function __construct( $headers = array() ) {
 
