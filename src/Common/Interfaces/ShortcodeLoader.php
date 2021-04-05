@@ -44,7 +44,7 @@ abstract class ShortcodeLoader {
 	 * @return void
 	 */
 	public function register( $shortcode_name ) {
-		$this->register_shortcode_to_function( $shortcode_name, 'handleShortcode' );
+		$this->register_shortcode_to_function( $shortcode_name, 'handle_shortcode' );
 	}
 
 	/**
@@ -54,16 +54,16 @@ abstract class ShortcodeLoader {
 	 *                         (as it would appear in a post, e.g. [shortcode_name])
 	 *                         or an array of such names in case you want to have more than one name
 	 *                         for the same shortcode.
-	 * @param  string $functionName   Name of public function in this class to call as the shortcode handler.
+	 * @param  string $function_name   Name of public function in this class to call as the shortcode handler.
 	 * @return void
 	 */
-	protected function register_shortcode_to_function( $shortcode_name, $functionName ) {
+	protected function register_shortcode_to_function( $shortcode_name, $function_name ) {
 		if ( is_array( $shortcode_name ) ) {
-			foreach ( $shortcode_name as $aName ) {
-				add_shortcode( $aName, array( $this, $functionName ) );
+			foreach ( $shortcode_name as $sc_name ) {
+				add_shortcode( $sc_name, array( $this, $function_name ) );
 			}
 		} else {
-			add_shortcode( $shortcode_name, array( $this, $functionName ) );
+			add_shortcode( $shortcode_name, array( $this, $function_name ) );
 		}
 	}
 
@@ -72,5 +72,5 @@ abstract class ShortcodeLoader {
 	 * @param    $atts shortcode inputs
 	 * @return   string shortcode content
 	 */
-	abstract public function handleShortcode( $atts, $content = 'hello');
+	abstract public function handle_shortcode( $atts, $content = 'hello');
 }

@@ -30,16 +30,16 @@ abstract class ShortcodeScriptLoader extends ShortcodeLoader {
 	private $doAddScript;
 
 	public function register( $shortcode_name ) {
-		$this->register_shortcode_to_function( $shortcode_name, 'handleShortcodeWrapper' );
+		$this->register_shortcode_to_function( $shortcode_name, 'handle_shortcode_wrapper' );
 		// It will be too late to enqueue the script in the header,
 		// but can add them to the footer
 		add_action( 'wp_footer', array( $this, 'addScriptWrapper' ) );
 	}
 
-	public function handleShortcodeWrapper( $atts, $content = null ) {
+	public function handle_shortcode_wrapper( $atts, $content = null ) {
 		// Flag that we need to add the script
 		$this->doAddScript = true;
-		return $this->handleShortcode( $atts, $content );
+		return $this->handle_shortcode( $atts, $content );
 	}
 
 

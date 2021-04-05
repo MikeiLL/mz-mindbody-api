@@ -29,7 +29,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 	 * @since  2.4.7
 	 * @access private
 	 *
-	 * @used in handleShortcode, addScript
+	 * @used in handle_shortcode, addScript
 	 * @var  boolean $added_already True if shorcdoe scripts have been enqueued.
 	 */
 	private static $added_already = false;
@@ -40,7 +40,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 	 * @since  2.4.7
 	 * @access public
 	 *
-	 * @used in handleShortcode, localizeScript, display_schedule
+	 * @used in handle_shortcode, localizeScript, display_schedule
 	 * @var  array $atts Shortcode attributes function called with.
 	 */
 	public $atts;
@@ -51,7 +51,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 	 * @since  2.4.7
 	 * @access public
 	 *
-	 * @used in handleShortcode, get_staff_modal
+	 * @used in handle_shortcode, get_staff_modal
 	 * @var  object $staff_object The class that retrieves the MBO staff.
 	 */
 	public $staff_object;
@@ -62,7 +62,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 	 * @since  2.4.7
 	 * @access public
 	 *
-	 * @used in handleShortcode, display_schedule
+	 * @used in handle_shortcode, display_schedule
 	 * @var  @array    $data    array to send template.
 	 */
 	public $template_data;
@@ -74,7 +74,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 	 * @param  string $content any content between start and end shortcode tags.
 	 * @return string shortcode content
 	 */
-	public function handleShortcode( $atts, $content = null ) {
+	public function handle_shortcode( $atts, $content = null ) {
 
 		$this->atts = shortcode_atts(
 			array(

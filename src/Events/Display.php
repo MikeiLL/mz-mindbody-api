@@ -29,7 +29,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 	 * @since  2.4.7
 	 * @access private
 	 *
-	 * @used in handleShortcode, addScript
+	 * @used in handle_shortcode, addScript
 	 * @var  boolean $added_already True if shorcdoe scripts have been enqueued.
 	 */
 	private static $added_already = false;
@@ -40,7 +40,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 	 * @since  2.4.7
 	 * @access public
 	 *
-	 * @used in handleShortcode, localizeScript, display_schedule
+	 * @used in handle_shortcode, localizeScript, display_schedule
 	 * @var  array $atts Shortcode attributes function called with.
 	 */
 	public $atts;
@@ -51,7 +51,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 	 * @since  2.4.7
 	 * @access public
 	 *
-	 * @used in handleShortcode, get_events_modal
+	 * @used in handle_shortcode, get_events_modal
 	 * @var  object $events_object The class that retrieves the MBO events.
 	 */
 	public $events_object;
@@ -62,7 +62,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 	 * @since  2.4.7
 	 * @access public
 	 *
-	 * @used in handleShortcode, display_schedule
+	 * @used in handle_shortcode, display_schedule
 	 * @var  @array    $data    array to send template.
 	 */
 	public $template_data;
@@ -158,7 +158,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 	 * @since  2.4.7
 	 * @access public
 	 *
-	 * @used in handleShortcode, displayEvents
+	 * @used in handle_shortcode, displayEvents
 	 * @var  @array
 	 */
 	public $client_id;
@@ -182,7 +182,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 	 * @param  string $content any content between start and end shortcode tags.
 	 * @return string shortcode content
 	 */
-	public function handleShortcode( $atts, $content = null ) {
+	public function handle_shortcode( $atts, $content = null ) {
 
 		$this->atts = shortcode_atts(
 			array(
@@ -345,7 +345,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 
 		ob_start();
 
-		// Generated in handleShortcode above, template_data.
+		// Generated in handle_shortcode above, template_data.
 		check_ajax_referer( 'mz_events_display_nonce', 'nonce' );
 
 		$atts = $_REQUEST['atts'];
@@ -357,7 +357,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 		$this->events_object = new RetrieveEvents( $atts );
 
 		// Register attributes
-		$this->handleShortcode( $atts );
+		$this->handle_shortcode( $atts );
 
 		// Call the API and if fails, return error message.
 		if ( ! $response = $this->events_object->get_mbo_results() ) {
