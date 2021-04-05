@@ -64,7 +64,7 @@ class MboV5Api {
 			'StaffService'       => $this->staffServiceWSDL,
 		);
 		// set api_methods array with available methods from Mindbody services
-		foreach ( $this->apiServices as $serviceName => $serviceWSDL ) {
+		foreach ( $this->apiServices as $service_name => $serviceWSDL ) {
 			try {
 				$this->client = new \SoapClient( $serviceWSDL, $this->soapOptions );
 			} catch ( \SoapFault $s ) {
@@ -73,7 +73,7 @@ class MboV5Api {
 			$this->api_methods = array_merge(
 				$this->api_methods,
 				array(
-					$serviceName => array_map(
+					$service_name => array_map(
 						function ( $n ) {
 							$start = 1 + strpos( $n, ' ' );
 							$end = strpos( $n, '(' );
@@ -209,21 +209,21 @@ class MboV5Api {
 	/**
 	 * * return the results of a Mindbody API method
 	 * *
-	 * * string $serviceName   - Mindbody Soap service name
-	 * * string $methodName    - Mindbody API method name
-	 * * array $requestData    - Optional: parameters to API methods
-	 * * boolean $returnObject - Optional: Return the SOAP response object
+	 * * string $service_name   - Mindbody Soap service name
+	 * * string $method_name    - Mindbody API method name
+	 * * array $request_data    - Optional: parameters to API methods
+	 * * boolean $return_object - Optional: Return the SOAP response object
 	 */
-	protected function callMindbodyService( $serviceName, $methodName, $requestData = array(), $returnObject = false, $debugErrors = false ) {
+	protected function callMindbodyService( $service_name, $method_name, $request_data = array(), $return_object = false, $debug_errors = false ) {
 
-		$request = array_merge( array( 'SourceCredentials' => $this->sourceCredentials ), $requestData );
+		$request = array_merge( array( 'SourceCredentials' => $this->sourceCredentials ), $request_data );
 		if ( ! empty( $this->userCredentials ) ) {
 			$request = array_merge( array( 'UserCredentials' => $this->userCredentials ), $request );
 		}
 		try {
-			$this->client = new \SoapClient( $this->apiServices[ $serviceName ], $this->soapOptions );
-			$result       = $this->client->$methodName( array( 'Request' => $request ) );
-			if ( $returnObject ) {
+			$this->client = new \SoapClient( $this->apiServices[ $service_name ], $this->soapOptions );
+			$result       = $this->client->$method_name( array( 'Request' => $request ) );
+			if ( $return_object ) {
 				return $result;
 			} else {
 				return json_decode( json_encode( $result ), 1 );
@@ -232,7 +232,7 @@ class MboV5Api {
 			// Uncomment following line for debugging request errors.
 			// NS\MZMBO()->helpers->print($s);
 			// NS\MZMBO()->helpers->print($this->debugSoapErrors);
-			if ( $this->debugSoapErrors && $debugErrors ) {
+			if ( $this->debugSoapErrors && $debug_errors ) {
 				echo 'ERROR: [' . $s->faultcode . '] ' . $s->faultstring;
 				$this->debug();
 				return false;
@@ -240,7 +240,7 @@ class MboV5Api {
 			echo '<h1>Could not connect to MBO server.</h1>';
 			return false;
 		} catch ( \Exception $e ) {
-			if ( $this->debugSoapErrors && $debugErrors ) {
+			if ( $this->debugSoapErrors && $debug_errors ) {
 				echo 'ERROR: ' . $e->getMessage();
 				return false;
 			}
@@ -288,14 +288,14 @@ class MboV5Api {
 	public function FunctionDataXml() {
 		$passed       = func_get_args();
 		$request      = empty( $passed[0] ) ? null : $passed[0];
-		$returnObject = empty( $passed[1] ) ? null : $passed[1];
-		$debugErrors  = empty( $passed[2] ) ? null : $passed[2];
+		$return_object = empty( $passed[1] ) ? null : $passed[1];
+		$debug_errors  = empty( $passed[2] ) ? null : $passed[2];
 		$data         = $this->callMindbodyService( 'DataService', 'FunctionDataXml', $request );
 		$xmlString    = $this->getXMLResponse();
 		$sxe          = new \SimpleXMLElement( $xmlString );
 		$sxe->registerXPathNamespace( 'mindbody', 'http://clients.mindbodyonline.com/api/0_5' );
 		$res = $sxe->xpath( '//mindbody:FunctionDataXmlResponse' );
-		if ( $returnObject ) {
+		if ( $return_object ) {
 			return $res[0];
 		} else {
 			$arr = $this->replace_empty_arrays_with_nulls( json_decode( json_encode( $res[0] ), 1 ) );

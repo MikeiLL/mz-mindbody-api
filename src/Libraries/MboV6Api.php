@@ -91,27 +91,32 @@ class MboV6Api {
 	 *
 	 * @since 2.6.7
 	 * @access private
+	 * @var array $atts shortcode attributes.
 	 */
 	private $atts;
 
 	/**
 	 * Initialize the apiServices and api_methods arrays
+	 *
+	 * @param array $mbo_dev_credentials which are Core\MzMindbodyApi::$basic_options.
+	 * @param array $atts which are configured in the shortcode.
 	 */
 	public function __construct( $mbo_dev_credentials = array(), $atts = array() ) {
 
-		// $mbo_dev_credentials = $this->basic_options = Core\MzMindbodyApi::$basic_options;
 		$this->basic_options = $mbo_dev_credentials;
 
 		$this->atts = $atts;
 
 		$this->token_management = new Common\TokenManagement();
 
-		// set credentials into headers
+		// set credentials into headers.
 		if ( ! empty( $mbo_dev_credentials ) ) {
-			// if(!empty($mbo_dev_credentials['mz_mbo_app_name'])) {
-			// $this-> headers_basic['App-Name'] = $mbo_dev_credentials['mz_mbo_app_name'];
-			// If this matches actual app name, requests fail ;
-			// }
+			/*
+			 * if (!empty($mbo_dev_credentials['mz_mbo_app_name'])) {
+			 * 	$this-> headers_basic['App-Name'] = $mbo_dev_credentials['mz_mbo_app_name'];
+			 * 	If this matches actual app name, requests fail;
+			 * }
+			 */
 			if ( ! empty( $mbo_dev_credentials['mz_mbo_api_key'] ) ) {
 				$this->headers_basic['Api-Key'] = $mbo_dev_credentials['mz_mbo_api_key'];
 			}
@@ -133,21 +138,23 @@ class MboV6Api {
 			}
 		}
 
-		// set apiServices array with Mindbody endpoints
-		// moved to a separate file for convenience.
+		/**
+		 * Set apiServices array with Mindbody endpoints, which was
+		 * moved to a separate file for convenience.
+		 */
 		$mbo_methods = new MboV6ApiMethods( $this->headers_basic );
 
 		$this->api_methods = $mbo_methods->methods;
 	}
 
 	/**
-	 * magic method will search $this->api_methods array for $name and call the
+	 * Magic method will search $this->api_methods array for $name and call the
 	 * appropriate Mindbody API method if found
 	 *
 	 * @since 2.5.7
 	 *
-	 * @param $name      string that matches method in matrix of MBO API v6 Methods
-	 * @param $arguments array used in API request
+	 * @param string $name that matches method in matrix of MBO API v6 Methods.
+	 * @param array  $arguments used in API request.
 	 */
 	public function __call( $name, $arguments ) {
 
@@ -191,14 +198,12 @@ class MboV6Api {
 	}
 
 	/**
-	 * * return the results of a Mindbody API method
-	 * *
-	 * * string $serviceName   - Mindbody Soap service name
-	 * * string $methodName    - Mindbody API method name
-	 * * array $requestData    - Optional: parameters to API methods
-	 * * boolean $returnObject - Optional: Return the SOAP response object
+	 * Return the results of a Mindbody API method
+	 * 
+	 * @param string $rest_method    - Mindbody API method name
+	 * @param array $request_data    - Mindbody API method name
 	 */
-	protected function callMindbodyService( $rest_method, $requestData = array() ) {
+	protected function callMindbodyService( $rest_method, $request_data = array() ) {
 
 		if ( $rest_method['name'] == 'TokenIssue' ) {
 			// If this is a token request, make a separate call so that we
@@ -224,7 +229,7 @@ class MboV6Api {
 		// Certain methods don't require credentials
 		if ( ! in_array( $rest_method['name'], $method_without_username, true ) ) {
 			$request_body = array_merge(
-				$requestData,
+				$request_data,
 				array(
 					'Username' => $this->format_username(),
 					'Password' => $this->extra_credentials['Password'],
@@ -241,7 +246,7 @@ class MboV6Api {
 				$request_body['Access'] = $this->tokenRequest( $rest_method );
 			}
 		} else {
-			$request_body = $requestData;
+			$request_body = $request_data;
 		}
 
 		if ( ! empty( $this->atts['session_type_ids'] ) ) {
@@ -278,7 +283,7 @@ class MboV6Api {
 				// OK try again after three seconds
 				// sleep(3);
 				if ( $this->token_request_tries > 1 ) {
-					return $this->callMindbodyService( $rest_method, $requestData );
+					return $this->callMindbodyService( $rest_method, $request_data );
 				}
 				return false;
 			}
