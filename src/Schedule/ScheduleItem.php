@@ -64,9 +64,9 @@ class ScheduleItem {
 	 *
 	 * @since  2.4.7
 	 * @access public
-	 * @var    int $sLoc Which MBO location this schedule item occurs at.
+	 * @var    int $studio_location_id Which MBO location this schedule item occurs at.
 	 */
-	public $sLoc;
+	public $studio_location_id;
 
 	/**
 	 * Program ID
@@ -535,7 +535,7 @@ class ScheduleItem {
 		$this->ID                    = $ScheduleItem['Id'];
 		$this->sTG                   = $ScheduleItem['ClassDescription']['Program']['Id'];
 		$this->class_schedule_id     = $ScheduleItem['ClassScheduleId'];
-		$this->sLoc                  = $ScheduleItem['Location']['Id'];
+		$this->studio_location_id                  = $ScheduleItem['Location']['Id'];
 		$this->locationName          = $ScheduleItem['Location']['Name'];
 		$this->sDate                 = wp_date( 'm/d/Y', strtotime( $ScheduleItem['StartDateTime'] ) );
 		$this->sign_up_title         = __( 'Sign-Up', 'mz-mindbody-api' );
@@ -567,7 +567,7 @@ class ScheduleItem {
 		$this->staff_name_link   = $this->class_link_maker( 'staff' );
 		$this->sign_up_link      = $this->class_link_maker( 'signup' );
 		$this->grid_sign_up_link = $this->class_link_maker( 'signup', 'grid' );
-		$this->class_details     = '<div class="mz_schedule_table mz_description_holder mz_location_' . $this->sLoc . ' ' . 'mz_' . $this->className . '">';
+		$this->class_details     = '<div class="mz_schedule_table mz_description_holder mz_location_' . $this->studio_location_id . ' ' . 'mz_' . $this->className . '">';
 		$this->class_details    .= '<span class="mz_class_name">' . $this->className . '</span>';
 		$this->class_details    .= ' <span class="mz_class_with">' . NS\MZMBO()->i18n->get( 'with' ) . '</span>';
 		$this->class_details    .= ' <span class="mz_class_staff">' . $this->staffName . '</span>';
@@ -659,7 +659,7 @@ class ScheduleItem {
 					// $linkArray['data-classID'] = $this->ID;
 					// $linkArray['data-className'] = $this->className;
 					// $linkArray['data-staffName'] = $this->staffName;
-					// $linkArray['data-location'] = $this->sLoc;
+					// $linkArray['data-location'] = $this->studio_location_id;
 					// $link->set('href', NS\PLUGIN_NAME_URL . 'src/Frontend/views/modals/modal_descriptions.php');
 
 					// else:
@@ -747,7 +747,7 @@ class ScheduleItem {
 	private function mbo_url() {
 		$mbo_link  = 'https://clients.mindbodyonline.com/ws.asp';
 		$mbo_link .= "?sDate={$this->sDate}";
-		$mbo_link .= "&amp;sLoc={$this->sLoc}"; // may be schedule_ID in places.
+		$mbo_link .= "&amp;sLoc={$this->studio_location_id}"; // may be schedule_ID in places.
 		$mbo_link .= '&amp;sType=7';
 		$mbo_link .= "&amp;sclassid={$this->class_schedule_id}";
 		$mbo_link .= "&amp;studioid={$this->site_id}";

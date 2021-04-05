@@ -66,6 +66,17 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 	 * @var  @array    $data    array to send template.
 	 */
 	public $template_data;
+	
+	/**
+	 * Location ID from MBO.
+	 *
+	 * Single-location accounts this will probably be a one. Used in generating URL for class sign-up.
+	 *
+	 * @since  2.4.7
+	 * @access public
+	 * @var    int $studio_location_id Which MBO location this schedule item occurs at.
+	 */
+	public $studio_location_id;
 
 	/**
 	 * Event Location
@@ -312,7 +323,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 			'Locations_dict' => wp_json_encode( $locations_dictionary ),
 			// 'signup_nonce'   => wp_create_nonce('mz_signup_nonce'), out of use.
 			'site_id'        => $this->site_id,
-			'location'       => $this->sLoc,
+			'location'       => $this->studio_location_id,
 			'with'           => NS\MZMBO()->i18n->get( 'with' ),
 		);
 		wp_localize_script( 'mz_mbo_events', 'mz_mindbody_schedule', $params );

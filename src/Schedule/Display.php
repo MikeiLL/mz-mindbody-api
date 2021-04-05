@@ -71,6 +71,17 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 	 * @var string $initial_button_text Button text pre any javascript updates.
 	 */
 	public $initial_button_text;
+	
+	/**
+	 * Location ID from MBO.
+	 *
+	 * Single-location accounts this will probably be a one. Used in generating URL for class sign-up.
+	 *
+	 * @since  2.4.7
+	 * @access public
+	 * @var    int $studio_location_id Which MBO location this schedule item occurs at.
+	 */
+	public $studio_location_id;
 
 	/**
 	 * Text for Mode Select Button when toggled
@@ -250,7 +261,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 			$this->atts['locations'] = explode( ',', str_replace( ' ', '', $this->atts['locations'] ) );
 		}
 		// Set sLoc which we use in generating link, to first location in locations array.
-		$this->sLoc = $this->atts['locations'][0];
+		$this->studio_location_id = $this->atts['locations'][0];
 
 		// Break hide up into array, if it hasn't already been.
 		if ( ! is_array( $this->atts['hide'] ) ) {
@@ -445,7 +456,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 			'signup_heading'         => $translated_strings['signup_heading'],
 			'Locations_dict'         => wp_json_encode( $locations_dictionary ),
 			'site_id'                => $this->site_id,
-			'location'               => $this->sLoc,
+			'location'               => $this->studio_location_id,
 		);
 		wp_localize_script( 'mz_display_schedule_script', 'mz_mindbody_schedule', $params );
 	}
