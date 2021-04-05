@@ -109,12 +109,10 @@ class HtmlElement {
 	 * @param HtmlElement $object An instance of this class.
 	 */
 	function inject( $object ) {
-		if ( @get_class( $object ) == __class__ ) {
+		if ( __class__ == @get_class( $object ) ) {
 			$this->attributes['text'] .= $object->build();
 		}
 	}
-
-	/* build */
 
 	/**
 	 * Build
@@ -130,7 +128,7 @@ class HtmlElement {
 		// Add attributes.
 		if ( count( $this->attributes ) ) {
 			foreach ( $this->attributes as $key => $value ) {
-				if ( $key != 'text' ) {
+				if ( 'text' !== $key ) {
 					$build .= ' ' . $key . '="' . $value . '"';
 				}
 			}
@@ -157,4 +155,3 @@ class HtmlElement {
 		echo $this->build();
 	}
 }
-// EOF create an html element
