@@ -409,7 +409,7 @@ class MboV6Api {
 	private function api_call_limiter() {
 
 		// Don't limit if using sandbox.
-		if ( ( isset( NS\MZMBO()::$basic_options['mz_mindbody_siteID'] ) ) && 
+		if ( ( isset( NS\MZMBO()::$basic_options['mz_mindbody_siteID'] ) ) &&
 				( '-99' === NS\MZMBO()::$basic_options['mz_mindbody_siteID'] ) ) {
 			return true;
 		}
@@ -442,7 +442,7 @@ class MboV6Api {
 
 	/**
 	 * Make basic call to classes endpoint
-	 * 
+	 *
 	 * @return DOM textarea with mbo call result in it.
 	 */
 	public function debug() {
