@@ -17,11 +17,9 @@ use MZoo\MzMindbody\Schedule as Schedule;
 use MZoo\MzMindbody\Common\Interfaces as Interfaces;
 
 /**
- * Class that is extended for Schedule Display Ajax Retrieve Registrants (s)
+ * Class that is extended for Schedule Display Ajax Retrieve Registrant(s).
  */
 class RetrieveRegistrants extends Interfaces\Retrieve {
-
-
 
 	/**
 	 * Holds the Get Class Visits Results for a given class.
@@ -49,7 +47,7 @@ class RetrieveRegistrants extends Interfaces\Retrieve {
 	 *
 	 * @since 2.4.7
 	 *
-	 * @param @timestamp defaults to current time
+	 * @param int $classid from Mindbody.
 	 *
 	 * @return array of MBO schedule data
 	 */
