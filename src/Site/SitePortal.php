@@ -17,7 +17,7 @@ use MZoo\MzMindbody\Schedule as Schedule;
 use MZoo\MzMindbody\Common\Interfaces as Interfaces;
 use MZoo\MzMindbody as NS;
 
-/*
+/**
  * Class that holds Client Interface Methods for Ajax requests
  *
  * @since 2.5.9

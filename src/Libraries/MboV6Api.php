@@ -15,10 +15,8 @@ use MZoo\MzMindbody\Common as Common;
 use MZoo\MzMindbody\Core as Core;
 use Exception as Exception;
 
-/*
+/**
  * All Interface methods for MBO v6 API, via WordPress wrapper for CURL
- *
- *
  */
 class MboV6Api {
 
@@ -39,19 +37,18 @@ class MboV6Api {
 
 	protected $basic_options;
 
-	/*
-	* Get stored tokens when good and store new ones
-	*
-	*/
+	/**
+	 * Get stored tokens when good and store new ones
+	 */
 	protected $TokenManagement;
 
 
-	/*
-	* Shortcode Attributes
-	*
-	* @since 2.6.7
-	* @access private
-	*/
+	/**
+	 * Shortcode Attributes
+	 *
+	 * @since 2.6.7
+	 * @access private
+	 */
 	private $atts;
 
 	/**
@@ -319,15 +316,13 @@ class MboV6Api {
 		}
 	}
 
-	/*
-	* Track API requests per day
-	*
-	* There is a 1000 call limit per day on MBO, per location.
-	* Any calls above that number per location are
-	* charged at the overage rate of 1/3 cent each.
-	*
-	*
-	*/
+	/**
+	 * Track API requests per day
+	 *
+	 * There is a 1000 call limit per day on MBO, per location.
+	 * Any calls above that number per location are
+	 * charged at the overage rate of 1/3 cent each.
+	 */
 	private function track_daily_api_calls() {
 		// If not set, initiate array to track mbo calls.
 		if ( ! $mz_mbo_api_calls = get_option( 'mz_mbo_api_calls' ) ) {
@@ -349,15 +344,13 @@ class MboV6Api {
 		update_option( 'mz_mbo_api_calls', $mz_mbo_api_calls );
 	}
 
-	/*
-	* Limit the number of API requests per day
-	*
-	* There is a 1000 call limit per day on MBO, per location.
-	* Notify the admin when we get close and stop making calls
-	* when we get to $3USD in overages.
-	*
-	*
-	*/
+	/**
+	 * Limit the number of API requests per day
+	 *
+	 * There is a 1000 call limit per day on MBO, per location.
+	 * Notify the admin when we get close and stop making calls
+	 * when we get to $3USD in overages.
+	 */
 	private function api_call_limiter() {
 
 		// Don't limit if using sandbox
@@ -375,11 +368,9 @@ class MboV6Api {
 	}
 
 
-	/*
-	* Make the admin notification via wp_mail
-	*
-	*
-	*/
+	/**
+	 * Make the admin notification via wp_mail
+	 */
 	public function admin_call_excess_alert() {
 		$to      = get_option( 'admin_email' );
 		$subject = __( 'Large amount of MBO API Calls', 'mz-mindbody-api' );

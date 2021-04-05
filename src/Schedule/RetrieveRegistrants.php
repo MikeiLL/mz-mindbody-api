@@ -16,9 +16,8 @@ use MZoo\MzMindbody\Libraries as Libraries;
 use MZoo\MzMindbody\Schedule as Schedule;
 use MZoo\MzMindbody\Common\Interfaces as Interfaces;
 
-/*
+/**
  * Class that is extended for Schedule Display Ajax Retrieve Registrants (s)
- *
  */
 class RetrieveRegistrants extends Interfaces\Retrieve {
 

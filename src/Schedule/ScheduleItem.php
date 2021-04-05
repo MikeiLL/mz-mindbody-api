@@ -581,10 +581,9 @@ class ScheduleItem {
 	 * @return HtmlElement anchor tag.
 	 */
 	private function class_link_maker( $type = 'class', $sub_type = false ) {
-		/*
-		* Need following eventually
-		*/
-		// 'data-accountNumber');
+		/**
+		 * Need following eventually
+		 */
 
 		$linkArray = array();
 		$link      = new Libraries\HtmlElement( 'a' );
@@ -690,10 +689,10 @@ class ScheduleItem {
 	 */
 	private function get_day_number( $php_day_number ) {
 		/*
-		* If week starts on Monday we're same as php,
-		* and for now we're ignoring week starts aside from
-		* Sunday or Monday. Sorry.
-		*/
+		 * If week starts on Monday we're same as php,
+		 * and for now we're ignoring week starts aside from
+		 * Sunday or Monday. Sorry.
+		 */
 		if ( Core\MzMindbodyApi::$start_of_week != 0 ) {
 			return $php_day_number;
 		}

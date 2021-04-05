@@ -267,9 +267,9 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 			return '<div>' . __( 'Error returning schedule from MBO for shortcode display.', 'mz-mindbody-api' ) . '</div>';
 		}
 
-		/*
-		* Configure the display type based on shortcode atts.
-		*/
+		/**
+		 * Configure the display type based on shortcode atts.
+		 */
 		$this->display_type = ( ! empty( $atts['grid'] ) ) ? 'grid' : 'horizontal';
 
 		// If mode_select is on, render both grid and horizontal
@@ -304,7 +304,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 	  * (date) offset value when they are called.
 	  */
 
-	 // Initialize the variables, so won't be un-set:
+	 // Initialize the variables, so won't be un-set.
 	 $horizontal_schedule = '';
 	 $grid_schedule       = '';
 
