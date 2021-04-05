@@ -20,28 +20,71 @@ use Exception as Exception;
  */
 class MboV6Api {
 
+	/**
+	 * Token Request Tries
+	 *
+	 * Limit the number of retries when token
+	 * request fails.
+	 *
+	 * @access private
+	 * @var int $token_request_tries
+	 */
+	private $token_request_tries = 6;
 
-
-	private $tokenRequestTries = 6;
-
-	protected $ headers_basic = array(
+	/**
+	 * Headers Basic
+	 *
+	 * Minimal http headers for API call.
+	 *
+	 * @access protected
+	 * @var array $headers_basic sent to MboV6ApiMethods
+	 */
+	protected $headers_basic = array(
 		'User-Agent'   => '',
 		'Content-Type' => 'application/json; charset=utf-8',
 		'Api-Key'      => '',
 		'SiteId'       => '-99',
 	);
 
-	protected $apiMethods = array();
+	/**
+	 * Api Methods
+	 *
+	 * MBO Api Methods, per endpoint.
+	 *
+	 * @access protected
+	 * @var array $api_methods as defined in MboV6ApiMethods
+	 */
+	protected $api_methods = array();
 
-	protected $extraCredentials = array();
+	/**
+	 * Api Methods
+	 *
+	 * MBO Api Methods, per endpoint.
+	 *
+	 * @access protected
+	 * @var array $extra_credentials sent to MboV6ApiMethods for auth.
+	 */
+	protected $extra_credentials = array();
 
+	/**
+	 * Basic Options
+	 *
+	 * MBO options as set in Admin Settings page.
+	 *
+	 * @access protected
+	 * @var array $basic_options from Admin for MBO auth.
+	 */
 	protected $basic_options;
 
 	/**
-	 * Get stored tokens when good and store new ones
+	 * Token Managemen
+	 *
+	 * Get stored tokens when good and store new ones when retrieved.
+	 *
+	 * @access protected
+	 * @var array $token_management MZoo\MzMindbody\Common\TokenManagement object.
 	 */
-	protected $TokenManagement;
-
+	protected $token_management;
 
 	/**
 	 * Shortcode Attributes
@@ -52,7 +95,7 @@ class MboV6Api {
 	private $atts;
 
 	/**
-	 * Initialize the apiServices and apiMethods arrays
+	 * Initialize the apiServices and api_methods arrays
 	 */
 	public function __construct( $mbo_dev_credentials = array(), $atts = array() ) {
 
@@ -61,7 +104,7 @@ class MboV6Api {
 
 		$this->atts = $atts;
 
-		$this->TokenManagement = new Common\TokenManagement();
+		$this->token_management = new Common\TokenManagement();
 
 		// set credentials into headers
 		if ( ! empty( $mbo_dev_credentials ) ) {
@@ -76,10 +119,10 @@ class MboV6Api {
 				$this->headers_basic['User-Agent'] = $mbo_dev_credentials['mz_mbo_app_name'];
 			}
 			if ( ! empty( $mbo_dev_credentials['mz_source_name'] ) ) {
-				$this->extraCredentials['SourceName'] = $mbo_dev_credentials['mz_source_name'];
+				$this->extra_credentials['SourceName'] = $mbo_dev_credentials['mz_source_name'];
 			}
 			if ( ! empty( $mbo_dev_credentials['mz_mindbody_password'] ) ) {
-				$this->extraCredentials['Password'] = $mbo_dev_credentials['mz_mindbody_password'];
+				$this->extra_credentials['Password'] = $mbo_dev_credentials['mz_mindbody_password'];
 			}
 			if ( ! empty( $mbo_dev_credentials['mz_mindbody_siteID'] ) ) {
 				if ( is_array( $mbo_dev_credentials['mz_mindbody_siteID'] ) ) {
@@ -94,11 +137,11 @@ class MboV6Api {
 		// moved to a separate file for convenience.
 		$mbo_methods = new MboV6ApiMethods( $this->headers_basic );
 
-		$this->apiMethods = $mbo_methods->methods;
+		$this->api_methods = $mbo_methods->methods;
 	}
 
 	/**
-	 * magic method will search $this->apiMethods array for $name and call the
+	 * magic method will search $this->api_methods array for $name and call the
 	 * appropriate Mindbody API method if found
 	 *
 	 * @since 2.5.7
@@ -108,15 +151,15 @@ class MboV6Api {
 	 */
 	public function __call( $name, $arguments ) {
 
-		$restMethod = '';
+		$rest_method = '';
 
-		foreach ( $this->apiMethods as $apiServiceName => $apiMethods ) {
-			if ( array_key_exists( $name, $apiMethods ) ) {
-				$restMethod = $apiMethods[ $name ];
+		foreach ( $this->api_methods as $apiServiceName => $api_methods ) {
+			if ( array_key_exists( $name, $api_methods ) ) {
+				$rest_method = $api_methods[ $name ];
 			}
 		}
 
-		if ( empty( $restMethod ) ) {
+		if ( empty( $rest_method ) ) {
 			return 'Nonexistent Method';
 		};
 
@@ -132,17 +175,17 @@ class MboV6Api {
 			if ( isset( $trace['class'] ) ) {
 				$caller_details .= ' in:' . $trace['class'];
 			}
-			NS\MZMBO()->helpers->apiLog( print_r( $restMethod, true ) . ' caller:' . $caller_details );
+			NS\MZMBO()->helpers->apiLog( print_r( $rest_method, true ) . ' caller:' . $caller_details );
 		endif;
 
 		if ( empty( $arguments ) ) {
-			return $this->callMindbodyService( $restMethod );
+			return $this->callMindbodyService( $rest_method );
 		} else {
 			switch ( count( $arguments ) ) {
 				case 1:
-					return $this->callMindbodyService( $restMethod, $arguments[0] );
+					return $this->callMindbodyService( $rest_method, $arguments[0] );
 				case 2:
-					return $this->callMindbodyService( $restMethod, $arguments[0], $arguments[1] );
+					return $this->callMindbodyService( $rest_method, $arguments[0], $arguments[1] );
 			}
 		}
 	}
@@ -155,13 +198,13 @@ class MboV6Api {
 	 * * array $requestData    - Optional: parameters to API methods
 	 * * boolean $returnObject - Optional: Return the SOAP response object
 	 */
-	protected function callMindbodyService( $restMethod, $requestData = array() ) {
+	protected function callMindbodyService( $rest_method, $requestData = array() ) {
 
-		if ( $restMethod['name'] == 'TokenIssue' ) {
+		if ( $rest_method['name'] == 'TokenIssue' ) {
 			// If this is a token request, make a separate call so that we
 			// don't create a loop here
 
-			$token = $this->tokenRequest( $restMethod );
+			$token = $this->tokenRequest( $rest_method );
 
 			return $token;
 		}
@@ -179,23 +222,23 @@ class MboV6Api {
 		);
 
 		// Certain methods don't require credentials
-		if ( ! in_array( $restMethod['name'], $method_without_username, true ) ) {
+		if ( ! in_array( $rest_method['name'], $method_without_username, true ) ) {
 			$request_body = array_merge(
 				$requestData,
 				array(
 					'Username' => $this->format_username(),
-					'Password' => $this->extraCredentials['Password'],
+					'Password' => $this->extra_credentials['Password'],
 					'Limit'    => 200,
 				)
 			);
 
 			// Maybe there's a stored token to use
-			$token = $this->TokenManagement->get_stored_token();
+			$token = $this->token_management->get_stored_token();
 
 			if ( ctype_alnum( $token['AccessToken'] ) ) {
 				$request_body['Access'] = $token['AccessToken'];
 			} else {
-				$request_body['Access'] = $this->tokenRequest( $restMethod );
+				$request_body['Access'] = $this->tokenRequest( $rest_method );
 			}
 		} else {
 			$request_body = $requestData;
@@ -205,20 +248,20 @@ class MboV6Api {
 			$request_body['SessionTypeIds'] = $this->atts['session_type_ids'];
 		}
 
-		if ( in_array( $restMethod['name'], $encoded_request_body, true ) ) {
+		if ( in_array( $rest_method['name'], $encoded_request_body, true ) ) {
 			$request_body = wp_json_encode( $request_body );
 		}
 
 		// For some reason, for this call, we don't want to convert
 		// 'body' into a json string, as we do in the token request
 		$response = wp_remote_request(
-			$restMethod['endpoint'],
+			$rest_method['endpoint'],
 			array(
-				'method'      => $restMethod['method'],
+				'method'      => $rest_method['method'],
 				'timeout'     => 45,
 				'httpversion' => '1.0',
 				'blocking'    => true,
-				'headers'     => $restMethod['headers'],
+				'headers'     => $rest_method['headers'],
 				'body'        => $request_body,
 				'data_format' => 'body',
 				'cookies'     => array(),
@@ -234,8 +277,8 @@ class MboV6Api {
 			if ( is_array( $response_body ) && array_key_exists( 'Error', $response_body ) && strpos( $response_body['Error']['Message'], 'Please try again' ) ) {
 				// OK try again after three seconds
 				// sleep(3);
-				if ( $this->tokenRequestTries > 1 ) {
-					return $this->callMindbodyService( $restMethod, $requestData );
+				if ( $this->token_request_tries > 1 ) {
+					return $this->callMindbodyService( $rest_method, $requestData );
 				}
 				return false;
 			}
@@ -258,13 +301,13 @@ class MboV6Api {
 	 *
 	 * return string of MBO API Response data
 	 */
-	protected function tokenRequest( $restMethod ) {
+	protected function tokenRequest( $rest_method ) {
 
-		$this->tokenRequestTries--;
+		$this->token_request_tries--;
 
 		$request_body = array(
 			'Username' => $this->format_username(),
-			'Password' => $this->extraCredentials['Password'],
+			'Password' => $this->extra_credentials['Password'],
 		);
 
 		$response = wp_remote_post(
@@ -274,7 +317,7 @@ class MboV6Api {
 				'timeout'     => 90,
 				'httpversion' => '1.0',
 				'blocking'    => true,
-				'headers'     => $restMethod['headers'],
+				'headers'     => $rest_method['headers'],
 				'body'        => wp_json_encode( $request_body ),
 				'cookies'     => array(),
 			)
@@ -288,13 +331,13 @@ class MboV6Api {
 			if ( property_exists( $response_body, 'Error' ) && strpos( $response_body->Error->Message, 'Please try again' ) ) {
 				// OK try again after three seconds
 				sleep( 3 );
-				if ( $this->tokenRequestTries > 1 ) {
-					return $this->tokenRequest( $restMethod );
+				if ( $this->token_request_tries > 1 ) {
+					return $this->tokenRequest( $rest_method );
 				}
 				return false;
 			}
 
-			$this->TokenManagement->save_token_to_option( $response_body );
+			$this->token_management->save_token_to_option( $response_body );
 			return $response_body;
 		}
 	}
@@ -310,9 +353,9 @@ class MboV6Api {
 	protected function format_username() {
 
 		if ( $this->basic_options['sourcename_not_staff'] == 'on' ) {
-			return '_' . $this->extraCredentials['SourceName'];
+			return '_' . $this->extra_credentials['SourceName'];
 		} else {
-			return $this->extraCredentials['SourceName'];
+			return $this->extra_credentials['SourceName'];
 		}
 	}
 

@@ -36,9 +36,9 @@ class MboV6ApiMethods {
 	 * Headers Basic
 	 *
 	 * @access private
-	 * @var array $ headers_basic basic, default headers for API call.
+	 * @var array $headers_basic basic, default headers for API call.
 	 */
-	private $ headers_basic = array();
+	private $headers_basic = array();
 
 	/**
 	 * Api Services array with Mindbody endpoints.
@@ -121,7 +121,7 @@ class MboV6ApiMethods {
 	protected $endpoint_user_token = 'https://api.mindbodyonline.com/public/v6/usertoken';
 
 	/**
-	 * Initialize the apiServices and apiMethods arrays
+	 * Initialize the apiServices and api_methods arrays
 	 *
 	 * For calls which require higher levels of authorization, use headerAuthorized.
 	 *

@@ -25,7 +25,7 @@ class MboV5Api {
 	protected $siteServiceWSDL        = 'https://api.mindbodyonline.com/0_5/SiteService.asmx?WSDL';
 	protected $staffServiceWSDL       = 'https://api.mindbodyonline.com/0_5/StaffService.asmx?WSDL';
 
-	protected $apiMethods  = array();
+	protected $api_methods = array();
 	protected $apiServices = array();
 
 	public $soapOptions;
@@ -33,7 +33,7 @@ class MboV5Api {
 	public $debugSoapErrors = true;
 
 	/**
-	 * Initialize the apiServices and apiMethods arrays
+	 * Initialize the apiServices and api_methods arrays
 	 */
 	public function __construct( $sourceCredentials = array() ) {
 
@@ -63,15 +63,15 @@ class MboV5Api {
 			'SiteService'        => $this->siteServiceWSDL,
 			'StaffService'       => $this->staffServiceWSDL,
 		);
-		// set apiMethods array with available methods from Mindbody services
+		// set api_methods array with available methods from Mindbody services
 		foreach ( $this->apiServices as $serviceName => $serviceWSDL ) {
 			try {
 				$this->client = new \SoapClient( $serviceWSDL, $this->soapOptions );
 			} catch ( \SoapFault $s ) {
 				throw new \Exception( 'NO_API_SERVICE: ' . $s );
 			}
-			$this->apiMethods = array_merge(
-				$this->apiMethods,
+			$this->api_methods = array_merge(
+				$this->api_methods,
 				array(
 					$serviceName => array_map(
 						function ( $n ) {
@@ -105,14 +105,14 @@ class MboV5Api {
 	}
 
 	/**
-	 * magic method will search $this->apiMethods array for $name and call the
+	 * magic method will search $this->api_methods array for $name and call the
 	 * appropriate Mindbody API method if found
 	 */
 	public function __call( $name, $arguments ) {
 		// check if method exists on one of mindbody's soap services
 		$soapService = false;
-		foreach ( $this->apiMethods as $apiServiceName => $apiMethods ) {
-			if ( in_array( $name, $apiMethods ) ) {
+		foreach ( $this->api_methods as $apiServiceName => $api_methods ) {
+			if ( in_array( $name, $api_methods ) ) {
 				$soapService = $apiServiceName;
 			}
 		}
