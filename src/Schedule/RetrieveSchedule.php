@@ -37,16 +37,16 @@ class RetrieveSchedule extends Interfaces\RetrieveClasses {
 		$timestamp = isset( $timestamp ) ? $timestamp : time();
 		// Can override timestamp here for testing $timestamp = '2020-5-1'.
 
-		$current_week   = $this->singleWeek( $timestamp );
-		$sevenDaysLater = $this->sevenDaysLater( $timestamp );
-		if ( ( ! empty( $this->atts['type'] ) && ( $this->atts['type'] === 'day' ) ) ) :
+		$current_week     = $this->singleWeek( $timestamp );
+		$seven_days_later = $this->seven_days_later( $timestamp );
+		if ( ( ! empty( $this->atts['type'] ) && ( 'day' === $this->atts['type'] ) ) ) :
 			$today      = time();
 			$start_time = new \Datetime( wp_date( 'Y-m-d', $today ) );
 			$end_time   = new \Datetime( wp_date( 'Y-m-d', $today ) );
 			// Can test with $end_time = new \DateTime('tomorrow').
 		else :
 			$start_time = new \Datetime( wp_date( 'Y-m-d', $current_week['start'] ) );
-			$end_time   = new \Datetime( wp_date( 'Y-m-d', $sevenDaysLater ) );
+			$end_time   = new \Datetime( wp_date( 'Y-m-d', $seven_days_later ) );
 		endif;
 		$current_day_offset = new \Datetime( wp_date( 'Y-m-d' ) );
 		$current_week_end   = new \Datetime( wp_date( 'Y-m-d', $current_week['end'] ) );
@@ -55,14 +55,14 @@ class RetrieveSchedule extends Interfaces\RetrieveClasses {
 		if ( ! empty( $this->atts['offset'] ) ) {
 			// Insure that we have an absolute number, because attr may be negative.
 			$abs = abs( $this->atts['offset'] );
-			if ( ( ! empty( $this->atts['type'] ) && ( $this->atts['type'] === 'day' ) ) ) :
+			if ( ( ! empty( $this->atts['type'] ) && ( 'day' === $this->atts['type'] ) ) ) :
 				$di = new \DateInterval( 'P' . $abs . 'D' );
 		else :
 			$di = new \DateInterval( 'P' . $abs . 'W' );
 		endif;
 
 		// If it's a negative number, invert the interval.
-		if ( $this->atts['offset'] < 0 ) {
+		if ( 0 > $this->atts['offset'] ) {
 			$di->invert = 1;
 		}
 		$start_time->add( $di );

@@ -303,7 +303,7 @@ abstract class RetrieveClasses extends Retrieve {
 	 *
 	 * @return timestamp of seven days from now
 	 */
-	public function sevenDaysLater( $timestamp ) {
+	public function seven_days_later( $timestamp ) {
 		return strtotime( '+6 day', $timestamp );
 	}
 
