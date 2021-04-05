@@ -1,4 +1,11 @@
 <?php
+/**
+ * Mindbody V5 API
+ *
+ * This file contains the class for interfacing with the old, v5 Mindbody API.
+ *
+ * @package MzMindbody
+ */
 
 namespace MZoo\MzMindbody\Libraries;
 

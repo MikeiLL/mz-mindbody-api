@@ -1,4 +1,12 @@
 <?php
+/**
+ * Shortcode Script Loader
+ *
+ * This file contains the abstract class for registering and displaying
+ * shortcode which require their own assets to be loaded.
+ *
+ * @package MzMindbody
+ */
 
 namespace MZoo\MzMindbody\Common\Interfaces;
 
@@ -11,9 +19,6 @@ namespace MZoo\MzMindbody\Common\Interfaces;
  * want to load it if the shortcode is actually called.
  */
 abstract class ShortcodeScriptLoader extends ShortcodeLoader {
-
-
-
 
 	/**
 	 * If shortcode script should be enqueued.

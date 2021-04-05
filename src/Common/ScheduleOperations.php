@@ -1,4 +1,12 @@
 <?php
+/**
+ * Schedule Operations
+ *
+ * This file contains the class which contains methods used
+ * in displaying the MBO schedules.
+ *
+ * @package MzMindbody
+ */
 
 namespace MZoo\MzMindbody\Common;
 
@@ -93,17 +101,17 @@ class ScheduleOperations {
 		}
 	}
 
-	/*
-	*  Returns the blog timezone
-	*
-	* Gets timezone settings from the db. If a timezone identifier is used just turns
-	* it into a \DateTimeZone. If an offset is used, it tries to find a suitable timezone.
-	* If all else fails it uses UTC.
-	*
-	* Source: http://wordpress.stackexchange.com/a/198453/48604
-	*
-	* @return \DateTimeZone The blog timezone
-	*/
+	/**
+	 *  Returns the blog timezone
+	 *
+	 * Gets timezone settings from the db. If a timezone identifier is used just turns
+	 * it into a \DateTimeZone. If an offset is used, it tries to find a suitable timezone.
+	 * If all else fails it uses UTC.
+	 *
+	 * Source: http://wordpress.stackexchange.com/a/198453/48604
+	 *
+	 * @return \DateTimeZone The blog timezone
+	 */
 	public static function get_blog_timezone() {
 
 		$tzstring = get_option( 'timezone_string' );

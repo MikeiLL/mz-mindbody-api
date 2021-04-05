@@ -1,4 +1,12 @@
 <?php
+/**
+ * Retrieve Classes
+ *
+ * This file contains the class that extends Retrieve, specifically
+ * for fetching Mindbody "classes."
+ *
+ * @package MzMindbody
+ */
 
 namespace MZoo\MzMindbody\Common\Interfaces;
 

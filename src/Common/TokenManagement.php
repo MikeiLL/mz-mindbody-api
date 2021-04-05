@@ -1,4 +1,12 @@
 <?php
+/**
+ * Token Management
+ *
+ * This file contains the class which interfaces with MBO API
+ * to get and renew tokens.
+ *
+ * @package MzMindbody
+ */
 
 namespace MZoo\MzMindbody\Common;
 
@@ -6,8 +14,14 @@ use MZoo\MzMindbody as NS;
 use MZoo\MzMindbody\Core as Core;
 use MZoo\MzMindbody\Common\Interfaces as Interfaces;
 
+/**
+ * Token Management
+ *
+ * This class exposes methods for retrieving tokens from MBO, storing them
+ * locally in the DB and also returning them from the DB if new enough and
+ * from MBO if not.
+ */
 class TokenManagement extends Interfaces\Retrieve {
-
 
 	/**
 	 * Intermittently fetch, store and serve mbo api AccessTokens.

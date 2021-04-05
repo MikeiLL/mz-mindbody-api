@@ -1,4 +1,11 @@
 <?php
+/**
+ * Deactivator class
+ *
+ * Methods to run on plugin deactivation.
+ *
+ * @package MzMindbody
+ */
 
 namespace MZoo\MzMindbody\Core;
 

@@ -1,4 +1,12 @@
 <?php
+/**
+ * Retreive
+ *
+ * This file contains the abstract Retrieve class with
+ * methods necessary for interfacing with MBO Api.
+ *
+ * @package MzMindbody
+ */
 
 namespace MZoo\MzMindbody\Common\Interfaces;
 

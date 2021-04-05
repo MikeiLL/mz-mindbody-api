@@ -1,4 +1,12 @@
 <?php
+/**
+ * Retrieve Debug
+ *
+ * This file contains the class with methods for
+ * testing the API within the WordPress Admin.
+ *
+ * @package MzMindbody
+ */
 
 namespace MZoo\MzMindbody\Backend;
 

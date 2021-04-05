@@ -1,22 +1,25 @@
 <?php
+/**
+ * Helpers
+ *
+ * This file contains the class which exposes various helper methods.
+ *
+ * @package MzMindbody
+ */
 
 namespace MZoo\MzMindbody\Common;
 
 use MZoo\MzMindbody as NS;
 
 /**
- * Class GlobalStrings
+ * Class Helpers
  *
- * @package MzMindbody\Common
+ * @package MzMindbody
  *
- * Store i18n strings that may be used throughout plugin
- *
- * Using Singleton you can call helpers like NS\MZMBO()->helpers->print($param);
+ * Helper methods used throughout the Mz Mindbody ecosystem.
  */
 
 class Helpers {
-
-
 
 	/**
 	 * Helper function to print out arrays

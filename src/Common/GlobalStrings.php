@@ -1,18 +1,24 @@
 <?php
+/**
+ * Global Strings
+ *
+ * This file contains the class which constructs and returns global i18n strings
+ * used throughout the MzMindbody ecosystem.
+ *
+ * @package MzMindbody
+ */
 
 namespace MZoo\MzMindbody\Common;
 
 /**
  * Class GlobalStrings
  *
- * @package MzMindbody\Common
+ * @package MzMindbody
  *
  * Store i18n strings that may be used throughout plugin
  */
 
 class GlobalStrings {
-
-
 
 	/**
 	 * @var    array i18n Strings we use through the plugin.

@@ -1,4 +1,13 @@
 <?php
+/**
+ * Settings Page
+ *
+ * This file contains the class that extendt the WpOsa
+ * OOP WordPress settings page class, generating the
+ * settings page.
+ *
+ * @package MzMindbody
+ */
 
 namespace MZoo\MzMindbody\Backend;
 

@@ -1,9 +1,18 @@
 <?php
+/**
+ * HTML Element
+ *
+ * This file contains the class used to generate HTML DOM elements.
+ *
+ * @package MzMindbody
+ */
 
 namespace MZoo\MzMindbody\Libraries;
 
-/*
- create an html element, like in js
+/**
+ * HTML Element
+ *
+ * create an html element, like in js
  * Source: https://davidwalsh.name/create-html-elements-php-htmlelement-class
  */
 class HtmlElement {

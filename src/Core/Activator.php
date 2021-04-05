@@ -1,4 +1,11 @@
 <?php
+/**
+ * Activator class
+ *
+ * Methods to run on plugin activation.
+ *
+ * @package MzMindbody
+ */
 
 namespace MZoo\MzMindbody\Core;
 

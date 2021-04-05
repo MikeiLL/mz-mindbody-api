@@ -1,4 +1,11 @@
 <?php
+/**
+ * Plugin Internationalization
+ *
+ * Not sure if we are using this, currently.
+ *
+ * @package MzMindbody
+ */
 
 namespace MZoo\MzMindbody\Core;
 

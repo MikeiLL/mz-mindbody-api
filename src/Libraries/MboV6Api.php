@@ -1,4 +1,12 @@
 <?php
+/**
+ * Mindbody V6 API
+ *
+ * This file contains the class with methods to call the
+ * new MBO v6 restful api.
+ *
+ * @package MzMindbody
+ */
 
 namespace MZoo\MzMindbody\Libraries;
 

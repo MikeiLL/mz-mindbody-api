@@ -1,6 +1,28 @@
 <?php
+/**
+ * Mz Mbo Session
+ *
+ * This file contains the class which extends and
+ * interfaces with client-triggered $_SESSIONs which
+ * may be stored in various places, as per Eric Mann's
+ * Sessionz plugin, extended below.
+ *
+ * Wait I don't think I'm using this, 'cause it's in
+ * MZ MBO Access...
+ *
+ * @package MzMindbody
+ */
+
 
 namespace MZoo\MzMindbody\Core;
+
+use MZoo\MzMindbody as NS;
+use MZoo\MzMindbody\Libraries\WP_Session as WP_Session;
+use MZoo\MzMindbody\Libraries\WP_Session_Utils as WP_Session_Utils;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * MZ Session Class borrowed from WP Simple Pay Session Class
@@ -14,18 +36,7 @@ namespace MZoo\MzMindbody\Core;
  * WP Session Manager's alternative apporach (i.e. Pantheon) or if the site owner prefers it.
  * Some session logic taken from EDD, Give & Ninja Forms.
  */
-
-use MZoo\MzMindbody as NS;
-use MZoo\MzMindbody\Libraries\WP_Session as WP_Session;
-use MZoo\MzMindbody\Libraries\WP_Session_Utils as WP_Session_Utils;
-
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
-
 class MzMboSession {
-
-
 
 	/**
 	 * Holds our session data

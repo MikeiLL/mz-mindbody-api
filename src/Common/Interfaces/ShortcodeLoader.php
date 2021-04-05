@@ -1,4 +1,11 @@
 <?php
+/**
+ * Shortcode Loader
+ *
+ * This file contains the absctract class for registering and displaying shortcodes.
+ *
+ * @package MzMindbody
+ */
 
 namespace MZoo\MzMindbody\Common\Interfaces;
 
@@ -23,10 +30,6 @@ namespace MZoo\MzMindbody\Common\Interfaces;
 */
 
 abstract class ShortcodeLoader {
-
-
-
-
 
 	/**
 	 * @param  $shortcodeName mixed either string name of the shortcode

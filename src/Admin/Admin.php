@@ -1,4 +1,12 @@
 <?php
+/**
+ * Admin
+ *
+ * This file contains the class with admin-specific functionaity, but not
+ * settings page.
+ *
+ * @package MzMindbody
+ */
 
 namespace MZoo\MzMindbody\Admin;
 
