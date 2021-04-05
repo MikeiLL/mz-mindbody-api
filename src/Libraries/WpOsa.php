@@ -1,9 +1,4 @@
 <?php
-
-namespace MZoo\MzMindbody\Libraries;
-
-use MZoo\MzMindbody as NS;
-
 /**
  * Main Class file for `WpOsa`
  *
@@ -14,6 +9,10 @@ use MZoo\MzMindbody as NS;
  * @since   1.0.0
  * @package WPOSA
  */
+
+namespace MZoo\MzMindbody\Libraries;
+
+use MZoo\MzMindbody as NS;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -27,11 +26,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 2.4.7
  */
-
-
 class WpOsa {
-
-
 
 	/**
 	 * Sections array.
@@ -91,7 +86,7 @@ class WpOsa {
 	/**
 	 * Set Sections.
 	 *
-	 * @param array $sections
+	 * @param array $sections Each in a new CSS tab.
 	 * @since 2.4.7
 	 */
 	public function set_sections( $sections ) {
@@ -151,7 +146,7 @@ class WpOsa {
 	 * @since 2.4.7
 	 */
 	public function add_field( $section, $field_array ) {
-		// Set the defaults
+		// Set the defaults.
 		$defaults = array(
 			'id'   => '',
 			'name' => '',
@@ -392,7 +387,7 @@ class WpOsa {
 	/**
 	 * Get field description for display
 	 *
-	 * @param array $args settings field args
+	 * @param array $args settings field args.
 	 */
 	public function get_field_description( $args ) {
 		if ( ! empty( $args['desc'] ) ) {
@@ -408,7 +403,7 @@ class WpOsa {
 	/**
 	 * Displays a title field for a settings field
 	 *
-	 * @param array $args settings field args
+	 * @param array $args settings field args.
 	 */
 	function callback_title( $args ) {
 		$value = esc_attr( $this->get_option( $args['id'], $args['section'], $args['std'] ) );
@@ -426,7 +421,7 @@ class WpOsa {
 	/**
 	 * Displays a text field for a settings field
 	 *
-	 * @param array $args settings field args
+	 * @param array $args settings field args.
 	 */
 	function callback_text( $args ) {
 
@@ -444,7 +439,7 @@ class WpOsa {
 	/**
 	 * Displays a url field for a settings field
 	 *
-	 * @param array $args settings field args
+	 * @param array $args settings field args.
 	 */
 	function callback_url( $args ) {
 		$this->callback_text( $args );
@@ -453,7 +448,7 @@ class WpOsa {
 	/**
 	 * Displays a number field for a settings field
 	 *
-	 * @param array $args settings field args
+	 * @param array $args settings field args.
 	 */
 	function callback_number( $args ) {
 		$this->callback_text( $args );
@@ -462,7 +457,7 @@ class WpOsa {
 	/**
 	 * Displays a checkbox for a settings field
 	 *
-	 * @param array $args settings field args
+	 * @param array $args settings field args.
 	 */
 	function callback_checkbox( $args ) {
 
@@ -481,7 +476,7 @@ class WpOsa {
 	/**
 	 * Displays a multicheckbox a settings field
 	 *
-	 * @param array $args settings field args
+	 * @param array $args settings field args.
 	 */
 	function callback_multicheck( $args ) {
 
@@ -502,7 +497,7 @@ class WpOsa {
 	/**
 	 * Displays a multicheckbox a settings field
 	 *
-	 * @param array $args settings field args
+	 * @param array $args settings field args.
 	 */
 	function callback_radio( $args ) {
 
@@ -523,7 +518,7 @@ class WpOsa {
 	/**
 	 * Displays a selectbox for a settings field
 	 *
-	 * @param array $args settings field args
+	 * @param array $args settings field args.
 	 */
 	function callback_select( $args ) {
 
@@ -543,7 +538,7 @@ class WpOsa {
 	/**
 	 * Displays a textarea for a settings field
 	 *
-	 * @param array $args settings field args
+	 * @param array $args settings field args.
 	 */
 	function callback_textarea( $args ) {
 
@@ -640,7 +635,7 @@ class WpOsa {
 	/**
 	 * Displays a password field for a settings field
 	 *
-	 * @param array $args settings field args
+	 * @param array $args settings field args.
 	 */
 	function callback_password( $args ) {
 
@@ -656,7 +651,7 @@ class WpOsa {
 	/**
 	 * Displays a color picker field for a settings field
 	 *
-	 * @param array $args settings field args
+	 * @param array $args settings field args.
 	 */
 	function callback_color( $args ) {
 
@@ -673,7 +668,7 @@ class WpOsa {
 	/**
 	 * Displays a separator field for a settings field
 	 *
-	 * @param array $args settings field args
+	 * @param array $args settings field args.
 	 */
 	function callback_separator( $args ) {
 		$type = isset( $args['type'] ) ? $args['type'] : 'separator';
@@ -715,9 +710,14 @@ class WpOsa {
 	 * @since  [version]
 	 */
 
-	// public function admin_menu( $page_title = 'Page Title', $menu_title = 'Menu Title', $capability = 'manage_options', $menu_slug = 'settings_page', $callable = 'plugin_page' ) {
+	/**
+	 * Admin Menu
+	 * 
+	 * Wrapper for add_options_page
+	 * @return void.
+	 */
 	public function admin_menu() {
-		// add_options_page( $page_title, $menu_title, $capability, $menu_slug, array( $this, $callable ) );
+		// add_options_page( $page_title, $menu_title, $capability, $menu_slug, array( $this, $callable ) ).
 		add_options_page(
 			'MZ Mindbody Settings',
 			'MZ Mindbody',
@@ -727,6 +727,12 @@ class WpOsa {
 		);
 	}
 
+	/**
+	 * Plugin Page
+	 * 
+	 * The callable function sent to add_options page
+	 * @return void.
+	 */
 	public function plugin_page() {
 		echo '<div class="wrap">';
 		echo '<h1>MZ Mindbody Settings <span style="font-size:50%;">v' . NS\PLUGIN_VERSION . '</span></h1>';
@@ -738,7 +744,8 @@ class WpOsa {
 	/**
 	 * Show navigations as tab
 	 *
-	 * Shows all the settings section labels as tab
+	 * Shows all the settings section labels as tab.
+	 * @return void.
 	 */
 	function show_navigation() {
 		$html = '<h2 class="nav-tab-wrapper">';
@@ -756,6 +763,7 @@ class WpOsa {
 	 * Show the section settings forms
 	 *
 	 * This function displays every sections in a different form
+	 * @return void.
 	 */
 	function show_forms() {
 		?>
@@ -787,6 +795,7 @@ class WpOsa {
 	 * Tabbable JavaScript codes & Initiate Color Picker
 	 *
 	 * This code uses localstorage for displaying active tabs
+	 * @return void.
 	 */
 	function script() {
 		?>
