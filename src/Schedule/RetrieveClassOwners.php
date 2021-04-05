@@ -70,7 +70,8 @@ class RetrieveClassOwners extends Interfaces\RetrieveClasses {
 
 		$result['message'] = ob_get_clean();
 
-		if ( ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) == 'xmlhttprequest' ) {
+		if ( ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && 
+		    'xmlhttprequest' === strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ) {
 			$result = wp_json_encode( $result );
 			echo $result;
 		} else {
