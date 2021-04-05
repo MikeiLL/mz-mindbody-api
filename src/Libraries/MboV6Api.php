@@ -199,9 +199,9 @@ class MboV6Api {
 
 	/**
 	 * Return the results of a Mindbody API method
-	 * 
+	 *
 	 * @param string $rest_method    - Mindbody API method name
-	 * @param array $request_data    - Mindbody API method name
+	 * @param array  $request_data    - Mindbody API method name
 	 */
 	protected function callMindbodyService( $rest_method, $request_data = array() ) {
 

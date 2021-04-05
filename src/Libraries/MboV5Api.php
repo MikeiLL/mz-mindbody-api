@@ -286,13 +286,13 @@ class MboV5Api {
 	 * Process FunctionDataXml results
 	 */
 	public function FunctionDataXml() {
-		$passed       = func_get_args();
-		$request      = empty( $passed[0] ) ? null : $passed[0];
+		$passed        = func_get_args();
+		$request       = empty( $passed[0] ) ? null : $passed[0];
 		$return_object = empty( $passed[1] ) ? null : $passed[1];
 		$debug_errors  = empty( $passed[2] ) ? null : $passed[2];
-		$data         = $this->callMindbodyService( 'DataService', 'FunctionDataXml', $request );
-		$xmlString    = $this->getXMLResponse();
-		$sxe          = new \SimpleXMLElement( $xmlString );
+		$data          = $this->callMindbodyService( 'DataService', 'FunctionDataXml', $request );
+		$xmlString     = $this->getXMLResponse();
+		$sxe           = new \SimpleXMLElement( $xmlString );
 		$sxe->registerXPathNamespace( 'mindbody', 'http://clients.mindbodyonline.com/api/0_5' );
 		$res = $sxe->xpath( '//mindbody:FunctionDataXmlResponse' );
 		if ( $return_object ) {
