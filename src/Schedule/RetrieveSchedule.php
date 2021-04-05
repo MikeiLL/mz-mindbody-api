@@ -34,13 +34,13 @@ class RetrieveSchedule extends Interfaces\RetrieveClasses {
 	 */
 	public function timeFrame( $timestamp = null ) {
 
-		$timestamp = isset( $timestamp ) ? $timestamp : current_time( 'timestamp' );
+		$timestamp = isset( $timestamp ) ? $timestamp : time();
 		// Can override timestamp here for testing $timestamp = '2020-5-1'.
 
 		$current_week   = $this->singleWeek( $timestamp );
 		$sevenDaysLater = $this->sevenDaysLater( $timestamp );
 		if ( ( ! empty( $this->atts['type'] ) && ( $this->atts['type'] === 'day' ) ) ) :
-			$today      = current_time( 'timestamp' );
+			$today      = time();
 			$start_time = new \Datetime( wp_date( 'Y-m-d', $today ) );
 			$end_time   = new \Datetime( wp_date( 'Y-m-d', $today ) );
 			// Can test with $end_time = new \DateTime('tomorrow').
