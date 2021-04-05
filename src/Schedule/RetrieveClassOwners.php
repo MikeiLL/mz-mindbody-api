@@ -17,6 +17,12 @@ use MZoo\MzMindbody\Core as Core;
 use MZoo\MzMindbody\Common as Common;
 use MZoo\MzMindbody\Common\Interfaces as Interfaces;
 
+/**
+ * Retrieve Class Owners Class
+ * 
+ * Methods for retrieving the person deduced to be the
+ * "owner" of a repeating MBO scheduled class.
+ */
 class RetrieveClassOwners extends Interfaces\RetrieveClasses {
 
 	/**
@@ -31,8 +37,8 @@ class RetrieveClassOwners extends Interfaces\RetrieveClasses {
 	 * @return array or start and end dates as required for MBO API
 	 */
 	public function timeFrame( $timestamp = null ) {
-		$start_time = new \Datetime( wp_date( 'Y-m-d', current_time( 'timestamp' ) ) );
-		$end_time   = new \Datetime( wp_date( 'Y-m-d', current_time( 'timestamp' ) ) );
+		$start_time = new \Datetime( wp_date( 'Y-m-d', time() ) );
+		$end_time   = new \Datetime( wp_date( 'Y-m-d', time() ) );
 		$di         = new \DateInterval( 'P4W' );
 		$end_time->add( $di );
 		// Now let's go four weeks previous as well.

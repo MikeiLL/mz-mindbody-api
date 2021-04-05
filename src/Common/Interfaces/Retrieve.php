@@ -107,7 +107,7 @@ abstract class Retrieve {
 			$transient_string .= '_' . substr( $k, 0, 4 ) . '_' . substr( $attr, 0, 3 );
 		}
 		// append today's date
-		$transient_string .= date( 'Y-m-d', current_time( 'timestamp' ) );
+		$transient_string .= date( 'Y-m-d', time() );
 
 		return $prefix . md5( $transient_string );
 	}
