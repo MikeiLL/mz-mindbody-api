@@ -1,4 +1,12 @@
 <?php
+/**
+ * Site Portal
+ *
+ * This file contains the class that exposes
+ * Ajax methods for interfacing with MBO data.
+ *
+ * @package MzMindbody
+ */
 
 namespace MZoo\MzMindbody\Site;
 

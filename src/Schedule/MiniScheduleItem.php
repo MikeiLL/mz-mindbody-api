@@ -1,4 +1,17 @@
 <?php
+/**
+ * Mini Schedule Item
+ *
+ * This file contains the class that should probably
+ * be an extension of class schedule item, but currently
+ * is a minimized copy of it's content, used to generate
+ * simplified version of a schedule item for display
+ * in modal by which client might view their personal
+ * schedule. Currently inactive as there is not built-in
+ * client verification in API v6.
+ *
+ * @package MzMindbody
+ */
 
 namespace MZoo\MzMindbody\Schedule;
 
@@ -20,8 +33,6 @@ use MZoo\MzMindbody\Libraries as Libraries;
  * @param $ScheduleItem array
  */
 class MiniScheduleItem {
-
-
 
 	// All of the attributes from MBO
 	/**

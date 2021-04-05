@@ -1,4 +1,12 @@
 <?php
+/**
+ * Retrieve Events
+ *
+ * This file contains the class that extends Retrieve, specifically
+ * for fetching Mindbody "classes."
+ *
+ * @package MzMindbody
+ */
 
 namespace MZoo\MzMindbody\Events;
 
@@ -12,10 +20,6 @@ use MZoo\MzMindbody\Common\Interfaces as Interfaces;
  * Class that is extended for Events Display Shortcode(s)
  */
 class RetrieveEvents extends Interfaces\RetrieveClasses {
-
-
-
-
 
 	/**
 	 * Holder for events array returned by MBO API

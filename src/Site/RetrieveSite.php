@@ -1,4 +1,12 @@
 <?php
+/**
+ * Retrieve Site
+ *
+ * This file contains the class that extends Retrieve, specifically
+ * for fetching Mindbody Site (specific location) info.
+ *
+ * @package MzMindbody
+ */
 
 namespace MZoo\MzMindbody\Site;
 
@@ -9,10 +17,12 @@ use MZoo\MzMindbody\Schedule as Schedule;
 use MZoo\MzMindbody\Common\Interfaces as Interfaces;
 use MZoo\MzMindbody as NS;
 
-/*
- * Class that holds Client Interface Methods
+/**
+ * Class that holds Site Interface Methods
  *
- *
+ * Class that extends Retrieve, specifically
+ * for fetching Mindbody Site (specific location)
+ * info.
  */
 class RetrieveSite extends Interfaces\Retrieve {
 

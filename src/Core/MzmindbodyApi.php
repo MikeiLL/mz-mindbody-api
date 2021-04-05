@@ -1,4 +1,13 @@
 <?php
+/**
+ * MZ Mindbody Api
+ *
+ * This file contains the class which instantiates the
+ * core plugin instance, defining internationalization,
+ * admin-specific and public-facing site hooks.
+ *
+ * @package MzMindbody
+ */
 
 namespace MZoo\MzMindbody\Core;
 

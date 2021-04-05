@@ -1,4 +1,12 @@
 <?php
+/**
+ * Single Event
+ *
+ * This file contains the class that holds and formats
+ * a single event from MBO API GetClasses Result.
+ *
+ * @package MzMindbody
+ */
 
 namespace MZoo\MzMindbody\Events;
 

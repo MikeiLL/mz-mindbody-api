@@ -1,4 +1,12 @@
 <?php
+/**
+ * Staff Member
+ *
+ * This file contains the class that holds and formats
+ * a single single staff member from MBO API Staff Result.
+ *
+ * @package MzMindbody
+ */
 
 namespace MZoo\MzMindbody\Staff;
 

@@ -1,4 +1,12 @@
 <?php
+/**
+ * Retrieve Registrants
+ *
+ * This file contains the class that extends Retrieve, specifically
+ * for fetching registrants for specified MBO event/class.
+ *
+ * @package MzMindbody
+ */
 
 namespace MZoo\MzMindbody\Schedule;
 
@@ -12,7 +20,6 @@ use MZoo\MzMindbody\Common\Interfaces as Interfaces;
  * Class that is extended for Schedule Display Ajax Retrieve Registrants (s)
  *
  */
-
 class RetrieveRegistrants extends Interfaces\Retrieve {
 
 

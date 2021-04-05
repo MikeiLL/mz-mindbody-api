@@ -1,4 +1,14 @@
 <?php
+/**
+ * Retrieve Class Owners
+ *
+ * This file contains the class that extends Retrieve, specifically
+ * for fetching a "guess" at the instructor for a given MBO schedule
+ * event. It has to guess, based on a few weeks of schedule, who is
+ * teaching the class most frequently.
+ *
+ * @package MzMindbody
+ */
 
 namespace MZoo\MzMindbody\Schedule;
 
@@ -8,8 +18,6 @@ use MZoo\MzMindbody\Common as Common;
 use MZoo\MzMindbody\Common\Interfaces as Interfaces;
 
 class RetrieveClassOwners extends Interfaces\RetrieveClasses {
-
-
 
 	/**
 	 * Return Time Frame for request to MBO API

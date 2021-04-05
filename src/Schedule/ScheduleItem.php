@@ -1,4 +1,12 @@
 <?php
+/**
+ * Schedule Item
+ *
+ * This file contains the class that holds and formats
+ * a single schedule event (class) from MBO API GetClasses Result.
+ *
+ * @package MzMindbody
+ */
 
 namespace MZoo\MzMindbody\Schedule;
 

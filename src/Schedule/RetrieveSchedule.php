@@ -1,4 +1,12 @@
 <?php
+/**
+ * Retrieve Schedule
+ *
+ * This file contains the class that extends Retrieve, specifically
+ * for fetching Mindbody "classes."
+ *
+ * @package MzMindbody
+ */
 
 namespace MZoo\MzMindbody\Schedule;
 
@@ -8,8 +16,6 @@ use MZoo\MzMindbody\Common as Common;
 use MZoo\MzMindbody\Common\Interfaces as Interfaces;
 
 class RetrieveSchedule extends Interfaces\RetrieveClasses {
-
-
 
 	/**
 	 * Return Time Frame for request to MBO API

@@ -1,4 +1,12 @@
 <?php
+/**
+ * Retrieve Staff
+ *
+ * This file contains the class that extends Retrieve, specifically
+ * for fetching Mindbody staff members.
+ *
+ * @package MzMindbody
+ */
 
 namespace MZoo\MzMindbody\Staff;
 
