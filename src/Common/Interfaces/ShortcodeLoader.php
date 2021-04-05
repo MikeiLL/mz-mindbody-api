@@ -31,32 +31,36 @@ namespace MZoo\MzMindbody\Common\Interfaces;
 abstract class ShortcodeLoader {
 
 	/**
-	 * @param  $shortcodeName mixed either string name of the shortcode
-	 *                        (as it would appear in a post, e.g. [shortcodeName])
+	 * Register
+	 * 
+	 * Register text string that generates call to shortcode in wp page.
+	 * 
+	 * @param  $shortcode_name mixed either string name of the shortcode
+	 *                        (as it would appear in a post, e.g. [shortcode_name])
 	 *                        or an array of such names in case you want to have more than one name
 	 *                        for the same shortcode
 	 * @return void
 	 */
-	public function register( $shortcodeName ) {
-		$this->registerShortcodeToFunction( $shortcodeName, 'handleShortcode' );
+	public function register( $shortcode_name ) {
+		$this->registerShortcodeToFunction( $shortcode_name, 'handleShortcode' );
 	}
 
 	/**
-	 * @param  $shortcodeName mixed either string name of the shortcode
-	 *                        (as it would appear in a post, e.g. [shortcodeName])
+	 * @param  $shortcode_name mixed either string name of the shortcode
+	 *                        (as it would appear in a post, e.g. [shortcode_name])
 	 *                        or an array of such names in case you want to have more than one name
 	 *                        for the same shortcode
 	 * @param  $functionName  string name of public function in this class to call as the
 	 *                        shortcode handler
 	 * @return void
 	 */
-	protected function registerShortcodeToFunction( $shortcodeName, $functionName ) {
-		if ( is_array( $shortcodeName ) ) {
-			foreach ( $shortcodeName as $aName ) {
+	protected function registerShortcodeToFunction( $shortcode_name, $functionName ) {
+		if ( is_array( $shortcode_name ) ) {
+			foreach ( $shortcode_name as $aName ) {
 				add_shortcode( $aName, array( $this, $functionName ) );
 			}
 		} else {
-			add_shortcode( $shortcodeName, array( $this, $functionName ) );
+			add_shortcode( $shortcode_name, array( $this, $functionName ) );
 		}
 	}
 
