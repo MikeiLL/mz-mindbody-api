@@ -21,8 +21,6 @@ use MZoo\MzMindbody\Common\Interfaces as Interfaces;
  */
 class Display extends Interfaces\ShortcodeScriptLoader {
 
-
-
 	/**
 	 * If shortcode script has been enqueued.
 	 *
@@ -34,9 +32,8 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 	 */
 	private static $added_already = false;
 
-	// Table styling option holders
 	/**
-	 *
+	 * Table styling option holders
 	 *
 	 * @since  2.4.7
 	 * @access public
@@ -44,23 +41,24 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 	 * @var string
 	 */
 	public $table_class;
+
 	/**
-	 *
+	 * Horizontal Class
 	 *
 	 * @since  2.4.7
 	 * @access public
 	 *
-	 * @var string
+	 * @var string $horizontal_class CSS Class for horizontal style display.
 	 */
 	public $horizontal_class;
 
 	/**
-	 *
+	 * Grid Class
 	 *
 	 * @since  2.4.7
 	 * @access public
 	 *
-	 * @var string
+	 * @var string $grid_class CSS Class for grid/calendar style display.
 	 */
 	public $grid_class;
 
@@ -70,7 +68,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 	 * @since  2.4.7
 	 * @access public
 	 *
-	 * @var string $initial_button_text
+	 * @var string $initial_button_text Button text pre any javascript updates.
 	 */
 	public $initial_button_text;
 
@@ -80,29 +78,29 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 	 * @since  2.4.7
 	 * @access public
 	 *
-	 * @var string $swap_button_text
+	 * @var string $swap_button_text Text in swap button.
 	 */
 	public $swap_button_text;
 
 	/**
-	 *
+	 * Data Target
 	 *
 	 * @since  2.4.7
 	 * @access public
 	 *
-	 * @var string
+	 * @var string $data_target Which modal target to use for modal pop-up.
 	 */
-	public $data_target; // Which modal target to use for modal pop-up,
+	public $data_target;
 
 	/**
-	 *
+	 * Class Modal Link
 	 *
 	 * @since  2.4.7
 	 * @access public
 	 *
-	 * @var string
+	 * @var string $class_modal_link which modal include display file to select.
 	 */
-	public $class_modal_link; // which modal include display file to select
+	public $class_modal_link;
 
 
 	/**
@@ -111,7 +109,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 	 * @since     2.4.7
 	 * @access    public
 	 * @populated in handleShortcode
-	 * @used      in handleShortcode, localizeScript, display_schedule
+	 * @used      in handleShortcode, localizeScript, display_schedule.
 	 * @var       object $schedule_object Instance of RetrieveSchedule.
 	 */
 	public $schedule_object;
@@ -180,16 +178,19 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 	/**
 	 * Handle Shortcode
 	 *
-	 * @param  string $atts    shortcode inputs
+	 * Bulk of the work happens here, and in the similar function below which does
+	 * a lot of duplication for the Ajax calls.
+	 *
+	 * @param  string $atts    shortcode inputs.
 	 * @param  string $content any content between start and end shortcode tags.
-	 * @return string shortcode content
+	 * @return string shortcode content.
 	 */
 	public function handleShortcode( $atts, $content = null ) {
 
 		$this->atts = shortcode_atts(
 			array(
 				'type'                  => 'week',
-				'location'              => '', // stop using this eventually, in preference "int, int" format
+				'location'              => '', // stop using this eventually, in preference "int, int" format.
 				'locations'             => 1,
 				'account'               => 0,
 				'filter'                => 0,
@@ -198,12 +199,12 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 				'advanced'              => 0,
 				'this_week'             => 0,
 				'hide'                  => '',
-				'class_types'           => '', // migrating to session_types 2019 December(ish)
+				'class_types'           => '', // migrating to session_types 2019 December(ish).
 				'session_types'         => '',
 				'session_type_ids'      => '',
 				'show_registrants'      => 0,
 				'calendar_format'       => 'horizontal',
-				'schedule_type'         => null, // allow over-ridding of global setting
+				'schedule_type'         => null, // allow over-ridding of global setting.
 				'show_registrants'      => 0,
 				'registrants_count'     => 0,
 				'classesByDateThenTime' => array(),
@@ -214,56 +215,56 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 			$atts
 		);
 
-		// Set siteID to option if not set explicitly in shortcode
+		// Set siteID to option if not set explicitly in shortcode.
 		$this->site_id = ( isset( $atts['account'] ) ) ? $atts['account'] : Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
 
 		$this->class_modal_link = NS\PLUGIN_NAME_URL . 'src/Frontend/views/modals/modal_descriptions.php';
 
-		// Support the old 'class_types' shortcode attr
+		// Support the old 'class_types' shortcode attr.
 		$this->atts['session_types'] = ! empty( $this->atts['class_types'] ) ? $this->atts['class_types'] : $this->atts['session_types'];
 
-		// If set, turn Session/Class Types into an Array and call it session_types
-		if ( $this->atts['session_types'] !== '' ) {
-			if ( ! is_array( $this->atts['session_types'] ) ) { // if not already an array
+		// If set, turn Session/Class Types into an Array and call it session_types.
+		if ( '' !== $this->atts['session_types'] ) {
+			if ( ! is_array( $this->atts['session_types'] ) ) { // if not already an array.
 				$this->atts['session_types'] = explode( ',', $this->atts['session_types'] );
 			}
 			// TODO: is this sometimes done reduntantly?
 			foreach ( $this->atts['session_types'] as $key => $type ) :
 				$this->atts['session_types'][ $key ] = trim( $type );
 			endforeach;
-		} else {
-			$this->atts['session_types'] == '';
 		}
 
-		// If set, turn Session/Class Types into an Array and call it session_types
-		if ( $this->atts['session_type_ids'] !== '' ) {
-			if ( ! is_array( $this->atts['session_type_ids'] ) ) { // if not already an array
+		// If set, turn Session/Class Types into an Array and call it session_types.
+		if ( '' !== $this->atts['session_type_ids'] ) {
+			if ( ! is_array( $this->atts['session_type_ids'] ) ) { // if not already an array.
 				$this->atts['session_type_ids'] = explode( ',', $this->atts['session_type_ids'] );
 			}
 			// TODO: is this sometimes done reduntantly?
 			foreach ( $this->atts['session_type_ids'] as $key => $type ) :
 				$this->atts['session_type_ids'][ $key ] = trim( $type );
 			endforeach;
-		} else {
-			$this->atts['session_type_ids'] == '';
 		}
-
+		
 		// Break locations up into array, if it hasn't already been.
-		$this->atts['locations'] = ( ! is_array( $this->atts['locations'] ) ) ? explode( ',', str_replace( ' ', '', $this->atts['locations'] ) ) : $this->atts['locations'];
-
+		if ( ! is_array( $this->atts['locations'] ) ) {
+			$this->atts['locations'] = explode( ',', str_replace( ' ', '', $this->atts['locations'] ) );
+		}
 		// Set sLoc which we use in generating link, to first location in locations array.
 		$this->sLoc = $this->atts['locations'][0];
 
 		// Break hide up into array, if it hasn't already been.
-		$this->atts['hide'] = ( ! is_array( $this->atts['hide'] ) ) ? explode( ',', str_replace( ' ', '', strtolower( $this->atts['hide'] ) ) ) : $this->atts['hide'];
-		// Begin generating output
+		if ( ! is_array( $this->atts['hide'] ) ) {
+			$this->atts['hide'] = explode( ',', str_replace( ' ', '', strtolower( $this->atts['hide'] ) ) );
+		}
+		
+		// Begin generating output.
 		ob_start();
 
 		$template_loader       = new Core\TemplateLoader();
 		$this->schedule_object = new RetrieveSchedule( $this->atts );
 
 		// Call the API and if fails, return error message.
-		if ( false == $this->schedule_object->getMboResults() ) {
+		if ( false === $this->schedule_object->get_mbo_results() ) {
 			return '<div>' . __( 'Error returning schedule from MBO for shortcode display.', 'mz-mindbody-api' ) . '</div>';
 		}
 
@@ -272,12 +273,12 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 		 */
 		$this->display_type = ( ! empty( $atts['grid'] ) ) ? 'grid' : 'horizontal';
 
-		// If mode_select is on, render both grid and horizontal
+		// If mode_select is on, render both grid and horizontal.
 		if ( ! empty( $atts['mode_select'] ) ) {
 			$this->display_type = 'both';
 		}
 
-		// Define styling variables based on shortcode attribute values
+		// Define styling variables based on shortcode attribute values.
 		$this->table_class = ( $this->atts['filter'] == 1 ) ? 'mz-schedule-filter' : 'mz-schedule-table';
 
 		if ( $this->atts['mode_select'] == 1 ) :
@@ -285,88 +286,88 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 			$this->horizontal_class    = '';
 			$this->initial_button_text = __( 'Grid View', 'mz-mindbody-api' );
 			$this->swap_button_text    = __( 'Horizontal View', 'mz-mindbody-api' );
-	 elseif ( $this->atts['mode_select'] == 2 ) :
-		 $this->horizontal_class    = ' mz_hidden';
-		 $this->grid_class          = '';
-		 $this->initial_button_text = __( 'Horizontal View', 'mz-mindbody-api' );
-		 $this->swap_button_text    = __( 'Grid View', 'mz-mindbody-api' );
-	 else :
-		 $this->horizontal_class    = $this->grid_class = '';
-		 $this->initial_button_text = 0;
-		 $this->swap_button_text    = 0;
-	 endif;
+		elseif ( $this->atts['mode_select'] == 2 ) :
+			$this->horizontal_class    = ' mz_hidden';
+			$this->grid_class          = '';
+			$this->initial_button_text = __( 'Horizontal View', 'mz-mindbody-api' );
+			$this->swap_button_text    = __( 'Grid View', 'mz-mindbody-api' );
+		else :
+			$this->horizontal_class    = $this->grid_class = '';
+			$this->initial_button_text = 0;
+			$this->swap_button_text    = 0;
+		endif;
 
-	 /*
-	  *
-	  * Determine which type(s) of schedule(s) need to be configured
-	  *
-	  * The schedules are not class objects because they change depending on
-	  * (date) offset value when they are called.
-	  */
+		/*
+		*
+		* Determine which type(s) of schedule(s) need to be configured
+		*
+		* The schedules are not class objects because they change depending on
+		* (date) offset value when they are called.
+		*/
 
-	 // Initialize the variables, so won't be un-set.
-	 $horizontal_schedule = '';
-	 $grid_schedule       = '';
+		// Initialize the variables, so won't be un-set.
+		$horizontal_schedule = '';
+		$grid_schedule       = '';
 
-	 if ( $this->display_type == 'grid' || $this->display_type == 'both' ) :
-		 $grid_schedule = $this->schedule_object->sortClassesByTimeThenDate();
-	 endif;
-	 if ( $this->display_type == 'horizontal' || $this->display_type == 'both' ) :
-		 $horizontal_schedule = $this->schedule_object->sortClassesByDateThenTime();
-	 endif;
+		if ( $this->display_type == 'grid' || $this->display_type == 'both' ) :
+			$grid_schedule = $this->schedule_object->sortClassesByTimeThenDate();
+		endif;
+		if ( $this->display_type == 'horizontal' || $this->display_type == 'both' ) :
+			$horizontal_schedule = $this->schedule_object->sortClassesByDateThenTime();
+		endif;
 
-	 $week_names = array(
-		 __( 'Sunday', 'mz-mindbody-api' ),
-		 __( 'Monday', 'mz-mindbody-api' ),
-		 __( 'Tuesday', 'mz-mindbody-api' ),
-		 __( 'Wednesday', 'mz-mindbody-api' ),
-		 __( 'Thursday', 'mz-mindbody-api' ),
-		 __( 'Friday', 'mz-mindbody-api' ),
-		 __( 'Saturday', 'mz-mindbody-api' ),
-	 );
+		$week_names = array(
+			__( 'Sunday', 'mz-mindbody-api' ),
+			__( 'Monday', 'mz-mindbody-api' ),
+			__( 'Tuesday', 'mz-mindbody-api' ),
+			__( 'Wednesday', 'mz-mindbody-api' ),
+			__( 'Thursday', 'mz-mindbody-api' ),
+			__( 'Friday', 'mz-mindbody-api' ),
+			__( 'Saturday', 'mz-mindbody-api' ),
+		);
 
-	 /*
-	  * If wordpress-configured week starts on Monday instead of Sunday,
-	  * we shift our week names array
-	  */
-	 if ( Core\MzMindbodyApi::$start_of_week != 0 ) {
-		 array_push( $week_names, array_shift( $week_names ) );
-	 }
+		/*
+		* If wordpress-configured week starts on Monday instead of Sunday,
+		* we shift our week names array
+		*/
+		if ( Core\MzMindbodyApi::$start_of_week != 0 ) {
+			array_push( $week_names, array_shift( $week_names ) );
+		}
 
-	 $this->template_data = array(
-		 'atts'                 => $this->atts,
-		 'data_target'          => $this->data_target,
-		 'grid_class'           => $this->grid_class,
-		 'horizontal_class'     => $this->horizontal_class,
-		 'initial_button_text'  => $this->initial_button_text,
-		 'swap_button_text'     => $this->swap_button_text,
-		 'time_format'          => $this->schedule_object->time_format,
-		 'date_format'          => $this->schedule_object->date_format,
-		 'site_id'              => $this->site_id,
-		 'week_names'           => $week_names,
-		 'start_date'           => $this->schedule_object->start_date,
-		 'end_date'             => $this->schedule_object->current_week_end,
-		 'display_type'         => $this->display_type,
-		 'hide'                 => $this->atts['hide'],
-		 'table_class'          => $this->table_class,
-		 'locations_dictionary' => $this->schedule_object->locations_dictionary,
-		 'login'                => NS\MZMBO()->i18n->get( 'login' ),
-		 'login_to_sign_up'     => NS\MZMBO()->i18n->get( 'login_to_sign_up' ),
-		 'registration_button'  => NS\MZMBO()->i18n->get( 'registration_button' ),
-		 'username'             => NS\MZMBO()->i18n->get( 'username' ),
-		 'password'             => NS\MZMBO()->i18n->get( 'password' ),
-		 'manage_on_mbo'        => NS\MZMBO()->i18n->get( 'manage_on_mbo' ),
-		 'horizontal_schedule'  => $horizontal_schedule,
-		 'grid_schedule'        => $grid_schedule,
-	 );
+		$this->template_data = array(
+			'atts'                 => $this->atts,
+			'data_target'          => $this->data_target,
+			'grid_class'           => $this->grid_class,
+			'horizontal_class'     => $this->horizontal_class,
+			'initial_button_text'  => $this->initial_button_text,
+			'swap_button_text'     => $this->swap_button_text,
+			'time_format'          => $this->schedule_object->time_format,
+			'date_format'          => $this->schedule_object->date_format,
+			'site_id'              => $this->site_id,
+			'week_names'           => $week_names,
+			'start_date'           => $this->schedule_object->start_date,
+			'end_date'             => $this->schedule_object->current_week_end,
+			'display_type'         => $this->display_type,
+			'hide'                 => $this->atts['hide'],
+			'table_class'          => $this->table_class,
+			'locations_dictionary' => $this->schedule_object->locations_dictionary,
+			'login'                => NS\MZMBO()->i18n->get( 'login' ),
+			'login_to_sign_up'     => NS\MZMBO()->i18n->get( 'login_to_sign_up' ),
+			'registration_button'  => NS\MZMBO()->i18n->get( 'registration_button' ),
+			'username'             => NS\MZMBO()->i18n->get( 'username' ),
+			'password'             => NS\MZMBO()->i18n->get( 'password' ),
+			'manage_on_mbo'        => NS\MZMBO()->i18n->get( 'manage_on_mbo' ),
+			'horizontal_schedule'  => $horizontal_schedule,
+			'grid_schedule'        => $grid_schedule,
+		);
 
-	 $template_loader->set_template_data( $this->template_data );
-	 $template_loader->get_template_part( 'schedule_container' );
+		$template_loader->set_template_data( $this->template_data );
+		$template_loader->get_template_part( 'schedule_container' );
 
-	 // Add Style with script adder
-	 self::addScript();
+		// Add Style with script adder
+		self::addScript();
 
-	 return ob_get_clean();
+		return ob_get_clean();
 	}
 
 	/**
@@ -474,7 +475,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 		$this->schedule_object = new RetrieveSchedule( $atts );
 
 		// Call the API and if fails, return error message.
-		if ( false == $this->schedule_object->getMboResults() ) {
+		if ( false == $this->schedule_object->get_mbo_results() ) {
 			echo '<div>' . __( 'Error returning schedule from MBO for display.', 'mz-mindbody-api' ) . '</div>';
 		}
 

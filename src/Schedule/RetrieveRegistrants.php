@@ -51,7 +51,7 @@ class RetrieveRegistrants extends Interfaces\Retrieve {
 	 *
 	 * @return array of MBO schedule data
 	 */
-	public function getMboResults( $classid = 0 ) {
+	public function get_mbo_results( $classid = 0 ) {
 
 		if ( empty( $classid ) ) {
 			return false;
@@ -111,7 +111,7 @@ class RetrieveRegistrants extends Interfaces\Retrieve {
 	 */
 	function get_registrants( $classid ) {
 
-		$class_visits = $this->getMboResults( $classid );
+		$class_visits = $this->get_mbo_results( $classid );
 
 		if ( ! $class_visits ) :
 			return false;

@@ -205,7 +205,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 		$this->events_object = new RetrieveEvents( $this->atts );
 
 		// Call the API and if fails, return error message.
-		if ( ! $response = $this->events_object->getMboResults() ) {
+		if ( ! $response = $this->events_object->get_mbo_results() ) {
 			return '<div>' . __( 'Error returning events from Mindbody.', 'mz-mindbody-api' ) . '</div>';
 		}
 		// Add Style with script adder
@@ -349,7 +349,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 		$this->handleShortcode( $atts );
 
 		// Call the API and if fails, return error message.
-		if ( ! $response = $this->events_object->getMboResults() ) {
+		if ( ! $response = $this->events_object->get_mbo_results() ) {
 			$result  = '<div>';
 			$result .= __( 'Error returning events to display from Minbbody.', 'mz-mindbody-api' );
 			$result .= '</div>';

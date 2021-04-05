@@ -429,7 +429,7 @@ class Admin {
 
 		$debug_object = new Backend\RetrieveDebug();
 
-		$debug = $debug_object->getMboResults();
+		$debug = $debug_object->get_mbo_results();
 
 		$result['type']    = 'success';
 		$result['message'] = $return . $debug;
@@ -467,7 +467,7 @@ class Admin {
 		);
 		$return      .= '</p>';
 		$debug_object = new Backend\RetrieveDebug();
-		$debug        = $debug_object->getMboResults( null, 5 );
+		$debug        = $debug_object->get_mbo_results( null, 5 );
 
 		$result['type']    = 'success';
 		$result['message'] = $return . $debug;

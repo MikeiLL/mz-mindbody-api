@@ -70,7 +70,7 @@ class RetrieveSite extends Interfaces\Retrieve {
 	 */
 	public function getSiteMemberships() {
 
-		$this->getMboResults();
+		$this->get_mbo_results();
 
 		$result = $this->mb->GetMemberships();
 
@@ -84,7 +84,7 @@ class RetrieveSite extends Interfaces\Retrieve {
 	 */
 	public function getSitePrograms() {
 
-		$this->getMboResults();
+		$this->get_mbo_results();
 
 		$result = $this->mb->GetPrograms();
 
@@ -98,7 +98,7 @@ class RetrieveSite extends Interfaces\Retrieve {
 	 */
 	public function getSiteResources() {
 
-		$this->getMboResults();
+		$this->get_mbo_results();
 
 		$result = $this->mb->GetResources();
 
@@ -113,7 +113,7 @@ class RetrieveSite extends Interfaces\Retrieve {
 	 *
 	 * @return array of MBO schedule data
 	 */
-	public function getMboResults() {
+	public function get_mbo_results() {
 
 		$this->mb = $this->instantiateMboApi();
 

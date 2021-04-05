@@ -105,7 +105,7 @@ class WpOsa {
 	/**
 	 * Add a single section.
 	 *
-	 * @param array $section
+	 * @param array $section Configurations for section being added.
 	 * @since 2.4.7
 	 */
 	public function add_section( $section ) {
@@ -125,6 +125,7 @@ class WpOsa {
 	 * Set Fields.
 	 *
 	 * @since 2.4.7
+	 * @param array $fields Fields included in a section.
 	 */
 	public function set_fields( $fields ) {
 		// Bail if not array.
@@ -144,6 +145,8 @@ class WpOsa {
 	 * Add a single field.
 	 *
 	 * @since 2.4.7
+	 * @param string $section Which section to add fields to.
+	 * @param array  $field_array Fields within section.
 	 */
 	public function add_field( $section, $field_array ) {
 		// Set the defaults.
@@ -195,7 +198,7 @@ class WpOsa {
 		 * @since 2.4.7
 		 */
 		foreach ( $this->sections_array as $section ) {
-			if ( false == get_option( $section['id'] ) ) {
+			if ( false === get_option( $section['id'] ) ) {
 				// Add a new field as section ID.
 				add_option( $section['id'] );
 			}
@@ -340,6 +343,8 @@ class WpOsa {
 	 * Sanitize callback for Settings API fields.
 	 *
 	 * @since 2.4.7
+	 * @param array $fields Fields to be included in a section.
+	 * @return array of fields, sanitized.
 	 */
 	public function sanitize_fields( $fields ) {
 		foreach ( $fields as $field_slug => $field_value ) {
@@ -371,7 +376,7 @@ class WpOsa {
 		// Iterate over registered fields and see if we can find proper callback.
 		foreach ( $this->fields_array as $section => $field_array ) {
 			foreach ( $field_array as $field ) {
-				if ( $field['name'] != $slug ) {
+				if ( $slug !== $field['name'] ) {
 					continue;
 				}
 
@@ -555,7 +560,7 @@ class WpOsa {
 	 * Displays a textarea for a settings field
 	 *
 	 * @param  array $args settings field args.
-	 * @return string
+	 * @return void
 	 */
 	function callback_html( $args ) {
 		echo $this->get_field_description( $args );
@@ -782,7 +787,7 @@ class WpOsa {
 			do_settings_sections( $form['id'] );
 			do_action( 'wsa_form_bottom_' . $form['id'], $form );
 			?>
-			<?php if ( $form['id'] !== 'mz_mbo_shortcodes' ) : ?>
+			<?php if ( 'mz_mbo_shortcodes' !== $form['id'] ) : ?>
 						<div style="padding-left: 10px">
 				<?php submit_button( null, 'primary', 'submit_' . $form['id'] ); ?>
 						</div>

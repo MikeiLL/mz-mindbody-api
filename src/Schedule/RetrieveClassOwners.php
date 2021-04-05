@@ -19,7 +19,7 @@ use MZoo\MzMindbody\Common\Interfaces as Interfaces;
 
 /**
  * Retrieve Class Owners Class
- * 
+ *
  * Methods for retrieving the person deduced to be the
  * "owner" of a repeating MBO scheduled class.
  */
@@ -32,7 +32,7 @@ class RetrieveClassOwners extends Interfaces\RetrieveClasses {
 	 *
 	 * Default timeFrame is two dates, 4 weeks previous to start of current week as set in WP, and four weeks from now.
 	 *
-	 * @throws \Exception
+	 * @param timestamp $timestamp Time at which to begin timeframe cycle.
 	 *
 	 * @return array or start and end dates as required for MBO API
 	 */
@@ -63,7 +63,7 @@ class RetrieveClassOwners extends Interfaces\RetrieveClasses {
 		// Generated in Admin\Admin localizeScript().
 		check_admin_referer( 'mz_deduce_class_owners', 'nonce' );
 
-		if ( false == $this->getMboResults() ) {
+		if ( false === $this->get_mbo_results() ) {
 			echo '<div>' . __( 'Error deducing MBO class owners.', 'mz-mindbody-api' ) . '</div>';
 		}
 
@@ -108,15 +108,16 @@ class RetrieveClassOwners extends Interfaces\RetrieveClasses {
 	 *          )
 	 * )
 	 *
-	 * @param string $message Whether or not to echo a message and return the resulting array
+	 * @param string $message Whether or not to echo a message and return the resulting array.
+	 * @return void|string $message Message if requested by parameter.
 	 */
 	public function populate_regularly_scheduled_classes( $message = 'no message' ) {
 		$class_owners = array();
 		$class_count  = 0;
 
 		if ( ! isset( $this->classes ) ) :
-			// No classes so populate the classes array
-			$this->getMboResults();
+			// No classes so populate the classes array.
+			$this->get_mbo_results();
 		endif;
 
 		$schedules = $this->classes;
@@ -124,8 +125,8 @@ class RetrieveClassOwners extends Interfaces\RetrieveClasses {
 		foreach ( $schedules as $class ) :
 			$class_count++;
 
-			// If already a substitute, continue
-			if ( $class['Substitute'] == '1' ) {
+			// If already a substitute, continue.
+			if ( 1 === (int) $class['Substitute'] ) {
 				continue;
 			}
 
@@ -150,18 +151,21 @@ class RetrieveClassOwners extends Interfaces\RetrieveClasses {
 				'class_owner_id'    => strip_tags( $class['Staff']['Id'] ),
 			);
 
-			// Loop through the entire array, and sub-array and if there's already a match, do nothing
+			// Loop through the entire array, and sub-array and if there's already a match, do nothing.
 			foreach ( $class_owners as $owner ) :
 				$diff = array_diff( $owner, $temp );
 				if ( count( $diff ) === 0 ) :
-					// There's already one like this
-					continue 2; // Jump out of first OUTER loop (2)
+					// There's already one like this.
+					continue 2; // Jump out of first OUTER loop (2).
 				endif;
-				// DEBUG: Check to see if this is a class which matches in all but staff.
-				// $keys = array_keys($diff);
-				// if ( $keys[0] ==  'class_owner' && $keys[1] ==  'class_owner_id'):
-				// return array($owner, $temp);
-				// endif;
+
+				/*
+				 * DEBUG: Check to see if this is a class which matches in all but staff.
+				 * $keys = array_keys($diff);
+				 * if ( $keys[0] ==  'class_owner' && $keys[1] ==  'class_owner_id'):
+				 * return array($owner, $temp);
+				 *  endif;
+				 */
 			endforeach;
 
 			// If there isn't already a match add this item to the array.
@@ -171,7 +175,7 @@ class RetrieveClassOwners extends Interfaces\RetrieveClasses {
 		delete_transient( 'mz_class_owners' );
 		set_transient( 'mz_class_owners', $class_owners, 60 * 60 * 24 * 7 );
 
-		if ( $message == 'message' ) :
+		if ( 'message' === $message ) :
 			return $class_owners;
 		endif;
 	}
@@ -180,10 +184,13 @@ class RetrieveClassOwners extends Interfaces\RetrieveClasses {
 	 * Find Class Owner
 	 *
 	 * Compare Class against each "owner" in $class_owners and return first match.
+	 *
+	 * @param array $class MBO generated array of class details.
+	 * @return false|array of MBO instructor details.
 	 */
 	public function find_class_owner( $class ) {
 
-		// Create an object that will be compared against the $class_owners matrix
+		// Create an object that will be compared against the $class_owners matrix.
 
 		$day_of_class = wp_date( 'l', $class['StartDateTime'] );
 
@@ -204,18 +211,20 @@ class RetrieveClassOwners extends Interfaces\RetrieveClasses {
 			'class_owner_id'    => strip_tags( $class['Staff']['Id'] ),
 		);
 
-		// Fetch the Class_Owners transient and loop through it 'till we find a match
-		// First make sure we have the "class_owners" and that it's not an empty set
-		if ( $class_owners = get_transient( 'mz_class_owners' ) ) :
+		// Fetch the Class_Owners transient and loop through it 'till we find a match.
+		// First make sure we have the "class_owners" and that it's not an empty set.
+		$class_owners = get_transient( 'mz_class_owners' );
+		if ( false !== $class_owners ) :
 			if ( count( $class_owners ) === 0 ) :
-				// Class_owners were empty, so re-generate now
+				// Class_owners were empty, so re-generate now.
 				$this->populate_regularly_scheduled_classes();
 				// And run this again.
 				return $this->find_class_owner( $class );
 			endif;
 			foreach ( $class_owners as $owner ) :
-				// If the only difference is the instructor, we have a match
+				// If the only difference is the instructor, we have a match.
 				$diff = array_diff( $owner, $temp );
+
 				/*
 				* Check to see if this is a class which matches in all but staff.
 				* This works because class_owner and class_owner_id are the last
@@ -223,18 +232,18 @@ class RetrieveClassOwners extends Interfaces\RetrieveClasses {
 				* all the other keys matched.
 				*/
 				$keys = array_keys( $diff );
-				if ( $keys[0] == 'class_owner' && $keys[1] == 'class_owner_id' ) :
+				if ( 'class_owner' === $keys[0] && 'class_owner_id' === $keys[1] ) :
 					return $owner;
 				endif;
 			endforeach;
-	 else :
-		 // Couldn't fetch the transient, so generate it now
-		 $this->populate_regularly_scheduled_classes();
-		 // And run this again.
-		 return $this->find_class_owner( $class );
-	 endif;
+		else :
+			// Couldn't fetch the transient, so generate it now.
+			$this->populate_regularly_scheduled_classes();
+			// And run this again.
+			return $this->find_class_owner( $class );
+		endif;
 
-	 // If we didn't find a likely "owner" return false.
-	 return false;
+		// If we didn't find a likely "owner" return false.
+		return false;
 	}
 }

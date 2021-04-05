@@ -104,7 +104,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 		$this->staff_object = new RetrieveStaff( $this->atts );
 
 		// Call the API and if fails, return error message.
-		if ( false === $this->staff_object->getMboResults() ) {
+		if ( false === $this->staff_object->get_mbo_results() ) {
 			return '<div>' . __( 'Error displaying Staff from Mindbody.', 'mz-mindbody-api' ) . '</div>';
 		}
 
@@ -172,7 +172,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 		$this->staff_object = new RetrieveStaff();
 
 		// Send an array of staffID
-		$staff_result = $this->staff_object->getMboResults( array( $staffID ) );
+		$staff_result = $this->staff_object->get_mbo_results( array( $staffID ) );
 
 		$this->template_data = array(
 			'staff_details' => new StaffMember( $staff_result[0] ), // returns an array

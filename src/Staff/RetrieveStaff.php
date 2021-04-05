@@ -58,7 +58,7 @@ class RetrieveStaff extends Interfaces\Retrieve {
 	 *
 	 * @return $this->staff_result object holding staff details
 	 */
-	public function getMboResults( $staffIDs = array() ) {
+	public function get_mbo_results( $staffIDs = array() ) {
 
 		$mb = $this->instantiateMboApi();
 		if ( ! $mb ) {

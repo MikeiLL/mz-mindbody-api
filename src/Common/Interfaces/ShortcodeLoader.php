@@ -32,9 +32,9 @@ abstract class ShortcodeLoader {
 
 	/**
 	 * Register
-	 * 
+	 *
 	 * Register text string that generates call to shortcode in wp page.
-	 * 
+	 *
 	 * @param  $shortcode_name mixed either string name of the shortcode
 	 *                        (as it would appear in a post, e.g. [shortcode_name])
 	 *                        or an array of such names in case you want to have more than one name

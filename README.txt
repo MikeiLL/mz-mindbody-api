@@ -141,7 +141,7 @@ Bugfix: get_and_save_token from private to public to hook accessible.
 Update npm dependencies as per DependaBot.
 
 = v2.6.2 =
-Enhancement: Support override for transient in getMboResults.
+Enhancement: Support override for transient in get_mbo_results.
 
 = v2.6.1 =
 Bugfix: Class method name had changed in one place, but not in another.

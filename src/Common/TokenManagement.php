@@ -54,7 +54,7 @@ class TokenManagement extends Interfaces\Retrieve {
 	 *
 	 * @return AccessToken string as administered by MBO Api
 	 */
-	public function getMboResults() {
+	public function get_mbo_results() {
 
 		$mb = $this->instantiateMboApi();
 
@@ -148,7 +148,7 @@ class TokenManagement extends Interfaces\Retrieve {
 	public function get_and_save_token() {
 
 		try {
-			$token = $this->getMboResults();
+			$token = $this->get_mbo_results();
 		} catch ( \Exception $e ) {
 			return "Couldn't fetch token. " . $e;
 		}

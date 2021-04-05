@@ -221,7 +221,7 @@ abstract class RetrieveClasses extends Retrieve {
 	 *
 	 * @return array of MBO schedule data
 	 */
-	public function getMboResults( $timestamp = null ) {
+	public function get_mbo_results( $timestamp = null ) {
 
 		$timestamp = isset( $timestamp ) ? $timestamp : time();
 		$mb        = $this->instantiateMboApi();

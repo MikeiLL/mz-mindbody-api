@@ -52,7 +52,7 @@ class RetrieveDebug extends Interfaces\Retrieve {
 	 *
 	 * @return array of MBO schedule data
 	 */
-	public function getMboResults( $timestamp = null, $version_five = false ) {
+	public function get_mbo_results( $timestamp = null, $version_five = false ) {
 
 		$mb = ( $version_five === false ) ? $this->instantiateMboApi() : $this->instantiateMboApi( 5 );
 

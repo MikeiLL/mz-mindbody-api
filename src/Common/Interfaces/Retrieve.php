@@ -84,7 +84,7 @@ abstract class Retrieve {
 	 * MBO results. Attr values are substringed to limit
 	 * length of string.
 	 *
-	 * Used by $this->getMboResults
+	 * Used by $this->get_mbo_results
 	 *
 	 * resource: https://css-tricks.com/the-deal-with-wordpress-transients/
 	 *
@@ -134,5 +134,5 @@ abstract class Retrieve {
 	*
 	* @since 2.4.7
 	*/
-	abstract public function getMboResults();
+	abstract public function get_mbo_results();
 }

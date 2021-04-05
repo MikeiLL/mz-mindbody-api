@@ -29,7 +29,7 @@ class ScheduleDisplayTest extends MZMBO_WPUnitTestCase {
 		$schedule_object = new MZoo\MzMindbody\Schedule\RetrieveSchedule();
 		$timeFrame       = $schedule_object->timeFrame();
 		$this->assertTrue( count( $timeFrame ) === 2 );
-		$response = $schedule_object->getMboResults();
+		$response = $schedule_object->get_mbo_results();
 		$this->assertTrue( is_array( $response ) );
 		$this->assertTrue( is_array( $response[0] ) );
 		$this->assertTrue( is_string( $response[0]['StartDateTime'] ) );
@@ -48,7 +48,7 @@ class ScheduleDisplayTest extends MZMBO_WPUnitTestCase {
 
 		$schedule_object = new MZoo\MzMindbody\Schedule\RetrieveSchedule();
 
-		$response = $schedule_object->getMboResults();
+		$response = $schedule_object->get_mbo_results();
 
 		$sequenced_classes = $schedule_object->sortClassesByDateThenTime();
 
@@ -84,7 +84,7 @@ class ScheduleDisplayTest extends MZMBO_WPUnitTestCase {
 
 		$schedule_object = new MZoo\MzMindbody\Schedule\RetrieveSchedule();
 
-		$response = $schedule_object->getMboResults();
+		$response = $schedule_object->get_mbo_results();
 
 		$sequenced_classes = $schedule_object->sortClassesByTimeThenDate();
 
@@ -120,7 +120,7 @@ class ScheduleDisplayTest extends MZMBO_WPUnitTestCase {
 			)
 		);
 
-		$response = $schedule_object->getMboResults();
+		$response = $schedule_object->get_mbo_results();
 
 		$sequenced_classes = $schedule_object->sortClassesByTimeThenDate();
 
@@ -149,7 +149,7 @@ class ScheduleDisplayTest extends MZMBO_WPUnitTestCase {
 		$schedule_object = new MZoo\MzMindbody\Schedule\RetrieveSchedule();
 		$timeFrame       = $schedule_object->timeFrame( strtotime( '+1 week' ) );
 		$this->assertTrue( count( $timeFrame ) === 2 );
-		$response = $schedule_object->getMboResults();
+		$response = $schedule_object->get_mbo_results();
 		$this->assertTrue( is_array( $response ) );
 		$this->assertTrue( is_array( $response[0] ) );
 		$this->assertTrue( is_string( $response[0]['StartDateTime'] ) );
@@ -170,7 +170,7 @@ class ScheduleDisplayTest extends MZMBO_WPUnitTestCase {
 		$schedule_object = new MZoo\MzMindbody\Schedule\RetrieveSchedule();
 		$timeFrame       = $schedule_object->timeFrame( strtotime( '+1 week' ) );
 		$this->assertTrue( count( $timeFrame ) === 2 );
-		$response = $schedule_object->getMboResults();
+		$response = $schedule_object->get_mbo_results();
 		$this->assertTrue( is_array( $response ) );
 		$this->assertTrue( is_array( $response[0] ) );
 		$this->assertTrue( is_string( $response[0]['StartDateTime'] ) );
