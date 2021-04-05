@@ -1,28 +1,62 @@
 <?php
+/**
+ * Mindbody V6 API Methods
+ *
+ * This file contains the class which tracks the
+ * MBO Api v6 methods, called upon by MboV6Api class.
+ *
+ * @package MzMindbody
+ */
 
 namespace MZoo\MzMindbody\Libraries;
 
 use MZoo\MzMindbody as MZ;
 
+/**
+ * Mindbody V6 API Methods Class
+ *
+ * This class exposes the various MBO v6 endpoints
+ * and thier methods.
+ */
 class MboV6ApiMethods {
 
-
-	// set apiServices array with Mindbody endpoints
-	// source: https://github.com/mindbody/API-Examples/tree/master/SDKs/PHP/SwaggerClient-php/docs/Api
-
+	/**
+	 * Api Services
+	 *
+	 * Array of Mindbody endpoints.
+	 *
+	 * source: https://github.com/mindbody/API-Examples/tree/master/SDKs/PHP/SwaggerClient-php/docs/Api.
+	 *
+	 * @access public
+	 * @var array $methods the methods available within each endpoint.
+	 */
 	public $methods;
-	private $headersBasic      = array();
-	private $headersAuthorized = array();
 
-	protected $endpointClasses     = 'https://api.mindbodyonline.com/public/v6/class';
-	protected $endpointAppointment = 'https://api.mindbodyonline.com/public/v6/appointment';
-	protected $endpointClient      = 'https://api.mindbodyonline.com/public/v6/client';
-	protected $endpointEnrollment  = 'https://api.mindbodyonline.com/public/v6/enrollment';
-	protected $endpointPayroll     = 'https://api.mindbodyonline.com/public/v6/payroll';
-	protected $endpointSale        = 'https://api.mindbodyonline.com/public/v6/sale';
-	protected $endpointSite        = 'https://api.mindbodyonline.com/public/v6/site';
-	protected $endpointStaff       = 'https://api.mindbodyonline.com/public/v6/staff';
-	protected $endpointUserToken   = 'https://api.mindbodyonline.com/public/v6/usertoken';
+	/**
+	 * Headers Basic
+	 *
+	 * @access private
+	 * @var array $ headers_basic basic, default headers for API call.
+	 */
+	private $ headers_basic = array();
+
+	/**
+	 * Api Services array with Mindbody endpoints.
+	 *
+	 * @access private
+	 * @var array $headers_authorized some methods require auth headers.
+	 */
+	private $headers_authorized = array();
+
+	protected $endpoint_classes     = 'https://api.mindbodyonline.com/public/v6/class';
+	protected $endpoint_appointment = 'https://api.mindbodyonline.com/public/v6/appointment';
+	protected $endpoint_client      = 'https://api.mindbodyonline.com/public/v6/client';
+	protected $endpoint_enrollment  = 'https://api.mindbodyonline.com/public/v6/enrollment';
+	protected $endpoint_payroll     = 'https://api.mindbodyonline.com/public/v6/payroll';
+	protected $endpoint_sale        = 'https://api.mindbodyonline.com/public/v6/sale';
+	protected $endpoint_site        = 'https://api.mindbodyonline.com/public/v6/site';
+	protected $endpoint_staff       = 'https://api.mindbodyonline.com/public/v6/staff';
+	protected $endpoint_user_token  = 'https://api.mindbodyonline.com/public/v6/usertoken';
 
 	/**
 	 * Initialize the apiServices and apiMethods arrays
@@ -31,9 +65,9 @@ class MboV6ApiMethods {
 	 */
 	public function __construct( $headers = array() ) {
 
-		$this->headersBasic = $headers;
+		$this->headers_basic = $headers;
 
-		$this->headersAuthorized = array_merge(
+		$this->headers_authorized = array_merge(
 			$headers,
 			array(
 				'Authorization' => get_option(
@@ -51,408 +85,408 @@ class MboV6ApiMethods {
 				'AddApppointment'       => array(
 					'method'   => 'POST',
 					'name'     => 'AddApppointment',
-					'endpoint' => $this->endpointAppointment . '/addappointment',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_appointment . '/addappointment',
+					'headers'  => $this->headers_basic,
 				),
 				'GetActiveSessionTimes' => array(
 					'method'   => 'GET',
 					'name'     => 'GetActiveSessionTimes',
-					'endpoint' => $this->endpointAppointment . '/activesessiontimes',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_appointment . '/activesessiontimes',
+					'headers'  => $this->headers_basic,
 				),
 				'GetAppointmentOptions' => array(
 					'method'   => 'GET',
 					'name'     => 'GetAppointmentOptions',
-					'endpoint' => $this->endpointAppointment . '/appointmentoptions',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_appointment . '/appointmentoptions',
+					'headers'  => $this->headers_basic,
 				),
 				'GetBookableItems'      => array(
 					'method'   => 'GET',
 					'name'     => 'GetBookableItems',
-					'endpoint' => $this->endpointAppointment . '/bookableitems',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_appointment . '/bookableitems',
+					'headers'  => $this->headers_basic,
 				),
 				'GetScheduleItems'      => array(
 					'method'   => 'GET',
 					'name'     => 'GetScheduleItems',
-					'endpoint' => $this->endpointAppointment . '/scheduleitems',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_appointment . '/scheduleitems',
+					'headers'  => $this->headers_basic,
 				),
 				'GetStaffAppointments'  => array(
 					'method'   => 'GET',
 					'name'     => 'GetStaffAppointments',
-					'endpoint' => $this->endpointAppointment . '/staffappointments',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_appointment . '/staffappointments',
+					'headers'  => $this->headers_basic,
 				),
 				'UpdateApppointment'    => array(
 					'method'   => 'POST',
 					'name'     => 'UpdateApppointment',
-					'endpoint' => $this->endpointAppointment . '/updateappointment',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_appointment . '/updateappointment',
+					'headers'  => $this->headers_basic,
 				),
 			),
 			'ClassService'       => array(
 				'AddClientToClass'       => array(
 					'method'   => 'POST',
 					'name'     => 'AddClientToClass',
-					'endpoint' => $this->endpointClasses . '/addclienttoclass',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_classes . '/addclienttoclass',
+					'headers'  => $this->headers_basic,
 				),
 				'GetClassDescriptions'   => array(
 					'method'   => 'GET',
 					'name'     => 'GetClassDescriptions',
-					'endpoint' => $this->endpointClasses . '/classdescriptions',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_classes . '/classdescriptions',
+					'headers'  => $this->headers_basic,
 				),
 				'GetClassVisits'         => array(
 					'method'   => 'GET',
 					'name'     => 'GetClassVisits',
-					'endpoint' => $this->endpointClasses . '/classvisits',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_classes . '/classvisits',
+					'headers'  => $this->headers_basic,
 				),
 				'GetClasses'             => array(
 					'method'   => 'GET',
 					'name'     => 'GetClasses',
-					'endpoint' => $this->endpointClasses . '/classes',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_classes . '/classes',
+					'headers'  => $this->headers_basic,
 				),
 				'GetWaitlistEntries'     => array(
 					'method'   => 'GET',
 					'name'     => 'GetWaitlistEntries',
-					'endpoint' => $this->endpointClasses . '/waitlistentries',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_classes . '/waitlistentries',
+					'headers'  => $this->headers_basic,
 				),
 				'RemoveClientFromClass'  => array(
 					'method'   => 'POST',
 					'name'     => 'RemoveClientFromClass',
-					'endpoint' => $this->endpointClasses . '/removeclientfromclass',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_classes . '/removeclientfromclass',
+					'headers'  => $this->headers_basic,
 				),
 				'RemoveFromWaitlist'     => array(
 					'method'   => 'POST',
 					'name'     => 'RemoveFromWaitlist',
-					'endpoint' => $this->endpointClasses . '/removefromwaitlist',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_classes . '/removefromwaitlist',
+					'headers'  => $this->headers_basic,
 				),
 				'SubstituteClassTeacher' => array(
 					'method'   => 'POST',
 					'name'     => 'SubstituteClassTeacher',
-					'endpoint' => $this->endpointClasses . '/substituteclassteacher',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_classes . '/substituteclassteacher',
+					'headers'  => $this->headers_basic,
 				),
 			),
 			'ClientApi'          => array(
 				'AddArrival'                         => array(
 					'method'   => 'POST',
 					'name'     => 'AddArrival',
-					'endpoint' => $this->endpointClient . '/addarrival',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_client . '/addarrival',
+					'headers'  => $this->headers_basic,
 				),
 				'AddClient'                          => array(
 					'method'   => 'POST',
 					'name'     => 'AddClient',
-					'endpoint' => $this->endpointClient . '/addclient',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_client . '/addclient',
+					'headers'  => $this->headers_basic,
 				),
 				'AddContactLog'                      => array(
 					'method'   => 'POST',
 					'name'     => 'AddContactLog',
-					'endpoint' => $this->endpointClient . '/addcontactlog',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_client . '/addcontactlog',
+					'headers'  => $this->headers_basic,
 				),
 				'GetActiveClientMemberships'         => array(
 					'method'   => 'GET',
 					'name'     => 'GetActiveClientMemberships',
-					'endpoint' => $this->endpointClient . '/activeclientmemberships',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_client . '/activeclientmemberships',
+					'headers'  => $this->headers_basic,
 				),
 				'GetClientAccountBalances'           => array(
 					'method'   => 'GET',
 					'name'     => 'GetClientAccountBalances',
-					'endpoint' => $this->endpointClient . '/clientaccountbalances',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_client . '/clientaccountbalances',
+					'headers'  => $this->headers_basic,
 				),
 				'GetClientContracts'                 => array(
 					'method'   => 'GET',
 					'name'     => 'GetClientContracts',
-					'endpoint' => $this->endpointClient . '/clientcontracts',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_client . '/clientcontracts',
+					'headers'  => $this->headers_basic,
 				),
 				'GetClientFormulaNotes'              => array(
 					'method'   => 'GET',
 					'name'     => 'GetClientFormulaNotes',
-					'endpoint' => $this->endpointClient . '/clientformulanotes',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_client . '/clientformulanotes',
+					'headers'  => $this->headers_basic,
 				),
 				'GetClientIndexes'                   => array(
 					'method'   => 'GET',
 					'name'     => 'GetClientIndexes',
-					'endpoint' => $this->endpointClient . '/clientindexes',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_client . '/clientindexes',
+					'headers'  => $this->headers_basic,
 				),
 				'GetClientPurchases'                 => array(
 					'method'   => 'GET',
 					'name'     => 'GetClientPurchases',
-					'endpoint' => $this->endpointClient . '/clientpurchases',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_client . '/clientpurchases',
+					'headers'  => $this->headers_basic,
 				),
 				'GetClientReferralTypes'             => array(
 					'method'   => 'GET',
 					'name'     => 'GetClientReferralTypes',
-					'endpoint' => $this->endpointClient . '/clientreferraltypes',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_client . '/clientreferraltypes',
+					'headers'  => $this->headers_basic,
 				),
 				'GetClientServices'                  => array(
 					'method'   => 'GET',
 					'name'     => 'GetClientServices',
-					'endpoint' => $this->endpointClient . '/clientservices',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_client . '/clientservices',
+					'headers'  => $this->headers_basic,
 				),
 				'GetClientVisits'                    => array(
 					'method'   => 'GET',
 					'name'     => 'GetClientVisits',
-					'endpoint' => $this->endpointClient . '/clientvisits',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_client . '/clientvisits',
+					'headers'  => $this->headers_basic,
 				),
 				'GetClients'                         => array(
 					'method'   => 'GET',
 					'name'     => 'GetClients',
-					'endpoint' => $this->endpointClient . '/clients',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_client . '/clients',
+					'headers'  => $this->headers_basic,
 				),
 				'GetContactLogs'                     => array(
 					'method'   => 'GET',
 					'name'     => 'GetContactLogs',
-					'endpoint' => $this->endpointClient . '/contactlogs',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_client . '/contactlogs',
+					'headers'  => $this->headers_basic,
 				),
 				'GetCrossRegionalClientAssociations' => array(
 					'method'   => 'GET',
 					'name'     => 'GetCrossRegionalClientAssociations',
-					'endpoint' => $this->endpointClient . '/crossregionalclientassociations',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_client . '/crossregionalclientassociations',
+					'headers'  => $this->headers_basic,
 				),
 				'GetCustomClientFields'              => array(
 					'method'   => 'GET',
 					'name'     => 'GetCustomClientFields',
-					'endpoint' => $this->endpointClient . '/customclientfields',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_client . '/customclientfields',
+					'headers'  => $this->headers_basic,
 				),
 				'GetRequiredClientFields'            => array(
 					'method'   => 'GET',
 					'name'     => 'GetRequiredClientFields',
-					'endpoint' => $this->endpointClient . '/requiredclientfields',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_client . '/requiredclientfields',
+					'headers'  => $this->headers_basic,
 				),
 				'SendPasswordResetEmail'             => array(
 					'method'   => 'POST',
 					'name'     => 'SendPasswordResetEmail',
-					'endpoint' => $this->endpointClient . '/sendpasswordresetemail',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_client . '/sendpasswordresetemail',
+					'headers'  => $this->headers_basic,
 				),
 				'UpdateClient'                       => array(
 					'method'   => 'POST',
 					'name'     => 'UpdateClient',
-					'endpoint' => $this->endpointClient . '/updateclient',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_client . '/updateclient',
+					'headers'  => $this->headers_basic,
 				),
 				'UpdateClientService'                => array(
 					'method'   => 'POST',
 					'name'     => 'UpdateClientService',
-					'endpoint' => $this->endpointClient . '/updateclientservice',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_client . '/updateclientservice',
+					'headers'  => $this->headers_basic,
 				),
 				'UpdateClientVisit'                  => array(
 					'method'   => 'POST',
 					'name'     => 'UpdateClientVisit',
-					'endpoint' => $this->endpointClient . '/updateclientvisit',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_client . '/updateclientvisit',
+					'headers'  => $this->headers_basic,
 				),
 				'UpdateContactLog'                   => array(
 					'method'   => 'POST',
 					'name'     => 'UpdateContactLog',
-					'endpoint' => $this->endpointClient . '/updatecontactlog',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_client . '/updatecontactlog',
+					'headers'  => $this->headers_basic,
 				),
 				'UploadClientDocument'               => array(
 					'method'   => 'POST',
 					'name'     => 'UploadClientDocument',
-					'endpoint' => $this->endpointClient . '/uploadclientdocument',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_client . '/uploadclientdocument',
+					'headers'  => $this->headers_basic,
 				),
 				'UploadClientPhoto'                  => array(
 					'method'   => 'POST',
 					'name'     => 'UploadClientPhoto',
-					'endpoint' => $this->endpointClient . '/uploadclientphoto',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_client . '/uploadclientphoto',
+					'headers'  => $this->headers_basic,
 				),
 			),
 			'EnrollmentApi'      => array(
 				'AddClientToEnrollment' => array(
 					'method'   => 'POST',
 					'name'     => 'AddClientToEnrollment',
-					'endpoint' => $this->endpointEnrollment . '/addclienttoenrollment',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_enrollment . '/addclienttoenrollment',
+					'headers'  => $this->headers_basic,
 				),
 				'GetEnrollments'        => array(
 					'method'   => 'GET',
 					'name'     => 'GetEnrollments',
-					'endpoint' => $this->endpointEnrollment . '/enrollments',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_enrollment . '/enrollments',
+					'headers'  => $this->headers_basic,
 				),
 			),
 			'PayrollApi'         => array(
 				'GetClassPayroll' => array(
 					'method'   => 'GET',
 					'name'     => 'GetClassPayroll',
-					'endpoint' => $this->endpointPayroll . '/classes',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_payroll . '/classes',
+					'headers'  => $this->headers_basic,
 				),
 				'GetTimeClock'    => array(
 					'method'   => 'GET',
 					'name'     => 'GetTimeClock',
-					'endpoint' => $this->endpointPayroll . '/timeclock',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_payroll . '/timeclock',
+					'headers'  => $this->headers_basic,
 				),
 			),
 			'SaleApi'            => array(
 				'CheckoutShoppingCart'    => array(
 					'method'   => 'POST',
 					'name'     => 'CheckoutShoppingCart',
-					'endpoint' => $this->endpointSale . '/checkoutshoppingcart',
-					'headers'  => $this->headersAuthorized,
+					'endpoint' => $this->endpoint_sale . '/checkoutshoppingcart',
+					'headers'  => $this->headers_authorized,
 				),
 				'GetAcceptedCardTypes'    => array(
 					'method'   => 'GET',
 					'name'     => 'GetAcceptedCardTypes',
-					'endpoint' => $this->endpointSale . '/acceptedcardtypes',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_sale . '/acceptedcardtypes',
+					'headers'  => $this->headers_basic,
 				),
 				'GetContracts'            => array(
 					'method'   => 'GET',
 					'name'     => 'GetContracts',
-					'endpoint' => $this->endpointSale . '/contracts',
-					'headers'  => $this->headersAuthorized,
+					'endpoint' => $this->endpoint_sale . '/contracts',
+					'headers'  => $this->headers_authorized,
 				),
 				'GetCustomPaymentMethods' => array(
 					'method'   => 'GET',
 					'name'     => 'GetCustomPaymentMethods',
-					'endpoint' => $this->endpointSale . '/custompaymentmethods',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_sale . '/custompaymentmethods',
+					'headers'  => $this->headers_basic,
 				),
 				'GetGiftCards'            => array(
 					'method'   => 'GET',
 					'name'     => 'GetGiftCards',
-					'endpoint' => $this->endpointSale . '/giftcards',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_sale . '/giftcards',
+					'headers'  => $this->headers_basic,
 				),
 				'GetProducts'             => array(
 					'method'   => 'GET',
 					'name'     => 'GetProducts',
-					'endpoint' => $this->endpointSale . '/products',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_sale . '/products',
+					'headers'  => $this->headers_basic,
 				),
 				'GetSales'                => array(
 					'method'   => 'GET',
 					'name'     => 'GetSales',
-					'endpoint' => $this->endpointSale . '/sales',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_sale . '/sales',
+					'headers'  => $this->headers_basic,
 				),
 				'GetServices'             => array(
 					'method'   => 'GET',
 					'name'     => 'GetServices',
-					'endpoint' => $this->endpointSale . '/services',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_sale . '/services',
+					'headers'  => $this->headers_basic,
 				),
 				'PurchaseContract'        => array(
 					'method'   => 'POST',
 					'name'     => 'PurchaseContract',
-					'endpoint' => $this->endpointSale . '/purchasecontract',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_sale . '/purchasecontract',
+					'headers'  => $this->headers_basic,
 				),
 				'PurchaseGiftCard'        => array(
 					'method'   => 'POST',
 					'name'     => 'PurchaseGiftCard',
-					'endpoint' => $this->endpointSale . '/purchasegiftcard',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_sale . '/purchasegiftcard',
+					'headers'  => $this->headers_basic,
 				),
 			),
 			'SiteApi'            => array(
 				'GetActivationCode' => array(
 					'method'   => 'GET',
 					'name'     => 'GetActivationCode',
-					'endpoint' => $this->endpointSite . '/activationcode',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_site . '/activationcode',
+					'headers'  => $this->headers_basic,
 				),
 				'GetLocations'      => array(
 					'method'   => 'GET',
 					'name'     => 'GetLocations',
-					'endpoint' => $this->endpointSite . '/locations',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_site . '/locations',
+					'headers'  => $this->headers_basic,
 				),
 				'GetGenders'        => array(
 					'method'   => 'GET',
 					'name'     => 'GetGenders',
-					'endpoint' => $this->endpointSite . '/genders',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_site . '/genders',
+					'headers'  => $this->headers_basic,
 				),
 				'GetMemberships'    => array(
 					'method'   => 'GET',
 					'name'     => 'GetMemberships',
-					'endpoint' => $this->endpointSite . '/memberships',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_site . '/memberships',
+					'headers'  => $this->headers_basic,
 				),
 				'GetPrograms'       => array(
 					'method'   => 'GET',
 					'name'     => 'GetPrograms',
-					'endpoint' => $this->endpointSite . '/programs',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_site . '/programs',
+					'headers'  => $this->headers_basic,
 				),
 				'GetResources'      => array(
 					'method'   => 'GET',
 					'name'     => 'GetResources',
-					'endpoint' => $this->endpointSite . '/resources',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_site . '/resources',
+					'headers'  => $this->headers_basic,
 				),
 				'GetSessionTypes'   => array(
 					'method'   => 'GET',
 					'name'     => 'GetSessionTypes',
-					'endpoint' => $this->endpointSite . '/sessiontypes',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_site . '/sessiontypes',
+					'headers'  => $this->headers_basic,
 				),
 				'GetSites'          => array(
 					'method'   => 'GET',
 					'name'     => 'GetSites',
-					'endpoint' => $this->endpointSite . '/sites',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_site . '/sites',
+					'headers'  => $this->headers_basic,
 				),
 			),
 			'StaffApi'           => array(
 				'GetStaff'            => array(
 					'method'   => 'GET',
 					'name'     => 'GetStaff',
-					'endpoint' => $this->endpointStaff . '/staff',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_staff . '/staff',
+					'headers'  => $this->headers_basic,
 				),
 				'GetStaffPermissions' => array(
 					'method'   => 'GET',
 					'name'     => 'GetStaffPermissions',
-					'endpoint' => $this->endpointStaff . '/staffpermissions',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_staff . '/staffpermissions',
+					'headers'  => $this->headers_basic,
 				),
 			),
 			'UserToken'          => array(
 				'TokenIssue'  => array(
 					'method'   => 'POST',
 					'name'     => 'TokenIssue',
-					'endpoint' => $this->endpointUserToken . '/issue',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_user_token . '/issue',
+					'headers'  => $this->headers_basic,
 				),
 				'TokenRevoke' => array(
 					'method'   => 'DELETE',
 					'name'     => 'TokenRevoke',
-					'endpoint' => $this->endpointUserToken . '/revoke',
-					'headers'  => $this->headersBasic,
+					'endpoint' => $this->endpoint_user_token . '/revoke',
+					'headers'  => $this->headers_basic,
 				),
 			),
 		);

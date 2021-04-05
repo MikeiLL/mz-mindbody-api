@@ -24,7 +24,7 @@ class MboV6Api {
 
 	private $tokenRequestTries = 6;
 
-	protected $headersBasic = array(
+	protected $ headers_basic = array(
 		'User-Agent'   => '',
 		'Content-Type' => 'application/json; charset=utf-8',
 		'Api-Key'      => '',
@@ -66,14 +66,14 @@ class MboV6Api {
 		// set credentials into headers
 		if ( ! empty( $mbo_dev_credentials ) ) {
 			// if(!empty($mbo_dev_credentials['mz_mbo_app_name'])) {
-			// $this->headersBasic['App-Name'] = $mbo_dev_credentials['mz_mbo_app_name'];
+			// $this-> headers_basic['App-Name'] = $mbo_dev_credentials['mz_mbo_app_name'];
 			// If this matches actual app name, requests fail ;
 			// }
 			if ( ! empty( $mbo_dev_credentials['mz_mbo_api_key'] ) ) {
-				$this->headersBasic['Api-Key'] = $mbo_dev_credentials['mz_mbo_api_key'];
+				$this->headers_basic['Api-Key'] = $mbo_dev_credentials['mz_mbo_api_key'];
 			}
 			if ( ! empty( $mbo_dev_credentials['mz_mbo_app_name'] ) ) {
-				$this->headersBasic['User-Agent'] = $mbo_dev_credentials['mz_mbo_app_name'];
+				$this->headers_basic['User-Agent'] = $mbo_dev_credentials['mz_mbo_app_name'];
 			}
 			if ( ! empty( $mbo_dev_credentials['mz_source_name'] ) ) {
 				$this->extraCredentials['SourceName'] = $mbo_dev_credentials['mz_source_name'];
@@ -83,16 +83,16 @@ class MboV6Api {
 			}
 			if ( ! empty( $mbo_dev_credentials['mz_mindbody_siteID'] ) ) {
 				if ( is_array( $mbo_dev_credentials['mz_mindbody_siteID'] ) ) {
-					$this->headersBasic['SiteIDs'] = $mbo_dev_credentials['mz_mindbody_siteID'][0];
+					$this->headers_basic['SiteIDs'] = $mbo_dev_credentials['mz_mindbody_siteID'][0];
 				} elseif ( is_numeric( $mbo_dev_credentials['mz_mindbody_siteID'] ) ) {
-					$this->headersBasic['SiteId'] = $mbo_dev_credentials['mz_mindbody_siteID'];
+					$this->headers_basic['SiteId'] = $mbo_dev_credentials['mz_mindbody_siteID'];
 				}
 			}
 		}
 
 		// set apiServices array with Mindbody endpoints
 		// moved to a separate file for convenience.
-		$mbo_methods = new MboV6ApiMethods( $this->headersBasic );
+		$mbo_methods = new MboV6ApiMethods( $this->headers_basic );
 
 		$this->apiMethods = $mbo_methods->methods;
 	}
@@ -391,7 +391,7 @@ class MboV6Api {
 					'method'   => 'GET',
 					'name'     => 'GetClasses',
 					'endpoint' => 'https://api.mindbodyonline.com/public/v6/class/classes',
-					'headers'  => $this->headersBasic,
+					'headers'  => $this->headers_basic,
 				)
 			),
 			1
