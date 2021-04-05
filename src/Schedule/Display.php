@@ -71,7 +71,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 	 * @var string $initial_button_text Button text pre any javascript updates.
 	 */
 	public $initial_button_text;
-	
+
 	/**
 	 * Location ID from MBO.
 	 *
@@ -255,7 +255,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 				$this->atts['session_type_ids'][ $key ] = trim( $type );
 			endforeach;
 		}
-		
+
 		// Break locations up into array, if it hasn't already been.
 		if ( ! is_array( $this->atts['locations'] ) ) {
 			$this->atts['locations'] = explode( ',', str_replace( ' ', '', $this->atts['locations'] ) );
@@ -267,7 +267,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 		if ( ! is_array( $this->atts['hide'] ) ) {
 			$this->atts['hide'] = explode( ',', str_replace( ' ', '', strtolower( $this->atts['hide'] ) ) );
 		}
-		
+
 		// Begin generating output.
 		ob_start();
 
@@ -290,20 +290,21 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 		}
 
 		// Define styling variables based on shortcode attribute values.
-		$this->table_class = ( $this->atts['filter'] == 1 ) ? 'mz-schedule-filter' : 'mz-schedule-table';
+		$this->table_class = ( 1 === (int) $this->atts['filter'] ) ? 'mz-schedule-filter' : 'mz-schedule-table';
 
-		if ( $this->atts['mode_select'] == 1 ) :
+		if ( 1 === (int) $this->atts['mode_select'] ) :
 			$this->grid_class          = ' mz_hidden';
 			$this->horizontal_class    = '';
 			$this->initial_button_text = __( 'Grid View', 'mz-mindbody-api' );
 			$this->swap_button_text    = __( 'Horizontal View', 'mz-mindbody-api' );
-		elseif ( $this->atts['mode_select'] == 2 ) :
+		elseif ( 2 === (int) $this->atts['mode_select'] ) :
 			$this->horizontal_class    = ' mz_hidden';
 			$this->grid_class          = '';
 			$this->initial_button_text = __( 'Horizontal View', 'mz-mindbody-api' );
 			$this->swap_button_text    = __( 'Grid View', 'mz-mindbody-api' );
 		else :
-			$this->horizontal_class    = $this->grid_class = '';
+			$this->horizontal_class    = '';
+			$this->grid_class          = '';
 			$this->initial_button_text = 0;
 			$this->swap_button_text    = 0;
 		endif;
@@ -320,10 +321,10 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 		$horizontal_schedule = '';
 		$grid_schedule       = '';
 
-		if ( $this->display_type == 'grid' || $this->display_type == 'both' ) :
+		if ( 'grid' === $this->display_type || 'both' === $this->display_type ) :
 			$grid_schedule = $this->schedule_object->sortClassesByTimeThenDate();
 		endif;
-		if ( $this->display_type == 'horizontal' || $this->display_type == 'both' ) :
+		if ( 'horizontal' === $this->display_type || 'both' === $this->display_type ) :
 			$horizontal_schedule = $this->schedule_object->sortClassesByDateThenTime();
 		endif;
 
@@ -339,9 +340,9 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 
 		/*
 		* If wordpress-configured week starts on Monday instead of Sunday,
-		* we shift our week names array
+		* we shift our week names array.
 		*/
-		if ( Core\MzMindbodyApi::$start_of_week != 0 ) {
+		if ( 0 !== (int) Core\MzMindbodyApi::$start_of_week ) {
 			array_push( $week_names, array_shift( $week_names ) );
 		}
 
@@ -375,7 +376,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 		$template_loader->set_template_data( $this->template_data );
 		$template_loader->get_template_part( 'schedule_container' );
 
-		// Add Style with script adder
+		// Add Scripts and Style with script adder.
 		self::addScript();
 
 		return ob_get_clean();
@@ -401,7 +402,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 			wp_register_script( 'mz_display_schedule_script', NS\PLUGIN_NAME_URL . 'dist/scripts/schedule-display.js', array( 'jquery', 'mz_mbo_bootstrap_script' ), NS\PLUGIN_VERSION, true );
 			wp_enqueue_script( 'mz_display_schedule_script' );
 
-			if ( $this->atts['filter'] == 1 ) :
+			if ( 1 === (int) $this->atts['filter'] ) :
 				wp_register_script( 'filterTable', NS\PLUGIN_NAME_URL . 'dist/scripts/mz_filtertable.js', array( 'jquery', 'mz_display_schedule_script' ), NS\PLUGIN_VERSION, true );
 				wp_enqueue_script( 'filterTable' );
 			endif;
@@ -418,7 +419,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 	 * @return void
 	 */
 	public function localizeScript() {
-		// Clean out unneeded strings from Locations Dictionary
+		// Clean out unneeded strings from Locations Dictionary.
 		$locations_dictionary = $this->schedule_object->locations_dictionary;
 		foreach ( $locations_dictionary as $k => $v ) {
 			unset( $locations_dictionary[ $k ]['link'] );
@@ -486,35 +487,35 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 		$this->schedule_object = new RetrieveSchedule( $atts );
 
 		// Call the API and if fails, return error message.
-		if ( false == $this->schedule_object->get_mbo_results() ) {
+		if ( false === $this->schedule_object->get_mbo_results() ) {
 			echo '<div>' . __( 'Error returning schedule from MBO for display.', 'mz-mindbody-api' ) . '</div>';
 		}
 
-		// Register attributes
+		// Register attributes.
 		$this->handleShortcode( $atts );
 
-		// Update the data array
+		// Update the data array.
 		$this->template_data['time_format'] = $this->schedule_object->time_format;
 		$this->template_data['date_format'] = $this->schedule_object->date_format;
 
 		$template_loader->set_template_data( $this->template_data );
 
-		// Initialize the variables, so won't be un-set:
+		// Initialize the variables, so won't be un-set.
 		$horizontal_schedule = '';
 		$grid_schedule       = '';
-		if ( $this->display_type == 'grid' || $this->display_type == 'both' ) :
+		if ( 'grid' === $this->display_type || 'both' === $this->display_type ) :
 			ob_start();
 			$grid_schedule = $this->schedule_object->sortClassesByTimeThenDate();
-			// Update the data array
+			// Update the data array.
 			$this->template_data['grid_schedule'] = $grid_schedule;
 			$template_loader->get_template_part( 'grid_schedule' );
 			$result['grid'] = ob_get_clean();
 		endif;
 
-		if ( $this->display_type == 'horizontal' || $this->display_type == 'both' ) :
+		if ( 'horizontal' === $this->display_type || 'both' === $this->display_type ) :
 			ob_start();
 			$horizontal_schedule = $this->schedule_object->sortClassesByDateThenTime();
-			// Update the data array
+			// Update the data array.
 			$this->template_data['horizontal_schedule'] = $horizontal_schedule;
 			$template_loader->get_template_part( 'horizontal_schedule' );
 			$result['horizontal'] = ob_get_clean();

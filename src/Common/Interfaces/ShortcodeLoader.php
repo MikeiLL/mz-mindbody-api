@@ -35,26 +35,29 @@ abstract class ShortcodeLoader {
 	 *
 	 * Register text string that generates call to shortcode in wp page.
 	 *
-	 * @param  $shortcode_name mixed either string name of the shortcode
-	 *                        (as it would appear in a post, e.g. [shortcode_name])
-	 *                        or an array of such names in case you want to have more than one name
-	 *                        for the same shortcode
+	 * @param mixed $shortcode_name Either string name or array of names.
+	 *
+	 * Shortcode name is as it would appear in a post, e.g. [shortcode_name],
+	 * or an array of such names in case you want to have more than one name
+	 * for the same shortcode.
+	 *
 	 * @return void
 	 */
 	public function register( $shortcode_name ) {
-		$this->registerShortcodeToFunction( $shortcode_name, 'handleShortcode' );
+		$this->register_shortcode_to_function( $shortcode_name, 'handleShortcode' );
 	}
 
 	/**
-	 * @param  $shortcode_name mixed either string name of the shortcode
-	 *                        (as it would appear in a post, e.g. [shortcode_name])
-	 *                        or an array of such names in case you want to have more than one name
-	 *                        for the same shortcode
-	 * @param  $functionName  string name of public function in this class to call as the
-	 *                        shortcode handler
+	 * Register Shortcode to Function
+	 *
+	 * @param  mixed  $shortcode_name either string name of the shortcode
+	 *                         (as it would appear in a post, e.g. [shortcode_name])
+	 *                         or an array of such names in case you want to have more than one name
+	 *                         for the same shortcode.
+	 * @param  string $functionName   Name of public function in this class to call as the shortcode handler.
 	 * @return void
 	 */
-	protected function registerShortcodeToFunction( $shortcode_name, $functionName ) {
+	protected function register_shortcode_to_function( $shortcode_name, $functionName ) {
 		if ( is_array( $shortcode_name ) ) {
 			foreach ( $shortcode_name as $aName ) {
 				add_shortcode( $aName, array( $this, $functionName ) );

@@ -66,7 +66,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 	 * @var  @array    $data    array to send template.
 	 */
 	public $template_data;
-	
+
 	/**
 	 * Location ID from MBO.
 	 *

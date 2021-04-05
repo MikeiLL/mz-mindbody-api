@@ -535,7 +535,7 @@ class ScheduleItem {
 		$this->ID                    = $ScheduleItem['Id'];
 		$this->sTG                   = $ScheduleItem['ClassDescription']['Program']['Id'];
 		$this->class_schedule_id     = $ScheduleItem['ClassScheduleId'];
-		$this->studio_location_id                  = $ScheduleItem['Location']['Id'];
+		$this->studio_location_id    = $ScheduleItem['Location']['Id'];
 		$this->locationName          = $ScheduleItem['Location']['Name'];
 		$this->sDate                 = wp_date( 'm/d/Y', strtotime( $ScheduleItem['StartDateTime'] ) );
 		$this->sign_up_title         = __( 'Sign-Up', 'mz-mindbody-api' );
