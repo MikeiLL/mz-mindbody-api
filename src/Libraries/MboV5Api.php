@@ -111,9 +111,9 @@ class MboV5Api {
 	public function __call( $name, $arguments ) {
 		// check if method exists on one of mindbody's soap services
 		$soapService = false;
-		foreach ( $this->api_methods as $apiServiceName => $api_methods ) {
+		foreach ( $this->api_methods as $api_service_name => $api_methods ) {
 			if ( in_array( $name, $api_methods ) ) {
-				$soapService = $apiServiceName;
+				$soapService = $api_service_name;
 			}
 		}
 		if ( ! empty( $soapService ) ) {
@@ -132,13 +132,13 @@ class MboV5Api {
 				NS\MZMBO()->helpers->apiLog( $soapService . ' ' . $name . ' caller:' . $caller_details );
 			endif;
 			if ( empty( $arguments ) ) {
-				return $this->callMindbodyService( $soapService, $name );
+				return $this->call_mindbody_service( $soapService, $name );
 			} else {
 				switch ( count( $arguments ) ) {
 					case 1:
-						return $this->callMindbodyService( $soapService, $name, $arguments[0] );
+						return $this->call_mindbody_service( $soapService, $name, $arguments[0] );
 					case 2:
-						return $this->callMindbodyService( $soapService, $name, $arguments[0], $arguments[1] );
+						return $this->call_mindbody_service( $soapService, $name, $arguments[0], $arguments[1] );
 				}
 			}
 		} else {
@@ -214,7 +214,7 @@ class MboV5Api {
 	 * * array $request_data    - Optional: parameters to API methods
 	 * * boolean $return_object - Optional: Return the SOAP response object
 	 */
-	protected function callMindbodyService( $service_name, $method_name, $request_data = array(), $return_object = false, $debug_errors = false ) {
+	protected function call_mindbody_service( $service_name, $method_name, $request_data = array(), $return_object = false, $debug_errors = false ) {
 
 		$request = array_merge( array( 'SourceCredentials' => $this->sourceCredentials ), $request_data );
 		if ( ! empty( $this->userCredentials ) ) {
@@ -263,7 +263,7 @@ class MboV5Api {
 		return $return;
 	}
 
-	public function makeNumericArray( $data ) {
+	public function make_numeric_array( $data ) {
 		return ( isset( $data[0] ) ) ? $data : array( $data );
 	}
 
@@ -290,7 +290,7 @@ class MboV5Api {
 		$request       = empty( $passed[0] ) ? null : $passed[0];
 		$return_object = empty( $passed[1] ) ? null : $passed[1];
 		$debug_errors  = empty( $passed[2] ) ? null : $passed[2];
-		$data          = $this->callMindbodyService( 'DataService', 'FunctionDataXml', $request );
+		$data          = $this->call_mindbody_service( 'DataService', 'FunctionDataXml', $request );
 		$xmlString     = $this->getXMLResponse();
 		$sxe           = new \SimpleXMLElement( $xmlString );
 		$sxe->registerXPathNamespace( 'mindbody', 'http://clients.mindbodyonline.com/api/0_5' );
@@ -300,7 +300,7 @@ class MboV5Api {
 		} else {
 			$arr = $this->replace_empty_arrays_with_nulls( json_decode( json_encode( $res[0] ), 1 ) );
 			if ( isset( $arr['FunctionDataXmlResult']['Results']['Row'] ) && is_array( $arr['FunctionDataXmlResult']['Results']['Row'] ) ) {
-				$arr['FunctionDataXmlResult']['Results']['Row'] = $this->makeNumericArray( $arr['FunctionDataXmlResult']['Results']['Row'] );
+				$arr['FunctionDataXmlResult']['Results']['Row'] = $this->make_numeric_array( $arr['FunctionDataXmlResult']['Results']['Row'] );
 			}
 			return $arr;
 		}

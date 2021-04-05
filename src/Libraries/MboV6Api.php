@@ -153,6 +153,7 @@ class MboV6Api {
 	 *
 	 * @since 2.5.7
 	 *
+	 * @throws Exception When API called above configured times.
 	 * @param string $name that matches method in matrix of MBO API v6 Methods.
 	 * @param array  $arguments used in API request.
 	 */
@@ -160,7 +161,7 @@ class MboV6Api {
 
 		$rest_method = '';
 
-		foreach ( $this->api_methods as $apiServiceName => $api_methods ) {
+		foreach ( $this->api_methods as $api_service_name => $api_methods ) {
 			if ( array_key_exists( $name, $api_methods ) ) {
 				$rest_method = $api_methods[ $name ];
 			}
@@ -176,7 +177,7 @@ class MboV6Api {
 			throw new Exception( 'Too many API Calls.' );
 		}
 
-		if ( ( isset( NS\Core\MzMindbodyApi::$advanced_options['log_api_calls'] ) ) && ( NS\Core\MzMindbodyApi::$advanced_options['log_api_calls'] == 'on' ) ) :
+		if ( ( isset( NS\Core\MzMindbodyApi::$advanced_options['log_api_calls'] ) ) && ( 'on' === NS\Core\MzMindbodyApi::$advanced_options['log_api_calls'] ) ) :
 			$trace          = debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS, 2 )[1];
 			$caller_details = $trace['function'];
 			if ( isset( $trace['class'] ) ) {
@@ -186,13 +187,13 @@ class MboV6Api {
 		endif;
 
 		if ( empty( $arguments ) ) {
-			return $this->callMindbodyService( $rest_method );
+			return $this->call_mindbody_service( $rest_method );
 		} else {
 			switch ( count( $arguments ) ) {
 				case 1:
-					return $this->callMindbodyService( $rest_method, $arguments[0] );
+					return $this->call_mindbody_service( $rest_method, $arguments[0] );
 				case 2:
-					return $this->callMindbodyService( $rest_method, $arguments[0], $arguments[1] );
+					return $this->call_mindbody_service( $rest_method, $arguments[0], $arguments[1] );
 			}
 		}
 	}
@@ -200,33 +201,34 @@ class MboV6Api {
 	/**
 	 * Return the results of a Mindbody API method
 	 *
-	 * @param string $rest_method    - Mindbody API method name
-	 * @param array  $request_data    - Mindbody API method name
+	 * @param array $rest_method    - as per \MboV6ApiMethods.
+	 * @param array $request_data   - API Request data.
 	 */
-	protected function callMindbodyService( $rest_method, $request_data = array() ) {
+	protected function call_mindbody_service( $rest_method, $request_data = array() ) {
 
-		if ( $rest_method['name'] == 'TokenIssue' ) {
-			// If this is a token request, make a separate call so that we
-			// don't create a loop here
-
-			$token = $this->tokenRequest( $rest_method );
+		if ( 'TokenIssue' === $rest_method['name'] ) {
+			/*
+			 * If this is a token request, make a separate call so that we
+			 * don't create a loop here.
+			 */
+			$token = $this->token_request( $rest_method );
 
 			return $token;
 		}
 
-		// Certain methods don't require credentials
+		// Certain methods don't require credentials.
 		$method_without_username = array(
 			'AddClient',
 		);
 
-		// Certain methods want json strings
+		// Certain methods want json strings.
 		$encoded_request_body = array(
 			'AddClient',
 			'SendPasswordResetEmail',
 			'CheckoutShoppingCart',
 		);
 
-		// Certain methods don't require credentials
+		// Certain methods don't require credentials.
 		if ( ! in_array( $rest_method['name'], $method_without_username, true ) ) {
 			$request_body = array_merge(
 				$request_data,
@@ -237,13 +239,13 @@ class MboV6Api {
 				)
 			);
 
-			// Maybe there's a stored token to use
+			// Maybe there's a stored token to use.
 			$token = $this->token_management->get_stored_token();
 
 			if ( ctype_alnum( $token['AccessToken'] ) ) {
 				$request_body['Access'] = $token['AccessToken'];
 			} else {
-				$request_body['Access'] = $this->tokenRequest( $rest_method );
+				$request_body['Access'] = $this->token_request( $rest_method );
 			}
 		} else {
 			$request_body = $request_data;
@@ -257,8 +259,10 @@ class MboV6Api {
 			$request_body = wp_json_encode( $request_body );
 		}
 
-		// For some reason, for this call, we don't want to convert
-		// 'body' into a json string, as we do in the token request
+		/*
+		 * For some reason, for this call, we don't want to convert
+		 * 'body' into a json string, as we do in the token request.
+		 */
 		$response = wp_remote_request(
 			$rest_method['endpoint'],
 			array(
@@ -280,33 +284,33 @@ class MboV6Api {
 			$response_body = json_decode( $response['body'], true );
 
 			if ( is_array( $response_body ) && array_key_exists( 'Error', $response_body ) && strpos( $response_body['Error']['Message'], 'Please try again' ) ) {
-				// OK try again after three seconds
-				// sleep(3);
+				// OK try again.
+				// sleep(3); Formerly after three seconds removed.
 				if ( $this->token_request_tries > 1 ) {
-					return $this->callMindbodyService( $rest_method, $request_data );
+					return $this->call_mindbody_service( $rest_method, $request_data );
 				}
 				return false;
 			}
 
-			// return the data as an array, which is what we are used to
+			// return the data as an array, which is what we are used to.
 			return $response_body;
 		}
 	}
 
 
 	/**
-	 * return the results of a Mindbody API method, specific to token
+	 * Return the results of a Mindbody API method, specific to token
+	 *
+	 * Get a stored token if there's a good one availaible,
+	 * if not, request one from the API and store it to the
+	 * WP database. As above, but specifically for token requests.
 	 *
 	 * @since 2.5.7
 	 *
-	 * As above, but specifically for token requests.
-	 *
-	 * Get a stored token if there's a good one availaible,
-	 * if not, request one from the API.
-	 *
-	 * return string of MBO API Response data
+	 * @param array $rest_method as per \MboV6ApiMethods.
+	 * @return array of WP option or MBO API Response with date and token string.
 	 */
-	protected function tokenRequest( $rest_method ) {
+	protected function token_request( $rest_method ) {
 
 		$this->token_request_tries--;
 
@@ -333,11 +337,13 @@ class MboV6Api {
 			return 'Something went wrong with token request: ' . $error_message;
 		} else {
 			$response_body = json_decode( $response['body'] );
+			// @codingStandardsIgnoreStart naming convensions 'Error'
 			if ( property_exists( $response_body, 'Error' ) && strpos( $response_body->Error->Message, 'Please try again' ) ) {
-				// OK try again after three seconds
+			// @codingStandardsIgnoreEnd
+				// OK try again after three seconds.
 				sleep( 3 );
 				if ( $this->token_request_tries > 1 ) {
-					return $this->tokenRequest( $rest_method );
+					return $this->token_request( $rest_method );
 				}
 				return false;
 			}
@@ -351,13 +357,13 @@ class MboV6Api {
 	 * Return username string formatted based on if Sourcename of Staff Name
 	 *
 	 * @since 2.5.7
-	 * @used  by tokenRequest(), callMindbodyService()
+	 * @used  by token_request(), call_mindbody_service()
 	 *
 	 * return string of MBO API user name with our without preceding underscore
 	 */
 	protected function format_username() {
 
-		if ( $this->basic_options['sourcename_not_staff'] == 'on' ) {
+		if ( 'on' === $this->basic_options['sourcename_not_staff'] ) {
 			return '_' . $this->extra_credentials['SourceName'];
 		} else {
 			return $this->extra_credentials['SourceName'];
@@ -373,21 +379,22 @@ class MboV6Api {
 	 */
 	private function track_daily_api_calls() {
 		// If not set, initiate array to track mbo calls.
-		if ( ! $mz_mbo_api_calls = get_option( 'mz_mbo_api_calls' ) ) {
-			$mz_mbo_api_calls = array(
+		$mz_mbo_api_calls = get_option(
+			'mz_mbo_api_calls',
+			array(
 				'calls' => 2,
-				'today' => date( 'Y-m-d' ),
-			);
-		}
-		if ( $mz_mbo_api_calls['today'] < date( 'Y-m-d' ) ) {
-			// If it's a new day, reinitialize the matrix
+				'today' => gmdate( 'Y-m-d' ),
+			)
+		);
+		if ( $mz_mbo_api_calls['today'] < gmdate( 'Y-m-d' ) ) {
+			// If it's a new day, reinitialize the matrix.
 			$mz_mbo_api_calls = array(
-				'today' => date( 'Y-m-d' ),
+				'today' => gmdate( 'Y-m-d' ),
 				'calls' => 1,
 			);
 			update_option( 'mz_mbo_api_calls', $mz_mbo_api_calls );
 		};
-		// Otherwise increase the call count
+		// Otherwise increase the call count.
 		$mz_mbo_api_calls['calls'] += 1;
 		update_option( 'mz_mbo_api_calls', $mz_mbo_api_calls );
 	}
@@ -401,8 +408,9 @@ class MboV6Api {
 	 */
 	private function api_call_limiter() {
 
-		// Don't limit if using sandbox
-		if ( ( isset( NS\MZMBO()::$basic_options['mz_mindbody_siteID'] ) ) && ( NS\MZMBO()::$basic_options['mz_mindbody_siteID'] == '-99' ) ) {
+		// Don't limit if using sandbox.
+		if ( ( isset( NS\MZMBO()::$basic_options['mz_mindbody_siteID'] ) ) && 
+				( '-99' === NS\MZMBO()::$basic_options['mz_mindbody_siteID'] ) ) {
 			return true;
 		}
 
@@ -423,6 +431,7 @@ class MboV6Api {
 		$to      = get_option( 'admin_email' );
 		$subject = __( 'Large amount of MBO API Calls', 'mz-mindbody-api' );
 		$message = sprintf(
+			// translators: Notify user of number of calls to api versus limit configured in WP option.
 			__( 'Check your website and MBO. There have been %1$s calls to the API so far today. You have set a maximum of %2$s in the Admin.', 'mz-mindbody-api' ),
 			NS\MZMBO()::$mz_mbo_api_calls['calls'],
 			NS\MZMBO()::$advanced_options['api_call_limit']
@@ -431,6 +440,11 @@ class MboV6Api {
 		wp_mail( $to, $subject, $message, $headers );
 	}
 
+	/**
+	 * Make basic call to classes endpoint
+	 * 
+	 * @return DOM textarea with mbo call result in it.
+	 */
 	public function debug() {
 		$return  = "<textarea rows='6' cols='90'>";
 		$return .= print_r(
@@ -447,9 +461,5 @@ class MboV6Api {
 		$return .= '</textarea>';
 
 		return $return;
-	}
-
-	public function makeNumericArray( $data ) {
-		return ( isset( $data[0] ) ) ? $data : array( $data );
 	}
 }
