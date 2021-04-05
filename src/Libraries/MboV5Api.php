@@ -35,7 +35,7 @@ class MboV5Api {
 	/**
 	 * Initialize the apiServices and api_methods arrays
 	 */
-	public function __construct( $sourceCredentials = array() ) {
+	public function __construct( $source_credentials = array() ) {
 
 		$this->soapOptions = array(
 			'soap_version'   => SOAP_1_1,
@@ -86,19 +86,19 @@ class MboV5Api {
 			);
 		}
 
-		// set sourceCredentials
-		if ( ! empty( $sourceCredentials ) ) {
-			if ( ! empty( $sourceCredentials['SourceName'] ) ) {
-				$this->sourceCredentials['SourceName'] = $sourceCredentials['SourceName'];
+		// set source_credentials
+		if ( ! empty( $source_credentials ) ) {
+			if ( ! empty( $source_credentials['SourceName'] ) ) {
+				$this->source_credentials['SourceName'] = $source_credentials['SourceName'];
 			}
-			if ( ! empty( $sourceCredentials['Password'] ) ) {
-				$this->sourceCredentials['Password'] = $sourceCredentials['Password'];
+			if ( ! empty( $source_credentials['Password'] ) ) {
+				$this->source_credentials['Password'] = $source_credentials['Password'];
 			}
-			if ( ! empty( $sourceCredentials['SiteIDs'] ) ) {
-				if ( is_array( $sourceCredentials['SiteIDs'] ) ) {
-					$this->sourceCredentials['SiteIDs'] = $sourceCredentials['SiteIDs'];
-				} elseif ( is_numeric( $sourceCredentials['SiteIDs'] ) ) {
-					$this->sourceCredentials['SiteIDs'] = array( $sourceCredentials['SiteIDs'] );
+			if ( ! empty( $source_credentials['SiteIDs'] ) ) {
+				if ( is_array( $source_credentials['SiteIDs'] ) ) {
+					$this->source_credentials['SiteIDs'] = $source_credentials['SiteIDs'];
+				} elseif ( is_numeric( $source_credentials['SiteIDs'] ) ) {
+					$this->source_credentials['SiteIDs'] = array( $source_credentials['SiteIDs'] );
 				}
 			}
 		}
@@ -216,7 +216,7 @@ class MboV5Api {
 	 */
 	protected function call_mindbody_service( $service_name, $method_name, $request_data = array(), $return_object = false, $debug_errors = false ) {
 
-		$request = array_merge( array( 'SourceCredentials' => $this->sourceCredentials ), $request_data );
+		$request = array_merge( array( 'SourceCredentials' => $this->source_credentials ), $request_data );
 		if ( ! empty( $this->userCredentials ) ) {
 			$request = array_merge( array( 'UserCredentials' => $this->userCredentials ), $request );
 		}

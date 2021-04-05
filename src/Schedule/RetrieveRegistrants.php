@@ -59,13 +59,13 @@ class RetrieveRegistrants extends Interfaces\Retrieve {
 
 		$mb = $this->instantiateMboApi();
 
-		if ( ! $mb || $mb == 'NO_API_SERVICE' ) {
+		if ( ! $mb || 'NO_API_SERVICE' === $mb ) {
 			return false;
 		}
 
-		if ( $this->mbo_account !== 0 ) {
-			// If account has been specified in shortcode, update credentials
-			$mb->sourceCredentials['SiteIDs'][0] = $this->mbo_account;
+		if ( 0 !== $this->mbo_account ) {
+			// If account has been specified in shortcode, update credentials.
+			$mb->source_credentials['SiteIDs'][0] = $this->mbo_account;
 		}
 
 		$this->class_visits = $mb->GetClassVisits( array( 'ClassID' => $classid ) );
@@ -128,13 +128,13 @@ class RetrieveRegistrants extends Interfaces\Retrieve {
 		  // send list of registrants to GetRegistrants
 		  $mb = $this->instantiateMboApi();
 
-		  if ( ! $mb || $mb == 'NO_API_SERVICE' ) {
+		  if ( ! $mb || 'NO_API_SERVICE' === $mb ) {
 			  return false;
 		  }
 
 		  if ( $this->mbo_account !== 0 ) {
 			  // If account has been specified in shortcode, update credentials
-			  $mb->sourceCredentials['SiteIDs'][0] = $this->mbo_account;
+			  $mb->source_credentials['SiteIDs'][0] = $this->mbo_account;
 		  }
 
 		  $this->registrants = $mb->GetClients( array( 'clientIds' => $registrant_ids ) );

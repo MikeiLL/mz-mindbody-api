@@ -242,7 +242,7 @@ abstract class RetrieveClasses extends Retrieve {
 
 			if ( $this->mbo_account !== 0 ) {
 				// If account has been specified in shortcode, update credentials
-				$mb->sourceCredentials['SiteIDs'][0] = $this->mbo_account;
+				$mb->source_credentials['SiteIDs'][0] = $this->mbo_account;
 			}
 
 			try {
