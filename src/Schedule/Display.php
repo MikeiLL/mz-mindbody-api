@@ -510,8 +510,8 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 
 		$result['message'] = __( 'Error. Please try again.', 'mz-mindbody-api' );
 
-		if ( ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && 
-		    'xmlhttprequest' === strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ) {
+		if ( ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) &&
+			'xmlhttprequest' === strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ) {
 			$result = wp_json_encode( $result );
 			echo $result;
 		} else {

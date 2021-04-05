@@ -92,8 +92,8 @@ class RetrieveRegistrants extends Interfaces\Retrieve {
 
 		$result['message'] = $registrants;
 
-		if ( ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && 
-		    'xmlhttprequest' === strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ) {
+		if ( ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) &&
+			'xmlhttprequest' === strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ) {
 			$result = wp_json_encode( $result );
 			echo $result;
 		} else {
@@ -102,7 +102,7 @@ class RetrieveRegistrants extends Interfaces\Retrieve {
 
 		die();
 	}
-	// End Ajax Get Registrants
+	// End Ajax Get Registrants.
 
 	/**
 	 * Get Registrants from MBO
