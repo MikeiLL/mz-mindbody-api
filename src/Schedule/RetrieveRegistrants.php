@@ -107,7 +107,7 @@ class RetrieveRegistrants extends Interfaces\Retrieve {
 	/**
 	 * Get Registrants from MBO
 	 *
-	 * @param int $classid
+	 * @param int $classid Unique ID for specific class to get registrants for.
 	 */
 	function get_registrants( $classid ) {
 
@@ -115,39 +115,39 @@ class RetrieveRegistrants extends Interfaces\Retrieve {
 
 		if ( ! $class_visits ) :
 			return false;
-	 else :
-		 if ( empty( $class_visits['Class']['Visits'] ) ) :
-			 return __( 'No registrants yet.', 'mz-mindbody-api' );
-	  else :
-		  $registrant_ids = array();
+		else :
+			if ( empty( $class_visits['Class']['Visits'] ) ) :
+				return __( 'No registrants yet.', 'mz-mindbody-api' );
+		else :
+				$registrant_ids = array();
 
-		  // Build array of registrant ids to send to GetClients
-		  foreach ( $class_visits['Class']['Visits'] as $registrant ) {
-			  $registrant_ids[] = $registrant['ClientId'];
-		  }
+				// Build array of registrant ids to send to GetClients.
+			foreach ( $class_visits['Class']['Visits'] as $registrant ) {
+				$registrant_ids[] = $registrant['ClientId'];
+			}
 
-		  // send list of registrants to GetRegistrants
-		  $mb = $this->instantiateMboApi();
+				// send list of registrants to GetRegistrants.
+				$mb = $this->instantiateMboApi();
 
-		  if ( ! $mb || 'NO_API_SERVICE' === $mb ) {
-			  return false;
-		  }
+			if ( ! $mb || 'NO_API_SERVICE' === $mb ) {
+				return false;
+			}
 
-		  if ( $this->mbo_account !== 0 ) {
-			  // If account has been specified in shortcode, update credentials
-			  $mb->source_credentials['SiteIDs'][0] = $this->mbo_account;
-		  }
+			if ( 0 !== $this->mbo_account ) {
+				// If account has been specified in shortcode, update credentials.
+				$mb->source_credentials['SiteIDs'][0] = $this->mbo_account;
+			}
 
-		  $this->registrants = $mb->GetClients( array( 'clientIds' => $registrant_ids ) );
+				$this->registrants = $mb->GetClients( array( 'clientIds' => $registrant_ids ) );
 
-		  $registrant_names = array();
-		  // Add first name, last initial
-		  foreach ( $this->registrants['Clients'] as $registrant ) {
-			  $registrant_names[] = $registrant['FirstName'] . ' ' . substr( $registrant['LastName'], 0, 1 ) . '.';
-		  }
-	  endif;
-	 endif;
+				$registrant_names = array();
+				// Add first name, last initial.
+			foreach ( $this->registrants['Clients'] as $registrant ) {
+				$registrant_names[] = $registrant['FirstName'] . ' ' . substr( $registrant['LastName'], 0, 1 ) . '.';
+			}
+			endif;
+		endif;
 
-	 return $registrant_names;
+		return $registrant_names;
 	}
 }

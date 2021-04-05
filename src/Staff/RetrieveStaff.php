@@ -73,7 +73,7 @@ class RetrieveStaff extends Interfaces\Retrieve {
 		if ( false === get_transient( $transient_string ) ) {
 			// If there's not a transient already, call the API and create one
 
-			if ( $this->mbo_account !== 0 ) {
+			if ( 0 !== $this->mbo_account ) {
 				// If account has been specified in shortcode, update credentials
 				$mb->source_credentials['SiteIDs'][0] = $this->mbo_account;
 			}
