@@ -182,7 +182,7 @@ Bugfix: fix event registration URL.
 Bugfix: some registrations were pulling user data from previous class registration.
 
 = v2.5.2 =
-Bugfix: reinstate default timestamp in retrieve classes timeFrame method.
+Bugfix: reinstate default timestamp in retrieve classes time_frame method.
 
 = v2.5.1 =
 Bugfix: url for class sign-up via MBO

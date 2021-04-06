@@ -2,8 +2,8 @@
 <h3 id="eventsDateRangeDisplay" ><?php
 echo sprintf(
 	__( 'Displaying events from %1$s to %2$s.', 'mz-mindbody-api' ),
-	$data->display_timeFrame['start']->format( 'F j' ),
-	$data->display_timeFrame['end']->format( 'F j' )
+	$data->display_time_frame['start']->format( 'F j' ),
+	$data->display_time_frame['end']->format( 'F j' )
 );
 ?></h3>
 

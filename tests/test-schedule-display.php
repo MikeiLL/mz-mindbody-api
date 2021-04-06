@@ -27,8 +27,8 @@ class ScheduleDisplayTest extends MZMBO_WPUnitTestCase {
 		MZoo\MzMindbody\Core\MzMindbodyApi::$basic_options = get_option( 'mz_mbo_basic' );
 		$this->assertTrue( class_exists( 'MZoo\MzMindbody\Schedule\RetrieveSchedule' ) );
 		$schedule_object = new MZoo\MzMindbody\Schedule\RetrieveSchedule();
-		$timeFrame       = $schedule_object->timeFrame();
-		$this->assertTrue( count( $timeFrame ) === 2 );
+		$time_frame       = $schedule_object->time_frame();
+		$this->assertTrue( count( $time_frame ) === 2 );
 		$response = $schedule_object->get_mbo_results();
 		$this->assertTrue( is_array( $response ) );
 		$this->assertTrue( is_array( $response[0] ) );
@@ -139,7 +139,7 @@ class ScheduleDisplayTest extends MZMBO_WPUnitTestCase {
 	/**
 	 * Test Time Frame
 	 */
-	function test_timeFrame() {
+	function test_time_frame() {
 		parent::setUp();
 
 		$this->assertTrue( class_exists( 'MZoo\MzMindbody\Core\MzMindbodyApi' ) );
@@ -147,8 +147,8 @@ class ScheduleDisplayTest extends MZMBO_WPUnitTestCase {
 		MZoo\MzMindbody\Core\MzMindbodyApi::$basic_options = get_option( 'mz_mbo_basic' );
 		$this->assertTrue( class_exists( 'MZoo\MzMindbody\Schedule\RetrieveSchedule' ) );
 		$schedule_object = new MZoo\MzMindbody\Schedule\RetrieveSchedule();
-		$timeFrame       = $schedule_object->timeFrame( strtotime( '+1 week' ) );
-		$this->assertTrue( count( $timeFrame ) === 2 );
+		$time_frame       = $schedule_object->time_frame( strtotime( '+1 week' ) );
+		$this->assertTrue( count( $time_frame ) === 2 );
 		$response = $schedule_object->get_mbo_results();
 		$this->assertTrue( is_array( $response ) );
 		$this->assertTrue( is_array( $response[0] ) );
@@ -168,8 +168,8 @@ class ScheduleDisplayTest extends MZMBO_WPUnitTestCase {
 		MZoo\MzMindbody\Core\MzMindbodyApi::$basic_options = get_option( 'mz_mbo_basic' );
 		$this->assertTrue( class_exists( 'MZoo\MzMindbody\Schedule\RetrieveSchedule' ) );
 		$schedule_object = new MZoo\MzMindbody\Schedule\RetrieveSchedule();
-		$timeFrame       = $schedule_object->timeFrame( strtotime( '+1 week' ) );
-		$this->assertTrue( count( $timeFrame ) === 2 );
+		$time_frame       = $schedule_object->time_frame( strtotime( '+1 week' ) );
+		$this->assertTrue( count( $time_frame ) === 2 );
 		$response = $schedule_object->get_mbo_results();
 		$this->assertTrue( is_array( $response ) );
 		$this->assertTrue( is_array( $response[0] ) );

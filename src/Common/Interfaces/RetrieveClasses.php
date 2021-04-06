@@ -133,14 +133,14 @@ abstract class RetrieveClasses extends Retrieve {
 	 *
 	 * @since  2.4.7
 	 * @access public
-	 * @var    array    $timeFrame    StartDateTime and end_datetime for MBO API call.
+	 * @var    array    $time_frame    StartDateTime and end_datetime for MBO API call.
 	 */
-	public $timeFrame;
+	public $time_frame;
 
 	/**
 	 * Holds the current day, with offset, based on "offset" attribute/parameter.
 	 *
-	 * set by timeFrame() and used by sortClassesByDateThenTime()
+	 * set by time_frame() and used by sortClassesByDateThenTime()
 	 *
 	 * @since  2.4.7
 	 * @access public
@@ -164,7 +164,7 @@ abstract class RetrieveClasses extends Retrieve {
 	 *
 	 * This is used to display current week in grid schedule.
 	 *
-	 * @assigned in timeFrame() method
+	 * @assigned in time_frame() method
 	 *
 	 * @since  2.4.7
 	 * @access public
@@ -177,7 +177,7 @@ abstract class RetrieveClasses extends Retrieve {
 	 *
 	 * This is used to set end of current week in grid array sorting in sortClassesByTimeThenDate() method.
 	 *
-	 * @assigned in timeFrame() method
+	 * @assigned in time_frame() method
 	 *
 	 * @since  2.4.7
 	 * @access public
@@ -201,7 +201,7 @@ abstract class RetrieveClasses extends Retrieve {
 	 else :
 		 $this->mbo_account = '-99';
 	 endif;
-	 $this->timeFrame            = $this->timeFrame();
+	 $this->time_frame           = $this->time_frame();
 	 $this->locations_dictionary = array();
 	 $this->schedule_types       = ! empty( Core\MzMindbodyApi::$advanced_options['schedule_types'] ) ? Core\MzMindbodyApi::$advanced_options['schedule_types'] : array( 'Class' );
 	 // Allow shortcode to override global setting for schedule_types
@@ -235,7 +235,7 @@ abstract class RetrieveClasses extends Retrieve {
 		*
 		* SessionTypeIDs key only exists for Events display.
 		*/
-		$sc_string        = ( array_key_exists( 'SessionTypeIDs', $this->timeFrame ) ) ? 'get_events' : 'get_schedule';
+		$sc_string        = ( array_key_exists( 'SessionTypeIDs', $this->time_frame ) ) ? 'get_events' : 'get_schedule';
 		$transient_string = $this->generate_transient_name( $sc_string );
 		if ( false === get_transient( $transient_string ) ) {
 			// If there's not a transient already, call the API and create one
@@ -246,7 +246,7 @@ abstract class RetrieveClasses extends Retrieve {
 			}
 
 			try {
-				$schedule_data = $mb->GetClasses( $this->timeFrame );
+				$schedule_data = $mb->GetClasses( $this->time_frame );
 			} catch ( \Exception $e ) {
 				NS\MZMBO()->helpers->print( $e->getMessage() );
 				return false;
@@ -314,9 +314,9 @@ abstract class RetrieveClasses extends Retrieve {
 	 * @return html string of start and end of current week
 	 */
 	public function currentWeekDisplay() {
-		$timeFrame = $this->singleWeek( time() );
-		$return    = 'Week start: ' . date( 'l, M d, Y', $timeFrame[ start ] ) . '<br/>';
-		$return   .= 'Week end: ' . date( 'l, M d, Y', $timeFrame[ end ] );
+		$time_frame = $this->singleWeek( time() );
+		$return     = 'Week start: ' . date( 'l, M d, Y', $time_frame[ start ] ) . '<br/>';
+		$return    .= 'Week end: ' . date( 'l, M d, Y', $time_frame[ end ] );
 		return $return;
 	}
 
@@ -612,5 +612,5 @@ abstract class RetrieveClasses extends Retrieve {
 	 *
 	 * @since 2.4.7
 	 */
-	abstract public function timeFrame( $timestamp);
+	abstract public function time_frame( $timestamp);
 }

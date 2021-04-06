@@ -229,7 +229,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 		$this->template_data = array(
 			'atts'                 => $this->atts,
 			'events'               => $events,
-			'display_timeFrame'    => $this->events_object->display_timeFrame,
+			'display_time_frame'   => $this->events_object->display_time_frame,
 			'locations_dictionary' => $this->events_object->locations_dictionary,
 			'locations_count'      => count( $this->atts['locations'] ),
 			'no_events'            => NS\MZMBO()->i18n->get( 'no_events_this_period' ),
@@ -376,7 +376,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 		$events = $this->events_object->sortEventsByTime();
 
 		// Assign the date range to the $result
-		$date_range           = $this->events_object->display_timeFrame;
+		$date_range           = $this->events_object->display_time_frame;
 		$result['date_range'] = sprintf(
 			__( 'Displaying events from %1$s to %2$s.', 'mz-mindbody-api' ),
 			$date_range['start']->format( 'F j' ),

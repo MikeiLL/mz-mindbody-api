@@ -34,14 +34,14 @@ class RetrieveEvents extends Interfaces\RetrieveClasses {
 	 *
 	 * @since  2.4.7
 	 * @access public
-	 * @var    array    $display_timeFrame    StartDateTime and end_datetime Timestamps
+	 * @var    array    $display_time_frame    StartDateTime and end_datetime Timestamps
 	 *                                          used in MBO API call, displayed in navigation.
 	 */
-	public $display_timeFrame;
+	public $display_time_frame;
 	/**
 	 * Holds the current day, with offset, based on "offset" attribute/parameter.
 	 *
-	 * set by timeFrame() and used by sortClassesByDateThenTime()
+	 * Set by time_frame() and used by sortClassesByDateThenTime()
 	 *
 	 * @since  2.4.7
 	 * @access public
@@ -52,15 +52,13 @@ class RetrieveEvents extends Interfaces\RetrieveClasses {
 	/**
 	 * Return Time Frame for request to MBO API
 	 *
+	 * Default time_frame is two dates, start of current week as set in WP, and seven days from "now.
+	 *
 	 * @since 2.4.7
-	 *
-	 * @throws \Exception
-	 *
-	 * Default timeFrame is two dates, start of current week as set in WP, and seven days from "now.
-	 *
+	 * @param timestamp $timestamp Time to begin timeframe from.
 	 * @return array or start and end dates as required for MBO API
 	 */
-	public function timeFrame( $timestamp = null ) {
+	public function time_frame( $timestamp = null ) {
 
 		$timestamp     = isset( $timestamp ) ? $timestamp : time();
 		$start_time    = new \Datetime( wp_date( 'Y-m-d', $timestamp ) );
@@ -68,7 +66,7 @@ class RetrieveEvents extends Interfaces\RetrieveClasses {
 		$session_types = explode( ',', Core\MzMindbodyApi::$events_options['mz_mindbody_eventID'] );
 
 		$duration = Core\MzMindbodyApi::$event_calendar_duration;
-		if ( ( ! empty( $this->atts['week-only'] ) ) && ( $this->atts['week-only'] == 1 ) ) {
+		if ( ( ! empty( $this->atts['week-only'] ) ) && ( 1 === (int) $this->atts['week-only'] ) ) {
 			$duration = 7;
 		}
 
@@ -76,13 +74,13 @@ class RetrieveEvents extends Interfaces\RetrieveClasses {
 		$end_time->add( $di );
 		$current_day_offset = new \Datetime( wp_date( 'Y-m-d' ) );
 
-		// If we are going in future or past based on offset
+		// If we are going in future or past based on offset.
 		if ( ! empty( $this->atts['offset'] ) ) {
-			// Insure that we have an absolute number, because attr may be negative
+			// Insure that we have an absolute number, because attr may be negative.
 			$abs            = abs( $this->atts['offset'] );
 			$days_to_offset = $duration * $abs + 1;
 			$di             = new \DateInterval( 'P' . $days_to_offset . 'D' );
-			// If it's a negative number, invert the interval
+			// If it's a negative number, invert the interval.
 			if ( $this->atts['offset'] < 0 ) {
 				$di->invert = 1;
 			}
@@ -90,11 +88,11 @@ class RetrieveEvents extends Interfaces\RetrieveClasses {
 			$end_time->add( $di );
 		}
 
-		$this->display_timeFrame = array(
+		$this->display_time_frame = array(
 			'start' => $start_time,
 			'end'   => $end_time,
 		);
-		$simple_timeframe        = array(
+		$simple_timeframe         = array(
 			'StartDateTime' => $start_time->format( 'Y-m-d' ),
 			'EndDateTime'   => $end_time->format( 'Y-m-d' ),
 		);
@@ -109,21 +107,17 @@ class RetrieveEvents extends Interfaces\RetrieveClasses {
 	 *
 	 * @since 2.4.7
 	 *
-	 * @param @timestamp defaults to current time
-	 *
 	 * @return array of MBO schedule data, time
 	 */
 	public function sortEventsByTime() {
 
 		foreach ( $this->classes as $class ) {
-			// NS\MZMBO()->helpers->print($this->atts['locations']);
-			// NS\MZMBO()->helpers->print($class);
-			// Make a timestamp of just the day to use as key for that day's classes
+			// Make a timestamp of just the day to use as key for that day's classes.
 			if ( ! empty( $class['StartDateTime'] ) ) {
 				$dt        = new \DateTime( $class['StartDateTime'] );
 				$just_date = $dt->format( 'Y-m-d' );
 			} else {
-				// If no StartDateTime
+				// If no StartDateTime.
 				continue;
 			}
 
@@ -132,12 +126,13 @@ class RetrieveEvents extends Interfaces\RetrieveClasses {
 				continue;
 			}
 
-			// Populate the Locations Dictionary
+			// Populate the Locations Dictionary.
 			$this->populateLocationsDictionary( $class );
-			/*
-			Create a new array with a key for each date YYYY-MM-DD
-			and corresponding value an array of class details */
 
+			/*
+			 * Create a new array with a key for each date YYYY-MM-DD
+			 * and corresponding value an array of class details.
+			 */
 			$single_event = new SingleEvent( $class, $this->atts );
 			if ( ! empty( $this->classes_by_date_then_time[ $just_date ] ) ) {
 				array_push( $this->classes_by_date_then_time[ $just_date ], $single_event );
@@ -145,9 +140,9 @@ class RetrieveEvents extends Interfaces\RetrieveClasses {
 				$this->classes_by_date_then_time[ $just_date ] = array( $single_event );
 			}
 		}
-		/* They are not ordered by date so order them by date */
+		/* They are not ordered by date so order them by date. */
 		ksort( $this->classes_by_date_then_time );
-		foreach ( $this->classes_by_date_then_time as $classDate => &$classes ) {
+		foreach ( $this->classes_by_date_then_time as $class_date => &$classes ) {
 			/*
 			* $classes is an array of all classes for given date
 			* Take each of the class arrays and order it by time
@@ -158,7 +153,7 @@ class RetrieveEvents extends Interfaces\RetrieveClasses {
 				$classes,
 				function ( $a, $b ) {
 
-					if ( $a->start_datetime == $b->start_datetime ) {
+					if ( $a->start_datetime === $b->start_datetime ) {
 						return 0;
 					}
 					return $a->start_datetime < $b->start_datetime ? -1 : 1;

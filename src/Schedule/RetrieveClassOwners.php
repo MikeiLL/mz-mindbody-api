@@ -30,13 +30,13 @@ class RetrieveClassOwners extends Interfaces\RetrieveClasses {
 	 *
 	 * @since 2.4.7
 	 *
-	 * Default timeFrame is two dates, 4 weeks previous to start of current week as set in WP, and four weeks from now.
+	 * Default time_frame is two dates, 4 weeks previous to start of current week as set in WP, and four weeks from now.
 	 *
 	 * @param timestamp $timestamp Time at which to begin timeframe cycle.
 	 *
 	 * @return array or start and end dates as required for MBO API
 	 */
-	public function timeFrame( $timestamp = null ) {
+	public function time_frame( $timestamp = null ) {
 		$start_time = new \Datetime( wp_date( 'Y-m-d', time() ) );
 		$end_time   = new \Datetime( wp_date( 'Y-m-d', time() ) );
 		$di         = new \DateInterval( 'P4W' );

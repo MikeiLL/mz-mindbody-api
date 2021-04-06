@@ -28,11 +28,11 @@ class RetrieveDebug extends Interfaces\Retrieve {
 	 *
 	 * @throws \Exception
 	 *
-	 * Default timeFrame is two dates, start of current week as set in WP, and seven days from "now.
+	 * Default time_frame is two dates, start of current week as set in WP, and seven days from "now.
 	 *
 	 * @return array or start and end dates as required for MBO API
 	 */
-	public function timeFrame( $timestamp = null ) {
+	public function time_frame( $timestamp = null ) {
 		$time = new \Datetime( date( 'Y-m-d', time() ) );
 		return array(
 			'StartDateTime' => $time->format( 'Y-m-d' ),
@@ -65,7 +65,7 @@ class RetrieveDebug extends Interfaces\Retrieve {
 		}
 
 		if ( $version_five !== false ) {
-			$this->classes = $mb->GetClasses( $this->timeFrame() );
+			$this->classes = $mb->GetClasses( $this->time_frame() );
 		}
 
 		return $mb->debug();

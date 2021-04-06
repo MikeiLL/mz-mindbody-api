@@ -137,9 +137,9 @@ class StaffMember {
 		$this->ID         = $staff_member['Id'];
 		$this->first_name = $staff_member['FirstName'];
 		$this->last_name  = $staff_member['LastName'];// Set Staff Name up.
-		// First set first, last with default to blank string
+		// First set first, last with default to blank string.
 		$this->staff_name = isset( $this->first_name ) ? $this->first_name . ' ' . $this->last_name : '';
-		// If "Name" has been set, use that
+		// If "Name" has been set, use that.
 		if ( isset( $staff_member['Name'] ) ) {
 			$this->staff_name = $staff_member['Name'];
 		}
@@ -149,7 +149,10 @@ class StaffMember {
 		$this->atts       = $atts;
 		$this->site_id    = isset( $this->atts['site_id'] ) ? $this->atts['site_id'] : NS\Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
 		// If there's an image create a tag, otherwise empty string.
-		$this->image_tag       = isset( $staff_member['ImageUrl'] ) ? '<img src="' . $this->image_url . '" alt="' . $this->staff_name . '" class="img-responsive mz_modal_staff_image_body">' : '';
-		$this->schedule_button = '<a href="http://clients.mindbodyonline.com/ws.asp?studioid=' . $this->site_id . '&stype=-7&sView=week&sTrn=' . $this->ID . '" class="btn btn-info mz-btn-info" target="_blank">' . sprintf( __( 'See %s&apos;s Schedule', 'mz-mindbody-api' ), $this->staff_name ) . '</a>';
+		$this->image_tag        = isset( $staff_member['ImageUrl'] ) ? '<img src="' . $this->image_url . '" alt="' . $this->staff_name . '" class="img-responsive mz_modal_staff_image_body">' : '';
+		$this->schedule_button  = '<a href="http://clients.mindbodyonline.com/ws.asp?studioid=' . $this->site_id . '&stype=-7&sView=week&sTrn=' . $this->ID;
+		$this->schedule_button .= '" class="btn btn-info mz-btn-info" target="_blank">';
+		// translators: Assign schedule to instructoru using posessive apostrophe s, like "Jaimie's".
+		$this->schedule_button .= sprintf( __( 'See %s&apos;s Schedule', 'mz-mindbody-api' ), $this->staff_name ) . '</a>';
 	}
 }

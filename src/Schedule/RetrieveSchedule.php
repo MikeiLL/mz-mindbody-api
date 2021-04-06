@@ -27,12 +27,12 @@ class RetrieveSchedule extends Interfaces\RetrieveClasses {
 	 *
 	 * @since 2.4.7
 	 *
-	 * Default timeFrame is two dates, start of current week as set in WP, and seven days from "now."
+	 * Default time_frame is two dates, start of current week as set in WP, and seven days from "now."
 	 *
 	 * @param timestamp $timestamp Time to begin timeframe from.
 	 * @return array of start and end dates as required for MBO API.
 	 */
-	public function timeFrame( $timestamp = null ) {
+	public function time_frame( $timestamp = null ) {
 
 		$timestamp = isset( $timestamp ) ? $timestamp : time();
 		// Can override timestamp here for testing $timestamp = '2020-5-1'.
