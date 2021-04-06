@@ -67,7 +67,7 @@ class Helpers {
 	 *
 	 * @since 2.4.7
 	 *
-	 * @param mixed $message string|object|array the content to be written to file.
+	 * @param mixed  $message string|object|array the content to be written to file.
 	 * @param string $file_path optional path to write file to.
 	 */
 	public function api_log( $message, $file_path = '' ) {
@@ -116,11 +116,11 @@ class Helpers {
 	 * sessions over and over again, the session class seems to get bogged
 	 * down.
 	 */
-	public function deleteOldSessions() {
+	public function delete_old_sessions() {
 
 		$session_utils = new NS\Libraries\WP_Session\WP_Session_Utils();
 		$count         = $session_utils->count_sessions();
-		$session_utils->deleteOldSessions();
+		$session_utils->delete_old_sessions();
 		return 'Cleared ' . $count . 'sessions.';
 	}
 
@@ -137,22 +137,22 @@ class Helpers {
 	 * @depreciated Don't seem to need with v6 API,
 	 * but still using in staff biography.
 	 *
-	 * @param  string Biography returned by MBO
+	 * @param  string $bio Biography returned by MBO.
 	 * @access public
 	 * @return string $bio Cleaned up HTML string.
 	 */
 	public function prepare_html_string( $bio ) {
 
-		// Remove empty tags
+		// Remove empty tags.
 		$bio = str_replace( '/<[^\/>]*>(\s|xC2xA0|&nbsp;)*<\/[^>]*>/', '', $bio );
-		$bio = $this->strLastReplace( '</p>', '', $bio );
-		$bio = $this->strLastReplace( '</div>', '', $bio );
-		if ( substr( $bio, 0, 3 ) == '<p>' ) {
+		$bio = $this->str_left_replace( '</p>', '', $bio );
+		$bio = $this->str_left_replace( '</div>', '', $bio );
+		if ( '<p>' === substr( $bio, 0, 3 ) ) {
 			$mz_staff_bio = substr( $bio, 3 );
-		} elseif ( substr( $bio, 0, 5 ) == '<div>' ) {
+		} elseif ( '<div>' === substr( $bio, 0, 5 ) ) {
 			$bio          = substr( $bio, 5 );
 			$mz_staff_bio = substr( $bio, 3 );
-		} elseif ( substr( $bio, 0, 5 ) == '<span>' ) {
+		} elseif ( '<span>' === substr( $bio, 0, 5 ) ) {
 			$bio = substr( $bio, 6 );
 		}
 		return htmlentities( $bio );
@@ -165,13 +165,13 @@ class Helpers {
 	 * @since   2.5.9
 	 * @source: https://stackoverflow.com/a/39637749/2223106
 	 *
-	 * @param function $callback
-	 * @param array    $array    to be operated on
-	 *
 	 * @access public
+	 *
+	 * @param function $callback The function to run on each array element.
+	 * @param array    $array    to be operated on.
 	 * @return array $array, with each item operated on by callback.
 	 */
-	public function arrayMapRecursive( $callback, $array ) {
+	public function array_map_recursive( $callback, $array ) {
 		$func = function ( $item ) use ( &$func, &$callback ) {
 			return is_array( $item ) ? array_map( $func, $item ) : call_user_func( $callback, $item );
 		};
@@ -182,14 +182,21 @@ class Helpers {
 	/**
 	 * String Left Replace
 	 *
+	 * Replace the last occurrence of a string with another string in a string.
+	 *
 	 * source: https://stackoverflow.com/a/3835653/2223106
 	 *
+	 * Used by prepare_html_string above.
+	 *
 	 * @access private
+	 * @param string $search String to find.
+	 * @param string $replace String to replace.
+	 * @param string $subject String to search within.
 	 */
-	private function strLastReplace( $search, $replace, $subject ) {
+	private function str_left_replace( $search, $replace, $subject ) {
 		$pos = strrpos( $subject, $search );
 
-		if ( $pos !== false ) {
+		if ( false !== $pos ) {
 			$subject = substr_replace( $subject, $replace, $pos, strlen( $search ) );
 		}
 
