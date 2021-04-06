@@ -1,13 +1,13 @@
 <?php foreach ( $data->staff as $staff ) : ?>
 <div class="MzStaff_profile clearfix">
 	<div class="MzStaff_caption">
-		<h3><?php echo $staff->Name; ?></h3>
+		<h3><?php echo $staff->staff_name; ?></h3>
 		<div class="MzStaff_bio">
-	<?php echo $staff->ImageTag; ?>
+	<?php echo $staff->image_tag; ?>
 			
-	<?php echo htmlspecialchars_decode( $staff->Bio ); ?>
+	<?php echo htmlspecialchars_decode( $staff->staff_bio ); ?>
 			<p class="MzStaff_schedule">
-				<?php echo $staff->ScheduleButton; ?>
+				<?php echo $staff->schedule_button; ?>
 			</p>
 			<hr style="clear:both"/>
 		</div>

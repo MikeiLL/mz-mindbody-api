@@ -74,9 +74,9 @@ class StaffMember {
 	 * @access public
 	 *
 	 * This will either be an empty string or an image tag.
-	 * @var    $ImageTag string example https://clients.mindbodyonline.com/studios/DemoAPISandboxRestore/staff/100000285_large.jpg?imageversion=1531922456
+	 * @var    $image_tag string example https://clients.mindbodyonline.com/studios/DemoAPISandboxRestore/staff/100000285_large.jpg?imageversion=1531922456
 	 */
-	public $ImageTag;
+	public $image_tag;
 
 	/**
 	 * Staff Member Biography
@@ -84,9 +84,9 @@ class StaffMember {
 	 * This may have arbitrary HTML. Particularly <p> and/or <div> tags which need to be handled.
 	 *
 	 * @access public
-	 * @var    $Bio string example '<p>Super cool cat.</p>'
+	 * @var    $staff_bio string example '<p>Super cool cat.</p>'
 	 */
-	public $Bio;
+	public $staff_bio;
 
 	/**
 	 * Staff Sort Order
@@ -94,18 +94,18 @@ class StaffMember {
 	 * MBO allows admin to set sort order for Staff Members
 	 *
 	 * @access public
-	 * @var    $SortOrder int
+	 * @var    $sort_order int
 	 */
 
-	public $SortOrder;
+	public $sort_order;
 
 	/**
 	 * Staff Member Schedule Link Button
 	 *
 	 * @access public
-	 * @var    $ScheduleButton string of HTML to create button link to schedule on MBO website
+	 * @var    $schedule_button string of HTML to create button link to schedule on MBO website
 	 */
-	public $ScheduleButton;
+	public $schedule_button;
 
 	/**
 	 * Shortcode Attributed
@@ -134,7 +134,7 @@ class StaffMember {
 	 */
 	public function __construct( $staff_member, $atts = array() ) {
 
-		$this->ID        = $staff_member['Id'];
+		$this->ID         = $staff_member['Id'];
 		$this->first_name = $staff_member['FirstName'];
 		$this->last_name  = $staff_member['LastName'];// Set Staff Name up.
 		// First set first, last with default to blank string
@@ -143,13 +143,13 @@ class StaffMember {
 		if ( isset( $staff_member['Name'] ) ) {
 			$this->staff_name = $staff_member['Name'];
 		}
-		$this->SortOrder = $staff_member['SortOrder'];
+		$this->sort_order = $staff_member['SortOrder'];
 		$this->image_url  = isset( $staff_member['ImageUrl'] ) ? $staff_member['ImageUrl'] : '';
-		$this->Bio       = isset( $staff_member['Bio'] ) ? NS\MZMBO()->helpers->prepare_html_string( $staff_member['Bio'] ) : '';
-		$this->atts      = $atts;
-		$this->site_id   = isset( $this->atts['site_id'] ) ? $this->atts['site_id'] : NS\Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
+		$this->staff_bio  = isset( $staff_member['Bio'] ) ? NS\MZMBO()->helpers->prepare_html_string( $staff_member['Bio'] ) : '';
+		$this->atts       = $atts;
+		$this->site_id    = isset( $this->atts['site_id'] ) ? $this->atts['site_id'] : NS\Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
 		// If there's an image create a tag, otherwise empty string.
-		$this->ImageTag       = isset( $staff_member['ImageUrl'] ) ? '<img src="' . $this->ImageURL . '" alt="' . $this->staff_name . '" class="img-responsive mz_modal_staff_image_body">' : '';
-		$this->ScheduleButton = '<a href="http://clients.mindbodyonline.com/ws.asp?studioid=' . $this->site_id . '&stype=-7&sView=week&sTrn=' . $this->ID . '" class="btn btn-info mz-btn-info" target="_blank">' . sprintf( __( 'See %s&apos;s Schedule', 'mz-mindbody-api' ), $this->staff_name ) . '</a>';
+		$this->image_tag       = isset( $staff_member['ImageUrl'] ) ? '<img src="' . $this->image_url . '" alt="' . $this->staff_name . '" class="img-responsive mz_modal_staff_image_body">' : '';
+		$this->schedule_button = '<a href="http://clients.mindbodyonline.com/ws.asp?studioid=' . $this->site_id . '&stype=-7&sView=week&sTrn=' . $this->ID . '" class="btn btn-info mz-btn-info" target="_blank">' . sprintf( __( 'See %s&apos;s Schedule', 'mz-mindbody-api' ), $this->staff_name ) . '</a>';
 	}
 }
