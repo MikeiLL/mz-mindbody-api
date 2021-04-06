@@ -11,16 +11,17 @@
 namespace MZoo\MzMindbody\Common;
 
 /**
- * Class GlobalStrings
+ * Class Global Strings
  *
  * @package MzMindbody
  *
  * Store i18n strings that may be used throughout plugin
  */
-
 class GlobalStrings {
 
 	/**
+	 * Internationalization Strings
+	 *
 	 * @var    array i18n Strings we use through the plugin.
 	 * @access private
 	 */
@@ -63,7 +64,12 @@ class GlobalStrings {
 	}
 
 
-
+	/**
+	 * Get
+	 *
+	 * @param string $key string keyed to particular i18ned string.
+	 * @return mixed string|array of all strings.
+	 */
 	public function get( $key = false ) {
 
 		if ( $key ) {

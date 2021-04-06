@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file contains main plugin class and, defines and plugin loader.
  *
@@ -31,10 +30,6 @@ namespace MZoo\MzMindbody;
 use MZoo\MzMindbody as NS;
 use MZoo\MzMindbody\Core as Core;
 use MZoo\MzMindbody\Common as Common;
-
-// If this file is called directly, abort.
-// on further research, just code consciously:
-// https://wordpress.stackexchange.com/a/63004/48604
 
 /**
  * Define Constants
@@ -159,12 +154,21 @@ class MzMindbody {
  * @since  1.4
  * @return object|MzMindbodyApi The one true MzMindbodyApi Instance.
  **/
+// @codingStandardsIgnoreStart
 function MZMBO() {
+	// @codingStandardsIgnoreEnd
 	return MzMindbody::instance();
 }
 
+/**
+ * Deactivate
+ *
+ * Deactivate the plugin and add Admin notice it's been deactivated.
+ *
+ * @return void.
+ */
 function deactivate() {
-	 deactivate_plugins( plugin_basename( __FILE__ ) );
+	deactivate_plugins( plugin_basename( __FILE__ ) );
 	$admin_object = new NS\Admin\Admin( NS\PLUGIN_NAME, NS\PLUGIN_VERSION, 'mz-mindbody-api' );
 	add_action( 'admin_notices', array( $admin_object, 'admin_notice' ) );
 }

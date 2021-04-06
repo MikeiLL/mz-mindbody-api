@@ -18,14 +18,13 @@ use MZoo\MzMindbody as NS;
  *
  * Helper methods used throughout the Mz Mindbody ecosystem.
  */
-
 class Helpers {
 
 	/**
 	 * Helper function to print out arrays
 	 *
 	 * @since 1.0.0
-	 * @param string|array $message which will be printed to screen (or console)
+	 * @param mixed $message string|array|object which will be printed to screen (or console).
 	 */
 	public function print( $message = '' ) {
 		echo '<pre>';
@@ -34,20 +33,20 @@ class Helpers {
 	}
 
 	/**
-	 * Helper function to write strings or arrays to a file
+	 * Helper function to write strings or arrays to a file.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param $message   the content to be written to file.
-	 * @param $file_path string optional path to write file to.
+	 * @param mixed  $message string|array|object the content to be written to file.
+	 * @param string $file_path optional path to write file to.
 	 */
 	public function log( $message, $file_path = '' ) {
-		$file_path = ( ( $file_path == '' ) || ! file_exists( $file_path ) ) ? WP_CONTENT_DIR . '/mz_mbo_arbitrary.log' : $file_path;
-		$header    = date( 'l dS \o\f F Y h:i:s A', strtotime( 'now' ) ) . "\t ";
+		$file_path = ( ( '' === $file_path ) || ! file_exists( $file_path ) ) ? WP_CONTENT_DIR . '/mz_mbo_arbitrary.log' : $file_path;
+		$header    = gmdate( 'l dS \o\f F Y h:i:s A', strtotime( 'now' ) ) . "\t ";
 
-		// Just keep up to seven days worth of data
+		// Just keep up to seven days worth of data.
 		if ( file_exists( $file_path ) ) {
-			if ( time() - filemtime( $file_path ) >= 60 * 60 * 24 * 7 ) { // 7 days
+			if ( time() - filemtime( $file_path ) >= 60 * 60 * 24 * 7 ) { // 7 days.
 				unlink( $file_path );
 			}
 		}
@@ -68,20 +67,20 @@ class Helpers {
 	 *
 	 * @since 2.4.7
 	 *
-	 * @param $message   the content to be written to file.
-	 * @param $file_path string optional path to write file to.
+	 * @param mixed $message string|object|array the content to be written to file.
+	 * @param string $file_path optional path to write file to.
 	 */
-	public function apiLog( $message, $file_path = '' ) {
-		$file_path = ( ( $file_path == '' ) || ! file_exists( $file_path ) ) ? WP_CONTENT_DIR . '/mbo_api.log' : $file_path;
+	public function api_log( $message, $file_path = '' ) {
+		$file_path = ( ( '' === $file_path ) || ! file_exists( $file_path ) ) ? WP_CONTENT_DIR . '/mbo_api.log' : $file_path;
 
-		// Just keep up to seven days worth of data
+		// Just keep up to seven days worth of data.
 		if ( file_exists( $file_path ) ) {
-			if ( time() - filemtime( $file_path ) >= 60 * 60 * 24 * 7 ) { // 7 days
+			if ( time() - filemtime( $file_path ) >= 60 * 60 * 24 * 7 ) { // 7 days.
 				unlink( $file_path );
 			}
 		}
 
-		$header   = date( 'Ymd G:i:s', strtotime( 'now' ) ) . "\t ";
+		$header   = gmdate( 'Ymd G:i:s', strtotime( 'now' ) ) . "\t ";
 		$message .= "\n";
 
 		file_put_contents(
@@ -94,9 +93,9 @@ class Helpers {
 	/**
 	 * Clear log files
 	 *
-	 * Used in deactivation hook to clear all log files
+	 * Used in deactivation hook to clear all log files.
 	 */
-	public function clearLogFiles() {
+	public function clear_log_files() {
 		$files = array(
 			WP_CONTENT_DIR . '/mz_mbo_arbitrary.log',
 			WP_CONTENT_DIR . '/mbo_api.log',
@@ -142,7 +141,7 @@ class Helpers {
 	 * @access public
 	 * @return string $bio Cleaned up HTML string.
 	 */
-	public function prepareHtmlString( $bio ) {
+	public function prepare_html_string( $bio ) {
 
 		// Remove empty tags
 		$bio = str_replace( '/<[^\/>]*>(\s|xC2xA0|&nbsp;)*<\/[^>]*>/', '', $bio );

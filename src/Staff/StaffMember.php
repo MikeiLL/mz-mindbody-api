@@ -147,7 +147,7 @@ class StaffMember {
 		}
 		$this->SortOrder = $staff_member['SortOrder'];
 		$this->ImageURL  = isset( $staff_member['ImageUrl'] ) ? $staff_member['ImageUrl'] : '';
-		$this->Bio       = isset( $staff_member['Bio'] ) ? NS\MZMBO()->helpers->prepareHtmlString( $staff_member['Bio'] ) : '';
+		$this->Bio       = isset( $staff_member['Bio'] ) ? NS\MZMBO()->helpers->prepare_html_string( $staff_member['Bio'] ) : '';
 		$this->atts      = $atts;
 		$this->site_id   = isset( $this->atts['site_id'] ) ? $this->atts['site_id'] : NS\Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
 		// If there's an image create a tag, otherwise empty string.

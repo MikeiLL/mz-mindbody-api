@@ -129,7 +129,7 @@ class MboV5Api {
 				if ( isset( $trace['class'] ) ) {
 					$caller_details .= ' in:' . $trace['class'];
 				}
-				NS\MZMBO()->helpers->apiLog( $soapService . ' ' . $name . ' caller:' . $caller_details );
+				NS\MZMBO()->helpers->api_log( $soapService . ' ' . $name . ' caller:' . $caller_details );
 			endif;
 			if ( empty( $arguments ) ) {
 				return $this->call_mindbody_service( $soapService, $name );
