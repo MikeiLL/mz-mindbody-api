@@ -10,7 +10,7 @@ use MZoo\MzMindbody as NS;
 	<div class="row text-center">
 	<?php foreach ( $data->staff as $staff ) : ?>
 		<div class="col-lg-3 col-md-4 col-6 mz-staff-thumb">
-			<a class="d-block mb-4 h-100 thumbnail" data-target="#mzStaffModal" data-staffImage="<?php echo rawUrlEncode( $staff->image_url ); ?>"
+			<a class="d-block mb-4 h-100 thumbnail" data-target="mzStaffModal" data-staffImage="<?php echo rawUrlEncode( $staff->image_url ); ?>"
 			data-staffName="<?php echo $staff->staff_name; ?>"
 			data-siteID="<?php echo $staff->site_id; ?>"
 			data-staffID="<?php echo $staff->ID; ?>"

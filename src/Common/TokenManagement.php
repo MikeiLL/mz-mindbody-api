@@ -17,34 +17,52 @@ use MZoo\MzMindbody\Common\Interfaces as Interfaces;
 /**
  * Token Management
  *
+ * Intermittently fetch, store and serve mbo api AccessTokens.
+ *
+ * @since 2.5.7
+ *
  * This class exposes methods for retrieving tokens from MBO, storing them
  * locally in the DB and also returning them from the DB if new enough and
  * from MBO if not.
+ *
+ * The MBO V6 API serves and requires AccessTokens which expire after seven days. So
+ * we store a valid AccessToken in the db options table, intermittently updating it.
  */
 class TokenManagement extends Interfaces\Retrieve {
 
 	/**
-	 * Intermittently fetch, store and serve mbo api AccessTokens.
+	 * MBO Account
 	 *
-	 * @since 2.5.7
-	 *
-	 * The MBO V6 API serves and requires AccessTokens which expire after seven days. So
-	 * we will store a valid AccessToken in the db options table, intermittently updating it.
-	 *
-	 * wp_schedule_event
+	 * @var string $mbo_account the numeric account of the MBO account.
 	 */
-
 	protected $mbo_account;
 
-	public function __construct() {
+	/**
+	 * Constructor
+	 *
+	 * Default $atts is locations array with location id #1.
+	 *
+	 * TODO Not sure if we need atts and/or locations here.
+	 *
+	 * @param array $atts Shortcode attributes.
+	 */
+	public function __construct( $atts = array( 'locations' => array( 1 ) ) ) {
 
 		parent::__construct();
+		
+		$this->atts = $atts;
+
+		// Initialize to sandbox account.
+		$this->mbo_account = '-99';
 
 		if ( ! empty( Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'] ) ) :
-			$this->mbo_account = ! empty( $atts['account'] ) ? $atts['account'] : Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
-	 else :
-		 $this->mbo_account = '-99';
-	 endif;
+			// Default to admin configured site ID.
+			$this->mbo_account = Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
+			// Unless user has overridden it in shortcode.
+			if ( ! empty( $atts['account'] ) ) {
+				$this->mbo_account = $atts['account'];
+			}
+		endif;
 	}
 
 	/**
@@ -52,7 +70,8 @@ class TokenManagement extends Interfaces\Retrieve {
 	 *
 	 * @since 2.5.7
 	 *
-	 * @return AccessToken string as administered by MBO Api
+	 * @throws \Exception If error getting token from MBO.
+	 * @return AccessToken string as administered by MBO Api.
 	 */
 	public function get_mbo_results() {
 
@@ -63,13 +82,14 @@ class TokenManagement extends Interfaces\Retrieve {
 		}
 
 		$response = $mb->TokenIssue();
-
+        // @codingStandardsIgnoreStart naming conventions
 		if ( ! empty( $response->AccessToken ) ) {
 			return $response->AccessToken;
 		}
 		if ( ! empty( $response->Error->Message ) ) {
 			return $response->Error->Message;
 		}
+		// @codingStandardsIgnoreEnd
 		throw new \Exception( ' Error getting token from MBO.' );
 	}
 
@@ -82,7 +102,7 @@ class TokenManagement extends Interfaces\Retrieve {
 	 * Check stored token for existence and time saved. If LT 12 hours old
 	 * serve, if not, get from MBO API and save via save_token.
 	 *
-	 * @return AccessToken string as administered by MBO Api
+	 * @return AccessToken string as administered by MBO Api.
 	 */
 	public function serve_token() {
 
@@ -101,12 +121,12 @@ class TokenManagement extends Interfaces\Retrieve {
 	 *
 	 * @since 2.5.7
 	 *
-	 * Test if token is saved and less than  12 hours old
+	 * Test if token is saved and less than  12 hours old.
 	 *
-	 * @return false or string: stored token
+	 * @return false or string: stored token.
 	 */
 	public function get_stored_token() {
-		// Get the option or return an empty array with two keys
+		// Get the option or return an empty array with two keys.
 
 		$stored_token = get_option(
 			'mz_mbo_token',
@@ -120,18 +140,20 @@ class TokenManagement extends Interfaces\Retrieve {
 			return false;
 		}
 
-		// If there is a mz_mbo_token, let's see if it's less than 12 hours old
+		// If there is a mz_mbo_token, let's see if it's less than 12 hours old.
 
 		$current = new \DateTime();
 		$current->format( 'Y-m-d H:i:s' );
 		$twleve_hours_ago = clone $current;
 		$twleve_hours_ago->sub( new \DateInterval( 'PT12H' ) );
 
-		if ( is_object( $stored_token['stored_time'] ) && ( $stored_token['stored_time'] > $twleve_hours_ago ) && ctype_alnum( $stored_token['AccessToken'] ) ) {
+		if ( is_object( $stored_token['stored_time'] ) &&
+			( $stored_token['stored_time'] > $twleve_hours_ago ) &&
+				ctype_alnum( $stored_token['AccessToken'] ) ) {
 			return $stored_token;
 		}
 
-		// Must be too old
+		// Must be too old.
 		return false;
 	}
 
@@ -141,9 +163,9 @@ class TokenManagement extends Interfaces\Retrieve {
 	 * @since 2.5.7
 	 *
 	 * Update (or create) mz_mbo_token option which holds datetime object
-	 * as well as AccessToken string
+	 * as well as AccessToken string.
 	 *
-	 * @return AccessToken string as administered by MBO Api
+	 * @return AccessToken string as administered by MBO Api.
 	 */
 	public function get_and_save_token() {
 
@@ -157,8 +179,10 @@ class TokenManagement extends Interfaces\Retrieve {
 		$current->format( 'Y-m-d H:i:s' );
 
 		if ( ! ctype_alnum( $token ) ) {
-			// In case we have returned something bad from the API
-			// let's not save it to the option.
+			/*
+			 * In case we have returned something bad from the API
+			 * let's not save it to the option.
+			 */
 			return $token;
 		}
 
@@ -179,9 +203,10 @@ class TokenManagement extends Interfaces\Retrieve {
 	 * @since 2.5.9
 	 *
 	 * Update (or create) mz_mbo_token option which holds datetime object
-	 * as well as AccessToken string
+	 * as well as AccessToken string.
 	 *
-	 * @return AccessToken string as administered by MBO Api
+	 * @param string $token Token string returned from MBO Api.
+	 * @return AccessToken string as administered by MBO Api.
 	 */
 	public function save_token_to_option( $token ) {
 
@@ -189,8 +214,10 @@ class TokenManagement extends Interfaces\Retrieve {
 		$current->format( 'Y-m-d H:i:s' );
 
 		if ( ! ctype_alnum( $token ) ) {
-			// In case we have returned something bad from the API
-			// let's not save it to the option.
+			/*
+			 * In case we have returned something bad from the API
+			 * let's not save it to the option.
+			 */
 			return false;
 		}
 

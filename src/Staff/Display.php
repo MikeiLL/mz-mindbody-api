@@ -150,6 +150,9 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 
 			wp_register_script( 'mz_mbo_bootstrap_script', NS\PLUGIN_NAME_URL . 'dist/scripts/main.js', array( 'jquery' ), NS\PLUGIN_VERSION, true );
 			wp_enqueue_script( 'mz_mbo_bootstrap_script' );
+
+			wp_register_script( 'mz_mbo_staff_script', NS\PLUGIN_NAME_URL . 'dist/scripts/staff_popup.js', array( 'jquery' ), NS\PLUGIN_VERSION, true );
+			wp_enqueue_script( 'mz_mbo_staff_script' );
 		}
 	}
 

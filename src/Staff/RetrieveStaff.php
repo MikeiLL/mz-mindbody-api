@@ -21,10 +21,6 @@ use MZoo\MzMindbody\Common\Interfaces as Interfaces;
  */
 class RetrieveStaff extends Interfaces\Retrieve {
 
-
-
-
-
 	/**
 	 * Holder for staff array returned by MBO API
 	 *
@@ -34,18 +30,30 @@ class RetrieveStaff extends Interfaces\Retrieve {
 	 */
 	public $staff_result;
 
-	public function __construct( $atts = array(
-		'locations' => array( 1 ),
-	)
-	) {
+	/**
+	 * Constructor
+	 *
+	 * Default $atts is locations array with location id #1.
+	 *
+	 * @param array $atts Shortcode attributes.
+	 */
+	public function __construct( $atts = array( 'locations' => array( 1 ) ) ) {
 
 		parent::__construct();
+		
 		$this->atts = $atts;
+		
+		// Initialize to sandbox account.
+		$this->mbo_account = '-99';
+
 		if ( ! empty( Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'] ) ) :
-			$this->mbo_account = ! empty( $atts['account'] ) ? $atts['account'] : Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
-	 else :
-		 $this->mbo_account = '-99';
-	 endif;
+			// Default to admin configured site ID.
+			$this->mbo_account = Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
+			// Unless user has overridden it in shortcode.
+			if ( ! empty( $atts['account'] ) ) {
+				$this->mbo_account = $atts['account'];
+			}
+		endif;
 	}
 
 	/**
@@ -54,11 +62,11 @@ class RetrieveStaff extends Interfaces\Retrieve {
 	 *
 	 * @since 2.4.7
 	 *
-	 * @param @staffIDs array of Staff IDs to return info for
+	 * @param @staff_ids array of Staff IDs to return info for
 	 *
 	 * @return $this->staff_result object holding staff details
 	 */
-	public function get_mbo_results( $staffIDs = array() ) {
+	public function get_mbo_results( $staff_ids = array() ) {
 
 		$mb = $this->instantiateMboApi();
 		if ( ! $mb ) {
@@ -66,22 +74,22 @@ class RetrieveStaff extends Interfaces\Retrieve {
 		}
 
 		// All staff members?
-		$all = ( 0 == count( $staffIDs ) );
-		// Make specific transient for specific staff members
-		$transient_string = ( $all ) ? 'staff' : 'staff' . implode( '_', $staffIDs );
+		$all = ( 0 == count( $staff_ids ) );
+		// Make specific transient for specific staff members.
+		$transient_string = ( $all ) ? 'staff' : 'staff' . implode( '_', $staff_ids );
 		$transient_string = $this->generate_transient_name( $transient_string );
 		if ( false === get_transient( $transient_string ) ) {
-			// If there's not a transient already, call the API and create one
+			// If there's not a transient already, call the API and create one.
 
 			if ( 0 !== $this->mbo_account ) {
-				// If account has been specified in shortcode, update credentials
+				// If account has been specified in shortcode, update credentials.
 				$mb->source_credentials['SiteIDs'][0] = $this->mbo_account;
 			}
 
 			if ( $all ) {
 				$this->staff_result = $mb->GetStaff();
 			} else {
-				$this->staff_result = $mb->GetStaff( array( 'StaffIDs' => $staffIDs ) );
+				$this->staff_result = $mb->GetStaff( array( 'StaffIDs' => $staff_ids ) );
 			}
 
 			if ( ! empty( $this->staff_result['StaffMembers'] ) ) {
@@ -103,16 +111,16 @@ class RetrieveStaff extends Interfaces\Retrieve {
 	 * First populate two arrays: $important and $basic, then sort the entire array
 	 * returned by MBO based on those criteria.
 	 *
-	 * @param $atts array of shorcode atts from calling function//
+	 * @param $atts array of shorcode atts from calling function.
 	 *
-	 * @return array of MBO staff members, sorted by SortOrder, then LastName
+	 * @return array of MBO staff members, sorted by SortOrder, then LastName.
 	 */
 	public function sort_staff_by_sort_order( $atts = array() ) {
 
 		$count = 0;
 		// Obtain a list of columns
 		foreach ( $this->staff_result as $key => $row ) {
-			// Remove any Staff members that are in the hide shortcode attribute
+			// Remove any Staff members that are in the hide shortcode attribute.
 			if ( ! empty( $atts['hide'] )
 				&& ( in_array( strtolower( $row['Name'] ), array_map( 'strtolower', $atts['hide'] ), true ) )
 			) {
@@ -120,7 +128,7 @@ class RetrieveStaff extends Interfaces\Retrieve {
 				$count++;
 				continue;
 			}
-			// Remove staff members without image unless set to display them in shortcode
+			// Remove staff members without image unless set to display them in shortcode.
 			if ( ! ( isset( $atts['include_imageless'] ) && ( $atts['include_imageless'] != 0 ) )
 				&& ( empty( $this->staff_result[ $count ]['ImageUrl'] ) )
 			) {
@@ -129,7 +137,7 @@ class RetrieveStaff extends Interfaces\Retrieve {
 				continue;
 			}
 
-			// Populate two arrays to use in array_multisort
+			// Populate two arrays to use in array_multisort.
 			$important[ $key ] = $row['SortOrder'];
 			$basic[ $key ]     = $row['LastName'];
 			$count++;

@@ -1,2 +1,526 @@
-!function(e){var t={};function n(a){if(t[a])return t[a].exports;var o=t[a]={i:a,l:!1,exports:{}};return e[a].call(o.exports,o,o.exports,n),o.l=!0,o.exports}n.m=e,n.c=t,n.d=function(e,t,a){n.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:a})},n.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},n.t=function(e,t){if(1&t&&(e=n(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var a=Object.create(null);if(n.r(a),Object.defineProperty(a,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var o in e)n.d(a,o,function(t){return e[t]}.bind(null,o));return a},n.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return n.d(t,"a",t),t},n.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},n.p="",n(n.s=14)}({14:function(e,t,n){"use strict";jQuery(document).ready((function(e){mz_mindbody_schedule.login_nonce;var t=mz_mindbody_schedule.atts,n=(t.locations[0].toString(),t.account?t.account:mz_mindbody_schedule.account,{logged_in:1==mz_mindbody_schedule.loggedMBO,action:void 0,target:void 0,siteID:void 0,nonce:void 0,location:void 0,classID:void 0,className:void 0,staffName:void 0,classTime:void 0,class_title:void 0,content:void 0,spinner:'<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>',wrapper:void 0,content_wrapper:'<div class="modal__content" id="signupModalContent"></div>',footer:'<div class="modal__footer" id="signupModalFooter">\n    <a class="btn btn-primary" data-nonce="'+mz_mindbody_schedule.signup_nonce+'" id="MBOSchedule" target="_blank">My Classes</a>\n    <a href="https://clients.mindbodyonline.com/ws.asp?&amp;sLoc='+mz_mindbody_schedule.location+"&studioid="+mz_mindbody_schedule.siteID+'>" class="btn btn-primary btn-xs" id="MBOSite">Manage on Mindbody Site></a>\n    <a class="btn btn-primary btn-xs" id="MBOLogout">Logout</a>\n</div>\n',header:void 0,signup_button:void 0,message:void 0,client_first_name:void 0,login_form:e("#mzLogInContainer").html(),initialize:function(t){this.target=e(t).attr("href"),this.siteID=e(t).attr("data-siteID"),this.nonce=e(t).attr("data-nonce"),this.location=e(t).attr("data-location"),this.classID=e(t).attr("data-classID"),this.className=e(t).attr("data-className"),this.staffName=e(t).attr("data-staffName"),this.classTime=e(t).attr("data-time"),this.class_title="<h2>"+this.className+" "+mz_mindbody_schedule.with+" "+this.staffName+"</h2><h3>"+this.classTime+"</h3><hr/>",this.header='<div class="modal__header" id="modalHeader"><h1>'+mz_mindbody_schedule.signup_heading+"</h1>"+this.class_title+"</div>",this.signup_button='<button class="btn btn-primary" data-nonce="'+this.nonce+'" data-location="'+this.location+'" data-classID="'+this.classID+'" id="signUpForClass">'+mz_mindbody_schedule.confirm_signup+"</button>"}});function a(){var t=n.message?"<p>"+n.message+"</p>":"";n.wrapper='<div class="modal__wrapper" id="signupModalWrapper">',n.logged_in?(n.wrapper+=n.header,n.wrapper+='<div class="modal__content" id="signupModalContent">'+t+n.signup_button+"</div>",n.wrapper+=n.footer):(n.wrapper+=n.header,n.wrapper+='<div class="modal__content" id="signupModalContent">'+t+n.login_form+"</div>"),n.wrapper+="</div>",e("#cboxLoadedContent")&&e("#cboxLoadedContent").html(n.wrapper),n.message=void 0}function o(){n.content="",e("#signupModalContent").html="","processing"==n.action?n.content+=n.spinner:"login_failed"==n.action?(n.content+=n.message,n.content+=n.login_form):"logout"==n.action?(n.content+=n.message,n.content+=n.login_form,e("#signupModalFooter").remove()):(n.action,n.content+=n.message),e("#signupModalContent")&&e("#signupModalContent").html(n.content),n.message=void 0}setInterval((function(){e.ajax({dataType:"json",url:mz_mindbody_schedule.ajaxurl,data:{action:"mz_check_client_logged",nonce:"mz_check_client_logged"},success:function(e){"success"==e.type&&(n.logged_in=1==e.message)}})}),5e3),e(document).on("click","a[data-target=mzSignUpModal]",(function(t){t.preventDefault(),n.initialize(this),a(),e("#mzSignUpModal").load(n.target,(function(){e.colorbox({html:n.wrapper,href:n.target}),e("#mzSignUpModal").colorbox()}))})),e(document).on("submit",'form[id="mzLogIn"]',(function(t){t.preventDefault();var s=e(this),i=(s.serializeArray(),{});e.each(e("form").serializeArray(),(function(){i[this.name]=this.value})),e.ajax({dataType:"json",url:mz_mindbody_schedule.ajaxurl,type:s.attr("method"),context:this,data:{action:"mz_client_log_in",form:s.serialize(),nonce:i.nonce,classID:i.classID,staffName:i.staffName,classTime:i.classTime,location:i.location},beforeSend:function(){n.action="processing",o()},success:function(t){e(this).serializeArray();var s={};e.each(e("form").serializeArray(),(function(){s[this.name]=this.value})),"success"==t.type?(n.logged_in=!0,n.action="login",n.message=t.message,a()):(n.action="login_failed",n.message=t.message,o())}}).fail((function(e){n.message="ERROR SIGNING IN",o(),console.log(e)}))})),e(document).on("click","#MBOLogout",(function(t){t.preventDefault();var a=e(this).attr("data-nonce");e.ajax({dataType:"json",url:mz_mindbody_schedule.ajaxurl,data:{action:"mz_client_logout",nonce:a},beforeSend:function(){n.action="processing",o()},success:function(e){"success"==e.type?(n.logged_in=!1,n.action="logout",n.message=e.message,o()):(n.action="logout_failed",n.message=e.message,o())}}).fail((function(e){n.message="ERROR LOGGING OUT",o(),console.log(e)}))})),e(document).on("click","a#createMBOAccount",(function(t){t.preventDefault(),e(this).attr("href");var a=e(this).attr("data-nonce"),s=e(this).attr("data-classID");e.ajax({type:"GET",dataType:"json",url:mz_mindbody_schedule.ajaxurl,data:{action:"mz_generate_signup_form",nonce:a,classID:s},beforeSend:function(){n.action="processing",o()},success:function(e){"success"==e.type?(n.logged_in=!0,n.action="sign_up_form",n.message=e.message,o()):(n.action="error",n.message=e.message,o())}}).fail((function(e){n.message="ERROR GENERATING THE SIGN-UP FORM",o(),console.log(e)}))})),e(document).on("submit",'form[id="mzSignUp"]',(function(t){t.preventDefault(),e(this).attr("href");var a=e(this),s=(e(this).attr("data-nonce"),e(this).attr("data-classID"),a.serializeArray());e.ajax({type:"GET",dataType:"json",url:mz_mindbody_schedule.ajaxurl,data:{action:"mz_create_mbo_account",nonce:s.nonce,classID:s.classID,form:a.serialize()},beforeSend:function(){n.action="processing",o()},success:function(e){"success"==e.type?(n.logged_in=!0,n.action="login",n.message=e.message,o()):(n.action="error",n.message=e.message,o())}}).fail((function(e){n.message="ERROR CREATING ACCOUNT",o(),console.log(e)}))})),e(document).on("click","#signUpForClass",(function(t){t.preventDefault();var a=e(this).attr("data-nonce");e.ajax({type:"GET",dataType:"json",url:mz_mindbody_schedule.ajaxurl,context:this,data:{action:"mz_register_for_class",nonce:a,siteID:n.siteID,classID:n.classID,location:n.location},beforeSend:function(){n.action="processing",o()},success:function(e){"success"==e.type?(n.action="register",n.message=e.message,o()):(n.action="error",n.message="ERROR REGISTERING FOR CLASS. "+e.message,o())}}).fail((function(e){n.message="ERROR REGISTERING FOR CLASS",o(),console.log(e)}))})),e(document).on("click","a#MBOSchedule",(function(t){t.preventDefault(),e.ajax({type:"GET",dataType:"json",url:mz_mindbody_schedule.ajaxurl,data:{action:"mz_display_client_schedule",nonce:"mz_display_client_schedule",location:n.location,siteID:n.siteID},beforeSend:function(){n.action="processing",o()},success:function(e){"success"==e.type?(n.action="display_schedule",n.message=e.message,o()):(n.action="error",n.message="ERROR RETRIEVING YOUR SCHEDULE. "+e.message,o())}}).fail((function(e){n.message="ERROR RETRIEVING YOUR SCHEDULE",o(),console.log(e)}))}))}))}});
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = "./scripts/signup-modals.js");
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ "./scripts/signup-modals.js":
+/*!**********************************!*\
+  !*** ./scripts/signup-modals.js ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+(function ($) {
+  $(document).ready(function ($) {
+    // Initialize some variables
+    var nonce = mz_mindbody_schedule.login_nonce,
+        // Shortcode atts for current page.
+    atts = mz_mindbody_schedule.atts,
+        // Just one location for use in general MBO site link
+    location = atts.locations[0].toString(),
+        siteID = atts.account ? atts.account : mz_mindbody_schedule.account;
+    /**
+     * State will store and track status
+     */
+
+    var mz_mbo_state = {
+      logged_in: mz_mindbody_schedule.loggedMBO == 1 ? true : false,
+      action: undefined,
+      target: undefined,
+      siteID: undefined,
+      nonce: undefined,
+      location: undefined,
+      classID: undefined,
+      className: undefined,
+      staffName: undefined,
+      classTime: undefined,
+      class_title: undefined,
+      content: undefined,
+      spinner: '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>',
+      wrapper: undefined,
+      content_wrapper: '<div class="modal__content" id="signupModalContent"></div>',
+      footer: '<div class="modal__footer" id="signupModalFooter">\n' + '    <a class="btn btn-primary" data-nonce="' + mz_mindbody_schedule.signup_nonce + '" id="MBOSchedule" target="_blank">My Classes</a>\n' + '    <a href="https://clients.mindbodyonline.com/ws.asp?&amp;sLoc=' + mz_mindbody_schedule.location + '&studioid=' + mz_mindbody_schedule.siteID + '>" class="btn btn-primary btn-xs" id="MBOSite">Manage on Mindbody Site></a>\n' + '    <a class="btn btn-primary btn-xs" id="MBOLogout">Logout</a>\n' + '</div>\n',
+      header: undefined,
+      signup_button: undefined,
+      message: undefined,
+      client_first_name: undefined,
+      login_form: $('#mzLogInContainer').html(),
+      initialize: function initialize(target) {
+        this.target = $(target).attr("href");
+        this.siteID = $(target).attr('data-siteID');
+        this.nonce = $(target).attr("data-nonce");
+        this.location = $(target).attr("data-location");
+        this.classID = $(target).attr("data-classID");
+        this.className = $(target).attr("data-className");
+        this.staffName = $(target).attr("data-staffName");
+        this.classTime = $(target).attr("data-time");
+        this.class_title = '<h2>' + this.className + ' ' + mz_mindbody_schedule.with + ' ' + this.staffName + '</h2><h3>' + this.classTime + '</h3><hr/>';
+        this.header = '<div class="modal__header" id="modalHeader"><h1>' + mz_mindbody_schedule.signup_heading + '</h1>' + this.class_title + '</div>';
+        this.signup_button = '<button class="btn btn-primary" data-nonce="' + this.nonce + '" data-location="' + this.location + '" data-classID="' + this.classID + '" id="signUpForClass">' + mz_mindbody_schedule.confirm_signup + '</button>';
+      }
+    };
+    /*
+     * Define the modal container state which changes depending on login state
+     */
+
+    function render_mbo_modal() {
+      var message = mz_mbo_state.message ? '<p>' + mz_mbo_state.message + '</p>' : '';
+      mz_mbo_state.wrapper = '<div class="modal__wrapper" id="signupModalWrapper">';
+
+      if (mz_mbo_state.logged_in) {
+        mz_mbo_state.wrapper += mz_mbo_state.header;
+        mz_mbo_state.wrapper += '<div class="modal__content" id="signupModalContent">' + message + mz_mbo_state.signup_button + '</div>';
+        mz_mbo_state.wrapper += mz_mbo_state.footer;
+      } else {
+        mz_mbo_state.wrapper += mz_mbo_state.header;
+        mz_mbo_state.wrapper += '<div class="modal__content" id="signupModalContent">' + message + mz_mbo_state.login_form + '</div>';
+      }
+
+      mz_mbo_state.wrapper += '</div>';
+
+      if ($('#cboxLoadedContent')) {
+        $('#cboxLoadedContent').html(mz_mbo_state.wrapper);
+      }
+
+      mz_mbo_state.message = undefined;
+    }
+    /*
+     * Render inner content of modal based on state
+     */
+
+
+    function render_mbo_modal_activity() {
+      // Clear content and content wrapper
+      mz_mbo_state.content = '';
+      $('#signupModalContent').html = '';
+
+      if (mz_mbo_state.action == 'processing') {
+        mz_mbo_state.content += mz_mbo_state.spinner;
+      } else if (mz_mbo_state.action == 'login_failed') {
+        mz_mbo_state.content += mz_mbo_state.message;
+        mz_mbo_state.content += mz_mbo_state.login_form;
+      } else if (mz_mbo_state.action == 'logout') {
+        mz_mbo_state.content += mz_mbo_state.message;
+        mz_mbo_state.content += mz_mbo_state.login_form;
+        $('#signupModalFooter').remove();
+      } else if (mz_mbo_state.action == 'error') {
+        mz_mbo_state.content += mz_mbo_state.message;
+      } else {
+        // login, sign_up_form
+        mz_mbo_state.content += mz_mbo_state.message;
+      }
+
+      if ($('#signupModalContent')) {
+        $('#signupModalContent').html(mz_mbo_state.content);
+      }
+
+      mz_mbo_state.message = undefined;
+    }
+    /**
+     * Continually Check if Client is Logged in and Update Status
+     */
+
+
+    setInterval(mz_mbo_check_client_logged, 5000);
+
+    function mz_mbo_check_client_logged() {
+      //this will repeat every 5 seconds
+      $.ajax({
+        dataType: 'json',
+        url: mz_mindbody_schedule.ajaxurl,
+        data: {
+          action: 'mz_check_client_logged',
+          nonce: 'mz_check_client_logged'
+        },
+        success: function success(json) {
+          if (json.type == "success") {
+            mz_mbo_state.logged_in = json.message == 1 ? true : false;
+          }
+        } // ./ Ajax Success
+
+      }); // End Ajax
+    }
+    /**
+     * Initial Modal Window to Register for a Class
+     *
+     * Also leads to options to login and sign-up with MBO
+     *
+     */
+
+
+    $(document).on('click', "a[data-target=mzSignUpModal]", function (ev) {
+      ev.preventDefault();
+      mz_mbo_state.initialize(this);
+      render_mbo_modal();
+      $("#mzSignUpModal").load(mz_mbo_state.target, function () {
+        $.colorbox({
+          html: mz_mbo_state.wrapper,
+          href: mz_mbo_state.target
+        });
+        $("#mzSignUpModal").colorbox();
+      });
+    });
+    /**
+     * Sign In to MBO
+     */
+
+    $(document).on('submit', 'form[id="mzLogIn"]', function (ev) {
+      ev.preventDefault();
+      var form = $(this);
+      var formData = form.serializeArray();
+      var result = {};
+      $.each($('form').serializeArray(), function () {
+        result[this.name] = this.value;
+      });
+      $.ajax({
+        dataType: 'json',
+        url: mz_mindbody_schedule.ajaxurl,
+        type: form.attr('method'),
+        context: this,
+        // So we have access to form data within ajax results
+        data: {
+          action: 'mz_client_log_in',
+          form: form.serialize(),
+          nonce: result.nonce,
+          classID: result.classID,
+          staffName: result.staffName,
+          classTime: result.classTime,
+          location: result.location
+        },
+        beforeSend: function beforeSend() {
+          mz_mbo_state.action = 'processing';
+          render_mbo_modal_activity();
+        },
+        success: function success(json) {
+          var formData = $(this).serializeArray();
+          var result = {};
+          $.each($('form').serializeArray(), function () {
+            result[this.name] = this.value;
+          });
+
+          if (json.type == "success") {
+            mz_mbo_state.logged_in = true;
+            mz_mbo_state.action = 'login';
+            mz_mbo_state.message = json.message;
+            render_mbo_modal();
+          } else {
+            mz_mbo_state.action = 'login_failed';
+            mz_mbo_state.message = json.message;
+            render_mbo_modal_activity();
+          }
+        } // ./ Ajax Success
+
+      }) // End Ajax
+      .fail(function (json) {
+        mz_mbo_state.message = 'ERROR SIGNING IN';
+        render_mbo_modal_activity();
+        console.log(json);
+      }); // End Fail
+    });
+    /**
+     * Logout of MBO
+     *
+     *
+     */
+
+    $(document).on('click', "#MBOLogout", function (ev) {
+      ev.preventDefault();
+      var nonce = $(this).attr("data-nonce");
+      $.ajax({
+        dataType: 'json',
+        url: mz_mindbody_schedule.ajaxurl,
+        data: {
+          action: 'mz_client_logout',
+          nonce: nonce
+        },
+        beforeSend: function beforeSend() {
+          mz_mbo_state.action = 'processing';
+          render_mbo_modal_activity();
+        },
+        success: function success(json) {
+          if (json.type == "success") {
+            mz_mbo_state.logged_in = false;
+            mz_mbo_state.action = 'logout';
+            mz_mbo_state.message = json.message;
+            render_mbo_modal_activity();
+          } else {
+            mz_mbo_state.action = 'logout_failed';
+            mz_mbo_state.message = json.message;
+            render_mbo_modal_activity();
+          }
+        } // ./ Ajax Success
+
+      }) // End Ajax
+      .fail(function (json) {
+        mz_mbo_state.message = 'ERROR LOGGING OUT';
+        render_mbo_modal_activity();
+        console.log(json);
+      }); // End Fail
+    });
+    /**
+     * Display MBO Account Registration form within Sign-Up Modal
+     *
+     *
+     */
+
+    $(document).on('click', "a#createMBOAccount", function (ev) {
+      ev.preventDefault();
+      var target = $(this).attr("href");
+      var nonce = $(this).attr("data-nonce");
+      var classID = $(this).attr("data-classID");
+      $.ajax({
+        type: "GET",
+        dataType: 'json',
+        url: mz_mindbody_schedule.ajaxurl,
+        data: {
+          action: 'mz_generate_signup_form',
+          nonce: nonce,
+          classID: classID
+        },
+        beforeSend: function beforeSend() {
+          mz_mbo_state.action = 'processing';
+          render_mbo_modal_activity();
+        },
+        success: function success(json) {
+          if (json.type == "success") {
+            mz_mbo_state.logged_in = true;
+            mz_mbo_state.action = 'sign_up_form';
+            mz_mbo_state.message = json.message;
+            render_mbo_modal_activity();
+          } else {
+            mz_mbo_state.action = 'error';
+            mz_mbo_state.message = json.message;
+            render_mbo_modal_activity();
+          }
+        } // ./ Ajax Success
+
+      }) // End Ajax
+      .fail(function (json) {
+        mz_mbo_state.message = 'ERROR GENERATING THE SIGN-UP FORM';
+        render_mbo_modal_activity();
+        console.log(json);
+      }); // End Fail
+    });
+    /**
+     * Create MBO Account and display Confirmation
+     *
+     *
+     */
+
+    $(document).on('submit', 'form[id="mzSignUp"]', function (ev) {
+      ev.preventDefault();
+      var target = $(this).attr("href");
+      var form = $(this);
+      var nonce = $(this).attr("data-nonce");
+      var classID = $(this).attr("data-classID");
+      var formData = form.serializeArray();
+      $.ajax({
+        type: "GET",
+        dataType: 'json',
+        url: mz_mindbody_schedule.ajaxurl,
+        data: {
+          action: 'mz_create_mbo_account',
+          nonce: formData.nonce,
+          classID: formData.classID,
+          form: form.serialize()
+        },
+        beforeSend: function beforeSend() {
+          mz_mbo_state.action = 'processing';
+          render_mbo_modal_activity();
+        },
+        success: function success(json) {
+          if (json.type == "success") {
+            mz_mbo_state.logged_in = true;
+            mz_mbo_state.action = 'login';
+            mz_mbo_state.message = json.message;
+            render_mbo_modal_activity();
+          } else {
+            mz_mbo_state.action = 'error';
+            mz_mbo_state.message = json.message;
+            render_mbo_modal_activity();
+          }
+        } // ./ Ajax Success
+
+      }) // End Ajax
+      .fail(function (json) {
+        mz_mbo_state.message = 'ERROR CREATING ACCOUNT';
+        render_mbo_modal_activity();
+        console.log(json);
+      }); // End Fail
+    });
+    /**
+     * Register for a class
+     */
+
+    $(document).on('click', '#signUpForClass', function (ev) {
+      ev.preventDefault();
+      var nonce = $(this).attr("data-nonce");
+      $.ajax({
+        type: "GET",
+        dataType: 'json',
+        url: mz_mindbody_schedule.ajaxurl,
+        context: this,
+        data: {
+          action: 'mz_register_for_class',
+          nonce: nonce,
+          siteID: mz_mbo_state.siteID,
+          classID: mz_mbo_state.classID,
+          location: mz_mbo_state.location
+        },
+        beforeSend: function beforeSend() {
+          mz_mbo_state.action = 'processing';
+          render_mbo_modal_activity();
+        },
+        success: function success(json) {
+          if (json.type == "success") {
+            mz_mbo_state.action = 'register';
+            mz_mbo_state.message = json.message;
+            render_mbo_modal_activity();
+          } else {
+            mz_mbo_state.action = 'error';
+            mz_mbo_state.message = 'ERROR REGISTERING FOR CLASS. ' + json.message;
+            render_mbo_modal_activity();
+          }
+        } // ./ Ajax Success
+
+      }) // End Ajax
+      .fail(function (json) {
+        mz_mbo_state.message = 'ERROR REGISTERING FOR CLASS';
+        render_mbo_modal_activity();
+        console.log(json);
+      }); // End Fail
+    });
+    /**
+     * Display Client Schedule within Sign-Up Modal
+     *
+     *
+     */
+
+    $(document).on('click', "a#MBOSchedule", function (ev) {
+      ev.preventDefault();
+      $.ajax({
+        type: "GET",
+        dataType: 'json',
+        url: mz_mindbody_schedule.ajaxurl,
+        data: {
+          action: 'mz_display_client_schedule',
+          nonce: 'mz_display_client_schedule',
+          location: mz_mbo_state.location,
+          siteID: mz_mbo_state.siteID
+        },
+        beforeSend: function beforeSend() {
+          mz_mbo_state.action = 'processing';
+          render_mbo_modal_activity();
+        },
+        success: function success(json) {
+          if (json.type == "success") {
+            mz_mbo_state.action = 'display_schedule';
+            mz_mbo_state.message = json.message;
+            render_mbo_modal_activity();
+          } else {
+            mz_mbo_state.action = 'error';
+            mz_mbo_state.message = 'ERROR RETRIEVING YOUR SCHEDULE. ' + json.message;
+            render_mbo_modal_activity();
+          }
+        } // ./ Ajax Success
+
+      }) // End Ajax
+      .fail(function (json) {
+        mz_mbo_state.message = 'ERROR RETRIEVING YOUR SCHEDULE';
+        render_mbo_modal_activity();
+        console.log(json);
+      }); // End Fail
+    });
+  }); // End document ready
+})(jQuery);
+
+/***/ })
+
+/******/ });
 //# sourceMappingURL=signup-modals.js.map
