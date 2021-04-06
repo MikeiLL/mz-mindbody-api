@@ -7,9 +7,9 @@ use MZoo\MzMindbody as NS;
 
 	<p>
 		<?php
-		if ( ! empty( $data->staff_details->ImageURL ) ) :
+		if ( ! empty( $data->staff_details->image_url ) ) :
 			?>
-			<img src="<?php echo $data->staff_details->ImageURL; ?>" class="mz_modal_staff_image_body"/>
+			<img src="<?php echo $data->staff_details->image_url; ?>" class="mz_modal_staff_image_body"/>
 			<?php
 		endif;
 		if ( ! empty( $data->staff_details->Bio ) ) :

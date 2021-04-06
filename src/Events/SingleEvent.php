@@ -283,11 +283,11 @@ class SingleEvent {
 		$this->className         = $event['ClassDescription']['Name'];
 		$this->ID                = $event['ClassDescription']['Id'];
 
-		$this->FirstName = $event['Staff']['FirstName'];
-		$this->LastName  = $event['Staff']['LastName'];
+		$this->first_name = $event['Staff']['FirstName'];
+		$this->last_name  = $event['Staff']['LastName'];
 		// Set Staff Name up.
 		// First set first, last with default to blank string
-		$this->staffName = isset( $this->FirstName ) ? $this->FirstName . ' ' . $this->LastName : '';
+		$this->staffName = isset( $this->first_name ) ? $this->first_name . ' ' . $this->last_name : '';
 		// If "Name" has been set, use that
 		if ( isset( $event['Staff']['Name'] ) ) {
 			$this->staffName = $event['Staff']['Name'];
