@@ -65,13 +65,16 @@ echo
 echo "Creating local copy of SVN repo ..."
 svn co $SVNURL $SVNPATH
 
+# for zsh disable prompt when removing wildcard
+setopt rmstarsilent
+
 echo "Clearing svn repo so we can overwrite it"
 rm -rf $SVNPATH/trunk/*
 
 echo "Exporting the HEAD of master from git to the trunk of SVN"
 git checkout-index -a -f --prefix=$SVNPATH/trunk/
 
-echo "Ignoring github specific files and deployment script"
+echo "Ignoring github specific files, some composer vendor files, deployment script"
 svn propset -R svn:ignore -F .svnignore "$SVNPATH/trunk/"
 
 echo "Changing directory to SVN and committing to trunk"
