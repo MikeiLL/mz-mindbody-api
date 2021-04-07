@@ -38,8 +38,7 @@ class Activator {
 			add_action( 'admin_notices', array( $admin_object, 'admin_notice' ) );
 			deactivate_plugins( NS\PLUGIN_BASENAME );
 			if ( isset( $_GET['activate'] ) ) {
-				-            unset( $_GET['activate'] );
-				-
+				unset( $_GET['activate'] );
 			}
 		}
 
