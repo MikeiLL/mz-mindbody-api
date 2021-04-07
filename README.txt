@@ -69,6 +69,9 @@ You need to register a developer account with MindBody, which costs $5+ per webs
 
 = v2.8.4 =
 Bugfix: Correct path to Frontend view Templates.
+Bugfix: Update uses of date and wp_date methods.
+Bugfix: Events locations corced to int to strict check.
+Release method update, using composer install --no-dev.
 
 = v2.8.3 =
 Bugfix: error with modal popup on Staff gallery.

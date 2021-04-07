@@ -81,8 +81,9 @@ svn propset -R svn:ignore -F .svnignore "$SVNPATH/trunk/"
 echo "Changing directory to SVN and committing to trunk"
 cd $SVNPATH/trunk/
 
-# Remove dirs we don't want.
-rm -rf vendor/squizlabs vendor/wp-coding-standards vendor/coenjacobs vendor/bin vendor/league
+# Run composer install no dev
+echo "Install composer non-dev dependencies."
+composer install --no-dev
 
 # Add all new files that are not set to be ignored
 echo "Doing the file adding"
