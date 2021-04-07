@@ -1,6 +1,7 @@
 #! /bin/bash
 # A modification of Dean Clatworthy's deploy script as found here: https://github.com/deanc/wordpress-plugin-git-svn
 # The difference is that this script lives in the plugin's git repo & doesn't require an existing SVN repo.
+# TODO look into https://github.com/seb86/github-to-wordpress-deploy-script/blob/master/release.sh
 
 # main config
 PLUGINSLUG="mz-mindbody-api"
@@ -79,6 +80,10 @@ svn propset -R svn:ignore -F .svnignore "$SVNPATH/trunk/"
 
 echo "Changing directory to SVN and committing to trunk"
 cd $SVNPATH/trunk/
+
+# Remove dirs we don't want.
+rm -rf vendor/squizlabs vendor/wp-coding-standards vendor/coenjacobs vendor/bin vendor/league
+
 # Add all new files that are not set to be ignored
 echo "Doing the file adding"
 svn status | grep -v "^.[ \t]*\..*" | grep "^?" | awk '{print $2}' | xargs svn add
