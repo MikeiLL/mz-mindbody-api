@@ -22,3 +22,16 @@ phpcs.ruleset.xml
 phpunit.xml
 phpunit.xml.dist
 tests
+.babelrc
+.idea
+.git
+*.log
+*.sh
+vendor/coenjacobs
+vendor/dealerdirect
+vendor/symfony
+vendor/wp-coding-standards
+vendor/squizlabs
+webpack.config.js
+assets
+wpassets
