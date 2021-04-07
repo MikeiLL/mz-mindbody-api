@@ -1,5 +1,4 @@
 <?php
-
 namespace Composer\Installers;
 
 class DokuWikiInstaller extends BaseInstaller
@@ -12,9 +11,9 @@ class DokuWikiInstaller extends BaseInstaller
     /**
      * Format package name.
      *
-     * For package type dokuwiki-plugin, cut off a trailing '-plugin',
+     * For package type dokuwiki-plugin, cut off a trailing '-plugin', 
      * or leading dokuwiki_ if present.
-     *
+     * 
      * For package type dokuwiki-template, cut off a trailing '-template' if present.
      *
      */
@@ -47,4 +46,5 @@ class DokuWikiInstaller extends BaseInstaller
 
         return $vars;
     }
+
 }

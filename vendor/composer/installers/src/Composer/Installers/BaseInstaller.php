@@ -1,5 +1,4 @@
 <?php
-
 namespace Composer\Installers;
 
 use Composer\IO\IOInterface;
@@ -124,7 +123,7 @@ abstract class BaseInstaller
      * @param  string $vendor = NULL
      * @return string|false
      */
-    protected function mapCustomInstallPaths(array $paths, $name, $type, $vendor = null)
+    protected function mapCustomInstallPaths(array $paths, $name, $type, $vendor = NULL)
     {
         foreach ($paths as $path => $names) {
             $names = (array) $names;

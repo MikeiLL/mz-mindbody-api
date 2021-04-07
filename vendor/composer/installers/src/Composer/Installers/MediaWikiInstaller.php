@@ -1,5 +1,4 @@
 <?php
-
 namespace Composer\Installers;
 
 class MediaWikiInstaller extends BaseInstaller
@@ -48,4 +47,5 @@ class MediaWikiInstaller extends BaseInstaller
 
         return $vars;
     }
+
 }

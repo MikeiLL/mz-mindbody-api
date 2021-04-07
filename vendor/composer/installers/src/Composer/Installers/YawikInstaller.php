@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Created by PhpStorm.
  * User: cbleek
@@ -8,6 +7,7 @@
  */
 
 namespace Composer\Installers;
+
 
 class YawikInstaller extends BaseInstaller
 {

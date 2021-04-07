@@ -1,5 +1,4 @@
 <?php
-
 namespace Composer\Installers;
 
 use Composer\DependencyResolver\Pool;

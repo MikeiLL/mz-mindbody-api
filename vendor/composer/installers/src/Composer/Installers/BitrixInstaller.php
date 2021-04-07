@@ -9,9 +9,9 @@ use Composer\Util\Filesystem;
  * - `bitrix-d7-module` — copy the module to directory `bitrix/modules/<vendor>.<name>`.
  * - `bitrix-d7-component` — copy the component to directory `bitrix/components/<vendor>/<name>`.
  * - `bitrix-d7-template` — copy the template to directory `bitrix/templates/<vendor>_<name>`.
- *
+ * 
  * You can set custom path to directory with Bitrix kernel in `composer.json`:
- *
+ * 
  * ```json
  * {
  *      "extra": {
@@ -95,6 +95,7 @@ class BitrixInstaller extends BaseInstaller
         }
 
         if ($oldPath !== $path && file_exists($oldPath) && $this->io && $this->io->isInteractive()) {
+
             $this->io->writeError('    <error>Duplication of packages:</error>');
             $this->io->writeError('    <info>Package ' . $oldPath . ' will be called instead package ' . $path . '</info>');
 

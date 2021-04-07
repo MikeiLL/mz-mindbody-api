@@ -23,4 +23,5 @@ class LanManagementSystemInstaller extends BaseInstaller
 
         return $vars;
     }
+
 }

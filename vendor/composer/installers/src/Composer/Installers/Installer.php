@@ -55,7 +55,7 @@ class Installer extends LibraryInstaller
         'joomla'       => 'JoomlaInstaller',
         'kanboard'     => 'KanboardInstaller',
         'kirby'        => 'KirbyInstaller',
-        'known'        => 'KnownInstaller',
+        'known'	       => 'KnownInstaller',
         'kodicms'      => 'KodiCMSInstaller',
         'kohana'       => 'KohanaInstaller',
         'lms'      => 'LanManagementSystemInstaller',
@@ -82,7 +82,7 @@ class Installer extends LibraryInstaller
         'phpbb'        => 'PhpBBInstaller',
         'pimcore'      => 'PimcoreInstaller',
         'piwik'        => 'PiwikInstaller',
-        'plentymarkets' => 'PlentymarketsInstaller',
+        'plentymarkets'=> 'PlentymarketsInstaller',
         'ppi'          => 'PPIInstaller',
         'puppet'       => 'PuppetInstaller',
         'radphp'       => 'RadPHPInstaller',
@@ -136,13 +136,8 @@ class Installer extends LibraryInstaller
         Filesystem $filesystem = null,
         BinaryInstaller $binaryInstaller = null
     ) {
-        parent::__construct(
-            $io,
-            $composer,
-            $type,
-            $filesystem,
-            $binaryInstaller
-        );
+        parent::__construct($io, $composer, $type, $filesystem,
+            $binaryInstaller);
         $this->removeDisabledInstallers();
     }
 

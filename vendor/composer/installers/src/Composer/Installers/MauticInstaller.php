@@ -1,5 +1,4 @@
 <?php
-
 namespace Composer\Installers;
 
 class MauticInstaller extends BaseInstaller
@@ -22,4 +21,5 @@ class MauticInstaller extends BaseInstaller
 
         return $vars;
     }
+
 }

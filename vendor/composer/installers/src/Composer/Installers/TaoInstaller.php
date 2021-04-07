@@ -1,5 +1,4 @@
 <?php
-
 namespace Composer\Installers;
 
 /**
@@ -12,7 +11,7 @@ class TaoInstaller extends BaseInstaller
     protected $locations = array(
         'extension' => '{$name}'
     );
-
+    
     public function inflectPackageVars($vars)
     {
         $extra = $this->package->getExtra();

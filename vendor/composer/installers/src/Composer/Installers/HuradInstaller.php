@@ -1,5 +1,4 @@
 <?php
-
 namespace Composer\Installers;
 
 class HuradInstaller extends BaseInstaller

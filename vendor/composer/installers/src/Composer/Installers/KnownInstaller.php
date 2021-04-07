@@ -1,5 +1,4 @@
 <?php
-
 namespace Composer\Installers;
 
 class KnownInstaller extends BaseInstaller

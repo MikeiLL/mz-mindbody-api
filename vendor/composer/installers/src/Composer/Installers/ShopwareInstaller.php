@@ -1,5 +1,4 @@
 <?php
-
 namespace Composer\Installers;
 
 /**
@@ -28,7 +27,7 @@ class ShopwareInstaller extends BaseInstaller
             return $this->correctThemeName($vars);
         }
 
-        return $this->correctPluginName($vars);
+        return $this->correctPluginName($vars);        
     }
 
     /**

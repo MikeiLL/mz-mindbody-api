@@ -1,5 +1,4 @@
 <?php
-
 namespace Composer\Installers;
 
 class EzPlatformInstaller extends BaseInstaller

@@ -1,5 +1,4 @@
 <?php
-
 namespace Composer\Installers;
 
 class ChefInstaller extends BaseInstaller
@@ -9,3 +8,4 @@ class ChefInstaller extends BaseInstaller
         'role'      => 'Chef/roles/{$name}/',
     );
 }
+

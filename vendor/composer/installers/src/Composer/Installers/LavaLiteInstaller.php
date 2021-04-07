@@ -1,5 +1,4 @@
 <?php
-
 namespace Composer\Installers;
 
 class LavaLiteInstaller extends BaseInstaller
