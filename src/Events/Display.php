@@ -206,7 +206,9 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 
 		// Break locations up into array, if it hasn't already been.
 		if ( ! is_array( $this->atts['locations'] ) ) {
-			explode( ',', str_replace( ' ', '', $this->atts['locations'] ) );
+			$this->atts['locations'] = explode( ',', str_replace( ' ', '', $this->atts['locations'] ) );
+			// Coerce to integers so we can use strict testing.
+			$this->atts['locations'] = array_map('intval', $this->atts['locations']);
 		}
 
 		ob_start();
@@ -216,9 +218,11 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 		$this->events_object = new RetrieveEvents( $this->atts );
 
 		// Call the API and if fails, return error message.
-		if ( ! $response = $this->events_object->get_mbo_results() ) {
+		$response = $this->events_object->get_mbo_results();
+		if ( empty($response) ) {
 			return '<div>' . __( 'Error returning events from Mindbody.', 'mz-mindbody-api' ) . '</div>';
 		}
+
 		// Add Style with script adder
 		self::addScript();
 

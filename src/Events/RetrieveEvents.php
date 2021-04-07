@@ -110,7 +110,7 @@ class RetrieveEvents extends Interfaces\RetrieveClasses {
 	 * @return array of MBO schedule data, time
 	 */
 	public function sortEventsByTime() {
-
+		
 		foreach ( $this->classes as $class ) {
 			// Make a timestamp of just the day to use as key for that day's classes.
 			if ( ! empty( $class['StartDateTime'] ) ) {
@@ -122,6 +122,7 @@ class RetrieveEvents extends Interfaces\RetrieveClasses {
 			}
 
 			// Don't include classes that aren't in $this->atts locations array.
+			// Coerced to integers in Display so we can use strict testing here.
 			if ( ! in_array( $class['Location']['Id'], $this->atts['locations'], true ) ) {
 				continue;
 			}
