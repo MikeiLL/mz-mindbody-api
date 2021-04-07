@@ -225,6 +225,25 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 			),
 			$atts
 		);
+		//$array = current_datetime();
+		//$localtime = $array->getTimestamp()+$array->getOffset();
+		//echo "<h3>Localtime</h3>";
+		//NS\MZMBO()->helpers->print( time(), $localtime );
+		//echo "<h3>Current_Time() Timestamp</h3>";
+		//NS\MZMBO()->helpers->print(current_time( 'timestamp' ));
+		//echo "<h3>Time()</h3>";
+		//NS\MZMBO()->helpers->print(time());
+		//echo "<h3>WP_Date()</h3>";
+		//NS\MZMBO()->helpers->print(wp_date('Y-m-d H:i:s'));
+		//echo "<h3>WP_Date() with timestamp</h3>";
+		//NS\MZMBO()->helpers->print(wp_date('Y-m-d H:i:s'));
+		//echo "<h3>Current Datetime()</h3>";
+		//NS\MZMBO()->helpers->print(current_datetime());
+		//echo "<h3>Get Post Datetime()</h3>";
+		//NS\MZMBO()->helpers->print(get_post_datetime());
+		//echo "<h3>Get Post Timestamp()</h3>";
+		//NS\MZMBO()->helpers->print(get_post_timestamp());
+		
 
 		// Set siteID to option if not set explicitly in shortcode.
 		$this->site_id = ( isset( $atts['account'] ) ) ? $atts['account'] : Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];

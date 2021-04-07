@@ -32,7 +32,7 @@ use MZoo\MzMindbody\Libraries as Libraries;
 </style>
 <h4 class="mz_grid_date">
 	<?php
-	$this_week_start = wp_date( $data->date_format, $data->start_date->getTimestamp() );
+	$this_week_start = date( $data->date_format, $data->start_date->getTimestamp() );
 	?>
 	<?php printf( __( 'Week of %1$s', 'mz-mindbody-api' ), $this_week_start ); ?>
 </h4>

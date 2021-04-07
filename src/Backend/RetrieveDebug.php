@@ -33,7 +33,7 @@ class RetrieveDebug extends Interfaces\Retrieve {
 	 * @return array or start and end dates as required for MBO API
 	 */
 	public function time_frame( $timestamp = null ) {
-		$time = new \Datetime( date( 'Y-m-d', time() ) );
+		$time = new \Datetime( date( 'Y-m-d', current_time( 'timestamp' ) ) );
 		return array(
 			'StartDateTime' => $time->format( 'Y-m-d' ),
 			'EndDateTime'   => $time->format( 'Y-m-d' ),

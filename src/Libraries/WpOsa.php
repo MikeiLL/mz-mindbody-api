@@ -717,9 +717,8 @@ class WpOsa {
 
 	/**
 	 * Admin Menu
-	 *
+	 * 
 	 * Wrapper for add_options_page
-	 *
 	 * @return void.
 	 */
 	public function admin_menu() {
@@ -735,9 +734,8 @@ class WpOsa {
 
 	/**
 	 * Plugin Page
-	 *
+	 * 
 	 * The callable function sent to add_options page
-	 *
 	 * @return void.
 	 */
 	public function plugin_page() {
@@ -752,7 +750,6 @@ class WpOsa {
 	 * Show navigations as tab
 	 *
 	 * Shows all the settings section labels as tab.
-	 *
 	 * @return void.
 	 */
 	function show_navigation() {
@@ -771,7 +768,6 @@ class WpOsa {
 	 * Show the section settings forms
 	 *
 	 * This function displays every sections in a different form
-	 *
 	 * @return void.
 	 */
 	function show_forms() {
@@ -804,7 +800,6 @@ class WpOsa {
 	 * Tabbable JavaScript codes & Initiate Color Picker
 	 *
 	 * This code uses localstorage for displaying active tabs
-	 *
 	 * @return void.
 	 */
 	function script() {

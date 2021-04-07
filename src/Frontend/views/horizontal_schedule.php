@@ -13,7 +13,7 @@
 
 use MZoo\MzMindbody\Core;
 use MZoo\MzMindbody\Libraries as Libraries;
-
+use MZoo\MzMindbody as NS;
 ?>
 <?php
 if ( empty( $data->horizontal_schedule ) ) {
@@ -25,7 +25,7 @@ if ( empty( $data->horizontal_schedule ) ) {
 		<thead>
 			<tr class="header visible striped" style="display: table-row">
 				<th class="mz_date_display" scope="header">
-		<?php echo wp_date( $data->date_format, strtotime( $day ) ); ?>
+		<?php echo date( $data->date_format, strtotime( $day ) ); ?>
 				</th>
 				<th class="mz_classDetails" scope="header">
 		<?php esc_html_e( 'Class Name', 'mz-mindbody-api' ); ?>
@@ -47,7 +47,7 @@ if ( empty( $data->horizontal_schedule ) ) {
 			<?php foreach ( $classes as $k => $class ) : ?>
 			<tr class="mz_schedule_table mz_description_holder mz_location_<?php echo $class->sLoc . ' ' . $class->session_type_css . ' ' . $class->class_name_css; ?>">
 				<td class="mz_date_display" data-time="<?php echo $class->startDateTime; ?>">
-				<?php echo wp_date( $data->time_format, strtotime( $class->start_datetime ) ) . ' - ' . wp_date( $data->time_format, strtotime( $class->end_datetime ) ); ?><br />
+				<?php echo date( $data->time_format, strtotime( $class->start_datetime )) . ' - ' . date( $data->time_format, strtotime( $class->end_datetime ) ); ?><br />
 					<span class="mz_hidden mz_time_of_day"><?php echo $class->part_of_day; ?></span>
 				<?php if ( ! in_array( 'signup', $data->hide, true ) ) : ?>
 					<?php $class->sign_up_link->output(); ?>

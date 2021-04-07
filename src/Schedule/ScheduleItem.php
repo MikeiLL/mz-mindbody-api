@@ -713,7 +713,7 @@ class ScheduleItem {
 	 * @return string "morning", "afternoon" or "night", translated
 	 */
 	private function part_of_day() {
-		$time_by_integer = wp_date( 'G.i', strtotime( $this->start_datetime ) );
+		$time_by_integer = date( 'G.i', strtotime( $this->start_datetime ) );
 		if ( $time_by_integer < 12 ) {
 			return __( 'morning', 'mz-mindbody-api' );
 		} elseif ( $time_by_integer > 16 ) {
