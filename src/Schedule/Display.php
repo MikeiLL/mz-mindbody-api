@@ -230,7 +230,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 		//echo "<h3>Localtime</h3>";
 		//NS\MZMBO()->helpers->print( time(), $localtime );
 		//echo "<h3>Current_Time() Timestamp</h3>";
-		//NS\MZMBO()->helpers->print(current_time( 'timestamp' ));
+		//NS\MZMBO()->helpers->print(strtotime( wp_date( 'Y-m-d H:i:s' ) ));
 		//echo "<h3>Time()</h3>";
 		//NS\MZMBO()->helpers->print(time());
 		//echo "<h3>WP_Date()</h3>";

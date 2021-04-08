@@ -223,7 +223,7 @@ abstract class RetrieveClasses extends Retrieve {
 	 */
 	public function get_mbo_results( $timestamp = null ) {
 
-		$timestamp = isset( $timestamp ) ? $timestamp : current_time( 'timestamp' );
+		$timestamp = isset( $timestamp ) ? $timestamp : strtotime( wp_date( 'Y-m-d H:i:s' ) );
 		$mb        = $this->instantiateMboApi();
 		if ( ! $mb ) {
 			return false;
@@ -314,7 +314,7 @@ abstract class RetrieveClasses extends Retrieve {
 	 * @return html string of start and end of current week
 	 */
 	public function currentWeekDisplay() {
-		$time_frame = $this->singleWeek( current_time( 'timestamp' ) );
+		$time_frame = $this->singleWeek( strtotime( wp_date( 'Y-m-d H:i:s' ) ) );
 		$return     = 'Week start: ' . date( 'l, M d, Y', $time_frame[ start ] ) . '<br/>';
 		$return    .= 'Week end: ' . date( 'l, M d, Y', $time_frame[ end ] );
 		return $return;

@@ -37,8 +37,8 @@ class RetrieveClassOwners extends Interfaces\RetrieveClasses {
 	 * @return array or start and end dates as required for MBO API
 	 */
 	public function time_frame( $timestamp = null ) {
-		$start_time = new \Datetime( wp_date( 'Y-m-d', current_time( 'timestamp' ) ) );
-		$end_time   = new \Datetime( wp_date( 'Y-m-d', current_time( 'timestamp' ) ) );
+		$start_time = new \Datetime( wp_date( 'Y-m-d', strtotime( wp_date( 'Y-m-d H:i:s' ) ) ) );
+		$end_time   = new \Datetime( wp_date( 'Y-m-d', strtotime( wp_date( 'Y-m-d H:i:s' ) ) ) );
 		$di         = new \DateInterval( 'P4W' );
 		$end_time->add( $di );
 		// Now let's go four weeks previous as well.

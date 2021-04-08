@@ -60,7 +60,7 @@ class RetrieveEvents extends Interfaces\RetrieveClasses {
 	 */
 	public function time_frame( $timestamp = null ) {
 
-		$timestamp     = isset( $timestamp ) ? $timestamp : current_time( 'timestamp' );
+		$timestamp     = isset( $timestamp ) ? $timestamp : strtotime( wp_date( 'Y-m-d H:i:s' ) );
 		$start_time    = new \Datetime( wp_date( 'Y-m-d', $timestamp ) );
 		$end_time      = new \Datetime( wp_date( 'Y-m-d', $timestamp ) );
 		$session_types = explode( ',', Core\MzMindbodyApi::$events_options['mz_mindbody_eventID'] );
