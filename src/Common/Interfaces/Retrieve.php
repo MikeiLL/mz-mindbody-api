@@ -43,7 +43,7 @@ abstract class Retrieve {
 	*
 	* @param int api_version since we need to use api v5 for login for time being
 	*/
-	public function instantiateMboApi( $api_version = 6 ) {
+	public function instantiate_mbo_api( $api_version = 6 ) {
 
 		// TODO can we avoid this call to get_option?
 		$basic_options = get_option( 'mz_mbo_basic', 'Error: No Options' );

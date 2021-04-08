@@ -57,7 +57,7 @@ class RetrieveRegistrants extends Interfaces\Retrieve {
 			return false;
 		}
 
-		$mb = $this->instantiateMboApi();
+		$mb = $this->instantiate_mbo_api();
 
 		if ( ! $mb || 'NO_API_SERVICE' === $mb ) {
 			return false;
@@ -127,7 +127,7 @@ class RetrieveRegistrants extends Interfaces\Retrieve {
 			}
 
 				// send list of registrants to GetRegistrants.
-				$mb = $this->instantiateMboApi();
+				$mb = $this->instantiate_mbo_api();
 
 			if ( ! $mb || 'NO_API_SERVICE' === $mb ) {
 				return false;

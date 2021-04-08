@@ -54,7 +54,7 @@ class RetrieveDebug extends Interfaces\Retrieve {
 	 */
 	public function get_mbo_results( $timestamp = null, $version_five = false ) {
 
-		$mb = ( $version_five === false ) ? $this->instantiateMboApi() : $this->instantiateMboApi( 5 );
+		$mb = ( $version_five === false ) ? $this->instantiate_mbo_api() : $this->instantiate_mbo_api( 5 );
 
 		if ( ! $mb ) {
 			return false;

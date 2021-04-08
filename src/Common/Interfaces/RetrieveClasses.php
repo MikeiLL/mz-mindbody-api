@@ -224,7 +224,7 @@ abstract class RetrieveClasses extends Retrieve {
 	public function get_mbo_results( $timestamp = null ) {
 
 		$timestamp = isset( $timestamp ) ? $timestamp : strtotime( wp_date( 'Y-m-d H:i:s' ) );
-		$mb        = $this->instantiateMboApi();
+		$mb        = $this->instantiate_mbo_api();
 		if ( ! $mb ) {
 			return false;
 		}

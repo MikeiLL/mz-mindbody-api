@@ -68,7 +68,7 @@ class RetrieveStaff extends Interfaces\Retrieve {
 	 */
 	public function get_mbo_results( $staff_ids = array() ) {
 
-		$mb = $this->instantiateMboApi();
+		$mb = $this->instantiate_mbo_api();
 		if ( ! $mb ) {
 			return false;
 		}
