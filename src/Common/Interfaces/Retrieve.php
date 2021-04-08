@@ -14,8 +14,12 @@ use MZoo\MzMindbody as NS;
 use MZoo\MzMindbody\Core as Core;
 use MZoo\MzMindbody\Libraries as Libraries;
 
+/**
+ * Retrieve
+ *
+ * Abstract class which exposes top level methods for calls to MBO.
+ */
 abstract class Retrieve {
-
 
 	/**
 	 * MBO Account Number
@@ -29,25 +33,43 @@ abstract class Retrieve {
 	 */
 	protected $mbo_account;
 
+	/**
+	 * Shortcode Attributes
+	 *
+	 * Full array of Shortcode atts.
+	 *
+	 * @since  2.4.7
+	 * @access public
+	 *
+	 * @var array    $atts    Included in shortcode.
+	 */
 	public $atts;
 
+	/**
+	 * Class Constructor
+	 *
+	 * @param array $atts from shortcode call in wp post.
+	 * @return void.
+	 */
 	public function __construct( $atts = array() ) {
 		$this->atts        = $atts;
 		$this->mbo_account = ! empty( $this->atts['account'] ) ? $this->atts['account'] : 0;
 	}
 
-	/*
-	* Configure the MBO API object with Credentials stored in DB
-	*
-	* @since 2.4.7
-	*
-	* @param int api_version since we need to use api v5 for login for time being
-	*/
+	/**
+	 * Instantiate MBO API
+	 *
+	 * Configure the MBO API object with Credentials stored in DB
+	 *
+	 * @since 2.4.7
+	 *
+	 * @param int $api_version since we need to use api v5 for login for time being.
+	 */
 	public function instantiate_mbo_api( $api_version = 6 ) {
 
 		// TODO can we avoid this call to get_option?
 		$basic_options = get_option( 'mz_mbo_basic', 'Error: No Options' );
-		if ( $basic_options == 'Error: No Options' || empty( $basic_options ) ) {
+		if ( 'Error: No Options' === $basic_options || empty( $basic_options ) ) {
 			return false;
 		} elseif ( 6 === $api_version ) {
 			return new Libraries\MboV6Api(
@@ -60,7 +82,7 @@ abstract class Retrieve {
 					'mz_mindbody_siteID'   => $basic_options['mz_mindbody_siteID'],
 				),
 				$this->atts
-			); // Need attributes in API now for ScheduleTypeIds
+			); // Need attributes in API now for ScheduleTypeIds.
 		} else {
 			try {
 				return new Libraries\MboV5Api(
@@ -88,8 +110,8 @@ abstract class Retrieve {
 	 *
 	 * resource: https://css-tricks.com/the-deal-with-wordpress-transients/
 	 *
-	 * @param $shortcode array stores attributes that will make
-	 *                   transient name unique
+	 * @param array $shortcode stores attributes that will make
+	 *                   transient name unique.
 	 *
 	 * @since  2.4.7
 	 * @return string our prefix concat with hashed version of shortcode and atts
@@ -98,7 +120,7 @@ abstract class Retrieve {
 		$prefix           = 'mz_mbo_';
 		$transient_string = $shortcode . '_';
 		foreach ( $this->atts as $k => $attr ) {
-			if ( empty( $attr ) || ( $attr == '0' ) ) {
+			if ( empty( $attr ) || ( 0 === (int) $attr ) ) {
 				continue;
 			}
 			if ( is_array( $attr ) ) {
@@ -106,20 +128,20 @@ abstract class Retrieve {
 			}
 			$transient_string .= '_' . substr( $k, 0, 4 ) . '_' . substr( $attr, 0, 3 );
 		}
-		// append today's date
-		$transient_string .= date( 'Y-m-d', strtotime( wp_date( 'Y-m-d H:i:s' ) ) );
+		// append today's date.
+		$transient_string .= gmdate( 'Y-m-d', strtotime( wp_date( 'Y-m-d H:i:s' ) ) );
 
 		return $prefix . md5( $transient_string );
 	}
 
 
-	/*
-	* Log via Sandbox dev plugin
-	*
-	* If sandbox plugin located at
-	* https://github.com/MikeiLL/mz-mbo-sandbox
-	* is loaded, use it to log debug info.
-	*/
+	/**
+	 * Log via Sandbox dev plugin
+	 *
+	 * If sandbox plugin located at
+	 * https://github.com/MikeiLL/mz-mbo-sandbox
+	 * is loaded, use it to log debug info.
+	 */
 	private function sandbox() {
 		include_once ABSPATH . 'wp-admin/includes/plugin.php';
 		if ( is_plugin_active( 'mz-mbo-sandbox/mZ-mbo-sandbox.php' ) ) :
@@ -129,10 +151,10 @@ abstract class Retrieve {
 		endif;
 	}
 
-	/*
-	* Get results from MBO
-	*
-	* @since 2.4.7
-	*/
+	/**
+	 * Get results from MBO
+	 *
+	 * @since 2.4.7
+	 */
 	abstract public function get_mbo_results();
 }
