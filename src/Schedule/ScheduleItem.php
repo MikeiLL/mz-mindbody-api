@@ -460,7 +460,7 @@ class ScheduleItem {
 	 *
 	 * @since  2.4.7
 	 * @access public
-	 * @var    boolean    $current_week_end    Datetime containing start of week requested.
+	 * @var    boolean    $is_substitute    Datetime containing start of week requested.
 	 */
 	public $is_substitute;
 
@@ -537,7 +537,7 @@ class ScheduleItem {
 		$this->class_schedule_id     = $ScheduleItem['ClassScheduleId'];
 		$this->studio_location_id    = $ScheduleItem['Location']['Id'];
 		$this->locationName          = $ScheduleItem['Location']['Name'];
-		$this->sDate                 = wp_date( 'm/d/Y', strtotime( $ScheduleItem['StartDateTime'] ) );
+		$this->sDate                 = date( 'm/d/Y', strtotime( $ScheduleItem['StartDateTime'] ) );
 		$this->sign_up_title         = __( 'Sign-Up', 'mz-mindbody-api' );
 		$this->manage_text           = __( 'Manage on MindBody Site', 'mz-mindbody-api' );
 		$this->sType                 = -7;

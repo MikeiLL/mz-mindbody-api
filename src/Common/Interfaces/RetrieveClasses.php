@@ -445,29 +445,34 @@ abstract class RetrieveClasses extends Retrieve {
 		$classes_array_scope = $this->classes;
 		}
 		*/
-
 		foreach ( $this->classes as $class ) {
 			// Filter out some items
 			if ( $this->filterClass( $class ) === false ) {
 				continue;
 			}
 
-			// Populate the Locations Dictionary
+			// Populate the Locations Dictionary.
 			$this->populateLocationsDictionary( $class );
-			// Ignore classes that are not part of current week (ending Sunday)
-			if ( wp_date( 'Y-m-d', $class['StartDateTime'] ) > $this->current_week_end->format( 'Y-m-d' ) ) :
+
+			// Ignore classes that are not part of current week (ending Sunday).
+			if ( date( 'Y-m-d', strtotime($class['StartDateTime']) ) > $this->current_week_end->format( 'Y-m-d' ) ) :
 				continue;
 			endif;
 
+			// Ignore classes that are not part of current week (beginning Monday).
+			if ( date( 'Y-m-d', strtotime($class['StartDateTime']) ) < $this->start_date->format( 'Y-m-d' ) ) :
+				continue;
+			endif;
+			
 			/*
 			* Create a new array with a key for each TIME (time of day, not date)
 			* and corresponding value an array of class details
 			* for classes at that time.
 			*
 			*/
-			$classTime = wp_date( 'G.i', strtotime( $class['StartDateTime'] ) );
-			// for numerical sorting
-
+			$classTime = date( 'G.i', strtotime( $class['StartDateTime'] ) );
+			
+			// For numerical sorting.
 			$single_event = new Schedule\ScheduleItem( $class, $this->atts );
 
 			// If there's is already an array for this time slot, add to it.
@@ -476,7 +481,7 @@ abstract class RetrieveClasses extends Retrieve {
 				array_push( $this->classes_by_time_then_date[ $classTime ]['classes'], $single_event );
 			} else {
 				// Assign the first element of this time slot.
-				$display_time                                  = wp_date(
+				$display_time                                  = date(
 					Core\MzMindbodyApi::$time_format,
 					strtotime( $class['StartDateTime'] )
 				);
@@ -499,7 +504,7 @@ abstract class RetrieveClasses extends Retrieve {
 				$classes['classes'],
 				function ( $a, $b ) {
 
-					if ( wp_date( 'N', strtotime( $a->start_datetime ) ) == wp_date( 'N', strtotime( $b->start_datetime ) ) ) {
+					if ( date( 'N', strtotime( $a->start_datetime ) ) == date( 'N', strtotime( $b->start_datetime ) ) ) {
 						return 0;
 					}
 					return $a->start_datetime < $b->start_datetime ? -1 : 1;
@@ -572,7 +577,7 @@ abstract class RetrieveClasses extends Retrieve {
 			}
 		}
 
-		// Uncomment to view date in browser
+		// Uncomment to view date in browser.
 		// NS\MZMBO()->helpers->print(wp_date(Core\MzMindbodyApi::$date_format, strtotime($class['StartDateTime'])));
 
 		return true;

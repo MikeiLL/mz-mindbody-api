@@ -41,15 +41,15 @@ class RetrieveSchedule extends Interfaces\RetrieveClasses {
 		$seven_days_later = $this->seven_days_later( $timestamp );
 		if ( ( ! empty( $this->atts['type'] ) && ( 'day' === $this->atts['type'] ) ) ) :
 			$today      = current_time( 'timestamp' );
-			$start_time = new \Datetime( wp_date( 'Y-m-d', $today ) );
-			$end_time   = new \Datetime( wp_date( 'Y-m-d', $today ) );
+			$start_time = new \Datetime( date( 'Y-m-d', $today ) );
+			$end_time   = new \Datetime( date( 'Y-m-d', $today ) );
 			// Can test with $end_time = new \DateTime('tomorrow').
 		else :
-			$start_time = new \Datetime( wp_date( 'Y-m-d', $current_week['start'] ) );
-			$end_time   = new \Datetime( wp_date( 'Y-m-d', $seven_days_later ) );
+			$start_time = new \Datetime( date( 'Y-m-d', $current_week['start'] ) );
+			$end_time   = new \Datetime( date( 'Y-m-d', $seven_days_later ) );
 		endif;
-		$current_day_offset = new \Datetime( wp_date( 'Y-m-d' ) );
-		$current_week_end   = new \Datetime( wp_date( 'Y-m-d', $current_week['end'] ) );
+		$current_day_offset = new \Datetime( date( 'Y-m-d' ) );
+		$current_week_end   = new \Datetime( date( 'Y-m-d', $current_week['end'] ) );
 
 		// If we are going in future or past based on offset.
 		if ( ! empty( $this->atts['offset'] ) ) {

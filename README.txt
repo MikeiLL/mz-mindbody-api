@@ -67,6 +67,9 @@ You need to register a developer account with MindBody, which costs $5+ per webs
 
 == Changelog ==
 
+= v2.8.5 =
+Bugfix: Correct misuse of wp_date.
+
 = v2.8.4 =
 Bugfix: Correct path to Frontend view Templates.
 Bugfix: Update uses of date and wp_date methods.
