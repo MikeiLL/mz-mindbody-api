@@ -43,7 +43,7 @@ if ( ( is_array( $data->events ) ) && ! empty( $data->events ) ) : ?>
 			if ( $data->locations_count >= 2 ) :
 				?>
 				<td>
-				<?php echo $data->locations_dictionary[ $event->location_ID ]['link']; ?>
+				<?php echo $data->locations_dictionary[ $event->location_id ]['link']; ?>
 				</td>
 			<?php endif; ?>
 			</tr>

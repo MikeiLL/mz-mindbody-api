@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Template to isplay schedule in horizontal format
  *
@@ -7,6 +6,7 @@
  *
  * @link  http://mzoo.org
  * @since 2.4.7
+ * @package MzMindbody
  *
  * @author Mike iLL/mZoo.org
  */
@@ -71,7 +71,7 @@ if ( empty( $data->horizontal_schedule ) ) {
 				<?php endif; ?>
 				<?php if ( ! in_array( 'session-type', $data->hide, true ) ) : ?>
 				<td class="mz_sessionTypeName">
-					<?php echo $class->sessionTypeName; ?>
+					<?php echo $class->session_type_name; ?>
 					<?php
 					// Display location if showing schedule for more than one location
 					if ( count( $data->locations_dictionary ) >= 2 ) :

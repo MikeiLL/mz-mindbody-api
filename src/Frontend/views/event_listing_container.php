@@ -1,11 +1,22 @@
+<?php
+/**
+ * Event Listing Container
+ *
+ * Over-ride-able template page for full event listing shortcode result.
+ *
+ * @package MzMindbody
+ */
 
-<h3 id="eventsDateRangeDisplay" ><?php
+?>
+<h3 id="eventsDateRangeDisplay" >
+<?php
 echo sprintf(
 	__( 'Displaying events from %1$s to %2$s.', 'mz-mindbody-api' ),
 	$data->display_time_frame['start']->format( 'F j' ),
 	$data->display_time_frame['end']->format( 'F j' )
 );
-?></h3>
+?>
+</h3>
 
 <?php if ( empty( $data->atts['week-only'] ) ) : ?>
 <div id="mzEventsNavHolder">

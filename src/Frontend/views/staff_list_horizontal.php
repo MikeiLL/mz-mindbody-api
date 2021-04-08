@@ -1,3 +1,14 @@
+<?php
+/**
+ * Staff Listing Horizontal
+ *
+ * Over-ride-able template page for full event listing shortcode result.
+ *
+ * @package MzMindbody
+ */
+
+?>
+
 <?php foreach ( $data->staff as $staff ) : ?>
 <div class="MzStaff_profile clearfix">
 	<div class="MzStaff_caption">

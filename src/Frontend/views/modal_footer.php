@@ -1,4 +1,11 @@
 <?php
+/**
+ * Modal Footer
+ *
+ * Over-ride-able template page for full event listing shortcode result.
+ *
+ * @package MzMindbody
+ */
 
 use MZoo\MzMindbody as NS;
 

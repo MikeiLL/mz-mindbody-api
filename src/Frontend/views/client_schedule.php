@@ -1,8 +1,16 @@
 <?php
+/**
+ * Client Schedule
+ *
+ * Over-ride-able template page for full event listing shortcode result.
+ *
+ * @package MzMindbody
+ */
 
 use MZoo\MzMindbody as NS;
 
-// This is already in the modal content window \\ ?>
+// This is already in the modal content window.
+?>
 	<table class="client-schedule">
 		<?php foreach ( $data->classes as $date => $classes ) : ?>
 			<?php foreach ( $classes as $class ) : ?>

@@ -1,4 +1,11 @@
 <?php
+/**
+ * Login Form
+ *
+ * Over-ride-able template page for full event listing shortcode result.
+ *
+ * @package MzMindbody
+ */
 
 use MZoo\MzMindbody\Core as Core;
 

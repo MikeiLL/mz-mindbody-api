@@ -1,4 +1,12 @@
-
+<?php
+/**
+ * Create MBO Account Form.
+ *
+ * Over-ride-able template page for full event listing shortcode result.
+ *
+ * @package MzMindbody
+ */
+?>
 <div style="max-width:90%;margin: 0 auto;">
 
 	<h3><?php esc_html_e( 'Create MBO Account', 'mz-mindbody-api' ); ?></h3>

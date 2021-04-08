@@ -88,9 +88,9 @@ class SingleEvent {
 	 * @since 2.4.7
 	 *
 	 * @access public
-	 * @var    $classImage string url to image hosted with MBO
+	 * @var    $class_image string url to image hosted with MBO
 	 */
-	public $classImage;
+	public $class_image;
 
 	/**
 	 * Event Staff Name
@@ -108,9 +108,9 @@ class SingleEvent {
 	 * @since 2.4.7
 	 *
 	 * @access public
-	 * @var    $staffBio string as pulled in from ['Staff']['Bio']
+	 * @var    $staff_bio string as pulled in from ['Staff']['Bio']
 	 */
-	public $staffBio;
+	public $staff_bio;
 
 	/**
 	 * Event Image
@@ -118,9 +118,9 @@ class SingleEvent {
 	 * @since 2.4.7
 	 *
 	 * @access public
-	 * @var    $staffImage string url to image hosted with MBO
+	 * @var    $staff_image string url to image hosted with MBO
 	 */
-	public $staffImage;
+	public $staff_image;
 
 	/**
 	 * Event Name
@@ -128,9 +128,9 @@ class SingleEvent {
 	 * @since 2.4.7
 	 *
 	 * @access public
-	 * @var    $Description string as pulled in from ['ClassDescription']['Description']
+	 * @var    $event_description string as pulled in from ['ClassDescription']['Description']
 	 */
-	public $Description;
+	public $event_description;
 
 	/**
 	 * Event Location ID
@@ -138,9 +138,9 @@ class SingleEvent {
 	 * @since 2.4.7
 	 *
 	 * @access public
-	 * @var    $location_ID string
+	 * @var    $location_id string
 	 */
-	public $location_ID;
+	public $location_id;
 
 	/**
 	 * Event Location Name
@@ -158,9 +158,9 @@ class SingleEvent {
 	 * @since 2.4.7
 	 *
 	 * @access public
-	 * @var    $location_Address string
+	 * @var    $location_address string
 	 */
-	public $location_Address;
+	public $location_address;
 
 	/**
 	 * Event Location Address2
@@ -168,9 +168,9 @@ class SingleEvent {
 	 * @since 2.4.7
 	 *
 	 * @access public
-	 * @var    $location_Address2 string
+	 * @var    $location_address2 string
 	 */
-	public $location_Address2;
+	public $location_address2;
 
 	/**
 	 * Event Location City
@@ -178,9 +178,9 @@ class SingleEvent {
 	 * @since 2.4.7
 	 *
 	 * @access public
-	 * @var    $location_City string
+	 * @var    $location_address string
 	 */
-	public $location_City;
+	public $location_address;
 
 	/**
 	 * Event Location State Provo Code
@@ -188,9 +188,9 @@ class SingleEvent {
 	 * @since 2.4.7
 	 *
 	 * @access public
-	 * @var    $location_StateProvCode string
+	 * @var    $location_state_prov_code string
 	 */
-	public $location_StateProvCode;
+	public $location_state_prov_code;
 
 	/**
 	 * Event Location Postal/Zip Code
@@ -198,9 +198,9 @@ class SingleEvent {
 	 * @since 2.4.7
 	 *
 	 * @access public
-	 * @var    $location_PostalCode string
+	 * @var    $location_postal_code string
 	 */
-	public $location_PostalCode;
+	public $location_postal_code;
 
 	/**
 	 * Shortcode Attributes
@@ -292,17 +292,17 @@ class SingleEvent {
 		if ( isset( $event['Staff']['Name'] ) ) {
 			$this->staff_name = $event['Staff']['Name'];
 		}
-		$this->staffImage             = $event['Staff']['ImageURL'];
-		$this->staffBio               = $event['Staff']['Bio'];
-		$this->Description            = $event['ClassDescription']['Description'];
-		$this->classImage             = $event['ClassDescription']['ImageURL'];
-		$this->location_ID            = $event['Location']['Id'];
+		$this->staff_image             = $event['Staff']['ImageURL'];
+		$this->staff_bio               = $event['Staff']['Bio'];
+		$this->event_description            = $event['ClassDescription']['Description'];
+		$this->class_image             = $event['ClassDescription']['ImageURL'];
+		$this->location_id            = $event['Location']['Id'];
 		$this->location_Name          = $event['Location']['Name'];
-		$this->location_Address       = $event['Location']['Address'];
-		$this->location_Address2      = $event['Location']['Address2'];
-		$this->location_City          = $event['Location']['City'];
-		$this->location_StateProvCode = $event['Location']['StateProvCode'];
-		$this->location_PostalCode    = $event['Location']['PostalCode'];
+		$this->location_address       = $event['Location']['Address'];
+		$this->location_address2      = $event['Location']['Address2'];
+		$this->location_address          = $event['Location']['City'];
+		$this->location_state_prov_code = $event['Location']['StateProvCode'];
+		$this->location_postal_code    = $event['Location']['PostalCode'];
 		$this->start_date             = date( Core\MzMindbodyApi::$date_format, strtotime( $event['StartDateTime'] ) );
 		$this->start_time             = date( Core\MzMindbodyApi::$time_format, strtotime( $event['StartDateTime'] ) );
 
@@ -324,8 +324,8 @@ class SingleEvent {
 		$link_array = array();
 		switch ( $type ) {
 			case 'staff':
-				$link_array['data-staffImage'] = ( $this->staffImage != '' ) ? $this->staffImage : '';
-				$link_array['data-staffBio']   = ( $this->staffBio != '' ) ? $this->staffBio : '';
+				$link_array['data-staffImage'] = ( $this->staff_image != '' ) ? $this->staff_image : '';
+				$link_array['data-staffBio']   = ( $this->staff_bio != '' ) ? $this->staff_bio : '';
 				$link_array['text']            = $this->staff_name;
 				$link_array['data-staffName']  = $this->staff_name;
 				$link_array['data-target']     = 'mzStaffScheduleModal';
@@ -348,8 +348,8 @@ class SingleEvent {
 			case 'class':
 				$link_array['data-className']        = $this->class_name;
 				$link_array['data-staffName']        = $this->staff_name;
-				$link_array['data-classDescription'] = ( $this->Description != '' ) ? $this->Description : '';
-				$link_array['data-eventImage']       = ( $this->classImage != '' ) ? $this->classImage : '';
+				$link_array['data-classDescription'] = ( $this->event_description != '' ) ? $this->event_description : '';
+				$link_array['data-eventImage']       = ( $this->class_image != '' ) ? $this->class_image : '';
 				$link_array['text']                  = $this->class_name;
 				$link_array['data-target']           = 'mzDescriptionModal';
 				$link_array['class']                 = 'modal-toggle ' . sanitize_html_class(
@@ -372,7 +372,7 @@ class SingleEvent {
 	private function mbo_url() {
 		$mbo_link  = 'https://clients.mindbodyonline.com/ws.asp';
 		$mbo_link .= "?sDate={$this->date_for_mbo_link}";
-		$mbo_link .= "&amp;sLoc={$this->location_ID}";
+		$mbo_link .= "&amp;sLoc={$this->location_id}";
 		$mbo_link .= '&amp;sType=7';
 		$mbo_link .= "&amp;sclassid={$this->class_schedule_id}";
 		$mbo_link .= "&amp;studioid={$this->site_id}";

@@ -102,40 +102,31 @@ class ScheduleItem {
 	public $ID;
 
 	/**
-	 *
+	 * Session Type Name
 	 *
 	 * @since  2.4.7
 	 * @access public
-	 * @var    string
+	 * @var    string $session_type_name
 	 */
-	public $sessionTypeName;
+	public $session_type_name;
 
 	/**
 	 * Class Description
 	 *
 	 * @since  2.4.7
 	 * @access public
-	 * @var    string May contain HTML.
+	 * @var    string|html $class_description May contain HTML.
 	 */
-	public $classDescription;
+	public $class_description;
 
 	/**
 	 * Returned image string from MBO
 	 *
 	 * @since  2.4.7
 	 * @access public
-	 * @var    string
+	 * @var    string $class_image
 	 */
-	public $classImage = '';
-
-	/**
-	 *
-	 *
-	 * @since  2.4.7
-	 * @access public
-	 * @var    string
-	 */
-	public $classImageArray;
+	public $class_image = '';
 
 	/**
 	 * Display Class as Cancelled.
@@ -272,7 +263,7 @@ class ScheduleItem {
 	 * @access public
 	 * @var    string $staff_image from MBO.
 	 */
-	public $staffImage;
+	public $staff_image;
 
 	/**
 	 * Location/Site ID
@@ -502,10 +493,10 @@ class ScheduleItem {
 	public function __construct( $schedule_item, $atts = array() ) {
 
 		$this->class_name      = isset( $schedule_item['ClassDescription']['Name'] ) ? $schedule_item['ClassDescription']['Name'] : '';
-		$this->classImage      = isset( $schedule_item['ClassDescription']['ImageURL'] ) ? $schedule_item['ClassDescription']['ImageURL'] : '';
+		$this->class_image      = isset( $schedule_item['ClassDescription']['ImageURL'] ) ? $schedule_item['ClassDescription']['ImageURL'] : '';
 		$this->start_datetime  = $schedule_item['StartDateTime'];
 		$this->end_datetime    = $schedule_item['EndDateTime'];
-		$this->sessionTypeName = isset( $schedule_item['ClassDescription']['SessionType']['Name'] ) ? $schedule_item['ClassDescription']['SessionType']['Name'] : '';
+		$this->session_type_name = isset( $schedule_item['ClassDescription']['SessionType']['Name'] ) ? $schedule_item['ClassDescription']['SessionType']['Name'] : '';
 		// Set Staff Name up.
 		// First set first, last with default to blank string
 		$this->staff_name = isset( $schedule_item['Staff']['FirstName'] ) ? $schedule_item['Staff']['FirstName'] . ' ' . $schedule_item['Staff']['LastName'] : '';
@@ -513,9 +504,9 @@ class ScheduleItem {
 		if ( isset( $schedule_item['Staff']['Name'] ) ) {
 			$this->staff_name = $schedule_item['Staff']['Name'];
 		}
-		$this->classDescription      = isset( $schedule_item['ClassDescription']['Description'] ) ? $schedule_item['ClassDescription']['Description'] : '';
+		$this->class_description      = isset( $schedule_item['ClassDescription']['Description'] ) ? $schedule_item['ClassDescription']['Description'] : '';
 		$this->level                 = isset( $schedule_item['ClassDescription']['Level']['Name'] ) ? $schedule_item['ClassDescription']['Level']['Name'] : '';
-		$this->staffImage            = isset( $schedule_item['Staff']['ImageUrl'] ) ? $schedule_item['Staff']['ImageUrl'] : '';
+		$this->staff_image            = isset( $schedule_item['Staff']['ImageUrl'] ) ? $schedule_item['Staff']['ImageUrl'] : '';
 		$this->is_waitlist_available = isset( $schedule_item['IsWaitlistAvailable'] ) ? $schedule_item['IsWaitlistAvailable'] : '';
 		$this->total_booked          = isset( $schedule_item['TotalBooked'] ) ? $schedule_item['TotalBooked'] : '';
 		$this->max_capacity          = isset( $schedule_item['MaxCapacity'] ) ? $schedule_item['MaxCapacity'] : '';
@@ -532,7 +523,7 @@ class ScheduleItem {
 		$this->site_id               = ! empty( $atts['account'] ) ? $atts['account'] : Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
 		$this->mbo_url               = $this->mbo_url();
 		$this->day_num               = $this->get_day_number( wp_date( 'N', strtotime( $schedule_item['StartDateTime'] ) ) );
-		$this->session_type_css      = 'mz_' . sanitize_html_class( $this->sessionTypeName, 'mz_session_type' );
+		$this->session_type_css      = 'mz_' . sanitize_html_class( $this->session_type_name, 'mz_session_type' );
 		$this->class_name_css        = 'mz_' . sanitize_html_class( $this->class_name, 'mz_class_name' );
 		$this->part_of_day           = $this->part_of_day();
 		$this->class_duration        = $this->get_schedule_event_duration();
@@ -558,7 +549,7 @@ class ScheduleItem {
 		$this->class_details    .= '<span class="mz_class_name">' . $this->class_name . '</span>';
 		$this->class_details    .= ' <span class="mz_class_with">' . NS\MZMBO()->i18n->get( 'with' ) . '</span>';
 		$this->class_details    .= ' <span class="mz_class_staff">' . $this->staff_name . '</span>';
-		$this->class_details    .= ' <div class="mz_class_description">' . $this->classDescription . '</div>';
+		$this->class_details    .= ' <div class="mz_class_description">' . $this->class_description . '</div>';
 		$this->class_details    .= '</div>';
 	}
 
@@ -573,7 +564,7 @@ class ScheduleItem {
 		 */
 
 		$link_array = array();
-		$link      = new Libraries\HtmlElement( 'a' );
+		$link       = new Libraries\HtmlElement( 'a' );
 
 		switch ( $type ) {
 			case 'staff':
@@ -588,14 +579,14 @@ class ScheduleItem {
 				if ( ( $this->is_substitute === true ) && ( ! empty( $this->sub_details ) ) ) {
 					 $link_array['data-sub'] = ( ! empty( $this->sub_details ) ) ? $this->sub_details : '';
 				}
-				$link_array['data-staffImage'] = ( $this->staffImage != '' ) ? $this->staffImage : '';
+				$link_array['data-staffImage'] = ( $this->staff_image != '' ) ? $this->staff_image : '';
 				$link->set( 'href', NS\PLUGIN_NAME_URL . 'src/Frontend/views/modals/modal_descriptions.php' );
 				break;
 
 			case 'class':
 				$link_array['data-className']        = $this->class_name;
 				$link_array['data-staffName']        = $this->staff_name;
-				$link_array['data-classDescription'] = rawUrlEncode( $this->classDescription );
+				$link_array['data-classDescription'] = rawUrlEncode( $this->class_description );
 				$link_array['class']                 = 'modal-toggle mz_get_registrants ' . sanitize_html_class( $this->class_name, 'mz_class_name' );
 				$link_array['text']                  = $this->class_name;
 				$link_array['data-target']           = 'mzModal';
@@ -606,7 +597,7 @@ class ScheduleItem {
 					$link_array['data-classID'] = $this->ID;
 					$link_array['data-target']  = 'registrantModal';
 				}
-				$link_array['data-staffImage'] = ( $this->staffImage != '' ) ? $this->staffImage : '';
+				$link_array['data-staffImage'] = ( $this->staff_image != '' ) ? $this->staff_image : '';
 				$link->set( 'href', NS\PLUGIN_NAME_URL . 'src/Frontend/views/modals/modal_descriptions.php' );
 				break;
 
