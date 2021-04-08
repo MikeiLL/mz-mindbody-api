@@ -321,44 +321,44 @@ class SingleEvent {
 	private function eventLinkMaker( $type = 'class' ) {
 		$class_name_link = new Library\HtmlElement( 'a' );
 		$class_name_link->set( 'href', NS\PLUGIN_NAME_URL . 'src/Frontend/views/modals/modal_descriptions.php' );
-		$linkArray = array();
+		$link_array = array();
 		switch ( $type ) {
 			case 'staff':
-				$linkArray['data-staffImage'] = ( $this->staffImage != '' ) ? $this->staffImage : '';
-				$linkArray['data-staffBio']   = ( $this->staffBio != '' ) ? $this->staffBio : '';
-				$linkArray['text']            = $this->staff_name;
-				$linkArray['data-staffName']  = $this->staff_name;
-				$linkArray['data-target']     = 'mzStaffScheduleModal';
-				$linkArray['class']           = 'modal-toggle ' . sanitize_html_class( $this->staff_name, 'mz_staff_name' );
+				$link_array['data-staffImage'] = ( $this->staffImage != '' ) ? $this->staffImage : '';
+				$link_array['data-staffBio']   = ( $this->staffBio != '' ) ? $this->staffBio : '';
+				$link_array['text']            = $this->staff_name;
+				$link_array['data-staffName']  = $this->staff_name;
+				$link_array['data-target']     = 'mzStaffScheduleModal';
+				$link_array['class']           = 'modal-toggle ' . sanitize_html_class( $this->staff_name, 'mz_staff_name' );
 				break;
 
 			case 'signup':
-				$linkArray['class'] = 'btn btn-primary';
+				$link_array['class'] = 'btn btn-primary';
 
-				$linkArray['text'] = __( 'Sign-Up', 'mz-mindbody-api' );
+				$link_array['text'] = __( 'Sign-Up', 'mz-mindbody-api' );
 
-				$linkArray['data-time'] = date( Core\MzMindbodyApi::$date_format . ' ' . Core\MzMindbodyApi::$time_format, strtotime( $this->start_datetime ) );
+				$link_array['data-time'] = date( Core\MzMindbodyApi::$date_format . ' ' . Core\MzMindbodyApi::$time_format, strtotime( $this->start_datetime ) );
 
-				$linkArray['target'] = '_blank';
+				$link_array['target'] = '_blank';
 
 				$class_name_link->set( 'href', $this->mbo_url );
 
 				break;
 
 			case 'class':
-				$linkArray['data-className']        = $this->class_name;
-				$linkArray['data-staffName']        = $this->staff_name;
-				$linkArray['data-classDescription'] = ( $this->Description != '' ) ? $this->Description : '';
-				$linkArray['data-eventImage']       = ( $this->classImage != '' ) ? $this->classImage : '';
-				$linkArray['text']                  = $this->class_name;
-				$linkArray['data-target']           = 'mzDescriptionModal';
-				$linkArray['class']                 = 'modal-toggle ' . sanitize_html_class(
+				$link_array['data-className']        = $this->class_name;
+				$link_array['data-staffName']        = $this->staff_name;
+				$link_array['data-classDescription'] = ( $this->Description != '' ) ? $this->Description : '';
+				$link_array['data-eventImage']       = ( $this->classImage != '' ) ? $this->classImage : '';
+				$link_array['text']                  = $this->class_name;
+				$link_array['data-target']           = 'mzDescriptionModal';
+				$link_array['class']                 = 'modal-toggle ' . sanitize_html_class(
 					$this->class_name,
 					'mz_class_name'
 				);
 		}
 
-		$class_name_link->set( $linkArray );
+		$class_name_link->set( $link_array );
 		return $class_name_link;
 	}
 

@@ -572,72 +572,72 @@ class ScheduleItem {
 		 * Need following eventually
 		 */
 
-		$linkArray = array();
+		$link_array = array();
 		$link      = new Libraries\HtmlElement( 'a' );
 
 		switch ( $type ) {
 			case 'staff':
-				$linkArray['data-staffName'] = $this->staff_name;
-				$linkArray['data-staffID']   = $this->staff_id;
-				$linkArray['class']          = 'modal-toggle ' . sanitize_html_class( $this->staff_name, 'mz_staff_name' );
-				$linkArray['text']           = $this->staff_name;
-				$linkArray['data-target']    = 'mzStaffScheduleModal';
+				$link_array['data-staffName'] = $this->staff_name;
+				$link_array['data-staffID']   = $this->staff_id;
+				$link_array['class']          = 'modal-toggle ' . sanitize_html_class( $this->staff_name, 'mz_staff_name' );
+				$link_array['text']           = $this->staff_name;
+				$link_array['data-target']    = 'mzStaffScheduleModal';
 				// Used in Staff\Display.
-				$linkArray['data-nonce']  = wp_create_nonce( 'mz_staff_retrieve_nonce' );
-				$linkArray['data-siteID'] = $this->site_id;
+				$link_array['data-nonce']  = wp_create_nonce( 'mz_staff_retrieve_nonce' );
+				$link_array['data-siteID'] = $this->site_id;
 				if ( ( $this->is_substitute === true ) && ( ! empty( $this->sub_details ) ) ) {
-					 $linkArray['data-sub'] = ( ! empty( $this->sub_details ) ) ? $this->sub_details : '';
+					 $link_array['data-sub'] = ( ! empty( $this->sub_details ) ) ? $this->sub_details : '';
 				}
-				$linkArray['data-staffImage'] = ( $this->staffImage != '' ) ? $this->staffImage : '';
+				$link_array['data-staffImage'] = ( $this->staffImage != '' ) ? $this->staffImage : '';
 				$link->set( 'href', NS\PLUGIN_NAME_URL . 'src/Frontend/views/modals/modal_descriptions.php' );
 				break;
 
 			case 'class':
-				$linkArray['data-className']        = $this->class_name;
-				$linkArray['data-staffName']        = $this->staff_name;
-				$linkArray['data-classDescription'] = rawUrlEncode( $this->classDescription );
-				$linkArray['class']                 = 'modal-toggle mz_get_registrants ' . sanitize_html_class( $this->class_name, 'mz_class_name' );
-				$linkArray['text']                  = $this->class_name;
-				$linkArray['data-target']           = 'mzModal';
+				$link_array['data-className']        = $this->class_name;
+				$link_array['data-staffName']        = $this->staff_name;
+				$link_array['data-classDescription'] = rawUrlEncode( $this->classDescription );
+				$link_array['class']                 = 'modal-toggle mz_get_registrants ' . sanitize_html_class( $this->class_name, 'mz_class_name' );
+				$link_array['text']                  = $this->class_name;
+				$link_array['data-target']           = 'mzModal';
 
 				if ( isset( $this->atts['show_registrants'] ) && ( $this->atts['show_registrants'] == 1 ) ) {
 					// Used in Schedule\RetrieveRegistrants.
-					$linkArray['data-nonce']   = wp_create_nonce( 'mz_mbo_get_registrants' );
-					$linkArray['data-classID'] = $this->ID;
-					$linkArray['data-target']  = 'registrantModal';
+					$link_array['data-nonce']   = wp_create_nonce( 'mz_mbo_get_registrants' );
+					$link_array['data-classID'] = $this->ID;
+					$link_array['data-target']  = 'registrantModal';
 				}
-				$linkArray['data-staffImage'] = ( $this->staffImage != '' ) ? $this->staffImage : '';
+				$link_array['data-staffImage'] = ( $this->staffImage != '' ) ? $this->staffImage : '';
 				$link->set( 'href', NS\PLUGIN_NAME_URL . 'src/Frontend/views/modals/modal_descriptions.php' );
 				break;
 
 			case 'signup':
-				$linkArray['class'] = 'btn btn-primary';
+				$link_array['class'] = 'btn btn-primary';
 
-				$linkArray['title'] = apply_filters( 'mz-mbo-registrations-available', __( 'Registrations Available', 'mz-mindbody-api' ) );
+				$link_array['title'] = apply_filters( 'mz-mbo-registrations-available', __( 'Registrations Available', 'mz-mindbody-api' ) );
 
 				if ( ! empty( $this->max_capacity ) && $this->total_booked >= $this->max_capacity ) :
 					if ( false == $this->is_waitlist_available ) :
-						$linkArray['class'] = 'btn btn-primary disabled';
+						$link_array['class'] = 'btn btn-primary disabled';
 					endif;
 					if ( true == $this->is_waitlist_available ) :
-						$linkArray['class'] = 'btn btn-primary waitlist-only';
-						$linkArray['title'] = apply_filters( 'mz-mbo-waitlist-only', __( 'Waitlist Only', 'mz-mindbody-api' ) );
+						$link_array['class'] = 'btn btn-primary waitlist-only';
+						$link_array['title'] = apply_filters( 'mz-mbo-waitlist-only', __( 'Waitlist Only', 'mz-mindbody-api' ) );
 					endif;
 				endif;
 
 				// If grid, we want icon and not text copy for signup.
 				if ( $sub_type === 'grid' ) :
-					$linkArray['text'] = '<svg class="icon sign-up"><use xlink:href="#si-bootstrap-log-in"/></use></svg>';
+					$link_array['text'] = '<svg class="icon sign-up"><use xlink:href="#si-bootstrap-log-in"/></use></svg>';
 					else :
-						$linkArray['text'] = __( 'Sign-Up', 'mz-mindbody-api' );
+						$link_array['text'] = __( 'Sign-Up', 'mz-mindbody-api' );
 						if ( $this->total_booked >= $this->max_capacity && true == $this->is_waitlist_available ) :
-							$linkArray['text'] = apply_filters( 'mz-mbo-waitlist-button-text', __( 'Waitlist', 'mz-mindbody-api' ) );
+							$link_array['text'] = apply_filters( 'mz-mbo-waitlist-button-text', __( 'Waitlist', 'mz-mindbody-api' ) );
 						endif;
 					endif;
 
-					$linkArray['data-time'] = date( Core\MzMindbodyApi::$date_format . ' ' . Core\MzMindbodyApi::$time_format, strtotime( $this->start_datetime ) );
+					$link_array['data-time'] = date( Core\MzMindbodyApi::$date_format . ' ' . Core\MzMindbodyApi::$time_format, strtotime( $this->start_datetime ) );
 
-					$linkArray['target'] = '_blank';
+					$link_array['target'] = '_blank';
 					$link->set( 'href', $this->mbo_url );
 
 					// endif;
@@ -645,7 +645,7 @@ class ScheduleItem {
 				break;
 		}
 
-		$link->set( $linkArray );
+		$link->set( $link_array );
 
 		return $link;
 	}
