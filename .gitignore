@@ -1,9 +1,9 @@
 .idea
+yarn.lock
 vendor
 *.sh
 *.ini
 .DS_Store
-bower_components
 node_modules
 upload.sh
 tests/Test_Options.php
