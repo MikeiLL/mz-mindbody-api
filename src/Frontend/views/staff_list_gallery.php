@@ -9,9 +9,6 @@
 
 use MZoo\MzMindbody as NS;
 
-// foreach($data->staff as $staff):
-// NS\MZMBO()->helpers->print($staff);
-// endforeach;
 ?>
 <div class="container-fluid">
 	<div class="row text-center">

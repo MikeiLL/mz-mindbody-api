@@ -58,7 +58,7 @@ if ( empty( $data->horizontal_schedule ) ) {
 				<?php
 				$class->class_name_link->output();
 				?>
-				<?php echo $class->displayCancelled; ?>
+				<?php echo $class->display_cancelled; ?>
 
 				</td>
 				<?php if ( ! in_array( 'teacher', $data->hide, true ) ) : ?>

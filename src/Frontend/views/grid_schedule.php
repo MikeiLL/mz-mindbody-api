@@ -67,7 +67,7 @@ use MZoo\MzMindbody\Libraries as Libraries;
 						$class->staff_name_link->output();
 					endif;
 					?>
-					<?php echo $class->displayCancelled; ?>
+					<?php echo $class->display_cancelled; ?>
 						<br />
 					<?php
 					if ( ! in_array( 'signup', $data->hide, true ) ) :

@@ -24,7 +24,7 @@ use MZoo\MzMindbody\Libraries as Libraries;
  * sub-arrays like ClassDescription, Location, IsCancelled
  */
 class ScheduleItem {
-	// All of the attributes from MBO
+	// All of the attributes from MBO.
 	/**
 	 * Class Name.
 	 *
@@ -72,9 +72,9 @@ class ScheduleItem {
 	 *
 	 * @since  2.4.7
 	 * @access public
-	 * @var    int $sTG ID of program class is associated with.
+	 * @var    int $class_program_id_stg ID of program class is associated with, sTG in MBO.
 	 */
-	public $sTG;
+	public $class_program_id_stg;
 
 	/**
 	 * Class instance ID
@@ -133,36 +133,27 @@ class ScheduleItem {
 	 *
 	 * @since  2.4.7
 	 * @access public
-	 * @var    html $displayCancelled String to display if class is cancelled.
+	 * @var    html $display_cancelled String to display if class is cancelled.
 	 */
-	public $displayCancelled;
+	public $display_cancelled;
 
 	/**
-	 *
+	 * Location Address
 	 *
 	 * @since  2.4.7
 	 * @access public
 	 * @var    string
 	 */
-	public $signupButton = '';
+	public $location_address = '';
 
 	/**
-	 *
+	 * Location Address 2
 	 *
 	 * @since  2.4.7
 	 * @access public
 	 * @var    string
 	 */
-	public $locationAddress = '';
-
-	/**
-	 *
-	 *
-	 * @since  2.4.7
-	 * @access public
-	 * @var    string
-	 */
-	public $locationAddress2 = '';
+	public $location_address2 = '';
 
 	/**
 	 * Location Name Display
@@ -192,7 +183,7 @@ class ScheduleItem {
 	public $sign_up_text = '';
 
 	/**
-	 *
+	 * Manage Text
 	 *
 	 * @since  2.4.7
 	 * @access public
@@ -212,7 +203,7 @@ class ScheduleItem {
 	public $class_details;
 
 	/**
-	 *
+	 * Toward Capacity
 	 *
 	 * @since  2.4.7
 	 * @access public
@@ -237,15 +228,6 @@ class ScheduleItem {
 	 * @var    string $staff_name
 	 */
 	public $staff_name;
-
-	/**
-	 *
-	 *
-	 * @since  2.4.7
-	 * @access public
-	 * @var    string
-	 */
-	public $isAvailable;
 
 	/**
 	 * Name of Location as defined in MBO and associated with MBO location ID
@@ -329,11 +311,11 @@ class ScheduleItem {
 	public $day_num;
 
 	/**
-	 *
+	 * Non Specified Class Times
 	 *
 	 * @since  2.4.7
 	 * @access public
-	 * @var    string $non_specified_class_times
+	 * @var    array $non_specified_class_times
 	 */
 	public $non_specified_class_times = array();
 
@@ -347,16 +329,7 @@ class ScheduleItem {
 	public $mbo_url;
 
 	/**
-	 *
-	 *
-	 * @since  2.4.7
-	 * @access public
-	 * @var    string $event_start_and_end
-	 */
-	public $event_start_and_end;
-
-	/**
-	 *
+	 * Substitute Link
 	 *
 	 * @since  2.4.7
 	 * @access public
@@ -511,7 +484,7 @@ class ScheduleItem {
 		$this->total_booked          = isset( $schedule_item['TotalBooked'] ) ? $schedule_item['TotalBooked'] : '';
 		$this->max_capacity          = isset( $schedule_item['MaxCapacity'] ) ? $schedule_item['MaxCapacity'] : '';
 		$this->ID                    = $schedule_item['Id'];
-		$this->sTG                   = $schedule_item['ClassDescription']['Program']['Id'];
+		$this->class_program_id_stg  = $schedule_item['ClassDescription']['Program']['Id'];
 		$this->class_schedule_id     = $schedule_item['ClassScheduleId'];
 		$this->studio_location_id    = $schedule_item['Location']['Id'];
 		$this->location_name         = $schedule_item['Location']['Name'];

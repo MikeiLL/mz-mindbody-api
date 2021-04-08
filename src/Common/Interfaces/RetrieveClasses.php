@@ -41,7 +41,7 @@ abstract class RetrieveClasses extends Retrieve {
 	 *
 	 * @since  2.4.7
 	 * @access public
-	 * @var
+	 * @var string $date_format php date format string.
 	 */
 
 	public $date_format;
@@ -51,23 +51,23 @@ abstract class RetrieveClasses extends Retrieve {
 	 *
 	 * @since  2.4.7
 	 * @access public
-	 * @var
+	 * @var string $time_format php format string.
 	 */
 	public $time_format;
 
 	/**
-	 *
+	 * This Week
 	 *
 	 * @since  2.4.7
 	 * @access public
-	 * @var
+	 * @var bool $this_week If true, show only week from today.
 	 */
 	public $this_week;
 
 	/**
 	 * Schedule array sorted by first date then time.
 	 *
-	 * Used in horizontal schedule display
+	 * Used in horizontal schedule display.
 	 *
 	 * @since  2.4.7
 	 * @access public
@@ -78,7 +78,7 @@ abstract class RetrieveClasses extends Retrieve {
 	/**
 	 * Schedule array sorted by time, then date
 	 *
-	 * Used in grid schedule display
+	 * Used in grid schedule display.
 	 *
 	 * @since  2.4.7
 	 * @access public
@@ -87,11 +87,11 @@ abstract class RetrieveClasses extends Retrieve {
 	public $classes_by_time_then_date;
 
 	/**
-	 *
+	 * Classes
 	 *
 	 * @since  2.4.7
 	 * @access public
-	 * @var
+	 * @var array $classes as returned from MBO.
 	 */
 	public $classes;
 
@@ -604,10 +604,10 @@ abstract class RetrieveClasses extends Retrieve {
 		// Build a link TODO use HTML Element Class
 		$location_name         = $class['Location']['Name'];
 		$location_name_css     = sanitize_html_class( $location_name, 'mz_location_class' );
-		$locationAddress       = $class['Location']['Address'];
-		$locationAddress2      = $class['Location']['Address2'];
-		$url_encoded_address   = urlencode( $locationAddress . $locationAddress2 );
-		$location_name_display = '<span class="location_name ' . $location_name_css . '"><a href="http://maps.google.com/maps?q=' . $url_encoded_address . '" target="_blank" title="' . $locationAddress . '">' . $location_name . '</a>';
+		$location_address      = $class['Location']['Address'];
+		$location_address2     = $class['Location']['Address2'];
+		$url_encoded_address   = urlencode( $location_address . $location_address2 );
+		$location_name_display = '<span class="location_name ' . $location_name_css . '"><a href="http://maps.google.com/maps?q=' . $url_encoded_address . '" target="_blank" title="' . $location_address . '">' . $location_name . '</a>';
 		if ( ! array_key_exists( $class['Location']['Id'], $this->locations_dictionary ) ) :
 			$this->locations_dictionary[ $class['Location']['Id'] ] = array(
 				'name'  => $location_name,
