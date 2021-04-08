@@ -33,6 +33,8 @@ class MzMindbodyApi {
 
 
 	/**
+	 * Instance
+	 * 
 	 * @var   MzMindbodyApi The one true MzMindbodyApi
 	 * @since 2.4.7
 	 */
@@ -238,11 +240,12 @@ class MzMindbodyApi {
 		$this->loader->add_action( 'admin_head', $plugin_admin, 'set_plugin_update_message' );
 
 		// TODO move this?
-		if ( ( isset( self::$advanced_options['elect_display_substitutes'] ) ) && ( self::$advanced_options['elect_display_substitutes'] == 'on' ) ) {
-			// Create the "Class Owners" transient, if not already created
+		if ( ( isset( self::$advanced_options['elect_display_substitutes'] ) ) && 
+			( 'on' === self::$advanced_options['elect_display_substitutes'] ) ) {
+			// Create the "Class Owners" transient, if not already created.
 			$class_owners_object = new Schedule\RetrieveClassOwners();
 			$this->loader->add_action( 'create_class_owners_transient', $class_owners_object, 'deduce_class_owners' );
-			// add_action('create_class_owners_transient', array($class_owners_object, 'deduce_class_owners'));
+			// add_action('create_class_owners_transient', array($class_owners_object, 'deduce_class_owners'));.
 			// We delay it just in case because of only one MBO call at a time being allowed.
 			$three_seconds_from_now = time() + 3000;
 			if ( ! wp_next_scheduled( 'create_class_owners_transient' ) ) {
@@ -267,41 +270,41 @@ class MzMindbodyApi {
 		$staff_object        = new Staff\Display();
 		$token_object        = new Common\TokenManagement();
 
-		// Start Ajax Clear Transients
+		// Start Ajax Clear Transients.
 		$this->loader->add_action( 'wp_ajax_nopriv_mz_mbo_clear_transients', $admin_object, 'ajax_clear_plugin_transients' );
 		$this->loader->add_action( 'wp_ajax_mz_mbo_clear_transients', $admin_object, 'ajax_clear_plugin_transients' );
 
-		// Start Ajax New Token
+		// Start Ajax New Token.
 		$this->loader->add_action( 'wp_ajax_nopriv_mz_mbo_get_and_save_token', $admin_object, 'ajax_get_and_save_token' );
 		$this->loader->add_action( 'wp_ajax_mz_mbo_get_and_save_token', $admin_object, 'ajax_get_and_save_token' );
 
-		// Start Ajax Creds Tests
+		// Start Ajax Creds Tests.
 		$this->loader->add_action( 'wp_ajax_nopriv_mz_mbo_test_credentials', $admin_object, 'test_credentials' );
 		$this->loader->add_action( 'wp_ajax_mz_mbo_test_credentials', $admin_object, 'test_credentials' );
 		$this->loader->add_action( 'wp_ajax_nopriv_mz_mbo_test_credentials_v5', $admin_object, 'test_credentials_v5' );
 		$this->loader->add_action( 'wp_ajax_mz_mbo_test_credentials_v5', $admin_object, 'test_credentials_v5' );
 
-		// Start Ajax Display Schedule
+		// Start Ajax Display Schedule.
 		$this->loader->add_action( 'wp_ajax_nopriv_mz_display_schedule', $schedule_object, 'display_schedule' );
 		$this->loader->add_action( 'wp_ajax_mz_display_schedule', $schedule_object, 'display_schedule' );
 
-		// Start Ajax Display Schedule
+		// Start Ajax Display Schedule.
 		$this->loader->add_action( 'wp_ajax_nopriv_mz_displayEvents', $events_object, 'displayEvents' );
 		$this->loader->add_action( 'wp_ajax_mz_displayEvents', $events_object, 'displayEvents' );
 
-		// Start Ajax Get Registrants
+		// Start Ajax Get Registrants.
 		$this->loader->add_action( 'wp_ajax_nopriv_mz_mbo_get_registrants', $registrant_object, 'ajax_get_registrants' );
 		$this->loader->add_action( 'wp_ajax_mz_mbo_get_registrants', $registrant_object, 'ajax_get_registrants' );
 
-		// Start Ajax Retrieve Class Owners
+		// Start Ajax Retrieve Class Owners.
 		$this->loader->add_action( 'wp_ajax_nopriv_mz_deduce_class_owners', $class_owners_object, 'deduce_class_owners' );
 		$this->loader->add_action( 'wp_ajax_mz_deduce_class_owners', $class_owners_object, 'deduce_class_owners' );
 
-		// Start Ajax Get Staff
+		// Start Ajax Get Staff.
 		$this->loader->add_action( 'wp_ajax_nopriv_mz_mbo_get_staff', $staff_object, 'get_staff_modal' );
 		$this->loader->add_action( 'wp_ajax_mz_mbo_get_staff', $staff_object, 'get_staff_modal' );
 
-		// Call api hourly to retrieve AccessToken
+		// Call api hourly to retrieve AccessToken.
 		$this->loader->add_action( 'fetch_mbo_access_token', $token_object, 'get_and_save_token', 10, 2 );
 	}
 
