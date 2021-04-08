@@ -14,7 +14,7 @@ use MZoo\MzMindbody as NS;
 				<?php echo wp_date( $data->time_format, strtotime( $class->start_datetime ) ) . ' - ' . wp_date( $data->time_format, strtotime( $class->end_datetime ) ); ?>
 					</td>
 					<td>
-				<?php echo $class->className . ' with ' . $class->staffName; ?>
+				<?php echo $class->class_name . ' with ' . $class->staff_name; ?>
 					</td>
 				</tr>
 			<?php endforeach; ?>

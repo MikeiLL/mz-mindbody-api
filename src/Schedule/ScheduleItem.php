@@ -35,9 +35,9 @@ class ScheduleItem {
 	 *
 	 * @since  2.4.7
 	 * @access public
-	 * @var    string $className Name of the scheduled class.
+	 * @var    string $class_name Name of the scheduled class.
 	 */
-	public $className;
+	public $class_name;
 
 	/**
 	 * Timestamp when class starts.
@@ -179,29 +179,29 @@ class ScheduleItem {
 	public $locationAddress2 = '';
 
 	/**
-	 *
+	 * Location Name Display
 	 *
 	 * @since  2.4.7
 	 * @access public
-	 * @var    string
+	 * @var    string $location_name_display from MBO.
 	 */
-	public $locationNameDisplay = '';
+	public $location_name_display = '';
 
 	/**
-	 *
+	 * Sign Up Title
 	 *
 	 * @since  2.4.7
 	 * @access public
-	 * @var    string
+	 * @var    string $sign_up_title for use in HTML.
 	 */
 	public $sign_up_title;
 
 	/**
-	 *
+	 * Sign Up Text
 	 *
 	 * @since  2.4.7
 	 * @access public
-	 * @var    string
+	 * @var    string $sign_up_text for use in HTML.
 	 */
 	public $sign_up_text = '';
 
@@ -239,18 +239,18 @@ class ScheduleItem {
 	 *
 	 * @since  2.4.7
 	 * @access public
-	 * @var    string Will probably be Class or Enrollment
+	 * @var    string $schedule_type       Will probably be Class or Enrollment
 	 */
-	public $scheduleType;
+	public $schedule_type;
 
 	/**
-	 *
+	 * Staff Name
 	 *
 	 * @since  2.4.7
 	 * @access public
-	 * @var    string
+	 * @var    string $staff_name
 	 */
-	public $staffName;
+	public $staff_name;
 
 	/**
 	 *
@@ -266,16 +266,16 @@ class ScheduleItem {
 	 *
 	 * @since  2.4.7
 	 * @access public
-	 * @var    string
+	 * @var    string $location_name from MBO.
 	 */
-	public $locationName;
+	public $location_name;
 
 	/**
-	 *
+	 * Staff Image
 	 *
 	 * @since  2.4.7
 	 * @access public
-	 * @var    string
+	 * @var    string $staff_image from MBO.
 	 */
 	public $staffImage;
 
@@ -286,7 +286,7 @@ class ScheduleItem {
 	 *
 	 * @since  2.4.7
 	 * @access public
-	 * @var    string $studioID ID of location associated with class
+	 * @var    string $site_id ID of location associated with class
 	 */
 	public $site_id;
 
@@ -316,9 +316,9 @@ class ScheduleItem {
 	 *
 	 * @since  2.4.7
 	 * @access public
-	 * @var    int Which MBO interface tab link leads to.
+	 * @var    string $mbo_s_type_tab Which MBO interface tab link leads to.
 	 */
-	public $sType;
+	public $mbo_s_type_tab;
 
 	/**
 	 * MBO Staff ID
@@ -327,9 +327,9 @@ class ScheduleItem {
 	 *
 	 * @since  2.4.7
 	 * @access public
-	 * @var    int Unique ID for staff member.
+	 * @var    int $staff_id Unique ID for staff member.
 	 */
-	public $staffID;
+	public $staff_id;
 
 	/**
 	 * Weekday Number 1-7 from php's date function
@@ -341,15 +341,6 @@ class ScheduleItem {
 	 * @var    int $day_num
 	 */
 	public $day_num;
-
-	/**
-	 *
-	 *
-	 * @since  2.4.7
-	 * @access public
-	 * @var    string $classLength
-	 */
-	public $classLength = '';
 
 	/**
 	 *
@@ -410,9 +401,9 @@ class ScheduleItem {
 	 *
 	 * @since  2.4.7
 	 * @access public
-	 * @var    string $sDate Format is '05/21/2018'.
+	 * @var    string $date_for_mbo_link Format is '05/21/2018'.
 	 */
-	public $sDate;
+	public $date_for_mbo_link;
 
 	/**
 	 * CSS-ready name of schedule item Session Type Name
@@ -514,17 +505,17 @@ class ScheduleItem {
 	 */
 	public function __construct( $ScheduleItem, $atts = array() ) {
 
-		$this->className       = isset( $ScheduleItem['ClassDescription']['Name'] ) ? $ScheduleItem['ClassDescription']['Name'] : '';
+		$this->class_name      = isset( $ScheduleItem['ClassDescription']['Name'] ) ? $ScheduleItem['ClassDescription']['Name'] : '';
 		$this->classImage      = isset( $ScheduleItem['ClassDescription']['ImageURL'] ) ? $ScheduleItem['ClassDescription']['ImageURL'] : '';
 		$this->start_datetime  = $ScheduleItem['StartDateTime'];
 		$this->end_datetime    = $ScheduleItem['EndDateTime'];
 		$this->sessionTypeName = isset( $ScheduleItem['ClassDescription']['SessionType']['Name'] ) ? $ScheduleItem['ClassDescription']['SessionType']['Name'] : '';
 		// Set Staff Name up.
 		// First set first, last with default to blank string
-		$this->staffName = isset( $ScheduleItem['Staff']['FirstName'] ) ? $ScheduleItem['Staff']['FirstName'] . ' ' . $ScheduleItem['Staff']['LastName'] : '';
+		$this->staff_name = isset( $ScheduleItem['Staff']['FirstName'] ) ? $ScheduleItem['Staff']['FirstName'] . ' ' . $ScheduleItem['Staff']['LastName'] : '';
 		// If "Name" has been set, use that
 		if ( isset( $ScheduleItem['Staff']['Name'] ) ) {
-			$this->staffName = $ScheduleItem['Staff']['Name'];
+			$this->staff_name = $ScheduleItem['Staff']['Name'];
 		}
 		$this->classDescription      = isset( $ScheduleItem['ClassDescription']['Description'] ) ? $ScheduleItem['ClassDescription']['Description'] : '';
 		$this->level                 = isset( $ScheduleItem['ClassDescription']['Level']['Name'] ) ? $ScheduleItem['ClassDescription']['Level']['Name'] : '';
@@ -536,22 +527,22 @@ class ScheduleItem {
 		$this->sTG                   = $ScheduleItem['ClassDescription']['Program']['Id'];
 		$this->class_schedule_id     = $ScheduleItem['ClassScheduleId'];
 		$this->studio_location_id    = $ScheduleItem['Location']['Id'];
-		$this->locationName          = $ScheduleItem['Location']['Name'];
-		$this->sDate                 = date( 'm/d/Y', strtotime( $ScheduleItem['StartDateTime'] ) );
+		$this->location_name         = $ScheduleItem['Location']['Name'];
+		$this->date_for_mbo_link     = date( 'm/d/Y', strtotime( $ScheduleItem['StartDateTime'] ) );
 		$this->sign_up_title         = __( 'Sign-Up', 'mz-mindbody-api' );
 		$this->manage_text           = __( 'Manage on MindBody Site', 'mz-mindbody-api' );
-		$this->sType                 = -7;
-		$this->staffID               = $ScheduleItem['Staff']['Id'];
+		$this->mbo_s_type_tab        = -7;
+		$this->staff_id              = $ScheduleItem['Staff']['Id'];
 		$this->site_id               = ! empty( $atts['account'] ) ? $atts['account'] : Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
 		$this->mbo_url               = $this->mbo_url();
 		$this->day_num               = $this->get_day_number( wp_date( 'N', strtotime( $ScheduleItem['StartDateTime'] ) ) );
 		$this->session_type_css      = 'mz_' . sanitize_html_class( $this->sessionTypeName, 'mz_session_type' );
-		$this->class_name_css        = 'mz_' . sanitize_html_class( $this->className, 'mz_class_name' );
+		$this->class_name_css        = 'mz_' . sanitize_html_class( $this->class_name, 'mz_class_name' );
 		$this->part_of_day           = $this->part_of_day();
 		$this->class_duration        = $this->get_schedule_event_duration();
 		$this->dislayCancelled       = ( $ScheduleItem['IsCanceled'] == 1 ) ? '<div class="mz_cancelled_class">' . __( 'Cancelled', 'mz-mindbody-api' ) . '</div>' : '';
 		$this->is_substitute         = $ScheduleItem['Substitute'];
-		$this->scheduleType          = $ScheduleItem['ClassDescription']['Program']['ScheduleType'];
+		$this->schedule_type         = $ScheduleItem['ClassDescription']['Program']['ScheduleType'];
 		$this->atts                  = $atts;
 		if ( ( Core\MzMindbodyApi::$advanced_options['elect_display_substitutes'] == 'on' ) && empty( $atts['mbo_pages_call'] ) ) :
 			// We add the mbo_pages_call attribute if calling from MBO Pages plugin so that sub details will be skipped
@@ -567,10 +558,10 @@ class ScheduleItem {
 		$this->staff_name_link   = $this->class_link_maker( 'staff' );
 		$this->sign_up_link      = $this->class_link_maker( 'signup' );
 		$this->grid_sign_up_link = $this->class_link_maker( 'signup', 'grid' );
-		$this->class_details     = '<div class="mz_schedule_table mz_description_holder mz_location_' . $this->studio_location_id . ' ' . 'mz_' . $this->className . '">';
-		$this->class_details    .= '<span class="mz_class_name">' . $this->className . '</span>';
+		$this->class_details     = '<div class="mz_schedule_table mz_description_holder mz_location_' . $this->studio_location_id . ' ' . 'mz_' . $this->class_name . '">';
+		$this->class_details    .= '<span class="mz_class_name">' . $this->class_name . '</span>';
 		$this->class_details    .= ' <span class="mz_class_with">' . NS\MZMBO()->i18n->get( 'with' ) . '</span>';
-		$this->class_details    .= ' <span class="mz_class_staff">' . $this->staffName . '</span>';
+		$this->class_details    .= ' <span class="mz_class_staff">' . $this->staff_name . '</span>';
 		$this->class_details    .= ' <div class="mz_class_description">' . $this->classDescription . '</div>';
 		$this->class_details    .= '</div>';
 	}
@@ -590,10 +581,10 @@ class ScheduleItem {
 
 		switch ( $type ) {
 			case 'staff':
-				$linkArray['data-staffName'] = $this->staffName;
-				$linkArray['data-staffID']   = $this->staffID;
-				$linkArray['class']          = 'modal-toggle ' . sanitize_html_class( $this->staffName, 'mz_staff_name' );
-				$linkArray['text']           = $this->staffName;
+				$linkArray['data-staffName'] = $this->staff_name;
+				$linkArray['data-staffID']   = $this->staff_id;
+				$linkArray['class']          = 'modal-toggle ' . sanitize_html_class( $this->staff_name, 'mz_staff_name' );
+				$linkArray['text']           = $this->staff_name;
 				$linkArray['data-target']    = 'mzStaffScheduleModal';
 				// Used in Staff\Display.
 				$linkArray['data-nonce']  = wp_create_nonce( 'mz_staff_retrieve_nonce' );
@@ -606,11 +597,11 @@ class ScheduleItem {
 				break;
 
 			case 'class':
-				$linkArray['data-className']        = $this->className;
-				$linkArray['data-staffName']        = $this->staffName;
+				$linkArray['data-className']        = $this->class_name;
+				$linkArray['data-staffName']        = $this->staff_name;
 				$linkArray['data-classDescription'] = rawUrlEncode( $this->classDescription );
-				$linkArray['class']                 = 'modal-toggle mz_get_registrants ' . sanitize_html_class( $this->className, 'mz_class_name' );
-				$linkArray['text']                  = $this->className;
+				$linkArray['class']                 = 'modal-toggle mz_get_registrants ' . sanitize_html_class( $this->class_name, 'mz_class_name' );
+				$linkArray['text']                  = $this->class_name;
 				$linkArray['data-target']           = 'mzModal';
 
 				if ( isset( $this->atts['show_registrants'] ) && ( $this->atts['show_registrants'] == 1 ) ) {
@@ -648,21 +639,7 @@ class ScheduleItem {
 						endif;
 					endif;
 
-					$linkArray['data-time'] = wp_date( Core\MzMindbodyApi::$date_format . ' ' . Core\MzMindbodyApi::$time_format, strtotime( $this->start_datetime ) );
-
-					// May being back option to register within site. For now, comment out.
-					// if ((!empty($this->atts['advanced']) && ($this->atts['advanced'] == '1')) || (Core\MzMindbodyApi::$advanced_options['register_within_site'] == 'on')):
-
-					// $linkArray['data-target'] = 'mzSignUpModal';
-					// $linkArray['data-nonce'] = wp_create_nonce('mz_signup_nonce');
-					// $linkArray['data-siteID'] = $this->site_id;
-					// $linkArray['data-classID'] = $this->ID;
-					// $linkArray['data-className'] = $this->className;
-					// $linkArray['data-staffName'] = $this->staffName;
-					// $linkArray['data-location'] = $this->studio_location_id;
-					// $link->set('href', NS\PLUGIN_NAME_URL . 'src/Frontend/views/modals/modal_descriptions.php');
-
-					// else:
+					$linkArray['data-time'] = date( Core\MzMindbodyApi::$date_format . ' ' . Core\MzMindbodyApi::$time_format, strtotime( $this->start_datetime ) );
 
 					$linkArray['target'] = '_blank';
 					$link->set( 'href', $this->mbo_url );
@@ -746,7 +723,7 @@ class ScheduleItem {
 	 */
 	private function mbo_url() {
 		$mbo_link  = 'https://clients.mindbodyonline.com/ws.asp';
-		$mbo_link .= "?sDate={$this->sDate}";
+		$mbo_link .= "?sDate={$this->date_for_mbo_link}";
 		$mbo_link .= "&amp;sLoc={$this->studio_location_id}"; // may be schedule_ID in places.
 		$mbo_link .= '&amp;sType=7';
 		$mbo_link .= "&amp;sclassid={$this->class_schedule_id}";

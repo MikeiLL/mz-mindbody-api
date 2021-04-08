@@ -168,18 +168,18 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 		ob_start();
 		$template_loader = new Core\TemplateLoader();
 
-		$staffID = $_REQUEST['staffID'];
+		$staff_id = $_REQUEST['staffID'];
 
 		$result['type'] = 'success';
 
 		$this->staff_object = new RetrieveStaff();
 
 		// Send an array of staffID
-		$staff_result = $this->staff_object->get_mbo_results( array( $staffID ) );
+		$staff_result = $this->staff_object->get_mbo_results( array( $staff_id ) );
 
 		$this->template_data = array(
 			'staff_details' => new StaffMember( $staff_result[0] ), // returns an array
-			'staffID'       => $staffID,
+			'staffID'       => $staff_id,
 			'site_id'       => $_REQUEST['site_id'],
 		);
 

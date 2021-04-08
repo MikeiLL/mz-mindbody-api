@@ -40,9 +40,9 @@ class MiniScheduleItem {
 	 *
 	 * @since  2.4.7
 	 * @access public
-	 * @var    string $className Name of the scheduled class.
+	 * @var    string $class_name Name of the scheduled class.
 	 */
-	public $className;
+	public $class_name;
 
 	/**
 	 * Timestamp when class starts.
@@ -99,31 +99,31 @@ class MiniScheduleItem {
 
 
 	/**
-	 *
+	 * Schedule Type
 	 *
 	 * @since  2.4.7
 	 * @access public
-	 * @var    string
+	 * @var    string $schedule_type as returned from Mindbody.
 	 */
-	public $scheduleType;
+	public $schedule_type;
 
 	/**
-	 *
+	 * Staff Name
 	 *
 	 * @since  2.4.7
 	 * @access public
-	 * @var    string
+	 * @var    string $staff_name from Mindbody.
 	 */
-	public $staffName;
+	public $staff_name;
 
 	/**
 	 * Name of Location as defined in MBO and associated with MBO location ID
 	 *
 	 * @since  2.4.7
 	 * @access public
-	 * @var    string
+	 * @var    string $location_name as in MBO.
 	 */
-	public $locationName;
+	public $location_name;
 
 	/**
 	 * Location ID
@@ -144,9 +144,9 @@ class MiniScheduleItem {
 	 *
 	 * @since  2.4.7
 	 * @access public
-	 * @var    int Which MBO interface tab link leads to.
+	 * @var    string $mbo_s_type_tab Which MBO interface tab link leads to.
 	 */
-	public $sType;
+	public $mbo_s_type_tab;
 
 	/**
 	 * MBO Staff ID
@@ -155,18 +155,9 @@ class MiniScheduleItem {
 	 *
 	 * @since  2.4.7
 	 * @access public
-	 * @var    int Unique ID for staff member.
+	 * @var    int $staff_id Unique ID for staff member.
 	 */
-	public $staffID;
-
-	/**
-	 *
-	 *
-	 * @since  2.4.7
-	 * @access public
-	 * @var    string $classLength
-	 */
-	public $classLength = '';
+	public $staff_id;
 
 	/**
 	 * Holder for MBO Url
@@ -200,9 +191,9 @@ class MiniScheduleItem {
 	 *
 	 * @since  2.4.7
 	 * @access public
-	 * @var    string $sDate Format is '05/21/2018'.
+	 * @var    string $date_for_mbo_link Format is '05/21/2018'.
 	 */
-	public $sDate;
+	public $date_for_mbo_link;
 
 	/**
 	 * Class duration
@@ -234,10 +225,10 @@ class MiniScheduleItem {
 	 * @param array $ScheduleItem array of item attributes. See class description.
 	 */
 	public function __construct( $ScheduleItem, $atts = array() ) {
-		$this->className      = isset( $ScheduleItem['Name'] ) ? $ScheduleItem['Name'] : '';
+		$this->class_name     = isset( $ScheduleItem['Name'] ) ? $ScheduleItem['Name'] : '';
 		$this->start_datetime = $ScheduleItem['StartDateTime'];
 		$this->end_datetime   = $ScheduleItem['EndDateTime'];
-		$this->staffName      = isset( $ScheduleItem['Staff']['Name'] ) ? $ScheduleItem['Staff']['Name'] : '';
+		$this->staff_name     = isset( $ScheduleItem['Staff']['Name'] ) ? $ScheduleItem['Staff']['Name'] : '';
 		$this->ID             = $ScheduleItem['Id'];
 		$this->site_id        = ! empty( $atts['account'] ) ? $atts['account'] : Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
 	}
@@ -265,7 +256,7 @@ class MiniScheduleItem {
 	 */
 	private function mbo_url() {
 		$mbo_link  = 'https://clients.mindbodyonline.com/ws.asp';
-		$mbo_link .= "?sDate={$this->sDate}";
+		$mbo_link .= "?sDate={$this->date_for_mbo_link}";
 		$mbo_link .= "&amp;sLoc={$this->location_ID}";
 		$mbo_link .= '&amp;sType=7';
 		$mbo_link .= "&amp;sclassid={$this->class_schedule_id}";

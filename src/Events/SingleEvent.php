@@ -78,9 +78,9 @@ class SingleEvent {
 	 * @since 2.4.7
 	 *
 	 * @access public
-	 * @var    $className string as pulled in from ['ClassDescription']['Name']
+	 * @var    $class_name string as pulled in from ['ClassDescription']['Name']
 	 */
-	public $className;
+	public $class_name;
 
 	/**
 	 * Event Image
@@ -98,9 +98,9 @@ class SingleEvent {
 	 * @since 2.4.7
 	 *
 	 * @access public
-	 * @var    $staffName string as pulled in from ['Staff']['Name']
+	 * @var    $staff_name string as pulled in from ['Staff']['Name']
 	 */
-	public $staffName;
+	public $staff_name;
 
 	/**
 	 * Event Staff Biography
@@ -108,7 +108,7 @@ class SingleEvent {
 	 * @since 2.4.7
 	 *
 	 * @access public
-	 * @var    $staffName string as pulled in from ['Staff']['Bio']
+	 * @var    $staffBio string as pulled in from ['Staff']['Bio']
 	 */
 	public $staffBio;
 
@@ -217,9 +217,9 @@ class SingleEvent {
 	 *
 	 * @since  2.4.7
 	 * @access public
-	 * @var    string    $sDate    'Y/m/d' date string for MBO link.
+	 * @var    string    $date_for_mbo_link    'Y/m/d' date string for MBO link.
 	 */
-	public $sDate;
+	public $date_for_mbo_link;
 
 	/**
 	 * Class Name Link object for display in schedules.
@@ -280,17 +280,17 @@ class SingleEvent {
 		$this->class_schedule_id = $event['ClassScheduleId'];
 		$this->start_datetime    = $event['StartDateTime'];
 		$this->end_datetime      = $event['EndDateTime'];
-		$this->className         = $event['ClassDescription']['Name'];
+		$this->class_name        = $event['ClassDescription']['Name'];
 		$this->ID                = $event['ClassDescription']['Id'];
 
 		$this->first_name = $event['Staff']['FirstName'];
 		$this->last_name  = $event['Staff']['LastName'];
 		// Set Staff Name up.
 		// First set first, last with default to blank string
-		$this->staffName = isset( $this->first_name ) ? $this->first_name . ' ' . $this->last_name : '';
+		$this->staff_name = isset( $this->first_name ) ? $this->first_name . ' ' . $this->last_name : '';
 		// If "Name" has been set, use that
 		if ( isset( $event['Staff']['Name'] ) ) {
-			$this->staffName = $event['Staff']['Name'];
+			$this->staff_name = $event['Staff']['Name'];
 		}
 		$this->staffImage             = $event['Staff']['ImageURL'];
 		$this->staffBio               = $event['Staff']['Bio'];
@@ -326,10 +326,10 @@ class SingleEvent {
 			case 'staff':
 				$linkArray['data-staffImage'] = ( $this->staffImage != '' ) ? $this->staffImage : '';
 				$linkArray['data-staffBio']   = ( $this->staffBio != '' ) ? $this->staffBio : '';
-				$linkArray['text']            = $this->staffName;
-				$linkArray['data-staffName']  = $this->staffName;
+				$linkArray['text']            = $this->staff_name;
+				$linkArray['data-staffName']  = $this->staff_name;
 				$linkArray['data-target']     = 'mzStaffScheduleModal';
-				$linkArray['class']           = 'modal-toggle ' . sanitize_html_class( $this->staffName, 'mz_staff_name' );
+				$linkArray['class']           = 'modal-toggle ' . sanitize_html_class( $this->staff_name, 'mz_staff_name' );
 				break;
 
 			case 'signup':
@@ -337,7 +337,7 @@ class SingleEvent {
 
 				$linkArray['text'] = __( 'Sign-Up', 'mz-mindbody-api' );
 
-				$linkArray['data-time'] = wp_date( Core\MzMindbodyApi::$date_format . ' ' . Core\MzMindbodyApi::$time_format, strtotime( $this->start_datetime ) );
+				$linkArray['data-time'] = date( Core\MzMindbodyApi::$date_format . ' ' . Core\MzMindbodyApi::$time_format, strtotime( $this->start_datetime ) );
 
 				$linkArray['target'] = '_blank';
 
@@ -346,14 +346,14 @@ class SingleEvent {
 				break;
 
 			case 'class':
-				$linkArray['data-className']        = $this->className;
-				$linkArray['data-staffName']        = $this->staffName;
+				$linkArray['data-className']        = $this->class_name;
+				$linkArray['data-staffName']        = $this->staff_name;
 				$linkArray['data-classDescription'] = ( $this->Description != '' ) ? $this->Description : '';
 				$linkArray['data-eventImage']       = ( $this->classImage != '' ) ? $this->classImage : '';
-				$linkArray['text']                  = $this->className;
+				$linkArray['text']                  = $this->class_name;
 				$linkArray['data-target']           = 'mzDescriptionModal';
 				$linkArray['class']                 = 'modal-toggle ' . sanitize_html_class(
-					$this->className,
+					$this->class_name,
 					'mz_class_name'
 				);
 		}
@@ -371,7 +371,7 @@ class SingleEvent {
 	 */
 	private function mbo_url() {
 		$mbo_link  = 'https://clients.mindbodyonline.com/ws.asp';
-		$mbo_link .= "?sDate={$this->sDate}";
+		$mbo_link .= "?sDate={$this->date_for_mbo_link}";
 		$mbo_link .= "&amp;sLoc={$this->location_ID}";
 		$mbo_link .= '&amp;sType=7';
 		$mbo_link .= "&amp;sclassid={$this->class_schedule_id}";

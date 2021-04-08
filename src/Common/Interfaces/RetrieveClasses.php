@@ -602,17 +602,17 @@ abstract class RetrieveClasses extends Retrieve {
 			return;
 		}
 		// Build a link TODO use HTML Element Class
-		$locationName        = $class['Location']['Name'];
-		$location_name_css   = sanitize_html_class( $locationName, 'mz_location_class' );
-		$locationAddress     = $class['Location']['Address'];
-		$locationAddress2    = $class['Location']['Address2'];
-		$url_encoded_address = urlencode( $locationAddress . $locationAddress2 );
-		$locationNameDisplay = '<span class="location_name ' . $location_name_css . '"><a href="http://maps.google.com/maps?q=' . $url_encoded_address . '" target="_blank" title="' . $locationAddress . '">' . $locationName . '</a>';
+		$location_name         = $class['Location']['Name'];
+		$location_name_css     = sanitize_html_class( $location_name, 'mz_location_class' );
+		$locationAddress       = $class['Location']['Address'];
+		$locationAddress2      = $class['Location']['Address2'];
+		$url_encoded_address   = urlencode( $locationAddress . $locationAddress2 );
+		$location_name_display = '<span class="location_name ' . $location_name_css . '"><a href="http://maps.google.com/maps?q=' . $url_encoded_address . '" target="_blank" title="' . $locationAddress . '">' . $location_name . '</a>';
 		if ( ! array_key_exists( $class['Location']['Id'], $this->locations_dictionary ) ) :
 			$this->locations_dictionary[ $class['Location']['Id'] ] = array(
-				'name'  => $locationName,
-				'link'  => $locationNameDisplay,
-				'class' => preg_replace( '/\W+/', '-', strtolower( strip_tags( $locationName ) ) ),
+				'name'  => $location_name,
+				'link'  => $location_name_display,
+				'class' => preg_replace( '/\W+/', '-', strtolower( strip_tags( $location_name ) ) ),
 			);
 		endif;
 	}
