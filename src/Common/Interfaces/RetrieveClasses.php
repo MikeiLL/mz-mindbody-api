@@ -140,7 +140,7 @@ abstract class RetrieveClasses extends Retrieve {
 	/**
 	 * Holds the current day, with offset, based on "offset" attribute/parameter.
 	 *
-	 * set by time_frame() and used by sortClassesByDateThenTime()
+	 * Set by time_frame() and used by sortClassesByDateThenTime()
 	 *
 	 * @since  2.4.7
 	 * @access public
@@ -185,10 +185,12 @@ abstract class RetrieveClasses extends Retrieve {
 	 */
 	public $current_week_end;
 
-	public function __construct( $atts = array(
-		'locations' => array( 1 ),
-	)
-	) {
+	/**
+	 * Class Constructor
+	 *
+	 * @param array $atts The attributes from WordPress Post shortcode.
+	 */
+	public function __construct( $atts = array( 'locations' => array( 1 ) ) ) {
 
 		parent::__construct();
 		$this->date_format               = Core\MzMindbodyApi::$date_format;
@@ -198,16 +200,16 @@ abstract class RetrieveClasses extends Retrieve {
 		$this->atts                      = $atts;
 		if ( ! empty( Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'] ) ) :
 			$this->mbo_account = ! empty( $atts['account'] ) ? $atts['account'] : Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
-	 else :
-		 $this->mbo_account = '-99';
-	 endif;
-	 $this->time_frame           = $this->time_frame();
-	 $this->locations_dictionary = array();
-	 $this->schedule_types       = ! empty( Core\MzMindbodyApi::$advanced_options['schedule_types'] ) ? Core\MzMindbodyApi::$advanced_options['schedule_types'] : array( 'Class' );
-	 // Allow shortcode to override global setting for schedule_types
-	 if ( ! empty( $this->atts['schedule_types'] ) ) {
-		 $this->schedule_types = $this->atts['schedule_types'];
-	 }
+		else :
+			$this->mbo_account = '-99';
+		endif;
+		$this->time_frame           = $this->time_frame();
+		$this->locations_dictionary = array();
+		$this->schedule_types       = ! empty( Core\MzMindbodyApi::$advanced_options['schedule_types'] ) ? Core\MzMindbodyApi::$advanced_options['schedule_types'] : array( 'Class' );
+		// Allow shortcode to override global setting for schedule_types.
+		if ( ! empty( $this->atts['schedule_types'] ) ) {
+			$this->schedule_types = $this->atts['schedule_types'];
+		}
 	}
 
 
@@ -217,7 +219,7 @@ abstract class RetrieveClasses extends Retrieve {
 	 *
 	 * @since 2.4.7
 	 *
-	 * @param @timestamp defaults to current time
+	 * @param timestamp $timestamp defaults to current WP time.
 	 *
 	 * @return array of MBO schedule data
 	 */
@@ -238,10 +240,10 @@ abstract class RetrieveClasses extends Retrieve {
 		$sc_string        = ( array_key_exists( 'SessionTypeIDs', $this->time_frame ) ) ? 'get_events' : 'get_schedule';
 		$transient_string = $this->generate_transient_name( $sc_string );
 		if ( false === get_transient( $transient_string ) ) {
-			// If there's not a transient already, call the API and create one
+			// If there's not a transient already, call the API and create one.
 
 			if ( 0 !== $this->mbo_account ) {
-				// If account has been specified in shortcode, update credentials
+				// If account has been specified in shortcode, update credentials.
 				$mb->source_credentials['SiteIDs'][0] = $this->mbo_account;
 			}
 
@@ -256,14 +258,14 @@ abstract class RetrieveClasses extends Retrieve {
 				echo '<!-- ' . print_r( $schedule_data, true ) . ' --> ';
 				return false;
 			endif;
-			if ( $schedule_data['PaginationResponse']['TotalResults'] === 0 ) {
+			if ( 0 === (int) $schedule_data['PaginationResponse']['TotalResults'] ) {
 				return 'No Classes';
 			}
 
 			// Otherwise (if successful API call) assign result to $this->classes.
 			$this->classes = $schedule_data['Classes'];
 
-			// Store the transient for 12 hours or admin set duration
+			// Store the transient for 12 hours or admin set duration.
 			$transient_duration = 43200;
 			if ( ! empty( Core\MzMindbodyApi::$advanced_options['schedule_transient_duration'] ) ) {
 				$transient_duration = Core\MzMindbodyApi::$advanced_options['schedule_transient_duration'];
@@ -285,13 +287,13 @@ abstract class RetrieveClasses extends Retrieve {
 	 *
 	 * @since 2.4.7
 	 *
-	 * @param @timestamp which date to return week start and end of
+	 * @param timestamp $timestamp which date to return week start and end of.
 	 *
 	 * @return array 'start', 'end' of current week in timestamps
 	 */
 	public function singleWeek( $timestamp ) {
 		return get_weekstartend(
-			date( 'Y-m-d H:i:s', $timestamp ),
+			gmdate( 'Y-m-d H:i:s', $timestamp ),
 			Core\MzMindbodyApi::$start_of_week
 		);
 	}
@@ -301,7 +303,8 @@ abstract class RetrieveClasses extends Retrieve {
 	 *
 	 * @since 2.4.7
 	 *
-	 * @return timestamp of seven days from now
+	 * @param timestamp $timestamp of some "now".
+	 * @return timestamp $timestamp of seven days from param.
 	 */
 	public function seven_days_later( $timestamp ) {
 		return strtotime( '+6 day', $timestamp );
@@ -315,8 +318,8 @@ abstract class RetrieveClasses extends Retrieve {
 	 */
 	public function currentWeekDisplay() {
 		$time_frame = $this->singleWeek( strtotime( wp_date( 'Y-m-d H:i:s' ) ) );
-		$return     = 'Week start: ' . date( 'l, M d, Y', $time_frame[ start ] ) . '<br/>';
-		$return    .= 'Week end: ' . date( 'l, M d, Y', $time_frame[ end ] );
+		$return     = 'Week start: ' . gmdate( 'l, M d, Y', $time_frame[ start ] ) . '<br/>';
+		$return    .= 'Week end: ' . gmdate( 'l, M d, Y', $time_frame[ end ] );
 		return $return;
 	}
 
@@ -326,49 +329,50 @@ abstract class RetrieveClasses extends Retrieve {
 	 * This is used in Horizontal view. It receives the filtered results from the MBO API call ($mz_classes)
 	 * and builds an array of Class Event Objects, sequenced by date and time.
 	 *
-	 * @param @type array $mz_classes
-	 *
 	 * @return @type array of Objects from Single_event class, in Date (and time) sequence.
 	 */
 	public function sortClassesByDateThenTime() {
 
 		/*
-		When there is only a single event in the client
-		* schedule, the 'Classes' array contains that event, but when there are multiple
-		* visits then the array of events is under 'Events'/'Event'
-		*
-		This may not be necessary
-		if (!empty($this->classes[0]['StartDateTime'])){
-		// Multiple events
-		$classes_array_scope = $this->classes[0];
-		} else {
-		$classes_array_scope = $this->classes;
-		}
-		*/
+		 * When there is only a single event in the client
+		 * schedule, the 'Classes' array contains that event, but when there are multiple
+		 * visits then the array of events is under 'Events'/'Event'
+		 *
+		 * This may not be necessary
+		 * if (!empty($this->classes[0]['StartDateTime'])){
+		 * // Multiple events
+		 * $classes_array_scope = $this->classes[0];
+		 * } else {
+		 * $classes_array_scope = $this->classes;
+		 * }
+		 */
 
 		foreach ( $this->classes as $class ) {
-			// TODO Don't do this twice. Filter once for BOTH schedule displays
-			// Filter out some items
+
+			// TODO Don't do this twice. Filter once for BOTH schedule displays.
+			// Filter out some items.
 			if ( $this->filterClass( $class ) === false ) {
 				continue;
 			}
 
-			// Populate the Locations Dictionary
+			// Populate the Locations Dictionary.
 			$this->populateLocationsDictionary( $class );
-			// Make a timestamp of just the day to use as key for that day's classes
+
+			// Make a timestamp of just the day to use as key for that day's classes.
 			$just_date = wp_date(
 				'Y-m-d',
 				strtotime( $class['StartDateTime'] )
 			);
-			// If class was previous to today ignore it
+
+			// If class was previous to today ignore it.
 			if ( $just_date < $this->current_day_offset->format( 'Y-m-d' ) ) {
-				   continue;
+				continue;
 			}
 
 			/*
-			Create a new array with a key for each date YYYY-MM-DD
-			and corresponding value an array of class details */
-
+			 * Create a new array with a key for each date YYYY-MM-DD
+			 * and corresponding value an array of class details.
+			 */
 			$single_event = new Schedule\ScheduleItem( $class, $this->atts );
 			if ( ! empty( $this->classes_by_date_then_time[ $just_date ] ) ) {
 				array_push( $this->classes_by_date_then_time[ $just_date ], $single_event );

@@ -337,13 +337,13 @@ class ScheduleItem {
 	 */
 	public $sub_link = '';
 	/**
-	 *
+	 * MBO Account
 	 *
 	 * @since  2.4.7
 	 * @access public
-	 * @var    string $mbo_account
+	 * @var    string $mbo_account MBO account in case multiple accounts are set.
 	 */
-	public $mbo_account; // the MBO account in case multiple accounts are set
+	public $mbo_account;
 
 	/**
 	 * MBO Timestamp when class starts, formatted for including in URL string for MBO class link.
@@ -359,7 +359,7 @@ class ScheduleItem {
 	 *
 	 * @since 2.4.7
 	 *
-	 * @param string $session_type_css.
+	 * @var string $session_type_css in case styling required.
 	 */
 	public $session_type_css;
 
@@ -368,7 +368,7 @@ class ScheduleItem {
 	 *
 	 * @since 2.4.7
 	 *
-	 * @param string $class_name_css
+	 * @var string $class_name_css in case styling required.
 	 */
 	public $class_name_css;
 
@@ -379,7 +379,7 @@ class ScheduleItem {
 	 *
 	 * @since 2.4.7
 	 *
-	 * @param string $part_of_day
+	 * @var string $part_of_day used in filter by time of day.
 	 */
 	public $part_of_day;
 
@@ -391,7 +391,7 @@ class ScheduleItem {
 	 *
 	 * @since 2.4.7
 	 *
-	 * @param Datetime $class_duration
+	 * @var Datetime $class_duration
 	 */
 	public $class_duration;
 
@@ -409,7 +409,7 @@ class ScheduleItem {
 	 *
 	 * @since  2.4.7
 	 * @access public
-	 * @var    object    $sub_details    Instance of HTML class.
+	 * @var    object $sub_details Instance of HTML class.
 	 */
 	public $sub_details;
 
@@ -418,7 +418,7 @@ class ScheduleItem {
 	 *
 	 * @since  2.4.7
 	 * @access public
-	 * @var    HTML object    $class_name_link    Instance of HTML class.
+	 * @var    HTML object $class_name_link Instance of HTML class.
 	 */
 	public $class_name_link;
 
@@ -439,7 +439,7 @@ class ScheduleItem {
 	 * @since  2.4.7
 	 * @access public
 	 *
-	 * @used in create Link Array Functions: class_name_link_maker
+	 * @used in create Link Array Functions: class_name_link_maker.
 	 *
 	 * @var array $atts Shortcode attributes function called with.
 	 */
@@ -461,9 +461,9 @@ class ScheduleItem {
 		$this->end_datetime      = $schedule_item['EndDateTime'];
 		$this->session_type_name = isset( $schedule_item['ClassDescription']['SessionType']['Name'] ) ? $schedule_item['ClassDescription']['SessionType']['Name'] : '';
 		// Set Staff Name up.
-		// First set first, last with default to blank string
+		// First set first, last with default to blank string.
 		$this->staff_name = isset( $schedule_item['Staff']['FirstName'] ) ? $schedule_item['Staff']['FirstName'] . ' ' . $schedule_item['Staff']['LastName'] : '';
-		// If "Name" has been set, use that
+		// If "Name" has been set, use that.
 		if ( isset( $schedule_item['Staff']['Name'] ) ) {
 			$this->staff_name = $schedule_item['Staff']['Name'];
 		}
@@ -478,7 +478,7 @@ class ScheduleItem {
 		$this->class_schedule_id     = $schedule_item['ClassScheduleId'];
 		$this->studio_location_id    = $schedule_item['Location']['Id'];
 		$this->location_name         = $schedule_item['Location']['Name'];
-		$this->date_for_mbo_link     = date( 'm/d/Y', strtotime( $schedule_item['StartDateTime'] ) );
+		$this->date_for_mbo_link     = gmdate( 'm/d/Y', strtotime( $schedule_item['StartDateTime'] ) );
 		$this->sign_up_title         = __( 'Sign-Up', 'mz-mindbody-api' );
 		$this->manage_text           = __( 'Manage on MindBody Site', 'mz-mindbody-api' );
 		$this->mbo_s_type_tab        = -7;
@@ -490,16 +490,16 @@ class ScheduleItem {
 		$this->class_name_css        = 'mz_' . sanitize_html_class( $this->class_name, 'mz_class_name' );
 		$this->part_of_day           = $this->part_of_day();
 		$this->class_duration        = $this->get_schedule_event_duration();
-		$this->dislayCancelled       = ( $schedule_item['IsCanceled'] == 1 ) ? '<div class="mz_cancelled_class">' . __( 'Cancelled', 'mz-mindbody-api' ) . '</div>' : '';
+		$this->display_cancelled     = ( 1 === (int) $schedule_item['IsCanceled'] ) ? '<div class="mz_cancelled_class">' . __( 'Cancelled', 'mz-mindbody-api' ) . '</div>' : '';
 		$this->is_substitute         = $schedule_item['Substitute'];
 		$this->schedule_type         = $schedule_item['ClassDescription']['Program']['ScheduleType'];
 		$this->atts                  = $atts;
-		if ( ( Core\MzMindbodyApi::$advanced_options['elect_display_substitutes'] == 'on' ) && empty( $atts['mbo_pages_call'] ) ) :
-			// We add the mbo_pages_call attribute if calling from MBO Pages plugin so that sub details will be skipped
-			if ( $this->is_substitute === true ) :
+		if ( ( 'on' === Core\MzMindbodyApi::$advanced_options['elect_display_substitutes'] ) && empty( $atts['mbo_pages_call'] ) ) :
+			// We add the mbo_pages_call attribute if calling from MBO Pages plugin so that sub details will be skipped.
+			if ( true === $this->is_substitute ) :
 				$owners = new RetrieveClassOwners();
 				$owner  = $owners->find_class_owner( $schedule_item );
-				if ( $owner !== false ) {
+				if ( false !== $owner ) {
 					$this->sub_details = $owner['class_owner'];
 				}
 			endif;
@@ -519,10 +519,12 @@ class ScheduleItem {
 	/**
 	 * Build the Class Name link object
 	 *
+	 * @param string $type Staff, Class or Signup link.
+	 * @param string $sub_type grid if grid schedule.
 	 * @return HtmlElement anchor tag.
 	 */
 	private function class_link_maker( $type = 'class', $sub_type = false ) {
-		/**
+		/*
 		 * Need following eventually
 		 */
 
@@ -539,10 +541,10 @@ class ScheduleItem {
 				// Used in Staff\Display.
 				$link_array['data-nonce']  = wp_create_nonce( 'mz_staff_retrieve_nonce' );
 				$link_array['data-siteID'] = $this->site_id;
-				if ( ( $this->is_substitute === true ) && ( ! empty( $this->sub_details ) ) ) {
-					 $link_array['data-sub'] = ( ! empty( $this->sub_details ) ) ? $this->sub_details : '';
+				if ( ( true === $this->is_substitute ) && ( ! empty( $this->sub_details ) ) ) {
+					$link_array['data-sub'] = ( ! empty( $this->sub_details ) ) ? $this->sub_details : '';
 				}
-				$link_array['data-staffImage'] = ( $this->staff_image != '' ) ? $this->staff_image : '';
+				$link_array['data-staffImage'] = ( '' !== $this->staff_image ) ? $this->staff_image : '';
 				$link->set( 'href', NS\PLUGIN_NAME_URL . 'src/Frontend/views/modals/modal_descriptions.php' );
 				break;
 
@@ -554,47 +556,45 @@ class ScheduleItem {
 				$link_array['text']                  = $this->class_name;
 				$link_array['data-target']           = 'mzModal';
 
-				if ( isset( $this->atts['show_registrants'] ) && ( $this->atts['show_registrants'] == 1 ) ) {
+				if ( isset( $this->atts['show_registrants'] ) && ( 1 === (int) $this->atts['show_registrants'] ) ) {
 					// Used in Schedule\RetrieveRegistrants.
 					$link_array['data-nonce']   = wp_create_nonce( 'mz_mbo_get_registrants' );
 					$link_array['data-classID'] = $this->ID;
 					$link_array['data-target']  = 'registrantModal';
 				}
-				$link_array['data-staffImage'] = ( $this->staff_image != '' ) ? $this->staff_image : '';
+				$link_array['data-staffImage'] = ( '' !== $this->staff_image ) ? $this->staff_image : '';
 				$link->set( 'href', NS\PLUGIN_NAME_URL . 'src/Frontend/views/modals/modal_descriptions.php' );
 				break;
 
 			case 'signup':
-				$link_array['class'] = 'btn btn-primary';
 
-				$link_array['title'] = apply_filters( 'mz-mbo-registrations-available', __( 'Registrations Available', 'mz-mindbody-api' ) );
+				$link_array['class'] = 'btn btn-primary';
+				$link_array['title'] = apply_filters( 'mz_mbo_registrations_available', __( 'Registrations Available', 'mz-mindbody-api' ) );
 
 				if ( ! empty( $this->max_capacity ) && $this->total_booked >= $this->max_capacity ) :
-					if ( false == $this->is_waitlist_available ) :
+					if ( false === $this->is_waitlist_available ) :
 						$link_array['class'] = 'btn btn-primary disabled';
 					endif;
-					if ( true == $this->is_waitlist_available ) :
+					if ( true === $this->is_waitlist_available ) :
 						$link_array['class'] = 'btn btn-primary waitlist-only';
-						$link_array['title'] = apply_filters( 'mz-mbo-waitlist-only', __( 'Waitlist Only', 'mz-mindbody-api' ) );
+						$link_array['title'] = apply_filters( 'mz_mbo_waitlist_only', __( 'Waitlist Only', 'mz-mindbody-api' ) );
 					endif;
 				endif;
 
 				// If grid, we want icon and not text copy for signup.
-				if ( $sub_type === 'grid' ) :
+				if ( 'grid' === $sub_type ) :
 					$link_array['text'] = '<svg class="icon sign-up"><use xlink:href="#si-bootstrap-log-in"/></use></svg>';
-					else :
-						$link_array['text'] = __( 'Sign-Up', 'mz-mindbody-api' );
-						if ( $this->total_booked >= $this->max_capacity && true == $this->is_waitlist_available ) :
-							$link_array['text'] = apply_filters( 'mz-mbo-waitlist-button-text', __( 'Waitlist', 'mz-mindbody-api' ) );
-						endif;
+				else :
+					$link_array['text'] = __( 'Sign-Up', 'mz-mindbody-api' );
+					if ( $this->total_booked >= $this->max_capacity && true === $this->is_waitlist_available ) :
+						$link_array['text'] = apply_filters( 'mz_mbo_waitlist_only', __( 'Waitlist', 'mz-mindbody-api' ) );
 					endif;
+				endif;
 
-					$link_array['data-time'] = date( Core\MzMindbodyApi::$date_format . ' ' . Core\MzMindbodyApi::$time_format, strtotime( $this->start_datetime ) );
+				$link_array['data-time'] = gmdate( Core\MzMindbodyApi::$date_format . ' ' . Core\MzMindbodyApi::$time_format, strtotime( $this->start_datetime ) );
 
-					$link_array['target'] = '_blank';
-					$link->set( 'href', $this->mbo_url );
-
-					// endif;
+				$link_array['target'] = '_blank';
+				$link->set( 'href', $this->mbo_url );
 
 				break;
 		}
@@ -610,7 +610,7 @@ class ScheduleItem {
 	 * PHP numbers days of the week starting on Monday at 1. If our week starts on Sunday,
 	 * then we need to shift so that Sunday is 1 and Saturday is 7.
 	 *
-	 * @param $php_day_number int a number from 1 - 7 for which day of week php assigns based on date().
+	 * @param int $php_day_number a number from 1 - 7 for which day of week php assigns based on date().
 	 *
 	 * @return int 1 - 7 for assigning to specific shedule item to display in grid schedule
 	 */
@@ -620,7 +620,7 @@ class ScheduleItem {
 		 * and for now we're ignoring week starts aside from
 		 * Sunday or Monday. Sorry.
 		 */
-		if ( Core\MzMindbodyApi::$start_of_week != 0 ) {
+		if ( 0 !== (int) Core\MzMindbodyApi::$start_of_week ) {
 			return $php_day_number;
 		}
 		switch ( $php_day_number ) {
@@ -640,7 +640,7 @@ class ScheduleItem {
 	 * @return string "morning", "afternoon" or "night", translated
 	 */
 	private function part_of_day() {
-		$time_by_integer = date( 'G.i', strtotime( $this->start_datetime ) );
+		$time_by_integer = gmdate( 'G.i', strtotime( $this->start_datetime ) );
 		if ( $time_by_integer < 12 ) {
 			return __( 'morning', 'mz-mindbody-api' );
 		} elseif ( $time_by_integer > 16 ) {
