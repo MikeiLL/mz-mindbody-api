@@ -40,9 +40,9 @@ class RetrieveStaff extends Interfaces\Retrieve {
 	public function __construct( $atts = array( 'locations' => array( 1 ) ) ) {
 
 		parent::__construct();
-		
+
 		$this->atts = $atts;
-		
+
 		// Initialize to sandbox account.
 		$this->mbo_account = '-99';
 

@@ -8,13 +8,13 @@ if ( ( $data->atts['location_filter'] == 1 ) && ( count( $data->locations_dictio
 	?>
 	<div id="locations_filter">
 		<a class="btn btn-primary filter_btn active" data-location="all">
-			<?php esc_html_e($data->all_locations_copy); ?>
+			<?php esc_html_e( $data->all_locations_copy ); ?>
 		</a>
 	<?php
 	foreach ( $data->locations_dictionary as $key => $loc ) :
 		?>
-			<a class="btn btn-primary filter_btn" data-location="<?php esc_html_e($loc['class']); ?>">
-				<?php esc_html_e($loc['name']); ?>
+			<a class="btn btn-primary filter_btn" data-location="<?php esc_html_e( $loc['class'] ); ?>">
+				<?php esc_html_e( $loc['name'] ); ?>
 			</a>
 		<?php
 	endforeach;
@@ -29,7 +29,7 @@ if ( ( is_array( $data->events ) ) && ! empty( $data->events ) ) :
 		<?php foreach ( $events as $event ) : ?>
 		<div class="mz_full_listing_event <?php echo $data->locations_dictionary[ $event->location_ID ]['class']; ?>">
 			<h3 class="mz_full_listing_event__title">
-				<?php esc_html_e($event->className); ?>
+				<?php esc_html_e( $event->className ); ?>
 			</h3>
 			<span class="mz_full_listing_event__staff">
 			<?php echo $data->with . ' ' . $event->staff_name_link->build(); ?>

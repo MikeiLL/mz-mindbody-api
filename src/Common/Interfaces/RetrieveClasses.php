@@ -455,15 +455,15 @@ abstract class RetrieveClasses extends Retrieve {
 			$this->populateLocationsDictionary( $class );
 
 			// Ignore classes that are not part of current week (ending Sunday).
-			if ( date( 'Y-m-d', strtotime($class['StartDateTime']) ) > $this->current_week_end->format( 'Y-m-d' ) ) :
+			if ( date( 'Y-m-d', strtotime( $class['StartDateTime'] ) ) > $this->current_week_end->format( 'Y-m-d' ) ) :
 				continue;
 			endif;
 
 			// Ignore classes that are not part of current week (beginning Monday).
-			if ( date( 'Y-m-d', strtotime($class['StartDateTime']) ) < $this->start_date->format( 'Y-m-d' ) ) :
+			if ( date( 'Y-m-d', strtotime( $class['StartDateTime'] ) ) < $this->start_date->format( 'Y-m-d' ) ) :
 				continue;
 			endif;
-			
+
 			/*
 			* Create a new array with a key for each TIME (time of day, not date)
 			* and corresponding value an array of class details
@@ -471,7 +471,7 @@ abstract class RetrieveClasses extends Retrieve {
 			*
 			*/
 			$classTime = date( 'G.i', strtotime( $class['StartDateTime'] ) );
-			
+
 			// For numerical sorting.
 			$single_event = new Schedule\ScheduleItem( $class, $this->atts );
 

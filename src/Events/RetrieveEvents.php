@@ -110,7 +110,7 @@ class RetrieveEvents extends Interfaces\RetrieveClasses {
 	 * @return array of MBO schedule data, time
 	 */
 	public function sortEventsByTime() {
-		
+
 		foreach ( $this->classes as $class ) {
 			// Make a timestamp of just the day to use as key for that day's classes.
 			if ( ! empty( $class['StartDateTime'] ) ) {
