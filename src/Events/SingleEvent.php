@@ -178,9 +178,9 @@ class SingleEvent {
 	 * @since 2.4.7
 	 *
 	 * @access public
-	 * @var    $location_address string
+	 * @var    $location_city string
 	 */
-	public $location_address;
+	public $location_city;
 
 	/**
 	 * Event Location State Provo Code
@@ -292,19 +292,19 @@ class SingleEvent {
 		if ( isset( $event['Staff']['Name'] ) ) {
 			$this->staff_name = $event['Staff']['Name'];
 		}
-		$this->staff_image             = $event['Staff']['ImageURL'];
-		$this->staff_bio               = $event['Staff']['Bio'];
-		$this->event_description            = $event['ClassDescription']['Description'];
-		$this->class_image             = $event['ClassDescription']['ImageURL'];
-		$this->location_id            = $event['Location']['Id'];
-		$this->location_Name          = $event['Location']['Name'];
-		$this->location_address       = $event['Location']['Address'];
-		$this->location_address2      = $event['Location']['Address2'];
-		$this->location_address          = $event['Location']['City'];
+		$this->staff_image              = $event['Staff']['ImageURL'];
+		$this->staff_bio                = $event['Staff']['Bio'];
+		$this->event_description        = $event['ClassDescription']['Description'];
+		$this->class_image              = $event['ClassDescription']['ImageURL'];
+		$this->location_id              = $event['Location']['Id'];
+		$this->location_Name            = $event['Location']['Name'];
+		$this->location_address         = $event['Location']['Address'];
+		$this->location_address2        = $event['Location']['Address2'];
+		$this->location_city            = $event['Location']['City'];
 		$this->location_state_prov_code = $event['Location']['StateProvCode'];
-		$this->location_postal_code    = $event['Location']['PostalCode'];
-		$this->start_date             = date( Core\MzMindbodyApi::$date_format, strtotime( $event['StartDateTime'] ) );
-		$this->start_time             = date( Core\MzMindbodyApi::$time_format, strtotime( $event['StartDateTime'] ) );
+		$this->location_postal_code     = $event['Location']['PostalCode'];
+		$this->start_date               = date( Core\MzMindbodyApi::$date_format, strtotime( $event['StartDateTime'] ) );
+		$this->start_time               = date( Core\MzMindbodyApi::$time_format, strtotime( $event['StartDateTime'] ) );
 
 		// Leave end_date blank if same as start day
 		$maybe_end_date        = date( Core\MzMindbodyApi::$date_format, strtotime( $event['EndDateTime'] ) );

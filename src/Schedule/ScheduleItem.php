@@ -492,10 +492,10 @@ class ScheduleItem {
 	 */
 	public function __construct( $schedule_item, $atts = array() ) {
 
-		$this->class_name      = isset( $schedule_item['ClassDescription']['Name'] ) ? $schedule_item['ClassDescription']['Name'] : '';
-		$this->class_image      = isset( $schedule_item['ClassDescription']['ImageURL'] ) ? $schedule_item['ClassDescription']['ImageURL'] : '';
-		$this->start_datetime  = $schedule_item['StartDateTime'];
-		$this->end_datetime    = $schedule_item['EndDateTime'];
+		$this->class_name        = isset( $schedule_item['ClassDescription']['Name'] ) ? $schedule_item['ClassDescription']['Name'] : '';
+		$this->class_image       = isset( $schedule_item['ClassDescription']['ImageURL'] ) ? $schedule_item['ClassDescription']['ImageURL'] : '';
+		$this->start_datetime    = $schedule_item['StartDateTime'];
+		$this->end_datetime      = $schedule_item['EndDateTime'];
 		$this->session_type_name = isset( $schedule_item['ClassDescription']['SessionType']['Name'] ) ? $schedule_item['ClassDescription']['SessionType']['Name'] : '';
 		// Set Staff Name up.
 		// First set first, last with default to blank string
@@ -504,9 +504,9 @@ class ScheduleItem {
 		if ( isset( $schedule_item['Staff']['Name'] ) ) {
 			$this->staff_name = $schedule_item['Staff']['Name'];
 		}
-		$this->class_description      = isset( $schedule_item['ClassDescription']['Description'] ) ? $schedule_item['ClassDescription']['Description'] : '';
+		$this->class_description     = isset( $schedule_item['ClassDescription']['Description'] ) ? $schedule_item['ClassDescription']['Description'] : '';
 		$this->level                 = isset( $schedule_item['ClassDescription']['Level']['Name'] ) ? $schedule_item['ClassDescription']['Level']['Name'] : '';
-		$this->staff_image            = isset( $schedule_item['Staff']['ImageUrl'] ) ? $schedule_item['Staff']['ImageUrl'] : '';
+		$this->staff_image           = isset( $schedule_item['Staff']['ImageUrl'] ) ? $schedule_item['Staff']['ImageUrl'] : '';
 		$this->is_waitlist_available = isset( $schedule_item['IsWaitlistAvailable'] ) ? $schedule_item['IsWaitlistAvailable'] : '';
 		$this->total_booked          = isset( $schedule_item['TotalBooked'] ) ? $schedule_item['TotalBooked'] : '';
 		$this->max_capacity          = isset( $schedule_item['MaxCapacity'] ) ? $schedule_item['MaxCapacity'] : '';

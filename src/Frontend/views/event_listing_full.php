@@ -43,7 +43,7 @@ if ( ( is_array( $data->events ) ) && ! empty( $data->events ) ) :
 			<?php echo $data->with . ' ' . $event->staff_name_link->build(); ?>
 			</span>
 			<?php
-			// Display location if showing schedule for more than one location
+			// Display location if showing schedule for more than one location.
 			if ( $data->locations_count >= 2 ) :
 				?>
 				<span><?php echo __( 'at', 'mz-mindbody-api' ) . ' ' . $data->locations_dictionary[ $event->location_id ]['link']; ?></span>
@@ -56,7 +56,7 @@ if ( ( is_array( $data->events ) ) && ! empty( $data->events ) ) :
 			</div>
 			<div class="mz_full_listing_event__disc">
 				<p><img src="<?php echo $event->class_image; ?>" class="mz_inline_event_image_body" />
-			<?php echo html_entity_decode( $event->Description ); ?>
+			<?php echo html_entity_decode( $event->event_description ); ?>
 				</p>
 				<p>
 			<?php echo $event->sign_up_link->build(); ?>
@@ -68,7 +68,7 @@ if ( ( is_array( $data->events ) ) && ! empty( $data->events ) ) :
 		<?php endforeach; ?>
 	<?php endforeach; ?>
 
-<?php elseif ( count( $data->events ) == 0 ) : ?>
+<?php elseif ( 0 === (int) count( $data->events ) ) : ?>
 	<h4><?php echo $data->no_events; ?></h4>
 <?php else : ?>
 	<div class="error"><?php echo esc_html( 'Error Retrieving Events', 'mz-mindbody-api' ); ?></div>
