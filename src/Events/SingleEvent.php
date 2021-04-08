@@ -303,13 +303,13 @@ class SingleEvent {
 		$this->location_City          = $event['Location']['City'];
 		$this->location_StateProvCode = $event['Location']['StateProvCode'];
 		$this->location_PostalCode    = $event['Location']['PostalCode'];
-		$this->start_date             = wp_date( Core\MzMindbodyApi::$date_format, strtotime( $event['StartDateTime'] ) );
-		$this->start_time             = wp_date( Core\MzMindbodyApi::$time_format, strtotime( $event['StartDateTime'] ) );
+		$this->start_date             = date( Core\MzMindbodyApi::$date_format, strtotime( $event['StartDateTime'] ) );
+		$this->start_time             = date( Core\MzMindbodyApi::$time_format, strtotime( $event['StartDateTime'] ) );
 
 		// Leave end_date blank if same as start day
-		$maybe_end_date        = wp_date( Core\MzMindbodyApi::$date_format, strtotime( $event['EndDateTime'] ) );
+		$maybe_end_date        = date( Core\MzMindbodyApi::$date_format, strtotime( $event['EndDateTime'] ) );
 		$this->end_date        = ( $this->start_date == $maybe_end_date ) ? '' : $maybe_end_date;
-		$this->end_time        = wp_date( Core\MzMindbodyApi::$time_format, strtotime( $event['EndDateTime'] ) );
+		$this->end_time        = date( Core\MzMindbodyApi::$time_format, strtotime( $event['EndDateTime'] ) );
 		$this->atts            = $atts;
 		$this->site_id         = ! empty( $atts['account'] ) ? $atts['account'] : Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
 		$this->mbo_url         = $this->mbo_url();

@@ -10,7 +10,7 @@
 
 namespace MZoo\MzMindbody\Schedule;
 
-use MZoo\MzMindbody;
+use MZoo\MzMindbody as NS;
 use MZoo\MzMindbody\Core as Core;
 use MZoo\MzMindbody\Common as Common;
 use MZoo\MzMindbody\Common\Interfaces as Interfaces;
@@ -33,14 +33,16 @@ class RetrieveSchedule extends Interfaces\RetrieveClasses {
 	 * @return array of start and end dates as required for MBO API.
 	 */
 	public function time_frame( $timestamp = null ) {
+		
+		// Since WP v5.3 current_time('timestamp') is depreciated.
+		$today = strtotime(wp_date('Y-m-d H:i:s'));
 
-		$timestamp = isset( $timestamp ) ? $timestamp : current_time( 'timestamp' );
+		$timestamp = isset( $timestamp ) ? $timestamp : $today;
 		// Can override timestamp here for testing $timestamp = '2020-5-1'.
 
 		$current_week     = $this->singleWeek( $timestamp );
 		$seven_days_later = $this->seven_days_later( $timestamp );
 		if ( ( ! empty( $this->atts['type'] ) && ( 'day' === $this->atts['type'] ) ) ) :
-			$today      = current_time( 'timestamp' );
 			$start_time = new \Datetime( date( 'Y-m-d', $today ) );
 			$end_time   = new \Datetime( date( 'Y-m-d', $today ) );
 			// Can test with $end_time = new \DateTime('tomorrow').

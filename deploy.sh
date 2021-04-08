@@ -81,6 +81,10 @@ svn propset -R svn:ignore -F .svnignore "$SVNPATH/trunk/"
 echo "Changing directory to SVN and committing to trunk"
 cd $SVNPATH/trunk/
 
+# Remove vendor directory
+echo "Remove vendor directory in case not empty."
+rm -rf vendor
+
 # Run composer install no dev
 echo "Install composer non-dev dependencies."
 composer install --no-dev
