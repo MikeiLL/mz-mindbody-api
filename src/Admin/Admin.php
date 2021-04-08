@@ -89,7 +89,7 @@ class Admin {
 		wp_register_script( 'mz_mbo_admin_script', NS\PLUGIN_NAME_URL . 'dist/scripts/admin.js', array( 'jquery' ), 1.0, true );
 		wp_enqueue_script( 'mz_mbo_admin_script' );
 
-		$this->localizeScript();
+		$this->localize_script();
 	}
 
 	/**
@@ -99,7 +99,7 @@ class Admin {
 	 *
 	 * @return void
 	 */
-	public function localizeScript() {
+	public function localize_script() {
 
 		$protocol = isset( $_SERVER['HTTPS'] ) ? 'https://' : 'http://';
 
@@ -320,7 +320,7 @@ class Admin {
 	 * @since 2.4.7
 	 */
 	public function ajax_clear_plugin_transients() {
-		// Generated in localizeScript() above.
+		// Generated in localize_script() above.
 		check_admin_referer( 'mz_mbo_clear_transients', 'nonce' );
 
 		$sql_response = $this->clear_plugin_transients();
@@ -356,7 +356,7 @@ class Admin {
 	 * @since 2.7.5
 	 */
 	public function ajax_get_and_save_token() {
-		// Generated in localizeScript() above.
+		// Generated in localize_script() above.
 		check_admin_referer( 'mz_mbo_get_and_save_token', 'nonce' );
 
 		$token_object = new Common\TokenManagement();
@@ -417,7 +417,7 @@ class Admin {
 	 * @since 2.5.7
 	 */
 	public function test_credentials() {
-		// Generated in localizeScript() above.
+		// Generated in localize_script() above.
 		check_admin_referer( 'mz_mbo_test_credentials', 'nonce' );
 
 		$return  = '<p>';
@@ -453,7 +453,7 @@ class Admin {
 	 * @since 2.4.7
 	 */
 	public function test_credentials_v5() {
-		// Generated in localizeScript() above.
+		// Generated in localize_script() above.
 		check_admin_referer( 'mz_mbo_test_credentials_v5', 'nonce' );
 
 		$return       = '<p>';

@@ -40,7 +40,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 	 * @since  2.4.7
 	 * @access public
 	 *
-	 * @used in handle_shortcode, localizeScript, display_schedule
+	 * @used in handle_shortcode, localize_script, display_schedule
 	 * @var  array $atts Shortcode attributes function called with.
 	 */
 	public $atts;
@@ -294,7 +294,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 			);
 			wp_enqueue_script( 'mz_mbo_events' );
 
-			$this->localizeScript();
+			$this->localize_script();
 		}
 	}
 
@@ -305,7 +305,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 	 *
 	 * @return void
 	 */
-	public function localizeScript() {
+	public function localize_script() {
 
 		$protocol = isset( $_SERVER['HTTPS'] ) ? 'https://' : 'http://';
 

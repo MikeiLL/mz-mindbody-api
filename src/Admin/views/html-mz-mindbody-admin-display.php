@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Provide a admin area view for the plugin
  *
@@ -7,7 +6,7 @@
  *
  * @link  http://mzoo.org
  * @since 1.0.0
- *
+ * @package MzMindbodyApi
  * @author Mike iLL/mZoo.org
  */
 

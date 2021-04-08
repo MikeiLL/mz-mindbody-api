@@ -120,7 +120,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 	 * @since     2.4.7
 	 * @access    public
 	 * @populated in handle_shortcode
-	 * @used      in handle_shortcode, localizeScript, display_schedule.
+	 * @used      in handle_shortcode, localize_script, display_schedule.
 	 * @var       object $schedule_object Instance of RetrieveSchedule.
 	 */
 	public $schedule_object;
@@ -143,7 +143,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 	 * @since  2.4.7
 	 * @access public
 	 *
-	 * @used in handle_shortcode, localizeScript, display_schedule
+	 * @used in handle_shortcode, localize_script, display_schedule
 	 * @var  array $atts Shortcode attributes function called with.
 	 */
 	public $atts;
@@ -425,7 +425,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 				wp_enqueue_script( 'filterTable' );
 			endif;
 
-			$this->localizeScript();
+			$this->localize_script();
 		}
 	}
 
@@ -436,7 +436,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 	 *
 	 * @return void
 	 */
-	public function localizeScript() {
+	public function localize_script() {
 		// Clean out unneeded strings from Locations Dictionary.
 		$locations_dictionary = $this->schedule_object->locations_dictionary;
 		foreach ( $locations_dictionary as $k => $v ) {
@@ -493,7 +493,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 	 * Echo json wp_json_encode() version of HTML from template
 	 */
 	public function display_schedule() {
-		// Generated in localizeScript above.
+		// Generated in localize_script above.
 		check_ajax_referer( 'mz_display_schedule', 'nonce' );
 
 		$atts = $_REQUEST['atts'];

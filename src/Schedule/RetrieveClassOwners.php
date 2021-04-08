@@ -60,7 +60,7 @@ class RetrieveClassOwners extends Interfaces\RetrieveClasses {
 	 * logged to the console via javascript.
 	 */
 	public function deduce_class_owners() {
-		// Generated in Admin\Admin localizeScript().
+		// Generated in Admin\Admin localize_script().
 		check_admin_referer( 'mz_deduce_class_owners', 'nonce' );
 
 		if ( false === $this->get_mbo_results() ) {

@@ -40,7 +40,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 	 * @since  2.4.7
 	 * @access public
 	 *
-	 * @used in handle_shortcode, localizeScript, display_schedule.
+	 * @used in handle_shortcode, localize_script, display_schedule.
 	 * @var  array $atts Shortcode attributes function called with.
 	 */
 	public $atts;

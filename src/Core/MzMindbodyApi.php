@@ -34,7 +34,7 @@ class MzMindbodyApi {
 
 	/**
 	 * Instance
-	 * 
+	 *
 	 * @var   MzMindbodyApi The one true MzMindbodyApi
 	 * @since 2.4.7
 	 */
@@ -240,7 +240,7 @@ class MzMindbodyApi {
 		$this->loader->add_action( 'admin_head', $plugin_admin, 'set_plugin_update_message' );
 
 		// TODO move this?
-		if ( ( isset( self::$advanced_options['elect_display_substitutes'] ) ) && 
+		if ( ( isset( self::$advanced_options['elect_display_substitutes'] ) ) &&
 			( 'on' === self::$advanced_options['elect_display_substitutes'] ) ) {
 			// Create the "Class Owners" transient, if not already created.
 			$class_owners_object = new Schedule\RetrieveClassOwners();

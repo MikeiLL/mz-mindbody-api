@@ -148,9 +148,9 @@ class SingleEvent {
 	 * @since 2.4.7
 	 *
 	 * @access public
-	 * @var    $location_Name string
+	 * @var    $location_name string
 	 */
-	public $location_Name;
+	public $location_name;
 
 	/**
 	 * Event Location Address
@@ -297,7 +297,7 @@ class SingleEvent {
 		$this->event_description        = $event['ClassDescription']['Description'];
 		$this->class_image              = $event['ClassDescription']['ImageURL'];
 		$this->location_id              = $event['Location']['Id'];
-		$this->location_Name            = $event['Location']['Name'];
+		$this->location_name            = $event['Location']['Name'];
 		$this->location_address         = $event['Location']['Address'];
 		$this->location_address2        = $event['Location']['Address2'];
 		$this->location_city            = $event['Location']['City'];
