@@ -60,8 +60,9 @@ class SettingsPage {
 	 *
 	 * Add sections and fields.
 	 */
+	// @codingStandardsIgnoreStart
 	public function addSections() {
-
+		// @codingStandardsIgnoreEnd
 		// Section: Basic Settings.
 		self::$wposa_obj->add_section(
 			array(
@@ -129,7 +130,7 @@ class SettingsPage {
 			)
 		);
 
-		// Field: Source Name. DEPRECIATED
+		// Field: Source Name. DEPRECIATED.
 		self::$wposa_obj->add_field(
 			'mz_mbo_basic',
 			array(
@@ -141,7 +142,7 @@ class SettingsPage {
 			)
 		);
 
-		// Field: Display Substitute Status
+		// Field: Display Substitute Status.
 		self::$wposa_obj->add_field(
 			'mz_mbo_basic',
 			array(
@@ -289,7 +290,7 @@ class SettingsPage {
 			)
 		);
 
-		// Field: Clear Transients
+		// Field: Schedule Types.
 		self::$wposa_obj->add_field(
 			'mz_mbo_advanced',
 			array(
@@ -304,7 +305,7 @@ class SettingsPage {
 			)
 		);
 
-		// Field: Clear Transients
+		// Field: Clear Transients.
 		self::$wposa_obj->add_field(
 			'mz_mbo_advanced',
 			array(
@@ -315,7 +316,7 @@ class SettingsPage {
 			)
 		);
 
-		// Field: Clear Transients
+		// Field: Update MBO Site Token.
 		self::$wposa_obj->add_field(
 			'mz_mbo_advanced',
 			array(
@@ -326,7 +327,7 @@ class SettingsPage {
 			)
 		);
 
-		// Field: Clear Transients
+		// Field: API Call Limit.
 		self::$wposa_obj->add_field(
 			'mz_mbo_advanced',
 			array(
@@ -338,7 +339,7 @@ class SettingsPage {
 			)
 		);
 
-		// Field: Clear Transients
+		// Field: Schedule Transient Duration.
 		self::$wposa_obj->add_field(
 			'mz_mbo_advanced',
 			array(
@@ -350,7 +351,7 @@ class SettingsPage {
 			)
 		);
 
-		// Field: Display Substitute Status
+		// Field: Display Substitute Status.
 		self::$wposa_obj->add_field(
 			'mz_mbo_advanced',
 			array(
@@ -362,7 +363,7 @@ class SettingsPage {
 			)
 		);
 
-		// Field: Template Override System
+		// Field: Template Override System.
 		self::$wposa_obj->add_field(
 			'mz_mbo_advanced',
 			array(
@@ -373,30 +374,7 @@ class SettingsPage {
 			)
 		);
 
-		// Field: Display Allow "Remember Me" Cookie
-		// self::$wposa_obj->add_field(
-		// 'mz_mbo_advanced',
-		// array(
-		// 'id'      => 'keep_loogged_in_cookie',
-		// 'type'    => 'checkbox',
-		// 'name'    => __( 'Allow "Keep Me Logged In" Cookie', 'mz-mindbody-api' ),
-		// 'desc'  //   => __( 'When checked, visitors will have a "keep me logged in" checkbox when they log in.', 'mz-mindbody-api' )
-		// )
-		// );
-
-		// Field: Display Substitute Status
-		// self::$wposa_obj->add_field(
-		// 'mz_mbo_advanced',
-		// array(
-		// 'id'      => 'register_within_site',
-		// 'type'    => 'checkbox',
-		// 'name'    => __( 'Keep Users In Site to Register for MBO, Classes, Events', 'mz-mindbody-api' ),
-		// 'desc'    => __( 'When checked, users are not directed to MBO site for registering for classes and events.', 'mz-mindbody-api' ),
-		// 'default' => 'off'
-		// )
-		// );
-
-		// Field: Display Substitute Status
+		// Field: Display Substitute Status.
 		self::$wposa_obj->add_field(
 			'mz_mbo_advanced',
 			array(
@@ -408,7 +386,7 @@ class SettingsPage {
 			)
 		);
 
-		// Field: Regenerate Class Owners
+		// Field: Regenerate Class Owners.
 		self::$wposa_obj->add_field(
 			'mz_mbo_advanced',
 			array(
@@ -420,9 +398,13 @@ class SettingsPage {
 		);
 	}
 
+	/**
+	 * Credentials Intro
+	 */
 	private function credentials_intro() {
 		$return  = '';
 		$return .= '</p>' . sprintf(
+			// translators: wrap button/anchor html around call to action for registering dev credentials with Mindbody.
 			__( 'If you do not have them yet, visit the %1$s MindBodyOnline developers website %2$s and register for developer credentials.', 'mz-mindbody-api' ),
 			'<a href="https://api.mindbodyonline.com/Home/LogIn">',
 			'</a>'
@@ -431,6 +413,9 @@ class SettingsPage {
 		return $return;
 	}
 
+	/**
+	 * Schedule Shortcodes
+	 */
 	private function schedule_codes() {
 		$return  = '';
 		$return .= '<p>[mz-mindbody-show-schedule]</p>';
@@ -471,6 +456,9 @@ class SettingsPage {
 		return $return;
 	}
 
+	/**
+	 * Staff Shortcodes.
+	 */
 	private function staff_codes() {
 		$return  = '';
 		$return .= '<p>' . sprintf( '[%1$s]', 'mz-mindbody-staff-list' ) . '</p>';
@@ -485,6 +473,9 @@ class SettingsPage {
 		return $return;
 	}
 
+	/**
+	 * Event Shortcodes
+	 */
 	private function event_codes() {
 		$return  = '';
 		$return .= '<p>' . sprintf( '[%1$s]', 'mz-mindbody-show-events' ) . '</p>';
@@ -499,39 +490,58 @@ class SettingsPage {
 		return $return;
 	}
 
+	/**
+	 * API Call Limit Description
+	 */
 	private function describe_api_call_limit() {
 		return sprintf(
+			// translators: Pull up an option string for number of times API has been called.
 			__( '<p>MBO charges for daily API calls over 1000. Number of calls today: %1$s.</p> <p>Site will email admin at 1200 calls less than this number and stop calling MBO at this number.</p> <p>Default: %2$s.</p>', 'mz-mindbody-api' ),
 			get_option( 'mz_mbo_api_calls' )['calls'],
 			2000
 		);
 	}
 
+	/**
+	 * Clear Transients Button
+	 */
 	private function clear_transients() {
 		$return = '<a href="#" class="button" id="mzClearTransients">' . __( 'Clear Transients', 'mz-mindbody-api' ) . '</a>';
 		return $return;
 	}
 
+	/**
+	 * Update Site Token Button
+	 */
 	private function update_mbo_site_token() {
 		$return = '<a href="#" class="button" id="mzUpdateSiteToken">' . __( 'Update Site Token', 'mz-mindbody-api' ) . '</a>';
 		return $return;
 	}
 
+	/**
+	 * Reset Class Owners Button
+	 */
 	private function reset_class_owners() {
 
 		$return  = '<a href="#" class="class_owners button">' . __( 'Reset Class Owners', 'mz-mindbody-api' ) . '</a>';
 		$return .= sprintf(
+			// translators: Add HTML tags to emphasize probably (not for sure) and wrap in <p> tag.
 			__(
-				'<p>This is the matrix of which instructors %1$s "own" classes (MBO API doesn\'t tell us.) It is automatically regenerated daily with a cron job. 
-                                You can see what it looks like by pressing this button and viewing output in the browser console.</p>',
+				'%1$sThis is the matrix of which instructors %2$s "own" classes (MBO API doesn\'t tell us.) It is automatically regenerated daily with a cron job. 
+                                You can see what it looks like by pressing this button and viewing output in the browser console.%3$s',
 				'mz-mindbody-api'
 			),
-			'<em>probably</em>'
+			'<p>',
+			'<em>probably</em>',
+			'</p>'
 		);
 
 		return $return;
 	}
 
+	/**
+	 * Debug Textarea for API v6.
+	 */
 	private function mz_mindbody_debug_text() {
 		return '<a href="#" class="button" id="mzTestCredentials">' . __( 'Test Credentials', 'mz-mindbody-api' ) . '</a><div id="displayTest"></div>';
 	}

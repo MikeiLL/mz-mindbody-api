@@ -9,6 +9,7 @@
 	
 	<exclude-pattern>index.php</exclude-pattern>
 	<exclude-pattern>class-gamajo-template-loader.php</exclude-pattern>
+	<exclude-pattern>src/Libraries/MboV5Api.php</exclude-pattern>
 		
 	<rule ref="WordPress-Core" >
 	    <exclude name="WordPress.Files.FileName.InvalidClassFileName"/>

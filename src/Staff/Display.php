@@ -29,7 +29,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 	 * @since  2.4.7
 	 * @access private
 	 *
-	 * @used in handle_shortcode, addScript
+	 * @used in handle_shortcode, addScript.
 	 * @var  boolean $added_already True if shorcdoe scripts have been enqueued.
 	 */
 	private static $added_already = false;
@@ -40,7 +40,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 	 * @since  2.4.7
 	 * @access public
 	 *
-	 * @used in handle_shortcode, localizeScript, display_schedule
+	 * @used in handle_shortcode, localizeScript, display_schedule.
 	 * @var  array $atts Shortcode attributes function called with.
 	 */
 	public $atts;
@@ -51,7 +51,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 	 * @since  2.4.7
 	 * @access public
 	 *
-	 * @used in handle_shortcode, get_staff_modal
+	 * @used in handle_shortcode, get_staff_modal.
 	 * @var  object $staff_object The class that retrieves the MBO staff.
 	 */
 	public $staff_object;
@@ -62,7 +62,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 	 * @since  2.4.7
 	 * @access public
 	 *
-	 * @used in handle_shortcode, display_schedule
+	 * @used in handle_shortcode, display_schedule.
 	 * @var  @array    $data    array to send template.
 	 */
 	public $template_data;
@@ -70,9 +70,9 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 	/**
 	 * Handle Shortcode
 	 *
-	 * @param  string $atts    shortcode inputs
+	 * @param  string $atts    shortcode inputs.
 	 * @param  string $content any content between start and end shortcode tags.
-	 * @return string shortcode content
+	 * @return string shortcode result.
 	 */
 	public function handle_shortcode( $atts, $content = null ) {
 
@@ -88,9 +88,9 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 
 		$this->class_modal_link = NS\PLUGIN_NAME_URL . 'src/Frontend/views/modals/modal_descriptions.php';
 
-		// If set, turn hide into an Array
-		if ( $this->atts['hide'] !== '' ) {
-			if ( ! is_array( $this->atts['hide'] ) ) { // if not already an array
+		// If set, turn hide into an Array.
+		if ( '' !== $this->atts['hide'] ) {
+			if ( ! is_array( $this->atts['hide'] ) ) { // if not already an array.
 				$this->atts['hide'] = explode( ',', $this->atts['hide'] );
 			}
 			foreach ( $this->atts['hide'] as $key => $type ) :
@@ -110,28 +110,28 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 
 		if ( isset( $this->staff_object->staff_result ) ) :
 			$mz_staff_list = $this->staff_object->sort_staff_by_sort_order( $this->atts );
-	 else :
-		 NS\MZMBO()->helpers->print( $this->staff_object );
-		 die( 'Something went wrong.' );
-	 endif;
+		else :
+			NS\MZMBO()->helpers->print( $this->staff_object );
+			die( 'Something went wrong.' );
+		endif;
 
-	 // Add Style with script adder
-	 self::addScript();
+		// Add Style with script adder.
+		self::addScript();
 
-	 $this->template_data = array(
-		 'atts'  => $this->atts,
-		 'staff' => $mz_staff_list,
-	 );
+		$this->template_data = array(
+			'atts'  => $this->atts,
+			'staff' => $mz_staff_list,
+		);
 
-	 $template_loader->set_template_data( $this->template_data );
+		$template_loader->set_template_data( $this->template_data );
 
-	 if ( $this->atts['gallery'] != '0' ) {
-		 $template_loader->get_template_part( 'staff_list_gallery' );
-	 } else {
-		 $template_loader->get_template_part( 'staff_list_horizontal' );
-	 }
+		if ( 0 !== (int) $this->atts['gallery'] ) {
+			$template_loader->get_template_part( 'staff_list_gallery' );
+		} else {
+			$template_loader->get_template_part( 'staff_list_horizontal' );
+		}
 
-	 return ob_get_clean();
+		return ob_get_clean();
 	}
 
 	/**
@@ -162,7 +162,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 	 * Used in the get schedule staff member link modal.
 	 */
 	function get_staff_modal() {
-		// Generated in Schedule\ScheduleItem
+		// Generated in Schedule\ScheduleItem.
 		check_ajax_referer( 'mz_staff_retrieve_nonce', 'nonce' );
 
 		ob_start();
@@ -174,11 +174,11 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 
 		$this->staff_object = new RetrieveStaff();
 
-		// Send an array of staffID
+		// Send an array of staff_id.
 		$staff_result = $this->staff_object->get_mbo_results( array( $staff_id ) );
 
 		$this->template_data = array(
-			'staff_details' => new StaffMember( $staff_result[0] ), // returns an array
+			'staff_details' => new StaffMember( $staff_result[0] ), // returns an array.
 			'staffID'       => $staff_id,
 			'site_id'       => $_REQUEST['site_id'],
 		);
@@ -198,5 +198,5 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 
 		die();
 	}
-	// End Ajax Get Staff
+	// End Ajax Get Staff.
 }
