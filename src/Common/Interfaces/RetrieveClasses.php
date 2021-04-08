@@ -332,7 +332,6 @@ abstract class RetrieveClasses extends Retrieve {
 	 * @return @type array of Objects from Single_event class, in Date (and time) sequence.
 	 */
 	public function sortClassesByDateThenTime() {
-
 		/*
 		 * When there is only a single event in the client
 		 * schedule, the 'Classes' array contains that event, but when there are multiple
@@ -382,7 +381,7 @@ abstract class RetrieveClasses extends Retrieve {
 		}
 		/* They are not ordered by date so order them by date */
 		ksort( $this->classes_by_date_then_time );
-		foreach ( $this->classes_by_date_then_time as $classDate => &$classes ) {
+		foreach ( $this->classes_by_date_then_time as $class_date => &$classes ) {
 			/*
 			* $classes is an array of all classes for given date
 			* Take each of the class arrays and order it by time
@@ -400,20 +399,21 @@ abstract class RetrieveClasses extends Retrieve {
 				}
 			);
 		}
-		// TODO Make padEmptyCalendarDays work
+		// TODO Make padEmptyCalendarDays work.
 		return $this->classes_by_date_then_time;
 	}
 
-	/*
-	* Get Classes By Date Then Time and return, padded for any days without events.
-	* @since 2.6.4
-	*
-	* Currently not working because $this->start_date is start of week as per WP config.
-	* Needs to be current day of week, but not necessarily THIS week.
-	*
-	* @param array classesByDateThenTime array of sequenced classes.
-	* @return array of classes, padded to a full seven days, wether or not classes exist
-	*/
+	/**
+	 * Get Classes By Date Then Time and return, padded for any days without events.
+	 *
+	 * @since 2.6.4
+	 *
+	 * Currently not working because $this->start_date is start of week as per WP config.
+	 * Needs to be current day of week, but not necessarily THIS week.
+	 *
+	 * @param array $classes_by_date_then_time of sequenced classes.
+	 * @return array of classes, padded to a full seven days, wether or not classes exist
+	 */
 	private function padEmptyCalendarDays( $classes_by_date_then_time ) {
 
 		$week_of_dates = array( $this->start_date->format( 'Y-m-d' ) => '' );
@@ -434,24 +434,22 @@ abstract class RetrieveClasses extends Retrieve {
 	 * @return @type array of Objects from Single_event class, in Date (and time) sequence.
 	 */
 	public function sortClassesByTimeThenDate() {
-
-		$classesByTime = array();
 		/*
-		When there is only a single event in the client
-		* schedule, the 'Classes' array contains that event, but when there are multiple
-		* visits then the array of events is under 'Events'/'Event'
-		*
-		This may not be necessary
-		if (!empty($this->classes[0]['StartDateTime'])){
-		// Multiple events
-		$classes_array_scope = $this->classes[0];
-		} else {
-		$classes_array_scope = $this->classes;
-		}
-		*/
+		 * When there is only a single event in the client
+		 * schedule, the 'Classes' array contains that event, but when there are multiple
+		 * visits then the array of events is under 'Events'/'Event'
+		 *
+		 * This may not be necessary
+		 * if (!empty($this->classes[0]['StartDateTime'])){
+		 * // Multiple events
+		 * $classes_array_scope = $this->classes[0];
+		 * } else {
+		 * $classes_array_scope = $this->classes;
+		 * }
+		 */
 		foreach ( $this->classes as $class ) {
-			// Filter out some items
-			if ( $this->filterClass( $class ) === false ) {
+			// Filter out some items.
+			if ( false === $this->filterClass( $class ) ) {
 				continue;
 			}
 
@@ -459,12 +457,12 @@ abstract class RetrieveClasses extends Retrieve {
 			$this->populateLocationsDictionary( $class );
 
 			// Ignore classes that are not part of current week (ending Sunday).
-			if ( date( 'Y-m-d', strtotime( $class['StartDateTime'] ) ) > $this->current_week_end->format( 'Y-m-d' ) ) :
+			if ( gmdate( 'Y-m-d', strtotime( $class['StartDateTime'] ) ) > $this->current_week_end->format( 'Y-m-d' ) ) :
 				continue;
 			endif;
 
 			// Ignore classes that are not part of current week (beginning Monday).
-			if ( date( 'Y-m-d', strtotime( $class['StartDateTime'] ) ) < $this->start_date->format( 'Y-m-d' ) ) :
+			if ( gmdate( 'Y-m-d', strtotime( $class['StartDateTime'] ) ) < $this->start_date->format( 'Y-m-d' ) ) :
 				continue;
 			endif;
 
@@ -474,24 +472,24 @@ abstract class RetrieveClasses extends Retrieve {
 			* for classes at that time.
 			*
 			*/
-			$classTime = date( 'G.i', strtotime( $class['StartDateTime'] ) );
+			$class_time = gmdate( 'G.i', strtotime( $class['StartDateTime'] ) );
 
 			// For numerical sorting.
 			$single_event = new Schedule\ScheduleItem( $class, $this->atts );
 
 			// If there's is already an array for this time slot, add to it.
-			if ( ! empty( $this->classes_by_time_then_date[ $classTime ] ) ) {
+			if ( ! empty( $this->classes_by_time_then_date[ $class_time ] ) ) {
 				// Create a $single_event which is a "class" object, and start the classes array with it.
-				array_push( $this->classes_by_time_then_date[ $classTime ]['classes'], $single_event );
+				array_push( $this->classes_by_time_then_date[ $class_time ]['classes'], $single_event );
 			} else {
 				// Assign the first element of this time slot.
-				$display_time                                  = date(
+				$display_time                                   = gmdate(
 					Core\MzMindbodyApi::$time_format,
 					strtotime( $class['StartDateTime'] )
 				);
-				$this->classes_by_time_then_date[ $classTime ] = array(
+				$this->classes_by_time_then_date[ $class_time ] = array(
 					'display_time' => $display_time,
-					// Add part_of_day for filter as well
+					// Add part_of_day for filter as well.
 					'part_of_day'  => $single_event->part_of_day,
 					'classes'      => array( $single_event ),
 				);
@@ -499,16 +497,16 @@ abstract class RetrieveClasses extends Retrieve {
 		}
 		// Timeslot keys in new array are not time-sequenced so do so.
 		ksort( $this->classes_by_time_then_date );
-		foreach ( $this->classes_by_time_then_date as $scheduleTime => &$classes ) {
+		foreach ( $this->classes_by_time_then_date as $schedule_time => &$classes ) {
 			/*
 			* $classes is an array of all class_event objects for given time
-			* Take each of the class arrays and order it by days 1-7
+			* Take each of the class arrays and order it by days 1-7.
 			*/
 			usort(
 				$classes['classes'],
 				function ( $a, $b ) {
 
-					if ( date( 'N', strtotime( $a->start_datetime ) ) == date( 'N', strtotime( $b->start_datetime ) ) ) {
+					if ( gmdate( 'N', strtotime( $a->start_datetime ) ) === gmdate( 'N', strtotime( $b->start_datetime ) ) ) {
 						return 0;
 					}
 					return $a->start_datetime < $b->start_datetime ? -1 : 1;
@@ -529,7 +527,8 @@ abstract class RetrieveClasses extends Retrieve {
 	 * based on indicator (day) for each class. There may be more than
 	 * one even for each day and empty arrays will represent empty time slots.
 	 *
-	 * @param array $array
+	 * @param array  $classes returned from MBO.
+	 * @param string $indicator for example 'day_num'.
 	 */
 	private function week_of_timeslot( $classes, $indicator ) {
 		$seven_days = array_combine(
@@ -546,7 +545,7 @@ abstract class RetrieveClasses extends Retrieve {
 		);
 		foreach ( $seven_days as $key => $value ) {
 			foreach ( $classes as $class ) {
-				if ( $class->$indicator == $key ) {
+				if ( (int) $class->$indicator === $key ) {
 					array_push( $seven_days[ $key ], $class );
 				}
 			}
@@ -557,12 +556,12 @@ abstract class RetrieveClasses extends Retrieve {
 	/**
 	 * Filter out Classes that we don't want.
 	 *
-	 * @param  array $class
+	 * @param  array $class single class as returned from MBO.
 	 * @return boolean
 	 */
 	protected function filterClass( $class ) {
 
-		if ( ( ! in_array( $class['Location']['Id'], $this->atts['locations'] ) )
+		if ( ( ! in_array( (int) $class['Location']['Id'], array_map( 'intval', $this->atts['locations'] ), true ) )
 			|| ( ! in_array( $class['ClassDescription']['Program']['ScheduleType'], $this->schedule_types, true ) )
 		) {
 			return false;
@@ -573,7 +572,7 @@ abstract class RetrieveClasses extends Retrieve {
 				return false;
 			}
 		}
-		// Support old "class_types" shortcode att:
+		// Support old "class_types" shortcode att.
 		if ( ! empty( $this->atts['class_types'] ) ) {
 			if ( ! in_array( $class['ClassDescription']['SessionType']['Name'], $this->atts['class_types'], true ) ) {
 				return false;
@@ -581,13 +580,13 @@ abstract class RetrieveClasses extends Retrieve {
 		}
 		// If shortcode not set to hide classes that are cancelled.
 		if ( ! empty( $this->atts['hide_cancelled'] ) ) {
-			if ( $class['IsCanceled'] == 1 ) {
+			if ( 1 === (int) $class['IsCanceled'] ) {
 				return false;
 			}
 		}
 
 		// Uncomment to view date in browser.
-		// NS\MZMBO()->helpers->print(wp_date(Core\MzMindbodyApi::$date_format, strtotime($class['StartDateTime'])));
+		// NS\MZMBO()->helpers->print(wp_date(Core\MzMindbodyApi::$date_format, strtotime($class['StartDateTime'])));.
 
 		return true;
 	}
@@ -598,14 +597,14 @@ abstract class RetrieveClasses extends Retrieve {
 	 * Populate the objects Locations Dictionary, which will be used to create Location links
 	 * as well as to populate the Filter on schedules which filter multiple locations.
 	 *
-	 * @param array $class a single "class" returned from MBO API
+	 * @param array $class a single "class" returned from MBO API.
 	 */
 	protected function populateLocationsDictionary( $class ) {
 		// We only need to do this once for each location.
 		if ( count( $this->locations_dictionary ) === count( $this->atts['locations'] ) ) {
 			return;
 		}
-		// Build a link TODO use HTML Element Class
+		// Build a link TODO use HTML Element Class.
 		$location_name         = $class['Location']['Name'];
 		$location_name_css     = sanitize_html_class( $location_name, 'mz_location_class' );
 		$location_address      = $class['Location']['Address'];
@@ -625,6 +624,7 @@ abstract class RetrieveClasses extends Retrieve {
 	 * Set up Time Frame with Start and End times for Schedule Request
 	 *
 	 * @since 2.4.7
+	 * @param timestamp $timestamp on which to begin timeframe.
 	 */
 	abstract public function time_frame( $timestamp);
 }

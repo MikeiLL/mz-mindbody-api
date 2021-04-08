@@ -567,7 +567,6 @@ class ScheduleItem {
 				break;
 
 			case 'signup':
-
 				$link_array['class'] = 'btn btn-primary';
 				$link_array['title'] = apply_filters( 'mz_mbo_registrations_available', __( 'Registrations Available', 'mz-mindbody-api' ) );
 
