@@ -336,16 +336,6 @@ class ScheduleItem {
 	 * @var    string $sub_link
 	 */
 	public $sub_link = '';
-
-	/**
-	 *
-	 *
-	 * @since  2.4.7
-	 * @access public
-	 * @var    string $staffModal
-	 */
-	public $staffModal;
-
 	/**
 	 *
 	 *
