@@ -153,7 +153,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 	public $number_of_events;
 
 	/**
-	 *
+	 * Client ID
 	 *
 	 * @since  2.4.7
 	 * @access public
@@ -178,9 +178,9 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 	/**
 	 * Handle Shortcode
 	 *
-	 * @param  string $atts    shortcode inputs
+	 * @param  string $atts    shortcode inputs.
 	 * @param  string $content any content between start and end shortcode tags.
-	 * @return string shortcode content
+	 * @return string shortcode content.
 	 */
 	public function handle_shortcode( $atts, $content = null ) {
 
@@ -198,7 +198,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 			$atts
 		);
 
-		// Set siteID to option unless set explicitly in shortcode
+		// Set siteID to option unless set explicitly in shortcode.
 		$this->site_id = Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
 		if ( ! empty( $atts['account'] ) ) {
 			$atts['account'];
@@ -223,7 +223,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 			return '<div>' . __( 'Error returning events from Mindbody.', 'mz-mindbody-api' ) . '</div>';
 		}
 
-		// Add Style with script adder
+		// Add Style with script adder.
 		self::addScript();
 
 		$events = ( count( $response ) >= 1 ) ? $response : __( 'No Events in current cycle', 'mz-mindbody-api' );
@@ -245,7 +245,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 			'with'                 => NS\MZMBO()->i18n->get( 'with' ),
 			'login'                => NS\MZMBO()->i18n->get( 'login' ),
 			'login_to_sign_up'     => NS\MZMBO()->i18n->get( 'login_to_sign_up' ),
-			// 'signup_nonce'         => wp_create_nonce('mz_signup_nonce'), // out of use
+			// 'signup_nonce'         => wp_create_nonce('mz_signup_nonce'), // out of use.
 			'registration_button'  => NS\MZMBO()->i18n->get( 'registration_button' ),
 			'username'             => NS\MZMBO()->i18n->get( 'username' ),
 			'password'             => NS\MZMBO()->i18n->get( 'password' ),
@@ -360,55 +360,51 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 
 		$this->events_object = new RetrieveEvents( $atts );
 
-		// Register attributes
+		// Register attributes.
 		$this->handle_shortcode( $atts );
 
 		// Call the API and if fails, return error message.
-		if ( ! $response = $this->events_object->get_mbo_results() ) {
+		$response = $this->events_object->get_mbo_results();
+		if ( empty( $response ) ) {
 			$result  = '<div>';
 			$result .= __( 'Error returning events to display from Minbbody.', 'mz-mindbody-api' );
 			$result .= '</div>';
 			return $result;
 		}
 
-		// TODO following does nothing. This still work?
-		// $events = __('No Events in current cycle', 'mz-mindbody-api');
-		// if ($response['GetClassesResult']['ResultCount'] >= 1) {
-		// $events = $response['GetClassesResult']['Classes']['Class'];
-		// }
-
 		$events = $this->events_object->sortEventsByTime();
 
-		// Assign the date range to the $result
+		// Assign the date range to the $result.
 		$date_range           = $this->events_object->display_time_frame;
 		$result['date_range'] = sprintf(
+			// translators: Explanation displaying a range of events between start, end date.
 			__( 'Displaying events from %1$s to %2$s.', 'mz-mindbody-api' ),
 			$date_range['start']->format( 'F j' ),
 			$date_range['end']->format( 'F j' )
 		);
 
-		// Update the data array
+		// Update the data array.
 		$this->template_data['events'] = $events;
 		$this->template_data['atts']   = $atts;
 
 		$template_loader->set_template_data( $this->template_data );
-		if ( $atts['list'] != 1 ) :
+		if ( 1 !== (int) $atts['list'] ) :
 			$template_loader->get_template_part( 'event_listing_full' );
-	 else :
-		 $template_loader->get_template_part( 'event_listing_list' );
-	 endif;
+		else :
+			$template_loader->get_template_part( 'event_listing_list' );
+		endif;
 
-	 $result['message'] = ob_get_clean();
+		$result['message'] = ob_get_clean();
 
-	 if ( ( ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) )
-		 && ( 'xmlhttprequest' === strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) )
-	 ) {
-		 $result = wp_json_encode( $result );
-		 echo $result;
-	 } else {
-		 header( 'Location: ' . $_SERVER['HTTP_REFERER'] );
-	 }
+		if ( ( ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) )
+			&& ( 'xmlhttprequest' === strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) )
+		) {
+			$result = wp_json_encode( $result );
+			echo $result;
+		} else {
+			header( 'Location: ' . $_SERVER['HTTP_REFERER'] );
+		}
 
-	 die();
+		die();
 	}
 }

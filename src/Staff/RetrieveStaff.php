@@ -26,7 +26,7 @@ class RetrieveStaff extends Interfaces\Retrieve {
 	 *
 	 * @since  2.4.7
 	 * @access public
-	 * @var    array $staff Array of staff returned from MBO API
+	 * @var    array $staff_result Staff returned from MBO API
 	 */
 	public $staff_result;
 
@@ -62,9 +62,9 @@ class RetrieveStaff extends Interfaces\Retrieve {
 	 *
 	 * @since 2.4.7
 	 *
-	 * @param @staff_ids array of Staff IDs to return info for
+	 * @param array $staff_ids Staff IDs to return info for.
 	 *
-	 * @return $this->staff_result object holding staff details
+	 * @return $this->staff_result object holding staff details.
 	 */
 	public function get_mbo_results( $staff_ids = array() ) {
 
@@ -73,8 +73,8 @@ class RetrieveStaff extends Interfaces\Retrieve {
 			return false;
 		}
 
-		// All staff members?
-		$all = ( 0 == count( $staff_ids ) );
+		// All staff members, I think.
+		$all = ( 0 === count( $staff_ids ) );
 		// Make specific transient for specific staff members.
 		$transient_string = ( $all ) ? 'staff' : 'staff' . implode( '_', $staff_ids );
 		$transient_string = $this->generate_transient_name( $transient_string );
@@ -111,14 +111,14 @@ class RetrieveStaff extends Interfaces\Retrieve {
 	 * First populate two arrays: $important and $basic, then sort the entire array
 	 * returned by MBO based on those criteria.
 	 *
-	 * @param $atts array of shorcode atts from calling function.
+	 * @param array $atts Shorcode atts from calling function.
 	 *
 	 * @return array of MBO staff members, sorted by SortOrder, then LastName.
 	 */
 	public function sort_staff_by_sort_order( $atts = array() ) {
 
 		$count = 0;
-		// Obtain a list of columns
+		// Obtain a list of columns.
 		foreach ( $this->staff_result as $key => $row ) {
 			// Remove any Staff members that are in the hide shortcode attribute.
 			if ( ! empty( $atts['hide'] )
@@ -129,7 +129,7 @@ class RetrieveStaff extends Interfaces\Retrieve {
 				continue;
 			}
 			// Remove staff members without image unless set to display them in shortcode.
-			if ( ! ( isset( $atts['include_imageless'] ) && ( $atts['include_imageless'] != 0 ) )
+			if ( ! ( isset( $atts['include_imageless'] ) && ( 0 !== (int) $atts['include_imageless'] ) )
 				&& ( empty( $this->staff_result[ $count ]['ImageUrl'] ) )
 			) {
 				unset( $this->staff_result[ $count ] );
@@ -157,6 +157,9 @@ class RetrieveStaff extends Interfaces\Retrieve {
 
 	/**
 	 * Generate an array of Staff Member objects from array of Staff Members
+	 *
+	 * @param array $atts Shorcode atts from calling function.
+	 * @return object MZoo\MzMindbody\Staff\StaffMember().
 	 */
 	private function get_staff_member_objects( $atts = array() ) {
 

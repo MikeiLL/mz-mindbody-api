@@ -32,6 +32,7 @@ class RetrieveSite extends Interfaces\Retrieve {
 	 * The Mindbody API Object
 	 *
 	 * @access private
+	 * @var object $mb MZoo\MzMindbody\Libraries\MboV6Api.
 	 */
 	private $mb;
 

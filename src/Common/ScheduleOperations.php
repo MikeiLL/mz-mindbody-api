@@ -12,73 +12,16 @@ namespace MZoo\MzMindbody\Common;
 
 use MZoo\MzMindbody as NS;
 
+/**
+ * Schedule Operations
+ *
+ * Methods used in by various schedule shortcodes and functions.
+ */
 class ScheduleOperations {
 
-
 	/**
-	 * Summary.
-	 *
-	 * Gets a YYYY-mm-dd date and returns an array of three elements:
-	 *      array(start of requested week, end of requested week)
-	 *      following week start date
-	 *      previous week start date.
-	 *
-	 * @since  1.0
-	 * @source (initially adapted)
-	 * http://stackoverflow.com/questions/186431/calculating-days-of-week-given-a-week-number
-	 * Used by mz_show_schedule(), mz_show_events(), mz_mindbody_debug_text()
-	 * also used by mZ_mbo_pages_pages() in mZ MBO Pages plugin
-	 *
-	 * @param  var $date     Start date for date range.
-	 * @param  var $duration Optional. Description. Default.
-	 * @return matrix: array(Start Date, End Date) and Previous Range Start Date.
+	 * Retrieve name of Start of Week for current WP install
 	 */
-	public static function mz_getDateRange( $date, $duration = 7 ) {
-		$seconds_in_a_day = 86400;
-		$start            = new \DateTime( $date );
-		$now              = new \DateTime( null, self::get_blog_timezone() );
-		switch ( $now->format( 'l' ) ) {
-			case 'Tuesday':
-				$into_following_week = 1;
-			case 'Wednesday':
-				$into_following_week = 2;
-			case 'Thursday':
-				$into_following_week = 3;
-				break;
-			case 'Friday':
-				$into_following_week = 4;
-				break;
-			case 'Saturday':
-				$into_following_week = 5;
-				break;
-			case 'Sunday':
-				$into_following_week = 6;
-				break;
-			default:
-				$into_following_week = 0;
-				break;
-		}
-		$end        = clone $start;
-		$previous   = clone $start;
-		$subsequent = clone $start;
-		$subsequent->add( new \DateInterval( 'P' . ( $duration ) . 'D' ) );
-		$temp = new \DateInterval( 'P' . ( $duration + $into_following_week ) . 'D' );
-		$end->add( new \DateInterval( 'P' . ( $duration + $into_following_week ) . 'D' ) );
-		$previous->sub( new \DateInterval( 'P' . $duration . 'D' ) );
-		$return[0] = array(
-			'StartDateTime' => $start->format( 'Y-m-d' ),
-			'EndDateTime'   => $end->format( 'Y-m-d' ),
-		);
-
-		$return[1] = $subsequent->modify( 'Monday this week' )->format( 'Y-m-d' );
-		$return[2] = $previous->modify( 'Monday this week' )->format( 'Y-m-d' );
-		// NS\MZMBO()->helpers->print($return);
-		return $return;
-	}
-
-	/*
-	* Retrieve name of Start of Week for current WP install
-	*/
 	private function week_start_day() {
 		switch ( get_option( 'start_of_week' ) ) {
 			case 0:
@@ -175,37 +118,11 @@ class ScheduleOperations {
 		return array( $current, date( 'Y-m-d', strtotime( $clone_current->format( 'y-m-d' ) ) ) );
 	}
 
-	/*
-	* Make a clean array with seven corresponding slots and populate
-	* based on indicator (day) for each class. There may be more than
-	* one even for each day and empty arrays will represent empty time slots.
-	*/
-	public static function weekOfTimeslot( $array, $indicator ) {
-		$seven_days = array_combine(
-			range( 1, 7 ),
-			array(
-				array(),
-				array(),
-				array(),
-				array(),
-				array(),
-				array(),
-				array(),
-			)
-		);
-		foreach ( $seven_days as $key => $value ) {
-			foreach ( $array as $class ) {
-				if ( $class->$indicator == $key ) {
-					array_push( $seven_days[ $key ], $class );
-				}
-			}
-		}
-		return $seven_days;
-	}
-
-	/*
-	* @param string
-	*/
+	/**
+	 * MZ Validate Date
+	 *
+	 * @param string $string To check for non-date characters.
+	 */
 	public static function mz_validate_date( $string ) {
 		if ( preg_match( '/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/', $string ) ) {
 			return $string;

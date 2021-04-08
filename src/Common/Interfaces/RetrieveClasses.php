@@ -510,19 +510,24 @@ abstract class RetrieveClasses extends Retrieve {
 					return $a->start_datetime < $b->start_datetime ? -1 : 1;
 				}
 			);
-			$classes['classes'] = $this->weekOfTimeslot( $classes['classes'], 'day_num' );
+			$classes['classes'] = $this->week_of_timeslot( $classes['classes'], 'day_num' );
 		}
 
 		return $this->classes_by_time_then_date;
 	}
 
 
+
 	/**
+	 * Week of Timeslot
+	 *
 	 * Make a clean array with seven corresponding slots and populate
 	 * based on indicator (day) for each class. There may be more than
-	 * one event for each day and empty arrays will represent empty time slots.
+	 * one even for each day and empty arrays will represent empty time slots.
+	 *
+	 * @param array $array
 	 */
-	private function weekOfTimeslot( $classes, $indicator ) {
+	private function week_of_timeslot( $classes, $indicator ) {
 		$seven_days = array_combine(
 			range( 1, 7 ),
 			array(
