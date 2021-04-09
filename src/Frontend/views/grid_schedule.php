@@ -42,7 +42,7 @@ use MZoo\MzMindbody\Libraries as Libraries;
 	?>
 </h4>
 <?php
-if ( empty( $data->horizontal_schedule ) ) {
+if ( empty( $data->grid_schedule ) ) {
 	echo sprintf(
 		// translators: Give a start and end date range for displayed classes.
 		__( 'No Classes To Display (%1$s - %2$s)', 'mz-mindbody-api' ),
