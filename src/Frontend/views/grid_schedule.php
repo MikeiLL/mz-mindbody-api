@@ -41,6 +41,15 @@ use MZoo\MzMindbody\Libraries as Libraries;
 	);
 	?>
 </h4>
+<?php
+if ( empty( $data->horizontal_schedule ) ) {
+	// translators: Give a start and end date range for displayed classes.
+	echo sprintf( __( 'No Classes To Display (%1$s - %2$s)', 'mz-mindbody-api' ), 
+		date( $data->date_format, $data->start_date->getTimestamp() ),
+		date( $data->date_format, $data->end_date->getTimestamp() )
+	);
+}
+?>
 <table class="<?php echo $data->table_class; ?>">
 	<thead>
 		<tr>

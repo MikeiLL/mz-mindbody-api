@@ -14,10 +14,15 @@
 use MZoo\MzMindbody\Core;
 use MZoo\MzMindbody\Libraries as Libraries;
 use MZoo\MzMindbody as NS;
+
 ?>
 <?php
 if ( empty( $data->horizontal_schedule ) ) {
-	echo sprintf( __( 'No Classes To Display (%1$s - %2$s)', 'mz-mindbody-api' ), wp_date( $data->date_format, $data->start_date->getTimestamp() ), wp_date( $data->date_format, $data->end_date->getTimestamp() ) );
+	// translators: Give a start and end date range for displayed classes.
+	echo sprintf( __( 'No Classes To Display (%1$s - %2$s)', 'mz-mindbody-api' ), 
+		date( $data->date_format, strtotime(array_keys($data->horizontal_schedule)[0]) ),
+		date( $data->date_format, strtotime(array_keys($data->horizontal_schedule)[6]) )
+	);
 }
 ?>
 <table id="mz_horizontal_schedule" class="<?php echo $data->table_class; ?>">

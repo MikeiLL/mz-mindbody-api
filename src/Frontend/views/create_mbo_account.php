@@ -15,7 +15,7 @@
 
 			<p class="website_url" style="display:none"><?php echo $antispam; ?><input type="text" name="website_url" /></p>
 			<input type="hidden" name="nonce" value="<?php echo $data->nonce; ?>"/>
-			<input type="hidden" name="classID" value="<?php echo $data->classID; ?>" />
+			<input type="hidden" name="classID" value="<?php echo $data->class_id; ?>" />
 			<label for="Username"> <?php echo $data->username; ?></label> <input type="text" name="data[Client][Username]" id="Username" placeholder="<?php echo $data->username; ?>" required /><br />
 			<label for="Email"> <?php echo $data->clientemail; ?></label> <input type="text" name="data[Client][Email]" id="Email" placeholder="<?php echo $data->clientemail; ?>" required /><br />
 			<label for="Password"> <?php echo $data->password; ?></label> <input type="password" name="data[Client][Password]" id="Password" placeholder="<?php echo $data->password; ?>" required /><br />

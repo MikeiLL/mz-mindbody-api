@@ -44,22 +44,6 @@ use MZoo\MzMindbody\Core as Core;
 
 		</div>
 
-		<!--<div class="row">
-
-			<div class="form-group col-xs-8 col-sm-6">
-
-				<?php // if (Core\MzMindbodyApi::$advanced_options['allow_remember_me_cookie'] == 'on'): ?>
-					<div class="checkbox">
-
-						<label><input name="keep_me_logged_in" type="checkbox"> <?php // esc_html_e('Keep me logged in.', 'mz-mindbody-api'); ?> </label>
-
-					</div>
-				<?php // endif; ?>
-
-			</div>
-
-		</div>-->
-
 		<div class="row" style="margin:.5em;">
 
 			<div class="col-12">
@@ -68,21 +52,21 @@ use MZoo\MzMindbody\Core as Core;
 					<?php echo esc_html( $data->login ); ?>
 				</button>
 
-				<a id="createMBOAccount" href="#" data-nonce="<?php echo $data->signup_nonce; ?>" data-classID="<?php echo $data->classID; ?>" class="btn btn-primary btn-xs"><?php echo $data->registration_button; ?></a>
+				<a id="createMBOAccount" href="#" data-nonce="<?php echo $data->signup_nonce; ?>" data-classID="<?php echo $data->class_id; ?>" class="btn btn-primary btn-xs"><?php echo $data->registration_button; ?></a>
 					href="#" 
 					data-nonce="<?php echo esc_html( $data->signup_nonce ); ?>" 
-					data-classID="<?php echo esc_html( $data->classID ); ?>" 
+					data-classID="<?php echo esc_html( $data->class_id ); ?>" 
 					class="btn btn-primary btn-xs">
 					<?php echo esc_html( $data->registration_button ); ?>
 				</a>
-				
+
 				<a href="https://clients.mindbodyonline.com/ws.asp?&amp;sLoc=1&studioid=<?php echo $data->site_id; ?>" class="btn btn-primary btn-xs" id="MBOSite"><?php echo $data->manage_on_mbo; ?></a>
 				$mbo_link = 'https://clients.mindbodyonline.com/ws.asp';
 				$mbo_link .= '?&amp;sLoc=' . $data->location; 
 				$mbo_link .= '&studioid=' . $data->site_id;
 				?>
-				
-				<a href="<?php esc_html_e( $mbo_link ); ?>" 
+
+				<a href="<?php echo esc_html( $mbo_link ); ?>" 
 					class="btn btn-primary btn-xs" 
 					style="text-decoration:none;" id="MBOSite">
 					<?php echo esc_html( $data->manage_on_mbo ); ?>
