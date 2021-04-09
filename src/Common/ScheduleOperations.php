@@ -69,14 +69,14 @@ class ScheduleOperations {
 			'Sun',
 		);
 		foreach ( $days_of_the_week as $day_name ) :
-			if ( $current_day_name != $day_name ) :
+			if ( $current_day_name !== $day_name ) :
 				$current->add( new \DateInterval( 'P1D' ) );
-		 else :
-			 break;
-		 endif;
+			else :
+				break;
+			endif;
 		endforeach;
 		$clone_current = clone $current;
-		return array( $current, date( 'Y-m-d', strtotime( $clone_current->format( 'y-m-d' ) ) ) );
+		return array( $current, gmdate( 'Y-m-d', strtotime( $clone_current->format( 'y-m-d' ) ) ) );
 	}
 
 	/**

@@ -71,6 +71,7 @@ You need to register a developer account with MindBody, which costs $5+ per webs
 Bugfix: Correct misuse of wp_date.
 Implement more WP Standards.
 Replace my get_blog_timezone() with native wp_timezone().
+HTMLEntity decode staff biography.
 
 = v2.8.4 =
 Bugfix: Correct path to Frontend view Templates.

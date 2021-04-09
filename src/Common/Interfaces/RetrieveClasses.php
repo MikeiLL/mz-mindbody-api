@@ -205,11 +205,19 @@ abstract class RetrieveClasses extends Retrieve {
 		endif;
 		$this->time_frame           = $this->time_frame();
 		$this->locations_dictionary = array();
-		$this->schedule_types       = ! empty( Core\MzMindbodyApi::$advanced_options['schedule_types'] ) ? Core\MzMindbodyApi::$advanced_options['schedule_types'] : array( 'Class' );
+
+		// Schedule types default to 'Class' (vs Enrollment).
+		$this->schedule_types = array( 'Class' );
+
+		if ( ! empty( Core\MzMindbodyApi::$advanced_options['schedule_types'] ) ) {
+			$this->schedule_types = Core\MzMindbodyApi::$advanced_options['schedule_types'];
+		}
+
 		// Allow shortcode to override global setting for schedule_types.
 		if ( ! empty( $this->atts['schedule_types'] ) ) {
 			$this->schedule_types = $this->atts['schedule_types'];
 		}
+
 	}
 
 

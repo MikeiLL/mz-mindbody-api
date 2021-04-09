@@ -21,7 +21,7 @@ use MZoo\MzMindbody as NS;
 		endif;
 		if ( ! empty( $data->staff_details->staff_bio ) ) :
 			?>
-			<?php echo html_entity_decode($data->staff_details->staff_bio); ?>
+			<?php echo html_entity_decode( $data->staff_details->staff_bio ); ?>
 			<?php
 		else :
 			?>

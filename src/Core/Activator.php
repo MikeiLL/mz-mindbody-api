@@ -42,16 +42,16 @@ class Activator {
 			}
 		}
 
-		// Automatically create option to track api calls
+		// Automatically create option to track api calls.
 		$mz_mbo_api_calls          = array();
-		$mz_mbo_api_calls['today'] = date( 'Y-m-d' );
+		$mz_mbo_api_calls['today'] = gmdate( 'Y-m-d' );
 		$mz_mbo_api_calls['calls'] = 2;
 		update_option( 'mz_mbo_api_calls', $mz_mbo_api_calls );
 
 		$advanced_options = get_option( 'mz_mbo_advanced' );
 
-		// Set default advanced options
-		// If completely empty set all
+		// Set default advanced options.
+		// If completely empty set all.
 		if ( empty( $advanced_options ) ) {
 			$advanced_options = array(
 				'date_format'                 => 'l, F j',
@@ -64,10 +64,10 @@ class Activator {
 		}
 
 		if ( ! empty( $advanced_options ) && empty( $advanced_options['api_call_limit'] ) ) {
-			// Maybe it's been installed pre v2.5.7
+			// Maybe it's been installed pre v2.5.7.
 			$advanced_options['api_call_limit'] = 2000;
-			// Maybe it's been installed pre v2.6.7
-			$advanced_options['schedule_transient_duration'] = 43200;
+			// Maybe it's been installed pre v2.6.7.
+			$advanced_options['schedule_transient_durat.ion'] = 43200;
 		}
 		update_option( 'mz_mbo_advanced', $advanced_options );
 

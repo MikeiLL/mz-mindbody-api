@@ -31,7 +31,7 @@ if ( empty( $data->horizontal_schedule ) ) {
 		<thead>
 			<tr class="header visible striped" style="display: table-row">
 				<th class="mz_date_display" scope="header">
-		<?php echo date( $data->date_format, strtotime( $day ) ); ?>
+		<?php echo gmdate( $data->date_format, strtotime( $day ) ); ?>
 				</th>
 				<th class="mz_classDetails" scope="header">
 		<?php esc_html_e( 'Class Name', 'mz-mindbody-api' ); ?>
@@ -89,29 +89,29 @@ if ( empty( $data->horizontal_schedule ) ) {
 				<?php endif; ?>
 			</tr>
 			<?php endforeach; ?>
-		
+
 		<?php else : ?>
 			<tr class="mz_schedule_table mz_description_holder mz_description_holder_empty">
 				<td class="mz_date_display">
-				
+
 				</td>
 				<td class="mz_classDetails">
-				
+
 				</td>
 			<?php if ( ! in_array( 'teacher', $data->hide, true ) ) : ?>
 				<td class="mz_staffName">
-				
+
 				</td>
 			<?php endif; ?>
 			<?php if ( ! in_array( 'session-type', $data->hide, true ) ) : ?>
 				<td class="mz_sessionTypeName">
-					
+
 				</td>
 			<?php endif; ?>
 			</tr>
-			
+
 		<?php endif; // if $classes or else block. ?>
-		
+
 		</tbody>
 	<?php endforeach; ?>
 </table>
