@@ -13,27 +13,25 @@ namespace MZoo\MzMindbody\Backend;
 use MZoo\MzMindbody as NS;
 use MZoo\MzMindbody\Common\Interfaces as Interfaces;
 
+/**
+ * Retrieve Debug
+ *
+ * This class holds the methods used in WP Admin to debug MBO connection.
+ */
 class RetrieveDebug extends Interfaces\Retrieve {
-
-
-
-
-
-	public $property_test = 'thing';
 
 	/**
 	 * Return Time Frame for request to MBO API
 	 *
 	 * @since 2.4.7
 	 *
-	 * @throws \Exception
-	 *
 	 * Default time_frame is two dates, start of current week as set in WP, and seven days from "now.
 	 *
+	 * @param timestamp $timestamp required to make MBO request for schedule.
 	 * @return array or start and end dates as required for MBO API
 	 */
 	public function time_frame( $timestamp = null ) {
-		$time = new \Datetime( date( 'Y-m-d', strtotime( wp_date( 'Y-m-d H:i:s' ) ) ) );
+		$time = new \Datetime( gmdate( 'Y-m-d', strtotime( wp_date( 'Y-m-d H:i:s' ) ) ) );
 		return array(
 			'StartDateTime' => $time->format( 'Y-m-d' ),
 			'EndDateTime'   => $time->format( 'Y-m-d' ),
@@ -46,15 +44,14 @@ class RetrieveDebug extends Interfaces\Retrieve {
 	 *
 	 * @since 2.4.7
 	 *
-	 * @param @timestamp defaults to current time
+	 * @param timestamp $timestamp required to make MBO request for schedule.
+	 * @param bool      $version_five Whether to call API v5.
 	 *
-	 * @throws \Exception
-	 *
-	 * @return array of MBO schedule data
+	 * @return array of MBO schedule data.
 	 */
 	public function get_mbo_results( $timestamp = null, $version_five = false ) {
 
-		$mb = ( $version_five === false ) ? $this->instantiate_mbo_api() : $this->instantiate_mbo_api( 5 );
+		$mb = ( false === $version_five ) ? $this->instantiate_mbo_api() : $this->instantiate_mbo_api( 5 );
 
 		if ( ! $mb ) {
 			return false;
@@ -64,7 +61,7 @@ class RetrieveDebug extends Interfaces\Retrieve {
 			return $mb;
 		}
 
-		if ( $version_five !== false ) {
+		if ( false !== $version_five ) {
 			$this->classes = $mb->GetClasses( $this->time_frame() );
 		}
 

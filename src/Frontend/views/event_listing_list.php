@@ -1,4 +1,11 @@
 <?php
+/**
+ * Event Listing List
+ *
+ * @package MzMindbody
+ *
+ * This file contains the template for events listed in a tabular list.
+ */
 
 use MZoo\MzMindbody as NS;
 use MZoo\MzMindbody\Core as Core;
@@ -29,17 +36,17 @@ if ( ( is_array( $data->events ) ) && ! empty( $data->events ) ) : ?>
 		<?php foreach ( $events as $event ) : ?>
 		<tbody>
 			<tr>
-				<td><?php echo date( Core\MzMindbodyApi::$date_format, strtotime( $event->start_datetime ) ); ?> <br /><?php echo $event->sign_up_link->build(); ?></td>
+				<td><?php echo gmdate( Core\MzMindbodyApi::$date_format, strtotime( $event->start_datetime ) ); ?> <br /><?php echo $event->sign_up_link->build(); ?></td>
 				<td>
-			<?php echo date( Core\MzMindbodyApi::$time_format, strtotime( $event->start_datetime ) ); ?> -
-			<?php echo date( Core\MzMindbodyApi::$time_format, strtotime( $event->end_datetime ) ); ?>
+			<?php echo gmdate( Core\MzMindbodyApi::$time_format, strtotime( $event->start_datetime ) ); ?> -
+			<?php echo gmdate( Core\MzMindbodyApi::$time_format, strtotime( $event->end_datetime ) ); ?>
 				</td>
 				<td>
 			<?php echo $event->class_name_link->build() . ' ' . $data->with . ' ' . $event->staff_name_link->build(); ?>
 
 				</td>
 			<?php
-			// Display location if showing schedule for more than one location
+			// Display location if showing schedule for more than one location.
 			if ( $data->locations_count >= 2 ) :
 				?>
 				<td>
@@ -51,8 +58,8 @@ if ( ( is_array( $data->events ) ) && ! empty( $data->events ) ) : ?>
 	<?php endforeach; ?>
 		</tbody>
 	</table>
-<?php elseif ( count( $data->events ) == 0 ) : ?>
-	<h4><?php echo $data->no_events; ?></h4>
+<?php elseif ( 0 === count( $data->events ) ) : ?>
+	<h4><?php echo esc_html( $data->no_events ); ?></h4>
 <?php else : ?>
 	<div class="error"><?php esc_html_e( 'Error Retrieving Events', 'mz_mindbody_api' ); ?></div>
 	<p><?php var_dump( $data->events ); ?></p>

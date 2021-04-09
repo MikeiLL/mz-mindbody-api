@@ -15,7 +15,6 @@
 		<h3><?php echo $staff->staff_name; ?></h3>
 		<div class="MzStaff_bio">
 	<?php echo $staff->image_tag; ?>
-			
 	<?php echo htmlspecialchars_decode( $staff->staff_bio ); ?>
 			<p class="MzStaff_schedule">
 				<?php echo $staff->schedule_button; ?>
