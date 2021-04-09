@@ -29,7 +29,7 @@
 		<h3>
 			<?php
 			echo esc_html(
-				$data->message;
+				$data->message
 			);
 			?>
 		</h3>
