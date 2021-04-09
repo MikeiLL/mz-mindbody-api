@@ -45,7 +45,7 @@ if ( empty( $data->horizontal_schedule ) ) {
 		<tbody>
 		<?php if ( ! empty( $classes ) ) : ?>
 			<?php foreach ( $classes as $k => $class ) : ?>
-			<tr class="mz_schedule_table mz_description_holder mz_location_<?php echo $class->sLoc . ' ' . $class->session_type_css . ' ' . $class->class_name_css; ?>">
+			<tr class="mz_schedule_table mz_description_holder mz_location_<?php echo $class->studio_location_id . ' ' . $class->session_type_css . ' ' . $class->class_name_css; ?>">
 				<td class="mz_date_display" data-time="<?php echo $class->startDateTime; ?>">
 				<?php echo date( $data->time_format, strtotime( $class->start_datetime ) ) . ' - ' . date( $data->time_format, strtotime( $class->end_datetime ) ); ?><br />
 					<span class="mz_hidden mz_time_of_day"><?php echo $class->part_of_day; ?></span>
@@ -76,7 +76,7 @@ if ( empty( $data->horizontal_schedule ) ) {
 					// Display location if showing schedule for more than one location
 					if ( count( $data->locations_dictionary ) >= 2 ) :
 						esc_html_e( 'at', 'mz-mindbody-api' );
-						echo ' ' . $data->locations_dictionary[ $class->sLoc ]['link'];
+						echo ' ' . $data->locations_dictionary[ $class->studio_location_id ]['link'];
 					endif;
 					?>
 				</td>

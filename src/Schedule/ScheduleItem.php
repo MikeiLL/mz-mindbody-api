@@ -83,7 +83,7 @@ class ScheduleItem {
 	 *
 	 * @since  2.4.7
 	 * @access public
-	 * @var    int $class_schedule_id ID of this particular instance of the class
+	 * @var    int $class_schedule_id ID of this particular instance of the class.
 	 */
 	public $class_schedule_id;
 

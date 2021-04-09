@@ -1,11 +1,10 @@
 <?php
-
 /**
- * Template to isplay schedule in grid format
+ * Template to display schedule in grid format
  *
  * May be loaded along with horizontal schedule to be swapped via DOM request
  *
- * @link  http://mzoo.org
+ * @package MzMindbody
  * @since 2.4.7
  *
  * @author Mike iLL/mZoo.org
@@ -32,9 +31,15 @@ use MZoo\MzMindbody\Libraries as Libraries;
 </style>
 <h4 class="mz_grid_date">
 	<?php
-	$this_week_start = date( $data->date_format, $data->start_date->getTimestamp() );
+	$this_week_start = gmdate( $data->date_format, $data->start_date->getTimestamp() );
 	?>
-	<?php printf( __( 'Week of %1$s', 'mz-mindbody-api' ), $this_week_start ); ?>
+	<?php
+	printf(
+			// translators: What is date of start of currently displayed week.
+		__( 'Week of %1$s', 'mz-mindbody-api' ),
+		$this_week_start
+	);
+	?>
 </h4>
 <table class="<?php echo $data->table_class; ?>">
 	<thead>
@@ -56,7 +61,7 @@ use MZoo\MzMindbody\Libraries as Libraries;
 				foreach ( $day_slot as $class ) :
 					$classes--;
 					?>
-					<div class="mz_schedule_table mz_description_holder mz_location_<?php echo $class->sLoc . ' ' . $class->session_type_css . ' ' . $class->class_name_css; ?>">
+					<div class="mz_schedule_table mz_description_holder mz_location_<?php echo $class->studio_location_id . ' ' . $class->session_type_css . ' ' . $class->class_name_css; ?>">
 					<?php $class->class_name_link->output(); ?>&nbsp;
 					<?php
 					if ( ! in_array( 'teacher', $data->hide, true ) ) :
@@ -78,16 +83,16 @@ use MZoo\MzMindbody\Libraries as Libraries;
 					if ( ! in_array( 'duration', $data->hide, true ) ) :
 						esc_html_e( 'Duration:', 'mz-mindbody-api' );
 						?>
-							 &nbsp;
+							&nbsp;
 						<?php
 						echo $class->class_duration->format( '%H:%I' );
 					endif;
 					?>
 					<?php
 					if ( ! in_array( 'location', $data->hide, true ) ) :
-						// Display location if showing schedule for more than one location
+						// Display location if showing schedule for more than one location.
 						if ( count( $data->locations_dictionary ) >= 2 ) :
-								echo '<br/>' . $data->locations_dictionary[ $class->sLoc ]['link'];
+								echo '<br/>' . $data->locations_dictionary[ $class->studio_location_id ]['link'];
 						endif;
 					endif;
 					?>
