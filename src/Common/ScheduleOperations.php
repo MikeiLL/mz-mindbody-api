@@ -45,47 +45,6 @@ class ScheduleOperations {
 	}
 
 	/**
-	 *  Returns the blog timezone
-	 *
-	 * Gets timezone settings from the db. If a timezone identifier is used just turns
-	 * it into a \DateTimeZone. If an offset is used, it tries to find a suitable timezone.
-	 * If all else fails it uses UTC.
-	 *
-	 * Source: http://wordpress.stackexchange.com/a/198453/48604
-	 *
-	 * @return \DateTimeZone The blog timezone
-	 */
-	public static function get_blog_timezone() {
-
-		$tzstring = get_option( 'timezone_string' );
-		$offset   = get_option( 'gmt_offset' );
-
-		/**
-		 * Manual offset...
-		 * @see http://us.php.net/manual/en/timezones.others.php
-		 * @see https://bugs.php.net/bug.php?id=45543
-		 * @see https://bugs.php.net/bug.php?id=45528
-		 * IANA timezone database that provides PHP's timezone support uses POSIX (i.e. reversed) style signs
-		 */
-		if ( empty( $tzstring ) && 0 != $offset && floor( $offset ) == $offset ) {
-			$offset_st = $offset > 0 ? "-$offset" : '+' . absint( $offset );
-			$tzstring  = 'Etc/GMT' . $offset_st;
-		}
-
-		// Issue with the timezone selected, set to 'UTC'
-		if ( empty( $tzstring ) ) {
-			$tzstring = 'UTC';
-		}
-
-		if ( $tzstring instanceof \DateTimeZone ) {
-			return $tzstring;
-		}
-
-		$timezone = new \DateTimeZone( $tzstring );
-		return $timezone;
-	}
-
-	/**
 	 * Returns an array of two date objects:
 	 *
 	 * @since  1.0
@@ -97,8 +56,8 @@ class ScheduleOperations {
 	 * @return array Start Date, End Date and Previous Range Start Date.
 	 */
 	public static function current_to_day_of_week_today() {
-		$current          = isset( $_GET['mz_date'] ) ? new \DateTime( $_GET['mz_date'], self::get_blog_timezone() ) : new \DateTime( null, self::get_blog_timezone() );
-		$today            = new \DateTime( null, self::get_blog_timezone() );
+		$current          = isset( $_GET['mz_date'] ) ? new \DateTime( $_GET['mz_date'], wp_timezone() ) : new \DateTime( null, wp_timezone() );
+		$today            = new \DateTime( null, wp_timezone() );
 		$current_day_name = $today->format( 'D' );
 		$days_of_the_week = array(
 			'Mon',
