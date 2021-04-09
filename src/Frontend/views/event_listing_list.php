@@ -29,7 +29,7 @@ if ( ( is_array( $data->events ) ) && ! empty( $data->events ) ) : ?>
 		<?php foreach ( $events as $event ) : ?>
 		<tbody>
 			<tr>
-				<td><?php echo date( Core\MzMindbodyApi::$date_format, strtotime( $event->startDateTime ) ); ?> <br /><?php echo $event->sign_up_link->build(); ?></td>
+				<td><?php echo date( Core\MzMindbodyApi::$date_format, strtotime( $event->start_datetime ) ); ?> <br /><?php echo $event->sign_up_link->build(); ?></td>
 				<td>
 			<?php echo date( Core\MzMindbodyApi::$time_format, strtotime( $event->start_datetime ) ); ?> -
 			<?php echo date( Core\MzMindbodyApi::$time_format, strtotime( $event->end_datetime ) ); ?>

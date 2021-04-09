@@ -18,11 +18,11 @@ use MZoo\MzMindbody as NS;
 ?>
 <?php
 if ( empty( $data->horizontal_schedule ) ) {
-	// translators: Give a start and end date range for displayed classes.
 	echo sprintf(
+		// translators: Give a start and end date range for displayed classes.
 		__( 'No Classes To Display (%1$s - %2$s)', 'mz-mindbody-api' ),
-		date( $data->date_format, strtotime( array_keys( $data->horizontal_schedule )[0] ) ),
-		date( $data->date_format, strtotime( array_keys( $data->horizontal_schedule )[6] ) )
+		gmdate( $data->date_format, strtotime( array_keys( $data->horizontal_schedule )[0] ) ),
+		gmdate( $data->date_format, strtotime( array_keys( $data->horizontal_schedule )[6] ) )
 	);
 }
 ?>
@@ -52,8 +52,8 @@ if ( empty( $data->horizontal_schedule ) ) {
 		<?php if ( ! empty( $classes ) ) : ?>
 			<?php foreach ( $classes as $k => $class ) : ?>
 			<tr class="mz_schedule_table mz_description_holder mz_location_<?php echo $class->studio_location_id . ' ' . $class->session_type_css . ' ' . $class->class_name_css; ?>">
-				<td class="mz_date_display" data-time="<?php echo $class->startDateTime; ?>">
-				<?php echo date( $data->time_format, strtotime( $class->start_datetime ) ) . ' - ' . date( $data->time_format, strtotime( $class->end_datetime ) ); ?><br />
+				<td class="mz_date_display" data-time="<?php echo $class->start_datetime; ?>">
+				<?php echo gmdate( $data->time_format, strtotime( $class->start_datetime ) ) . ' - ' . gmdate( $data->time_format, strtotime( $class->end_datetime ) ); ?><br />
 					<span class="mz_hidden mz_time_of_day"><?php echo $class->part_of_day; ?></span>
 				<?php if ( ! in_array( 'signup', $data->hide, true ) ) : ?>
 					<?php $class->sign_up_link->output(); ?>
@@ -79,7 +79,7 @@ if ( empty( $data->horizontal_schedule ) ) {
 				<td class="mz_sessionTypeName">
 					<?php echo $class->session_type_name; ?>
 					<?php
-					// Display location if showing schedule for more than one location
+					// Display location if showing schedule for more than one location.
 					if ( count( $data->locations_dictionary ) >= 2 ) :
 						esc_html_e( 'at', 'mz-mindbody-api' );
 						echo ' ' . $data->locations_dictionary[ $class->studio_location_id ]['link'];
@@ -110,7 +110,7 @@ if ( empty( $data->horizontal_schedule ) ) {
 			<?php endif; ?>
 			</tr>
 			
-		<?php endif; // if $classes or else block ?>
+		<?php endif; // if $classes or else block. ?>
 		
 		</tbody>
 	<?php endforeach; ?>
