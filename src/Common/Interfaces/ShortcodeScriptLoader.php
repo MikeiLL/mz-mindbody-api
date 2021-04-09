@@ -25,9 +25,9 @@ abstract class ShortcodeScriptLoader extends ShortcodeLoader {
 	 *
 	 * @since  2.4.7
 	 * @access private
-	 * @var    boolean $doAddScript True if handling shortcode wrapper.
+	 * @var    boolean $do_add_script True if handling shortcode wrapper.
 	 */
-	private $doAddScript;
+	private $do_add_script;
 
 	public function register( $shortcode_name ) {
 		$this->register_shortcode_to_function( $shortcode_name, 'handle_shortcode_wrapper' );
@@ -38,14 +38,14 @@ abstract class ShortcodeScriptLoader extends ShortcodeLoader {
 
 	public function handle_shortcode_wrapper( $atts, $content = null ) {
 		// Flag that we need to add the script
-		$this->doAddScript = true;
+		$this->do_add_script = true;
 		return $this->handle_shortcode( $atts, $content );
 	}
 
 
 	public function addScriptWrapper() {
 		// Only add the script if the shortcode was actually called
-		if ( $this->doAddScript ) {
+		if ( $this->do_add_script ) {
 			$this->addScript();
 		}
 	}
