@@ -286,9 +286,9 @@ class SingleEvent {
 		$this->first_name = $event['Staff']['FirstName'];
 		$this->last_name  = $event['Staff']['LastName'];
 		// Set Staff Name up.
-		// First set first, last with default to blank string
+		// First set first, last with default to blank string.
 		$this->staff_name = isset( $this->first_name ) ? $this->first_name . ' ' . $this->last_name : '';
-		// If "Name" has been set, use that
+		// If "Name" has been set, use that.
 		if ( isset( $event['Staff']['Name'] ) ) {
 			$this->staff_name = $event['Staff']['Name'];
 		}
@@ -303,29 +303,37 @@ class SingleEvent {
 		$this->location_city            = $event['Location']['City'];
 		$this->location_state_prov_code = $event['Location']['StateProvCode'];
 		$this->location_postal_code     = $event['Location']['PostalCode'];
-		$this->start_date               = date( Core\MzMindbodyApi::$date_format, strtotime( $event['StartDateTime'] ) );
-		$this->start_time               = date( Core\MzMindbodyApi::$time_format, strtotime( $event['StartDateTime'] ) );
+		$this->start_date               = gmdate( Core\MzMindbodyApi::$date_format, strtotime( $event['StartDateTime'] ) );
+		$this->start_time               = gmdate( Core\MzMindbodyApi::$time_format, strtotime( $event['StartDateTime'] ) );
 
-		// Leave end_date blank if same as start day
-		$maybe_end_date        = date( Core\MzMindbodyApi::$date_format, strtotime( $event['EndDateTime'] ) );
-		$this->end_date        = ( $this->start_date == $maybe_end_date ) ? '' : $maybe_end_date;
-		$this->end_time        = date( Core\MzMindbodyApi::$time_format, strtotime( $event['EndDateTime'] ) );
+		// Leave end_date blank if same as start day.
+		$maybe_end_date        = gmdate( Core\MzMindbodyApi::$date_format, strtotime( $event['EndDateTime'] ) );
+		$this->end_date        = ( $maybe_end_date === $this->start_date ) ? '' : $maybe_end_date;
+		$this->end_time        = gmdate( Core\MzMindbodyApi::$time_format, strtotime( $event['EndDateTime'] ) );
 		$this->atts            = $atts;
 		$this->site_id         = ! empty( $atts['account'] ) ? $atts['account'] : Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
 		$this->mbo_url         = $this->mbo_url();
-		$this->class_name_link = $this->eventLinkMaker( 'class' );
-		$this->staff_name_link = $this->eventLinkMaker( 'staff' );
-		$this->sign_up_link    = $this->eventLinkMaker( 'signup' );
+		$this->class_name_link = $this->event_link_maker( 'class' );
+		$this->staff_name_link = $this->event_link_maker( 'staff' );
+		$this->sign_up_link    = $this->event_link_maker( 'signup' );
 	}
 
-	private function eventLinkMaker( $type = 'class' ) {
+	/**
+	 * Event Link Maker
+	 *
+	 * Generate anchor tag for event, staff, signup.
+	 *
+	 * @param string $type Which type of link to generate.
+	 * @return string html anchor tag.
+	 */
+	private function event_link_maker( $type = 'class' ) {
 		$class_name_link = new Library\HtmlElement( 'a' );
 		$class_name_link->set( 'href', NS\PLUGIN_NAME_URL . 'src/Frontend/views/modals/modal_descriptions.php' );
 		$link_array = array();
 		switch ( $type ) {
 			case 'staff':
-				$link_array['data-staffImage'] = ( $this->staff_image != '' ) ? $this->staff_image : '';
-				$link_array['data-staffBio']   = ( $this->staff_bio != '' ) ? $this->staff_bio : '';
+				$link_array['data-staffImage'] = ( '' !== $this->staff_image ) ? $this->staff_image : '';
+				$link_array['data-staffBio']   = ( '' !== $this->staff_bio ) ? $this->staff_bio : '';
 				$link_array['text']            = $this->staff_name;
 				$link_array['data-staffName']  = $this->staff_name;
 				$link_array['data-target']     = 'mzStaffScheduleModal';
@@ -337,7 +345,10 @@ class SingleEvent {
 
 				$link_array['text'] = __( 'Sign-Up', 'mz-mindbody-api' );
 
-				$link_array['data-time'] = date( Core\MzMindbodyApi::$date_format . ' ' . Core\MzMindbodyApi::$time_format, strtotime( $this->start_datetime ) );
+				$link_array['data-time'] = gmdate(
+					Core\MzMindbodyApi::$date_format . ' ' . Core\MzMindbodyApi::$time_format,
+					strtotime( $this->start_datetime )
+				);
 
 				$link_array['target'] = '_blank';
 
@@ -348,8 +359,8 @@ class SingleEvent {
 			case 'class':
 				$link_array['data-className']        = $this->class_name;
 				$link_array['data-staffName']        = $this->staff_name;
-				$link_array['data-classDescription'] = ( $this->event_description != '' ) ? $this->event_description : '';
-				$link_array['data-eventImage']       = ( $this->class_image != '' ) ? $this->class_image : '';
+				$link_array['data-classDescription'] = ( '' !== $this->event_description ) ? $this->event_description : '';
+				$link_array['data-eventImage']       = ( '' !== $this->class_image ) ? $this->class_image : '';
 				$link_array['text']                  = $this->class_name;
 				$link_array['data-target']           = 'mzDescriptionModal';
 				$link_array['class']                 = 'modal-toggle ' . sanitize_html_class(
