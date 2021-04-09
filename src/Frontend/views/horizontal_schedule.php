@@ -19,9 +19,10 @@ use MZoo\MzMindbody as NS;
 <?php
 if ( empty( $data->horizontal_schedule ) ) {
 	// translators: Give a start and end date range for displayed classes.
-	echo sprintf( __( 'No Classes To Display (%1$s - %2$s)', 'mz-mindbody-api' ), 
-		date( $data->date_format, strtotime(array_keys($data->horizontal_schedule)[0]) ),
-		date( $data->date_format, strtotime(array_keys($data->horizontal_schedule)[6]) )
+	echo sprintf(
+		__( 'No Classes To Display (%1$s - %2$s)', 'mz-mindbody-api' ),
+		date( $data->date_format, strtotime( array_keys( $data->horizontal_schedule )[0] ) ),
+		date( $data->date_format, strtotime( array_keys( $data->horizontal_schedule )[6] ) )
 	);
 }
 ?>

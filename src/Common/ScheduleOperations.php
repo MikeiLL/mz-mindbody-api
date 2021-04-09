@@ -20,7 +20,7 @@ use MZoo\MzMindbody as NS;
 class ScheduleOperations {
 
 	/**
-	 * Retrieve name of Start of Week for current WP install
+	 * Retrieve name of Start of Week for current WP install.
 	 */
 	private function week_start_day() {
 		switch ( get_option( 'start_of_week' ) ) {
@@ -38,7 +38,7 @@ class ScheduleOperations {
 				return 'Friday';
 			case 6:
 				return 'Saturday';
-			// Shouldn't be necessary but just in case
+			// Shouldn't be necessary but just in case.
 			default:
 				return 'Monday';
 		}
@@ -60,11 +60,13 @@ class ScheduleOperations {
 		$tzstring = get_option( 'timezone_string' );
 		$offset   = get_option( 'gmt_offset' );
 
-		// Manual offset...
-		// @see http://us.php.net/manual/en/timezones.others.php
-		// @see https://bugs.php.net/bug.php?id=45543
-		// @see https://bugs.php.net/bug.php?id=45528
-		// IANA timezone database that provides PHP's timezone support uses POSIX (i.e. reversed) style signs
+		/**
+		 * Manual offset...
+		 * @see http://us.php.net/manual/en/timezones.others.php
+		 * @see https://bugs.php.net/bug.php?id=45543
+		 * @see https://bugs.php.net/bug.php?id=45528
+		 * IANA timezone database that provides PHP's timezone support uses POSIX (i.e. reversed) style signs
+		 */
 		if ( empty( $tzstring ) && 0 != $offset && floor( $offset ) == $offset ) {
 			$offset_st = $offset > 0 ? "-$offset" : '+' . absint( $offset );
 			$tzstring  = 'Etc/GMT' . $offset_st;

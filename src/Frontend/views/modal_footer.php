@@ -25,7 +25,7 @@ use MZoo\MzMindbody as NS;
 		<?php esc_html_e( 'Manage on Mindbody Site', 'mz-mindbody-api' ); ?>
 	</a>
 	<a class="btn btn-primary btn-xs" id="MBOLogout" 
-		data-nonce="<?php esc_html_e( $data->nonce ); ?>">
+		data-nonce="<?php echo esc_html( $data->nonce ); ?>">
 		<?php esc_html_e( 'Logout', 'mz-mindbody-api' ); ?>
 	</a>
 </div>
