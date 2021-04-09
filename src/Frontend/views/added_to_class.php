@@ -18,15 +18,21 @@
 <div class="modal__wrapper">
 	<div class="modal__content" id="AddedToClass">
 
-		<?php if ( $data->type == 'success' ) : ?>
+		<?php if ( 'success' === $data->type ) : ?>
 			<svg><use xlink:href="#si-ant-check-circle-o"></use></svg>
-		<?php elseif ( $data->type == 'booked' ) : ?>
+		<?php elseif ( 'booked' === $data->type ) : ?>
 			<svg><use xlink:href="#si-ant-smile"></use></svg>
 		<?php else : ?>
 			<svg><use xlink:href="#si-ant-frown"></use></svg>
 		<?php endif; ?>
 
-		<h3><?php echo $data->message; ?></h3>
+		<h3>
+			<?php
+			echo esc_html(
+				$data->message;
+			);
+			?>
+		</h3>
 
 	</div>
 
