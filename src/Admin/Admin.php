@@ -128,7 +128,7 @@ class Admin {
 	 * @since 2.4.7
 	 */
 	public function check_version() {
-		// If not set or current version return
+		// If not set or current version return.
 		if ( get_site_option( 'mz_mbo_version' ) === NS\PLUGIN_VERSION ) {
 			return false;
 		}
@@ -145,16 +145,17 @@ class Admin {
 	public function mz_mbo_upgrade() {
 
 		// If this is first time installing, return.
-		if ( ! $known_version = get_site_option( 'mz_mbo_version' ) ) {
+		$known_version = get_site_option( 'mz_mbo_version' );
+		if ( empty( $known_version ) ) {
 			return;
 		}
 
-		// If we are already on current version, return
-		if ( NS\PLUGIN_VERSION == $known_version ) {
+		// If we are already on current version, return.
+		if ( NS\PLUGIN_VERSION === $known_version ) {
 			return;
 		}
 
-		// If version is previous to 2.4.7
+		// If version is previous to 2.4.7.
 		if ( $known_version < '2.4.7' ) {
 			return $this->prev_to_247();
 		} elseif ( $known_version < '2.5.6' ) {
@@ -172,9 +173,9 @@ class Admin {
 	 * Options fields renamed so updating now
 	 */
 	private function prev_to_247() {
-		// Copy the old options to the new options
+		// Copy the old options to the new options.
 		$old_options = get_option( 'mz_mbo_basic' );
-		if ( ! false == $old_options ) {
+		if ( false !== $old_options ) {
 			$mz_mbo_basic                                  = array();
 			$mz_mbo_basic['mz_source_name']                = $old_options['mz_mindbody_source_name'];
 			$mz_mbo_basic['mz_mindbody_password']          = $old_options['mz_mindbody_password'];
@@ -199,9 +200,9 @@ class Admin {
 	 * Options fields renamed so updating now
 	 */
 	private function prev_to_256() {
-		// Track api calls
+		// Track api calls.
 		$mz_mbo_api_calls          = array();
-		$mz_mbo_api_calls['today'] = date( 'Y-m-d' );
+		$mz_mbo_api_calls['today'] = gmdate( 'Y-m-d' );
 		$mz_mbo_api_calls['calls'] = 2;
 		update_option( 'mz_mbo_api_calls', $mz_mbo_api_calls );
 
@@ -219,9 +220,9 @@ class Admin {
 	 * Options fields renamed so updating now
 	 */
 	private function prev_to_257() {
-		// Add options to named for v6 API
+		// Add options to named for v6 API.
 		$old_options = get_option( 'mz_mbo_basic' );
-		if ( ! false == $old_options ) {
+		if ( false !== $old_options ) {
 			$mz_mbo_basic                              = array();
 			$mz_mbo_basic['mz_source_name']            = $old_options['mz_source_name'];
 			$mz_mbo_basic['mz_mindbody_password']      = $old_options['mz_mindbody_password'];
@@ -230,7 +231,7 @@ class Admin {
 			$mz_mbo_basic['mz_mindbody_show_sub_link'] = $old_options['mz_mindbody_show_sub_link'];
 			update_option( 'mz_mbo_basic', $mz_mbo_basic );
 
-			// Set default for new advanced option
+			// Set default for new advanced option.
 			$advanced_options                   = get_option( 'mz_mbo_advanced' );
 			$advanced_options['api_call_limit'] = 2000;
 			update_option( 'mz_mbo_advanced', $advanced_options );
@@ -247,37 +248,45 @@ class Admin {
 	 * source: https://wordpress.stackexchange.com/a/33529/48604
 	 * orig source: https://wisdomplugin.com/add-inline-plugin-update-message/
 	 *
-	 * @param  (array)  $plugin_data
-	 * @param  (object) $r
-	 * @return (string) $output
+	 * @param  array  $plugin_data Details like in the plugin readme file.
+	 * @param  object $new_data Details about the new upgrade.
+	 * @return string $output Displayed as admin notice in plugin listing.
 	 */
-	function plugin_update_message( $plugin_data, $r ) {
+	function plugin_update_message( $plugin_data, $new_data ) {
 
-		// readme contents
+		// readme contents.
 		$data = file_get_contents( 'http://plugins.trac.wordpress.org/browser/mz-mindbody-api/trunk/README.txt?format=txt' );
 
-		// assuming you've got a Changelog section
-		// @example == Changelog ==
+		// assuming you've got a Changelog section.
+		// @example == Changelog ==.
 		$changelog = stristr( $data, '== Changelog ==' );
 
-		// assuming you've got a Screenshots section
-		// @example == Screenshots ==
+		// assuming you've got a Screenshots section.
+		// @example == Screenshots ==.
 		$changelog = stristr( $changelog, '== Screenshots ==', true );
 
-		// only return for the current & later versions
+		// only return for the current & later versions.
 		$curr_ver = get_plugin_data( 'Version' );
 
-		// assuming you use "= v" to prepend your version numbers
-		// @example = v0.2.1 =
+		// assuming you use "= v" to prepend your version numbers.
+		// @example = v0.2.1 =.
 		$changelog = stristr( $changelog, "= v{$curr_ver}" );
 
-		// uncomment the next line to var_export $var contents for dev:
-		// echo '<pre>'.var_export( $plugin_data, false ).'<br />'.var_export( $r, false ).'</pre>';
+		/*
+		 * Uncomment the next line to var_export $var contents for dev.
+		 * echo '<pre>'.var_export( $plugin_data, false ).'<br />'.var_export( $new_data, false ).'</pre>';
+		 */
 
-		// echo stuff....
-		$output = __( ' Now requires php version 7.0 or greater. Check with your hosts before upgrading if unsure.', 'mz-mindbody-api' );
-
-		return print $output;
+		// Return our notice.
+		return print sprintf(
+			// translators: Tell which version of php required.
+			__(
+				'%1$s Now requires php version %2$s or greater. Check with your hosts before upgrading if unsure.',
+				'mz-mindbody-api'
+			),
+			' ',
+			NS\MINIMUM_PHP_VERSION
+		);
 	}
 
 
@@ -289,7 +298,6 @@ class Admin {
 	 * source: https://wordpress.stackexchange.com/a/33529/48604
 	 */
 	public function set_plugin_update_message() {
-
 		if ( 'plugins' === get_current_screen()->base ) {
 			$hook = 'in_plugin_update_message-' . NS\PLUGIN_BASENAME;
 			add_action( $hook, array( $this, 'plugin_update_message' ), 20, 2 );
@@ -307,6 +315,7 @@ class Admin {
 		echo wp_kses_post(
 			sprintf(
 				'<div class="notice notice-error"><p>%s</p></div>',
+				// translators: Tell which version of php required.
 				sprintf( __( 'Sorry, but "MZ Mindbody API" requires PHP %1$s or greater.', 'mz-mindbody-api' ), NS\MINIMUM_PHP_VERSION )
 			)
 		);
@@ -327,13 +336,15 @@ class Admin {
 
 		$result['type'] = 'success';
 
-		// Initialize message
+		// Initialize message.
 		$result['message'] = __( 'No transients to clear.', 'mz-mindbody-api' );
-		// $result['message'] = wp_verify_nonce( $_REQUEST[ 'nonce' ], 'mz_mbo_clear_transients' );
-		// $result['message'] = print_r($_REQUEST, true);
-		// $result['message'] .= print_r(wp_verify_nonce( $_REQUEST['nonce'], 'mz_mbo_clear_transients' ), true);
-		if ( false != $sql_response ) :
-			$result['message'] = sprintf( __( 'Cleared %d transients. Page reloads will re-set them.', 'mz-mindbody-api' ), $sql_response );
+
+		if ( false !== $sql_response ) :
+			$result['message'] = sprintf(
+				// translators: Number of transients cleared.
+				__( 'Cleared %d transients. Page reloads will re-set them.', 'mz-mindbody-api' ),
+				$sql_response
+			);
 		endif;
 
 		if ( ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] )
@@ -364,12 +375,13 @@ class Admin {
 
 		$result['type'] = 'success';
 
-		// Initialize message
-		$result['message'] = sprintf( __( 'Error getting token %s .', 'mz-mindbody-api' ), $token );
+		// Initialize message.
+		$result['message'] = sprintf(
+			// translators: Show the token string.
+			__( 'Error getting token %s .', 'mz-mindbody-api' ),
+			$token
+		);
 
-		// if (ctype_alnum($token) ) :
-		// $result['message'] = sprintf(__('Fetched and stored %s .', 'mz-mindbody-api'), $token);
-		// endif;
 		$result['message']  = print_r( $_REQUEST, true );
 		$result['message'] .= print_r( wp_verify_nonce( $_REQUEST['nonce'], 'mz_admin_nonce' ), true );
 		if ( ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) &&
@@ -422,6 +434,7 @@ class Admin {
 
 		$return  = '<p>';
 		$return .= sprintf(
+			// translators: Wrap two elements in html code elements.
 			__( 'Once credentials have been set and saved, look for %1$s in the box below to confirm settings are correct and credentials work.', 'mz-mindbody-api' ),
 			'<code>PaginationResponse</code> and <code>Classes</code>'
 		);
@@ -456,11 +469,12 @@ class Admin {
 		// Generated in localize_script() above.
 		check_admin_referer( 'mz_mbo_test_credentials_v5', 'nonce' );
 
-		$return       = '<p>';
-		$return      .= sprintf(
+		$return  = '<p>';
+		$return .= sprintf(
+			// translators: Wrap element in html code tags.
 			__(
 				'Once credentials have been set and activated, look for %1$s in the 
-	                            second (Get Classes Response) box below to confirm settings are correct.',
+	             second (Get Classes Response) box below to confirm settings are correct.',
 				'mz-mindbody-api'
 			),
 			'<code>&lt;ErrorCode&gt;200&lt;/ErrorCode&gt;</code>'
