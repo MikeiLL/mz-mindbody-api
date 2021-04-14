@@ -382,8 +382,9 @@ class Admin {
 			$token
 		);
 
-		$result['message']  = print_r( $_REQUEST, true );
-		$result['message'] .= print_r( wp_verify_nonce( $_REQUEST['nonce'], 'mz_admin_nonce' ), true );
+		if (ctype_alnum($token) ) :
+            $result['message'] = sprintf(__('Fetched and stored %s .', 'mz-mindbody-api'), $token);
+        endif;
 		if ( ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) &&
 			'xmlhttprequest' === strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ) {
 			$result = wp_json_encode( $result );
