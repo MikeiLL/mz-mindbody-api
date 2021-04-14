@@ -491,7 +491,7 @@ class ScheduleItem {
 		$this->part_of_day           = $this->part_of_day();
 		$this->class_duration        = $this->get_schedule_event_duration();
 		$this->display_cancelled     = ( 1 === (int) $schedule_item['IsCanceled'] ) ? '<div class="mz_cancelled_class">' . __( 'Cancelled', 'mz-mindbody-api' ) . '</div>' : '';
-		$this->is_substitute         = $schedule_item['Substitute'];
+		$this->is_substitute         = (int) $schedule_item['Substitute'];
 		$this->schedule_type         = $schedule_item['ClassDescription']['Program']['ScheduleType'];
 		$this->atts                  = $atts;
 		if ( ( 'on' === Core\MzMindbodyApi::$advanced_options['elect_display_substitutes'] ) && empty( $atts['mbo_pages_call'] ) ) :
