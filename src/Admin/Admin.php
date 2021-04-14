@@ -105,7 +105,7 @@ class Admin {
 
 		$params = array(
 			'ajaxurl'                   => admin_url( 'admin-ajax.php', $protocol ),
-			'admin_nonce'               => $admin_nonce,
+			'admin_nonce'               => wp_create_nonce( 'mz_admin_nonce' ),
 			// Used in ajax_get_and_save_token below.
 			'get_save_token_nonce'      => wp_create_nonce( 'mz_mbo_get_and_save_token' ),
 			// Used in clear_plugin_transients below.
