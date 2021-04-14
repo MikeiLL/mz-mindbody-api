@@ -382,9 +382,10 @@ class Admin {
 			$token
 		);
 
-		if (ctype_alnum($token) ) :
-            $result['message'] = sprintf(__('Fetched and stored %s .', 'mz-mindbody-api'), $token);
-        endif;
+		if ( ctype_alnum( $token ) ) :
+			// translators: let user know that a new token was fetched and stored and display it.
+			$result['message'] = sprintf( __( 'Fetched and stored %s .', 'mz-mindbody-api' ), $token );
+		endif;
 		if ( ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) &&
 			'xmlhttprequest' === strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ) {
 			$result = wp_json_encode( $result );
