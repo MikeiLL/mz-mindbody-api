@@ -60,10 +60,16 @@ class RetrieveEvents extends Interfaces\RetrieveClasses {
 	 */
 	public function time_frame( $timestamp = null ) {
 
-		$timestamp     = isset( $timestamp ) ? $timestamp : strtotime( wp_date( 'Y-m-d H:i:s' ) );
-		$start_time    = new \Datetime( wp_date( 'Y-m-d', $timestamp ) );
-		$end_time      = new \Datetime( wp_date( 'Y-m-d', $timestamp ) );
-		$session_types = explode( ',', Core\MzMindbodyApi::$events_options['mz_mindbody_eventID'] );
+		$timestamp  = isset( $timestamp ) ? $timestamp : strtotime( wp_date( 'Y-m-d H:i:s' ) );
+		$start_time = new \Datetime( wp_date( 'Y-m-d', $timestamp ) );
+		$end_time   = new \Datetime( wp_date( 'Y-m-d', $timestamp ) );
+		// Init Session_types variable to empty.
+		$session_types = array();
+		// Init duration to 60.
+		$duration = 60;
+		if ( ! empty( Core\MzMindbodyApi::$events_options['mz_mindbody_eventID'] ) ) {
+			$session_types = explode( ',', Core\MzMindbodyApi::$events_options['mz_mindbody_eventID'] );
+		}
 
 		$duration = Core\MzMindbodyApi::$event_calendar_duration;
 		if ( ( ! empty( $this->atts['week-only'] ) ) && ( 1 === (int) $this->atts['week-only'] ) ) {
