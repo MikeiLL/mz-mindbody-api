@@ -783,7 +783,7 @@ class WpOsa {
 					<form method="post" action="options.php">
 			<?php
 			do_action( 'wsa_form_top_' . $form['id'], $form );
-			settings_fields( $form['id'] );
+			$this->settings_fields( $form['id'] );
 			do_settings_sections( $form['id'] );
 			do_action( 'wsa_form_bottom_' . $form['id'], $form );
 			?>
@@ -798,6 +798,20 @@ class WpOsa {
 		</div>
 		<?php
 		$this->script();
+	}
+
+	/**
+	 * Output nonce, action, and option_page fields for a settings page.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param string $option_group A settings group name. This should match the group name
+	 *                             used in register_setting().
+	 */
+	function settings_fields( $option_group ) {
+		echo "<input type='hidden' name='option_page' value='" . esc_attr( $option_group ) . "' />";
+		echo '<input type="hidden" name="action" value="update" />';
+		echo str_replace( 'id="_wpnonce"', 'id="_wpnonce_' . $option_group .'"',  wp_nonce_field( "$option_group-options", '_wpnonce', true, false ) );
 	}
 
 	/**
