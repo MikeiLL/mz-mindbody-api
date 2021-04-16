@@ -64,7 +64,9 @@ git push origin master --tags
 
 echo 
 echo "Creating local copy of SVN repo ..."
-svn co $SVNURL $SVNPATH
+svn co $SVNURL $SVNPATH --depth empty 
+
+# May need to run `svn cleanup $SVNPATH`
 
 # for zsh disable prompt when removing wildcard
 setopt rmstarsilent
@@ -89,12 +91,18 @@ rm -rf vendor
 echo "Install composer non-dev dependencies."
 composer install --no-dev
 
+echo "Update svn."
+svn update
+
 # Add all new files that are not set to be ignored
 echo "Doing the file adding"
 svn status | grep -v "^.[ \t]*\..*" | grep "^?" | awk '{print $2}' | xargs svn add
 echo "Committing"
 svn commit --username=$SVNUSER -m "$COMMITMSG"
 cd $SVNPATH
+echo "Update tags directory."
+svn update tags  --depth empty
+echo "Copy trunk to new tag directory."
 svn copy trunk/ tags/$NEWVERSION1/
 cd $SVNPATH/tags/$NEWVERSION1
 svn commit --username=$SVNUSER -m "Tagging version $NEWVERSION1"
