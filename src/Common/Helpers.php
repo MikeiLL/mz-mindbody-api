@@ -33,6 +33,16 @@ class Helpers {
 	}
 
 	/**
+	 * Helper function to provide a base path for logging.
+	 * @since 2.8.6
+	 * 
+	 */
+	private function get_log_api_calls_path() {
+		$path = NS\Core\MzMindbodyApi::$advanced_options['log_api_calls_path'];
+		return is_dir( $path ) && is_writable( $path ) ? $path : WP_CONTENT_DIR;
+	}
+
+	/**
 	 * Helper function to write strings or arrays to a file.
 	 *
 	 * @since 1.0.0
@@ -41,7 +51,7 @@ class Helpers {
 	 * @param string $file_path optional path to write file to.
 	 */
 	public function log( $message, $file_path = '' ) {
-		$file_path = ( ( '' === $file_path ) || ! file_exists( $file_path ) ) ? WP_CONTENT_DIR . '/mz_mbo_arbitrary.log' : $file_path;
+		$file_path = ( ( '' === $file_path ) || ! file_exists( $file_path ) ) ? $this->get_log_api_calls_path() . '/mz_mbo_arbitrary.log' : $file_path;
 		$header    = gmdate( 'l dS \o\f F Y h:i:s A', strtotime( 'now' ) ) . "\t ";
 
 		// Just keep up to seven days worth of data.
@@ -71,7 +81,7 @@ class Helpers {
 	 * @param string $file_path optional path to write file to.
 	 */
 	public function api_log( $message, $file_path = '' ) {
-		$file_path = ( ( '' === $file_path ) || ! file_exists( $file_path ) ) ? WP_CONTENT_DIR . '/mbo_api.log' : $file_path;
+		$file_path = ( ( '' === $file_path ) || ! file_exists( $file_path ) ) ? $this->get_log_api_calls_path() . '/mbo_api.log' : $file_path;
 
 		// Just keep up to seven days worth of data.
 		if ( file_exists( $file_path ) ) {
@@ -96,9 +106,10 @@ class Helpers {
 	 * Used in deactivation hook to clear all log files.
 	 */
 	public function clear_log_files() {
+		$log_path = $this->get_log_api_calls_path();
 		$files = array(
-			WP_CONTENT_DIR . '/mz_mbo_arbitrary.log',
-			WP_CONTENT_DIR . '/mbo_api.log',
+			$this->get_log_api_calls_path() . '/mz_mbo_arbitrary.log',
+			$this->get_log_api_calls_path() . '/mbo_api.log',
 		);
 		foreach ( $files as $file ) {
 			if ( file_exists( $file ) ) {
