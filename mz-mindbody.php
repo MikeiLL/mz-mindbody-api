@@ -71,14 +71,14 @@ if ( ! class_exists( 'MZoo\MzMindbody\Core\MzMindbodyApi' ) ) {
  * This action is documented in src/Core/class-activator.php
  */
 
-register_activation_hook( __FILE__, array( NS . 'MZoo\MzMindbody\Core\Activator', 'activate' ) );
+register_activation_hook( __FILE__, array( 'MZoo\MzMindbody\Core\Activator', 'activate' ) );
 
 /**
  * The code that runs during plugin deactivation.
  * This action is documented src/Core/class-deactivator.php
  */
 
-register_deactivation_hook( __FILE__, array( NS . 'MZoo\MzMindbody\Core\Deactivator', 'deactivate' ) );
+register_deactivation_hook( __FILE__, array( 'MZoo\MzMindbody\Core\Deactivator', 'deactivate' ) );
 
 /**
  * Plugin Singleton Container
