@@ -2,9 +2,9 @@
 Contributors: mikeill, rtzee
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A95ZEELLHGECE
 Tags: mindbody, schedule, calendar, yoga, MBO, mindbodyonline, gym, parkour, mbo, mindbodyonline.
-Requires at least: 3.0.1
-Tested up to: 5.6.1
-Stable tag: 2.8.6
+Requires at least: 5.3
+Tested up to: 5.7.1
+Stable tag: 2.8.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,6 +66,9 @@ You need to register a developer account with MindBody, which costs $5+ per webs
 5. Admin Page
 
 == Changelog ==
+
+= v2.8.7 =
+Bugfix: Clean out old files from subversion repo.
 
 = v2.8.6 =
 Bugfix: initialize event_id selection to quiet php warning.
