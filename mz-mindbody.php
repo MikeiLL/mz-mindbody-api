@@ -15,7 +15,7 @@
  * Version:         2.8.7
  * Stable tag:      2.8.7
  * Tested up to:    5.6.1
- * Requires PHP:    7.0
+ * Requires PHP:    7.1
  * Author:          mZoo.org
  * Author URI:      http://www.mZoo.org/
  * Plugin URI:      http://www.mzoo.org/mz-mindbody-wp
@@ -55,30 +55,45 @@ define( NS . 'PLUGIN_TEXT_DOMAIN', 'mz-mindbody-api' );
 define( NS . 'MINIMUM_PHP_VERSION', 7.1 );
 
 /**
- * Autoload Classes
+ * Check the minimum PHP version.
  */
-$wp_mindbody_api_autoload = NS\PLUGIN_NAME_DIR . '/vendor/autoload.php';
-if ( file_exists( $wp_mindbody_api_autoload ) ) {
-	include_once $wp_mindbody_api_autoload;
+if ( version_compare( PHP_VERSION, NS\MINIMUM_PHP_VERSION, '<' ) ) {
+	add_action( 'admin_notices', NS . 'minimum_php_version' );
 }
+else {
+	/**
+	 * Autoload Classes
+	 */
+	$wp_mindbody_api_autoload = NS\PLUGIN_NAME_DIR . '/vendor/autoload.php';
+	if ( file_exists( $wp_mindbody_api_autoload ) ) {
+		include_once $wp_mindbody_api_autoload;
+	}
 
-if ( ! class_exists( 'MZoo\MzMindbody\Core\MzMindbodyApi' ) ) {
-	exit( 'MZ Mindbody Api requires Composer autoloading, which is not configured' );
-}
+	if ( ! class_exists( 'MZoo\MzMindbody\Core\MzMindbodyApi' ) ) {
+		add_action( 'admin_notices', NS . 'missing_composer' );
+	}
+	else {
 
-/**
- * Register Activation and Deactivation Hooks
- * This action is documented in src/Core/class-activator.php
- */
+		/**
+		 * Register Activation and Deactivation Hooks
+		 * This action is documented in src/Core/class-activator.php
+		 */
 
-register_activation_hook( __FILE__, array( 'MZoo\MzMindbody\Core\Activator', 'activate' ) );
+		register_activation_hook( __FILE__, array( 'MZoo\MzMindbody\Core\Activator', 'activate' ) );
 
-/**
- * The code that runs during plugin deactivation.
- * This action is documented src/Core/class-deactivator.php
- */
+		/**
+		 * The code that runs during plugin deactivation.
+		 * This action is documented src/Core/class-deactivator.php
+		 */
 
-register_deactivation_hook( __FILE__, array( 'MZoo\MzMindbody\Core\Deactivator', 'deactivate' ) );
+		register_deactivation_hook( __FILE__, array( 'MZoo\MzMindbody\Core\Deactivator', 'deactivate' ) );
+		
+		// Get MzMindbodyApi Instance.
+		MZMBO();
+		
+	}
+}	
+
 
 /**
  * Plugin Singleton Container
@@ -161,22 +176,52 @@ function MZMBO() {
 }
 
 /**
- * Deactivate
- *
- * Deactivate the plugin and add Admin notice it's been deactivated.
- *
+ * Deactivation and message when initialization fails.
+ * 
+ * @param string $error        Error message to output.
+ * @since 2.8.8
  * @return void.
  */
-function deactivate() {
+function activation_failed( $error ) {
+	register_deactivation_hook( plugin_basename( __FILE__ ), NS . 'plugin_is_deactivated' );
+	?>
+		<div class="notice notice-error is-dismissible"><p><strong>
+			<?php echo $error; ?>
+		</strong></p></div>
+	<?php
 	deactivate_plugins( plugin_basename( __FILE__ ) );
-	$admin_object = new NS\Admin\Admin( NS\PLUGIN_NAME, NS\PLUGIN_VERSION, 'mz-mindbody-api' );
-	add_action( 'admin_notices', array( $admin_object, 'admin_notice' ) );
 }
 
-// Check the minimum required PHP version and run the plugin.
-if ( version_compare( PHP_VERSION, NS\MINIMUM_PHP_VERSION, '>=' ) ) {
-	// Get MzMindbodyApi Instance.
-	MZMBO();
-} else {
-	add_action( 'admin_init', __NAMESPACE__ . '\\deactivate' );
+/**
+ * Notice of missing composer.
+ *
+ * @since 2.8.8
+ * @return void.
+ */
+function missing_composer() {
+	activation_failed( __( 'MZ Mindbody Api requires Composer autoloading, which is not configured.', NS . 'PLUGIN_TEXT_DOMAIN' ) );
+}
+
+/**
+ * Notice of php version error.
+ *
+ * @since 2.8.8
+ * @return void.
+ */
+function minimum_php_version() {
+	activation_failed( __( 'MZ Mindbody Api requires PHP version', NS . 'PLUGIN_TEXT_DOMAIN' ) . sprintf( ' %1.1f.', NS\MINIMUM_PHP_VERSION ) );
+}
+
+/**
+ * Notice of plugin deactivation.
+ *
+ * @since 2.8.8
+ * @return void.
+ */
+function plugin_is_deactivated() {
+	?>
+		<div class="notice notice-success is-dismissible"><p>
+			<?php _e( 'MZ Mindbody Api plugin has been deactivated.', NS . 'PLUGIN_TEXT_DOMAIN' ); ?>
+		</p></div>
+	<?php
 }
