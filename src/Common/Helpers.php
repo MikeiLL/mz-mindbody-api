@@ -34,8 +34,8 @@ class Helpers {
 
 	/**
 	 * Helper function to provide a base path for logging.
+	 *
 	 * @since 2.8.6
-	 * 
 	 */
 	private function get_log_api_calls_path() {
 		$path = NS\Core\MzMindbodyApi::$advanced_options['log_api_calls_path'];
@@ -107,7 +107,7 @@ class Helpers {
 	 */
 	public function clear_log_files() {
 		$log_path = $this->get_log_api_calls_path();
-		$files = array(
+		$files    = array(
 			$this->get_log_api_calls_path() . '/mz_mbo_arbitrary.log',
 			$this->get_log_api_calls_path() . '/mbo_api.log',
 		);

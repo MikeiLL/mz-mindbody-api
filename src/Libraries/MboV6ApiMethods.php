@@ -135,7 +135,9 @@ class MboV6ApiMethods {
 			$headers,
 			array(
 				'Authorization' => get_option(
-					'mz_mbo_token', '')['AccessToken'],
+					'mz_mbo_token',
+					''
+				)['AccessToken'],
 			)
 		);
 

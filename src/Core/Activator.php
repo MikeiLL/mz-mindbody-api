@@ -59,7 +59,7 @@ class Activator {
 				'api_call_limit'              => 2000,
 				'elect_display_substitutes'   => 'on',
 				'log_api_calls'               => 'off',
-				'log_api_calls_path'		  => WP_CONTENT_DIR,
+				'log_api_calls_path'          => WP_CONTENT_DIR,
 				'schedule_transient_duration' => 43200,
 			);
 		}

@@ -811,7 +811,7 @@ class WpOsa {
 	function settings_fields( $option_group ) {
 		echo "<input type='hidden' name='option_page' value='" . esc_attr( $option_group ) . "' />";
 		echo '<input type="hidden" name="action" value="update" />';
-		echo str_replace( 'id="_wpnonce"', 'id="_wpnonce_' . $option_group .'"',  wp_nonce_field( "$option_group-options", '_wpnonce', true, false ) );
+		echo str_replace( 'id="_wpnonce"', 'id="_wpnonce_' . $option_group . '"', wp_nonce_field( "$option_group-options", '_wpnonce', true, false ) );
 	}
 
 	/**
