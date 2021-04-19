@@ -140,7 +140,7 @@ class MboV6ApiMethods {
 						'stored_time' => '',
 						'AccessToken' => '',
 					)
-				),
+				)['AccessToken'],
 			)
 		);
 
