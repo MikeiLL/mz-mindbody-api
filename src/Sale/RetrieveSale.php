@@ -83,7 +83,9 @@ class RetrieveSale extends Interfaces\Retrieve {
 			if ( array_key_exists( 'Contracts', $result ) && ! empty( $result['Contracts'] ) ) {
 				set_transient( 'mz_contracts_from_mbo', $result, 86400 );
 			}
+			
 		} else {
+		
 			$result = get_transient( 'mz_contracts_from_mbo' );
 		}
 
