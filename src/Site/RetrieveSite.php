@@ -99,6 +99,11 @@ class RetrieveSite extends Interfaces\Retrieve {
 		}
 
 		if ( true === $dict ) {
+
+			if ( empty( $result['Memberships'] ) ) {
+				return array();
+			}
+
 			$dict_array = array();
 			foreach ( $result['Memberships'] as $element ) {
 				if ( false === $element['IsActive'] ) {
@@ -158,6 +163,11 @@ class RetrieveSite extends Interfaces\Retrieve {
 		}
 
 		if ( true === $dict ) {
+
+			if ( empty( $result['Programs'] ) ) {
+				return array();
+			}
+
 			$dict_array = array();
 			foreach ( $result['Programs'] as $element ) {
 				$dict_array[ $element['Id'] ] = $element['Name'];

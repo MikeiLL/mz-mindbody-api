@@ -89,10 +89,17 @@ class RetrieveSale extends Interfaces\Retrieve {
 		}
 
 		if ( true === $dict ) {
+
+			if ( empty( $result['Contracts'] ) ) {
+				return array();
+			}
+
 			$dict_array = array();
+
 			foreach ( $result['Contracts'] as $element ) {
 				$dict_array[ $element['Id'] ] = $element['MembershipName'];
 			}
+
 			return $dict_array;
 		}
 
@@ -129,7 +136,7 @@ class RetrieveSale extends Interfaces\Retrieve {
 				return false;
 			}
 
-			if ( array_key_exists( 'Contracts', $result ) && ! empty( $result['Contracts'] ) ) {
+			if ( array_key_exists( 'Services', $result ) && ! empty( $result['Services'] ) ) {
 				set_transient( 'mz_services_from_mbo', $result, 86400 );
 			}
 		} else {
@@ -137,12 +144,14 @@ class RetrieveSale extends Interfaces\Retrieve {
 			$result = get_transient( 'mz_services_from_mbo' );
 
 			if ( true === $dict ) {
+
+				if ( empty( $result['Services'] ) ) {
+					return array();
+				}
+
 				$dict_array = array();
-				foreach ( $result['Memberships'] as $element ) {
-					if ( false === $element['IsActive'] ) {
-						continue;
-					}
-					$dict_array[ $element['MembershipId'] ] = $element['MembershipName'];
+				foreach ( $result['Services'] as $element ) {
+					$dict_array[ $element['Id'] ] = $element['Name'];
 				}
 				return $dict_array;
 			}
