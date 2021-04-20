@@ -87,9 +87,12 @@ else {
 		 */
 
 		register_deactivation_hook( __FILE__, array( 'MZoo\MzMindbody\Core\Deactivator', 'deactivate' ) );
-		
-		// Get MzMindbodyApi Instance.
-		MZMBO();
+
+		/**
+		 * Run the plugin.
+		 */
+
+		add_action( 'init', __NAMESPACE__ . '\run_plugin', 10 );
 		
 	}
 }	
@@ -184,11 +187,13 @@ function MZMBO() {
  */
 function activation_failed( $error ) {
 	register_deactivation_hook( plugin_basename( __FILE__ ), NS . 'plugin_is_deactivated' );
-	?>
-		<div class="notice notice-error is-dismissible"><p><strong>
-			<?php echo $error; ?>
-		</strong></p></div>
-	<?php
+	if ( is_admin() && current_user_can( 'activate_plugins' ) ) {
+		?>
+			<div class="notice notice-error is-dismissible"><p><strong>
+				<?php echo $error; ?>
+			</strong></p></div>
+		<?php
+	}
 	deactivate_plugins( plugin_basename( __FILE__ ) );
 }
 
@@ -219,9 +224,24 @@ function minimum_php_version() {
  * @return void.
  */
 function plugin_is_deactivated() {
-	?>
-		<div class="notice notice-success is-dismissible"><p>
-			<?php _e( 'MZ Mindbody Api plugin has been deactivated.', NS . 'PLUGIN_TEXT_DOMAIN' ); ?>
-		</p></div>
-	<?php
+	if ( is_admin() && current_user_can( 'activate_plugins' ) ) {
+		?>
+			<div class="notice notice-success is-dismissible"><p>
+				<?php _e( 'MZ Mindbody Api plugin has been deactivated.', NS . 'PLUGIN_TEXT_DOMAIN' ); ?>
+			</p></div>
+		<?php
+	}
+}
+
+/**
+ * Run the plugin.
+ * 
+ * @since 2.8.8
+ * @return void.
+ */
+function run_plugin() {
+
+	// Get MzMindbodyApi Instance.
+		MZMBO();
+
 }
