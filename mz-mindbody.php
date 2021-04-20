@@ -190,7 +190,7 @@ function activation_failed( $error ) {
 	if ( is_admin() && current_user_can( 'activate_plugins' ) ) {
 		?>
 			<div class="notice notice-error is-dismissible"><p><strong>
-				<?php echo $error; ?>
+				<?php echo esc_html( $error ); ?>
 			</strong></p></div>
 		<?php
 	}
@@ -227,7 +227,7 @@ function plugin_is_deactivated() {
 	if ( is_admin() && current_user_can( 'activate_plugins' ) ) {
 		?>
 			<div class="notice notice-success is-dismissible"><p>
-				<?php _e( 'MZ Mindbody Api plugin has been deactivated.', NS . 'PLUGIN_TEXT_DOMAIN' ); ?>
+				<?php esc_html_e( 'MZ Mindbody Api plugin has been deactivated.', NS . 'PLUGIN_TEXT_DOMAIN' ); ?>
 			</p></div>
 		<?php
 	}
