@@ -90,7 +90,7 @@ if ( version_compare( PHP_VERSION, NS\MINIMUM_PHP_VERSION, '<' ) ) {
 		 * Run the plugin.
 		 */
 
-		add_action( 'init', __NAMESPACE__ . '\run_plugin', 10 );
+		add_action( 'plugins_loaded', __NAMESPACE__ . '\run_plugin', 10 );
 
 	}
 }
@@ -240,6 +240,6 @@ function plugin_is_deactivated() {
 function run_plugin() {
 
 	// Get MzMindbodyApi Instance.
-		MZMBO();
+	MZMBO();
 
 }
