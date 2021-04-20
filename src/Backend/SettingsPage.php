@@ -386,7 +386,7 @@ class SettingsPage {
 			)
 		);
 
-		// Field: Set Log File Path
+		// Field: Set Log File Path.
 		self::$wposa_obj->add_field(
 			'mz_mbo_advanced',
 			array(

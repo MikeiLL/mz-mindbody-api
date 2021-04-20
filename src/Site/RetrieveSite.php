@@ -68,12 +68,46 @@ class RetrieveSite extends Interfaces\Retrieve {
 	 * Get All Site Memberships
 	 *
 	 * @since 2.5.9
+	 * @param boolean $dict true returns a an array of id=>name values.
 	 */
-	public function getSiteMemberships() {
+	public function get_site_memberships( $dict = false ) {
 
-		$this->get_mbo_results();
+		if ( false === get_transient( 'mz_memberships_from_mbo' ) ) {
 
-		$result = $this->mb->GetMemberships();
+			$this->get_mbo_results();
+
+			if ( ! is_object( $this->mb ) ) {
+				return 'Check your MBO connection.';
+			}
+
+			$request_body = array(
+				'LocationId' => $location_id,
+			);
+			try {
+				$result = $this->mb->GetMemberships( $request_body );
+			} catch ( \Exception $e ) {
+				return false;
+			}
+
+			if ( array_key_exists( 'Memberships', $result ) && ! empty( $result['Memberships'] ) ) {
+				set_transient( 'mz_memberships_from_mbo', $result, 86400 );
+			}
+		} else {
+
+			$result = get_transient( 'mz_memberships_from_mbo' );
+
+		}
+
+		if ( true === $dict ) {
+			$dict_array = array();
+			foreach ( $result['Memberships'] as $element ) {
+				if ( false === $element['IsActive'] ) {
+					continue;
+				}
+				$dict_array[ $element['MembershipId'] ] = $element['MembershipName'];
+			}
+			return $dict_array;
+		}
 
 		return $result;
 	}
@@ -81,13 +115,55 @@ class RetrieveSite extends Interfaces\Retrieve {
 	/**
 	 * Get All Site Programs
 	 *
+	 * Each Site Program item looks like:
+	 *              [Id] => 1
+	 *              [Name] => Personal Training
+	 *              [ScheduleType] => Appointment|Enrollment|Arrival|Enrollment|Class
+	 *              [CancelOffset] => 1440
+	 *              [ContentFormats] => Array
+	 *                  (
+	 *                      [0] => InPerson
+	 *                  )
+	 *
 	 * @since 2.5.9
+	 * @param boolean $dict true returns a an array of id=>name values.
+	 * @return array dict or full array from MBO.
 	 */
-	public function getSitePrograms() {
+	public function get_site_programs( $dict = false ) {
 
-		$this->get_mbo_results();
+		if ( false === get_transient( 'mz_programs_from_mbo' ) ) {
 
-		$result = $this->mb->GetPrograms();
+			$this->get_mbo_results();
+
+			if ( ! is_object( $this->mb ) ) {
+				return 'Check your MBO connection.';
+			}
+
+			$request_body = array(
+				'LocationId' => $location_id,
+			);
+			try {
+				$result = $this->mb->GetPrograms();
+			} catch ( \Exception $e ) {
+				return false;
+			}
+
+			if ( array_key_exists( 'Programs', $result ) && ! empty( $result['Programs'] ) ) {
+				set_transient( 'mz_programs_from_mbo', $result, 86400 );
+			}
+		} else {
+
+			$result = get_transient( 'mz_programs_from_mbo' );
+
+		}
+
+		if ( true === $dict ) {
+			$dict_array = array();
+			foreach ( $result['Programs'] as $element ) {
+				$dict_array[ $element['Id'] ] = $element['Name'];
+			}
+			return $dict_array;
+		}
 
 		return $result;
 	}
@@ -95,17 +171,54 @@ class RetrieveSite extends Interfaces\Retrieve {
 	/**
 	 * Get All Site Resources
 	 *
+	 * Resources are available rooms, studios, courts, etc.
+	 * [Resources] => Array
+	 *    (
+	 *        [0] => Array
+	 *            (
+	 *                [Id] => 1
+	 *                [Name] => Fitness Studio
+	 *            )
+	 *
 	 * @since 2.5.9
+	 * @param boolean $dict true returns a an array of id=>name values.
+	 * @return array of "resources" from MBO.
 	 */
-	public function getSiteResources() {
+	public function get_site_resources( $dict = false ) {
 
-		$this->get_mbo_results();
+		if ( false === get_transient( 'mz_resources_from_mbo' ) ) {
 
-		$result = $this->mb->GetResources();
+			$this->get_mbo_results();
+
+			if ( ! is_object( $this->mb ) ) {
+				return 'Check your MBO connection.';
+			}
+
+			try {
+				$result = $this->mb->GetResources();
+			} catch ( \Exception $e ) {
+				return false;
+			}
+
+			if ( array_key_exists( 'Resources', $result ) && ! empty( $result['Contracts'] ) ) {
+				set_transient( 'mz_resources_from_mbo', $result, 86400 );
+			}
+		} else {
+
+			$result = get_transient( 'mz_resources_from_mbo' );
+
+		}
+
+		if ( true === $dict ) {
+			$dict_array = array();
+			foreach ( $result['Resources'] as $element ) {
+				$dict_array[ $element['Id'] ] = $element['Name'];
+			}
+			return $dict_array;
+		}
 
 		return $result;
 	}
-
 
 	/**
 	 * Create API Interface Object
