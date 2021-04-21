@@ -62,7 +62,7 @@ class RetrieveSale extends Interfaces\Retrieve {
 
 		$location_id = 1;
 
-		if ( false === get_transient( 'mz_contracts_from_mbo' ) ) {
+		if ( false === get_transient( 'mz_mbo_contracts' ) ) {
 
 			$this->get_mbo_results();
 
@@ -81,11 +81,11 @@ class RetrieveSale extends Interfaces\Retrieve {
 			}
 
 			if ( array_key_exists( 'Contracts', $result ) && ! empty( $result['Contracts'] ) ) {
-				set_transient( 'mz_contracts_from_mbo', $result, 86400 );
+				set_transient( 'mz_mbo_contracts', $result, 86400 );
 			}
 		} else {
 
-			$result = get_transient( 'mz_contracts_from_mbo' );
+			$result = get_transient( 'mz_mbo_contracts' );
 		}
 
 		if ( true === $dict ) {
@@ -118,7 +118,7 @@ class RetrieveSale extends Interfaces\Retrieve {
 
 		$location_id = 1;
 
-		if ( false === get_transient( 'mz_services_from_mbo' ) ) {
+		if ( false === get_transient( 'mz_mbo_services' ) ) {
 
 			$this->get_mbo_results();
 
@@ -137,11 +137,11 @@ class RetrieveSale extends Interfaces\Retrieve {
 			}
 
 			if ( array_key_exists( 'Services', $result ) && ! empty( $result['Services'] ) ) {
-				set_transient( 'mz_services_from_mbo', $result, 86400 );
+				set_transient( 'mz_mbo_services', $result, 86400 );
 			}
 		} else {
 
-			$result = get_transient( 'mz_services_from_mbo' );
+			$result = get_transient( 'mz_mbo_services' );
 
 			if ( true === $dict ) {
 
