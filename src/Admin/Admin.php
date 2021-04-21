@@ -109,7 +109,7 @@ class Admin {
 			// Used in ajax_get_and_save_token below.
 			'get_save_token_nonce'      => wp_create_nonce( 'mz_mbo_get_and_save_token' ),
 			// Used in clear_plugin_transients below.
-			'clear_transients_nonce'    => wp_create_nonce( 'mz_mbo_clear_transients' ),
+			'clear_transients_nonce'    => wp_create_nonce( 'ajax_clear_plugin_transients' ),
 			// Used in test_credentials below.
 			'test_credentials_nonce'    => wp_create_nonce( 'mz_mbo_test_credentials' ),
 			// Used in test_credentials_v5 below.
@@ -330,7 +330,9 @@ class Admin {
 	 */
 	public function ajax_clear_plugin_transients() {
 		// Generated in localize_script() above.
-		check_admin_referer( 'mz_mbo_clear_transients', 'nonce' );
+        NS\MZMBO()->helpers->log($_REQUEST);
+		check_admin_referer( 'ajax_clear_plugin_transients', 'nonce' );
+        NS\MZMBO()->helpers->log("two #########################");
 
 		$sql_response = $this->clear_plugin_transients();
 
@@ -405,7 +407,7 @@ class Admin {
 	 * @return result of $wpdb delete call.
 	 */
 	public function clear_plugin_transients() {
-
+	
 		global $wpdb;
 		return $wpdb->query( "DELETE FROM `$wpdb->options` WHERE `option_name` LIKE '%transient_mz_mbo%'" );
 	}
