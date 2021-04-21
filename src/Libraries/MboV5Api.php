@@ -41,6 +41,7 @@ class MboV5Api {
 			'soap_version'   => SOAP_1_1,
 			'trace'          => true,
 			'exceptions'     => true,
+            'cache_wsdl' => WSDL_CACHE_NONE,
 			'stream_context' => stream_context_create(
 				array(
 					'ssl' => array(
@@ -63,12 +64,14 @@ class MboV5Api {
 			'SiteService'        => $this->siteServiceWSDL,
 			'StaffService'       => $this->staffServiceWSDL,
 		);
+		
 		// set api_methods array with available methods from Mindbody services
 		foreach ( $this->apiServices as $service_name => $serviceWSDL ) {
 			try {
 				$this->client = new \SoapClient( $serviceWSDL, $this->soapOptions );
 			} catch ( \SoapFault $s ) {
 				throw new \Exception( 'NO_API_SERVICE: ' . $s );
+				error_clear_last();
 			}
 			$this->api_methods = array_merge(
 				$this->api_methods,
