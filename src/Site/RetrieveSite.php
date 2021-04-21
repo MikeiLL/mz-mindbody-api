@@ -72,7 +72,7 @@ class RetrieveSite extends Interfaces\Retrieve {
 	 */
 	public function get_site_memberships( $dict = false ) {
 
-		if ( false === get_transient( 'mz_memberships_from_mbo' ) ) {
+		if ( false === get_transient( 'mz_mbo_memberships' ) ) {
 
 			$this->get_mbo_results();
 
@@ -90,11 +90,11 @@ class RetrieveSite extends Interfaces\Retrieve {
 			}
 
 			if ( array_key_exists( 'Memberships', $result ) && ! empty( $result['Memberships'] ) ) {
-				set_transient( 'mz_memberships_from_mbo', $result, 86400 );
+				set_transient( 'mz_mbo_memberships', $result, 86400 );
 			}
 		} else {
 
-			$result = get_transient( 'mz_memberships_from_mbo' );
+			$result = get_transient( 'mz_mbo_memberships' );
 
 		}
 
@@ -136,7 +136,7 @@ class RetrieveSite extends Interfaces\Retrieve {
 	 */
 	public function get_site_programs( $dict = false ) {
 
-		if ( false === get_transient( 'mz_programs_from_mbo' ) ) {
+		if ( false === get_transient( 'mz_mbo_programs' ) ) {
 
 			$this->get_mbo_results();
 
@@ -154,11 +154,11 @@ class RetrieveSite extends Interfaces\Retrieve {
 			}
 
 			if ( array_key_exists( 'Programs', $result ) && ! empty( $result['Programs'] ) ) {
-				set_transient( 'mz_programs_from_mbo', $result, 86400 );
+				set_transient( 'mz_mbo_programs', $result, 86400 );
 			}
 		} else {
 
-			$result = get_transient( 'mz_programs_from_mbo' );
+			$result = get_transient( 'mz_mbo_programs' );
 
 		}
 
