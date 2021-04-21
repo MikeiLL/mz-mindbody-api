@@ -386,16 +386,16 @@ class SettingsPage {
 			)
 		);
 
-		// Field: Set Log File Path
+		// Field: Set Log File Path.
 		self::$wposa_obj->add_field(
 			'mz_mbo_advanced',
 			array(
-				'id'      => 'log_api_calls_path',
-				'type'    => 'text',
-				'name'    => __( 'Log File Path', 'mz-mindbody-api' ),
-				'desc'    => __( 'File path when logging API calls.', 'mz-mindbody-api' ),
-				'default' => WP_CONTENT_DIR,
-				'sanitize_callback' => 'sanitize_file_name'
+				'id'                => 'log_api_calls_path',
+				'type'              => 'text',
+				'name'              => __( 'Log File Path', 'mz-mindbody-api' ),
+				'desc'              => __( 'File path when logging API calls.', 'mz-mindbody-api' ),
+				'default'           => WP_CONTENT_DIR,
+				'sanitize_callback' => 'sanitize_file_name',
 			)
 		);
 

@@ -59,8 +59,7 @@ define( NS . 'MINIMUM_PHP_VERSION', 7.1 );
  */
 if ( version_compare( PHP_VERSION, NS\MINIMUM_PHP_VERSION, '<' ) ) {
 	add_action( 'admin_notices', NS . 'minimum_php_version' );
-}
-else {
+} else {
 	/**
 	 * Autoload Classes
 	 */
@@ -71,8 +70,7 @@ else {
 
 	if ( ! class_exists( 'MZoo\MzMindbody\Core\MzMindbodyApi' ) ) {
 		add_action( 'admin_notices', NS . 'missing_composer' );
-	}
-	else {
+	} else {
 
 		/**
 		 * Register Activation and Deactivation Hooks
@@ -92,10 +90,10 @@ else {
 		 * Run the plugin.
 		 */
 
-		add_action( 'init', __NAMESPACE__ . '\run_plugin', 10 );
-		
+		add_action( 'plugins_loaded', __NAMESPACE__ . '\run_plugin', 10 );
+
 	}
-}	
+}
 
 
 /**
@@ -180,7 +178,7 @@ function MZMBO() {
 
 /**
  * Deactivation and message when initialization fails.
- * 
+ *
  * @param string $error        Error message to output.
  * @since 2.8.8
  * @return void.
@@ -204,7 +202,7 @@ function activation_failed( $error ) {
  * @return void.
  */
 function missing_composer() {
-	activation_failed( __( 'MZ Mindbody Api requires Composer autoloading, which is not configured.', NS . 'PLUGIN_TEXT_DOMAIN' ) );
+	activation_failed( __( 'MZ Mindbody Api requires Composer autoloading, which is not configured.', 'mz-mindbody-api' ) );
 }
 
 /**
@@ -214,7 +212,7 @@ function missing_composer() {
  * @return void.
  */
 function minimum_php_version() {
-	activation_failed( __( 'MZ Mindbody Api requires PHP version', NS . 'PLUGIN_TEXT_DOMAIN' ) . sprintf( ' %1.1f.', NS\MINIMUM_PHP_VERSION ) );
+	activation_failed( __( 'MZ Mindbody Api requires PHP version', 'mz-mindbody-api' ) . sprintf( ' %1.1f.', NS\MINIMUM_PHP_VERSION ) );
 }
 
 /**
@@ -227,7 +225,7 @@ function plugin_is_deactivated() {
 	if ( is_admin() && current_user_can( 'activate_plugins' ) ) {
 		?>
 			<div class="notice notice-success is-dismissible"><p>
-				<?php esc_html_e( 'MZ Mindbody Api plugin has been deactivated.', NS . 'PLUGIN_TEXT_DOMAIN' ); ?>
+				<?php esc_html_e( 'MZ Mindbody Api plugin has been deactivated.', 'mz-mindbody-api' ); ?>
 			</p></div>
 		<?php
 	}
@@ -235,13 +233,13 @@ function plugin_is_deactivated() {
 
 /**
  * Run the plugin.
- * 
+ *
  * @since 2.8.8
  * @return void.
  */
 function run_plugin() {
 
 	// Get MzMindbodyApi Instance.
-		MZMBO();
+	MZMBO();
 
 }

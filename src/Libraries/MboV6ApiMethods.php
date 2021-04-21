@@ -134,12 +134,10 @@ class MboV6ApiMethods {
 		$this->headers_authorized = array_merge(
 			$headers,
 			array(
+				// Return empty string or, if present, AccessToken.
 				'Authorization' => get_option(
 					'mz_mbo_token',
-					array(
-						'stored_time' => '',
-						'AccessToken' => '',
-					)
+					array( 'AccessToken' => '' )
 				)['AccessToken'],
 			)
 		);
@@ -498,7 +496,7 @@ class MboV6ApiMethods {
 					'method'   => 'GET',
 					'name'     => 'GetMemberships',
 					'endpoint' => $this->endpoint_site . '/memberships',
-					'headers'  => $this->headers_basic,
+					'headers'  => $this->headers_authorized,
 				),
 				'GetPrograms'       => array(
 					'method'   => 'GET',
