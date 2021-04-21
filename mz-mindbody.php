@@ -50,8 +50,6 @@ define( NS . 'PLUGIN_NAME_URL', plugin_dir_url( __FILE__ ) );
 
 define( NS . 'PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 
-define( NS . 'PLUGIN_TEXT_DOMAIN', 'mz-mindbody-api' );
-
 define( NS . 'MINIMUM_PHP_VERSION', 7.1 );
 
 /**
@@ -212,7 +210,7 @@ function missing_composer() {
  * @return void.
  */
 function minimum_php_version() {
-	activation_failed( __( 'MZ Mindbody Api requires PHP version', 'mz-mindbody-api' ) . sprintf( ' %1.1f.', NS\MINIMUM_PHP_VERSION ) );
+	activation_failed( __( 'MZ Mindbody Api requires PHP version', 'mz-mindbody-api' ) . sprintf( ' %1.1f.', MINIMUM_PHP_VERSION ) );
 }
 
 /**
