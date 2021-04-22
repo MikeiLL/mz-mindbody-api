@@ -52,11 +52,14 @@ define( NS . 'PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 
 define( NS . 'MINIMUM_PHP_VERSION', 7.1 );
 
+define( NS . 'INIT_LEVEL', 10 );
+
 /**
  * Check the minimum PHP version.
  */
 if ( version_compare( PHP_VERSION, NS\MINIMUM_PHP_VERSION, '<' ) ) {
 	add_action( 'admin_notices', NS . 'minimum_php_version' );
+	add_action( 'init', __NAMESPACE__ . '\deactivate_plugins', INIT_LEVEL );
 } else {
 	/**
 	 * Autoload Classes
@@ -68,6 +71,7 @@ if ( version_compare( PHP_VERSION, NS\MINIMUM_PHP_VERSION, '<' ) ) {
 
 	if ( ! class_exists( 'MZoo\MzMindbody\Core\MzMindbodyApi' ) ) {
 		add_action( 'admin_notices', NS . 'missing_composer' );
+		add_action( 'init', __NAMESPACE__ . '\deactivate_plugins', INIT_LEVEL );
 	} else {
 
 		/**
@@ -88,7 +92,7 @@ if ( version_compare( PHP_VERSION, NS\MINIMUM_PHP_VERSION, '<' ) ) {
 		 * Run the plugin.
 		 */
 
-		add_action( 'plugins_loaded', __NAMESPACE__ . '\run_plugin', 10 );
+		add_action( 'plugins_loaded', __NAMESPACE__ . '\run_plugin', INIT_LEVEL );
 
 	}
 }
@@ -182,7 +186,6 @@ function MZMBO() {
  * @return void.
  */
 function activation_failed( $error ) {
-	register_deactivation_hook( plugin_basename( __FILE__ ), NS . 'plugin_is_deactivated' );
 	if ( is_admin() && current_user_can( 'activate_plugins' ) ) {
 		?>
 			<div class="notice notice-error is-dismissible"><p><strong>
@@ -190,9 +193,25 @@ function activation_failed( $error ) {
 			</strong></p></div>
 		<?php
 	}
-	deactivate_plugins( plugin_basename( __FILE__ ) );
 }
 
+/**
+ * Deactivate plugins.
+ *
+ * @param string $error        Error message to output.
+ * @since 2.1.1
+ * @return void.
+ */
+function deactivate_plugins() {
+	\deactivate_plugins( plugin_basename( __FILE__ ) );
+	if ( is_admin() && current_user_can( 'activate_plugins' ) ) {
+		?>
+			<div class="notice notice-success is-dismissible"><p>
+				<?php esc_html_e( 'MZ Mindbody Api plugin has been deactivated.', 'mz-mbo-access' ); ?>
+			</p></div>
+		<?php
+	}
+}
 /**
  * Notice of missing composer.
  *
