@@ -57,7 +57,7 @@ define( NS . 'INIT_LEVEL', 10 );
 /**
  * Check the minimum PHP version.
  */
-if ( version_compare( PHP_VERSION, NS\MINIMUM_PHP_VERSION, '<' ) ) {
+if ( version_compare( PHP_VERSION, MINIMUM_PHP_VERSION, '<' ) ) {
 	add_action( 'admin_notices', NS . 'minimum_php_version' );
 	add_action( 'init', __NAMESPACE__ . '\deactivate_plugins', INIT_LEVEL );
 } else {
@@ -198,8 +198,7 @@ function activation_failed( $error ) {
 /**
  * Deactivate plugins.
  *
- * @param string $error        Error message to output.
- * @since 2.1.1
+ * @since 2.8.8
  * @return void.
  */
 function deactivate_plugins() {
