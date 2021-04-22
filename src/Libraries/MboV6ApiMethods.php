@@ -458,7 +458,7 @@ class MboV6ApiMethods {
 					'method'   => 'GET',
 					'name'     => 'GetServices',
 					'endpoint' => $this->endpoint_sale . '/services',
-					'headers'  => $this->headers_basic,
+					'headers'  => $this->headers_authorized,
 				),
 				'PurchaseContract'        => array(
 					'method'   => 'POST',

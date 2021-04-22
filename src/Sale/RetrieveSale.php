@@ -51,9 +51,97 @@ class RetrieveSale extends Interfaces\Retrieve {
 	}
 
 	/**
-	 * Get Contracts from primary location
+	 * Get Locations
 	 *
-	 * @since 1.0.0
+	 * @since 2.8.8
+	 *
+	 * @param boolean $dict true returns a an array of id=>name values.
+	 * @return MBO request GET request result
+	 */
+	public function get_locations( $dict = false ) {
+
+		$location_id = 1;
+
+		if ( false === get_transient( 'mz_mbo_locations' ) ) {
+
+			$this->get_mbo_results();
+
+			if ( ! is_object( $this->mb ) ) {
+				return 'Check your MBO connection.';
+			}
+
+			try {
+				$result = $this->mb->GetLocations( );
+			} catch ( \Exception $e ) {
+				return false;
+			}
+
+			if ( array_key_exists( 'Locations', $result ) && ! empty( $result['Locations'] ) ) {
+				set_transient( 'mz_mbo_locations', $result, 86400 );
+			}
+		} else {
+
+			$result = get_transient( 'mz_mbo_locations' );
+		}
+
+        if ( true === $dict ) {
+
+            if ( empty( $result['Locations'] ) ) {
+                return array();
+            }
+
+            $dict_array = array();
+            foreach ( $result['Locations'] as $element ) {
+                $dict_array[ $element['Id'] ] = $element['Name'];
+            }
+            return $dict_array;
+        }
+
+		return $result;
+	}
+
+	/**
+	 * Get Sites Available on this API Account
+	 *
+	 * @since 2.8.8
+	 *
+	 * @return MBO request GET request result
+	 */
+	public function get_sites( ) {
+
+		$location_id = 1;
+
+		if ( false === get_transient( 'mz_mbo_sites' ) ) {
+
+			$this->get_mbo_results();
+
+			if ( ! is_object( $this->mb ) ) {
+				return 'Check your MBO connection.';
+			}
+
+			$request_body = array();
+
+			try {
+				$result = $this->mb->GetSites( $request_body );
+			} catch ( \Exception $e ) {
+				return false;
+			}
+
+			if ( array_key_exists( 'Sites', $result ) && ! empty( $result['Sites'] ) ) {
+				set_transient( 'mz_mbo_sites', $result, 86400 );
+			}
+		} else {
+
+			$result = get_transient( 'mz_mbo_sites' );
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Get Contracts from All Locations
+	 *
+	 * @since 2.8.8
 	 *
 	 * @param boolean $dict true returns a an array of id=>name values.
 	 * @return MBO request GET request result
@@ -109,7 +197,7 @@ class RetrieveSale extends Interfaces\Retrieve {
 	/**
 	 * Get Contracts from primary location
 	 *
-	 * @since 1.0.0
+	 * @since 2.8.8
 	 *
 	 * @param boolean $dict true returns a an array of id=>name values.
 	 * @return MBO request GET request result
@@ -126,12 +214,8 @@ class RetrieveSale extends Interfaces\Retrieve {
 				return 'Check your MBO connection.';
 			}
 
-			$request_body = array(
-				'LocationId' => $location_id,
-			);
-
 			try {
-				$result = $this->mb->GetServices( $request_body );
+				$result = $this->mb->GetServices(  );
 			} catch ( \Exception $e ) {
 				return false;
 			}
@@ -142,20 +226,21 @@ class RetrieveSale extends Interfaces\Retrieve {
 		} else {
 
 			$result = get_transient( 'mz_mbo_services' );
-
-			if ( true === $dict ) {
-
-				if ( empty( $result['Services'] ) ) {
-					return array();
-				}
-
-				$dict_array = array();
-				foreach ( $result['Services'] as $element ) {
-					$dict_array[ $element['Id'] ] = $element['Name'];
-				}
-				return $dict_array;
-			}
+			
 		}
+
+        if ( true === $dict ) {
+
+            if ( empty( $result['Services'] ) ) {
+                return array();
+            }
+
+            $dict_array = array();
+            foreach ( $result['Services'] as $element ) {
+                $dict_array[ $element['Id'] ] = $element['Name'];
+            }
+            return $dict_array;
+        }
 
 		return $result;
 	}
