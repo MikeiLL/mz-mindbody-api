@@ -67,6 +67,9 @@ You need to register a developer account with MindBody, which costs $5+ per webs
 
 == Changelog ==
 
+= v2.8.8 =
+Refactor use of hooks on activation, deactivation, initialization.
+
 = v2.8.7 =
 Bugfix: Clean out old files from subversion repo.
 
