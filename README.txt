@@ -1,10 +1,10 @@
 === MZ Mindbody API ===
-Contributors: mikeill, rtzee
+Contributors: mikeill, rtzee, sunspotswifi
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A95ZEELLHGECE
 Tags: mindbody, schedule, calendar, yoga, MBO, mindbodyonline, gym, parkour, mbo, mindbodyonline.
 Requires at least: 5.3
 Tested up to: 5.7.1
-Stable tag: 2.8.7
+Stable tag: 2.8.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,6 +66,9 @@ You need to register a developer account with MindBody, which costs $5+ per webs
 5. Admin Page
 
 == Changelog ==
+
+= v2.8.8 =
+Refactor use of hooks on activation, deactivation, initialization.
 
 = v2.8.7 =
 Bugfix: Clean out old files from subversion repo.
