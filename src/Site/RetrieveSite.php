@@ -80,9 +80,7 @@ class RetrieveSite extends Interfaces\Retrieve {
 				return 'Check your MBO connection.';
 			}
 
-			$request_body = array(
-				'LocationId' => $location_id,
-			);
+			$request_body = array();
 			try {
 				$result = $this->mb->GetMemberships( $request_body );
 			} catch ( \Exception $e ) {
@@ -144,9 +142,7 @@ class RetrieveSite extends Interfaces\Retrieve {
 				return 'Check your MBO connection.';
 			}
 
-			$request_body = array(
-				'LocationId' => $location_id,
-			);
+			$request_body = array();
 			try {
 				$result = $this->mb->GetPrograms();
 			} catch ( \Exception $e ) {
