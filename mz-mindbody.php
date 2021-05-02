@@ -59,7 +59,7 @@ define( NS . 'INIT_LEVEL', 10 );
  */
 if ( version_compare( PHP_VERSION, MINIMUM_PHP_VERSION, '<' ) ) {
 	add_action( 'admin_notices', NS . 'minimum_php_version' );
-	add_action( 'init', __NAMESPACE__ . '\deactivate_plugins', INIT_LEVEL );
+	add_action( 'admin_init', __NAMESPACE__ . '\deactivate_plugins', INIT_LEVEL );
 } else {
 	/**
 	 * Autoload Classes
@@ -71,7 +71,7 @@ if ( version_compare( PHP_VERSION, MINIMUM_PHP_VERSION, '<' ) ) {
 
 	if ( ! class_exists( 'MZoo\MzMindbody\Core\MzMindbodyApi' ) ) {
 		add_action( 'admin_notices', NS . 'missing_composer' );
-		add_action( 'init', __NAMESPACE__ . '\deactivate_plugins', INIT_LEVEL );
+		add_action( 'admin_init', __NAMESPACE__ . '\deactivate_plugins', INIT_LEVEL );
 	} else {
 
 		/**
