@@ -163,6 +163,9 @@ class Admin {
 		} elseif ( $prev_version < '2.5.7' ) {
 			return $this->prev_to_257();
 		}
+		} elseif ( $prev_version < '2.8.9' ) {
+			return $this->prev_to_289();
+		}
 	}
 
 	/**
@@ -189,6 +192,7 @@ class Admin {
 			update_option( 'mz_mbo_events', $mz_mbo_events );
 			$this->prev_to_256();
 			$this->prev_to_257();
+			$this->prev_to_289();
 		}
 	}
 
@@ -208,6 +212,23 @@ class Admin {
 
 		$this->clear_previous_plugin_transients();
 		$this->prev_to_257();
+			$this->prev_to_289();
+	}
+
+	/**
+	 * Upgrade from previous to 2.8.9
+	 *
+	 * @since 2.5.7
+	 *
+	 * Options fields renamed so updating now
+	 */
+	private function prev_to_289() {
+		// Set track api calls default path.
+        $advanced_options                   = get_option( 'mz_mbo_advanced' );
+        if ( !empty( $advanced_options ) && empty( $advanced_options['api_call_limit'] ) ) {
+            $advanced_options['log_api_calls_path'] = WP_CONTENT_DIR;
+            update_option( 'mz_mbo_advanced', $advanced_options );
+        }	
 	}
 
 
