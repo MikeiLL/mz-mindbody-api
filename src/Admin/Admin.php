@@ -162,7 +162,6 @@ class Admin {
 			return $this->prev_to_256();
 		} elseif ( $prev_version < '2.5.7' ) {
 			return $this->prev_to_257();
-		}
 		} elseif ( $prev_version < '2.8.9' ) {
 			return $this->prev_to_289();
 		}
