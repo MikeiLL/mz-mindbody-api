@@ -67,6 +67,11 @@ You need to register a developer account with MindBody, which costs $5+ per webs
 
 == Changelog ==
 
+= v2.8.9 =
+Improve token check to prevent error.
+Move deactivate_plugins to admin_init action to insure the function is loaded.
+No location id in queries.
+
 = v2.8.8 =
 Refactor use of hooks on activation, deactivation, initialization.
 
