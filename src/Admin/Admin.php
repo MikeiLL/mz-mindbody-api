@@ -330,9 +330,7 @@ class Admin {
 	 */
 	public function ajax_clear_plugin_transients() {
 		// Generated in localize_script() above.
-        NS\MZMBO()->helpers->log($_REQUEST);
 		check_admin_referer( 'ajax_clear_plugin_transients', 'nonce' );
-        NS\MZMBO()->helpers->log("two #########################");
 
 		$sql_response = $this->clear_plugin_transients();
 
