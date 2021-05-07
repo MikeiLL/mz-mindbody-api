@@ -242,7 +242,7 @@ class MboV6Api {
 			// Maybe there's a stored token to use.
 			$token = $this->token_management->get_stored_token();
 
-			if ( $token !== false && $tctype_alnum( $token['AccessToken'] ) ) {
+			if ( $token !== false && ctype_alnum( $token['AccessToken'] ) ) {
 				$request_body['Access'] = $token['AccessToken'];
 			} else {
 				$request_body['Access'] = $this->token_request( $rest_method );
