@@ -60,7 +60,7 @@ class GlobalStrings {
 			'all_locations_copy'    => __( 'All Locations', 'mz-mindbody-api' ),
 			'no_events_this_period' => __( 'No events scheduled yet for this period.', 'mz-mindbody-api' ),
 			'result_error'          => __( 'There was an error retrieving the data. Details below. Could be a network connection. Consider trying again.', 'mz-mindbody-api' ),
-			'location'				=> __( 'Location', 'mz-mindbody-api' ),
+			'location'              => __( 'Location', 'mz-mindbody-api' ),
 		);
 	}
 

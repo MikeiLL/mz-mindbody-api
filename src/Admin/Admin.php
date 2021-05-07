@@ -223,11 +223,11 @@ class Admin {
 	 */
 	private function prev_to_289() {
 		// Set track api calls default path.
-        $advanced_options                   = get_option( 'mz_mbo_advanced' );
-        if ( !empty( $advanced_options ) && empty( $advanced_options['api_call_limit'] ) ) {
-            $advanced_options['log_api_calls_path'] = WP_CONTENT_DIR;
-            update_option( 'mz_mbo_advanced', $advanced_options );
-        }	
+		$advanced_options = get_option( 'mz_mbo_advanced' );
+		if ( ! empty( $advanced_options ) && empty( $advanced_options['api_call_limit'] ) ) {
+			$advanced_options['log_api_calls_path'] = WP_CONTENT_DIR;
+			update_option( 'mz_mbo_advanced', $advanced_options );
+		}
 	}
 
 
@@ -425,7 +425,7 @@ class Admin {
 	 * @return result of $wpdb delete call.
 	 */
 	public function clear_plugin_transients() {
-	
+
 		global $wpdb;
 		return $wpdb->query( "DELETE FROM `$wpdb->options` WHERE `option_name` LIKE '%transient_mz_mbo%'" );
 	}

@@ -53,7 +53,7 @@ class Activator {
 			);
 		}
 
-		if ( !empty( $advanced_options ) && empty( $advanced_options['api_call_limit'] ) ) {
+		if ( ! empty( $advanced_options ) && empty( $advanced_options['api_call_limit'] ) ) {
 			// Maybe it's been installed pre v2.5.7.
 			$advanced_options['api_call_limit'] = 2000;
 			// Maybe it's been installed pre v2.6.7.
@@ -61,7 +61,7 @@ class Activator {
 		}
 		update_option( 'mz_mbo_advanced', $advanced_options );
 
-		if ( !empty( $advanced_options ) && empty( $advanced_options['log_api_calls_path'] ) ) {
+		if ( ! empty( $advanced_options ) && empty( $advanced_options['log_api_calls_path'] ) ) {
 			// Maybe it's been installed pre v2.8.8.
 			$advanced_options['log_api_calls_path'] = WP_CONTENT_DIR;
 		}

@@ -71,7 +71,7 @@ class RetrieveSale extends Interfaces\Retrieve {
 			}
 
 			try {
-				$result = $this->mb->GetLocations( );
+				$result = $this->mb->GetLocations();
 			} catch ( \Exception $e ) {
 				return false;
 			}
@@ -84,18 +84,18 @@ class RetrieveSale extends Interfaces\Retrieve {
 			$result = get_transient( 'mz_mbo_locations' );
 		}
 
-        if ( true === $dict ) {
+		if ( true === $dict ) {
 
-            if ( empty( $result['Locations'] ) ) {
-                return array();
-            }
+			if ( empty( $result['Locations'] ) ) {
+				return array();
+			}
 
-            $dict_array = array();
-            foreach ( $result['Locations'] as $element ) {
-                $dict_array[ $element['Id'] ] = $element['Name'];
-            }
-            return $dict_array;
-        }
+			$dict_array = array();
+			foreach ( $result['Locations'] as $element ) {
+				$dict_array[ $element['Id'] ] = $element['Name'];
+			}
+			return $dict_array;
+		}
 
 		return $result;
 	}
@@ -107,7 +107,7 @@ class RetrieveSale extends Interfaces\Retrieve {
 	 *
 	 * @return MBO request GET request result
 	 */
-	public function get_sites( ) {
+	public function get_sites() {
 
 		$location_id = 1;
 
@@ -215,7 +215,7 @@ class RetrieveSale extends Interfaces\Retrieve {
 			}
 
 			try {
-				$result = $this->mb->GetServices(  );
+				$result = $this->mb->GetServices();
 			} catch ( \Exception $e ) {
 				return false;
 			}
@@ -226,21 +226,21 @@ class RetrieveSale extends Interfaces\Retrieve {
 		} else {
 
 			$result = get_transient( 'mz_mbo_services' );
-			
+
 		}
 
-        if ( true === $dict ) {
+		if ( true === $dict ) {
 
-            if ( empty( $result['Services'] ) ) {
-                return array();
-            }
+			if ( empty( $result['Services'] ) ) {
+				return array();
+			}
 
-            $dict_array = array();
-            foreach ( $result['Services'] as $element ) {
-                $dict_array[ $element['Id'] ] = $element['Name'];
-            }
-            return $dict_array;
-        }
+			$dict_array = array();
+			foreach ( $result['Services'] as $element ) {
+				$dict_array[ $element['Id'] ] = $element['Name'];
+			}
+			return $dict_array;
+		}
 
 		return $result;
 	}
