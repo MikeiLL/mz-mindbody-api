@@ -283,7 +283,7 @@ if [ -n "$(ls -A tags/$PLUGINVERSION 2>/dev/null)" ]; then
 	svn copy trunk/README.txt tags/$PLUGINVERSION
 fi
 svn copy --quiet trunk/ tags/$PLUGINVERSION/
-# Remove trunk directories from tag directory
+# Remove trunk directories from tag directory MIGHT BE FAILING IF TRUNK NOT PRESENT.
 svn delete --force --quiet $SVNPATH/tags/$PLUGINVERSION/trunk
 svn update --quiet --accept working $SVNPATH/tags/$PLUGINVERSION
 #svn resolve --accept working $SVNPATH/tags/$PLUGINVERSION/*

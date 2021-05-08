@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: mindbody, schedule, calendar, yoga, MBO, mindbodyonline, gym, parkour, mbo, mindbodyonline.
 Requires at least: 5.3
 Tested up to: 5.7.1
-Stable tag: 2.8.8
+Stable tag: 2.8.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -69,6 +69,7 @@ You need to register a developer account with MindBody, which costs $5+ per webs
 
 = v2.8.9 =
 Improve token check to prevent error.
+Set default log file path in plugin upgrade check.
 Move deactivate_plugins to admin_init action to insure the function is loaded.
 No location id in queries.
 
