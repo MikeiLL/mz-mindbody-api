@@ -10,7 +10,7 @@
 namespace MZoo\MzMindbody\Libraries;
 
 use MZoo\MzMindbody as NS;
-use Exception as Exception;
+use \Exception as Exception;
 
 class MboV5Api {
 

@@ -54,7 +54,7 @@ contain the name of each event type and it's associated ID number.
 
 == Why am I getting "Permission denied" and "Invalid Argument" errors? ==
 
-You need to register a developer account with MindBody, which costs $5+ per website. Follow the instructions at [mZoo.org](http://www.mzoo.org/creating-your-mindbody-credentials).
+You need to register a developer account with MindBody, which costs $11+ per website. Follow the instructions at [mZoo.org](http://www.mzoo.org/creating-your-mindbody-credentials).
 
 == Screenshots ==
 
@@ -66,6 +66,9 @@ You need to register a developer account with MindBody, which costs $5+ per webs
 5. Admin Page
 
 == Changelog ==
+
+= v2.9.0 =
+Improve error message when too-many api calls exception bubbles up.
 
 = v2.8.9 =
 Improve token check to prevent error.
