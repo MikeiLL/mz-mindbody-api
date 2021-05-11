@@ -239,6 +239,7 @@ class RetrieveSale extends Interfaces\Retrieve {
 			foreach ( $result['Services'] as $element ) {
 				$dict_array[ $element['Id'] ] = $element['Name'];
 			}
+
 			return $dict_array;
 		}
 
