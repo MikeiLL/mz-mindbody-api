@@ -381,11 +381,12 @@ class SingleEvent {
 	 * @return urlstring
 	 */
 	private function mbo_url() {
-		$mbo_link  = 'https://clients.mindbodyonline.com/ws.asp';
-		$mbo_link .= "?sDate={$this->date_for_mbo_link}";
-		$mbo_link .= "&amp;sLoc={$this->location_id}";
-		$mbo_link .= '&amp;sType=7';
-		$mbo_link .= "&amp;sclassid={$this->class_schedule_id}";
+		$mbo_link  = 'https://clients.mindbodyonline.com/asp/res_a.asp';
+		$mbo_link .= "?classDate={$this->date_for_mbo_link}";
+		$mbo_link .= "&amp;clsLoc={$this->location_id}";
+		$mbo_link .= '&amp;tg=4';
+		$mbo_link .= "&amp;classId={$this->class_schedule_id}";
+		$mbo_link .= '&amp;courseID=';
 		$mbo_link .= "&amp;studioid={$this->site_id}";
 		return $mbo_link;
 	}
