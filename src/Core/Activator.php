@@ -10,7 +10,8 @@
 namespace MZoo\MzMindbody\Core;
 
 use MZoo\MzMindbody as NS;
-use MZoo\MzMindbody\Admin as Admin;
+use MZoo\MzMindbody\Admin;
+use MZoo\MzMindbody\Common;
 
 /**
  * Fired during plugin activation
@@ -38,6 +39,10 @@ class Activator {
 		update_option( 'mz_mbo_api_calls', $mz_mbo_api_calls );
 
 		$advanced_options = get_option( 'mz_mbo_advanced' );
+
+		// Get token right now.
+		$token_object = new Common\TokenManagement();
+		$token_object->get_and_save_token();
 
 		// Set default advanced options.
 		// If completely empty set all.

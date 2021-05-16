@@ -10,7 +10,7 @@
 
 namespace MZoo\MzMindbody\Libraries;
 
-use MZoo\MzMindbody as MZ;
+use MZoo\MzMindbody as NS;
 
 /**
  * Mindbody V6 API Methods Class
@@ -131,14 +131,19 @@ class MboV6ApiMethods {
 
 		$this->headers_basic = $headers;
 
+		$token_from_option = get_option(
+			'mz_mbo_token',
+			array( 'AccessToken' => '' )
+		);
+
+		// Convert from Object to Array (could also cast as array).
+		$token_array = json_decode( json_encode( $token_from_option ), true );
+
 		$this->headers_authorized = array_merge(
 			$headers,
 			array(
 				// Return empty string or, if present, AccessToken.
-				'Authorization' => get_option(
-					'mz_mbo_token',
-					array( 'AccessToken' => '' )
-				)['AccessToken'],
+				'Authorization' => $token_array['AccessToken'],
 			)
 		);
 

@@ -150,7 +150,7 @@ class TokenManagement extends Interfaces\Retrieve {
 		if ( is_object( $stored_token['stored_time'] ) &&
 			( $stored_token['stored_time'] > $twleve_hours_ago ) &&
 				ctype_alnum( $stored_token['AccessToken'] ) ) {
-			return $stored_token;
+			return json_decode( json_encode( $stored_token ), true );
 		}
 
 		// Must be too old.
