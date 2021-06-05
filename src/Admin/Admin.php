@@ -110,6 +110,8 @@ class Admin {
 			'get_save_token_nonce'      => wp_create_nonce( 'mz_mbo_get_and_save_token' ),
 			// Used in clear_plugin_transients below.
 			'clear_transients_nonce'    => wp_create_nonce( 'ajax_clear_plugin_transients' ),
+			// Used in cancel_excess_api_alerts below.
+			'cancel_excess_api_alerts'  => wp_create_nonce( 'cancel_excess_api_alerts' ),
 			// Used in test_credentials below.
 			'test_credentials_nonce'    => wp_create_nonce( 'mz_mbo_test_credentials' ),
 			// Used in test_credentials_v5 below.
@@ -355,7 +357,7 @@ class Admin {
 		$sql_response = $this->clear_plugin_transients();
 
 		$result['type'] = 'success';
-
+		wp_clear_scheduled_hook( 'mz_mbo_api_cron_hook' );
 		// Initialize message.
 		$result['message'] = __( 'No transients to clear.', 'mz-mindbody-api' );
 
@@ -366,6 +368,36 @@ class Admin {
 				$sql_response
 			);
 		endif;
+
+		if ( ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] )
+			&& 'xmlhttprequest' === strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] )
+		) {
+			$result = wp_json_encode( $result );
+			echo $result;
+		} else {
+			header( 'Location: ' . $_SERVER['HTTP_REFERER'] );
+		}
+
+		die();
+	}
+
+	/**
+	 * Call the clear all plugin transients
+	 *
+	 * Called via ajax in admin
+	 *
+	 * @since 2.4.7
+	 */
+	public function ajax_cancel_excess_api_alerts() {
+
+		// Generated in localize_script() above.
+		check_admin_referer( 'cancel_excess_api_alerts', 'nonce' );
+
+		$result['type'] = 'success';
+
+		wp_clear_scheduled_hook( 'mz_mbo_api_alert_cron' );
+
+		$result['message'] = __( 'Alerts cleared', 'mz-mindbody-api' );
 
 		if ( ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] )
 			&& 'xmlhttprequest' === strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] )

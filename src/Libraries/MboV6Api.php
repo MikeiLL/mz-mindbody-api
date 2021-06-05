@@ -18,7 +18,7 @@ use Exception as Exception;
 /**
  * All Interface methods for MBO v6 API, via WordPress wrapper for CURL
  */
-class MboV6Api {
+class MboV6Api extends MboApi {
 
 	/**
 	 * Token Request Tries
@@ -67,16 +67,6 @@ class MboV6Api {
 	protected $extra_credentials = array();
 
 	/**
-	 * Basic Options
-	 *
-	 * MBO options as set in Admin Settings page.
-	 *
-	 * @access protected
-	 * @var array $basic_options from Admin for MBO auth.
-	 */
-	protected $basic_options;
-
-	/**
 	 * Token Managemen
 	 *
 	 * Get stored tokens when good and store new ones when retrieved.
@@ -85,15 +75,6 @@ class MboV6Api {
 	 * @var array $token_management MZoo\MzMindbody\Common\TokenManagement object.
 	 */
 	protected $token_management;
-
-	/**
-	 * Shortcode Attributes
-	 *
-	 * @since 2.6.7
-	 * @access private
-	 * @var array $atts shortcode attributes.
-	 */
-	private $atts;
 
 	/**
 	 * Initialize the apiServices and api_methods arrays
@@ -173,18 +154,13 @@ class MboV6Api {
 
 		$this->track_daily_api_calls();
 
-		if ( ! $this->api_call_limiter() ) {
+		$within_api_call_limits = $this->api_call_limiter();
+
+		if ( false === $within_api_call_limits ) {
 			throw new Exception( 'Too many API Calls.' );
 		}
 
-		if ( ( isset( NS\Core\MzMindbodyApi::$advanced_options['log_api_calls'] ) ) && ( 'on' === NS\Core\MzMindbodyApi::$advanced_options['log_api_calls'] ) ) :
-			$trace          = debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS, 2 )[1];
-			$caller_details = $trace['function'];
-			if ( isset( $trace['class'] ) ) {
-				$caller_details .= ' in:' . $trace['class'];
-			}
-			NS\MZMBO()->helpers->api_log( print_r( $rest_method, true ) . ' caller:' . $caller_details );
-		endif;
+		$this->maybe_log_daily_api_calls( $rest_method );
 
 		if ( empty( $arguments ) ) {
 			return $this->call_mindbody_service( $rest_method );
@@ -368,76 +344,6 @@ class MboV6Api {
 		} else {
 			return $this->extra_credentials['SourceName'];
 		}
-	}
-
-	/**
-	 * Track API requests per day
-	 *
-	 * There is a 1000 call limit per day on MBO, per location.
-	 * Any calls above that number per location are
-	 * charged at the overage rate of 1/3 cent each.
-	 */
-	private function track_daily_api_calls() {
-		// If not set, initiate array to track mbo calls.
-		$mz_mbo_api_calls = get_option(
-			'mz_mbo_api_calls',
-			array(
-				'calls' => 2,
-				'today' => gmdate( 'Y-m-d' ),
-			)
-		);
-		if ( $mz_mbo_api_calls['today'] < gmdate( 'Y-m-d' ) ) {
-			// If it's a new day, reinitialize the matrix.
-			$mz_mbo_api_calls = array(
-				'today' => gmdate( 'Y-m-d' ),
-				'calls' => 1,
-			);
-			update_option( 'mz_mbo_api_calls', $mz_mbo_api_calls );
-		};
-		// Otherwise increase the call count.
-		$mz_mbo_api_calls['calls'] += 1;
-		update_option( 'mz_mbo_api_calls', $mz_mbo_api_calls );
-	}
-
-	/**
-	 * Limit the number of API requests per day
-	 *
-	 * There is a 1000 call limit per day on MBO, per location.
-	 * Notify the admin when we get close and stop making calls
-	 * when we get to $3USD in overages.
-	 */
-	private function api_call_limiter() {
-
-		// Don't limit if using sandbox.
-		if ( ( isset( NS\MZMBO()::$basic_options['mz_mindbody_siteID'] ) ) &&
-				( '-99' === NS\MZMBO()::$basic_options['mz_mindbody_siteID'] ) ) {
-			return true;
-		}
-
-		if ( NS\MZMBO()::$mz_mbo_api_calls['calls'] - 1200 > NS\MZMBO()::$advanced_options['api_call_limit'] ) {
-			add_action( 'plugins_loaded', array( $this, 'admin_call_excess_alert' ), 10 );
-		};
-		if ( NS\MZMBO()::$mz_mbo_api_calls['calls'] > NS\MZMBO()::$advanced_options['api_call_limit'] ) {
-			return false;
-		};
-		return true;
-	}
-
-
-	/**
-	 * Make the admin notification via wp_mail
-	 */
-	public function admin_call_excess_alert() {
-		$to      = get_option( 'admin_email' );
-		$subject = __( 'Large amount of MBO API Calls', 'mz-mindbody-api' );
-		$message = sprintf(
-			// translators: Notify user of number of calls to api versus limit configured in WP option.
-			__( 'Check your website and MBO. There have been %1$s calls to the API so far today. You have set a maximum of %2$s in the Admin.', 'mz-mindbody-api' ),
-			NS\MZMBO()::$mz_mbo_api_calls['calls'],
-			NS\MZMBO()::$advanced_options['api_call_limit']
-		);
-		$headers = array( 'Content-Type: text/html; charset=UTF-8' );
-		wp_mail( $to, $subject, $message, $headers );
 	}
 
 	/**

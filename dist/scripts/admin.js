@@ -107,6 +107,7 @@
         test_credentials_nonce = mz_mindbody_schedule.test_credentials_nonce,
         test_credentials_v5_nonce = mz_mindbody_schedule.test_credentials_v5_nonce,
         deduce_class_owners_nonce = mz_mindbody_schedule.deduce_class_owners_nonce,
+        cancel_excess_api_alerts = mz_mindbody_schedule.cancel_excess_api_alerts,
         atts = mz_mindbody_schedule.atts;
     /**
      * Clear Transients
@@ -124,6 +125,38 @@
         data: {
           action: 'mz_mbo_clear_transients',
           nonce: clear_transients_nonce
+        },
+        success: function success(json) {
+          if (json.type == "success") {
+            alert(json.message);
+          } else {
+            alert('Something went wrong.');
+          }
+        }
+      }) // End ajax
+      .fail(function (json) {
+        console.log('fail');
+        console.log(json);
+        alert('Something went wrong.');
+      });
+    }); // End Clear Transients
+
+    /**
+    * Cancel API Excess Alerts
+    *
+    *
+    */
+
+    $('#mzCancelAPIExcessAlerts').on('click', function (e) {
+      e.preventDefault();
+      $.ajax({
+        type: "post",
+        dataType: "json",
+        context: this,
+        url: mz_mindbody_schedule.ajaxurl,
+        data: {
+          action: 'mz_mbo_excess_api_alerts',
+          nonce: cancel_excess_api_alerts
         },
         success: function success(json) {
           if (json.type == "success") {

@@ -12,7 +12,7 @@ namespace MZoo\MzMindbody\Libraries;
 use MZoo\MzMindbody as NS;
 use \Exception as Exception;
 
-class MboV5Api {
+class MboV5Api extends MboApi {
 
 
 	protected $client;
@@ -119,21 +119,19 @@ class MboV5Api {
 				$soapService = $api_service_name;
 			}
 		}
+		
 		if ( ! empty( $soapService ) ) {
+			
 			$this->track_daily_api_calls();
 
-			if ( ! $this->api_call_limiter() ) {
+			$within_api_call_limits = $this->api_call_limiter();
+
+			if ( false === $within_api_call_limits ) {
 				throw new Exception( 'Too many API Calls.' );
 			}
 
-			if ( ( isset( NS\Core\MzMindbodyApi::$advanced_options['log_api_calls'] ) ) && ( NS\Core\MzMindbodyApi::$advanced_options['log_api_calls'] == 'on' ) ) :
-				$trace          = debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS, 2 )[1];
-				$caller_details = $trace['function'];
-				if ( isset( $trace['class'] ) ) {
-					$caller_details .= ' in:' . $trace['class'];
-				}
-				NS\MZMBO()->helpers->api_log( $soapService . ' ' . $name . ' caller:' . $caller_details );
-			endif;
+			$this->maybe_log_daily_api_calls($soapService . ' ' . $name);
+
 			if ( empty( $arguments ) ) {
 				return $this->call_mindbody_service( $soapService, $name );
 			} else {
@@ -148,65 +146,6 @@ class MboV5Api {
 			echo "called unknown method '$name'<br />";
 			return 'NO_API_SERVICE';
 		}
-	}
-
-	/*
-	* Track API requests per day
-	*
-	* There is a 1000 call limit per day on MBO, per location.
-	* Any calls above that number per location are
-	* charged at the overage rate of 1/3 cent each.
-	*
-	*
-	*/
-	private function track_daily_api_calls() {
-		// If not set, initiate array to track mbo calls.
-		if ( ! $mz_mbo_api_calls = get_option( 'mz_mbo_api_calls' ) ) {
-			$mz_mbo_api_calls = array(
-				'calls' => 2,
-				'today' => date( 'Y-m-d' ),
-			);
-		}
-		if ( $mz_mbo_api_calls['today'] < date( 'Y-m-d' ) ) {
-			// If it's a new day, reinitialize the matrix
-			$mz_mbo_api_calls = array(
-				'today' => date( 'Y-m-d' ),
-				'calls' => 1,
-			);
-			update_option( 'mz_mbo_api_calls', $mz_mbo_api_calls );
-		};
-		// Otherwise increase the call count
-		$mz_mbo_api_calls['calls'] += 1;
-		update_option( 'mz_mbo_api_calls', $mz_mbo_api_calls );
-	}
-
-	/*
-	* Limit the number of API requests per day
-	*
-	* There is a 1000 call limit per day on MBO, per location.
-	* Notify the admin when we get close and stop making calls
-	* when we get to $3USD in overages.
-	*
-	*
-	*/
-	private function api_call_limiter() {
-
-		// Don't limit if using sandbox
-		if ( ( isset( NS\MZMBO()::$basic_options['mz_mindbody_siteID'] ) ) && ( NS\MZMBO()::$basic_options['mz_mindbody_siteID'] == '-99' ) ) {
-			return true;
-		}
-
-		if ( NS\MZMBO()::$mz_mbo_api_calls['calls'] - 1200 > NS\MZMBO()::$advanced_options['api_call_limit'] ) {
-			$to      = get_option( 'admin_email' );
-			$subject = __( 'Large amount of MBO API Calls', 'mz-mindbody-api' );
-			$message = __( 'Check your website and MBO. There seems to be an issue.', 'mz-mindbody-api' );
-			$headers = array( 'Content-Type: text/html; charset=UTF-8' );
-			wp_mail( $to, $subject, $message, $headers );
-		};
-		if ( NS\MZMBO()::$mz_mbo_api_calls['calls'] > NS\MZMBO()::$advanced_options['api_call_limit'] ) {
-			return false;
-		};
-		return true;
 	}
 
 	/**

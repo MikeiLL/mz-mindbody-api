@@ -216,4 +216,19 @@ class Helpers {
 
 		return $subject;
 	}
+
+	/**
+	 * Log Caller
+	 *
+	 * Log calling function to mz_arbitrary_log file.
+	 *
+	 * @param object $trace Expecting debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS, 2 )[1].
+	 */
+	public function log_caller( $trace ) {
+		$caller_details = $trace['function'];
+		if ( isset( $trace['class'] ) ) {
+			$caller_details .= ' in:' . $trace['class'];
+		}
+		$this->log( print_r( $caller_details, true ) . ' caller:' . $caller_details );
+	}
 }

@@ -12,13 +12,14 @@
 namespace MZoo\MzMindbody\Core;
 
 use MZoo\MzMindbody as NS;
-use MZoo\MzMindbody\Admin as Admin;
-use MZoo\MzMindbody\Frontend as Frontend;
-use MZoo\MzMindbody\Backend as Backend;
-use MZoo\MzMindbody\Common as Common;
-use MZoo\MzMindbody\Schedule as Schedule;
-use MZoo\MzMindbody\Staff as Staff;
-use MZoo\MzMindbody\Events as Events;
+use MZoo\MzMindbody\Admin;
+use MZoo\MzMindbody\Frontend;
+use MZoo\MzMindbody\Backend;
+use MZoo\MzMindbody\Common;
+use MZoo\MzMindbody\Schedule;
+use MZoo\MzMindbody\Staff;
+use MZoo\MzMindbody\Events;
+use MZoo\MzMindbody\Libraries;
 
 /**
  * The core plugin class.
@@ -269,10 +270,18 @@ class MzMindbodyApi {
 		$class_owners_object = new Schedule\RetrieveClassOwners();
 		$staff_object        = new Staff\Display();
 		$token_object        = new Common\TokenManagement();
+		$api_object          = new Libraries\MboApi();
+
+		// Create hook for admin excess api calls alert.
+		$this->loader->add_action( 'mz_mbo_api_alert_cron', $api_object, 'admin_call_excess_alert' );
 
 		// Start Ajax Clear Transients.
 		$this->loader->add_action( 'wp_ajax_nopriv_mz_mbo_clear_transients', $admin_object, 'ajax_clear_plugin_transients' );
 		$this->loader->add_action( 'wp_ajax_mz_mbo_clear_transients', $admin_object, 'ajax_clear_plugin_transients' );
+
+		// Start Ajax Cancel Excess API Alerts.
+		$this->loader->add_action( 'wp_ajax_nopriv_mz_mbo_cancel_excess_api_alerts', $admin_object, 'ajax_cancel_excess_api_alerts' );
+		$this->loader->add_action( 'wp_ajax_mz_mbo_excess_api_alerts', $admin_object, 'ajax_cancel_excess_api_alerts' );
 
 		// Start Ajax New Token.
 		$this->loader->add_action( 'wp_ajax_nopriv_mz_mbo_get_and_save_token', $admin_object, 'ajax_get_and_save_token' );
