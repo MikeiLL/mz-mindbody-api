@@ -3,8 +3,8 @@ Contributors: mikeill, rtzee, sunspotswifi
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A95ZEELLHGECE
 Tags: mindbody, schedule, calendar, yoga, MBO, mindbodyonline, gym, parkour, mbo, mindbodyonline.
 Requires at least: 5.3
-Tested up to: 5.7.1
-Stable tag: 2.9.1
+Tested up to: 5.7.2
+Stable tag: 2.9.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -58,7 +58,7 @@ You need to register a developer account with MindBody, which costs $11+ per web
 
 == Screenshots ==
 
-1. Horizontal Calendar Display 
+1. Horizontal Calendar Display
 2. Grid Calendar Display
 3. Details Modal
 3. Staff Page Gallery
@@ -66,6 +66,9 @@ You need to register a developer account with MindBody, which costs $11+ per web
 5. Admin Page
 
 == Changelog ==
+
+= v2.9.2 =
+Create transients for empty Site and Sale endpoints so not continuing to ping API looking.
 
 = v2.9.1 =
 Refactor admin email on api call excess, set cron job.
@@ -110,7 +113,7 @@ Bugfix: error with modal popup on Staff gallery.
 House Cleaning: Wordpress standards updates, docblocks.
 
 = v2.8.2 =
-Bugfix: calls to check_ajax_referrer 
+Bugfix: calls to check_ajax_referrer
 Bugfix: check_ajax_referrer to check_admin_refer where admin.
 
 = v2.8.1 =
@@ -152,13 +155,13 @@ Update admin api test script, removing a call to log function.
 Debug: Fix another coding error in class-activator.
 
 = v2.7.0 =
-Debug: Fix coding error in class-activator. 
+Debug: Fix coding error in class-activator.
 
 = v2.6.9 =
-Enhancement: Change button text to "waitlist" for waitlist only registrations. 
+Enhancement: Change button text to "waitlist" for waitlist only registrations.
 
 = v2.6.8 =
-Enhancement: Allow specification of SessionTypeIds in shortcode to specify retrieval data 
+Enhancement: Allow specification of SessionTypeIds in shortcode to specify retrieval data
 
 = v2.6.7 =
 Bugfix: Just passing token string, as opposed to object so don't try to get property.
@@ -231,7 +234,7 @@ Bugfix: url for class sign-up via MBO
 Bugfix: add default checkbox values for a couple of admin settings
 
 = v2.5.0 =
-Fix/reinstate single day schedule display 
+Fix/reinstate single day schedule display
 
 = v2.4.9 =
 Fix problem with deactivation method.
@@ -302,7 +305,7 @@ Fix issue with events duration length display and enable modal window on events 
 = v2.3.2 =
 * Display schedule navigation even if there are no classes in current week.
 * Allow shortcode argument to hide cancelled classes from calendar: show_cancelled=1
-* Replace `$(document).ready(function($)` with `jQuery(document).ready(function($)` 
+* Replace `$(document).ready(function($)` with `jQuery(document).ready(function($)`
 
 = v2.3.1 =
 * Use OOP to create link for schedule pop-up.
@@ -357,7 +360,7 @@ multiple accounts and locations can be shown also via shortcode attributes.
 Internationalized - so far Spanish and Portuguese.
 
 = 1.6 =
-Fix some HTML validation errors in schedule table layout. 
+Fix some HTML validation errors in schedule table layout.
 
 = 1.5 =
 (Re-)integration of short code type=day for schedule page to show “today’s” classes.
@@ -437,6 +440,3 @@ Now compatible with php versions less than 5.3
 == Notes ==
 
 Now that we're using Mindbody's v6 api, this should be pretty easy to get going.
-
-
-
