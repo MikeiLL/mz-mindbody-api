@@ -20,6 +20,7 @@ use MZoo\MzMindbody\Schedule;
 use MZoo\MzMindbody\Staff;
 use MZoo\MzMindbody\Events;
 use MZoo\MzMindbody\Libraries;
+use MZoo\MzMindbody\Cli;
 
 /**
  * The core plugin class.
@@ -195,6 +196,7 @@ class MzMindbodyApi {
 		$this->define_public_hooks();
 		$this->register_shortcodes();
 		$this->add_settings_page();
+		$this->instantiate_wpcli();
 	}
 
 	/**
@@ -386,5 +388,15 @@ class MzMindbodyApi {
 		$staff_display->register( 'mz-mindbody-staff-list' );
 		$events_display = new Events\Display();
 		$events_display->register( 'mz-mindbody-show-events' );
+	}
+
+	/**
+	 * Instantiate WP CLI
+	 * @since 2.9.3
+	 */
+	private function instantiate_wpcli(){
+		if ( defined( 'WP_CLI' ) && WP_CLI ) {
+			\WP_CLI::add_command( 'mzmbo', 'MZoo\MzMindbody\Cli\WpCommands' );
+		}
 	}
 }

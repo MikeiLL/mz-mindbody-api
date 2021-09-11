@@ -67,6 +67,9 @@ You need to register a developer account with MindBody, which costs $11+ per web
 
 == Changelog ==
 
+= v2.9.3 =
+Add limited wp-cli support: clear transients, fetch new api key, reset admin api excess alerts.
+
 = v2.9.2 =
 Create transients for empty Site and Sale endpoints so not continuing to ping API looking.
 

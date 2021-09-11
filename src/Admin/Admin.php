@@ -64,7 +64,7 @@ class Admin {
 	 * @param string $version            The version of this plugin.
 	 * @param string $plugin_text_domain The text domain of this plugin.
 	 */
-	public function __construct( $plugin_name, $version, $plugin_text_domain ) {
+	public function __construct( $plugin_name = 'Mz Mindbody Api', $version = 'NS\PLUGIN_VERSION', $plugin_text_domain = 'mz-mindbody-api' ) {
 		$this->plugin_name        = $plugin_name;
 		$this->version            = $version;
 		$this->plugin_text_domain = $plugin_text_domain;
@@ -354,20 +354,9 @@ class Admin {
 		// Generated in localize_script() above.
 		check_admin_referer( 'ajax_clear_plugin_transients', 'nonce' );
 
-		$sql_response = $this->clear_plugin_transients();
-
 		$result['type'] = 'success';
-		wp_clear_scheduled_hook( 'mz_mbo_api_cron_hook' );
 		// Initialize message.
-		$result['message'] = __( 'No transients to clear.', 'mz-mindbody-api' );
-
-		if ( false !== $sql_response ) :
-			$result['message'] = sprintf(
-				// translators: Number of transients cleared.
-				__( 'Cleared %d transients. Page reloads will re-set them.', 'mz-mindbody-api' ),
-				$sql_response
-			);
-		endif;
+		$result['message'] = $this->clear_plugin_transients();
 
 		if ( ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] )
 			&& 'xmlhttprequest' === strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] )
@@ -382,7 +371,7 @@ class Admin {
 	}
 
 	/**
-	 * Call the clear all plugin transients
+	 * Ajax cancell excess api alerts.
 	 *
 	 * Called via ajax in admin
 	 *
@@ -395,9 +384,7 @@ class Admin {
 
 		$result['type'] = 'success';
 
-		wp_clear_scheduled_hook( 'mz_mbo_api_alert_cron' );
-
-		$result['message'] = __( 'Alerts cleared', 'mz-mindbody-api' );
+		$result['message'] = $this->cancel_excess_api_alerts();
 
 		if ( ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] )
 			&& 'xmlhttprequest' === strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] )
@@ -412,7 +399,7 @@ class Admin {
 	}
 
 	/**
-	 * Call the clear all plugin transients
+	 * Get and save api token.
 	 *
 	 * Called via ajax in admin
 	 *
@@ -422,22 +409,12 @@ class Admin {
 		// Generated in localize_script() above.
 		check_admin_referer( 'mz_mbo_get_and_save_token', 'nonce' );
 
-		$token_object = new Common\TokenManagement();
-		$token        = $token_object->get_and_save_token();
+		$token = $this->get_and_save_token();
 
 		$result['type'] = 'success';
 
-		// Initialize message.
-		$result['message'] = sprintf(
-			// translators: Show the token string.
-			__( 'Error getting token %s .', 'mz-mindbody-api' ),
-			$token
-		);
+		$result['message'] = $token['message'];
 
-		if ( ctype_alnum( $token ) ) :
-			// translators: let user know that a new token was fetched and stored and display it.
-			$result['message'] = sprintf( __( 'Fetched and stored %s .', 'mz-mindbody-api' ), $token );
-		endif;
 		if ( ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) &&
 			'xmlhttprequest' === strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ) {
 			$result = wp_json_encode( $result );
@@ -454,13 +431,65 @@ class Admin {
 	 *
 	 * @since 2.4.7
 	 *
-	 * @return result of $wpdb delete call.
+	 * @return string including result of $wpdb delete call.
 	 */
 	public function clear_plugin_transients() {
 
 		global $wpdb;
-		return $wpdb->query( "DELETE FROM `$wpdb->options` WHERE `option_name` LIKE '%transient_mz_mbo%'" );
+		$sql_response = $wpdb->query( "DELETE FROM `$wpdb->options` WHERE `option_name` LIKE '%transient_mz_mbo%'" );
+
+		wp_clear_scheduled_hook( 'mz_mbo_api_cron_hook' );
+
+		if ( false !== $sql_response ) :
+			return sprintf(
+				// translators: Number of transients cleared.
+				__( 'Cleared %d transients. Page reloads will re-set them.', 'mz-mindbody-api' ),
+				$sql_response
+			);
+		endif;
+
+		return __( 'No transients to clear.', 'mz-mindbody-api' );
 	}
+
+	/**
+	 * Get and save token
+	 *
+	 * @since 2.9.3
+	 *
+	 * @return array, message including token string from token get_and_save_token method.
+	 */
+	public function get_and_save_token() {
+
+		$token_object = new Common\TokenManagement();
+		$token = $token_object->get_and_save_token();
+
+		$result = sprintf(
+				// translators: Show the token string.
+				__( 'Error getting token %s .', 'mz-mindbody-api' ),
+				$token
+		);
+
+		if ( ctype_alnum( $token ) ) :
+			// translators: let user know that a new token was fetched and stored and display it.
+			$result = sprintf( __( 'Fetched and stored %s .', 'mz-mindbody-api' ), $token );
+		endif;
+
+		return $result;
+	}
+
+	/**
+	* Cancel excess api alerts.
+	*
+	* Called via ajax in admin
+	*
+	* @since 2.4.7
+	*/
+ public function cancel_excess_api_alerts() {
+
+	 wp_clear_scheduled_hook( 'mz_mbo_api_alert_cron' );
+
+	 return __( 'Alerts cleared', 'mz-mindbody-api' );
+ }
 
 	/**
 	 * Clear all plugin transients from versions previous to 2.4.7
@@ -527,7 +556,7 @@ class Admin {
 		$return .= sprintf(
 			// translators: Wrap element in html code tags.
 			__(
-				'Once credentials have been set and activated, look for %1$s in the 
+				'Once credentials have been set and activated, look for %1$s in the
 	             second (Get Classes Response) box below to confirm settings are correct.',
 				'mz-mindbody-api'
 			),
