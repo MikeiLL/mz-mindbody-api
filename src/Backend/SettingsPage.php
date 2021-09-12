@@ -327,6 +327,17 @@ class SettingsPage {
 			)
 		);
 
+		// Field: Clear Transients.
+		self::$wposa_obj->add_field(
+			'mz_mbo_advanced',
+			array(
+				'id'   => 'cancel_api_excess_alerts',
+				'type' => 'html',
+				'name' => __( 'Cancel API Excess Alerts', 'mz-mindbody-api' ),
+				'desc' => $this->cancel_api_excess_alerts(),
+			)
+		);
+
 		// Field: API Call Limit.
 		self::$wposa_obj->add_field(
 			'mz_mbo_advanced',
@@ -520,6 +531,14 @@ class SettingsPage {
 	 */
 	private function clear_transients() {
 		$return = '<a href="#" class="button" id="mzClearTransients">' . __( 'Clear Transients', 'mz-mindbody-api' ) . '</a>';
+		return $return;
+	}
+
+	/**
+	 * Cancel API Excess Alerts
+	 */
+	private function cancel_api_excess_alerts() {
+		$return = '<a href="#" class="button" id="mzCancelAPIExcessAlerts">' . __( 'Cancel API Excess Alerts', 'mz-mindbody-api' ) . '</a>';
 		return $return;
 	}
 

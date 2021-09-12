@@ -168,8 +168,13 @@ class RetrieveSale extends Interfaces\Retrieve {
 				return false;
 			}
 
-			if ( array_key_exists( 'Contracts', $result ) && ! empty( $result['Contracts'] ) ) {
-				set_transient( 'mz_mbo_contracts', $result, 86400 );
+			if ( array_key_exists( 'Contracts', $result ) ) {
+				if ( ! empty( $result['Contracts'] ) ) {
+					set_transient( 'mz_mbo_contracts', $result, 86400 );
+				}
+				if ( empty( $result['Contracts'] ) ) {
+					set_transient( 'mz_mbo_contracts', array(), 86400 );
+				}
 			}
 		} else {
 
@@ -220,8 +225,13 @@ class RetrieveSale extends Interfaces\Retrieve {
 				return false;
 			}
 
-			if ( array_key_exists( 'Services', $result ) && ! empty( $result['Services'] ) ) {
-				set_transient( 'mz_mbo_services', $result, 86400 );
+			if ( array_key_exists( 'Services', $result ) ) {
+				if ( ! empty( $result['Services'] ) ) {
+					set_transient( 'mz_mbo_services', $result, 86400 );
+				}
+				if ( empty( $result['Services'] ) ) {
+					set_transient( 'mz_mbo_services', array(), 86400 );
+				}
 			}
 		} else {
 
@@ -239,6 +249,7 @@ class RetrieveSale extends Interfaces\Retrieve {
 			foreach ( $result['Services'] as $element ) {
 				$dict_array[ $element['Id'] ] = $element['Name'];
 			}
+
 			return $dict_array;
 		}
 

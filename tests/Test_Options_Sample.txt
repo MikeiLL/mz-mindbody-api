@@ -5,12 +5,13 @@ namespace MBOTests;
 class Test_Options {
 	public static $_MYSOURCENAME='Your MBO API Source Name';
 	public static $_MYPASSWORD='Your MBO API Password';
-	
+
     public static $_MYAPPNAME = 'Your MBO API V6 App Name';
     public static $_MYAPIKEY = 'Your MBO API V6 API Key';
     public static $_MYEVENTIDS = 'Event Category IDs from MBO API';
+    public static $_PRIMARYSITEID = 230044;
     public static $_MYACCESSTOKEN = '';
-    
+
     // Test Client
     public static $_FIRSTNAME = 'John';
     public static $_LASTNAME = 'Smithfield';

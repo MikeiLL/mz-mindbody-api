@@ -87,8 +87,13 @@ class RetrieveSite extends Interfaces\Retrieve {
 				return false;
 			}
 
-			if ( array_key_exists( 'Memberships', $result ) && ! empty( $result['Memberships'] ) ) {
-				set_transient( 'mz_mbo_memberships', $result, 86400 );
+			if ( array_key_exists( 'Memberships', $result ) ) {
+				if ( ! empty( $result['Memberships'] ) ) {
+					set_transient( 'mz_mbo_memberships', $result, 86400 );
+				}
+				if ( empty( $result['Memberships'] ) ) {
+					set_transient( 'mz_mbo_memberships', array(), 86400 );
+				}
 			}
 		} else {
 

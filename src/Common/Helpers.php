@@ -38,7 +38,10 @@ class Helpers {
 	 * @since 2.8.6
 	 */
 	private function get_log_api_calls_path() {
-		$path = NS\Core\MzMindbodyApi::$advanced_options['log_api_calls_path'];
+		$path = WP_CONTENT_DIR;
+		if ( ! empty( NS\Core\MzMindbodyApi::$advanced_options['log_api_calls_path'] ) ) {
+			$path = NS\Core\MzMindbodyApi::$advanced_options['log_api_calls_path'];
+		}
 		return is_dir( $path ) && is_writable( $path ) ? $path : WP_CONTENT_DIR;
 	}
 
@@ -212,5 +215,20 @@ class Helpers {
 		}
 
 		return $subject;
+	}
+
+	/**
+	 * Log Caller
+	 *
+	 * Log calling function to mz_arbitrary_log file.
+	 *
+	 * @param object $trace Expecting debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS, 2 )[1].
+	 */
+	public function log_caller( $trace ) {
+		$caller_details = $trace['function'];
+		if ( isset( $trace['class'] ) ) {
+			$caller_details .= ' in:' . $trace['class'];
+		}
+		$this->log( print_r( $caller_details, true ) . ' caller:' . $caller_details );
 	}
 }
