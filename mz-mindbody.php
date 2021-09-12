@@ -42,7 +42,7 @@ define( __NAMESPACE__ . '\NS', __NAMESPACE__ . '\\' );
 
 define( NS . 'PLUGIN_NAME', 'mz-mindbody-api' );
 
-define( NS . 'PLUGIN_VERSION', '2.9.3' );
+define( NS . 'PLUGIN_VERSION', '2.9.4' );
 
 define( NS . 'PLUGIN_NAME_DIR', plugin_dir_path( __FILE__ ) );
 

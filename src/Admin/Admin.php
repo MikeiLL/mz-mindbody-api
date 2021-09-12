@@ -275,9 +275,13 @@ class Admin {
 	 * @return string $output Displayed as admin notice in plugin listing.
 	 */
 	function plugin_update_message( $plugin_data, $new_data ) {
-
-		// readme contents.
-		$data = file_get_contents( 'http://plugins.trac.wordpress.org/browser/mz-mindbody-api/trunk/README.txt?format=txt' );
+		try {
+			// readme contents.
+			$data = file_get_contents( 'http://plugins.trac.wordpress.org/browser/mz-mindbody-api/trunk/README.txt?format=txt' );
+		}
+		catch (exception $e) {
+				return;
+		}
 
 		// assuming you've got a Changelog section.
 		// @example == Changelog ==.
