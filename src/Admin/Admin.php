@@ -409,11 +409,9 @@ class Admin {
 		// Generated in localize_script() above.
 		check_admin_referer( 'mz_mbo_get_and_save_token', 'nonce' );
 
-		$token = $this->get_and_save_token();
-
 		$result['type'] = 'success';
 
-		$result['message'] = $token['message'];
+		$result['message'] = $this->get_and_save_token();
 
 		if ( ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) &&
 			'xmlhttprequest' === strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ) {
