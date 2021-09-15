@@ -165,17 +165,15 @@ class RetrieveSale extends Interfaces\Retrieve {
 			try {
 				$result = $this->mb->GetContracts( $request_body );
 			} catch ( \Exception $e ) {
-				return false;
+				$result = array();
 			}
 
-			if ( array_key_exists( 'Contracts', $result ) ) {
-				if ( ! empty( $result['Contracts'] ) ) {
-					set_transient( 'mz_mbo_contracts', $result, 86400 );
-				}
-				if ( empty( $result['Contracts'] ) ) {
-					set_transient( 'mz_mbo_contracts', array(), 86400 );
-				}
+			if ( isset( $result['Contracts'] ) && ! empty( $result['Contracts'] ) ) {
+				set_transient( 'mz_mbo_contracts', $result, 86400 );				
+			} else {
+				set_transient( 'mz_mbo_contracts', array(), 86400 );
 			}
+
 		} else {
 
 			$result = get_transient( 'mz_mbo_contracts' );

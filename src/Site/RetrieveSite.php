@@ -84,17 +84,15 @@ class RetrieveSite extends Interfaces\Retrieve {
 			try {
 				$result = $this->mb->GetMemberships( $request_body );
 			} catch ( \Exception $e ) {
-				return false;
+				$result = array();
 			}
 
-			if ( array_key_exists( 'Memberships', $result ) ) {
-				if ( ! empty( $result['Memberships'] ) ) {
-					set_transient( 'mz_mbo_memberships', $result, 86400 );
-				}
-				if ( empty( $result['Memberships'] ) ) {
-					set_transient( 'mz_mbo_memberships', array(), 86400 );
-				}
+			if ( isset( $result['Memberships'] ) && ! empty( $result['Memberships]'] ) ) {
+				set_transient( 'mz_mbo_memberships', $result, 86400 );
+			} else {
+				set_transient( 'mz_mbo_memberships', array(), 86400 );
 			}
+
 		} else {
 
 			$result = get_transient( 'mz_mbo_memberships' );
