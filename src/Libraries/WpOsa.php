@@ -787,7 +787,7 @@ class WpOsa {
 			do_settings_sections( $form['id'] );
 			do_action( 'wsa_form_bottom_' . $form['id'], $form );
 			?>
-			<?php if ( 'mz_mbo_shortcodes' !== $form['id'] ) : ?>
+			<?php if ( 'mz_mbo_shortcodes' !== $form['id'] && 'mz_mbo_access' !== $form['id'] ) : ?>
 						<div style="padding-left: 10px">
 				<?php submit_button( null, 'primary', 'submit_' . $form['id'] ); ?>
 						</div>
