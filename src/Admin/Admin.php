@@ -275,34 +275,6 @@ class Admin {
 	 * @return string $output Displayed as admin notice in plugin listing.
 	 */
 	function plugin_update_message( $plugin_data, $new_data ) {
-		try {
-			// readme contents.
-			$data = file_get_contents( 'http://plugins.trac.wordpress.org/browser/mz-mindbody-api/trunk/README.txt?format=txt' );
-		}
-		catch (exception $e) {
-				return;
-		}
-
-		// assuming you've got a Changelog section.
-		// @example == Changelog ==.
-		$changelog = stristr( $data, '== Changelog ==' );
-
-		// assuming you've got a Screenshots section.
-		// @example == Screenshots ==.
-		$changelog = stristr( $changelog, '== Screenshots ==', true );
-
-		// only return for the current & later versions.
-		$curr_ver = get_plugin_data( 'Version' );
-
-		// assuming you use "= v" to prepend your version numbers.
-		// @example = v0.2.1 =.
-		$changelog = stristr( $changelog, "= v{$curr_ver}" );
-
-		/*
-		 * Uncomment the next line to var_export $var contents for dev.
-		 * echo '<pre>'.var_export( $plugin_data, false ).'<br />'.var_export( $new_data, false ).'</pre>';
-		 */
-
 		// Return our notice.
 		return print sprintf(
 			// translators: Tell which version of php required.
