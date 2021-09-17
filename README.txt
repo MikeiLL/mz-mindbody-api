@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: mindbody, schedule, calendar, yoga, MBO, mindbodyonline, gym, parkour, mbo, mindbodyonline.
 Requires at least: 5.3
 Tested up to: 5.8.1
-Stable tag: 2.9.5
+Stable tag: 2.9.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -67,8 +67,11 @@ You need to register a developer account with MindBody, which costs $11+ per web
 
 == Changelog ==
 
+= v2.9.6 =
+Remove broken pre-update admin message feature.
+
 = v2.9.5 =
-Reduce  API calls when the Memberships and Contracts are not defined.
+Reduce API calls when the Memberships and Contracts are not defined.
 
 = v2.9.4 =
 Wrap plugin update message fetch readme.txt in try catch in case unable to access.
