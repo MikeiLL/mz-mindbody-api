@@ -27,6 +27,43 @@ class RetrieveSale extends Interfaces\Retrieve {
 	private $mb;
 
 	/**
+	 * Locations defined by settings
+	 * @access private
+	 * @var array location ids
+	 */
+	private $locations;
+
+	/**
+	 * Short transient timer
+	 * @access private
+	 * @var integer timer in seconds
+	 */
+	private $short_timeout;
+
+	/**
+	 * Long transient timer
+	 * @access private
+	 * @var integer in seconds
+	 */
+	private $long_timeout;
+
+	/**
+	 * Initialize.
+	 */
+	public function __construct() {
+		$options = get_option( 'mz_mbo_on_demand' );
+		$this->short_timeout = isset( $options['mbo_on_demand_short_timeout'] ) ? $options['mbo_on_demand_short_timeout'] : 3600;
+		$this->long_timeout = isset( $options['mbo_on_demand_long_timeout'] ) ? $options['mbo_on_demand_long_timeout'] : 86400;
+		if ( ! isset( $options['mbo_site_location_id'] ) ) {
+			$this->locations = array( 1 );
+		} else if ( ! is_array( $options['mbo_site_location_id'] ) ) {
+			$this->locations = array( $options['mbo_site_location_id'] );
+		} else {
+			$this->locations = array_keys( $options['mbo_site_location_id'] );
+		}
+	}
+
+	/**
 	 * Get API version, create API Interface Object
 	 *
 	 * @since 1.0.0
@@ -60,9 +97,7 @@ class RetrieveSale extends Interfaces\Retrieve {
 	 */
 	public function get_locations( $dict = false ) {
 
-		$location_id = 1;
-
-		if ( false === get_transient( 'mz_mbo_locations' ) ) {
+		if ( false === $result = get_transient( 'mz_mbo_locations' ) ) {
 
 			$this->get_mbo_results();
 
@@ -73,31 +108,26 @@ class RetrieveSale extends Interfaces\Retrieve {
 			try {
 				$result = $this->mb->GetLocations();
 			} catch ( \Exception $e ) {
-				return false;
+				$result = array();
 			}
 
-			if ( array_key_exists( 'Locations', $result ) && ! empty( $result['Locations'] ) ) {
-				set_transient( 'mz_mbo_locations', $result, 86400 );
-			}
-		} else {
-
-			$result = get_transient( 'mz_mbo_locations' );
+			set_transient( 'mz_mbo_locations', $result, array_key_exists( 'Locations', $result ) ? $this->long_timeout : $this->short_timeout );
 		}
 
-		if ( true === $dict ) {
+		if ( true !== $dict ) {
+			return $result;
+		}
 
-			if ( empty( $result['Locations'] ) ) {
-				return array();
-			}
+		$dict_array = array();
 
-			$dict_array = array();
+		if ( array_key_exists( 'Locations', $result ) ) {
 			foreach ( $result['Locations'] as $element ) {
 				$dict_array[ $element['Id'] ] = $element['Name'];
 			}
-			return $dict_array;
 		}
 
-		return $result;
+		return $dict_array;
+
 	}
 
 	/**
@@ -107,11 +137,9 @@ class RetrieveSale extends Interfaces\Retrieve {
 	 *
 	 * @return MBO request GET request result
 	 */
-	public function get_sites() {
+	public function get_sites( $dict = false ) {
 
-		$location_id = 1;
-
-		if ( false === get_transient( 'mz_mbo_sites' ) ) {
+		if ( false === $result = get_transient( 'mz_mbo_sites' ) ) {
 
 			$this->get_mbo_results();
 
@@ -119,27 +147,34 @@ class RetrieveSale extends Interfaces\Retrieve {
 				return 'Check your MBO connection.';
 			}
 
-			$request_body = array();
-
 			try {
-				$result = $this->mb->GetSites( $request_body );
+				$result = $this->mb->GetSites();
 			} catch ( \Exception $e ) {
-				return false;
+				$result = array();
 			}
 
-			if ( array_key_exists( 'Sites', $result ) && ! empty( $result['Sites'] ) ) {
-				set_transient( 'mz_mbo_sites', $result, 86400 );
-			}
-		} else {
-
-			$result = get_transient( 'mz_mbo_sites' );
+			set_transient( 'mz_mbo_sites', $result, array_key_exists( 'Sites', $result ) ? $this->long_timeout : $this->short_timeout );
 		}
 
-		return $result;
+
+		if ( true !== $dict ) {
+			return $result;
+		}
+
+		$dict_array = array();
+
+		if ( array_key_exists( 'Sites', $result ) ) {
+			foreach ( $result['Sites'] as $element ) {
+				$dict_array[ $element['Id'] ] = $element['Name'];
+			}
+		}
+
+		return $dict_array;
+
 	}
 
 	/**
-	 * Get Contracts from All Locations
+	 * Get Contracts
 	 *
 	 * @since 2.8.8
 	 *
@@ -148,9 +183,7 @@ class RetrieveSale extends Interfaces\Retrieve {
 	 */
 	public function get_contracts( $dict = false ) {
 
-		$location_id = 1;
-
-		if ( false === get_transient( 'mz_mbo_contracts' ) ) {
+		if ( false === $results = get_transient( 'mz_mbo_contracts' ) ) {
 
 			$this->get_mbo_results();
 
@@ -158,58 +191,64 @@ class RetrieveSale extends Interfaces\Retrieve {
 				return 'Check your MBO connection.';
 			}
 
-			$request_body = array(
-				'LocationId' => $location_id,
-			);
+			$results = array();
 
-			try {
-				$result = $this->mb->GetContracts( $request_body );
-			} catch ( \Exception $e ) {
-				$result = array();
+			foreach ( $this->locations as $location_id ) {
+
+				$request_body = array(
+					'LocationId' => $location_id,
+				);
+	
+				try {
+					$result = $this->mb->GetContracts( $request_body );
+				} catch ( \Exception $e ) {
+					$result = array();
+				}
+
+				if ( array_key_exists( 'Contracts', $result ) ) {
+					foreach ( $result['Contracts'] as $element ) {
+						if ( ! array_key_exists( $element['Id'], $results ) ) {
+							$results[ $element['Id'] ] = $element;
+						}
+					}	
+				}
+					
 			}
 
-			if ( isset( $result['Contracts'] ) && ! empty( $result['Contracts'] ) ) {
-				set_transient( 'mz_mbo_contracts', $result, 86400 );				
-			} else {
-				set_transient( 'mz_mbo_contracts', array(), 86400 );
-			}
+			set_transient( 'mz_mbo_contracts', $results, isset( $results ) ? $this->long_timeout : $this->short_timeout );				
 
-		} else {
-
-			$result = get_transient( 'mz_mbo_contracts' );
 		}
 
-		if ( true === $dict ) {
-
-			if ( empty( $result['Contracts'] ) ) {
-				return array();
-			}
-
-			$dict_array = array();
-
-			foreach ( $result['Contracts'] as $element ) {
-				$dict_array[ $element['Id'] ] = $element['MembershipName'];
-			}
-
-			return $dict_array;
+		if ( true !== $dict ) {
+			
+			return $results;
+		
 		}
 
-		return $result;
+		$dict_array = array();
+
+		foreach ( $results as $element ) {
+			$dict_array[ $element['Id'] ] = $element['Name'];
+		}	
+
+		return $dict_array;
+
 	}
 
 	/**
-	 * Get Contracts from primary location
+	 * Get Services
 	 *
 	 * @since 2.8.8
 	 *
 	 * @param boolean $dict true returns a an array of id=>name values.
 	 * @return MBO request GET request result
+	 * 
+	 * Note: Note that the location id argument does not filter results
+	 * to only services provided at the given location.
 	 */
 	public function get_services( $dict = false ) {
 
-		$location_id = 1;
-
-		if ( false === get_transient( 'mz_mbo_services' ) ) {
+		if ( false === $results = get_transient( 'mz_mbo_services' ) ) {
 
 			$this->get_mbo_results();
 
@@ -217,40 +256,44 @@ class RetrieveSale extends Interfaces\Retrieve {
 				return 'Check your MBO connection.';
 			}
 
-			try {
-				$result = $this->mb->GetServices();
-			} catch ( \Exception $e ) {
-				return false;
+			$results = array();
+
+			foreach( $this->locations as $location_id ) {
+				$request_body = array(
+					'LocationId' => $location_id,
+				);
+	
+				try {
+					$result = $this->mb->GetServices( $request_body );
+				} catch ( \Exception $e ) {
+					$result = array();
+				}
+
+				if ( array_key_exists( 'Services', $result ) ) {
+					foreach ( $result['Services'] as $element ) {
+						if ( ! array_key_exists( $element['Id'], $results ) ) {
+							$results[ $element['Id'] ] = $element;
+						}
+					}	
+				}
+	
 			}
 
-			if ( array_key_exists( 'Services', $result ) ) {
-				if ( ! empty( $result['Services'] ) ) {
-					set_transient( 'mz_mbo_services', $result, 86400 );
-				}
-				if ( empty( $result['Services'] ) ) {
-					set_transient( 'mz_mbo_services', array(), 86400 );
-				}
-			}
-		} else {
-
-			$result = get_transient( 'mz_mbo_services' );
+			set_transient( 'mz_mbo_services', $results, array_key_exists( 'Services', $results ) ? $this->long_timeout : $this->short_timeout );
 
 		}
 
-		if ( true === $dict ) {
-
-			if ( empty( $result['Services'] ) ) {
-				return array();
-			}
-
-			$dict_array = array();
-			foreach ( $result['Services'] as $element ) {
-				$dict_array[ $element['Id'] ] = $element['Name'];
-			}
-
-			return $dict_array;
+		if ( true !== $dict ) {
+			return $results;
 		}
 
-		return $result;
+		$dict_array = array();
+
+		foreach ( $results as $element ) {
+			$dict_array[ $element['Id'] ] = $element['Name'];
+		}
+
+		return $dict_array;
+
 	}
 }

@@ -98,7 +98,7 @@ class MboApi {
 		};
 
 		// Unschedule cron alert if set because we are in the clear now.
-		if ( ! wp_next_scheduled( 'mz_mbo_api_alert_cron' ) ) {
+		if ( wp_next_scheduled( 'mz_mbo_api_alert_cron' ) ) {
 			wp_clear_scheduled_hook( 'mz_mbo_api_alert_cron' );
 		}
 
