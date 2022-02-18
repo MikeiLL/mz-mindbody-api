@@ -195,6 +195,9 @@ class MboV6Api extends MboApi {
 		// Certain methods don't require credentials.
 		$method_without_username = array(
 			'AddClient',
+			'GetMemberships',
+			'GetContracts',
+			'GetServices',			
 		);
 
 		// Certain methods want json strings.

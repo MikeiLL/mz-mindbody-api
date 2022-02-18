@@ -55,6 +55,20 @@ class RetrieveSite extends Interfaces\Retrieve {
 	public $time_format;
 
 	/**
+	 * Short transient timer
+	 * @access private
+	 * @var integer timer in seconds
+	 */
+	private $short_timeout;
+
+	/**
+	 * Long transient timer
+	 * @access private
+	 * @var integer in seconds
+	 */
+	private $long_timeout;
+
+	/**
 	 * Class constructor
 	 *
 	 * @since 2.5.9
@@ -62,6 +76,9 @@ class RetrieveSite extends Interfaces\Retrieve {
 	public function __construct() {
 		$this->date_format = Core\MzMindbodyApi::$date_format;
 		$this->time_format = Core\MzMindbodyApi::$time_format;
+		$options = get_option( 'mz_mbo_on_demand' );
+		$this->short_timeout = isset( $options['mbo_on_demand_short_timeout'] ) ? $options['mbo_on_demand_short_timeout'] : 3600;
+		$this->long_timeout = isset( $options['mbo_on_demand_long_timeout'] ) ? $options['mbo_on_demand_long_timeout'] : 86400;
 	}
 
 	/**
@@ -72,7 +89,7 @@ class RetrieveSite extends Interfaces\Retrieve {
 	 */
 	public function get_site_memberships( $dict = false ) {
 
-		if ( false === get_transient( 'mz_mbo_memberships' ) ) {
+		if ( false === $result = get_transient( 'mz_mbo_memberships' ) ) {
 
 			$this->get_mbo_results();
 
@@ -80,42 +97,32 @@ class RetrieveSite extends Interfaces\Retrieve {
 				return 'Check your MBO connection.';
 			}
 
-			$request_body = array();
 			try {
-				$result = $this->mb->GetMemberships( $request_body );
+				$result = $this->mb->GetMemberships();
 			} catch ( \Exception $e ) {
 				$result = array();
 			}
 
-			if ( isset( $result['Memberships'] ) && ! empty( $result['Memberships]'] ) ) {
-				set_transient( 'mz_mbo_memberships', $result, 86400 );
-			} else {
-				set_transient( 'mz_mbo_memberships', array(), 86400 );
-			}
-
-		} else {
-
-			$result = get_transient( 'mz_mbo_memberships' );
+			set_transient( 'mz_mbo_memberships', $result, array_key_exists( 'Memberships', $result ) ? $this->long_timeout : $this->short_timeout );
 
 		}
 
-		if ( true === $dict ) {
+		if ( true !== $dict ) {
+			return $result;
+		}
 
-			if ( empty( $result['Memberships'] ) ) {
-				return array();
-			}
-
-			$dict_array = array();
+		$dict_array = array();
+		if ( array_key_exists( 'Memberships', $result ) ) {
 			foreach ( $result['Memberships'] as $element ) {
 				if ( false === $element['IsActive'] ) {
 					continue;
 				}
 				$dict_array[ $element['MembershipId'] ] = $element['MembershipName'];
 			}
-			return $dict_array;
 		}
+		
+		return $dict_array;
 
-		return $result;
 	}
 
 	/**
@@ -137,7 +144,7 @@ class RetrieveSite extends Interfaces\Retrieve {
 	 */
 	public function get_site_programs( $dict = false ) {
 
-		if ( false === get_transient( 'mz_mbo_programs' ) ) {
+		if ( false === $result = get_transient( 'mz_mbo_programs' ) ) {
 
 			$this->get_mbo_results();
 
@@ -149,32 +156,22 @@ class RetrieveSite extends Interfaces\Retrieve {
 			try {
 				$result = $this->mb->GetPrograms();
 			} catch ( \Exception $e ) {
-				return false;
-			}
-
-			if ( array_key_exists( 'Programs', $result ) && ! empty( $result['Programs'] ) ) {
-				set_transient( 'mz_mbo_programs', $result, 86400 );
-			}
-		} else {
-
-			$result = get_transient( 'mz_mbo_programs' );
-
-		}
-
-		if ( true === $dict ) {
-
-			if ( empty( $result['Programs'] ) ) {
 				return array();
 			}
+			set_transient( 'mz_mbo_programs', $result, array_key_exists( 'Programs', $result ) ? $this->long_timeout : $this->short_timeout );
 
-			$dict_array = array();
-			foreach ( $result['Programs'] as $element ) {
-				$dict_array[ $element['Id'] ] = $element['Name'];
-			}
-			return $dict_array;
 		}
 
-		return $result;
+		if ( true !== $dict ) {
+			return $result;
+		}
+
+		$dict_array = array();
+		foreach ( $result['Programs'] as $element ) {
+			$dict_array[ $element['Id'] ] = $element['Name'];
+		}
+		return $dict_array;
+
 	}
 
 	/**
@@ -195,7 +192,7 @@ class RetrieveSite extends Interfaces\Retrieve {
 	 */
 	public function get_site_resources( $dict = false ) {
 
-		if ( false === get_transient( 'mz_resources_from_mbo' ) ) {
+		if ( false === $result = get_transient( 'mz_resources_from_mbo' ) ) {
 
 			$this->get_mbo_results();
 
@@ -206,27 +203,21 @@ class RetrieveSite extends Interfaces\Retrieve {
 			try {
 				$result = $this->mb->GetResources();
 			} catch ( \Exception $e ) {
-				return false;
+				return array();
 			}
-
-			if ( array_key_exists( 'Resources', $result ) && ! empty( $result['Contracts'] ) ) {
-				set_transient( 'mz_resources_from_mbo', $result, 86400 );
-			}
-		} else {
-
-			$result = get_transient( 'mz_resources_from_mbo' );
+			set_transient( 'mz_resources_from_mbo', $result, array_key_exists( 'Resources', $result ) ? $this->long_timeout : $this->short_timeout );
 
 		}
 
-		if ( true === $dict ) {
-			$dict_array = array();
-			foreach ( $result['Resources'] as $element ) {
-				$dict_array[ $element['Id'] ] = $element['Name'];
-			}
-			return $dict_array;
+		if ( true !== $dict ) {
+			return $result;
 		}
 
-		return $result;
+		$dict_array = array();
+		foreach ( $result['Resources'] as $element ) {
+			$dict_array[ $element['Id'] ] = $element['Name'];
+		}
+		return $dict_array;
 	}
 
 	/**
