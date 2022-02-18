@@ -106,12 +106,12 @@ class TokenManagement extends Interfaces\Retrieve {
 	 */
 	public function serve_token() {
 
-		$token = $this->get_stored_token()['AccessToken'];
+		$stored_token = $this->get_stored_token();
 
-		if ( empty( $token ) ) {
+		if ( empty($stored_token['AccessToken']) || empty( $stored_token ) ) {
 			return $this->get_and_save_token();
 		} else {
-			return $token;
+			return $stored_token['AccessToken'];
 		}
 	}
 
