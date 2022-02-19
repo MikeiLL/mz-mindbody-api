@@ -324,7 +324,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 			'confirm_signup' => $translated_strings['confirm_signup'],
 			'logout'         => $translated_strings['logout'],
 			'signup_heading' => $translated_strings['signup_heading'],
-			'Locations_dict' => wp_json_encode( $locations_dictionary ),
+			'Locations_dict' => wp_json_encode( $this->events_object->locations_dictionary ),
 			// 'signup_nonce'   => wp_create_nonce('mz_signup_nonce'), out of use.
 			'site_id'        => $this->site_id,
 			'location'       => $this->studio_location_id,

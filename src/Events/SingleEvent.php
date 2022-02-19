@@ -292,7 +292,7 @@ class SingleEvent {
 		if ( isset( $event['Staff']['Name'] ) ) {
 			$this->staff_name = $event['Staff']['Name'];
 		}
-		$this->staff_image              = $event['Staff']['ImageURL'];
+		$this->staff_image              = $event['Staff']['ImageUrl'];
 		$this->staff_bio                = $event['Staff']['Bio'];
 		$this->event_description        = $event['ClassDescription']['Description'];
 		$this->class_image              = $event['ClassDescription']['ImageURL'];
@@ -333,7 +333,7 @@ class SingleEvent {
 		switch ( $type ) {
 			case 'staff':
 				$link_array['data-staffImage'] = ( '' !== $this->staff_image ) ? $this->staff_image : '';
-				$link_array['data-staffBio']   = ( '' !== $this->staff_bio ) ? $this->staff_bio : '';
+				$link_array['data-staffBio']   = ( '' !== $this->staff_bio ) ? esc_html($this->staff_bio) : '';
 				$link_array['text']            = $this->staff_name;
 				$link_array['data-staffName']  = $this->staff_name;
 				$link_array['data-target']     = 'mzStaffScheduleModal';

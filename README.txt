@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: mindbody, schedule, calendar, yoga, MBO, mindbodyonline, gym, parkour, mbo, mindbodyonline.
 Requires at least: 5.3
 Tested up to: 5.8.1
-Stable tag: 2.9.6
+Stable tag: 2.9.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,6 +66,10 @@ You need to register a developer account with MindBody, which costs $11+ per web
 5. Admin Page
 
 == Changelog ==
+
+= v2.9.7 =
+bugfix: Ensure AccessToken key exists; avoid notices if Access plugin being enabled without MBO credentials.
+bugfix: Esc_Html on Staff Bio on Events display.
 
 = v2.9.6 =
 Remove broken pre-update admin message feature.
