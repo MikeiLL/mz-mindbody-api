@@ -279,6 +279,8 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 			return '<div>' . __( 'Error returning schedule from MBO for shortcode display.', 'mz-mindbody-api' ) . '</div>';
 		}
 
+		// echo "<script>console.log(" . json_encode($this->schedule_object) . ")</script>";
+
 		/**
 		 * Configure the display type based on shortcode atts.
 		 */
@@ -321,12 +323,15 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 		$horizontal_schedule = '';
 		$grid_schedule       = '';
 
-		if ( 'grid' === $this->display_type || 'both' === $this->display_type ) :
-			$grid_schedule = $this->schedule_object->sortClassesByTimeThenDate();
-		endif;
-		if ( 'horizontal' === $this->display_type || 'both' === $this->display_type ) :
-			$horizontal_schedule = $this->schedule_object->sortClassesByDateThenTime();
-		endif;
+		// If we actually have classes
+		if (!empty($this->schedule_object->classes)){
+			if ( 'grid' === $this->display_type || 'both' === $this->display_type ) :
+				$grid_schedule = $this->schedule_object->sortClassesByTimeThenDate();
+			endif;
+			if ( 'horizontal' === $this->display_type || 'both' === $this->display_type ) :
+				$horizontal_schedule = $this->schedule_object->sortClassesByDateThenTime();
+			endif;
+		}
 
 		$week_names = array(
 			__( 'Sunday', 'mz-mindbody-api' ),

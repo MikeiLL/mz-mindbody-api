@@ -21,8 +21,8 @@ if ( empty( $data->horizontal_schedule ) ) {
 	echo sprintf(
 		// translators: Give a start and end date range for displayed classes.
 		__( 'No Classes To Display (%1$s - %2$s)', 'mz-mindbody-api' ),
-		gmdate( $data->date_format, strtotime( array_keys( $data->horizontal_schedule )[0] ) ),
-		gmdate( $data->date_format, strtotime( array_keys( $data->horizontal_schedule )[6] ) )
+		gmdate( $data->date_format, $data->start_date->getTimestamp() ),
+		gmdate( $data->date_format, $data->end_date->getTimestamp() )
 	);
 }
 ?>
