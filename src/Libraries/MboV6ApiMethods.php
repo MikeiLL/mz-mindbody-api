@@ -148,10 +148,14 @@ class MboV6ApiMethods {
 		);
 
 		$this->methods = array(
+			/* TODO. As per Rosuav recommendation, refactor so that
+			this array has good defaults, DRYing it up, and also
+			handles some of the "edge case"/magic/workarounds currently in
+			call_mindbody_service. */
 			'AppointmentService' => array(
-				'AddApppointment'       => array(
+				'AddAppointment'       => array(
 					'method'   => 'POST',
-					'name'     => 'AddApppointment',
+					'name'     => 'AddAppointment',
 					'endpoint' => $this->endpoint_appointment . '/addappointment',
 					'headers'  => $this->headers_basic,
 				),

@@ -392,7 +392,7 @@ class SettingsPage {
 				'id'      => 'log_api_calls',
 				'type'    => 'checkbox',
 				'name'    => __( 'Log MBO API Calls', 'mz-mindbody-api' ),
-				'desc'    => __( 'When checked, API calls are logged for up to seven days in wp-content/mbo_api.log.', 'mz-mindbody-api' ),
+				'desc'    => __( 'When checked, API calls are logged in seven day intervals. Default wp-content/[time]_mbo_api.log.', 'mz-mindbody-api' ),
 				'default' => 'off',
 			)
 		);
@@ -559,7 +559,7 @@ class SettingsPage {
 		$return .= sprintf(
 			// translators: Add HTML tags to emphasize probably (not for sure) and wrap in <p> tag.
 			__(
-				'%1$sThis is the matrix of which instructors %2$s "own" classes (MBO API doesn\'t tell us.) It is automatically regenerated daily with a cron job. 
+				'%1$sThis is the matrix of which instructors %2$s "own" classes (MBO API doesn\'t tell us.) It is automatically regenerated daily with a cron job.
                                 You can see what it looks like by pressing this button and viewing output in the browser console.%3$s',
 				'mz-mindbody-api'
 			),

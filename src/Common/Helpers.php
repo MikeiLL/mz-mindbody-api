@@ -81,17 +81,13 @@ class Helpers {
 	 * @since 2.4.7
 	 *
 	 * @param mixed  $message string|object|array the content to be written to file.
-	 * @param string $file_path optional path to write file to.
+	 *
 	 */
-	public function api_log( $message, $file_path = '' ) {
-		$file_path = ( ( '' === $file_path ) || ! file_exists( $file_path ) ) ? $this->get_log_api_calls_path() . '/mbo_api.log' : $file_path;
-
-		// Just keep up to seven days worth of data.
-		if ( file_exists( $file_path ) ) {
-			if ( time() - filemtime( $file_path ) >= 60 * 60 * 24 * 7 ) { // 7 days.
-				unlink( $file_path );
-			}
-		}
+	public function api_log( $message) {
+		/* Time returns seconds since 1970.
+		Divide by number of seconds in a week */
+		$this_week = (int) (time() / (7 * 24 * 60 * 60)); // Seven days of 24 hours of 60 minutes etc...
+		$file_path = $this->get_log_api_calls_path() . '/' . $this_week . '_mbo_api.log';
 
 		$header   = gmdate( 'Ymd G:i:s', strtotime( 'now' ) ) . "\t ";
 		$message .= "\n";

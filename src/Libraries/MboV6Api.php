@@ -160,7 +160,7 @@ class MboV6Api extends MboApi {
 			throw new Exception( 'Too many API Calls.' );
 		}
 
-		$this->maybe_log_daily_api_calls( $rest_method );
+		$this->maybe_log_daily_api_calls( $name );
 
 		if ( empty( $arguments ) ) {
 			return $this->call_mindbody_service( $rest_method );
@@ -193,11 +193,12 @@ class MboV6Api extends MboApi {
 		}
 
 		// Certain methods don't require credentials.
+		// TODO: maybe add flags in methods array.
 		$method_without_username = array(
 			'AddClient',
 			'GetMemberships',
 			'GetContracts',
-			'GetServices',			
+			'GetServices',
 		);
 
 		// Certain methods want json strings.
@@ -270,6 +271,7 @@ class MboV6Api extends MboApi {
 				}
 				return false;
 			}
+			$this->maybe_log_daily_api_calls( $response_body );
 
 			// return the data as an array, which is what we are used to.
 			return $response_body;
