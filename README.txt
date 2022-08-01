@@ -3,8 +3,8 @@ Contributors: mikeill, rtzee, sunspotswifi
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A95ZEELLHGECE
 Tags: mindbody, schedule, calendar, yoga, MBO, mindbodyonline, gym, parkour, mbo, mindbodyonline.
 Requires at least: 5.3
-Tested up to: 5.8.1
-Stable tag: 2.9.7
+Tested up to: 6.1
+Stable tag: 2.9.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,6 +66,10 @@ You need to register a developer account with MindBody, which costs $11+ per web
 5. Admin Page
 
 == Changelog ==
+
+= 2.9.8 =
+bugfix: Correct dates in horizontal_display schedule.
+enhancement: log api_calls, if configured to, in weekly increments, named by week date.
 
 = v2.9.7 =
 bugfix: Ensure AccessToken key exists; avoid notices if Access plugin being enabled without MBO credentials.
