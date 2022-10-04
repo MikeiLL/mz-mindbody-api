@@ -521,7 +521,7 @@ class SettingsPage {
 		return sprintf(
 			// translators: Pull up an option string for number of times API has been called.
 			__( '<p>MBO charges for daily API calls over 1000. Number of calls today: %1$s.</p> <p>Site will email admin at 1200 calls less than this number and stop calling MBO at this number.</p> <p>Default: %2$s.</p>', 'mz-mindbody-api' ),
-			get_option( 'mz_mbo_api_calls' )['calls'],
+			get_option( 'mz_mbo_api_calls', ['calls' => 2000])['calls'],
 			2000
 		);
 	}

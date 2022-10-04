@@ -180,10 +180,9 @@ class MzMindbodyApi {
 		$this->plugin_text_domain = 'mz-mindbody-api';
 
 		self::$basic_options           = get_option( 'mz_mbo_basic', 'Error: No Basic Options' );
-		self::$events_options          = get_option( 'mz_mbo_events' );
-		self::$advanced_options        = get_option( 'mz_mbo_advanced' );
-		self::$mz_mbo_api_calls        = get_option( 'mz_mbo_api_calls' );
-		self::$mz_mbo_api_calls        = empty( self::$mz_mbo_api_calls ) ? 2000 : self::$mz_mbo_api_calls;
+		self::$events_options          = get_option( 'mz_mbo_events', [] );
+		self::$advanced_options        = get_option( 'mz_mbo_advanced', ['api_call_limit' => 2000] );
+		self::$mz_mbo_api_calls        = get_option( 'mz_mbo_api_calls', ['calls' => 2000]);
 		self::$timezone                = wp_timezone_string();
 		self::$event_calendar_duration = isset( self::$events_options['mz_mindbody_scheduleDuration'] ) ? self::$events_options['mz_mindbody_scheduleDuration'] : 60;
 		self::$date_format             = empty( self::$advanced_options['date_format'] ) ? get_option( 'date_format' ) : self::$advanced_options['date_format'];
