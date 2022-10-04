@@ -139,11 +139,14 @@ class MboV6ApiMethods {
 		// Convert from Object to Array (could also cast as array).
 		$token_array = json_decode( json_encode( $token_from_option ), true );
 
+		// Don't try to get access token if doesn't exist yet.
+		$access_token = !empty($token_array['AccessToken']) ? $token_array['AccessToken'] : '';
+
 		$this->headers_authorized = array_merge(
 			$headers,
 			array(
 				// Return empty string or, if present, AccessToken.
-				'Authorization' => $token_array['AccessToken'],
+				'Authorization' => $access_token,
 			)
 		);
 

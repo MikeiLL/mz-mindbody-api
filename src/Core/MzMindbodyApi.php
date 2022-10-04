@@ -181,7 +181,7 @@ class MzMindbodyApi {
 
 		self::$basic_options           = get_option( 'mz_mbo_basic', 'Error: No Basic Options' );
 		self::$events_options          = get_option( 'mz_mbo_events', [] );
-		self::$advanced_options        = get_option( 'mz_mbo_advanced', ['api_call_limit' => 2000] );
+		self::$advanced_options        = get_option( 'mz_mbo_advanced', ['api_call_limit' => 2000, 'elect_display_substitutes' => 'off'] );
 		self::$mz_mbo_api_calls        = get_option( 'mz_mbo_api_calls', ['calls' => 2000]);
 		self::$timezone                = wp_timezone_string();
 		self::$event_calendar_duration = isset( self::$events_options['mz_mindbody_scheduleDuration'] ) ? self::$events_options['mz_mindbody_scheduleDuration'] : 60;
