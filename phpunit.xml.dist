@@ -8,13 +8,7 @@
 	>
 	<testsuites>
 		<testsuite name="Main">
-			<directory prefix="test-" suffix=".php">/app/tests/</directory>
-		</testsuite>
-		<testsuite name="Access">
-			<directory prefix="test-" suffix=".php">/appTwo/tests/</directory>
-		</testsuite>
-		<testsuite name="Classes">
-			<directory prefix="test-" suffix=".php">/appThree/tests/</directory>
+			<directory prefix="test-" suffix=".php">/tests/</directory>
 		</testsuite>
 	</testsuites>
 </phpunit>
