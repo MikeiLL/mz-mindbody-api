@@ -45,13 +45,12 @@ class RetrieveDebug extends Interfaces\Retrieve {
 	 * @since 2.4.7
 	 *
 	 * @param timestamp $timestamp required to make MBO request for schedule.
-	 * @param bool      $version_five Whether to call API v5.
 	 *
 	 * @return array of MBO schedule data.
 	 */
-	public function get_mbo_results( $timestamp = null, $version_five = false ) {
+	public function get_mbo_results( $timestamp = null ) {
 
-		$mb = ( false === $version_five ) ? $this->instantiate_mbo_api() : $this->instantiate_mbo_api( 5 );
+		$mb = $this->instantiate_mbo_api();
 
 		if ( ! $mb ) {
 			return false;

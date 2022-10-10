@@ -74,12 +74,10 @@ class RetrieveSale extends Interfaces\Retrieve {
 	 */
 	public function get_mbo_results( $api_version = 6 ) {
 
-		if ( 6 === $api_version ) {
-			$this->mb = $this->instantiate_mbo_api();
-		} else {
-			$this->mb = $this->instantiate_mbo_api( 5 );
-		}
+		$this->mb = $this->instantiate_mbo_api();
 
+		// TODO: May not need NO_API_SERVICE fallback since
+		// removal of api v5
 		if ( ! $this->mb || 'NO_API_SERVICE' === $this->mb ) {
 			return false;
 		}
@@ -198,7 +196,7 @@ class RetrieveSale extends Interfaces\Retrieve {
 				$request_body = array(
 					'LocationId' => $location_id,
 				);
-	
+
 				try {
 					$result = $this->mb->GetContracts( $request_body );
 				} catch ( \Exception $e ) {
@@ -210,26 +208,26 @@ class RetrieveSale extends Interfaces\Retrieve {
 						if ( ! array_key_exists( $element['Id'], $results ) ) {
 							$results[ $element['Id'] ] = $element;
 						}
-					}	
+					}
 				}
-					
+
 			}
 
-			set_transient( 'mz_mbo_contracts', $results, isset( $results ) ? $this->long_timeout : $this->short_timeout );				
+			set_transient( 'mz_mbo_contracts', $results, isset( $results ) ? $this->long_timeout : $this->short_timeout );
 
 		}
 
 		if ( true !== $dict ) {
-			
+
 			return $results;
-		
+
 		}
 
 		$dict_array = array();
 
 		foreach ( $results as $element ) {
 			$dict_array[ $element['Id'] ] = $element['Name'];
-		}	
+		}
 
 		return $dict_array;
 
@@ -242,7 +240,7 @@ class RetrieveSale extends Interfaces\Retrieve {
 	 *
 	 * @param boolean $dict true returns a an array of id=>name values.
 	 * @return MBO request GET request result
-	 * 
+	 *
 	 * Note: Note that the location id argument does not filter results
 	 * to only services provided at the given location.
 	 */
@@ -262,7 +260,7 @@ class RetrieveSale extends Interfaces\Retrieve {
 				$request_body = array(
 					'LocationId' => $location_id,
 				);
-	
+
 				try {
 					$result = $this->mb->GetServices( $request_body );
 				} catch ( \Exception $e ) {
@@ -274,9 +272,9 @@ class RetrieveSale extends Interfaces\Retrieve {
 						if ( ! array_key_exists( $element['Id'], $results ) ) {
 							$results[ $element['Id'] ] = $element;
 						}
-					}	
+					}
 				}
-	
+
 			}
 
 			set_transient( 'mz_mbo_services', $results, array_key_exists( 'Services', $results ) ? $this->long_timeout : $this->short_timeout );

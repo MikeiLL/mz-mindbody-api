@@ -63,15 +63,14 @@ abstract class Retrieve {
 	 *
 	 * @since 2.4.7
 	 *
-	 * @param int $api_version since we need to use api v5 for login for time being.
 	 */
-	public function instantiate_mbo_api( $api_version = 6 ) {
+	public function instantiate_mbo_api( ) {
 
 		// TODO can we avoid this call to get_option?
 		$basic_options = get_option( 'mz_mbo_basic', 'Error: No Options' );
 		if ( 'Error: No Options' === $basic_options || empty( $basic_options ) ) {
 			return false;
-		} elseif ( 6 === $api_version ) {
+		} else {
 			return new Libraries\MboV6Api(
 				array(
 					'mz_source_name'       => $basic_options['mz_source_name'],
@@ -83,18 +82,6 @@ abstract class Retrieve {
 				),
 				$this->atts
 			); // Need attributes in API now for ScheduleTypeIds.
-		} else {
-			try {
-				return new Libraries\MboV5Api(
-					array(
-						'SourceName' => $basic_options['mz_source_name'],
-						'Password'   => $basic_options['mz_mindbody_password'],
-						'SiteIDs'    => array( $basic_options['mz_mindbody_siteID'] ),
-					)
-				);
-			} catch ( \Exception $e ) {
-				return 'Error with SOAP Call: <pre>' . $e . '</pre>';
-			}
 		}
 	}
 

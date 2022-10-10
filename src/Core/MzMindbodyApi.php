@@ -291,8 +291,6 @@ class MzMindbodyApi {
 		// Start Ajax Creds Tests.
 		$this->loader->add_action( 'wp_ajax_nopriv_mz_mbo_test_credentials', $admin_object, 'test_credentials' );
 		$this->loader->add_action( 'wp_ajax_mz_mbo_test_credentials', $admin_object, 'test_credentials' );
-		$this->loader->add_action( 'wp_ajax_nopriv_mz_mbo_test_credentials_v5', $admin_object, 'test_credentials_v5' );
-		$this->loader->add_action( 'wp_ajax_mz_mbo_test_credentials_v5', $admin_object, 'test_credentials_v5' );
 
 		// Start Ajax Display Schedule.
 		$this->loader->add_action( 'wp_ajax_nopriv_mz_display_schedule', $schedule_object, 'display_schedule' );
@@ -387,6 +385,7 @@ class MzMindbodyApi {
 		$staff_display->register( 'mz-mindbody-staff-list' );
 		$events_display = new Events\Display();
 		$events_display->register( 'mz-mindbody-show-events' );
+		//register_shortcode('authenticate', array( '\Libraries\MboConsumerApi' ,'authenticate_with_api'));
 	}
 
 	/**
