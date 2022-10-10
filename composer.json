@@ -61,6 +61,7 @@
     "coenjacobs/mozart": "^0.7.1",
     "dealerdirect/phpcodesniffer-composer-installer": "^0.7.1",
     "squizlabs/php_codesniffer": "*",
-    "wp-coding-standards/wpcs": "*"
+    "wp-coding-standards/wpcs": "*",
+    "yoast/phpunit-polyfills": "^1.0"
   }
 }
