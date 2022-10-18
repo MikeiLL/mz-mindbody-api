@@ -21,5 +21,7 @@ class Test_Options {
     public static $_CLIENTID = '';
     // For now you will have to manually add this:
     public static $_CLIENTPASSWORD = '';
+    public static $_PUBLICOAUTHSECRET = "Kk64oE88YC3vxbxxxxxxxxx01vpArrPHsso=";
+    public static $_CONSUMEROAUTHSECRET = "HI1/xxxxxxxbogSKF6lc=";
 }
 ?>
