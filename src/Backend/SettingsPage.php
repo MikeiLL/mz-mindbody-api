@@ -71,6 +71,14 @@ class SettingsPage {
 			)
 		);
 
+		// Section: Shortcodes.
+		self::$wposa_obj->add_section(
+			array(
+				'id'    => 'mz_mbo_consumer_api',
+				'title' => __( 'Consumer API', 'mz-mindbody-api' ),
+			)
+		);
+
 		// Section: Event Settings.
 		self::$wposa_obj->add_section(
 			array(
@@ -206,6 +214,43 @@ class SettingsPage {
 				'type' => 'html',
 				'name' => __( 'Debug Output', 'mz-mindbody-api' ),
 				'desc' => $this->mz_mindbody_debug_text(),
+			)
+		);
+
+		// Field: Client Secret.
+		self::$wposa_obj->add_field(
+			'mz_mbo_consumer_api',
+			array(
+				'id'      => 'mz_mindbody_client_secret',
+				'type'    => 'text',
+				'name'    => __( 'Client Secret', 'mz-mindbody-api' ),
+				'desc'    => '(Request Oauth on MBO developer account.)',
+				'default' => __( '', 'mz-mindbody-api' ),
+				'placeholder' => "HI1/L05mP5aeRNpYxn9+8OERkHP8="
+			)
+		);
+
+		// Field: Client ID.
+		self::$wposa_obj->add_field(
+			'mz_mbo_consumer_api',
+			array(
+				'id'      => 'mz_mindbody_client_id',
+				'type'    => 'text',
+				'name'    => __( 'Client ID', 'mz-mindbody-api' ),
+				'desc'    => '(Request Oauth on MBO developer account.)',
+				'default' => __( '', 'mz-mindbody-api' ),
+				'placeholder' => "f89a93f70-d6d5-470a-825b-7b8813995cc"
+			)
+		);
+
+		// Field: Title.
+		self::$wposa_obj->add_field(
+			'mz_mbo_consumer_api',
+			array(
+				'id'      => 'consumer_credentials_test',
+				'type'    => 'title',
+				'name'    => '<h1>Consumer Credentials Test</h1>',
+				'default' => '',
 			)
 		);
 
