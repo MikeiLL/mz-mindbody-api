@@ -1,6 +1,6 @@
 <?php
 /**
- * MzAccessSession wrapper class.
+ * MzPhpSession wrapper class.
  *
  * Wrap Eric Mann's sophisticated WP_Session class.
  *
@@ -13,11 +13,11 @@ use MZoo\MzMboAccess\Dependencies\EAMann\Sessionz;
 use MZoo\MzMboAccess\Dependencies\EAMann\WPSession;
 
 /**
- * MzAccessSession wrapper class
+ * MzPhpSession wrapper class
  *
  * @since 1.0.1
  */
-class MzAccessSession {
+class MzPhpSession {
 
 	/**
 	 * Hold the class instance.
@@ -205,11 +205,11 @@ class MzAccessSession {
 	}
 
 	/**
-	 * Main MzAccessSession Instance
+	 * Main MzPhpSession Instance
 	 *
 	 * Ensures only one instance is loaded or can be loaded.
 	 *
-	 * @return MzAccessSession - Main instance
+	 * @return MzPhpSession - Main instance
 	 * @since  1.0.1
 	 * @static
 	 */
