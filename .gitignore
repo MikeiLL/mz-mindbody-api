@@ -8,3 +8,5 @@ node_modules
 upload.sh
 tests/Test_Options.php
 composer.lock
+.vscode
+
