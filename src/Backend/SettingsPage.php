@@ -74,8 +74,8 @@ class SettingsPage {
 		// Section: Shortcodes.
 		self::$wposa_obj->add_section(
 			array(
-				'id'    => 'mz_mbo_consumer_api',
-				'title' => __( 'Consumer API', 'mz-mindbody-api' ),
+				'id'    => 'mz_mbo_public_api',
+				'title' => __( 'Oauth', 'mz-mindbody-api' ),
 			)
 		);
 
@@ -219,40 +219,30 @@ class SettingsPage {
 
 		// Field: Client Secret.
 		self::$wposa_obj->add_field(
-			'mz_mbo_consumer_api',
+			'mz_mbo_public_api',
 			array(
 				'id'      => 'mz_mindbody_client_secret',
 				'type'    => 'text',
 				'name'    => __( 'Client Secret', 'mz-mindbody-api' ),
 				'desc'    => '(Request Oauth on MBO developer account.)',
 				'default' => __( '', 'mz-mindbody-api' ),
-				'placeholder' => "HI1/L05mP5aeRNpYxn9+8OERkHP8="
+				'placeholder' => ""
 			)
 		);
 
 		// Field: Client ID.
 		self::$wposa_obj->add_field(
-			'mz_mbo_consumer_api',
+			'mz_mbo_public_api',
 			array(
 				'id'      => 'mz_mindbody_client_id',
 				'type'    => 'text',
 				'name'    => __( 'Client ID', 'mz-mindbody-api' ),
 				'desc'    => '(Request Oauth on MBO developer account.)',
 				'default' => __( '', 'mz-mindbody-api' ),
-				'placeholder' => "f89a93f70-d6d5-470a-825b-7b8813995cc"
+				'placeholder' => "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx" // UUID format
 			)
 		);
 
-		// Field: Title.
-		self::$wposa_obj->add_field(
-			'mz_mbo_consumer_api',
-			array(
-				'id'      => 'consumer_credentials_test',
-				'type'    => 'title',
-				'name'    => '<h1>Consumer Credentials Test</h1>',
-				'default' => '',
-			)
-		);
 
 		// Field: Event IDs.
 		self::$wposa_obj->add_field(
@@ -621,5 +611,11 @@ class SettingsPage {
 	 */
 	private function mz_mindbody_debug_text() {
 		return '<a href="#" class="button" id="mzTestCredentials">' . __( 'Test Credentials', 'mz-mindbody-api' ) . '</a><div id="displayTest"></div>';
+	}
+	/**
+	 * Debug Textarea for API v6.
+	 */
+	private function mz_mindbody_test_oauth_button() {
+		return '<a href="#" class="button" id="mzTestOauthCredentials">' . __( 'Test Credentials', 'mz-mindbody-api' ) . '</a><div id="displayOauthTest"></div>';
 	}
 }
