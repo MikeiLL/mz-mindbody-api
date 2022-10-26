@@ -67,7 +67,11 @@ You need to register a developer account with MindBody, which costs $11+ per web
 
 == Changelog ==
 
-= 2.9.8 =
+= v2.9.9 =
+Migrate Session management from MBO Access plugin.
+Add support for Consumer API and Oauth.
+
+= v2.9.8 =
 bugfix: Correct dates in horizontal_display schedule.
 enhancement: log api_calls, if configured to, in weekly increments, named by week date.
 
