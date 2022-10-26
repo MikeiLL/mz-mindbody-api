@@ -19,9 +19,13 @@ class Test_Options {
     public static $_CLIENTSTATE = 'CA';
     public static $_CLIENTBIRTHDATE = '01/01/2000';
     public static $_CLIENTID = '';
+
+
     // For now you will have to manually add this:
     public static $_CLIENTPASSWORD = '';
-    public static $_PUBLICOAUTHSECRET = "Kk64oE88YC3vxbxxxxxxxxx01vpArrPHsso=";
+    public static $_PUBLIC_OAUTH_CLIENTID = '';
+    public static $_PUBLIC_OAUTH_SECRET = "Kk64oE88YC3vxbxxxxxxxxx01vpArrPHsso=";
     public static $_CONSUMEROAUTHSECRET = "HI1/xxxxxxxbogSKF6lc=";
+    // Sandbox URL https://clients.mindbodyonline.com/home?studioid=-99
 }
 ?>
