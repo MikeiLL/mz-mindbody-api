@@ -593,7 +593,13 @@ class ScheduleItem {
 				$link_array['data-time'] = gmdate( Core\MzMindbodyApi::$date_format . ' ' . Core\MzMindbodyApi::$time_format, strtotime( $this->start_datetime ) );
 
 				$link_array['target'] = '_blank';
-				$link->set( 'href', $this->mbo_url );
+				if (false === Core\MzMindbodyApi::$use_oauth) {
+					$link->set( 'href', $this->mbo_url );
+				} else {
+					$link_array['data-target'] = 'mzSignUpModal';
+					$link->set( 'href', "#" );
+				}
+
 
 				break;
 		}

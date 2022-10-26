@@ -185,6 +185,16 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 	 */
 	public $hide;
 
+	/**
+	* Whether to use Oauth interface (or link to MBO site)
+	*
+	* @since  2.4.7
+	* @access public
+	*
+	* @used in handle_shortcode, display_schedule
+	* @var  array    $use_oauth    Which elements to not display in schedule.
+	*/
+ public $use_oauth;
 
 	/**
 	 * Handle Shortcode
@@ -228,6 +238,8 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 
 		// Set siteID to option if not set explicitly in shortcode.
 		$this->site_id = ( isset( $atts['account'] ) ) ? $atts['account'] : Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
+
+		$this->use_oauth = Core\MzMindbodyApi::$use_oauth;
 
 		$this->class_modal_link = NS\PLUGIN_NAME_URL . 'src/Frontend/views/modals/modal_descriptions.php';
 
@@ -406,6 +418,13 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 
 			wp_register_script( 'mz_display_schedule_script', NS\PLUGIN_NAME_URL . 'dist/scripts/schedule-display.js', array( 'jquery', 'mz_mbo_bootstrap_script' ), NS\PLUGIN_VERSION, true );
 			wp_enqueue_script( 'mz_display_schedule_script' );
+
+			if(true === $this->use_oauth) {
+
+				wp_register_script( 'mz_signup_modals_script', NS\PLUGIN_NAME_URL . 'dist/scripts/signup-modals.js', array( 'jquery', 'mz_mbo_bootstrap_script' ), NS\PLUGIN_VERSION, true );
+				wp_enqueue_script( 'mz_signup_modals_script' );
+
+			}
 
 			if ( 1 === (int) $this->atts['filter'] ) :
 				wp_register_script( 'filterTable', NS\PLUGIN_NAME_URL . 'dist/scripts/mz_filtertable.js', array( 'jquery', 'mz_display_schedule_script' ), NS\PLUGIN_VERSION, true );
