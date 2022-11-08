@@ -83,7 +83,7 @@ class MboApi {
 
 		// Don't limit if using sandbox.
 		if ( ( isset( NS\MZMBO()::$basic_options['mz_mindbody_siteID'] ) ) &&
-				( '-9999' === NS\MZMBO()::$basic_options['mz_mindbody_siteID'] ) ) {
+				( '-99' === NS\MZMBO()::$basic_options['mz_mindbody_siteID'] ) ) {
 			return true;
 		}
 

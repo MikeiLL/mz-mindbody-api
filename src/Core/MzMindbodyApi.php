@@ -24,6 +24,7 @@ use MZoo\MzMindbody\Libraries;
 use MZoo\MzMindbody\Cli;
 use MZoo\MzMindbody\Session;
 
+
 /**
  * The core plugin class.
  * Defines internationalization, admin-specific hooks, and public-facing site hooks.
@@ -459,6 +460,7 @@ class MzMindbodyApi {
 	 * @access private
 	 */
 	private function register_shortcodes() {
+
 		$schedule_display = new Schedule\Display();
 		$schedule_display->register( 'mz-mindbody-show-schedule' );
 		$staff_display = new Staff\Display();
@@ -625,7 +627,6 @@ class MzMindbodyApi {
 										 ["name" => "mobile_phone_number","value" => "1111111111"],
 										 ["name" => "birth_date","value" => "1970-01-01"],
 										 ["name" => "referred_by","value" => "friend"]
-
 										]
 									]),
 							'redirection' 			=> 0,
@@ -654,8 +655,44 @@ class MzMindbodyApi {
 						$response_body = json_decode($response['body']);
 						echo "Create studio account First <pre>";
 						print_r($response_body);
-						echo $this->session->get('MBO_Universal_ID');
-						echo "that was the MBO_Universal_ID.";
+						// Get businessProfiles and find match for businessId
+						$basic_options = get_option( 'mz_mbo_basic', 'no option here' );
+						$siteID = (int)$basic_options['mz_mindbody_siteID'];
+						$has_account = false;
+						foreach($response_body->businessProfiles as $studio){
+							if ( $siteID === $studio->businessId ) {
+								$this->session->set('MBO_USER_Site_ID', $studio->profileId);
+								$has_account = true;
+							}
+						}
+						if (false === $has_account){
+							// Need to register for this site.
+
+							$client = new \MZoo\MzMindbody\Client\RetrieveClient();
+							$fields = $client->get_signup_form_fields();
+							$universal_fields = ['firstName', 'lastName', 'email'];
+							echo "<h3>Looks like you aren't registered with our studio.</h3>";
+							echo "<form method=POST>";
+							echo "<ul>";
+							foreach($fields as $f){
+								$userField = lcfirst($f);
+								echo '<li>';
+								if (property_exists($response_body, $userField)){
+									echo $f . ' <input name="' . $f . '" value="' . $response_body->$userField. '">';
+								} else {
+									echo $f . ' <input name="' . $f . '">';
+								}
+
+								echo '</li>';
+							}
+							echo "</ul>";
+							echo '<input type=SUBMIT value="Register Now">';
+							echo "</form>";
+						} else {
+							echo $this->session->get('MBO_USER_Site_ID');
+							echo "Got the MBO_USER_Site_ID. Now we can do stuff.";
+						}
+
 						echo "</pre>MAKING Business Profiles REQUEST \n";
 						// This will create a Studio Specific Account for user based on MBO Universal Account
 
