@@ -9,8 +9,8 @@
 
 namespace MZoo\MzMindbody\Session;
 
-use \EAMann\Sessionz;
-use \EAMann\WPSession;
+use MZoo\MzMindbody\Dependencies\EAMann\Sessionz;
+use MZoo\MzMindbody\Dependencies\EAMann\WPSession;
 
 /**
  * MzPhpSession wrapper class
