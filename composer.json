@@ -22,6 +22,8 @@
    "require": {
     "php": ">=7.1",
     "composer/installers": "~1.0",
+    "ericmann/sessionz": "^0.3",
+    "ericmann/wp-session-manager": "*",
     "gamajo/template-loader": "^1.3"
   },
    "autoload": {
@@ -43,7 +45,16 @@
      "lint": [
        "phpcs --extensions=php src *.php"
      ],
-     "fix": ["phpcbf --extensions=php src *.php"]
+     "fix": ["phpcbf --extensions=php src *.php"],
+     "strauss": [
+         "vendor/bin/strauss"
+     ],
+     "post-install-cmd": [
+         "@strauss"
+     ],
+     "post-update-cmd": [
+         "@strauss"
+     ]
    },
    "extra": {
         "mozart": {
@@ -52,13 +63,15 @@
             "classmap_directory": "/src/Classes/",
             "classmap_prefix": "MZMBO_",
             "packages": [
-                "gamajo/template-loader"
+                "gamajo/template-loader",
+                "ericmann/wp-session-manager",
+                "ericmann/sessionz"
             ],
             "delete_vendor_directories": true
         }
     },
   "require-dev": {
-    "coenjacobs/mozart": "^0.7.1",
+    "brianhenryie/strauss": "dev-master",
     "dealerdirect/phpcodesniffer-composer-installer": "^0.7.1",
     "squizlabs/php_codesniffer": "*",
     "wp-coding-standards/wpcs": "*",
