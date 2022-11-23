@@ -22,10 +22,16 @@
    "require": {
     "php": ">=7.1",
     "composer/installers": "~1.0",
-    "ericmann/sessionz": "^0.3",
+    "ericmann/sessionz": "dev-master",
     "ericmann/wp-session-manager": "*",
-    "gamajo/template-loader": "^1.3"
+    "gamajo/template-loader": "dev-master"
   },
+  "repositories": [
+    {
+      "url": "https://github.com/ericmann/wp-session-manager",
+      "type": "git"
+    }
+  ],
    "autoload": {
      "psr-4": {
        "MZoo\\MzMindbody\\": "src"
@@ -46,15 +52,14 @@
        "phpcs --extensions=php src *.php"
      ],
      "fix": ["phpcbf --extensions=php src *.php"],
-     "strauss": [
-         "vendor/bin/strauss"
-     ],
      "post-install-cmd": [
-         "@strauss"
-     ],
-     "post-update-cmd": [
-         "@strauss"
-     ]
+          "\"vendor/bin/mozart\" compose",
+          "composer dump-autoload"
+    ],
+      "post-update-cmd": [
+          "\"vendor/bin/mozart\" compose",
+          "composer dump-autoload"
+      ]
    },
    "extra": {
         "mozart": {
@@ -64,14 +69,14 @@
             "classmap_prefix": "MZMBO_",
             "packages": [
                 "gamajo/template-loader",
-                "ericmann/wp-session-manager",
-                "ericmann/sessionz"
+                "ericmann/sessionz",
+                "ericmann/wp-session-manager"
             ],
             "delete_vendor_directories": true
         }
     },
   "require-dev": {
-    "brianhenryie/strauss": "dev-master",
+    "coenjacobs/mozart": "dev-master",
     "dealerdirect/phpcodesniffer-composer-installer": "^0.7.1",
     "squizlabs/php_codesniffer": "*",
     "wp-coding-standards/wpcs": "*",
