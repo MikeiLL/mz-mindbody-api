@@ -2,27 +2,30 @@
 /**
  * Template Loader for Plugins.
  *
- * @package   MZMBO_Gamajo_Template_Loader
+ * @package   MZoo_MzMindbody_Gamajo_Template_Loader
  * @author    Gary Jones
  * @link      http://github.com/GaryJones/Gamajo-Template-Loader
  * @copyright 2013 Gary Jones
- * @license   GPL-2.0+
- * @version   1.3.0
+ * @license   GPL-2.0-or-later
+ * @version   1.3.1
+ *
+ * Modified by Mike iLL Kilmer on 24-November-2022 using Strauss.
+ * @see https://github.com/BrianHenryIE/strauss
  */
 
-if ( ! class_exists( 'MZMBO_Gamajo_Template_Loader' ) ) {
+if ( ! class_exists( 'MZoo_MzMindbody_Gamajo_Template_Loader' ) ) {
 
 	/**
 	 * Template loader.
 	 *
 	 * Originally based on functions in Easy Digital Downloads (thanks Pippin!).
 	 *
-	 * When using in a plugin, create a new class MZMBO_that extends this one and just overrides the properties.
+	 * When using in a plugin, create a new class that extends this one and just overrides the properties.
 	 *
-	 * @package MZMBO_Gamajo_Template_Loader
+	 * @package MZoo_MzMindbody_Gamajo_Template_Loader
 	 * @author  Gary Jones
 	 */
-	class MZMBO_Gamajo_Template_Loader {
+	class MZoo_MzMindbody_Gamajo_Template_Loader {
 		/**
 		 * Prefix for filter names.
 		 *
@@ -46,7 +49,7 @@ if ( ! class_exists( 'MZMBO_Gamajo_Template_Loader' ) ) {
 		/**
 		 * Reference to the root directory path of this plugin.
 		 *
-		 * Can either be a defined constant, or a relative reference from where the subclass MZMBO_lives.
+		 * Can either be a defined constant, or a relative reference from where the subclass lives.
 		 *
 		 * e.g. YOUR_PLUGIN_TEMPLATE or plugin_dir_path( dirname( __FILE__ ) ); etc.
 		 *
@@ -59,7 +62,7 @@ if ( ! class_exists( 'MZMBO_Gamajo_Template_Loader' ) ) {
 		/**
 		 * Directory name where templates are found in this plugin.
 		 *
-		 * Can either be a defined constant, or a relative reference from where the subclass MZMBO_lives.
+		 * Can either be a defined constant, or a relative reference from where the subclass lives.
 		 *
 		 * e.g. 'templates' or 'includes/templates', etc.
 		 *
@@ -85,7 +88,7 @@ if ( ! class_exists( 'MZMBO_Gamajo_Template_Loader' ) ) {
 		 *
 		 * @var array
 		 */
-		private $template_data_var_names = array('data');
+		private $template_data_var_names = array( 'data' );
 
 		/**
 		 * Clean up template data.
@@ -104,7 +107,6 @@ if ( ! class_exists( 'MZMBO_Gamajo_Template_Loader' ) ) {
 		 * @param string $slug Template slug.
 		 * @param string $name Optional. Template variation name. Default null.
 		 * @param bool   $load Optional. Whether to load template. Default true.
-		 *
 		 * @return string
 		 */
 		public function get_template_part( $slug, $name = null, $load = true ) {
@@ -115,7 +117,7 @@ if ( ! class_exists( 'MZMBO_Gamajo_Template_Loader' ) ) {
 			// Get files names of templates, for given slug and name.
 			$templates = $this->get_template_file_names( $slug, $name );
 
-			// Return the part MZMBO_that is found.
+			// Return the part that is found.
 			return $this->locate_template( $templates, $load, false );
 		}
 
@@ -132,16 +134,15 @@ if ( ! class_exists( 'MZMBO_Gamajo_Template_Loader' ) ) {
 		 * @param mixed  $data     Custom data for the template.
 		 * @param string $var_name Optional. Variable under which the custom data is available in the template.
 		 *                         Default is 'data'.
-		 *
-		 * @return MZMBO_Gamajo_Template_Loader
+		 * @return MZoo_MzMindbody_Gamajo_Template_Loader
 		 */
 		public function set_template_data( $data, $var_name = 'data' ) {
 			global $wp_query;
 
 			$wp_query->query_vars[ $var_name ] = (object) $data;
 
-			// Add $var_name to custom variable store if not default value
-			if( $var_name !== 'data' ) {
+			// Add $var_name to custom variable store if not default value.
+			if ( 'data' !== $var_name ) {
 				$this->template_data_var_names[] = $var_name;
 			}
 
@@ -155,18 +156,18 @@ if ( ! class_exists( 'MZMBO_Gamajo_Template_Loader' ) ) {
 		 *
 		 * @since 1.2.0
 		 *
-		 * @return MZMBO_Gamajo_Template_Loader
+		 * @return MZoo_MzMindbody_Gamajo_Template_Loader
 		 */
 		public function unset_template_data() {
 			global $wp_query;
 
-			// Remove any duplicates from the custom variable store
+			// Remove any duplicates from the custom variable store.
 			$custom_var_names = array_unique( $this->template_data_var_names );
 
-			// Remove each custom data reference from $wp_query
+			// Remove each custom data reference from $wp_query.
 			foreach ( $custom_var_names as $var ) {
-				if ( isset( $wp_query->query_vars[$var] ) ) {
-					unset( $wp_query->query_vars[$var] );
+				if ( isset( $wp_query->query_vars[ $var ] ) ) {
+					unset( $wp_query->query_vars[ $var ] );
 				}
 			}
 
@@ -180,7 +181,6 @@ if ( ! class_exists( 'MZMBO_Gamajo_Template_Loader' ) ) {
 		 *
 		 * @param string $slug Template slug.
 		 * @param string $name Template variation name.
-		 *
 		 * @return array
 		 */
 		protected function get_template_file_names( $slug, $name ) {
@@ -198,7 +198,7 @@ if ( ! class_exists( 'MZMBO_Gamajo_Template_Loader' ) ) {
 			 *
 			 * @since 1.0.0
 			 *
-			 * @param array  $templates Names of template files MZMBO_that should be looked for, for given slug and name.
+			 * @param array  $templates Names of template files that should be looked for, for given slug and name.
 			 * @param string $slug      Template slug.
 			 * @param string $name      Template variation name.
 			 */
@@ -206,9 +206,9 @@ if ( ! class_exists( 'MZMBO_Gamajo_Template_Loader' ) ) {
 		}
 
 		/**
-		 * Retrieve the name of the highest priority template file MZMBO_that exists.
+		 * Retrieve the name of the highest priority template file that exists.
 		 *
-		 * Searches in the STYLESHEETPATH before TEMPLATEPATH so MZMBO_that themes which
+		 * Searches in the STYLESHEETPATH before TEMPLATEPATH so that themes which
 		 * inherit from a parent theme can just overload one file. If the template is
 		 * not found in either of those, it looks in the theme-compat folder last.
 		 *
@@ -218,17 +218,16 @@ if ( ! class_exists( 'MZMBO_Gamajo_Template_Loader' ) ) {
 		 * @param bool         $load           If true the template file will be loaded if it is found.
 		 * @param bool         $require_once   Whether to require_once or require. Default true.
 		 *                                     Has no effect if $load is false.
-		 *
 		 * @return string The template filename if one is located.
 		 */
 		public function locate_template( $template_names, $load = false, $require_once = true ) {
 
-			// Use $template_names as a cache key - either first element of array or the variable itself if it's a string
+			// Use $template_names as a cache key - either first element of array or the variable itself if it's a string.
 			$cache_key = is_array( $template_names ) ? $template_names[0] : $template_names;
 
 			// If the key is in the cache array, we've already located this file.
-			if ( isset( $this->template_path_cache[$cache_key] ) ) {
-				$located = $this->template_path_cache[$cache_key];
+			if ( isset( $this->template_path_cache[ $cache_key ] ) ) {
+				$located = $this->template_path_cache[ $cache_key ];
 			} else {
 
 				// No file found yet.
@@ -247,8 +246,8 @@ if ( ! class_exists( 'MZMBO_Gamajo_Template_Loader' ) ) {
 					foreach ( $template_paths as $template_path ) {
 						if ( file_exists( $template_path . $template_name ) ) {
 							$located = $template_path . $template_name;
-							// Store the template path in the cache
-							$this->template_path_cache[$cache_key] = $located;
+							// Store the template path in the cache.
+							$this->template_path_cache[ $cache_key ] = $located;
 							break 2;
 						}
 					}
@@ -265,7 +264,7 @@ if ( ! class_exists( 'MZMBO_Gamajo_Template_Loader' ) ) {
 		/**
 		 * Return a list of paths to check for template locations.
 		 *
-		 * Default is to check in a child theme (if relevant) before a parent theme, so MZMBO_that themes which inherit from a
+		 * Default is to check in a child theme (if relevant) before a parent theme, so that themes which inherit from a
 		 * parent theme can just overload one file. If the template is not found in either of those, it looks in the
 		 * theme-compat folder last.
 		 *
@@ -282,7 +281,7 @@ if ( ! class_exists( 'MZMBO_Gamajo_Template_Loader' ) ) {
 			);
 
 			// Only add this conditionally, so non-child themes don't redundantly check active theme twice.
-			if ( is_child_theme() ) {
+			if ( get_stylesheet_directory() !== get_template_directory() ) {
 				$file_paths[1] = trailingslashit( get_stylesheet_directory() ) . $theme_directory;
 			}
 

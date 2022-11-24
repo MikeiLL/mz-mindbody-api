@@ -18,17 +18,39 @@
       "role": "Developer"
     }
    ],
+   "minimum-stability": "dev",
    "type": "wordpress-plugin",
+   "scripts": {
+     "lint": [
+       "phpcs --extensions=php src *.php"
+     ],
+     "fix": [
+      "phpcbf --extensions=php src *.php"
+    ],
+    "strauss": [
+      "vendor/bin/strauss"
+    ],
+    "post-install-cmd": [
+        "@strauss"
+    ],
+    "post-update-cmd": [
+        "@strauss"
+    ]
+   },
    "require": {
     "php": ">=7.1",
-    "composer/installers": "~1.0",
+    "composer/installers": "~2.0",
     "ericmann/sessionz": "dev-master",
     "ericmann/wp-session-manager": "*",
-    "gamajo/template-loader": "dev-master"
+    "gamajo/template-loader": "^1.3"
   },
   "repositories": [
     {
       "url": "https://github.com/brianhenryie/strauss",
+      "type": "git"
+    },
+    {
+      "url": "https://github.com/ericmann/wp-session-manager",
       "type": "git"
     }
   ],
@@ -47,36 +69,16 @@
       "dealerdirect/phpcodesniffer-composer-installer": true
     }
    },
-   "scripts": {
-     "lint": [
-       "phpcs --extensions=php src *.php"
-     ],
-     "fix": ["phpcbf --extensions=php src *.php"],
-    "strauss": [
-      "vendor/bin/strauss"
-    ],
-    "post-install-cmd": [
-        "@strauss"
-    ],
-    "post-update-cmd": [
-        "@strauss"
-    ]
-   },
    "extra": {
-        "strauss": {
-            "target_directory": "/src/Dependencies/",
-            "namespace_prefix": "MZoo\\MzMindbody\\Dependencies\\",
-            "classmap_prefix": "/src/Classes/",
-            "constant_prefix": "MZMBO_",
-            "packages": [
-                "gamajo/template-loader",
-                "ericmann/sessionz",
-                "ericmann/wp-session-manager"
-            ],
-            "delete_vendor_files": true
-        },
-        "installer-paths": {
-          "vendor/ericmann/{$name}/": ["type:wordpress-plugin"]
+        "mozart": {
+          "dep_namespace": "MZoo\\MzMindbody\\Dependencies\\",
+          "dep_directory": "/src/Dependencies/",
+          "packages": [
+            "gamajo/template-loader",
+            "ericmann/wp-session-manager",
+            "ericmann/sessionz"
+          ],
+          "delete_vendor_files": false
         }
     },
   "require-dev": {

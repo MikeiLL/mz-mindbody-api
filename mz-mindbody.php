@@ -31,6 +31,10 @@ use MZoo\MzMindbody as NS;
 use MZoo\MzMindbody\Core as Core;
 use MZoo\MzMindbody\Common as Common;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	die("Can't load this file directly");
+}
+
 /**
  * Define Constants
  *
@@ -65,8 +69,15 @@ if ( version_compare( PHP_VERSION, MINIMUM_PHP_VERSION, '<' ) ) {
 	 * Autoload Classes
 	 */
 	$wp_mindbody_api_autoload = NS\PLUGIN_NAME_DIR . '/vendor/autoload.php';
+
 	if ( file_exists( $wp_mindbody_api_autoload ) ) {
 		include_once $wp_mindbody_api_autoload;
+	}
+
+	// Mozart-managed dependencies.
+	$wp_mindbody_api_mozart_autoload = NS\PLUGIN_NAME_DIR . 'src/Dependencies/autoload.php';
+	if ( file_exists( $wp_mindbody_api_mozart_autoload ) ) {
+		include_once $wp_mindbody_api_mozart_autoload;
 	}
 
 	if ( ! class_exists( 'MZoo\MzMindbody\Core\MzMindbodyApi' ) ) {

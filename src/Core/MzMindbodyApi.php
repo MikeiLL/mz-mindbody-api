@@ -560,6 +560,57 @@ class MzMindbodyApi {
 				}
 
 			} // END If we have POST response from MBO
+			else if (!empty($_POST['Email']) &&
+			!empty($_POST['FirstName']) &&
+			!empty($_POST['LastName']) ) {
+				// Looks like we want to register this user
+				echo "<h2>REGISTERING YOU WITH STUDIO.</h2>";
+				$contactProps = [];
+				foreach($_POST as $k=>$v) {
+					$contactProps[] = ['name' => $k, 'value' => $v];
+				 }
+
+					// This will create a Studio Specific Account for user based on MBO Universal Account
+					$response = wp_remote_request(
+						"https://api.mindbodyonline.com/platform/contacts/v1/profiles",
+						array(
+							'method'        		=> 'POST',
+							'timeout'       		=> 55,
+							'httpversion'   		=> '1.0',
+							'blocking'      		=> true,
+							'headers'       		=> [
+								'API-Key' 				=> $basic_options['mz_mbo_api_key'],
+								'Authorization'		=> 'Bearer ' . $stored_token->AccessToken,
+								'Content-Type'		=> 'application/json',
+								'businessId' => self::$basic_options['mz_mindbody_siteID'],
+							],
+							'body'							=> json_encode([
+									"userId" => $this->session->get('MBO_Universal_ID'),
+									// Can we count on form containing all required fields?
+									"contactProperties" => $contactProps
+									]),
+							'redirection' 			=> 0,
+							'cookies'						=> array()
+						)
+					);
+					NS\MZMBO()->helpers->print($response);
+					/* If duplicate
+					[response] => Array
+						(
+								[code] => 409
+								[message] => Conflict
+						)
+					*/
+
+					/*
+					[body] => "An unexpected error has occurred.  You can use the following reference id to help us diagnose your problem: '68169b05-ffd4-45b6-9feb-08da0c27e2b5'"
+    [response] => Array
+        (
+            [code] => 500
+            [message] => Internal Server Error
+        )
+				*/
+			}
 			else {
 
 				$basic_options = get_option( 'mz_mbo_basic' );
@@ -602,54 +653,6 @@ class MzMindbodyApi {
 					echo "</pre>";
 					// This will return a response['body'] with an ID in it 5f7f2ea19b5e356ae430e3d8 is my "universal" MBO ID
 
-					// This will create a Studio Specific Account for user based on MBO Universal Account
-					/* $response = wp_remote_request(
-						"https://api.mindbodyonline.com/platform/contacts/v1/profiles",
-						array(
-							'method'        		=> 'POST',
-							'timeout'       		=> 55,
-							'httpversion'   		=> '1.0',
-							'blocking'      		=> true,
-							'headers'       		=> [
-								'API-Key' 				=> $basic_options['mz_mbo_api_key'],
-								'Authorization'		=> 'Bearer ' . $stored_token->AccessToken,
-								'Content-Type'		=> 'application/json'
-							],
-							'body'							=> json_encode([
-									'businessId' => self::$basic_options['mz_mindbody_siteID'],
-									"userId" => $this->session->get('MBO_Universal_ID'),
-									// MAY NEED TO GET REQUIRED FIELDS HERE
-									"contactProperties" => [
-										 ["name" => "address_line_1","value" => "Any Address"],
-										 ["name" => "state","value" => "CA"],
-										 ["name" => "city","value" => "SLO"],
-										 ["name" => "postal_code","value" => "11111"],
-										 ["name" => "mobile_phone_number","value" => "1111111111"],
-										 ["name" => "birth_date","value" => "1970-01-01"],
-										 ["name" => "referred_by","value" => "friend"]
-										]
-									]),
-							'redirection' 			=> 0,
-							'cookies'						=> array()
-						)
-					); */
-
-					/* If duplicate
-					[response] => Array
-						(
-								[code] => 409
-								[message] => Conflict
-						)
-					*/
-
-					/*
-					[body] => "An unexpected error has occurred.  You can use the following reference id to help us diagnose your problem: '68169b05-ffd4-45b6-9feb-08da0c27e2b5'"
-    [response] => Array
-        (
-            [code] => 500
-            [message] => Internal Server Error
-        )
-				*/
 					if (409 === $response['response']['code'] || 400 > $response['response']['code']) {
 
 						$response_body = json_decode($response['body']);
