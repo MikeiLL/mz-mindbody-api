@@ -453,6 +453,18 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 
 		$translated_strings = NS\MZMBO()->i18n->get();
 
+		$mz_mbo_public_api = get_option('mz_mbo_public_api');
+
+		$mbo_oauth_url_body = [
+			'response_mode' => 'form_post',
+			'response_type' => 'code id_token',
+			"scope" => "email openid profile Platform.Contacts.Api.Write Platform.Contacts.Api.Read Platform.Accounts.Api.Read Mindbody.Api.Public.v6 Platform.ProductInventory.Api.Read Platform.ProductInventory.Api.Write",
+			'client_id'              => $mz_mbo_public_api['mz_mindbody_client_id'],
+			'redirect_uri'           => home_url(),
+			'nonce'                  => wp_create_nonce( 'mz_mbo_authenticate_with_api' ),
+			'subscriberId'	         => Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID']
+		];
+
 		$params = array(
 			'ajaxurl'                => admin_url( 'admin-ajax.php', $protocol ),
 			// Used in display_schedule below.
@@ -482,6 +494,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 			'Locations_dict'         => wp_json_encode( $locations_dictionary ),
 			'site_id'                => $this->site_id,
 			'location'               => $this->studio_location_id,
+			'mbo_oauth_url'          => "https://signin.mindbodyonline.com/connect/authorize?" . http_build_query($mbo_oauth_url_body),
 		);
 		wp_localize_script( 'mz_display_schedule_script', 'mz_mindbody_schedule', $params );
 	}

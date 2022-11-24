@@ -39,6 +39,58 @@ class MboApi {
 	 */
 	private $atts;
 
+	public function __construct(){
+		$this->check_post_requests();
+	}
+
+	protected function check_post_requests() {
+		if (empty($_POST)) {
+			return;
+		}
+		if (!empty($_POST['id_token']) &&
+					!empty($_POST['scope']) &&
+					!empty($_POST['code']) &&
+					!empty($_POST['session_state'])){
+						$this->get_token();
+					}
+	}
+
+	protected function get_token() {
+		$nonce = wp_create_nonce( 'mz_mbo_authenticate_with_api' );
+		$id_token = $_POST['id_token'];
+		echo "POST <pre>";
+		print_r($_POST);
+		echo "</pre>";
+
+		NS\MZMBO()->helpers->log($id_token);
+		$response = wp_remote_request(
+			"https://signin.mindbodyonline.com/connect/token",
+			array(
+				'method'        		=> 'POST',
+				'timeout'       		=> 55,
+				'httpversion'   		=> '1.0',
+				'blocking'      		=> true,
+				'headers'       		=> '',
+				'body'          		=> [
+					'client_id'     => $mz_mbo_public_api['mz_mindbody_client_id'],
+					'grant_type'		=> 'authorization_code',
+					'scope'         => 'email profile openid offline_access Mindbody.Api.Public.v6 PG.ConsumerActivity.Api.Read',
+					'client_secret'	=> $mz_mbo_public_api['mz_mindbody_client_secret'],
+					'code'					=> $_POST['code'],
+					'redirect_uri'	=> $redirect_uri,
+					'nonce'					=> $nonce
+				],
+				'redirection' 			=> 0,
+				'cookies'       => array()
+			)
+		);
+		$response_body = json_decode($response['body']);
+
+		echo "TOKEN Request <pre>";
+		print_r($response_body);
+		echo "</pre>";
+	}
+
 	/**
 	 * Track API requests per day
 	 *

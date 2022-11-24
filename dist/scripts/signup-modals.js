@@ -205,9 +205,8 @@
     /**
      * Continually Check if Client is Logged in and Update Status
      */
+    // TODO reinstate: setInterval(mz_mbo_check_client_logged, 5000);
 
-
-    setInterval(mz_mbo_check_client_logged, 5000);
 
     function mz_mbo_check_client_logged() {
       //this will repeat every 5 seconds
@@ -236,15 +235,33 @@
 
     $(document).on('click', "a[data-target=mzSignUpModal]", function (ev) {
       ev.preventDefault();
-      mz_mbo_state.initialize(this);
-      render_mbo_modal();
+      console.log(mz_mindbody_schedule.mbo_oauth_url);
+      window.open(mz_mindbody_schedule.mbo_oauth_url, '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');
+      /* mz_mbo_state.initialize(this);
+      if (mz_mbo_state.logged_in) {
+          render_mbo_modal();
+      } else {
+          // open window with Oauth login
+          // make local ajax call to get details
+          $.ajax({
+              dataType: 'json',
+              url: mz_mindbody_schedule.ajaxurl,
+              data: {
+                  action: 'mz_client_log_in',
+                  nonce: 'mz_signup_nonce',
+                  },
+              success: function(json) {
+                  console.log({"success": json});
+              } // ./ Ajax Success
+          }) // End Ajax
+              .fail(function (json) {
+                  console.log(json);
+              }); // End Fail
+      }
       $("#mzSignUpModal").load(mz_mbo_state.target, function () {
-        $.colorbox({
-          html: mz_mbo_state.wrapper,
-          href: mz_mbo_state.target
-        });
-        $("#mzSignUpModal").colorbox();
-      });
+          $.colorbox({html: mz_mbo_state.wrapper,  href: mz_mbo_state.target});
+          $("#mzSignUpModal").colorbox();
+      }); */
     });
     /**
      * Sign In to MBO
@@ -258,50 +275,6 @@
       $.each($('form').serializeArray(), function () {
         result[this.name] = this.value;
       });
-      $.ajax({
-        dataType: 'json',
-        url: mz_mindbody_schedule.ajaxurl,
-        type: form.attr('method'),
-        context: this,
-        // So we have access to form data within ajax results
-        data: {
-          action: 'mz_client_log_in',
-          form: form.serialize(),
-          nonce: result.nonce,
-          classID: result.classID,
-          staffName: result.staffName,
-          classTime: result.classTime,
-          location: result.location
-        },
-        beforeSend: function beforeSend() {
-          mz_mbo_state.action = 'processing';
-          render_mbo_modal_activity();
-        },
-        success: function success(json) {
-          var formData = $(this).serializeArray();
-          var result = {};
-          $.each($('form').serializeArray(), function () {
-            result[this.name] = this.value;
-          });
-
-          if (json.type == "success") {
-            mz_mbo_state.logged_in = true;
-            mz_mbo_state.action = 'login';
-            mz_mbo_state.message = json.message;
-            render_mbo_modal();
-          } else {
-            mz_mbo_state.action = 'login_failed';
-            mz_mbo_state.message = json.message;
-            render_mbo_modal_activity();
-          }
-        } // ./ Ajax Success
-
-      }) // End Ajax
-      .fail(function (json) {
-        mz_mbo_state.message = 'ERROR SIGNING IN';
-        render_mbo_modal_activity();
-        console.log(json);
-      }); // End Fail
     });
     /**
      * Logout of MBO

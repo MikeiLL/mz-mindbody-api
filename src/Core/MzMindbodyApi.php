@@ -460,13 +460,13 @@ class MzMindbodyApi {
 	 * @access private
 	 */
 	private function register_shortcodes() {
-
 		$schedule_display = new Schedule\Display();
 		$schedule_display->register( 'mz-mindbody-show-schedule' );
 		$staff_display = new Staff\Display();
 		$staff_display->register( 'mz-mindbody-staff-list' );
 		$events_display = new Events\Display();
 		$events_display->register( 'mz-mindbody-show-events' );
+
 		add_shortcode('authenticate', function() {
 
 			/* Public API Request */

@@ -96,7 +96,7 @@
 "use strict";
 
 
-function _typeof3(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && _typeof3(Symbol.iterator) === "symbol") { _typeof3 = function _typeof(obj) { return typeof obj === "undefined" ? "undefined" : _typeof3(obj); }; } else { _typeof3 = function _typeof2(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof3(obj); }; } return _typeof3(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == _typeof(Symbol.iterator) ? function (obj) { return typeof obj === "undefined" ? "undefined" : _typeof(obj); } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof(obj); }, _typeof(obj); }
 
 /*!
 	Colorbox 1.6.4
@@ -183,7 +183,7 @@ function _typeof3(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "funct
       var img = new Image();
       var attrs = $(this).data('cbox-img-attrs');
 
-      if ((typeof attrs === "undefined" ? "undefined" : _typeof3(attrs)) === 'object') {
+      if ((typeof attrs === "undefined" ? "undefined" : _typeof(attrs)) === 'object') {
         $.each(attrs, function (key, val) {
           img[key] = val;
         });
@@ -195,7 +195,7 @@ function _typeof3(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "funct
       var iframe = document.createElement('iframe');
       var attrs = $(this).data('cbox-iframe-attrs');
 
-      if ((typeof attrs === "undefined" ? "undefined" : _typeof3(attrs)) === 'object') {
+      if ((typeof attrs === "undefined" ? "undefined" : _typeof(attrs)) === 'object') {
         $.each(attrs, function (key, val) {
           iframe[key] = val;
         });

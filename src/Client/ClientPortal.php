@@ -71,7 +71,7 @@ class ClientPortal extends RetrieveClient {
      */
     public function ajax_client_log_in(){
 
-        check_ajax_referer($_REQUEST['nonce'], "mz_signup_nonce", false);
+        check_ajax_referer($_REQUEST['nonce'], "mz_signup_nonce");
 
         // Create the MBO Object
         $this->get_mbo_results();
