@@ -9,6 +9,7 @@
  */
 
 namespace MZoo\MzMindbody\Common\Interfaces;
+use MZoo\MzMindbody\Core;
 
 /**
  * "WordPress Plugin Template" Copyright (C) 2018 Michael Simpson  (email : michael.d.simpson@gmail.com)
@@ -55,6 +56,10 @@ abstract class ShortcodeScriptLoader extends ShortcodeLoader {
 	public function handle_shortcode_wrapper( $atts, $content = null ) {
 		// Flag that we need to add the script.
 		$this->do_add_script = true;
+
+		if (empty(Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'])) {
+			return "Check your config settings. Site ID is not set.";
+		}
 		return $this->handle_shortcode( $atts, $content );
 	}
 
