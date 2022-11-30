@@ -145,17 +145,53 @@ class MzMindbody {
 	 */
 	public static function instance() {
 
-		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof MzMindbodyApi ) ) {
-			self::$instance = new NS\Core\MzMindbodyApi();
-			self::$instance->run();
-
-			self::$instance->i18n    = new Common\GlobalStrings();
-			self::$instance->helpers = new Common\Helpers();
+		// Return if already instantiated
+		if ( self::is_instantiated() ) {
+			return self::$instance;
 		}
+
+		// Setup the singleton
+		self::setup_instance();
+
+		self::$instance->run();
+
+		self::$instance->i18n    = new Common\GlobalStrings();
+		self::$instance->helpers = new Common\Helpers();
+
 
 		return self::$instance;
 	}
+
+	/**
+	 * Setup the singleton instance
+	 *
+	 * @since 3.0
+	 * @param string $file
+	 */
+	private static function setup_instance() {
+		self::$instance       = new NS\Core\MzMindbodyApi;
+	}
+
+	/**
+	 * Return whether the main loading class has been instantiated or not.
+	 *
+	 * @since 3.0
+	 *
+	 * @return boolean True if instantiated. False if not.
+	 */
+	private static function is_instantiated() {
+
+		// Return true if instance is correct class
+		if ( ! empty( self::$instance ) && ( self::$instance instanceof NS\Core\MzMindbodyApi ) ) {
+			return true;
+		}
+
+		// Return false if not instantiated correctly
+		return false;
+	}
 }
+
+
 
 /**
  * Begins execution of the plugin

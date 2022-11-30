@@ -220,7 +220,7 @@ class MzMindbodyApi {
 		$this->plugin_text_domain = 'mz-mindbody-api';
 
 		self::$basic_options           = get_option( 'mz_mbo_basic', 'Error: No Basic Options' );
-		self::$oauth_options           = get_option( 'mz_mbo_public_api', [] );
+		self::$oauth_options           = get_option( 'oauth_options', [] );
 		self::$use_oauth               = (!empty(self::$oauth_options['mz_mindbody_client_id']) && !empty(self::$oauth_options['mz_mindbody_client_secret']));
 		self::$events_options          = get_option( 'mz_mbo_events', [] );
 		self::$advanced_options        = get_option( 'mz_mbo_advanced', ['api_call_limit' => 2000, 'elect_display_substitutes' => 'off'] );
@@ -306,7 +306,6 @@ class MzMindbodyApi {
 	 * @access private
 	 */
 	private function define_public_hooks() {
-
 		$admin_object        = new Admin\Admin( $this->get_plugin_name(), $this->get_version(), $this->get_plugin_text_domain() );
 		$schedule_object     = new Schedule\Display();
 		$events_object       = new Events\Display();
@@ -470,15 +469,15 @@ class MzMindbodyApi {
 		add_shortcode('authenticate', function() {
 
 			/* Public API Request */
-			$mz_mbo_public_api = get_option('mz_mbo_public_api');
+			$oauth_options = get_option('oauth_options');
 
 			$nonce = wp_create_nonce( 'mz_mbo_authenticate_with_api' );
-			$redirect_uri = get_the_permalink();
+			$redirect_uri = home_url();
 
 			$body = array(
 				'response_mode' => 'form_post',
 				'response_type' => 'code id_token',
-				'client_id'     => $mz_mbo_public_api['mz_mindbody_client_id'],
+				'client_id'     => $oauth_options['mz_mindbody_client_id'],
 				'redirect_uri'  => $redirect_uri,
 				'scope'         => 'email openid profile Platform.Contacts.Api.Write Platform.Contacts.Api.Read Platform.Accounts.Api.Read Mindbody.Api.Public.v6 Platform.ProductInventory.Api.Read Platform.ProductInventory.Api.Write',
 				'nonce'         => $nonce,
@@ -497,31 +496,35 @@ class MzMindbodyApi {
 				echo "JWT <pre>";
 				print_r($id_token);
 				echo "</pre>";
+				$request_body = array(
+					'method'        		=> 'POST',
+					'timeout'       		=> 55,
+					'httpversion'   		=> '1.0',
+					'blocking'      		=> true,
+					'headers'       		=> '',
+					'body'          		=> [
+						'client_id'     => $oauth_options['mz_mindbody_client_id'],
+						'grant_type'		=> 'authorization_code',
+						'scope'         => 'email profile openid offline_access Mindbody.Api.Public.v6 PG.ConsumerActivity.Api.Read',
+						'client_secret'	=> $oauth_options['mz_mindbody_client_secret'],
+						'code'					=> $_POST['code'],
+						'redirect_uri'	=> $redirect_uri,
+						'nonce'					=> $nonce
+					],
+					'redirection' 			=> 0,
+					'cookies'       => array()
+				);
 				$response = wp_remote_request(
 					"https://signin.mindbodyonline.com/connect/token",
-					array(
-						'method'        		=> 'POST',
-						'timeout'       		=> 55,
-						'httpversion'   		=> '1.0',
-						'blocking'      		=> true,
-						'headers'       		=> '',
-						'body'          		=> [
-							'client_id'     => $mz_mbo_public_api['mz_mindbody_client_id'],
-							'grant_type'		=> 'authorization_code',
-							'scope'         => 'email profile openid offline_access Mindbody.Api.Public.v6 PG.ConsumerActivity.Api.Read',
-							'client_secret'	=> $mz_mbo_public_api['mz_mindbody_client_secret'],
-							'code'					=> $_POST['code'],
-							'redirect_uri'	=> $redirect_uri,
-							'nonce'					=> $nonce
-						],
-						'redirection' 			=> 0,
-						'cookies'       => array()
-					)
+					$request_body
 				);
 				$response_body = json_decode($response['body']);
 
 				echo "TOKEN Request <pre>";
 				print_r($response_body);
+				echo "</pre>";
+				echo "TOKEN Response <pre>";
+				print_r($request_body);
 				echo "</pre>";
 				if (!empty($response_body->access_token)){
 					$basic_options = get_option( 'mz_mbo_basic', 'no option here' );

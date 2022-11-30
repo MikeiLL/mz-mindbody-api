@@ -510,7 +510,7 @@ class ScheduleItem {
 		$this->grid_sign_up_link = $this->class_link_maker( 'signup', 'grid' );
 		$this->class_details     = '<div class="mz_schedule_table mz_description_holder mz_location_' . $this->studio_location_id . ' ' . 'mz_' . $this->class_name . '">';
 		$this->class_details    .= '<span class="mz_class_name">' . $this->class_name . '</span>';
-		$this->class_details    .= ' <span class="mz_class_with">' . NS\MZMBO()->i18n->get( 'with' ) . '</span>';
+		//$this->class_details    .= ' <span class="mz_class_with">' . NS\MZMBO()->i18n->get( 'with' ) . '</span>';
 		$this->class_details    .= ' <span class="mz_class_staff">' . $this->staff_name . '</span>';
 		$this->class_details    .= ' <div class="mz_class_description">' . $this->class_description . '</div>';
 		$this->class_details    .= '</div>';
@@ -559,7 +559,6 @@ class ScheduleItem {
 				if ( isset( $this->atts['show_registrants'] ) && ( 1 === (int) $this->atts['show_registrants'] ) ) {
 					// Used in Schedule\RetrieveRegistrants.
 					$link_array['data-nonce']   = wp_create_nonce( 'mz_mbo_get_registrants' );
-					$link_array['data-classID'] = $this->ID;
 					$link_array['data-target']  = 'registrantModal';
 				}
 				$link_array['data-staffImage'] = ( '' !== $this->staff_image ) ? $this->staff_image : '';
@@ -569,6 +568,7 @@ class ScheduleItem {
 			case 'signup':
 				$link_array['class'] = 'btn btn-primary';
 				$link_array['title'] = apply_filters( 'mz_mbo_registrations_available', __( 'Registrations Available', 'mz-mindbody-api' ) );
+				$link_array['data-classID'] = $this->ID;
 
 				if ( ! empty( $this->max_capacity ) && $this->total_booked >= $this->max_capacity ) :
 					if ( false === $this->is_waitlist_available ) :

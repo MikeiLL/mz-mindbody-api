@@ -453,13 +453,13 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 
 		$translated_strings = NS\MZMBO()->i18n->get();
 
-		$mz_mbo_public_api = get_option('mz_mbo_public_api');
+		$oauth_options = get_option('oauth_options');
 
 		$mbo_oauth_url_body = [
 			'response_mode' => 'form_post',
 			'response_type' => 'code id_token',
 			"scope" => "email openid profile Platform.Contacts.Api.Write Platform.Contacts.Api.Read Platform.Accounts.Api.Read Mindbody.Api.Public.v6 Platform.ProductInventory.Api.Read Platform.ProductInventory.Api.Write",
-			'client_id'              => $mz_mbo_public_api['mz_mindbody_client_id'],
+			'client_id'              => $oauth_options['mz_mindbody_client_id'],
 			'redirect_uri'           => home_url(),
 			'nonce'                  => wp_create_nonce( 'mz_mbo_authenticate_with_api' ),
 			'subscriberId'	         => Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID']

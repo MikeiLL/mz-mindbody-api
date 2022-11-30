@@ -11,8 +11,8 @@
 namespace MZoo\MzMindbody\Libraries;
 
 use MZoo\MzMindbody as NS;
-use MZoo\MzMindbody\Common as Common;
-use MZoo\MzMindbody\Core as Core;
+use MZoo\MzMindbody\Common;
+use MZoo\MzMindbody\Core;
 use Exception as Exception;
 
 /**
@@ -41,54 +41,134 @@ class MboApi {
 
 	public function __construct(){
 		$this->check_post_requests();
+		// TODO: Figure out why this class gets instantiated twice.
 	}
-
+	/**
+	 * Check for POST requests and farm to appropriate method.
+	 *
+	 * @since 2.9.9
+	 */
 	protected function check_post_requests() {
 		if (empty($_POST)) {
 			return;
 		}
+
+		// Returns from Oauth request
 		if (!empty($_POST['id_token']) &&
 					!empty($_POST['scope']) &&
 					!empty($_POST['code']) &&
 					!empty($_POST['session_state'])){
+
+				$id_token = $_POST['id_token'];
 						$this->get_token();
-					}
+				}
+				// Clear Post token so this only runs once.
+				$_POST['id_token'] = "";
 	}
 
+	/**
+	 * Get Token
+	 *
+	 * Get Oauth token from MBO API.
+	 *
+	 * @since 2.9.9
+	 * @access protected
+	 * @return TODO
+	 *
+	 */
 	protected function get_token() {
 		$nonce = wp_create_nonce( 'mz_mbo_authenticate_with_api' );
 		$id_token = $_POST['id_token'];
-		echo "POST <pre>";
-		print_r($_POST);
-		echo "</pre>";
-
-		NS\MZMBO()->helpers->log($id_token);
+		$request_body = array(
+			'method'        		=> 'POST',
+			'timeout'       		=> 55,
+			'httpversion'   		=> '1.0',
+			'blocking'      		=> true,
+			'headers'       		=> '',
+			'body'          		=> [
+				'client_id'     => Core\MzMindbodyApi::$oauth_options['mz_mindbody_client_id'],
+				'grant_type'		=> 'authorization_code',
+				'scope'         => 'email profile openid offline_access Mindbody.Api.Public.v6 PG.ConsumerActivity.Api.Read',
+				'client_secret'	=> Core\MzMindbodyApi::$oauth_options['mz_mindbody_client_secret'],
+				'code'					=> $_POST['code'],
+				'redirect_uri'	=> home_url(),
+				'nonce'					=> $nonce
+			],
+			'redirection' 			=> 0,
+			'cookies'       => array()
+		);
 		$response = wp_remote_request(
 			"https://signin.mindbodyonline.com/connect/token",
+			$request_body
+		);
+
+		if ( is_wp_error( $response ) ) {
+			$error_message = $response->get_error_message();
+			echo "Something went wrong: $error_message";
+		} else {
+			$response_body = json_decode($response['body']);
+			if (empty($response_body->access_token)) {
+				echo "No access token";
+			} else {
+				$this->get_universal_id($response_body->access_token);
+			}
+		}
+	}
+
+	/**
+	 * Check token with MBO API
+	 *
+	 * Retrieve the users universal id from MBO API.
+	 *
+	 * @since 2.9.9
+	 */
+	public function get_universal_id($token) {
+		$response = wp_remote_request(
+			"https://api.mindbodyonline.com/platform/accounts/v1/me",
 			array(
-				'method'        		=> 'POST',
+				'method'        		=> 'GET',
 				'timeout'       		=> 55,
 				'httpversion'   		=> '1.0',
 				'blocking'      		=> true,
-				'headers'       		=> '',
-				'body'          		=> [
-					'client_id'     => $mz_mbo_public_api['mz_mindbody_client_id'],
-					'grant_type'		=> 'authorization_code',
-					'scope'         => 'email profile openid offline_access Mindbody.Api.Public.v6 PG.ConsumerActivity.Api.Read',
-					'client_secret'	=> $mz_mbo_public_api['mz_mindbody_client_secret'],
-					'code'					=> $_POST['code'],
-					'redirect_uri'	=> $redirect_uri,
-					'nonce'					=> $nonce
+				'headers'       		=> [
+					'API-Key' 			=> Core\MzMindbodyApi::$basic_options['mz_mbo_api_key'],
+					'Authorization' => 'Bearer ' . $token
 				],
+				'body'          		=> '',
 				'redirection' 			=> 0,
 				'cookies'       => array()
 			)
 		);
 		$response_body = json_decode($response['body']);
+		if (!empty($response_body->id)){
+			$this->save_id_and_token($response_body->id, $token);
+			echo '<script>if (window.opener) window.opener.dispatchEvent(new Event("authenticated"));window.close();</script>';
+		} else {
+			// This should never happen, but just in case:
+			echo "No Universal ID";
+		}
+	}
 
-		echo "TOKEN Request <pre>";
-		print_r($response_body);
-		echo "</pre>";
+	/**
+	 * Save Universal ID and Token
+	 *
+	 * Store Oauth token and universal id in $Session.
+	 *
+	 * @since 2.9.9
+	 * @param string $id Universal ID from MBO API.
+	 * @param string $token Oauth Token from MBO API.
+	 *
+	 */
+	private function save_id_and_token($universal_id, $token) {
+		$current = new \DateTime();
+		$current->format( 'Y-m-d H:i:s' );
+
+		$stored_token = array(
+			'stored_time' => $current,
+			'AccessToken' => $token,
+		);
+		NS\MZMBO()->session->set( 'MBO_Public_Oauth_Token', $stored_token );
+		NS\MZMBO()->session->set( 'MBO_Universal_ID', $universal_id );
 	}
 
 	/**

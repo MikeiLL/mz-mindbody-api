@@ -9,6 +9,12 @@
             location = atts.locations[0].toString(),
             siteID = atts.account ? atts.account : mz_mindbody_schedule.account;
 
+        window.addEventListener('authenticated', function (event) {
+            // Do something with the event
+            console.log(event);
+            console.log("classid", mz_mbo_state.classID);
+        });
+
 		/**
 		 * State will store and track status
 		 */
@@ -133,9 +139,8 @@
          */
         $(document).on('click', "a[data-target=mzSignUpModal]", function (ev) {
             ev.preventDefault();
-
-            console.log(mz_mindbody_schedule.mbo_oauth_url);
             window.open(mz_mindbody_schedule.mbo_oauth_url, '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');
+            mz_mbo_state.classID = ev.target.dataset['classid'];
             /* mz_mbo_state.initialize(this);
             if (mz_mbo_state.logged_in) {
                 render_mbo_modal();
