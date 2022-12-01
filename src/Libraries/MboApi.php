@@ -39,10 +39,23 @@ class MboApi {
 	 */
 	private $atts;
 
+	/**
+	 * Got token
+	 *
+	 * Token request was being made twice, so this is a hack to prevent 2nd request.
+	 *
+	 * @since 2.6.7
+	 * @access private
+	 * @var bool $got_token.
+	 */
+	private $got_token;
+
 	public function __construct(){
 		$this->check_post_requests();
+		$this->got_token = false;
 		// TODO: Figure out why this class gets instantiated twice.
 	}
+
 	/**
 	 * Check for POST requests and farm to appropriate method.
 	 *
@@ -97,10 +110,16 @@ class MboApi {
 			'redirection' 			=> 0,
 			'cookies'       => array()
 		);
+		if (true === $this->got_token) {
+			return;
+		}
 		$response = wp_remote_request(
 			"https://signin.mindbodyonline.com/connect/token",
 			$request_body
 		);
+		echo "<pre>";
+		print_r($this->got_token);
+		echo "</pre>";
 
 		if ( is_wp_error( $response ) ) {
 			$error_message = $response->get_error_message();
@@ -108,8 +127,11 @@ class MboApi {
 		} else {
 			$response_body = json_decode($response['body']);
 			if (empty($response_body->access_token)) {
-				echo "No access token";
+				echo "No access token \n";
+				echo "<pre>" . print_r($response_body, true) . "</pre>";
 			} else {
+				echo "Yes access token \n";
+				$this->got_token = true;
 				$this->get_universal_id($response_body->access_token);
 			}
 		}
@@ -142,7 +164,44 @@ class MboApi {
 		$response_body = json_decode($response['body']);
 		if (!empty($response_body->id)){
 			$this->save_id_and_token($response_body->id, $token);
-			echo '<script>if (window.opener) window.opener.dispatchEvent(new Event("authenticated"));window.close();</script>';
+			$siteID = (int)Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
+			$has_account = false;
+			foreach($response_body->businessProfiles as $studio){
+				if ( $siteID === $studio->businessId ) {
+					$this->session->set('MBO_USER_Site_ID', $studio->profileId);
+					$has_account = true;
+				}
+			}
+			if (false === $has_account) {
+				// Need to register for this site.
+				echo "You need to register for this site. \n";
+				$client = new \MZoo\MzMindbody\Client\RetrieveClient();
+				echo "got client \n";
+				$fields = $client->get_signup_form_fields();
+				echo "Got fields <pre>" . print_r($fields, true) . "</pre>";
+				echo "Got response_body <pre>" . print_r($response_body, true) . "</pre>";
+				echo "<dialog><h3>Looks like you aren't registered with our studio.</h3>";
+				echo "<form method=POST>";
+				echo "<ul>";
+				foreach($fields as $f){
+					$userField = lcfirst($f);
+					echo '<li>';
+					if (property_exists($response_body, $userField)){
+						echo $f . ' <input name="' . $f . '" value="' . $response_body->$userField. '">';
+					} else {
+						echo $f . ' <input name="' . $f . '">';
+					}
+
+					echo '</li>';
+				}
+				echo "</ul>";
+				echo '<input type=SUBMIT value="Register Now">';
+				echo "</form></dialog>";
+			} else {
+				echo $this->session->get('MBO_USER_Site_ID');
+				echo "Got the MBO_USER_Site_ID. Now we can do stuff.";
+				echo '<script>if (window.opener) window.opener.dispatchEvent(new Event("authenticated"));window.close();</script>';
+			}
 		} else {
 			// This should never happen, but just in case:
 			echo "No Universal ID";
