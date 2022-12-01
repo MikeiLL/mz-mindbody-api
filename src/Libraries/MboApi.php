@@ -175,12 +175,10 @@ class MboApi {
 			if (false === $has_account) {
 				// Need to register for this site.
 				echo "You need to register for this site. \n";
+				echo '<script>if (window.opener) window.opener.dispatchEvent(new Event("need_to_register"));</script>';
+				/*
 				$client = new \MZoo\MzMindbody\Client\RetrieveClient();
-				echo "got client \n";
 				$fields = $client->get_signup_form_fields();
-				echo "Got fields <pre>" . print_r($fields, true) . "</pre>";
-				echo "Got response_body <pre>" . print_r($response_body, true) . "</pre>";
-				echo "<dialog><h3>Looks like you aren't registered with our studio.</h3>";
 				echo "<form method=POST>";
 				echo "<ul>";
 				foreach($fields as $f){
@@ -196,12 +194,13 @@ class MboApi {
 				}
 				echo "</ul>";
 				echo '<input type=SUBMIT value="Register Now">';
-				echo "</form></dialog>";
+				echo "</form></dialog>"; */
 			} else {
 				echo $this->session->get('MBO_USER_Site_ID');
 				echo "Got the MBO_USER_Site_ID. Now we can do stuff.";
-				echo '<script>if (window.opener) window.opener.dispatchEvent(new Event("authenticated"));window.close();</script>';
+				echo '<script>if (window.opener) window.opener.dispatchEvent(new Event("authenticated"));</script>';
 			}
+			echo '<script>window.close();</script>';
 		} else {
 			// This should never happen, but just in case:
 			echo "No Universal ID";

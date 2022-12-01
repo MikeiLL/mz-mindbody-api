@@ -10,9 +10,10 @@
             siteID = atts.account ? atts.account : mz_mindbody_schedule.account;
 
         window.addEventListener('authenticated', function (event) {
-            // Do something with the event
-            console.log(event);
             console.log("classid", mz_mbo_state.classID);
+        });
+        window.addEventListener('need_to_register', function (event) {
+            document.getElementById('studio_registration_form').showModal();
         });
 
 		/**
