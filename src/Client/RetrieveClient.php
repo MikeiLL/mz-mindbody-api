@@ -175,18 +175,22 @@ class RetrieveClient extends Interfaces\Retrieve {
      */
     public function get_signup_form_fields(){
 
-        // Crate the MBO Object
-        $this->get_mbo_results();
+		if ( false === get_transient( 'required_mbo_fields' ) ) {
+			$this->get_mbo_results();
 
-        $requiredFields = $this->mb->GetRequiredClientFields();
+            $requiredFields = $this->mb->GetRequiredClientFields();
+            $default_required_fields = [
+                "Email",
+                "FirstName",
+                "LastName"
+            ];
 
-        $default_required_fields = [
-        	"Email",
-        	"FirstName",
-        	"LastName"
-        ];
+            $fields = array_merge($default_required_fields, $requiredFields['RequiredClientFields']);
+			// Store the transient for 12 hours or admin set duration.
+			set_transient( 'required_mbo_fields', $fields, 43200 );
+		}
 
-        return array_merge($default_required_fields, $requiredFields['RequiredClientFields']);
+        return get_transient( 'required_mbo_fields' );
     }
 
     /**
@@ -450,13 +454,9 @@ class RetrieveClient extends Interfaces\Retrieve {
      *
      * @return array of MBO schedule data
      */
-    public function get_mbo_results( $api_version = 6 ){
+    public function get_mbo_results(){
 
-		if ( $api_version == 6 ) {
-        	$this->mb = $this->instantiate_mbo_API();
-		} else {
-			$this->mb = $this->instantiate_mbo_API( 5 );
-		}
+        $this->mb = $this->instantiate_mbo_API();
 
         if ( !$this->mb || $this->mb == 'NO_API_SERVICE' ) return false;
 
