@@ -13,6 +13,7 @@ namespace MZoo\MzMindbody\Libraries;
 use MZoo\MzMindbody as NS;
 use MZoo\MzMindbody\Common;
 use MZoo\MzMindbody\Core;
+use MZoo\MzMindbody\Session;
 use Exception as Exception;
 
 /**
@@ -87,6 +88,9 @@ class MboApi {
 			$contactProps[] = ['name' => $k, 'value' => $v];
 		}
 
+		// If we call NS\MZMBO()->session here it creates a loop.
+		$session = Session\MzPhpSession::instance();
+
 			// This will create a Studio Specific Account for user based on MBO Universal Account
 			$response = wp_remote_request(
 				"https://api.mindbodyonline.com/platform/contacts/v1/profiles",
@@ -97,18 +101,22 @@ class MboApi {
 					'blocking'      		=> true,
 					'headers'       		=> [
 						'API-Key' 				=> Core\MzMindbodyApi::$basic_options['mz_mbo_api_key'],
-						'Authorization'		=> 'Bearer ' . NS\MZMBO()->session->get( 'MBO_Public_Oauth_Token' )->AccessToken,
+						'Authorization'		=> 'Bearer ' . $session->get( 'MBO_Public_Oauth_Token' )->AccessToken,
 						'Content-Type'		=> 'application/json',
 						'businessId' => Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'],
 					],
 					'body'							=> json_encode([
-							"userId" => NS\MZMBO()->session->get('MBO_Universal_ID'),
+							"userId" => $session->get('MBO_Universal_ID'),
 							"contactProperties" => $contactProps
 							]),
 					'redirection' 			=> 0,
 					'cookies'						=> array()
 				)
 			);
+			echo "Response <pre>";
+			print_r($response);
+			echo "</pre>";
+			die();
 	}
 	/**
 	 * Get Token

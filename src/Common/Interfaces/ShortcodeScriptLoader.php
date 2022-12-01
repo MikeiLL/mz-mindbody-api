@@ -69,7 +69,7 @@ abstract class ShortcodeScriptLoader extends ShortcodeLoader {
 		echo "<ul>";
 		foreach($fields as $f){
 			echo '<li>';
-				echo $f . ' <input name="' . $f . '">';
+				echo $f . ' <input name="' . $f . '" REQUIRED>';
 			echo '</li>';
 		}
 		echo "</ul>";

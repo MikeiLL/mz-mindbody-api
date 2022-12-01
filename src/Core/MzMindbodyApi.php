@@ -213,6 +213,9 @@ class MzMindbodyApi {
 	 * Initialize and define the core functionality of the plugin.
 	 */
 	public function __construct() {
+		echo "Instantiating MzMindbodyApi<pre>";
+		print_r(debug_print_backtrace());
+		echo "</pre>";
 
 		$this->plugin_name        = NS\PLUGIN_NAME;
 		$this->version            = NS\PLUGIN_VERSION;

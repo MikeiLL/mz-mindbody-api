@@ -180,12 +180,12 @@ class MzMindbody {
 	 * @return boolean True if instantiated. False if not.
 	 */
 	private static function is_instantiated() {
-
 		// Return true if instance is correct class
-		if ( ! empty( self::$instance ) && ( self::$instance instanceof NS\Core\MzMindbodyApi ) ) {
+		if ( ! empty( self::$instance ) && ( self::$instance instanceof \MZoo\MzMindbody\Core\MzMindbodyApi ) ) {
+			echo '<h1>is instantiated</h1>';
 			return true;
 		}
-
+		echo '<h1>not instantiated</h1>';
 		// Return false if not instantiated correctly
 		return false;
 	}
