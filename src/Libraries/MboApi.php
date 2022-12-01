@@ -39,17 +39,6 @@ class MboApi {
 	 */
 	private $atts;
 
-	/**
-	 * Got token
-	 *
-	 * Token request was being made twice, so this is a hack to prevent 2nd request.
-	 *
-	 * @since 2.6.7
-	 * @access private
-	 * @var bool $got_token.
-	 */
-	private $got_token;
-
 	public function __construct(){
 		$this->check_post_requests();
 		$this->got_token = false;
@@ -72,13 +61,55 @@ class MboApi {
 					!empty($_POST['code']) &&
 					!empty($_POST['session_state'])){
 
-				$id_token = $_POST['id_token'];
-						$this->get_token();
-				}
-				// Clear Post token so this only runs once.
-				$_POST['id_token'] = "";
+						$access_token = $this->get_token();
+
+						if (false !== $access_token) {
+							// Clear Post token so this only runs once.
+							$_POST['id_token'] = "";
+							echo "<h2>GOT TOKEN IS TRUE</h2>";
+							$this->get_universal_id($access_token);
+						}
+				} else if (!empty($_POST['Email']) &&
+								!empty($_POST['FirstName']) &&
+								!empty($_POST['LastName']) ) {
+								// Looks like we want to register this user
+								$this->register_user_with_studio();
+			}
 	}
 
+	/**
+	 * Register User with Studio
+	 */
+	private function register_user_with_studio(){
+		echo "<h2>REGISTERING YOU WITH STUDIO.</h2>";
+		$contactProps = [];
+		foreach($_POST as $k=>$v) {
+			$contactProps[] = ['name' => $k, 'value' => $v];
+		}
+
+			// This will create a Studio Specific Account for user based on MBO Universal Account
+			$response = wp_remote_request(
+				"https://api.mindbodyonline.com/platform/contacts/v1/profiles",
+				array(
+					'method'        		=> 'POST',
+					'timeout'       		=> 55,
+					'httpversion'   		=> '1.0',
+					'blocking'      		=> true,
+					'headers'       		=> [
+						'API-Key' 				=> Core\MzMindbodyApi::$basic_options['mz_mbo_api_key'],
+						'Authorization'		=> 'Bearer ' . NS\MZMBO()->session->get( 'MBO_Public_Oauth_Token' )->AccessToken,
+						'Content-Type'		=> 'application/json',
+						'businessId' => Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'],
+					],
+					'body'							=> json_encode([
+							"userId" => NS\MZMBO()->session->get('MBO_Universal_ID'),
+							"contactProperties" => $contactProps
+							]),
+					'redirection' 			=> 0,
+					'cookies'						=> array()
+				)
+			);
+	}
 	/**
 	 * Get Token
 	 *
@@ -117,9 +148,6 @@ class MboApi {
 			"https://signin.mindbodyonline.com/connect/token",
 			$request_body
 		);
-		echo "<pre>";
-		print_r($this->got_token);
-		echo "</pre>";
 
 		if ( is_wp_error( $response ) ) {
 			$error_message = $response->get_error_message();
@@ -127,12 +155,9 @@ class MboApi {
 		} else {
 			$response_body = json_decode($response['body']);
 			if (empty($response_body->access_token)) {
-				echo "No access token \n";
-				echo "<pre>" . print_r($response_body, true) . "</pre>";
+				return false;
 			} else {
-				echo "Yes access token \n";
-				$this->got_token = true;
-				$this->get_universal_id($response_body->access_token);
+				return $response_body->access_token;
 			}
 		}
 	}
@@ -172,7 +197,7 @@ class MboApi {
 					$has_account = true;
 				}
 			}
-			if (false === $has_account) {
+			if (true || false === $has_account) {
 				// Need to register for this site.
 				echo "You need to register for this site. \n";
 				echo '<script>if (window.opener) window.opener.dispatchEvent(new Event("need_to_register"));</script>';
