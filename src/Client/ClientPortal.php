@@ -345,6 +345,7 @@ class ClientPortal extends RetrieveClient {
             foreach($requiredFields as $field) {
 
                 $requiredFieldsInputs .= "<label for='$field'>{$field}</label> <input type='text' name='data[Client][$field]' id='$field' required /><br />";
+                $requiredFieldsInputs .= "<input type='hidden' name='mz_mbo_action' value='true' />"; // Add our identifier for this plugin.
 
             }
         }
