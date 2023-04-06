@@ -157,7 +157,7 @@ class MzMindbody {
 
 		self::$instance->i18n    = new Common\GlobalStrings();
 		self::$instance->helpers = new Common\Helpers();
-
+		self::$instance->session = new Session\MzPhpSession();
 
 		return self::$instance;
 	}
@@ -182,10 +182,9 @@ class MzMindbody {
 	private static function is_instantiated() {
 		// Return true if instance is correct class
 		if ( ! empty( self::$instance ) && ( self::$instance instanceof \MZoo\MzMindbody\Core\MzMindbodyApi ) ) {
-			echo '<h1>is instantiated</h1>';
 			return true;
 		}
-		echo '<h1>not instantiated</h1>';
+
 		// Return false if not instantiated correctly
 		return false;
 	}
