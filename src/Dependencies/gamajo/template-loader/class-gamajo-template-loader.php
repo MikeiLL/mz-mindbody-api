@@ -9,7 +9,7 @@
  * @license   GPL-2.0-or-later
  * @version   1.3.1
  *
- * Modified by Mike iLL Kilmer on 24-November-2022 using Strauss.
+ * Modified by Mike iLL Kilmer on 06-April-2023 using Strauss.
  * @see https://github.com/BrianHenryIE/strauss
  */
 
