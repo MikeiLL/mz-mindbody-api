@@ -20,6 +20,7 @@
 @import "~bootstrap/scss/mixins/_alert.scss";
 @import "~bootstrap/scss/_alert.scss";
 @import "~bootstrap/scss/_buttons.scss";
+/* TODO button:disabled opacity is interfering with layering and dialog */
 @import "~bootstrap/scss/_tables.scss";
 @import "~bootstrap/scss/mixins/_screen-reader.scss";
 @import "~bootstrap/scss/utilities/_screenreaders.scss";
@@ -31,6 +32,7 @@
   -ms-flex-pack: center !important;
   justify-content: center !important;
 }
+
 .d-flex {
   display: -ms-flexbox !important;
   display: flex !important;
@@ -38,50 +40,74 @@
 
 // XS Button
 .btn-xs {
-  // line-height: ensure proper height of button next to extra small input 
+  // line-height: ensure proper height of button next to extra small input
   @include button-size($btn-padding-y-sm, $btn-padding-x-sm, $font-size-sm, 1em, 10px);
 }
 
 
-table { border-collapse: collapse; }
+table {
+  border-collapse: collapse;
+}
 
-th, td { padding: 5px; }
+th,
+td {
+  padding: 5px;
+}
 
-th { border: 2px solid #999; background-color: #eee; vertical-align: bottom; }
+th {
+  border: 2px solid #999;
+  background-color: #eee;
+  vertical-align: bottom;
+}
 
-td { border-bottom: 1px solid #ccc; border:1px solid #000;}
+td {
+  border-bottom: 1px solid #ccc;
+  border: 1px solid #000;
+}
 
-/*table.striped tbody tr:nth-child(even) { background-color: #f0f8ff; }*/ /*auto striping gets messed up with hidden rows*/
-tr.striped { background-color: #f0f8ff; }
+/*table.striped tbody tr:nth-child(even) { background-color: #f0f8ff; }*/
+/*auto striping gets messed up with hidden rows*/
+tr.striped {
+  background-color: #f0f8ff;
+}
 
 /* filter-table specific styling */
-td.alt { background-color: #ffc; background-color: rgba(255, 255, 0, 0.2); }
+td.alt {
+  background-color: #ffc;
+  background-color: rgba(255, 255, 0, 0.2);
+}
 
-td.hidden { display:none; }
+td.hidden {
+  display: none;
+}
 
-.red {background:red}
+.red {
+  background: red
+}
 
 // Pad empty schedule cells
 .mz_description_holder_empty td {
-    padding: 1em;
+  padding: 1em;
 }
 
-.mz_add_to_class { cursor:pointer; }
+.mz_add_to_class {
+  cursor: pointer;
+}
 
 .mz-modal {
-    background-color: #fff;
+  background-color: #fff;
 }
 
 .filter-table {
-    a {
-      margin-right:.5em;
-      margin-left:.5em;
-    }
+  a {
+    margin-right: .5em;
+    margin-left: .5em;
+  }
 }
 
 .mz_quick_filter {
-    margin-right:.5em;
-    margin-left:.5em;
+  margin-right: .5em;
+  margin-left: .5em;
 }
 
 .mz-staff-thumb {
@@ -89,28 +115,28 @@ td.hidden { display:none; }
   margin-bottom: 1rem;
 }
 
-.mz-staff-name{
-    text-align: center;
+.mz-staff-name {
+  text-align: center;
 }
 
 .mz-staffImage {
-    max-width: 33%;
-    height: auto;
-    float:left;
-    margin-right:.8rem;
+  max-width: 33%;
+  height: auto;
+  float: left;
+  margin-right: .8rem;
 }
 
 #ModalRegistrants {
-    border: 2px solid blue;
+  border: 2px solid blue;
 }
 
 #ClassRegistrants {
-    ul {
-      list-style-type: none;
-    }
+  ul {
+    list-style-type: none;
+  }
 }
 
-ul.mz-classRegistrants li{
+ul.mz-classRegistrants li {
   margin-left: 20%;
 }
 
@@ -119,17 +145,17 @@ ul.mz-classRegistrants li{
 }
 
 .mz-mode-select {
-    display: inline-block;
-    float:right;
+  display: inline-block;
+  float: right;
 }
 
 .mz_hidden {
-    display:none;
+  display: none;
 }
 
 .mz-schedule-grid {
-      td {
-      min-width: 20px;
+  td {
+    min-width: 20px;
   }
 }
 
@@ -147,13 +173,13 @@ ul.mz-classRegistrants li{
 .mz_modal_staff_image_body,
 .mz_modal_event_image_body,
 .mz_inline_event_image_body {
-	float: right;
-	margin: .5em .5em 0 0;
-	max-width:100%;
-	width: 250px;
-	height:auto;
-	float:right;
-	padding:1em;
+  float: right;
+  margin: .5em .5em 0 0;
+  max-width: 100%;
+  width: 250px;
+  height: auto;
+  float: right;
+  padding: 1em;
 }
 
 /**
@@ -161,15 +187,14 @@ ul.mz-classRegistrants li{
  *
  */
 
-.modal__wrapper{
+.modal__wrapper {
   height: 100%;
   display: flex;
   flex-direction: column;
 }
 
 .modal__footer,
-.modal__header
-{
+.modal__header {
   min-height: 40px;
   overflow: auto;
 }
@@ -180,13 +205,12 @@ ul.mz-classRegistrants li{
   overflow: auto;
 }
 
-.modal__footer {
-}
+.modal__footer {}
 
 /** Potentially nice select styling:
  Select Box Styles: bavotasan.com Method (with special adaptations by ericrasch.com) */
 /* -------------------- Source: http://bavotasan.com/2011/style-select-box-using-only-css/ */
-/* From http://codepen.io/ericrasch/pen/zjDBx 
+/* From http://codepen.io/ericrasch/pen/zjDBx
 .mz_mbo_styled_select {
    width: 240px;
    height: 34px;
@@ -207,62 +231,259 @@ ul.mz-classRegistrants li{
    -webkit-appearance: none;
 }
 */
-		
+
 /*colorbox css*/
 /*
     Colorbox Core Style:
     The following CSS is consistent between example themes and should not be altered.
 */
-#colorbox, #cboxOverlay, #cboxWrapper{position:absolute; top:0; left:0; z-index:9999; overflow:hidden; -webkit-transform: translate3d(0,0,0);}
-#cboxWrapper {max-width:none;}
-#cboxOverlay{position:fixed; width:100%; height:100%;}
-#cboxMiddleLeft, #cboxBottomLeft{clear:left;}
-#cboxContent{position:relative;}
-#cboxLoadedContent{overflow:auto; -webkit-overflow-scrolling: touch;}
-#cboxTitle{margin:0;}
-#cboxLoadingOverlay, #cboxLoadingGraphic{position:absolute; top:0; left:0; width:100%; height:100%;}
-#cboxPrevious, #cboxNext, #cboxClose, #cboxSlideshow{cursor:pointer;}
-.cboxPhoto{float:left; margin:auto; border:0; display:block; max-width:none; -ms-interpolation-mode:bicubic;}
-.cboxIframe{width:100%; height:100%; display:block; border:0; padding:0; margin:0;}
-#colorbox, #cboxContent, #cboxLoadedContent{box-sizing:content-box; -moz-box-sizing:content-box; -webkit-box-sizing:content-box;}
+#colorbox,
+#cboxOverlay,
+#cboxWrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  overflow: hidden;
+  -webkit-transform: translate3d(0, 0, 0);
+}
 
-/* 
+#cboxWrapper {
+  max-width: none;
+}
+
+#cboxOverlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+
+#cboxMiddleLeft,
+#cboxBottomLeft {
+  clear: left;
+}
+
+#cboxContent {
+  position: relative;
+}
+
+#cboxLoadedContent {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+#cboxTitle {
+  margin: 0;
+}
+
+#cboxLoadingOverlay,
+#cboxLoadingGraphic {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#cboxPrevious,
+#cboxNext,
+#cboxClose,
+#cboxSlideshow {
+  cursor: pointer;
+}
+
+.cboxPhoto {
+  float: left;
+  margin: auto;
+  border: 0;
+  display: block;
+  max-width: none;
+  -ms-interpolation-mode: bicubic;
+}
+
+.cboxIframe {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+#colorbox,
+#cboxContent,
+#cboxLoadedContent {
+  box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+}
+
+/*
     User Style:
     Change the following styles to modify the appearance of Colorbox.  They are
     ordered & tabbed in a way that represents the nesting of the generated HTML.
 */
-#cboxOverlay{background:url(../images/overlay.png) repeat 0 0; opacity: 0.9; filter: alpha(opacity = 90);}
-#colorbox{outline:0;}
-#cboxTopLeft{width:21px; height:21px; background:url(../images/controls.png) no-repeat -101px 0;}
-#cboxTopRight{width:21px; height:21px; background:url(../images/controls.png) no-repeat -130px 0;}
-#cboxBottomLeft{width:21px; height:21px; background:url(../images/controls.png) no-repeat -101px -29px;}
-#cboxBottomRight{width:21px; height:21px; background:url(../images/controls.png) no-repeat -130px -29px;}
-#cboxMiddleLeft{width:21px; background:url(../images/controls.png) left top repeat-y;}
-#cboxMiddleRight{width:21px; background:url(../images/controls.png) right top repeat-y;}
-#cboxTopCenter{height:21px; background:url(../images/border.png) 0 0 repeat-x;}
-#cboxBottomCenter{height:21px; background:url(../images/border.png) 0 -29px repeat-x;}
-#cboxContent{background:#fff; overflow:hidden;}
-.cboxIframe{background:#fff;}
-#cboxError{padding:50px; border:1px solid #ccc;}
-#cboxLoadedContent{margin-bottom:28px;}
-#cboxTitle{position:absolute; bottom:4px; left:0; text-align:center; width:100%; color:#949494;}
-#cboxCurrent{position:absolute; bottom:4px; left:58px; color:#949494;}
-#cboxLoadingOverlay{ }
-#cboxLoadingGraphic{ }
+#cboxOverlay {
+  background: url(../images/overlay.png) repeat 0 0;
+  opacity: 0.9;
+  filter: alpha(opacity=90);
+}
+
+#colorbox {
+  outline: 0;
+}
+
+#cboxTopLeft {
+  width: 21px;
+  height: 21px;
+  background: url(../images/controls.png) no-repeat -101px 0;
+}
+
+#cboxTopRight {
+  width: 21px;
+  height: 21px;
+  background: url(../images/controls.png) no-repeat -130px 0;
+}
+
+#cboxBottomLeft {
+  width: 21px;
+  height: 21px;
+  background: url(../images/controls.png) no-repeat -101px -29px;
+}
+
+#cboxBottomRight {
+  width: 21px;
+  height: 21px;
+  background: url(../images/controls.png) no-repeat -130px -29px;
+}
+
+#cboxMiddleLeft {
+  width: 21px;
+  background: url(../images/controls.png) left top repeat-y;
+}
+
+#cboxMiddleRight {
+  width: 21px;
+  background: url(../images/controls.png) right top repeat-y;
+}
+
+#cboxTopCenter {
+  height: 21px;
+  background: url(../images/border.png) 0 0 repeat-x;
+}
+
+#cboxBottomCenter {
+  height: 21px;
+  background: url(../images/border.png) 0 -29px repeat-x;
+}
+
+#cboxContent {
+  background: #fff;
+  overflow: hidden;
+}
+
+.cboxIframe {
+  background: #fff;
+}
+
+#cboxError {
+  padding: 50px;
+  border: 1px solid #ccc;
+}
+
+#cboxLoadedContent {
+  margin-bottom: 28px;
+}
+
+#cboxTitle {
+  position: absolute;
+  bottom: 4px;
+  left: 0;
+  text-align: center;
+  width: 100%;
+  color: #949494;
+}
+
+#cboxCurrent {
+  position: absolute;
+  bottom: 4px;
+  left: 58px;
+  color: #949494;
+}
+
+#cboxLoadingOverlay {}
+
+#cboxLoadingGraphic {}
 
 /* these elements are buttons, and may need to have additional styles reset to avoid unwanted base styles */
-#cboxPrevious, #cboxNext, #cboxSlideshow, #cboxClose {border:0; padding:0; margin:0; overflow:visible; width:auto; background:none; }
+#cboxPrevious,
+#cboxNext,
+#cboxSlideshow,
+#cboxClose {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  width: auto;
+  background: none;
+}
 
 /* avoid outlines on :active (mouseclick), but preserve outlines on :focus (tabbed navigating) */
-#cboxPrevious:active, #cboxNext:active, #cboxSlideshow:active, #cboxClose:active {outline:0;}
+#cboxPrevious:active,
+#cboxNext:active,
+#cboxSlideshow:active,
+#cboxClose:active {
+  outline: 0;
+}
 
-#cboxSlideshow{position:absolute; bottom:4px; right:30px; color:#0092ef;}
-#cboxPrevious{position:absolute; bottom:0; left:0; background:url(../images/controls.png) no-repeat -75px 0; width:25px; height:25px; text-indent:-9999px;}
-#cboxPrevious:hover{background-position:-75px -25px;}
-#cboxNext{position:absolute; bottom:0; left:27px; background:url(../images/controls.png) no-repeat -50px 0; width:25px; height:25px; text-indent:-9999px;}
-#cboxNext:hover{background-position:-50px -25px;}
-#cboxClose{position:absolute; top:0; right:0; background:url(../images/controls.png) no-repeat -25px 0; width:25px; height:25px; text-indent:-9999px;}
-#cboxClose:hover{background-position:-25px -25px;}
+#cboxSlideshow {
+  position: absolute;
+  bottom: 4px;
+  right: 30px;
+  color: #0092ef;
+}
+
+#cboxPrevious {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: url(../images/controls.png) no-repeat -75px 0;
+  width: 25px;
+  height: 25px;
+  text-indent: -9999px;
+}
+
+#cboxPrevious:hover {
+  background-position: -75px -25px;
+}
+
+#cboxNext {
+  position: absolute;
+  bottom: 0;
+  left: 27px;
+  background: url(../images/controls.png) no-repeat -50px 0;
+  width: 25px;
+  height: 25px;
+  text-indent: -9999px;
+}
+
+#cboxNext:hover {
+  background-position: -50px -25px;
+}
+
+#cboxClose {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: url(../images/controls.png) no-repeat -25px 0;
+  width: 25px;
+  height: 25px;
+  text-indent: -9999px;
+}
+
+#cboxClose:hover {
+  background-position: -25px -25px;
+}
 
 /*
   The following fixes a problem where IE7 and IE8 replace a PNG's alpha transparency with a black fill
@@ -277,7 +498,5 @@ ul.mz-classRegistrants li{
 .cboxIE #cboxBottomRight,
 .cboxIE #cboxMiddleLeft,
 .cboxIE #cboxMiddleRight {
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#00FFFFFF,endColorstr=#00FFFFFF);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#00FFFFFF, endColorstr=#00FFFFFF);
 }
-
-

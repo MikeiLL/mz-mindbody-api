@@ -1225,6 +1225,7 @@ input[type="reset"].btn-block,
 input[type="button"].btn-block {
   width: 100%; }
 
+/* TODO button:disabled opacity is interfering with layering and dialog */
 .table {
   width: 100%;
   margin-bottom: 1rem;
@@ -1732,7 +1733,8 @@ input[type="button"].btn-block {
 table {
   border-collapse: collapse; }
 
-th, td {
+th,
+td {
   padding: 5px; }
 
 th {
@@ -1855,7 +1857,7 @@ ul.mz-classRegistrants li {
 /** Potentially nice select styling:
  Select Box Styles: bavotasan.com Method (with special adaptations by ericrasch.com) */
 /* -------------------- Source: http://bavotasan.com/2011/style-select-box-using-only-css/ */
-/* From http://codepen.io/ericrasch/pen/zjDBx 
+/* From http://codepen.io/ericrasch/pen/zjDBx
 .mz_mbo_styled_select {
    width: 240px;
    height: 34px;
@@ -1881,7 +1883,9 @@ ul.mz-classRegistrants li {
     Colorbox Core Style:
     The following CSS is consistent between example themes and should not be altered.
 */
-#colorbox, #cboxOverlay, #cboxWrapper {
+#colorbox,
+#cboxOverlay,
+#cboxWrapper {
   position: absolute;
   top: 0;
   left: 0;
@@ -1897,7 +1901,8 @@ ul.mz-classRegistrants li {
   width: 100%;
   height: 100%; }
 
-#cboxMiddleLeft, #cboxBottomLeft {
+#cboxMiddleLeft,
+#cboxBottomLeft {
   clear: left; }
 
 #cboxContent {
@@ -1910,14 +1915,18 @@ ul.mz-classRegistrants li {
 #cboxTitle {
   margin: 0; }
 
-#cboxLoadingOverlay, #cboxLoadingGraphic {
+#cboxLoadingOverlay,
+#cboxLoadingGraphic {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%; }
 
-#cboxPrevious, #cboxNext, #cboxClose, #cboxSlideshow {
+#cboxPrevious,
+#cboxNext,
+#cboxClose,
+#cboxSlideshow {
   cursor: pointer; }
 
 .cboxPhoto {
@@ -1936,12 +1945,14 @@ ul.mz-classRegistrants li {
   padding: 0;
   margin: 0; }
 
-#colorbox, #cboxContent, #cboxLoadedContent {
+#colorbox,
+#cboxContent,
+#cboxLoadedContent {
   box-sizing: content-box;
   -moz-box-sizing: content-box;
   -webkit-box-sizing: content-box; }
 
-/* 
+/*
     User Style:
     Change the following styles to modify the appearance of Colorbox.  They are
     ordered & tabbed in a way that represents the nesting of the generated HTML.
@@ -2019,7 +2030,10 @@ ul.mz-classRegistrants li {
   color: #949494; }
 
 /* these elements are buttons, and may need to have additional styles reset to avoid unwanted base styles */
-#cboxPrevious, #cboxNext, #cboxSlideshow, #cboxClose {
+#cboxPrevious,
+#cboxNext,
+#cboxSlideshow,
+#cboxClose {
   border: 0;
   padding: 0;
   margin: 0;
@@ -2028,7 +2042,10 @@ ul.mz-classRegistrants li {
   background: none; }
 
 /* avoid outlines on :active (mouseclick), but preserve outlines on :focus (tabbed navigating) */
-#cboxPrevious:active, #cboxNext:active, #cboxSlideshow:active, #cboxClose:active {
+#cboxPrevious:active,
+#cboxNext:active,
+#cboxSlideshow:active,
+#cboxClose:active {
   outline: 0; }
 
 #cboxSlideshow {
@@ -2086,7 +2103,7 @@ ul.mz-classRegistrants li {
 .cboxIE #cboxBottomRight,
 .cboxIE #cboxMiddleLeft,
 .cboxIE #cboxMiddleRight {
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#00FFFFFF,endColorstr=#00FFFFFF); }
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#00FFFFFF, endColorstr=#00FFFFFF); }
 
 /* 
 We want to do as little as possible here so CSS can be defined in theme.
@@ -2096,5 +2113,4 @@ We want to do as little as possible here so CSS can be defined in theme.
   margin-right: 20px; }
 
 
-/*# sourceMappingURL=main.css.map*/
 /*# sourceMappingURL=main.css.map*/
