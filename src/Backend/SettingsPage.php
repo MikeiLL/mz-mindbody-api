@@ -71,14 +71,6 @@ class SettingsPage {
 			)
 		);
 
-		// Section: Shortcodes.
-		self::$wposa_obj->add_section(
-			array(
-				'id'    => 'oauth_options',
-				'title' => __( 'Oauth', 'mz-mindbody-api' ),
-			)
-		);
-
 		// Section: Event Settings.
 		self::$wposa_obj->add_section(
 			array(
@@ -216,44 +208,6 @@ class SettingsPage {
 				'desc' => $this->mz_mindbody_debug_text(),
 			)
 		);
-
-		// Field: Client Secret.
-		self::$wposa_obj->add_field(
-			'oauth_options',
-			array(
-				'id'      => 'mz_mindbody_client_secret',
-				'type'    => 'text',
-				'name'    => __( 'Client Secret', 'mz-mindbody-api' ),
-				'desc'    => '(Request Oauth on MBO developer account.)',
-				'default' => __( '', 'mz-mindbody-api' ),
-				'placeholder' => ""
-			)
-		);
-
-		// Field: Client ID.
-		self::$wposa_obj->add_field(
-			'oauth_options',
-			array(
-				'id'      => 'mz_mindbody_client_id',
-				'type'    => 'text',
-				'name'    => __( 'Client ID', 'mz-mindbody-api' ),
-				'desc'    => '(Request Oauth on MBO developer account.)',
-				'default' => __( '', 'mz-mindbody-api' ),
-				'placeholder' => "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx" // UUID format
-			)
-		);
-
-		// Field: Instructions.
-		self::$wposa_obj->add_field(
-			'oauth_options',
-			array(
-				'id'      => 'oauth_instructions',
-				'type'    => 'html',
-				'name'    => __( 'Instructions', 'mz-mindbody-api' ),
-				'desc' => $this->oauth_instructions(),
-			)
-		);
-
 
 		// Field: Event IDs.
 		self::$wposa_obj->add_field(
@@ -481,16 +435,6 @@ class SettingsPage {
 		) . '</p>';
 		$return .= '(<a href="http://www.mzoo.org/creating-your-mindbody-credentials/">' . __( 'Detailed instructions here', 'mz-mindbody-api' ) . '</a>.)';
 		return $return;
-	}
-	/**
-	 * Oauth Instructions
-	 */
-	private function oauth_instructions() {
-		$html =  '<p>' . __( 'You will need to create a Mindbody Oauth Client', 'mz-mindbody-api' ) . '</p>';
-		$html .= '<p>' . __( 'To do this, log into your Mindbody account and go to the Developer tab. Click on the "Create New Client" button.', 'mz-mindbody-api' ) . '</p>';
-		$html .= '<p>' . home_url() . '</p>';
-		// https://developers.mindbodyonline.com/Account/Credentials
-		return $html;
 	}
 
 	/**
