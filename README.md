@@ -13,3 +13,5 @@ Currently using Yarn to manage assets, and composer to manage dependencies.
     `yarn dev`
     `yarn watch`
  * Works with `npm v12`.
+
+ See [Api Notes](API-Notes.md) for info about Mindbody Api.

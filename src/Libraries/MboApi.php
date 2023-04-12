@@ -13,7 +13,6 @@ namespace MZoo\MzMindbody\Libraries;
 use MZoo\MzMindbody as NS;
 use MZoo\MzMindbody\Common;
 use MZoo\MzMindbody\Core;
-use MZoo\MzMindbody\Session;
 use Exception as Exception;
 
 /**
@@ -40,227 +39,49 @@ class MboApi {
 	 */
 	private $atts;
 
-	public function __construct(){
-		$this->check_post_requests();
-		$this->got_token = false;
-		// TODO: Figure out why this class gets instantiated twice.
-	}
-
-	/**
-	 * Check for POST requests and farm to appropriate method.
-	 *
-	 * @since 2.9.9
-	 */
-	protected function check_post_requests() {
-		if (empty($_POST)) {
-			return;
-		}
-
-		// Returns from Oauth request
-		if (!empty($_POST['id_token']) &&
-					!empty($_POST['scope']) &&
-					!empty($_POST['code']) &&
-					!empty($_POST['session_state'])){
-
-						$access_token = $this->get_token();
-
-						if (false !== $access_token) {
-							// Clear Post token so this only runs once.
-							$_POST['id_token'] = "";
-							echo "<h2>GOT TOKEN IS TRUE</h2>";
-							$this->get_universal_id($access_token);
-						}
-				} else if (!empty($_POST['Email']) &&
-								!empty($_POST['FirstName']) &&
-								!empty($_POST['LastName']) ) {
-								// Looks like we want to register this user
-								$this->register_user_with_studio();
-			}
-	}
-
 	/**
 	 * Register User with Studio
 	 */
-	private function register_user_with_studio(){
+	public function register_user_with_studio(){
 		echo "<h2>REGISTERING YOU WITH STUDIO.</h2>";
 		$contactProps = [];
 		foreach($_POST as $k=>$v) {
 			$contactProps[] = ['name' => $k, 'value' => $v];
 		}
+		echo "register_user_with_studio 1<pre>";
+		var_dump($_SESSION);
+		echo "</pre>";
+		echo "register_user_with_studio 1<pre>";
+		echo debug_print_backtrace();
+		echo "</pre>";
 
-		// If we call NS\MZMBO()->session here it creates a loop.
-		$session = Session\MzPhpSession::instance();
-
-			// This will create a Studio Specific Account for user based on MBO Universal Account
-			$response = wp_remote_request(
-				"https://api.mindbodyonline.com/platform/contacts/v1/profiles",
-				array(
-					'method'        		=> 'POST',
-					'timeout'       		=> 55,
-					'httpversion'   		=> '1.0',
-					'blocking'      		=> true,
-					'headers'       		=> [
-						'API-Key' 				=> Core\MzMindbodyApi::$basic_options['mz_mbo_api_key'],
-						'Authorization'		=> 'Bearer ' . $session->get( 'MBO_Public_Oauth_Token' )->AccessToken,
-						'Content-Type'		=> 'application/json',
-						'businessId' => Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'],
-					],
-					'body'							=> json_encode([
-							"userId" => $session->get('MBO_Universal_ID'),
-							"contactProperties" => $contactProps
-							]),
-					'redirection' 			=> 0,
-					'cookies'						=> array()
-				)
-			);
-			echo "Response <pre>";
-			print_r($response);
-			echo "</pre>";
-			die();
-	}
-	/**
-	 * Get Token
-	 *
-	 * Get Oauth token from MBO API.
-	 *
-	 * @since 2.9.9
-	 * @access protected
-	 * @return TODO
-	 *
-	 */
-	protected function get_token() {
-		$nonce = wp_create_nonce( 'mz_mbo_authenticate_with_api' );
-		$id_token = $_POST['id_token'];
 		$request_body = array(
 			'method'        		=> 'POST',
 			'timeout'       		=> 55,
 			'httpversion'   		=> '1.0',
 			'blocking'      		=> true,
-			'headers'       		=> '',
-			'body'          		=> [
-				'client_id'     => Core\MzMindbodyApi::$oauth_options['mz_mindbody_client_id'],
-				'grant_type'		=> 'authorization_code',
-				'scope'         => 'email profile openid offline_access Mindbody.Api.Public.v6 PG.ConsumerActivity.Api.Read',
-				'client_secret'	=> Core\MzMindbodyApi::$oauth_options['mz_mindbody_client_secret'],
-				'code'					=> $_POST['code'],
-				'redirect_uri'	=> home_url(),
-				'nonce'					=> $nonce
+			'headers'       		=> [
+				'API-Key' 				=> Core\MzMindbodyApi::$basic_options['mz_mbo_api_key'],
+				'Authorization'		    => 'Bearer ' . $this->session->get( 'MBO_Public_Oauth_Token' )->AccessToken,
+				'Content-Type'		    => 'application/json',
+				'businessId'            => Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'],
 			],
+			'body'					=> json_encode([
+					"userId" => $this->session->get('MBO_Universal_ID'),
+					"contactProperties" => $contactProps
+					]),
 			'redirection' 			=> 0,
-			'cookies'       => array()
-		);
-		if (true === $this->got_token) {
-			return;
-		}
-		$response = wp_remote_request(
-			"https://signin.mindbodyonline.com/connect/token",
-			$request_body
-		);
+			'cookies'						=> array()
+			);
 
-		if ( is_wp_error( $response ) ) {
-			$error_message = $response->get_error_message();
-			echo "Something went wrong: $error_message";
-		} else {
-			$response_body = json_decode($response['body']);
-			if (empty($response_body->access_token)) {
-				return false;
-			} else {
-				return $response_body->access_token;
-			}
-		}
+			// This will create a Studio Specific Account for user based on MBO Universal Account
+			$response = wp_remote_request(
+				"https://api.mindbodyonline.com/platform/contacts/v1/profiles",
+				$request_body
+			);
 	}
 
-	/**
-	 * Check token with MBO API
-	 *
-	 * Retrieve the users universal id from MBO API.
-	 *
-	 * @since 2.9.9
-	 */
-	public function get_universal_id($token) {
-		$response = wp_remote_request(
-			"https://api.mindbodyonline.com/platform/accounts/v1/me",
-			array(
-				'method'        		=> 'GET',
-				'timeout'       		=> 55,
-				'httpversion'   		=> '1.0',
-				'blocking'      		=> true,
-				'headers'       		=> [
-					'API-Key' 			=> Core\MzMindbodyApi::$basic_options['mz_mbo_api_key'],
-					'Authorization' => 'Bearer ' . $token
-				],
-				'body'          		=> '',
-				'redirection' 			=> 0,
-				'cookies'       => array()
-			)
-		);
-		$response_body = json_decode($response['body']);
-		if (!empty($response_body->id)){
-			$this->save_id_and_token($response_body->id, $token);
-			$siteID = (int)Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
-			$has_account = false;
-			foreach($response_body->businessProfiles as $studio){
-				if ( $siteID === $studio->businessId ) {
-					$this->session->set('MBO_USER_Site_ID', $studio->profileId);
-					$has_account = true;
-				}
-			}
-			if (true || false === $has_account) {
-				// Need to register for this site.
-				echo "You need to register for this site. \n";
-				echo '<script>if (window.opener) window.opener.dispatchEvent(new Event("need_to_register"));</script>';
-				/*
-				$client = new \MZoo\MzMindbody\Client\RetrieveClient();
-				$fields = $client->get_signup_form_fields();
-				echo "<form method=POST>";
-				echo "<ul>";
-				foreach($fields as $f){
-					$userField = lcfirst($f);
-					echo '<li>';
-					if (property_exists($response_body, $userField)){
-						echo $f . ' <input name="' . $f . '" value="' . $response_body->$userField. '">';
-					} else {
-						echo $f . ' <input name="' . $f . '">';
-					}
 
-					echo '</li>';
-				}
-				echo "</ul>";
-				echo '<input type=SUBMIT value="Register Now">';
-				echo "</form></dialog>"; */
-			} else {
-				echo $this->session->get('MBO_USER_Site_ID');
-				echo "Got the MBO_USER_Site_ID. Now we can do stuff.";
-				echo '<script>if (window.opener) window.opener.dispatchEvent(new Event("authenticated"));</script>';
-			}
-			echo '<script>window.close();</script>';
-		} else {
-			// This should never happen, but just in case:
-			echo "No Universal ID";
-		}
-	}
-
-	/**
-	 * Save Universal ID and Token
-	 *
-	 * Store Oauth token and universal id in $Session.
-	 *
-	 * @since 2.9.9
-	 * @param string $id Universal ID from MBO API.
-	 * @param string $token Oauth Token from MBO API.
-	 *
-	 */
-	private function save_id_and_token($universal_id, $token) {
-		$current = new \DateTime();
-		$current->format( 'Y-m-d H:i:s' );
-
-		$stored_token = array(
-			'stored_time' => $current,
-			'AccessToken' => $token,
-		);
-		NS\MZMBO()->session->set( 'MBO_Public_Oauth_Token', $stored_token );
-		NS\MZMBO()->session->set( 'MBO_Universal_ID', $universal_id );
-	}
 
 	/**
 	 * Track API requests per day

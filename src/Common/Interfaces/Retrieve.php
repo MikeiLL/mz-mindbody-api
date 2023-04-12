@@ -115,7 +115,7 @@ abstract class Retrieve {
 			}
 			$transient_string .= '_' . substr( $k, 0, 4 ) . '_' . substr( $attr, 0, 3 );
 		}
-		// append today's date.
+		// append today's date. TODO: Today's date is not enough to make this unique.
 		$transient_string .= gmdate( 'Y-m-d', strtotime( wp_date( 'Y-m-d H:i:s' ) ) );
 
 		return $prefix . md5( $transient_string );

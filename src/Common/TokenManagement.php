@@ -94,6 +94,8 @@ class TokenManagement extends Interfaces\Retrieve {
 	}
 
 
+
+
 	/**
 	 * Serve MBO AccessToken either from WP option or from MBO API
 	 *
@@ -109,7 +111,7 @@ class TokenManagement extends Interfaces\Retrieve {
 		$stored_token = $this->get_stored_token();
 
 		if ( empty($stored_token['AccessToken']) || empty( $stored_token ) ) {
-			return $this->get_and_save_token();
+			return $this->get_and_save_staff_token();
 		} else {
 			return $stored_token['AccessToken'];
 		}
@@ -167,13 +169,9 @@ class TokenManagement extends Interfaces\Retrieve {
 	 *
 	 * @return AccessToken string as administered by MBO Api.
 	 */
-	public function get_and_save_token() {
+	public function get_and_save_staff_token() {
 
-		try {
-			$token = $this->get_mbo_results();
-		} catch ( \Exception $e ) {
-			return "Couldn't fetch token. " . $e;
-		}
+		$token = $this->get_mbo_results();
 
 		$current = new \DateTime();
 		$current->format( 'Y-m-d H:i:s' );
@@ -204,7 +202,8 @@ class TokenManagement extends Interfaces\Retrieve {
 	 *
 	 * Update (or create) mz_mbo_token option which holds datetime object
 	 * as well as AccessToken string.
-	 *
+     *
+	 * @usedby MboV6Api::token_request()
 	 * @param string $token Token string returned from MBO Api.
 	 * @return AccessToken string as administered by MBO Api.
 	 */

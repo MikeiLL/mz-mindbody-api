@@ -25,9 +25,27 @@ class MzPhpSession {
 	 *
 	 * @var array
 	 * @access private
-	 * @since 1.5
+	 * @since 2.9.9
 	 */
 	private $session;
+
+	/**
+	 * Disambiguate for additional plugins.
+	 *
+	 * @var array
+	 * @access private
+	 * @since 2.9.9
+	 */
+	private $prefix;
+
+	/**
+	 * Disambiguate for additional plugins.
+	 *
+	 * @var array
+	 * @access private
+	 * @since 2.9.9
+	 */
+	private $prefix_tail = '_main';
 
 	/**
 	 * Constructor.
@@ -45,18 +63,41 @@ class MzPhpSession {
 	/**
 	 * Setup the WP_Session instance.
 	 *
-	 * @since 1.5
+	 * @since 2.9.9
 	 */
 	public function init() {
-        $key           = 'mzmbo_';
-        $this->session = isset( $_SESSION[ $key ] ) && is_array( $_SESSION[ $key ] )
-            ? $_SESSION[ $key ]
+        $this->prefix = 'mzmbo' . $this->prefix_tail;
+        $this->session = isset( $_SESSION[ $this->prefix ] ) && is_array( $_SESSION[ $this->prefix ] )
+            ? $_SESSION[ $this->prefix ]
             : array();
 
-        $_SESSION[ $key ] = $this->session;
+        $_SESSION[ $this->prefix ] = $this->session;
 
 		return $this->session;
 	}
+
+    /**
+     * Set a session variable.
+     *
+     * @since 2.9.9
+     * @param string $key
+     * @param mixed $value
+     * @return mixed
+     */
+    public function set( $key, $value ) {
+        $this->session[$key] = $value;
+    }
+
+    /**
+     * Get a session variable.
+     *
+     * @since 2.9.9
+     * @param string $key
+     * @return mixed
+     */
+    public function get( $key ) {
+        return $this->session[$key];
+    }
 
 
 	/**

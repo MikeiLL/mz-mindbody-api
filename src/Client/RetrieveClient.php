@@ -1,11 +1,11 @@
 <?php
 namespace MZoo\MzMindbody\Client;
 
-use MZoo\MzMindbody\Core as Core;
-use MZoo\MzMindbody\Common as Common;
-use MZoo\MzMindbody\Libraries as Libraries;
-use MZoo\MzMindbody\Schedule as Schedule;
-use MZoo\MzMindbody\Common\Interfaces as Interfaces;
+use MZoo\MzMindbody\Core;
+use MZoo\MzMindbody\Common;
+use MZoo\MzMindbody\Libraries;
+use MZoo\MzMindbody\Schedule;
+use MZoo\MzMindbody\Common\Interfaces;
 use MZoo\MzMindbody as NS;
 
 /*
@@ -75,6 +75,9 @@ class RetrieveClient extends Interfaces\Retrieve {
     public function __construct(){
         $this->date_format = Core\MzMindbodyApi::$date_format;
         $this->time_format = Core\MzMindbodyApi::$time_format;
+        // Ensure we have a valid token.
+        $token_mgmt = new Common\TokenManagement();
+        $token_mgmt->serve_token();
     }
 
     /**

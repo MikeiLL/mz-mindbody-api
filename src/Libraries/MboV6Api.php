@@ -101,6 +101,7 @@ class MboV6Api extends MboApi {
 			if ( ! empty( $mbo_dev_credentials['mz_mbo_api_key'] ) ) {
 				$this->headers_basic['Api-Key'] = $mbo_dev_credentials['mz_mbo_api_key'];
 			}
+			// TODO Remove following? Not used in MBO v6.
 			if ( ! empty( $mbo_dev_credentials['mz_mbo_app_name'] ) ) {
 				$this->headers_basic['User-Agent'] = $mbo_dev_credentials['mz_mbo_app_name'];
 			}

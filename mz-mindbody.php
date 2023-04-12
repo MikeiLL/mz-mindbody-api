@@ -24,7 +24,6 @@
  * Text Domain:     mz-mindbody-api
  * Domain Path:     /languages
  */
-
 namespace MZoo\MzMindbody;
 
 use MZoo\MzMindbody as NS;

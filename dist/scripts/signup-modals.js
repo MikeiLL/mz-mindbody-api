@@ -241,6 +241,7 @@
 
     $(document).on('click', "a[data-target=mzSignUpModal]", function (ev) {
       ev.preventDefault();
+      console.log(mz_mindbody_schedule.mbo_oauth_url);
       window.open(mz_mindbody_schedule.mbo_oauth_url, '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');
       mz_mbo_state.classID = ev.target.dataset['classid'];
       /* mz_mbo_state.initialize(this);

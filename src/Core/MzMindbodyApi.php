@@ -213,9 +213,9 @@ class MzMindbodyApi {
 	 * Initialize and define the core functionality of the plugin.
 	 */
 	public function __construct() {
-		echo "Instantiating MzMindbodyApi<pre>";
+		/* echo "Instantiating MzMindbodyApi<pre>";
 		print_r(debug_print_backtrace());
-		echo "</pre>";
+		echo "</pre>"; */
 
 		$this->plugin_name        = NS\PLUGIN_NAME;
 		$this->version            = NS\PLUGIN_VERSION;
@@ -223,6 +223,7 @@ class MzMindbodyApi {
 		$this->plugin_text_domain = 'mz-mindbody-api';
 
 		self::$basic_options           = get_option( 'mz_mbo_basic', 'Error: No Basic Options' );
+        // Following two items are for child plugin, Mindbody Authentication.
 		self::$oauth_options           = get_option( 'oauth_options', [] );
 		self::$use_oauth               = (!empty(self::$oauth_options['mz_mindbody_client_id']) && !empty(self::$oauth_options['mz_mindbody_client_secret']));
 		self::$events_options          = get_option( 'mz_mbo_events', [] );
@@ -233,7 +234,7 @@ class MzMindbodyApi {
 		self::$date_format             = empty( self::$advanced_options['date_format'] ) ? get_option( 'date_format' ) : self::$advanced_options['date_format'];
 		self::$time_format             = empty( self::$advanced_options['time_format'] ) ? get_option( 'time_format' ) : self::$advanced_options['time_format'];
 		self::$start_of_week           = get_option( 'start_of_week' );
-		$this->session = Session\MzPhpSession::instance();
+		$this->session                 = (new Session\MzPhpSession)->init();
 
 		$this->load_dependencies();
 		$this->set_locale();
@@ -488,7 +489,9 @@ class MzMindbodyApi {
 			);
 
 			/*
-			If a client that is logging in doesn't have an OAuth login but a local login, then they will be asked to verify their email. Once they verify the email it will then create that OAuth login for them.
+			If a client that is logging in doesn't have an OAuth login but a local login,
+            then they will be asked to verify their email. Once they verify the email it
+            will then create that OAuth login for them.
 			*/
 			if (!empty($_POST['id_token']) &&
 					!empty($_POST['scope']) &&
@@ -540,7 +543,7 @@ class MzMindbodyApi {
 							'blocking'      		=> true,
 							'headers'       		=> [
 								'API-Key' 			=> $basic_options['mz_mbo_api_key'],
-								'Authorization' => 'Bearer ' . $response_body->access_token
+								'Authorization'     => 'Bearer ' . $response_body->access_token
 							],
 							'body'          		=> [
 								'isTestData'     	=> 'true',
