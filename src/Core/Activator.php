@@ -42,7 +42,7 @@ class Activator {
 
 		// Get token right now.
 		$token_object = new Common\TokenManagement();
-		$token_object->get_and_save_token();
+		$token_object->get_and_save_staff_token();
 
 		// Set default advanced options.
 		// If completely empty set all.

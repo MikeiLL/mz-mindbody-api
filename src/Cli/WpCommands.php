@@ -60,7 +60,7 @@ class WpCommands extends \WP_CLI_Command {
    */
   function fetch_new_token() {
 		$admin = new \MZoo\MzMindbody\Admin\Admin;
-		$message = $admin->get_and_save_token();
+		$message = $admin->get_and_save_staff_token();
     \WP_CLI::line( $message );
   }
 

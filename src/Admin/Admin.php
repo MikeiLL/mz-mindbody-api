@@ -106,8 +106,8 @@ class Admin {
 		$params = array(
 			'ajaxurl'                   => admin_url( 'admin-ajax.php', $protocol ),
 			'admin_nonce'               => wp_create_nonce( 'mz_admin_nonce' ),
-			// Used in ajax_get_and_save_token below.
-			'get_save_token_nonce'      => wp_create_nonce( 'mz_mbo_get_and_save_token' ),
+			// Used in ajax_get_and_save_staff_token below.
+			'get_save_token_nonce'      => wp_create_nonce( 'mz_mbo_get_and_save_staff_token' ),
 			// Used in clear_plugin_transients below.
 			'clear_transients_nonce'    => wp_create_nonce( 'ajax_clear_plugin_transients' ),
 			// Used in cancel_excess_api_alerts below.
@@ -381,13 +381,13 @@ class Admin {
 	 *
 	 * @since 2.7.5
 	 */
-	public function ajax_get_and_save_token() {
+	public function ajax_get_and_save_staff_token() {
 		// Generated in localize_script() above.
-		check_admin_referer( 'mz_mbo_get_and_save_token', 'nonce' );
+		check_admin_referer( 'mz_mbo_get_and_save_staff_token', 'nonce' );
 
 		$result['type'] = 'success';
 
-		$result['message'] = $this->get_and_save_token();
+		$result['message'] = $this->get_and_save_staff_token();
 
 		if ( ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) &&
 			'xmlhttprequest' === strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ) {
@@ -430,12 +430,12 @@ class Admin {
 	 *
 	 * @since 2.9.3
 	 *
-	 * @return array, message including token string from token get_and_save_token method.
+	 * @return array, message including token string from token get_and_save_staff_token method.
 	 */
-	public function get_and_save_token() {
+	public function get_and_save_staff_token() {
 
 		$token_object = new Common\TokenManagement();
-		$token = $token_object->get_and_save_token();
+		$token = $token_object->get_and_save_staff_token();
 
 		$result = sprintf(
 				// translators: Show the token string.

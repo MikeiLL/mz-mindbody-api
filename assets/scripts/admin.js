@@ -80,7 +80,7 @@
                 dataType: "json",
                 context: this,
                 url: mz_mindbody_schedule.ajaxurl,
-                data: { action: 'mz_mbo_get_and_save_token', nonce: get_save_token_nonce },
+                data: { action: 'mz_mbo_get_and_save_staff_token', nonce: get_save_token_nonce },
                 success: function (json) {
                     if (json.type == "success") {
                         alert(" New token retrieved and saved: " + json.message);

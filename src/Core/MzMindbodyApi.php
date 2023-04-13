@@ -332,8 +332,8 @@ class MzMindbodyApi {
 		$this->loader->add_action( 'wp_ajax_mz_mbo_excess_api_alerts', $admin_object, 'ajax_cancel_excess_api_alerts' );
 
 		// Start Ajax New Token.
-		$this->loader->add_action( 'wp_ajax_nopriv_mz_mbo_get_and_save_token', $admin_object, 'ajax_get_and_save_token' );
-		$this->loader->add_action( 'wp_ajax_mz_mbo_get_and_save_token', $admin_object, 'ajax_get_and_save_token' );
+		$this->loader->add_action( 'wp_ajax_nopriv_mz_mbo_get_and_save_staff_token', $admin_object, 'ajax_get_and_save_staff_token' );
+		$this->loader->add_action( 'wp_ajax_mz_mbo_get_and_save_staff_token', $admin_object, 'ajax_get_and_save_staff_token' );
 
 		// Start Ajax Creds Tests.
 		$this->loader->add_action( 'wp_ajax_nopriv_mz_mbo_test_credentials', $admin_object, 'test_credentials' );
@@ -388,7 +388,7 @@ class MzMindbodyApi {
 		$this->loader->add_action('wp_ajax_mz_check_client_logged', $client_portal, 'ajax_check_client_logged');
 
 		// Call api hourly to retrieve AccessToken.
-		$this->loader->add_action( 'fetch_mbo_access_token', $token_object, 'get_and_save_token', 10, 2 );
+		$this->loader->add_action( 'fetch_mbo_access_token', $token_object, 'get_and_save_staff_token', 10, 2 );
 	}
 
 
