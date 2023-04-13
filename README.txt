@@ -206,7 +206,7 @@ Bugfix: Stop importing sign-up script that was calling a non-existent method.
 Bugfix: Alphanumeric validity check was targeting object rather than string.
 
 = v2.6.3 =
-Bugfix: get_and_save_token from private to public to hook accessible.
+Bugfix: get_and_save_staff_token from private to public to hook accessible.
 Update npm dependencies as per DependaBot.
 
 = v2.6.2 =
