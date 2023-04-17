@@ -61,21 +61,6 @@ abstract class ShortcodeScriptLoader extends ShortcodeLoader {
 			return "Check your config settings. Site ID is not set.";
 		}
 
-		$client = new \MZoo\MzMindbody\Client\RetrieveClient();
-		$fields = $client->get_signup_form_fields();
-		echo "<dialog id=studio_registration_form>";
-		echo "<h3>" . __("Looks like you aren't registered with our studio.", "mz-mindbody-api") . "</h3>";
-		echo "<form method=POST>";
-		echo "<ul>";
-		foreach($fields as $f){
-			echo '<li>';
-				echo $f . ' <input name="' . $f . '" REQUIRED>';
-			echo '</li>';
-		}
-		echo "</ul>";
-		echo '<input type=hidden name="mz_mbo_action" value="true">';
-		echo '<input type=SUBMIT value="' . __("Register Now", "mz-mindbody-api") . '">';
-		echo "</form></dialog>";
 		return $this->handle_shortcode( $atts, $content );
 	}
 
