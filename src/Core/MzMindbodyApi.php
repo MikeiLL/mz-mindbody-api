@@ -195,15 +195,6 @@ class MzMindbodyApi {
 	 * Use Oauth
 	 *
 	 * @since 2.9.9
-	 * @var    $use_oauth boolean
-	 * @access public
-	 */
-	public static $use_oauth;
-
-	/**
-	 * Use Oauth
-	 *
-	 * @since 2.9.9
 	 * @var    $client_portal ClientPortal
 	 * @access public
 	 */
@@ -225,7 +216,6 @@ class MzMindbodyApi {
 		self::$basic_options           = get_option( 'mz_mbo_basic', 'Error: No Basic Options' );
         // Following two items are for child plugin, Mindbody Authentication.
 		self::$oauth_options           = get_option( 'oauth_options', [] );
-		self::$use_oauth               = (!empty(self::$oauth_options['mz_mindbody_client_id']) && !empty(self::$oauth_options['mz_mindbody_client_secret']));
 		self::$events_options          = get_option( 'mz_mbo_events', [] );
 		self::$advanced_options        = get_option( 'mz_mbo_advanced', ['api_call_limit' => 2000, 'elect_display_substitutes' => 'off'] );
 		self::$mz_mbo_api_calls        = get_option( 'mz_mbo_api_calls', ['calls' => 2000]);

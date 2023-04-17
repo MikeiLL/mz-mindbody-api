@@ -36,9 +36,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Define Constants
- *
- * TODO consider using const instead
- * see: https://stackoverflow.com/questions/18247726/php-define-constants-inside-namespace-clarification
  */
 
 define( __NAMESPACE__ . '\NS', __NAMESPACE__ . '\\' );

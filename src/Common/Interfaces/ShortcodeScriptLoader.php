@@ -63,7 +63,7 @@ abstract class ShortcodeScriptLoader extends ShortcodeLoader {
 
 		$client = new \MZoo\MzMindbody\Client\RetrieveClient();
 		$fields = $client->get_signup_form_fields();
-		echo "<dialog id=studio_registration_form open>";
+		echo "<dialog id=studio_registration_form>";
 		echo "<h3>" . __("Looks like you aren't registered with our studio.", "mz-mindbody-api") . "</h3>";
 		echo "<form method=POST>";
 		echo "<ul>";

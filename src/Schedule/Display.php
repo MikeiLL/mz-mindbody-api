@@ -186,17 +186,6 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 	public $hide;
 
 	/**
-	* Whether to use Oauth interface (or link to MBO site)
-	*
-	* @since  2.4.7
-	* @access public
-	*
-	* @used in handle_shortcode, display_schedule
-	* @var  array    $use_oauth    Which elements to not display in schedule.
-	*/
- public $use_oauth;
-
-	/**
 	 * Handle Shortcode
 	 *
 	 * Bulk of the work happens here, and in the similar function below which does
@@ -238,8 +227,6 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 
 		// Set siteID to option if not set explicitly in shortcode.
 		$this->site_id = ( isset( $atts['account'] ) ) ? $atts['account'] : Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
-
-		$this->use_oauth = Core\MzMindbodyApi::$use_oauth;
 
 		$this->class_modal_link = NS\PLUGIN_NAME_URL . 'src/Frontend/views/modals/modal_descriptions.php';
 
@@ -389,7 +376,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 			'horizontal_schedule'  => $horizontal_schedule,
 			'grid_schedule'        => $grid_schedule,
 		);
-
+echo '<pre>';var_dump($_SESSION);echo '</pre>';
 		$template_loader->set_template_data( $this->template_data );
 		$template_loader->get_template_part( 'schedule_container' );
 
@@ -419,13 +406,6 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 			wp_register_script( 'mz_display_schedule_script', NS\PLUGIN_NAME_URL . 'dist/scripts/schedule-display.js', array( 'jquery', 'mz_mbo_bootstrap_script' ), NS\PLUGIN_VERSION, true );
 			wp_enqueue_script( 'mz_display_schedule_script' );
 
-			if(true === $this->use_oauth) {
-
-				wp_register_script( 'mz_signup_modals_script', NS\PLUGIN_NAME_URL . 'dist/scripts/signup-modals.js', array( 'jquery', 'mz_mbo_bootstrap_script' ), NS\PLUGIN_VERSION, true );
-				wp_enqueue_script( 'mz_signup_modals_script' );
-
-			}
-
 			if ( 1 === (int) $this->atts['filter'] ) :
 				wp_register_script( 'filterTable', NS\PLUGIN_NAME_URL . 'dist/scripts/mz_filtertable.js', array( 'jquery', 'mz_display_schedule_script' ), NS\PLUGIN_VERSION, true );
 				wp_enqueue_script( 'filterTable' );
@@ -453,18 +433,6 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 
 		$translated_strings = NS\MZMBO()->i18n->get();
 
-		$oauth_options = get_option('oauth_options');
-
-		$mbo_oauth_url_body = [
-			'response_mode' => 'form_post',
-			'response_type' => 'code id_token',
-			"scope" => "email openid profile Platform.Contacts.Api.Write Platform.Contacts.Api.Read Platform.Accounts.Api.Read Mindbody.Api.Public.v6 Platform.ProductInventory.Api.Read Platform.ProductInventory.Api.Write",
-			'client_id'              => $oauth_options['mz_mindbody_client_id'],
-			'redirect_uri'           => home_url(),
-			'nonce'                  => wp_create_nonce( 'mz_mbo_authenticate_with_api' ),
-			'subscriberId'	         => Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID']
-		];
-
 		$params = array(
 			'ajaxurl'                => admin_url( 'admin-ajax.php', $protocol ),
 			// Used in display_schedule below.
@@ -480,7 +448,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 			'error'                  => __( 'Sorry but there was an error retrieving the schedule.', 'mz-mindbody-api' ),
 			'sub_by_text'            => __( 'substitute for', 'mz-mindbody-api' ),
 			'no_bio'                 => __( 'No biography listed for this staff member.', 'mz-mindbody-api' ),
-			'filter_default'         => __( 'by teacher, class type', 'mz-mindbody-api' ),
+			'filter_default'          => __( 'by teacher, class type', 'mz-mindbody-api' ),
 			'quick_1'                => __( 'morning', 'mz-mindbody-api' ),
 			'quick_2'                => __( 'afternoon', 'mz-mindbody-api' ),
 			'quick_3'                => __( 'evening', 'mz-mindbody-api' ),
@@ -488,13 +456,12 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 			'selector'               => __( 'All Locations', 'mz-mindbody-api' ),
 			'login'                  => $translated_strings['login'],
 			'signup'                 => $translated_strings['sign_up'],
-			'confirm_signup'         => $translated_strings['confirm_signup'],
+			'confirm_signup'          => $translated_strings['confirm_signup'],
 			'logout'                 => $translated_strings['logout'],
 			'signup_heading'         => $translated_strings['signup_heading'],
 			'Locations_dict'         => wp_json_encode( $locations_dictionary ),
 			'site_id'                => $this->site_id,
 			'location'               => $this->studio_location_id,
-			'mbo_oauth_url'          => "https://signin.mindbodyonline.com/connect/authorize?" . http_build_query($mbo_oauth_url_body),
 		);
 		wp_localize_script( 'mz_display_schedule_script', 'mz_mindbody_schedule', $params );
 	}
