@@ -19122,8 +19122,7 @@ __webpack_require__(/*! ../index.js */ "./index.js");
 
 (function ($) {
   $(document).ready(function ($) {
-    console.log("staff popup"); // Some colorbox global settings
-
+    // Some colorbox global settings
     $.colorbox.settings.width = $(window).innerWidth() <= 500 ? '95%' : '75%';
     $.colorbox.settings.height = '75%';
     /** Colorbox resize function
@@ -19149,7 +19148,6 @@ __webpack_require__(/*! ../index.js */ "./index.js");
     window.addEventListener("orientationchange", resizeColorBox, false);
     $(document).on('click', "a[data-target=mzStaffModal]", function (e) {
       e.preventDefault();
-      console.log("mzStaffModal");
       var target = $(this).attr("href");
       var staffBio = decodeURIComponent($(this).attr('data-staffBio'));
       var staffName = $(this).attr('data-staffName');

@@ -48,13 +48,6 @@ class MboApi {
 		foreach($_POST as $k=>$v) {
 			$contactProps[] = ['name' => $k, 'value' => $v];
 		}
-		echo "register_user_with_studio 1<pre>";
-		var_dump($_SESSION);
-		echo "</pre>";
-		echo "register_user_with_studio 1<pre>";
-		echo debug_print_backtrace();
-		echo "</pre>";
-
 		$request_body = array(
 			'method'        		=> 'POST',
 			'timeout'       		=> 55,

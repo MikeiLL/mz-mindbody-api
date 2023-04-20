@@ -376,7 +376,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 			'horizontal_schedule'  => $horizontal_schedule,
 			'grid_schedule'        => $grid_schedule,
 		);
-echo '<pre>';var_dump($_SESSION);echo '</pre>';
+
 		$template_loader->set_template_data( $this->template_data );
 		$template_loader->get_template_part( 'schedule_container' );
 

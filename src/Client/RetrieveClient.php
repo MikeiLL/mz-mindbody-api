@@ -174,23 +174,28 @@ class RetrieveClient extends Interfaces\Retrieve {
      *
      * since: 2.5.7
      *
+     * @param bool $fill_defaults whether to fill in defaults
      * return array numeric array of required fields
      */
-    public function get_signup_form_fields(){
+    public function get_signup_form_fields( $fill_defaults = false ){
 
-		if ( false === get_transient( 'required_mbo_fields' ) ) {
+		if ( true || false === get_transient( 'required_mbo_fields' ) ) {
 			$this->get_mbo_results();
 
             $requiredFields = $this->mb->GetRequiredClientFields();
-            $default_required_fields = [
-                "Email",
-                "FirstName",
-                "LastName"
-            ];
 
-            $fields = array_merge($default_required_fields, $requiredFields['RequiredClientFields']);
+            if (true == $fill_defaults) {
+
+                $default_required_fields = [
+                    "Email",
+                    "FirstName",
+                    "LastName"
+                ];
+
+                $requiredFields = array_merge($default_required_fields, $requiredFields['RequiredClientFields']);
+            }
 			// Store the transient for 12 hours or admin set duration.
-			set_transient( 'required_mbo_fields', $fields, 43200 );
+			set_transient( 'required_mbo_fields', $requiredFields['RequiredClientFields'], 43200 );
 		}
 
         return get_transient( 'required_mbo_fields' );
