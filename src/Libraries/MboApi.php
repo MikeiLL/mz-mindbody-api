@@ -40,43 +40,6 @@ class MboApi {
 	private $atts;
 
 	/**
-	 * Register User with Studio
-	 */
-	public function register_user_with_studio(){
-		echo "<h2>REGISTERING YOU WITH STUDIO.</h2>";
-		$contactProps = [];
-		foreach($_POST as $k=>$v) {
-			$contactProps[] = ['name' => $k, 'value' => $v];
-		}
-		$request_body = array(
-			'method'        		=> 'POST',
-			'timeout'       		=> 55,
-			'httpversion'   		=> '1.0',
-			'blocking'      		=> true,
-			'headers'       		=> [
-				'API-Key' 				=> Core\MzMindbodyApi::$basic_options['mz_mbo_api_key'],
-				'Authorization'		    => 'Bearer ' . $this->session->get( 'MBO_Public_Oauth_Token' )->AccessToken,
-				'Content-Type'		    => 'application/json',
-				'businessId'            => Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'],
-			],
-			'body'					=> json_encode([
-					"userId" => $this->session->get('MBO_Universal_ID'),
-					"contactProperties" => $contactProps
-					]),
-			'redirection' 			=> 0,
-			'cookies'						=> array()
-			);
-
-			// This will create a Studio Specific Account for user based on MBO Universal Account
-			$response = wp_remote_request(
-				"https://api.mindbodyonline.com/platform/contacts/v1/profiles",
-				$request_body
-			);
-	}
-
-
-
-	/**
 	 * Track API requests per day
 	 *
 	 * There is a 1000 call limit per day on MBO, per location.
