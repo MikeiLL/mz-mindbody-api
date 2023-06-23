@@ -175,7 +175,20 @@ class RetrieveClient extends Interfaces\Retrieve {
      * since: 2.5.7
      *
      * @param bool $fill_defaults whether to fill in defaults
-     * return array numeric array of required fields
+     *
+     * NOTE: Necessary when making request to the Platform Api to prevent 401 based on:
+     *
+     * "The documentation on that endpoint is not totally accurate.
+     * The "businessId" should be used in the body of the request instead of the Header.
+     * Leaving that out of the request body will return an error about the business ID.
+     * Another thing that we found during testing is that passing information from the
+     * Identity account, email, first name, last name, also seems to return an error.
+     * That information should populate automatically, so the request would only need
+     * the required fields that the business asks for, such as "address_line_1", "state",
+     * "city", and "postal_code". The property "names" will be underscored like that
+     * and be all lower case.
+     *
+     * @return array numeric array of required fields
      */
     public function get_signup_form_fields( $fill_defaults = false ){
 
