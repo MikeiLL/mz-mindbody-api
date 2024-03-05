@@ -67,6 +67,9 @@ You need to register a developer account with MindBody, which costs $11+ per web
 
 == Changelog ==
 
+= v2.10.0 =
+Log and return error string if MBO token request response code > 299.
+
 = v2.9.9 =
 Migrate Session management from MBO Access plugin.
 Add support for Consumer API and Oauth via extension plugin.
