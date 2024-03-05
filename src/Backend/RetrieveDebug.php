@@ -60,14 +60,12 @@ class RetrieveDebug extends Interfaces\Retrieve {
 			return $mb;
 		}
 
-		if ( false !== $version_five ) {
-			try {
-				$this->classes = $mb->GetClasses( $this->time_frame() );
-			} catch ( \Exception $e ) {
-				$details = __( 'Check Max number of daily API calls in the Advanced tab.', 'mz-mindbody-api' );
-				return '<div class="notice notice-error settings-error">' . $e->getMessage() . ' ' . $details . '</div>';
-			}
-		}
+        try {
+            $this->classes = $mb->GetClasses( $this->time_frame() );
+        } catch ( \Exception $e ) {
+            $details = __( 'Check Max number of daily API calls in the Advanced tab.', 'mz-mindbody-api' );
+            return '<div class="notice notice-error settings-error">' . $e->getMessage() . ' ' . $details . '</div>';
+        }
 
 		return $mb->debug();
 	}
