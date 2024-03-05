@@ -318,7 +318,7 @@ class MboV6Api extends MboApi {
 			$error_message = $response->get_error_message();
 			return 'Something went wrong with token request: ' . $error_message;
 		} else {
-            if (int($response['response']['code']) > 299) {
+            if ((int) $response['response']['code'] > 299) {
                 NS\MZMBO()->helpers->log(['RESPONSE ERROR', $response['response']]);
                 return 'Something went wrong with token request: ' . $response['response']['message'];
             }
