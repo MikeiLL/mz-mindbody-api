@@ -49,6 +49,8 @@ class Helpers {
 	 * Helper function to write strings or arrays to a file.
 	 *
 	 * @since 1.0.0
+     *
+     * Use like NS\MZMBO()->helpers->log( $message, $file_path );
 	 *
 	 * @param mixed  $message string|array|object the content to be written to file.
 	 * @param string $file_path optional path to write file to.
