@@ -318,6 +318,10 @@ class MboV6Api extends MboApi {
 			$error_message = $response->get_error_message();
 			return 'Something went wrong with token request: ' . $error_message;
 		} else {
+            if ($response['response']['code'] > 200) {
+                NS\MZMBO()->helpers->log(['RESPONSE ERROR', $response['response']]);
+                return 'Something went wrong with token request: ' . $response['response']['message'];
+            }
 			$response_body = json_decode( $response['body'] );
 			// @codingStandardsIgnoreStart naming convensions 'Error'
 			if ( property_exists( $response_body, 'Error' ) && strpos( $response_body->Error->Message, 'Please try again' ) ) {
