@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: mindbody, schedule, calendar, yoga, MBO, mindbodyonline, gym, parkour, mbo, mindbodyonline.
 Requires at least: 5.3
 Tested up to: 6.2.2
-Stable tag: 2.9.9
+Stable tag: 2.10.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,6 +66,9 @@ You need to register a developer account with MindBody, which costs $11+ per web
 5. Admin Page
 
 == Changelog ==
+
+= v2.10.0 =
+Log and return error string if MBO token request response code > 299.
 
 = v2.9.9 =
 Migrate Session management from MBO Access plugin.
