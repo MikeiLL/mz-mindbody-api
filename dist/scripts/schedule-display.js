@@ -246,7 +246,7 @@
       var staffName = $(this).attr('data-staffName');
       var staffImage = $(this).attr('data-staffImage');
       var className = $(this).attr("data-className");
-      var classID = $(this).attr("data-classID");
+      var classID = $(this).attr("data-classid");
       var nonce = $(this).attr("data-nonce");
       var popUpContent = '<div class="mz-classInfo">';
       var subText = $(this).attr("data-sub") !== undefined ? '<span class="sub-text">' + mz_mindbody_schedule.sub_by_text + '</span>' + ' ' : ' ';

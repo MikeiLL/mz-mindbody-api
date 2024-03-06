@@ -187,7 +187,7 @@
         context: this,
         url: mz_mindbody_schedule.ajaxurl,
         data: {
-          action: 'mz_mbo_get_and_save_staff_token_token',
+          action: 'mz_mbo_get_and_save_staff_token',
           nonce: get_save_token_nonce
         },
         success: function success(json) {
