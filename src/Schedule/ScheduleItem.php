@@ -555,7 +555,9 @@ class ScheduleItem {
 				$link_array['class']                 = 'modal-toggle mz_get_registrants ' . sanitize_html_class( $this->class_name, 'mz_class_name' );
 				$link_array['text']                  = $this->class_name;
 				$link_array['data-target']           = 'mzModal';
+                $link_array['data-classid'] = $this->ID;
 
+                // TODO perhaps support more than one truthy value for show_registrants.
 				if ( isset( $this->atts['show_registrants'] ) && ( 1 === (int) $this->atts['show_registrants'] ) ) {
 					// Used in Schedule\RetrieveRegistrants.
 					$link_array['data-nonce']   = wp_create_nonce( 'mz_mbo_get_registrants' );
@@ -568,7 +570,7 @@ class ScheduleItem {
 			case 'signup':
 				$link_array['class'] = 'btn btn-primary';
 				$link_array['title'] = apply_filters( 'mz_mbo_registrations_available', __( 'Registrations Available', 'mz-mindbody-api' ) );
-				$link_array['data-classID'] = $this->ID;
+				$link_array['data-classid'] = $this->ID;
 
 				if ( ! empty( $this->max_capacity ) && $this->total_booked >= $this->max_capacity ) :
 					if ( false === $this->is_waitlist_available ) :
