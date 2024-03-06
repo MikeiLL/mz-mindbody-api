@@ -13,7 +13,6 @@ module.exports = {
 		'events-display': './scripts/events-display.js',
 		mz_filtertable: './scripts/jquery.filtertable.mz.js',
 		'schedule-display': './scripts/schedule-display.js',
-		'signup-modals': './scripts/signup-modals.js',
 		'staff_popup': './scripts/staff_popup.js',
 	  },
   output: {
