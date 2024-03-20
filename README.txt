@@ -67,6 +67,9 @@ You need to register a developer account with MindBody, which costs $11+ per web
 
 == Changelog ==
 
+= v2.10.2 =
+bugfix: show registrants hadn't been working because data-classid was missing.
+
 = v2.10.1 =
 Fix: dumb, wrong syntax for casting string to int.
 
