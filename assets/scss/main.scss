@@ -500,3 +500,43 @@ ul.mz-classRegistrants li {
 .cboxIE #cboxMiddleRight {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#00FFFFFF, endColorstr=#00FFFFFF);
 }
+
+#mzStudioRegisterForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#mzStudioRegisterForm label {
+  display: flex;
+  justify-content: space-around;
+  margin: 1em 0;
+}
+
+#mzStudioRegisterForm label span {
+  flex: 1;
+}
+
+#mzStudioRegisterForm input {
+  flex: 2;
+}
+
+#mzStudioRegisterForm fieldset {
+  margin: 1em;
+  max-width: 800px;
+  min-width: 400px;
+}
+
+#registerheading {
+  margin: 0 auto;
+  font-size: 1.5em;
+  text-align: center;
+}
+
+#registernotice {
+  margin: 0 auto;
+  font-size: 1.1em;
+  text-align: center;
+  padding: 1em;
+  border: 1px solid #ccc;
+}
