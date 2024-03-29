@@ -383,6 +383,7 @@ class Admin {
 	 */
 	public function ajax_get_and_save_staff_token() {
 		// Generated in localize_script() above.
+        // NS\MZMBO()->helpers->log( 'ajax_get_and_save_staff_token landed' );
 		check_admin_referer( 'mz_mbo_get_and_save_staff_token', 'nonce' );
 
 		$result['type'] = 'success';

@@ -260,7 +260,7 @@ class MboV6Api extends MboApi {
 
 		if ( is_wp_error( $response ) ) {
 			$error_message = $response->get_error_message();
-			return 'Something went wrong: ' . $error_message;
+			return 'Something went wrong. Error: ' . $error_message;
 		} else {
 			$response_body = json_decode( $response['body'], true );
 

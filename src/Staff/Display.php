@@ -112,7 +112,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 			$mz_staff_list = $this->staff_object->sort_staff_by_sort_order( $this->atts );
 		else :
 			NS\MZMBO()->helpers->print( $this->staff_object );
-			die( 'Something went wrong.' );
+			die( 'Something went wrong. Check the server for staff object' );
 		endif;
 
 		// Add Style with script adder.

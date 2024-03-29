@@ -249,7 +249,6 @@ class ClientPortal extends RetrieveClient {
                 'additions' => $additions,
                 'signupData'   => $signupData
             ];
-            NS\MZMBO()->helpers->log(array($this->clientID => $debug_data));
         endif;
 
         if ( $signupData['AddClientsToClassesResult']['ErrorCode'] != 200 ) {
@@ -413,21 +412,19 @@ class ClientPortal extends RetrieveClient {
                 $params['data']['Client']['BirthDate'] = date('c', strtotime($params['data']['Client']['BirthDate']));
             }
 
-            $options = array(
-                'Clients' => array(
-                    'Client' => $params['data']['Client']
-                )
-            );
-
-            //NS\MZMBO()->helpers->print($options);
-            //$options = $this->mb->FunctionDataXml($options);
-            $signupData = $this->mb->AddOrUpdateClients($options);
+            //NS\MZMBO()->helpers->log($params);
+            $signupData = $this->mb->AddClient($params['data']['Client']);
 
             // echo $this->mb->debug();
 
-            if($signupData['AddOrUpdateClientsResult']['Clients']['Client']['Action'] == 'Added') {
+            if(array_key_exists('Client', $signupData)) {
 
-                $validateLogin = $this->mb->ValidateLogin(array(
+				echo '<h3>' . __('Congratulations. You are now logged in with your new Mindbody account.', 'mz-mindbody-api') . '</h3>';
+				echo "<pre>";
+				print_r($signupData);
+				echo "</pre>";
+
+                /* $validateLogin = $this->mb->ValidateLogin(array(
                     'Username' => $params['data']['Client']['Username'],
                     'Password' => $params['data']['Client']['Password']
                 ));
@@ -442,13 +439,14 @@ class ClientPortal extends RetrieveClient {
 
                 } else {
                     NS\MZMBO()->helpers->print($validateLogin);
-                }
+                } */
 
-            } else if ($signupData['AddOrUpdateClientsResult']['Clients']['Client']['Action'] == 'Failed'){
+            } else { /* if ($signupData['AddOrUpdateClientsResult']['Clients']['Client']['Action'] == 'Failed'){ */
 
-                foreach ($signupData['AddOrUpdateClientsResult']['Clients']['Client']['Messages']['string'] as $message):
-                    echo '<h3>' . $message . '</h3>';
-                endforeach;
+                echo '<h3>' . __('There was an error creating your account.', 'mz-mindbody-api') . '</h3>';
+				echo "<pre>";
+				print_r($signupData);
+				echo "</pre>";
 
                 echo '<a id="createMBOAccount" href="#" data-nonce="' . $_REQUEST['nonce'] . '" class="btn btn-primary mz_add_to_class">' . __("Try Again", "mz-mindbody-api") . '</a>';
             }

@@ -563,12 +563,15 @@ class ScheduleItem {
 				}
 				$link_array['data-staffImage'] = ( '' !== $this->staff_image ) ? $this->staff_image : '';
 				$link->set( 'href', NS\PLUGIN_NAME_URL . 'src/Frontend/views/modals/modal_descriptions.php' );
+				//$link->set( 'id', 'signUpForClass' );
 				break;
 
 			case 'signup':
 				$link_array['class'] = 'btn btn-primary';
 				$link_array['title'] = apply_filters( 'mz_mbo_registrations_available', __( 'Registrations Available', 'mz-mindbody-api' ) );
 				$link_array['data-classID'] = $this->ID;
+				$link_array['data-className'] = $this->class_name;
+				$link_array['data-staffName'] = $this->staff_name;
 
 				if ( ! empty( $this->max_capacity ) && $this->total_booked >= $this->max_capacity ) :
 					if ( false === $this->is_waitlist_available ) :

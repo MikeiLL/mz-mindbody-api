@@ -74,6 +74,7 @@ class TokenManagement extends Interfaces\Retrieve {
 	 * @return AccessToken string as administered by MBO Api.
 	 */
 	public function get_mbo_results() {
+        // NS\MZMBO()->helpers->log( 'Getting token from MBO.' );
 
 		$mb = $this->instantiate_mbo_api();
 
@@ -82,6 +83,7 @@ class TokenManagement extends Interfaces\Retrieve {
 		}
 
 		$response = $mb->TokenIssue();
+        // NS\MZMBO()->helpers->log( print_r($response, true) );
         // @codingStandardsIgnoreStart naming conventions
 		if ( ! empty( $response->AccessToken ) ) {
 			return $response->AccessToken;
@@ -170,8 +172,10 @@ class TokenManagement extends Interfaces\Retrieve {
 	 * @return AccessToken string as administered by MBO Api.
 	 */
 	public function get_and_save_staff_token() {
+        // NS\MZMBO()->helpers->log( 'get_and_save_staff_token? ');
 
 		$token = $this->get_mbo_results();
+        // NS\MZMBO()->helpers->log( 'TOKEN? ' . print_r($token, true) );
 
 		$current = new \DateTime();
 		$current->format( 'Y-m-d H:i:s' );

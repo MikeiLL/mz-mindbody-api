@@ -72,7 +72,7 @@ class RetrieveClassOwners extends Interfaces\RetrieveClasses {
 
 		$owners = $this->populate_regularly_scheduled_classes( 'message' );
 
-		NS\MZMBO()->helpers->print( $owners );
+		//NS\MZMBO()->helpers->print( $owners );
 
 		$result['message'] = ob_get_clean();
 

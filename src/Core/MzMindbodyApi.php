@@ -449,22 +449,25 @@ class MzMindbodyApi {
 		$events_display = new Events\Display();
 		$events_display->register( 'mz-mindbody-show-events' );
 
-		add_shortcode('authenticate', function() {
+/* 		add_shortcode('authenticate', function() {
 
 
 
 
-			/*
-			object(stdClass)#1578 (6) {
-
-}*/
+			$body = [
+				'client_id' => 'f89a95cc-d6d5-470a-825b-93f707b88139',
+				'response_type' => 'code',
+				'scope' => 'email profile openid offline_access Mindbody.Api.Public.v6 PG.ConsumerActivity.Api.Read',
+				'redirect_uri' => home_url() . '/mzmbo/authenticate',
+				'nonce' => wp_create_nonce( 'mz_mbo_authenticate_with_api' )
+			];
 
 			?>
 	<a href="https://signin.mindbodyonline.com/connect/authorize?<?php echo http_build_query($body) ?>"?>Sign In</a>
 			<?php
 
 
-			/*
+
 			Array
             (
                 [code] => 4E3C7757C61596DE4E4C0CA4DCCBDB5800CEAC42C38A92C5EAEC6636EEC5001B-1
@@ -472,8 +475,8 @@ class MzMindbodyApi {
                 [scope] => offline_access PG.ConsumerActivity.Api.Read PG.ConsumerActivity.Api.Write email openid
                 [session_state] => h4OfU5Yx2dWNBBwM6SZKR05XpRUtQC6mE0Ow2c4fTNk.45FEE050899FC84ABF1223F7DB58D272
             )
-            */
-		}); // End of shortcode authenticate
+
+		}); // End of shortcode authenticate*/
 	}
 
 	/**
