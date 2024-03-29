@@ -130,14 +130,14 @@
           if (json.type == "success") {
             alert(json.message);
           } else {
-            alert('Something went wrong.');
+            console.log('Something went wrong clearing transients.');
           }
         }
       }) // End ajax
       .fail(function (json) {
         console.log('fail');
         console.log(json);
-        alert('Something went wrong.');
+        console.log('Something went wrong in clearing transients ajax.');
       });
     }); // End Clear Transients
 
@@ -160,16 +160,16 @@
         },
         success: function success(json) {
           if (json.type == "success") {
-            alert(json.message);
+            console.log(json.message);
           } else {
-            alert('Something went wrong.');
+            console.log('Something went wrong with excess api alert.');
           }
         }
       }) // End ajax
       .fail(function (json) {
         console.log('fail');
         console.log(json);
-        alert('Something went wrong.');
+        console.log('Something went wrong with excess api alert ajax.');
       });
     }); // End Clear Transients
 
@@ -180,6 +180,7 @@
      */
 
     $('#mzUpdateSiteToken').on('click', function (e) {
+      console.log('update site token');
       e.preventDefault();
       $.ajax({
         type: "post",
@@ -187,21 +188,21 @@
         context: this,
         url: mz_mindbody_schedule.ajaxurl,
         data: {
-          action: 'mz_mbo_get_and_save_staff_token_token',
+          action: 'mz_mbo_get_and_save_staff_token',
           nonce: get_save_token_nonce
         },
         success: function success(json) {
           if (json.type == "success") {
-            alert(" New token retrieved and saved: " + json.message);
+            console.log(" New token retrieved and saved: " + json.message);
           } else {
-            alert('Something went wrong.');
+            console.log('Something went wrong updating site token.');
           }
         }
       }) // End ajax
       .fail(function (json) {
         console.log('fail');
         console.log(json);
-        alert('Something went wrong.');
+        console.log('Something went wrong updating site token ajax call.');
       });
     }); // End Clear Transients
 
@@ -233,7 +234,7 @@
           } else {
             self.removeClass('disabled');
             $('#class_owners_spinner').remove();
-            alert('Something went wrong.');
+            console.log('Something went wrong getting class_owners.');
           }
         }
       }) // End ajax
@@ -242,7 +243,7 @@
         $('#class_owners_spinner').remove();
         console.log('fail');
         console.log(json);
-        alert('Something went wrong.');
+        console.log('Something went wrong in getting class_owners ajax.');
       });
     }); // End Clear Transients
 
@@ -274,7 +275,7 @@
           } else {
             self.removeClass('disabled');
             $('#class_owners_spinner').remove();
-            alert('Something went wrong.');
+            console.log('Something went wrong mz_mbo_test_credentials_v5.');
           }
         }
       }) // End ajax
@@ -283,7 +284,7 @@
         $('#class_owners_spinner').remove();
         console.log('fail');
         console.log(json);
-        alert('Something went wrong.');
+        console.log('Something went wrong mz_mbo_test_credentials_v5 ajax.');
       });
     }); // End Clear Transients
 
@@ -321,10 +322,10 @@
 
           if (json.type == "success") {
             console.log(json.message);
-            alert('Class Owners Matrix Reset');
+            console.log('Class Owners Matrix Reset');
           } else {
             console.log(json);
-            alert('Something went wrong.');
+            console.log('Something went wrong removing you from this class.');
           }
         }
       }) // End ajax
@@ -333,7 +334,7 @@
         $('#class_owners_spinner').remove();
         console.log('fail');
         console.log(json);
-        alert('Something went wrong.');
+        console.log('Something went wrong with remove from class ajax call.');
       });
       return false;
     });
