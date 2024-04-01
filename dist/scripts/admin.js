@@ -180,7 +180,6 @@
      */
 
     $('#mzUpdateSiteToken').on('click', function (e) {
-      console.log('update site token');
       e.preventDefault();
       $.ajax({
         type: "post",
@@ -193,7 +192,7 @@
         },
         success: function success(json) {
           if (json.type == "success") {
-            console.log(" New token retrieved and saved: " + json.message);
+            console.log(" New token " + json.message);
           } else {
             console.log('Something went wrong updating site token.');
           }

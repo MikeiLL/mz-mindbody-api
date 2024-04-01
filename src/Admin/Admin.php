@@ -382,8 +382,8 @@ class Admin {
 	 * @since 2.7.5
 	 */
 	public function ajax_get_and_save_staff_token() {
-		// Generated in localize_script() above.
         // NS\MZMBO()->helpers->log( 'ajax_get_and_save_staff_token landed' );
+		// Generated in localize_script() above.
 		check_admin_referer( 'mz_mbo_get_and_save_staff_token', 'nonce' );
 
 		$result['type'] = 'success';
@@ -438,15 +438,18 @@ class Admin {
 		$token_object = new Common\TokenManagement();
 		$token = $token_object->get_and_save_staff_token();
 
-		$result = sprintf(
+		$result = "";
+
+		// does it quack like a JWT?
+		if ( preg_match("/^[\w-]+\.[\w-]+\.[\w-]+$/", $token ) ) :
+			// translators: let user know that a new token was fetched and stored and display it.
+			$result = sprintf( __( 'Fetched and stored %s .', 'mz-mindbody-api' ), $token );
+		else:
+			$result = sprintf(
 				// translators: Show the token string.
 				__( 'Error getting token %s .', 'mz-mindbody-api' ),
 				$token
-		);
-
-		if ( ctype_alnum( $token ) ) :
-			// translators: let user know that a new token was fetched and stored and display it.
-			$result = sprintf( __( 'Fetched and stored %s .', 'mz-mindbody-api' ), $token );
+			);
 		endif;
 
 		return $result;

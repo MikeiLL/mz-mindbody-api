@@ -74,7 +74,6 @@
          *
          */
       $('#mzUpdateSiteToken').on('click', function (e) {
-          console.log('update site token');
             e.preventDefault();
             $.ajax({
                 type: "post",
@@ -84,7 +83,7 @@
                 data: { action: 'mz_mbo_get_and_save_staff_token', nonce: get_save_token_nonce },
                 success: function (json) {
                     if (json.type == "success") {
-                      console.log(" New token retrieved and saved: " + json.message);
+                      console.log(" New token " + json.message);
                     } else {
                       console.log('Something went wrong updating site token.');
                     }
