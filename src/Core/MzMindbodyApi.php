@@ -213,7 +213,7 @@ class MzMindbodyApi {
 		self::$date_format             = empty( self::$advanced_options['date_format'] ) ? get_option( 'date_format' ) : self::$advanced_options['date_format'];
 		self::$time_format             = empty( self::$advanced_options['time_format'] ) ? get_option( 'time_format' ) : self::$advanced_options['time_format'];
 		self::$start_of_week           = get_option( 'start_of_week' );
-		$this->session                 = (new Session\MzPhpSession)->init();
+		//$this->session                 = (new Session\MzPhpSession)->init();
 
 		$this->load_dependencies();
 		$this->set_locale();

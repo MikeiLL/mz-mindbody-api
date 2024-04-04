@@ -140,7 +140,6 @@ class MboV6Api extends MboApi {
 	 * @param array  $arguments used in API request.
 	 */
 	public function __call( $name, $arguments ) {
-
 		$rest_method = '';
 
 		foreach ( $this->api_methods as $api_service_name => $api_methods ) {

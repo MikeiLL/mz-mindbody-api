@@ -158,11 +158,11 @@ class ClientPortal extends RetrieveClient {
 
         $result['type'] = 'success';
 
-        if ( NS\MZMBO()->session->get('MBO_Client') ) {
+		$this->clientID = $_SESSION['MindbodyAuth']['MBO_USER_StudioProfile_ID'];
+
+        if ( isset($this->clientID) ) {
 
             $template_data = array();
-
-            $this->clientID = NS\MZMBO()->session->get('MBO_Client')['mbo_result']['Id'];
 
             $add_client_to_class_result = $this->add_client_to_class($_REQUEST['classID']);
 

@@ -78,6 +78,7 @@ class RetrieveClient extends Interfaces\Retrieve {
         // Ensure we have a valid token.
         $token_mgmt = new Common\TokenManagement();
         $token_mgmt->serve_token();
+		$this->mb = $this->instantiate_mbo_API();
     }
 
     /**
@@ -89,11 +90,11 @@ class RetrieveClient extends Interfaces\Retrieve {
      *
      * @return array - result type and message
      */
-    public function log_client_in( $credentials = ['username' => '', 'password' => ''] ){
+    public function log_client_in( $credentials = ['ClientId' => '', 'email' => ''] ){
 
-        $validateLogin = $this->validate_client($credentials);
+        $validateLogin = $this->get_clients($credentials);
 
-		if ( !empty($validateLogin['ValidateLoginResult']['GUID']) ) {
+		if ( !empty($validateLogin['Clients']['CreationDate']) ) {
 			if ( $this->create_client_session( $validateLogin ) ) {
 				return ['type' => 'success', 'message' => __('Welcome', 'mz-mindbody-api') . ', ' . $validateLogin['ValidateLoginResult']['Client']['FirstName'] . '.<br/>'];
 			}
@@ -115,21 +116,23 @@ class RetrieveClient extends Interfaces\Retrieve {
 
 
     /**
-     * Validate Client - API VERSION 5!
+     * Get Client
      *
      * Since 2.5.7
      *
      * @param $validateLoginResult array with result from MBO API
      */
-    public function validate_client( $validateLoginResult ){
+    public function get_clients( $id, $email="" ){
+		$request_data = [];
 
-		// Create the MBO Object using API VERSION 5!
-        $this->get_mbo_results(5);
-
-		$result = $this->mb->ValidateLogin(array(
-			'Username' => $validateLoginResult['Username'],
-			'Password' => $validateLoginResult['Password']
-		));
+		// if we are in -99 site, we need to search by email for this client.
+		if ( (string) -99 === (string) Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'] ) {
+			$request_data['searchText'] = $email;
+			NS\MZMBO()->helpers->log( $request_data);
+		} else {
+			$request_data['ClientID'] = $id;
+		}
+		$result = $this->mb->GetClients($request_data);
 
 		return $result;
 
@@ -151,8 +154,7 @@ class RetrieveClient extends Interfaces\Retrieve {
 			$client_details = array(
 				'mbo_result' => $validateLoginResult['ValidateLoginResult']['Client']
 			);
-			NS\MZMBO()->session->set( 'MBO_Client', $client_details );
-
+			$_SESSION['MindbodyAuth']['MBO_Client'] = $client_details;
 			return true;
 
 		}
@@ -164,7 +166,7 @@ class RetrieveClient extends Interfaces\Retrieve {
      */
     public function client_log_out(){
 
-        NS\MZMBO()->session->clear();
+        $_SESSION['MindbodyAuth'] = [];
 
         return true;
     }
@@ -237,7 +239,7 @@ class RetrieveClient extends Interfaces\Retrieve {
      */
     public function get_client_details() {
 
-    	$client_info = NS\MZMBO()->session->get('MBO_Client');
+    	$client_info = $_SESSION['MindbodyAuth']['MBO_Client'];
 
     	if (empty($client_info)) return __('Please Login', 'mz-mindbody-api');
 
@@ -267,12 +269,10 @@ class RetrieveClient extends Interfaces\Retrieve {
      */
     public function get_client_active_memberships() {
 
-    	$client = $this->get_client_details();
-
         // Create the MBO Object
         $this->get_mbo_results();
 
-		$result = $this->mb->GetActiveClientMemberships(['clientId' => $client['ID']]); // UniqueID ??
+		$result = $this->mb->GetActiveClientMemberships(['clientId' => $_SESSION['MindbodyAuth']['MBO_USER_StudioProfile_ID']]); // UniqueID ??
 
 		return $result['ClientMemberships'];
     }
@@ -289,13 +289,11 @@ class RetrieveClient extends Interfaces\Retrieve {
      */
     public function get_client_account_balance() {
 
-    	$client = $this->get_client_details();
-
         // Create the MBO Object
         $this->get_mbo_results();
 
 		// Can accept a list of client id strings
-		$result = $this->mb->GetClientAccountBalances(['clientIds' => $client['ID']]); // UniqueID ??
+		$result = $this->mb->GetClientAccountBalances(['clientIds' => $_SESSION['MindbodyAuth']['MBO_USER_StudioProfile_ID']]); // UniqueID ??
 
 		// Just return the first (and only) result
 		return $result['Clients'][0]['AccountBalance'];
@@ -344,12 +342,10 @@ class RetrieveClient extends Interfaces\Retrieve {
      */
     public function get_client_contracts() {
 
-    	$client = $this->get_client_details();
-
         // Create the MBO Object
         $this->get_mbo_results();
 
-		$result = $this->mb->GetClientContracts(['clientId' => $client['ID']]); // UniqueID ??
+		$result = $this->mb->GetClientContracts(['clientId' => $_SESSION['MindbodyAuth']['MBO_USER_StudioProfile_ID']]); // UniqueID ??
 
 		return $result['Contracts'];
     }
@@ -402,12 +398,10 @@ class RetrieveClient extends Interfaces\Retrieve {
      */
     public function get_client_purchases() {
 
-    	$client = $this->get_client_details();
-
         // Create the MBO Object
         $this->get_mbo_results();
 
-		$result = $this->mb->GetClientPurchases(['clientId' => $client['ID']]); // UniqueID ??
+		$result = $this->mb->GetClientPurchases(['clientId' => $_SESSION['MindbodyAuth']['MBO_USER_StudioProfile_ID']]); // UniqueID ??
 
 		return $result['Purchases'];
     }
@@ -421,12 +415,10 @@ class RetrieveClient extends Interfaces\Retrieve {
      */
     public function get_client_services() {
 
-    	$client = $this->get_client_details();
-
         // Create the MBO Object
         $this->get_mbo_results();
 
-		$result = $this->mb->GetClientServices(['clientId' => $client['ID']]); // UniqueID ??
+		$result = $this->mb->GetClientServices(['clientId' => $_SESSION['MindbodyAuth']['MBO_USER_StudioProfile_ID']]); // UniqueID ??
 
 		return $result;
     }
@@ -461,7 +453,7 @@ class RetrieveClient extends Interfaces\Retrieve {
      */
     public function check_client_logged(){
 
-        return ( 1 == (bool) NS\MZMBO()->session->get('MBO_Client') ) ? 1 : 0;
+        return ( 1 == (bool) $_SESSION['MindbodyAuth']['MBO_USER_StudioProfile_ID'] ) ? 1 : 0;
 
     }
 
