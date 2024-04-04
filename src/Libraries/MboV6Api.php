@@ -152,6 +152,26 @@ class MboV6Api extends MboApi {
 			return 'Nonexistent Method';
 		};
 
+		if ( 'GetClients' === $name && isset($arguments[0]) ) {
+			$rest_method['endpoint'] .= '?limit=1';
+
+			// Maybe there's a stored token to use.
+			$token = $this->token_management->get_stored_token();
+
+			if ( false !== $token && ctype_alnum( $token['AccessToken'] ) ) {
+				$token = $token['AccessToken'];
+			} else {
+				$token =  $this->token_request( $rest_method )->AccessToken;
+			}
+
+			$rest_method['headers']['Authorization'] = 'Bearer ' . $token;
+			if (array_key_exists( 'ClientID', $arguments[0])) {
+				$rest_method['endpoint'] .= '&clientIDs=' . $arguments[0]['ClientID'];
+			} else if (array_key_exists( 'searchText', $arguments[0])) {
+				$rest_method['endpoint'] .= '&searchText=' . $arguments[0]['searchText'];
+			}
+		}
+
 		$this->track_daily_api_calls();
 
 		$within_api_call_limits = $this->api_call_limiter();
