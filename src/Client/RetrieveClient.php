@@ -160,15 +160,14 @@ class RetrieveClient extends Interfaces\Retrieve {
 
     }
 
-    /**
-     * Client Log Out
-     */
-    public function client_log_out(){
+	/**
+	 * Client Log Out
+	 */
+	public function client_log_out(){
 
-        $_SESSION['MindbodyAuth'] = [];
-
-        return true;
-    }
+		$_SESSION['MindbodyAuth'] = [];
+		return true;
+	}
 
     /**
      * Return MBO Account config required fields with what I think are default required fields.
