@@ -382,7 +382,6 @@ class Admin {
 	 * @since 2.7.5
 	 */
 	public function ajax_get_and_save_staff_token() {
-        // NS\MZMBO()->helpers->log( 'ajax_get_and_save_staff_token landed' );
 		// Generated in localize_script() above.
 		check_admin_referer( 'mz_mbo_get_and_save_staff_token', 'nonce' );
 
@@ -491,6 +490,7 @@ class Admin {
 	 */
 	public function test_credentials() {
 		// Generated in localize_script() above.
+
 		check_admin_referer( 'mz_mbo_test_credentials', 'nonce' );
 
 		$return  = '<p>';

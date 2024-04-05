@@ -128,7 +128,6 @@ class RetrieveClient extends Interfaces\Retrieve {
 		// if we are in -99 site, we need to search by email for this client.
 		if ( (string) -99 === (string) Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'] ) {
 			$request_data['searchText'] = $email;
-			NS\MZMBO()->helpers->log( $request_data);
 		} else {
 			$request_data['ClientID'] = $id;
 		}
