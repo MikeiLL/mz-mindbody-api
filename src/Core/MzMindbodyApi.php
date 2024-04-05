@@ -351,12 +351,12 @@ class MzMindbodyApi {
 		$this->loader->add_action('wp_ajax_mz_generate_signup_form', $client_portal, 'ajax_generate_mbo_signup_form');
 
 		// Start Ajax Client Log In
-		$this->loader->add_action('wp_ajax_nopriv_mz_client_log_in', $client_portal, 'ajax_client_log_in');
-		$this->loader->add_action('wp_ajax_mz_client_log_in', $client_portal, 'ajax_client_log_in');
+		$this->loader->add_action('wp_ajax_nopriv_mz_client_login', $client_portal, 'ajax_client_login');
+		$this->loader->add_action('wp_ajax_mz_client_login', $client_portal, 'ajax_client_login');
 
 		// Start Ajax Client Log Out
-		$this->loader->add_action('wp_ajax_nopriv_mz_client_log_out', $client_portal, 'ajax_client_log_out');
-		$this->loader->add_action('wp_ajax_mz_client_log_out', $client_portal, 'ajax_client_log_out');
+		$this->loader->add_action('wp_ajax_nopriv_mz_client_logout', $client_portal, 'ajax_client_logout');
+		$this->loader->add_action('wp_ajax_mz_client_logout', $client_portal, 'ajax_client_logout');
 
 		// Start Ajax Display Client Schedule
 		$this->loader->add_action('wp_ajax_nopriv_mz_display_client_schedule', $client_portal, 'ajax_display_client_schedule');
