@@ -177,9 +177,9 @@ class ClientPortal extends RetrieveClient {
 
 
             // Debug logging
-            // $client = NS\MZMBO()->session->get('MBO_Client');
+            // $client = $_SESSION['MindbodyAuth']['MBO_Client'];
             // $debug_data = [
-            //     'mbo_guid' => NS\MZMBO()->session->get('mbo_guid'),
+            //     //'mbo_guid' => NS\MZMBO()->session->get('mbo_guid'),
             //     'client' => $client['FirstName'] . ' ' . $client['LastName'] . ' (' . $client['Id'] . ')',
             //     'nonce'     => $_REQUEST['nonce'],
             //     'message'   => $add_client_to_class_result['message'],
@@ -246,7 +246,7 @@ class ClientPortal extends RetrieveClient {
         if ((isset(NS\Inc\Core\MZ_Mindbody_Api::$advanced_options['log_api_calls'])) && (NS\Inc\Core\MZ_Mindbody_Api::$advanced_options['log_api_calls'] == 'on')):
             // Debug logging on if we have also enabled log_api_calls
             $debug_data = [
-                'mbo_client' => NS\MZMBO()->session->get('MBO_Client'),
+                'mbo_client' => $_SESSION['MindbodyAuth']['MBO_Client'],
                 'additions' => $additions,
                 'signupData'   => $signupData
             ];
@@ -480,7 +480,7 @@ class ClientPortal extends RetrieveClient {
 
         $schedule = $this->get_client_schedule();
 
-        if ( ( (bool) NS\MZMBO()->session->get('MBO_Client') === true ) && ($schedule['type'] == 'success') ) {
+        if ( ( isset($_SESSION['MindbodyAuth']['MBO_Client']) ) && ($schedule['type'] == 'success') ) {
 
             $template_data = array(
                 'date_format' => $this->date_format,
@@ -542,7 +542,7 @@ class ClientPortal extends RetrieveClient {
 
         $additions['EndDate'] = $end_date->format('Y-m-d');
 
-        $this->clientID = NS\MZMBO()->session->get('MBO_Client')['mbo_result']['Id'];
+        $this->clientID = $_SESSION['MindbodyAuth']['MBO_Client']['Id'];
 
         $additions['ClientID'] = $this->clientID;
 
@@ -557,7 +557,7 @@ class ClientPortal extends RetrieveClient {
             $result['message'] = array(NS\MZMBO()->i18n->get('result_error'),
                 $schedule_data['GetClientScheduleResult']['Status'],
                 $schedule_data['GetClientScheduleResult']);
-            $result['message'] = NS\MZMBO()->session->get('MBO_Client')['mbo_result']['Id'];
+            $result['message'] = $_SESSION['MindbodyAuth']['MBO_Client']['Id'];
         else:
             $result['message'] = $this->sort_classes_by_date_then_time($client_schedule);
         endif;

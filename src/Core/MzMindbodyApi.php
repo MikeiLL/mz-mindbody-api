@@ -293,7 +293,7 @@ class MzMindbodyApi {
 		$schedule_object     = new Schedule\Display();
 		$events_object       = new Events\Display();
 		$registrant_object   = new Schedule\RetrieveRegistrants();
-		$client_portal		   = new Client\ClientPortal();
+		$client_portal		 = new Client\ClientPortal();
 		$class_owners_object = new Schedule\RetrieveClassOwners();
 		$staff_object        = new Staff\Display();
 		$token_object        = new Common\TokenManagement();
