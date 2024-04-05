@@ -388,7 +388,7 @@ class ClientPortal extends RetrieveClient {
      */
     public function ajax_create_mbo_account(){
 
-        check_ajax_referer($_REQUEST['nonce'], "mz_signup_nonce", false);
+        check_ajax_referer($_REQUEST['nonce'], "mz_mbo_api", false);
 
         // Crate the MBO Object
         $this->get_mbo_results();
@@ -471,8 +471,9 @@ class ClientPortal extends RetrieveClient {
      *
      */
     public function ajax_display_client_schedule(){
+		NS\MZMBO()->helpers->log('ClientPortal->ajax_display_client_schedule()');
 
-        check_ajax_referer($_REQUEST['nonce'], "mz_display_client_schedule", false);
+        check_ajax_referer($_REQUEST['nonce'], "mz_mbo_api", false);
 
         ob_start();
 
@@ -576,7 +577,7 @@ class ClientPortal extends RetrieveClient {
      */
     public function ajax_check_client_logged(){
 
-        check_ajax_referer($_REQUEST['nonce'], "mz_check_client_logged", false);
+        check_ajax_referer($_REQUEST['nonce'], "mz_mbo_api", false);
 
         $result = array();
 
