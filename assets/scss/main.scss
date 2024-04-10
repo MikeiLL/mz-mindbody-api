@@ -182,30 +182,7 @@ ul.mz-classRegistrants li {
   padding: 1em;
 }
 
-/**
- * Grid for our modal windows
- *
- */
 
-.modal__wrapper {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.modal__footer,
-.modal__header {
-  min-height: 40px;
-  overflow: auto;
-}
-
-.modal__content {
-  flex: 1;
-  padding: 0 1em;
-  overflow: auto;
-}
-
-.modal__footer {}
 
 /** Potentially nice select styling:
  Select Box Styles: bavotasan.com Method (with special adaptations by ericrasch.com) */
