@@ -57,6 +57,15 @@ class ClientPortal extends RetrieveClient {
     public $time_format;
 
     /**
+     * Invalid Nonce Feedback
+     *
+     * @since 1.0.5
+     * @var string $this->invalid_nonce_feedback Text to display when nonce is invalid.
+     */
+    private $invalid_nonce_feedback = 'Invalid nonce. Try reloading the page.';
+
+
+    /**
      * Class constructor
      *
      * Since 2.4.7
@@ -151,7 +160,8 @@ class ClientPortal extends RetrieveClient {
      *
      * This is the endpoint when client confirms they want to sign-up for a class.
      */
-    public function ajax_register_for_class(){
+    /* public function ajax_register_for_class(){
+		NS\MZMBO()->helpers->log('ClientPortal->ajax_register_for_class()');
 
         check_ajax_referer($_REQUEST['nonce'], "mz_mbo_api", false);
 
@@ -160,6 +170,8 @@ class ClientPortal extends RetrieveClient {
         $result['type'] = 'success';
 
 		$this->clientID = $_SESSION['MindbodyAuth']['MBO_USER_StudioProfile_ID'];
+
+		NS\MZMBO()->helpers->log('ClientPortal->ajax_register_for_class()');
 
         if ( isset($this->clientID) ) {
 
@@ -210,7 +222,7 @@ class ClientPortal extends RetrieveClient {
         }
 
         die();
-    }
+    } */
 
     /**
      * Add Client to Class
@@ -413,17 +425,15 @@ class ClientPortal extends RetrieveClient {
                 $params['data']['Client']['BirthDate'] = date('c', strtotime($params['data']['Client']['BirthDate']));
             }
 
-            //NS\MZMBO()->helpers->log($params);
+            NS\MZMBO()->helpers->log($params);
             $signupData = $this->mb->AddClient($params['data']['Client']);
+			$_SESSION['MindbodyAuth']['MBO_USER_StudioProfile_ID'] = $signupData['Client']['Id'];
 
             // echo $this->mb->debug();
 
             if(array_key_exists('Client', $signupData)) {
 
 				echo '<h3>' . __('Congratulations. You are now logged in with your new Mindbody account.', 'mz-mindbody-api') . '</h3>';
-				echo "<pre>";
-				print_r($signupData);
-				echo "</pre>";
 
                 /* $validateLogin = $this->mb->ValidateLogin(array(
                     'Username' => $params['data']['Client']['Username'],
