@@ -131,7 +131,6 @@ class TokenManagement extends Interfaces\Retrieve {
 	 */
 	public function get_stored_token() {
 		// Get the option or return an empty array with two keys.
-
 		$stored_token = get_option(
 			'mz_mbo_token',
 			array(

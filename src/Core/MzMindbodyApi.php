@@ -297,10 +297,10 @@ class MzMindbodyApi {
 		$class_owners_object = new Schedule\RetrieveClassOwners();
 		$staff_object        = new Staff\Display();
 		$token_object        = new Common\TokenManagement();
-		$api_object          = new Libraries\MboApi();
+		//$api_object          = new Libraries\MboApi();
 
 		// Create hook for admin excess api calls alert.
-		$this->loader->add_action( 'mz_mbo_api_alert_cron', $api_object, 'admin_call_excess_alert' );
+		//$this->loader->add_action( 'mz_mbo_api_alert_cron', $api_object, 'admin_call_excess_alert' );
 
 		// Start Ajax Clear Transients.
 		$this->loader->add_action( 'wp_ajax_nopriv_mz_mbo_clear_transients', $admin_object, 'ajax_clear_plugin_transients' );
