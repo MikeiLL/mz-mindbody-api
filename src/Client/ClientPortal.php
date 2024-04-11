@@ -250,14 +250,14 @@ class ClientPortal extends RetrieveClient {
             \wp_die();
         }
 
-		$this->clientID = $_SESSION['MindbodyAuth']['MBO_USER_StudioProfile_ID'];
+        $this->clientID = $_SESSION['MindbodyAuth']['MBO_USER_StudioProfile_ID'];
 
         $result = array();
 
         $signupData = $this->add_client_to_class($this->clientID, $_GET['classID']);
 
         if ((isset(NS\Core\MzMindbodyApi::$advanced_options['log_api_calls']))
-		&& (NS\Core\MzMindbodyApi::$advanced_options['log_api_calls'] == 'on')):
+        && (NS\Core\MzMindbodyApi::$advanced_options['log_api_calls'] == 'on')):
             // Debug logging on if we have also enabled log_api_calls
             $debug_data = [
                 'mbo_client' => $_SESSION['MindbodyAuth']['MBO_Client'],
@@ -266,19 +266,15 @@ class ClientPortal extends RetrieveClient {
             ];
         endif;
 
-		if ( isset($signupData['Error']) ) {
+        if ( isset($signupData['Error']) ) {
             \wp_send_json_error( $signupData['Error']['Message'] . ' Code: ' . $signupData['Error']['Code'] );
-			\wp_die();
-		}
-		NS\MZMBO()->helpers->log($signupData);
+            \wp_die();
+        }
+
         if ( $signupData['Visit']['ClassId'] != $_GET['classID'] ) {
-			NS\MZMBO()->helpers->log('weirdness');
             \wp_send_json_error( "Something wasn't quite right." . print_r($signupData, true) );
-
         } else {
-
-			\wp_send_json_success( __('Registered via MindBody', 'mz-mindbody-api') );
-
+            \wp_send_json_success( __('Registered via MindBody', 'mz-mindbody-api') );
         }
 
        return $result;
