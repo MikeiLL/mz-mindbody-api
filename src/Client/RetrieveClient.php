@@ -165,7 +165,6 @@ class RetrieveClient extends Interfaces\Retrieve {
      * @return array from Mindbody API.
      */
     public function add_client_to_class( $client_id, $class_id ) {
-		NS\MZMBO()->helpers->log("add_client_to_class");
 
         // Create the MBO Object
         $this->get_mbo_results();
@@ -178,10 +177,11 @@ class RetrieveClient extends Interfaces\Retrieve {
 
         $additions['SendEmail'] = "true";
 
+        $additions['Test'] = "true";
+
         $additions['RequirePayment'] = "false";
 
         $additions['Waitlist'] = "false";
-		NS\MZMBO()->helpers->log($additions);
 
         $result = $this->mb->AddClientToClass( $additions );
 		NS\MZMBO()->helpers->log($result);

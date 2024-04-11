@@ -152,8 +152,9 @@ class MboV6Api extends MboApi {
 			return 'Nonexistent Method';
 		};
 
-		if ( 'GetClients' === $name && isset($arguments[0]) ) {
-			$rest_method['endpoint'] .= '?limit=1';
+		$requiring_auth = ['AddClientToClass', 'GetClients'];
+
+		if (in_array( $rest_method['name'], $requiring_auth, true )) {
 
 			// Maybe there's a stored token to use.
 			$token = $this->token_management->get_stored_token();
@@ -165,6 +166,11 @@ class MboV6Api extends MboApi {
 			}
 
 			$rest_method['headers']['Authorization'] = 'Bearer ' . $token;
+		}
+
+		if ( 'GetClients' === $name && isset($arguments[0]) ) {
+			$rest_method['endpoint'] .= '?limit=1';
+
 			if (array_key_exists( 'ClientID', $arguments[0])) {
 				$rest_method['endpoint'] .= '&clientIDs=' . $arguments[0]['ClientID'];
 			} else if (array_key_exists( 'searchText', $arguments[0])) {
@@ -226,6 +232,7 @@ class MboV6Api extends MboApi {
 			'AddClient',
 			'SendPasswordResetEmail',
 			'CheckoutShoppingCart',
+			'AddClientToClass',
 		);
 
 		// Certain methods don't require credentials.
