@@ -31,7 +31,7 @@ use MZoo\MzMindbody\Core as Core;
 use MZoo\MzMindbody\Common as Common;
 
 if ( ! defined( 'ABSPATH' ) ) {
-	die("Can't load this file directly");
+    die("Can't load this file directly");
 }
 
 /**
@@ -58,50 +58,50 @@ define( NS . 'INIT_LEVEL', 10 );
  * Check the minimum PHP version.
  */
 if ( version_compare( PHP_VERSION, MINIMUM_PHP_VERSION, '<' ) ) {
-	add_action( 'admin_notices', NS . 'minimum_php_version' );
-	add_action( 'admin_init', __NAMESPACE__ . '\deactivate_plugins', INIT_LEVEL );
+    add_action( 'admin_notices', NS . 'minimum_php_version' );
+    add_action( 'admin_init', __NAMESPACE__ . '\deactivate_plugins', INIT_LEVEL );
 } else {
-	/**
-	 * Autoload Classes
-	 */
-	$wp_mindbody_api_autoload = NS\PLUGIN_NAME_DIR . '/vendor/autoload.php';
+    /**
+     * Autoload Classes
+     */
+    $wp_mindbody_api_autoload = NS\PLUGIN_NAME_DIR . '/vendor/autoload.php';
 
-	if ( file_exists( $wp_mindbody_api_autoload ) ) {
-		include_once $wp_mindbody_api_autoload;
-	}
+    if ( file_exists( $wp_mindbody_api_autoload ) ) {
+        include_once $wp_mindbody_api_autoload;
+    }
 
-	// Mozart-managed dependencies.
-	$wp_mindbody_api_mozart_autoload = NS\PLUGIN_NAME_DIR . 'src/Dependencies/autoload.php';
-	if ( file_exists( $wp_mindbody_api_mozart_autoload ) ) {
-		include_once $wp_mindbody_api_mozart_autoload;
-	}
+    // Mozart-managed dependencies.
+    $wp_mindbody_api_mozart_autoload = NS\PLUGIN_NAME_DIR . 'src/Dependencies/autoload.php';
+    if ( file_exists( $wp_mindbody_api_mozart_autoload ) ) {
+        include_once $wp_mindbody_api_mozart_autoload;
+    }
 
-	if ( ! class_exists( 'MZoo\MzMindbody\Core\MzMindbodyApi' ) ) {
-		add_action( 'admin_notices', NS . 'missing_composer' );
-		add_action( 'admin_init', __NAMESPACE__ . '\deactivate_plugins', INIT_LEVEL );
-	} else {
+    if ( ! class_exists( 'MZoo\MzMindbody\Core\MzMindbodyApi' ) ) {
+        add_action( 'admin_notices', NS . 'missing_composer' );
+        add_action( 'admin_init', __NAMESPACE__ . '\deactivate_plugins', INIT_LEVEL );
+    } else {
 
-		/**
-		 * Register Activation and Deactivation Hooks
-		 * This action is documented in src/Core/class-activator.php
-		 */
+        /**
+         * Register Activation and Deactivation Hooks
+         * This action is documented in src/Core/class-activator.php
+         */
 
-		register_activation_hook( __FILE__, array( 'MZoo\MzMindbody\Core\Activator', 'activate' ) );
+        register_activation_hook( __FILE__, array( 'MZoo\MzMindbody\Core\Activator', 'activate' ) );
 
-		/**
-		 * The code that runs during plugin deactivation.
-		 * This action is documented src/Core/class-deactivator.php
-		 */
+        /**
+         * The code that runs during plugin deactivation.
+         * This action is documented src/Core/class-deactivator.php
+         */
 
-		register_deactivation_hook( __FILE__, array( 'MZoo\MzMindbody\Core\Deactivator', 'deactivate' ) );
+        register_deactivation_hook( __FILE__, array( 'MZoo\MzMindbody\Core\Deactivator', 'deactivate' ) );
 
-		/**
-		 * Run the plugin.
-		 */
+        /**
+         * Run the plugin.
+         */
 
-		add_action( 'plugins_loaded', __NAMESPACE__ . '\run_plugin', INIT_LEVEL );
+        add_action( 'plugins_loaded', __NAMESPACE__ . '\run_plugin', INIT_LEVEL );
 
-	}
+    }
 }
 
 
@@ -116,74 +116,74 @@ class MzMindbody {
 
 
 
-	/**
-	 * The instance of the plugin.
-	 *
-	 * @since 2.4.7
-	 * @var   Init $init Instance of the plugin.
-	 */
-	private static $instance;
+    /**
+     * The instance of the plugin.
+     *
+     * @since 2.4.7
+     * @var   Init $init Instance of the plugin.
+     */
+    private static $instance;
 
-	/**
-	 * Main MzMindbody Instance.
-	 *
-	 * Insures that only one instance of MzMindbody exists in memory at any one
-	 * time. Also prevents needing to define globals all over the place.
-	 *
-	 * Totally borrowed from Easy_Digital_Downloads, and certainly used with some ignorance
-	 * as EDD doesn't actually include a construct in it's class.
-	 *
-	 * @since     2.4.7
-	 * @static
-	 * @staticvar array $instance
-	 * @see       MZMBO()
-	 * @return    object|MzMindbody The one true MzMindbody
-	 */
-	public static function instance() {
+    /**
+     * Main MzMindbody Instance.
+     *
+     * Insures that only one instance of MzMindbody exists in memory at any one
+     * time. Also prevents needing to define globals all over the place.
+     *
+     * Totally borrowed from Easy_Digital_Downloads, and certainly used with some ignorance
+     * as EDD doesn't actually include a construct in it's class.
+     *
+     * @since     2.4.7
+     * @static
+     * @staticvar array $instance
+     * @see       MZMBO()
+     * @return    object|MzMindbody The one true MzMindbody
+     */
+    public static function instance() {
 
-		// Return if already instantiated
-		if ( self::is_instantiated() ) {
-			return self::$instance;
-		}
+        // Return if already instantiated
+        if ( self::is_instantiated() ) {
+            return self::$instance;
+        }
 
-		// Setup the singleton
-		self::setup_instance();
+        // Setup the singleton
+        self::setup_instance();
 
-		self::$instance->run();
+        self::$instance->run();
 
-		self::$instance->i18n    = new Common\GlobalStrings();
-		self::$instance->helpers = new Common\Helpers();
-		self::$instance->session = new Session\MzPhpSession();
+        self::$instance->i18n    = new Common\GlobalStrings();
+        self::$instance->helpers = new Common\Helpers();
+        self::$instance->session = new Session\MzPhpSession();
 
-		return self::$instance;
-	}
+        return self::$instance;
+    }
 
-	/**
-	 * Setup the singleton instance
-	 *
-	 * @since 3.0
-	 * @param string $file
-	 */
-	private static function setup_instance() {
-		self::$instance       = new NS\Core\MzMindbodyApi;
-	}
+    /**
+     * Setup the singleton instance
+     *
+     * @since 3.0
+     * @param string $file
+     */
+    private static function setup_instance() {
+        self::$instance       = new NS\Core\MzMindbodyApi;
+    }
 
-	/**
-	 * Return whether the main loading class has been instantiated or not.
-	 *
-	 * @since 3.0
-	 *
-	 * @return boolean True if instantiated. False if not.
-	 */
-	private static function is_instantiated() {
-		// Return true if instance is correct class
-		if ( ! empty( self::$instance ) && ( self::$instance instanceof \MZoo\MzMindbody\Core\MzMindbodyApi ) ) {
-			return true;
-		}
+    /**
+     * Return whether the main loading class has been instantiated or not.
+     *
+     * @since 3.0
+     *
+     * @return boolean True if instantiated. False if not.
+     */
+    private static function is_instantiated() {
+        // Return true if instance is correct class
+        if ( ! empty( self::$instance ) && ( self::$instance instanceof \MZoo\MzMindbody\Core\MzMindbodyApi ) ) {
+            return true;
+        }
 
-		// Return false if not instantiated correctly
-		return false;
-	}
+        // Return false if not instantiated correctly
+        return false;
+    }
 }
 
 
@@ -216,8 +216,8 @@ class MzMindbody {
  **/
 // @codingStandardsIgnoreStart
 function MZMBO() {
-	// @codingStandardsIgnoreEnd
-	return MzMindbody::instance();
+    // @codingStandardsIgnoreEnd
+    return MzMindbody::instance();
 }
 
 /**
@@ -228,13 +228,13 @@ function MZMBO() {
  * @return void.
  */
 function activation_failed( $error ) {
-	if ( is_admin() && current_user_can( 'activate_plugins' ) ) {
-		?>
-			<div class="notice notice-error is-dismissible"><p><strong>
-				<?php echo esc_html( $error ); ?>
-			</strong></p></div>
-		<?php
-	}
+    if ( is_admin() && current_user_can( 'activate_plugins' ) ) {
+        ?>
+            <div class="notice notice-error is-dismissible"><p><strong>
+                <?php echo esc_html( $error ); ?>
+            </strong></p></div>
+        <?php
+    }
 }
 
 /**
@@ -244,14 +244,14 @@ function activation_failed( $error ) {
  * @return void.
  */
 function deactivate_plugins() {
-	\deactivate_plugins( plugin_basename( __FILE__ ) );
-	if ( is_admin() && current_user_can( 'activate_plugins' ) ) {
-		?>
-			<div class="notice notice-success is-dismissible"><p>
-				<?php esc_html_e( 'MZ Mindbody Api plugin has been deactivated.', 'mz-mbo-access' ); ?>
-			</p></div>
-		<?php
-	}
+    \deactivate_plugins( plugin_basename( __FILE__ ) );
+    if ( is_admin() && current_user_can( 'activate_plugins' ) ) {
+        ?>
+            <div class="notice notice-success is-dismissible"><p>
+                <?php esc_html_e( 'MZ Mindbody Api plugin has been deactivated.', 'mz-mbo-access' ); ?>
+            </p></div>
+        <?php
+    }
 }
 /**
  * Notice of missing composer.
@@ -260,7 +260,7 @@ function deactivate_plugins() {
  * @return void.
  */
 function missing_composer() {
-	activation_failed( __( 'MZ Mindbody Api requires Composer autoloading, which is not configured.', 'mz-mindbody-api' ) );
+    activation_failed( __( 'MZ Mindbody Api requires Composer autoloading, which is not configured.', 'mz-mindbody-api' ) );
 }
 
 /**
@@ -270,7 +270,7 @@ function missing_composer() {
  * @return void.
  */
 function minimum_php_version() {
-	activation_failed( __( 'MZ Mindbody Api requires PHP version', 'mz-mindbody-api' ) . sprintf( ' %1.1f.', MINIMUM_PHP_VERSION ) );
+    activation_failed( __( 'MZ Mindbody Api requires PHP version', 'mz-mindbody-api' ) . sprintf( ' %1.1f.', MINIMUM_PHP_VERSION ) );
 }
 
 /**
@@ -280,13 +280,13 @@ function minimum_php_version() {
  * @return void.
  */
 function plugin_is_deactivated() {
-	if ( is_admin() && current_user_can( 'activate_plugins' ) ) {
-		?>
-			<div class="notice notice-success is-dismissible"><p>
-				<?php esc_html_e( 'MZ Mindbody Api plugin has been deactivated.', 'mz-mindbody-api' ); ?>
-			</p></div>
-		<?php
-	}
+    if ( is_admin() && current_user_can( 'activate_plugins' ) ) {
+        ?>
+            <div class="notice notice-success is-dismissible"><p>
+                <?php esc_html_e( 'MZ Mindbody Api plugin has been deactivated.', 'mz-mindbody-api' ); ?>
+            </p></div>
+        <?php
+    }
 }
 
 /**
@@ -297,7 +297,7 @@ function plugin_is_deactivated() {
  */
 function run_plugin() {
 
-	// Get MzMindbodyApi Instance.
-	MZMBO();
+    // Get MzMindbodyApi Instance.
+    MZMBO();
 
 }

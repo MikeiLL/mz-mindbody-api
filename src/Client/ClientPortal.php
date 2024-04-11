@@ -96,17 +96,17 @@ class ClientPortal extends RetrieveClient {
 
         if (empty($params) || !is_array($params)) {
 
-        	$result['type'] = 'error';
+            $result['type'] = 'error';
 
         } else {
 
-        	$credentials = ['Username' => $params['email'], 'Password' => $params['password']];
+            $credentials = ['Username' => $params['email'], 'Password' => $params['password']];
 
-        	$login = $this->log_client_in($credentials);
+            $login = $this->log_client_in($credentials);
 
-        	if ( $login['type'] == 'error' ) $result['type'] = 'error';
+            if ( $login['type'] == 'error' ) $result['type'] = 'error';
 
-			$result['message'] = $login['message'];
+            $result['message'] = $login['message'];
 
         }
 
@@ -126,7 +126,7 @@ class ClientPortal extends RetrieveClient {
      * Client Log Out
      */
     public function ajax_client_logout(){
-		NS\MZMBO()->helpers->log('ClientPortal->ajax_client_log_out()');
+        NS\MZMBO()->helpers->log('ClientPortal->ajax_client_log_out()');
 
         check_ajax_referer($_REQUEST['nonce'], "mz_mbo_api", false);
 
@@ -161,7 +161,7 @@ class ClientPortal extends RetrieveClient {
      * This is the endpoint when client confirms they want to sign-up for a class.
      */
     /* public function ajax_register_for_class(){
-		NS\MZMBO()->helpers->log('ClientPortal->ajax_register_for_class()');
+        NS\MZMBO()->helpers->log('ClientPortal->ajax_register_for_class()');
 
         check_ajax_referer($_REQUEST['nonce'], "mz_mbo_api", false);
 
@@ -169,9 +169,9 @@ class ClientPortal extends RetrieveClient {
 
         $result['type'] = 'success';
 
-		$this->clientID = $_SESSION['MindbodyAuth']['MBO_USER_StudioProfile_ID'];
+        $this->clientID = $_SESSION['MindbodyAuth']['MBO_USER_StudioProfile_ID'];
 
-		NS\MZMBO()->helpers->log('ClientPortal->ajax_register_for_class()');
+        NS\MZMBO()->helpers->log('ClientPortal->ajax_register_for_class()');
 
         if ( isset($this->clientID) ) {
 
@@ -360,7 +360,7 @@ class ClientPortal extends RetrieveClient {
      * Create MBO Account
      */
     public function ajax_create_mbo_account(){
-		NS\MZMBO()->helpers->log('ClientPortal->ajax_create_mbo_account()');
+        NS\MZMBO()->helpers->log('ClientPortal->ajax_create_mbo_account()');
         check_ajax_referer($_REQUEST['nonce'], "mz_mbo_api", false);
 
         // Crate the MBO Object
@@ -388,13 +388,13 @@ class ClientPortal extends RetrieveClient {
 
             NS\MZMBO()->helpers->log($params);
             $signupData = $this->mb->AddClient($params['data']['Client']);
-			$_SESSION['MindbodyAuth']['MBO_USER_StudioProfile_ID'] = $signupData['Client']['Id'];
+            $_SESSION['MindbodyAuth']['MBO_USER_StudioProfile_ID'] = $signupData['Client']['Id'];
 
             // echo $this->mb->debug();
 
             if(array_key_exists('Client', $signupData)) {
 
-				echo '<h3>' . __('Congratulations. You are now logged in with your new Mindbody account.', 'mz-mindbody-api') . '</h3>';
+                echo '<h3>' . __('Congratulations. You are now logged in with your new Mindbody account.', 'mz-mindbody-api') . '</h3>';
 
                 /* $validateLogin = $this->mb->ValidateLogin(array(
                     'Username' => $params['data']['Client']['Username'],
@@ -416,9 +416,9 @@ class ClientPortal extends RetrieveClient {
             } else { /* if ($signupData['AddOrUpdateClientsResult']['Clients']['Client']['Action'] == 'Failed'){ */
 
                 echo '<h3>' . __('There was an error creating your account.', 'mz-mindbody-api') . '</h3>';
-				echo "<pre>";
-				print_r($signupData);
-				echo "</pre>";
+                echo "<pre>";
+                print_r($signupData);
+                echo "</pre>";
 
                 echo '<a id="createMBOAccount" href="#" data-nonce="' . $_REQUEST['nonce'] . '" class="btn btn-primary mz_add_to_class">' . __("Try Again", "mz-mindbody-api") . '</a>';
             }
@@ -442,22 +442,22 @@ class ClientPortal extends RetrieveClient {
      *
      */
     public function ajax_display_client_schedule(){
-		NS\MZMBO()->helpers->log('ClientPortal->ajax_display_client_schedule()');
+        NS\MZMBO()->helpers->log('ClientPortal->ajax_display_client_schedule()');
 
         if ( isset( $_GET['nonce'] ) ) {
             $nonce = wp_unslash( $_GET['nonce'] );
         } else {
-			NS\MZMBO()->helpers->log('Missing Nonce');
+            NS\MZMBO()->helpers->log('Missing Nonce');
             \wp_send_json_error( 'Missing nonce' );
             \wp_die();
         }
 
         if ( ! \wp_verify_nonce( $nonce, 'mz_mbo_api' ) ) {
-			NS\MZMBO()->helpers->log('Bad Nonce');
+            NS\MZMBO()->helpers->log('Bad Nonce');
             \wp_send_json_error( $this->invalid_nonce_feedback );
             \wp_die();
         }
-		NS\MZMBO()->helpers->log('ClientPortal->ajax_display_client_schedule() TWO');
+        NS\MZMBO()->helpers->log('ClientPortal->ajax_display_client_schedule() TWO');
 
         ob_start();
 

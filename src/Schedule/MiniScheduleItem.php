@@ -31,20 +31,20 @@ use MZoo\MzMindbody\Libraries as Libraries;
  */
 class MiniScheduleItem extends ScheduleItem {
 
-	/**
-	 * Populate attributes with data from MBO
-	 *
-	 * @since 2.4.7
-	 *
-	 * @param array $schedule_item item attributes. See class description.
-	 * @param array $atts from wp post shortcode.
-	 */
-	public function __construct( $schedule_item, $atts = array() ) {
-		$this->class_name     = isset( $schedule_item['Name'] ) ? $schedule_item['Name'] : '';
-		$this->start_datetime = $schedule_item['StartDateTime'];
-		$this->end_datetime   = $schedule_item['EndDateTime'];
-		$this->staff_name     = isset( $schedule_item['Staff']['Name'] ) ? $schedule_item['Staff']['Name'] : '';
-		$this->ID             = $schedule_item['Id'];
-		$this->site_id        = ! empty( $atts['account'] ) ? $atts['account'] : Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
-	}
+    /**
+     * Populate attributes with data from MBO
+     *
+     * @since 2.4.7
+     *
+     * @param array $schedule_item item attributes. See class description.
+     * @param array $atts from wp post shortcode.
+     */
+    public function __construct( $schedule_item, $atts = array() ) {
+        $this->class_name     = isset( $schedule_item['Name'] ) ? $schedule_item['Name'] : '';
+        $this->start_datetime = $schedule_item['StartDateTime'];
+        $this->end_datetime   = $schedule_item['EndDateTime'];
+        $this->staff_name     = isset( $schedule_item['Staff']['Name'] ) ? $schedule_item['Staff']['Name'] : '';
+        $this->ID             = $schedule_item['Id'];
+        $this->site_id        = ! empty( $atts['account'] ) ? $atts['account'] : Core\MzMindbodyApi::$basic_options['mz_mindbody_siteID'];
+    }
 }
