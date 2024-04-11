@@ -1,2 +1,251 @@
-!function(t){var e={};function a(o){if(e[o])return e[o].exports;var n=e[o]={i:o,l:!1,exports:{}};return t[o].call(n.exports,n,n.exports,a),n.l=!0,n.exports}a.m=t,a.c=e,a.d=function(t,e,o){a.o(t,e)||Object.defineProperty(t,e,{enumerable:!0,get:o})},a.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},a.t=function(t,e){if(1&e&&(t=a(t)),8&e)return t;if(4&e&&"object"==typeof t&&t&&t.__esModule)return t;var o=Object.create(null);if(a.r(o),Object.defineProperty(o,"default",{enumerable:!0,value:t}),2&e&&"string"!=typeof t)for(var n in t)a.d(o,n,function(e){return t[e]}.bind(null,n));return o},a.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return a.d(e,"a",e),e},a.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},a.p="",a(a.s=11)}({11:function(t,e,a){"use strict";jQuery(document).ready((function(t){var e=t("#mzEventsDisplay"),a=mz_mindbody_schedule.atts;function o(t,e){"previous"==t.className?e.forEach((function(t){t.setAttribute("data-offset",parseInt(t.getAttribute("data-offset"))+parseInt(1))})):"following"==t.className&&e.forEach((function(t){t.setAttribute("data-offset",t.getAttribute("data-offset")-1)}))}t("#mzEventsNavHolder .following, #mzEventsNavHolder .previous").on("click",(function(n){n.preventDefault(),e.children().each((function(e){t(this).html("")})),e.toggleClass("loader");var s=[].slice.call(document.getElementById("mzEventsNavHolder").children);a.offset=this.dataset.offset,"following"==this.className?s.forEach((function(t){t.setAttribute("data-offset",parseInt(t.getAttribute("data-offset"))+parseInt(1))})):"previous"==this.className&&s.forEach((function(t){t.setAttribute("data-offset",t.getAttribute("data-offset")-1)})),t.ajax({type:"post",dataType:"json",context:this,url:mz_mindbody_schedule.ajaxurl,data:{action:"mz_displayEvents",nonce:mz_mindbody_schedule.nonce,atts:a},success:function(t){"success"==t.type?(e.toggleClass("loader"),document.getElementById("mzEventsDisplay").innerHTML=t.message,console.log(t),document.getElementById("eventsDateRangeDisplay").innerHTML=t.date_range,console.log(t.date_range)):(o(this,s),e.toggleClass("loader"),e.html(t.message))}}).fail((function(t){o(this,s),e.toggleClass("loader"),e.html("Sorry but there was an error retrieving schedule.")}))})),t(document).on("click","a[data-target=mzDescriptionModal]",(function(e){e.preventDefault();var a=t(this).attr("href"),o=this.getAttribute("data-staffName"),n=this.getAttribute("data-eventImage"),s=decodeURIComponent(this.getAttribute("data-classDescription")),i="<h3>"+this.innerHTML+" "+mz_mindbody_schedule.with+" "+o+"</h3>";return i+='<div class="mz-classInfo" id="ClassInfo">',i+='<p><img src="'+n+'" class="mz_modal_event_image_body">'+s+"</p>",i+="</div>",t("#mzModal").load(a,(function(){t.colorbox({html:i,href:a}),t("#mzModal").colorbox()})),!1})),t(document).on("click","a[data-target=mzStaffScheduleModal]",(function(e){e.preventDefault();var a=t(this).attr("href"),o=t(this).attr("data-staffName"),n=decodeURIComponent(t(this).attr("data-staffBio")),s=t(this).attr("data-staffImage"),i="<h3>"+o+'</h3><div class="mz-staffInfo" id="StaffInfo">';i+='<p><img src="'+s+'" class="mz_modal_staff_image_body">'+n+"</p>",i+="</div>",t("#mzModal").load(a,(function(){t.colorbox({html:i,href:a}),t("#mzModal").colorbox()}))})),t(document).on("click",".filter_btn",(function(e){e.preventDefault(),t("#locations_filter").children("a").removeClass("active"),"all"===this.dataset.location?(t(".mz_full_listing_event").hide(),t(".mz_full_listing_event").show(1e3)):(t(".mz_full_listing_event").hide(),t("."+this.dataset.location).show(1e3)),t(this).toggleClass("active")}))}))}});
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = "./scripts/events-display.js");
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ "./scripts/events-display.js":
+/*!***********************************!*\
+  !*** ./scripts/events-display.js ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+// import './signup-modals';
+(function ($) {
+  $(document).ready(function ($) {
+    // Initialize some variables
+    var spinner = '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>',
+        container = $("#mzEventsDisplay"),
+        atts = mz_mindbody_schedule.atts; // TODO use Ajax event handlers to globally handle loader spinners: https://stackoverflow.com/a/40513161/2223106
+
+    /**
+     * Navigate Schedule
+     *
+     *
+     */
+
+    $('#mzEventsNavHolder .following, #mzEventsNavHolder .previous').on('click', function (e) {
+      e.preventDefault();
+      container.children().each(function (e) {
+        $(this).html('');
+      });
+      container.toggleClass('loader');
+      var buttons = [].slice.call(document.getElementById('mzEventsNavHolder').children); // Update attributes
+
+      var offset = atts.offset = this.dataset.offset; // Update nav link "offset" data attribute
+
+      if (this.className == 'following') {
+        buttons.forEach(function (button) {
+          button.setAttribute('data-offset', parseInt(button.getAttribute('data-offset')) + parseInt(1));
+        });
+      } else if (this.className == 'previous') {
+        buttons.forEach(function (button) {
+          button.setAttribute('data-offset', button.getAttribute('data-offset') - 1);
+        });
+      }
+
+      $.ajax({
+        type: "post",
+        dataType: "json",
+        context: this,
+        url: mz_mindbody_schedule.ajaxurl,
+        data: {
+          action: 'mz_displayEvents',
+          nonce: mz_mindbody_schedule.nonce,
+          atts: atts
+        },
+        success: function success(json) {
+          if (json.type == "success") {
+            container.toggleClass('loader');
+            document.getElementById("mzEventsDisplay").innerHTML = json.message;
+            console.log(json);
+            document.getElementById("eventsDateRangeDisplay").innerHTML = json.date_range;
+            console.log(json.date_range);
+          } else {
+            mz_reset_navigation(this, buttons);
+            container.toggleClass('loader');
+            container.html(json.message);
+          }
+        }
+      }).fail(function (json) {
+        mz_reset_navigation(this, buttons);
+        container.toggleClass('loader');
+        container.html('Sorry but there was an error retrieving schedule.');
+      }); // End Ajax
+    }); // End click navigation
+
+    function mz_reset_navigation(el, buttons) {
+      // Reset nav link "offset" data attribute
+      if (el.className == 'previous') {
+        buttons.forEach(function (button) {
+          button.setAttribute('data-offset', parseInt(button.getAttribute('data-offset')) + parseInt(1));
+        });
+      } else if (el.className == 'following') {
+        buttons.forEach(function (button) {
+          button.setAttribute('data-offset', button.getAttribute('data-offset') - 1);
+        });
+      }
+    }
+    /**
+     * Event Description Modal
+     *
+     *
+     */
+
+
+    $(document).on('click', "a[data-target=mzDescriptionModal]", function (e) {
+      e.preventDefault();
+      var target = $(this).attr("href"),
+          staffName = this.getAttribute('data-staffName'),
+          eventImage = this.getAttribute('data-eventImage'),
+          classDescription = decodeURIComponent(this.getAttribute('data-classDescription')),
+          popUpContent = '<h3>' + this.innerHTML + ' ' + mz_mindbody_schedule.with + ' ' + staffName + '</h3>';
+      popUpContent += '<div class="mz-classInfo" id="ClassInfo">';
+      popUpContent += '<p><img src="' + eventImage + '" class="mz_modal_event_image_body">' + classDescription + '</p>';
+      popUpContent += '</div>'; // load the url and show modal on success
+
+      $("#mzModal").load(target, function () {
+        $.colorbox({
+          html: popUpContent,
+          href: target
+        });
+        $("#mzModal").colorbox();
+      });
+      return false;
+    });
+    /**
+     * Staff Modal
+     *
+     *
+     */
+
+    $(document).on('click', "a[data-target=mzStaffScheduleModal]", function (ev) {
+      ev.preventDefault();
+      var target = $(this).attr("href");
+      var staffName = $(this).attr('data-staffName');
+      var staffBio = decodeURIComponent($(this).attr('data-staffBio'));
+      var staffImage = $(this).attr('data-staffImage');
+      var popUpContent = '<h3>' + staffName + '</h3><div class="mz-staffInfo" id="StaffInfo">';
+      popUpContent += '<p><img src="' + staffImage + '" class="mz_modal_staff_image_body">' + staffBio + '</p>';
+      popUpContent += '</div>';
+      $("#mzModal").load(target, function () {
+        $.colorbox({
+          html: popUpContent,
+          href: target
+        });
+        $("#mzModal").colorbox();
+      });
+    });
+    /**
+     * Location Filter
+     *
+     * Hide or Display events based on location when buttons clicked
+     */
+
+    $(document).on('click', ".filter_btn", function (ev) {
+      ev.preventDefault();
+      $('#locations_filter').children('a').removeClass('active');
+
+      if (this.dataset.location === 'all') {
+        $('.mz_full_listing_event').hide();
+        $('.mz_full_listing_event').show(1000);
+      } else {
+        $('.mz_full_listing_event').hide();
+        $('.' + this.dataset.location).show(1000);
+      }
+
+      $(this).toggleClass('active');
+    });
+  }); // End document ready
+})(jQuery);
+
+/***/ })
+
+/******/ });
 //# sourceMappingURL=events-display.js.map

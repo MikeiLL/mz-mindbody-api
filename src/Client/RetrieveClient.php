@@ -146,14 +146,28 @@ class RetrieveClient extends Interfaces\Retrieve {
      * @return array from Mindbody API.
      */
     public function get_client_schedule( $id ) {
+
         // Create the MBO Object
         $this->get_mbo_results();
-        return $this->mb->GetClientSchedule(
+
+
+        $result = $this->mb->GetClientVisits(
             array(
                 'clientId' => $id,
                 'EndDate'  => \wp_date( 'Y-m-d', \strtotime( '+1 month' ) ),
             )
         );
+        if (isset($result['Visits'])) {
+            NS\MZMBO()->helpers->log( 'NOW Getting client schedule for ' . $id);
+            NS\MZMBO()->helpers->log($result);
+            // @TODO MAYBE add to session
+            $sorted_client_schedule = $this->sort_classes_by_date_then_time($result);
+            $result['Visits'] = $sorted_client_schedule;
+        }
+        NS\MZMBO()->helpers->log( 'Done getting client schedule for ' . $id);
+        NS\MZMBO()->helpers->log($result);
+        return $result;
+
     }
 
     /**
@@ -581,15 +595,15 @@ class RetrieveClient extends Interfaces\Retrieve {
          * schedule, the 'Visits' array contains that visit, but when there are multiple
          * visits then the array of visits is under 'Visits'/'Visit'
          */
-        if (is_array($client_schedule['GetClientScheduleResult']['Visits']['Visit'][0])){
+    /*     if (is_array($client_schedule['Visits'][0])){
             // Multiple visits
-            $visit_array_scope = $client_schedule['GetClientScheduleResult']['Visits']['Visit'];
+            $visit_array_scope = $client_schedule['Visits']['Visit'];
         } else {
-            $visit_array_scope = $client_schedule['GetClientScheduleResult']['Visits'];
-        }
+            $visit_array_scope = $client_schedule['Visits'];
+        } */
 
 
-        foreach($visit_array_scope as $visit)
+        foreach($client_schedule['Visits'] as $visit)
         {
             // Make a timestamp of just the day to use as key for that day's classes
             $dt = new \DateTime($visit['StartDateTime']);
@@ -598,7 +612,7 @@ class RetrieveClient extends Interfaces\Retrieve {
             /* Create a new array with a key for each date YYYY-MM-DD
             and corresponding value an array of class details */
 
-            $single_event = new Schedule\Mini_Schedule_Item($visit);
+            $single_event = new Schedule\MiniScheduleItem($visit);
 
             if(!empty($classesByDateThenTime[$just_date])) {
                 array_push($classesByDateThenTime[$just_date], $single_event);

@@ -457,15 +457,22 @@ class ClientPortal extends RetrieveClient {
             \wp_send_json_error( $this->invalid_nonce_feedback );
             \wp_die();
         }
-        NS\MZMBO()->helpers->log('ClientPortal->ajax_display_client_schedule() TWO');
 
         ob_start();
 
-        $schedule = $this->get_client_schedule();
+        if ( ( isset($_SESSION['MindbodyAuth']['MBO_USER_StudioProfile_ID']) ) ) {
 
-        if ( ( isset($_SESSION['MindbodyAuth']['MBO_Client']) ) && ($schedule['type'] == 'success') ) {
+            $clientId = $_SESSION['MindbodyAuth']['MBO_USER_StudioProfile_ID'];
+            $schedule = $this->get_client_schedule($clientId);
+            NS\MZMBO()->helpers->log($schedule);
+            if ( !isset($schedule['Visits']) ) {
+                \wp_send_json_error( 'No schedule found' );
+                \wp_die();
+            }
+            \wp_send_json_success( $schedule['Visits'] );
+            \wp_die();
 
-            $template_data = array(
+            /* $template_data = array(
                 'date_format' => $this->date_format,
                 'time_format' => $this->time_format,
                 'classes'     => $schedule['message'],
@@ -479,7 +486,7 @@ class ClientPortal extends RetrieveClient {
 
             $template_loader->set_template_data($template_data);
             $template_loader->get_template_part('client_schedule');
-            //NS\MZMBO()->helpers->print($this->get_client_schedule()['message']);
+            //NS\MZMBO()->helpers->print($this->get_client_schedule()['message']); */
 
         } else {
 

@@ -196,9 +196,6 @@ class Display extends Interfaces\ShortcodeScriptLoader {
      * @return string shortcode content.
      */
     public function handle_shortcode( $atts, $content = null ) {
-    echo "<pre>";
-    print_r($_SESSION['MindbodyAuth']);
-    echo "</pre>";
         $this->atts = shortcode_atts(
             array(
                 'type'                  => 'week',
@@ -481,8 +478,18 @@ class Display extends Interfaces\ShortcodeScriptLoader {
      * Echo json wp_json_encode() version of HTML from template
      */
     public function display_schedule() {
+        if ( isset( $_POST['nonce'] ) ) {
+            $nonce = wp_unslash( $_POST['nonce'] );
+        } else {
+            \wp_send_json_error( 'Missing nonce' );
+            \wp_die();
+        }
+
         // Generated in localize_script above.
-        check_ajax_referer( 'mz_display_schedule', 'nonce' );
+        if ( ! \wp_verify_nonce( $nonce, 'mz_display_schedule' ) ) {
+            \wp_send_json_error( $this->invalid_nonce_feedback );
+            \wp_die();
+        }
 
         $atts = $_REQUEST['atts'];
 
@@ -531,8 +538,8 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 
         if ( ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) &&
             'xmlhttprequest' === strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ) {
-            $result = wp_json_encode( $result );
-            echo $result;
+            \wp_send_json_success( $result );
+            \wp_die();
         } else {
             header( 'Location: ' . $_SERVER['HTTP_REFERER'] );
         }

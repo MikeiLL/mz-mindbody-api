@@ -60,36 +60,37 @@
                 });
             }
             $.ajax({
-                type: "post",
-                dataType: "json",
-                context: this,
-                url: mz_mindbody_schedule.ajaxurl,
-                data: {action: 'mz_display_schedule', nonce: display_schedule_nonce, atts: atts},
-                success: function (json) {
-                    if (json.type == "success") {
-                        container.toggleClass('spinner-border');
-                        if (json.grid && json.horizontal) {
-                            document.getElementById("gridDisplay").innerHTML = json.grid;
-                            document.getElementById("horizontalDisplay").innerHTML = json.horizontal;
-                        } else if (json.grid) {
-                            document.getElementById("gridDisplay").innerHTML = json.grid;
-                        } else {
-                            document.getElementById("horizontalDisplay").innerHTML = json.horizontal;
-                        }
-                        stripe_and_filter();
-                    } else {
-                        mz_reset_navigation(this, buttons);
-                        container.toggleClass('spinner-border');
-                        container.html(json.message);
-                        stripe_and_filter();
-                    }
-                }
+              type: "post",
+              dataType: "json",
+              context: this,
+              url: mz_mindbody_schedule.ajaxurl,
+              data: {action: 'mz_display_schedule', nonce: display_schedule_nonce, atts: atts},
+              success: function (json) {
+                if (json.success) {
+                    console.log(json);
+                      container.toggleClass('spinner-border');
+                      if (json.data.grid && json.data.horizontal) {
+                          document.getElementById("gridDisplay").innerHTML = json.grid;
+                          document.getElementById("horizontalDisplay").innerHTML = json.horizontal;
+                      } else if (json.data.grid) {
+                          document.getElementById("gridDisplay").innerHTML = json.data.grid;
+                      } else {
+                          document.getElementById("horizontalDisplay").innerHTML = json.data.horizontal;
+                      }
+                      stripe_and_filter();
+                  } else {
+                      mz_reset_navigation(this, buttons);
+                      container.toggleClass('spinner-border');
+                      container.html(json.data);
+                      stripe_and_filter();
+                  }
+              }
             })
-                .fail(function (json) {
-                    mz_reset_navigation(this, buttons);
-                    container.toggleClass('spinner-border');
-                    container.html('Sorry but there was an error retrieving schedule.');
-                }); // End Ajax
+            .fail(function (json) {
+              mz_reset_navigation(this, buttons);
+              container.toggleClass('spinner-border');
+              container.html('Sorry but there was an error retrieving schedule.');
+            }); // End Ajax
         }); // End click navigation
 
         function mz_reset_navigation(el, buttons) {
