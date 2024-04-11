@@ -177,14 +177,12 @@ class RetrieveClient extends Interfaces\Retrieve {
 
         $additions['SendEmail'] = "true";
 
-        $additions['Test'] = "true";
-
         $additions['RequirePayment'] = "false";
 
         $additions['Waitlist'] = "false";
 
         $result = $this->mb->AddClientToClass( $additions );
-		NS\MZMBO()->helpers->log($result);
+
 		return $result;
     }
 

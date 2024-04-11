@@ -270,56 +270,14 @@ class ClientPortal extends RetrieveClient {
             \wp_send_json_error( $signupData['Error']['Message'] . ' Code: ' . $signupData['Error']['Code'] );
 			\wp_die();
 		}
-
-        if ( $signupData['AddClientsToClassesResult']['ErrorCode'] != 200 ) {
-            // Something did not succeed
-
-            $result['type'] = "error";
-
-            $result['message'] = '';
-
-            if (!isset($signupData['AddClientsToClassesResult']['Classes']['Class']['Clients']['Client'])) :
-
-                $result['type'] = "error";
-
-                if (isset($signupData['AddClientsToClassesResult']['Classes']['Class']['Messages'])):
-
-                    foreach ($signupData['AddClientsToClassesResult']['Classes']['Class']['Messages'] as $message) {
-
-                        $result['message'] .= explode('.', $message)[0] . '.';
-
-                    }
-
-                endif;
-
-            else:
-
-                foreach ($signupData['AddClientsToClassesResult']['Classes']['Class']['Clients']['Client']['Messages'] as $message){
-
-                    if (strpos($message, 'already booked') != false){
-
-                        $result['type'] = "booked";
-
-                        $result['message'] .= __('You are already booked at this time.', 'mz-mindbody-api');
-
-                    } else {
-
-                        /*
-                         * For some reason MBO returns an echo in it's error messages. So
-                         * here we split two sentences and return the first one. Pretty hacky.
-                         */
-                        $result['message'] .= explode('.', $message)[0] . '.';
-
-                    }
-                }
-
-            endif;
+		NS\MZMBO()->helpers->log($signupData);
+        if ( $signupData['Visit']['ClassId'] != $_GET['classID'] ) {
+			NS\MZMBO()->helpers->log('weirdness');
+            \wp_send_json_error( "Something wasn't quite right." . print_r($signupData, true) );
 
         } else {
 
-            $result['type'] = "success";
-
-            $result['message'] = __('Registered via MindBody', 'mz-mindbody-api');
+			\wp_send_json_success( __('Registered via MindBody', 'mz-mindbody-api') );
 
         }
 
