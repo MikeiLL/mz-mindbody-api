@@ -339,8 +339,8 @@ class MzMindbodyApi {
 		$this->loader->add_action( 'wp_ajax_mz_mbo_get_staff', $staff_object, 'get_staff_modal' );
 
 		// Start Ajax Client Check Logged
-		$this->loader->add_action('wp_ajax_nopriv_mz_register_for_class', $client_portal, 'ajax_register_for_class');
-		$this->loader->add_action('wp_ajax_mz_register_for_class', $client_portal, 'ajax_register_for_class');
+		$this->loader->add_action('wp_ajax_nopriv_mz_add_client_to_class', $client_portal, 'ajax_add_client_to_class');
+		$this->loader->add_action('wp_ajax_mz_add_client_to_class', $client_portal, 'ajax_add_client_to_class');
 
 		// Start Ajax Client Create Account
 		$this->loader->add_action('wp_ajax_nopriv_mz_create_mbo_account', $client_portal, 'ajax_create_mbo_account');

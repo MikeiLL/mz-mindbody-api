@@ -196,7 +196,9 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 	 * @return string shortcode content.
 	 */
 	public function handle_shortcode( $atts, $content = null ) {
-
+    echo "<pre>";
+    print_r($_SESSION['MindbodyAuth']);
+    echo "</pre>";
 		$this->atts = shortcode_atts(
 			array(
 				'type'                  => 'week',

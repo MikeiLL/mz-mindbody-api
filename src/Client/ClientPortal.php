@@ -236,26 +236,28 @@ class ClientPortal extends RetrieveClient {
      *
      * @return array with result of api call and message type.
      */
-    private function ajax_add_client_to_class($classID) {
+    public function ajax_add_client_to_class($classID) {
+
+        if ( isset( $_GET['nonce'] ) ) {
+            $nonce = wp_unslash( $_GET['nonce'] );
+        } else {
+            \wp_send_json_error( 'Missing nonce' );
+            \wp_die();
+        }
+
+        if ( ! \wp_verify_nonce( $nonce, 'mz_mbo_api' ) ) {
+            \wp_send_json_error( $this->invalid_nonce_feedback );
+            \wp_die();
+        }
+
+		$this->clientID = $_SESSION['MindbodyAuth']['MBO_USER_StudioProfile_ID'];
 
         $result = array();
 
-        $additions = array();
+        $signupData = $this->add_client_to_class($this->clientID, $_GET['classID']);
 
-        $additions['ClassIDs'] = array($classID);
-
-        $additions['ClientIDs'] = array($this->clientID);
-
-        $additions['SendEmail'] = true;
-
-        $additions['RequirePayment'] = false;
-
-        // Crate the MBO Object
-        $this->get_mbo_results();
-
-        $signupData = $this->mb->AddClientsToClasses($additions);
-
-        if ((isset(NS\Inc\Core\MZ_Mindbody_Api::$advanced_options['log_api_calls'])) && (NS\Inc\Core\MZ_Mindbody_Api::$advanced_options['log_api_calls'] == 'on')):
+        if ((isset(NS\Core\MzMindbodyApi::$advanced_options['log_api_calls']))
+		&& (NS\Core\MzMindbodyApi::$advanced_options['log_api_calls'] == 'on')):
             // Debug logging on if we have also enabled log_api_calls
             $debug_data = [
                 'mbo_client' => $_SESSION['MindbodyAuth']['MBO_Client'],
@@ -263,6 +265,11 @@ class ClientPortal extends RetrieveClient {
                 'signupData'   => $signupData
             ];
         endif;
+
+		if ( isset($signupData['Error']) ) {
+            \wp_send_json_error( $signupData['Error']['Message'] . ' Code: ' . $signupData['Error']['Code'] );
+			\wp_die();
+		}
 
         if ( $signupData['AddClientsToClassesResult']['ErrorCode'] != 200 ) {
             // Something did not succeed
@@ -399,7 +406,7 @@ class ClientPortal extends RetrieveClient {
      * Create MBO Account
      */
     public function ajax_create_mbo_account(){
-
+		NS\MZMBO()->helpers->log('ClientPortal->ajax_create_mbo_account()');
         check_ajax_referer($_REQUEST['nonce'], "mz_mbo_api", false);
 
         // Crate the MBO Object
@@ -483,11 +490,22 @@ class ClientPortal extends RetrieveClient {
     public function ajax_display_client_schedule(){
 		NS\MZMBO()->helpers->log('ClientPortal->ajax_display_client_schedule()');
 
-        check_ajax_referer($_REQUEST['nonce'], "mz_mbo_api", false);
+        if ( isset( $_GET['nonce'] ) ) {
+            $nonce = wp_unslash( $_GET['nonce'] );
+        } else {
+			NS\MZMBO()->helpers->log('Missing Nonce');
+            \wp_send_json_error( 'Missing nonce' );
+            \wp_die();
+        }
+
+        if ( ! \wp_verify_nonce( $nonce, 'mz_mbo_api' ) ) {
+			NS\MZMBO()->helpers->log('Bad Nonce');
+            \wp_send_json_error( $this->invalid_nonce_feedback );
+            \wp_die();
+        }
+		NS\MZMBO()->helpers->log('ClientPortal->ajax_display_client_schedule() TWO');
 
         ob_start();
-
-        $result['type'] = 'success';
 
         $schedule = $this->get_client_schedule();
 
@@ -525,7 +543,8 @@ class ClientPortal extends RetrieveClient {
             header("Location: " . $_SERVER["HTTP_REFERER"]);
         }
 
-        die();
+        \wp_send_json_success( ['message'] );
+        \wp_die();
     }
 
     /**
@@ -562,7 +581,12 @@ class ClientPortal extends RetrieveClient {
 
         if ( !$this->mb || $this->mb == 'NO_API_SERVICE' ) return false;
 
-        $client_schedule = $this->mb->GetClientSchedule($additions);
+        $client_schedule = $this->mb->GetClientSchedule(
+            array(
+                'clientId' => $id,
+                'EndDate'  => \wp_date( 'Y-m-d', \strtotime( '+1 month' ) ),
+            )
+        );
 
         if ($client_schedule['GetClientScheduleResult']['Status'] != 'Success'):
             $result['message'] = array(NS\MZMBO()->i18n->get('result_error'),
@@ -576,6 +600,8 @@ class ClientPortal extends RetrieveClient {
         $result['type'] = "success";
 
         return $result;
+        \wp_send_json_success( $result );
+        \wp_die();
 
     }
 
