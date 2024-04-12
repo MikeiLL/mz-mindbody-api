@@ -69,6 +69,8 @@ You need to register a developer account with MindBody, which costs $11+ per web
 
 = v2.10.2 =
 bugfix: show registrants hadn't been working because data-classid was missing.
+some refactoring of MBO library.
+replace some implementations of ajax with wp_send_json methods.
 
 = v2.10.1 =
 Fix: dumb, wrong syntax for casting string to int.
