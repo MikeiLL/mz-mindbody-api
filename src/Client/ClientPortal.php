@@ -465,6 +465,7 @@ class ClientPortal extends RetrieveClient {
             $clientId = $_SESSION['MindbodyAuth']['MBO_USER_StudioProfile_ID'];
             $schedule = $this->get_client_schedule($clientId);
             NS\MZMBO()->helpers->log($schedule);
+            NS\MZMBO()->helpers->log("SCHEDULE");
             if ( !isset($schedule['Visits']) ) {
                 \wp_send_json_error( 'No schedule found' );
                 \wp_die();

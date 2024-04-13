@@ -158,14 +158,10 @@ class RetrieveClient extends Interfaces\Retrieve {
             )
         );
         if (isset($result['Visits'])) {
-            NS\MZMBO()->helpers->log( 'NOW Getting client schedule for ' . $id);
-            NS\MZMBO()->helpers->log($result);
             // @TODO MAYBE add to session
             $sorted_client_schedule = $this->sort_classes_by_date_then_time($result);
             $result['Visits'] = $sorted_client_schedule;
         }
-        NS\MZMBO()->helpers->log( 'Done getting client schedule for ' . $id);
-        NS\MZMBO()->helpers->log($result);
         return $result;
 
     }

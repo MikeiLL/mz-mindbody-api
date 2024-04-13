@@ -560,6 +560,7 @@ class ScheduleItem {
                     // Used in Schedule\RetrieveRegistrants.
                     $link_array['data-nonce']   = wp_create_nonce( 'mz_mbo_get_registrants' );
                     $link_array['data-target']  = 'registrantModal';
+                    $link_array['data-classID'] = $this->ID;
                 }
                 $link_array['data-staffImage'] = ( '' !== $this->staff_image ) ? $this->staff_image : '';
                 $link->set( 'href', NS\PLUGIN_NAME_URL . 'src/Frontend/views/modals/modal_descriptions.php' );

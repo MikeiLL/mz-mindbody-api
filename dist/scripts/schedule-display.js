@@ -241,6 +241,9 @@
      */
 
     $(document).on('click', "a[data-target=registrantModal]", function (e) {
+      console.log('registrantModal');
+      console.log(e);
+      console.log($(this).attr("data-classID"));
       e.preventDefault();
       var target = $(this).attr("href");
       var classDescription = $(this).attr('data-classDescription');
