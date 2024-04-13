@@ -69,6 +69,7 @@ You need to register a developer account with MindBody, which costs $11+ per web
 
 = v2.10.3 =
 Tested up to 6.5.2
+bugfix: missing classId in retrieve registrants
 
 = v2.10.2 =
 bugfix: show registrants hadn't been working because data-classid was missing.
