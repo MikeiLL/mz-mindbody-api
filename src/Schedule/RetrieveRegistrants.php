@@ -121,15 +121,12 @@ class RetrieveRegistrants extends Interfaces\Retrieve {
             if ( empty( $class_visits['Class']['Visits'] ) ) :
                 return __( 'No registrants yet.', 'mz-mindbody-api' );
         else :
-                $registrant_ids = array();
+            $registrant_ids = array_map(function($registrant) {
+                return $registrant['ClientId'];
+            }, $class_visits['Class']['Visits']);
 
-                // Build array of registrant ids to send to GetClients.
-            foreach ( $class_visits['Class']['Visits'] as $registrant ) {
-                $registrant_ids[] = $registrant['ClientId'];
-            }
-
-                // send list of registrants to GetRegistrants.
-                $mb = $this->instantiate_mbo_api();
+            // send list of registrants to GetRegistrants.
+            $mb = $this->instantiate_mbo_api();
 
             if ( ! $mb || 'NO_API_SERVICE' === $mb ) {
                 return false;
@@ -140,13 +137,14 @@ class RetrieveRegistrants extends Interfaces\Retrieve {
                 $mb->source_credentials['SiteIDs'][0] = $this->mbo_account;
             }
 
-                $this->registrants = $mb->GetClients( array( 'clientIds' => $registrant_ids ) );
+            // send true to GetClients to get multiple clients.
+            $this->registrants = $mb->GetClients( array( 'clientIds' => $registrant_ids ), true );
 
-                $registrant_names = array();
-                // Add first name, last initial.
-            foreach ( $this->registrants['Clients'] as $registrant ) {
-                $registrant_names[] = $registrant['FirstName'] . ' ' . substr( $registrant['LastName'], 0, 1 ) . '.';
-            }
+            // Add first name, last initial.
+            $registrant_names = array_map(function($registrant) {
+                return $registrant['FirstName'] . ' ' . substr( $registrant['LastName'], 0, 1 );
+            }, $this->registrants['Clients']);
+
             endif;
         endif;
 

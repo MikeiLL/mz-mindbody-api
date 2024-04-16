@@ -74,7 +74,8 @@ class MboV6Api extends MboApi {
         };
 
         if ( 'GetClients' === $name && isset($arguments[0]) ) {
-            $rest_method['endpoint'] .= '?limit=1';
+            // Unless we have added a third argument only one client.
+            if (!isset($arguments[1])) $rest_method['endpoint'] .= '?limit=1';
 
             if (array_key_exists( 'ClientID', $arguments[0])) {
                 $rest_method['endpoint'] .= '&clientIDs=' . $arguments[0]['ClientID'];

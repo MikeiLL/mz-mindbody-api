@@ -175,7 +175,7 @@
                 url: mz_mindbody_schedule.ajaxurl,
                 data: {action: 'mz_mbo_get_registrants', nonce: nonce, classID: classID},
                 success: function (json) {
-                    if (json.type == "success") {
+                  if (json.type == "success") {
                         htmlRegistrants = '<ul class="mz-classRegistrants">';
                         if ($.isArray(json.message)) {
                             json.message.forEach(function (name) {
