@@ -136,10 +136,6 @@ td.hidden {
   }
 }
 
-ul.mz-classRegistrants li {
-  margin-left: 20%;
-}
-
 .mz_mbo_styled_select {
   display: inline-block;
 }
@@ -182,33 +178,6 @@ ul.mz-classRegistrants li {
   padding: 1em;
 }
 
-
-
-/** Potentially nice select styling:
- Select Box Styles: bavotasan.com Method (with special adaptations by ericrasch.com) */
-/* -------------------- Source: http://bavotasan.com/2011/style-select-box-using-only-css/ */
-/* From http://codepen.io/ericrasch/pen/zjDBx
-.mz_mbo_styled_select {
-   width: 240px;
-   height: 34px;
-   overflow: hidden;
-   border: 1px solid #ccc;
-   background: hsla(40, 98%, 75%, 1);
-}
-
-.mz_mbo_styled_select select {
-   background: transparent;
-   width: 268px;
-   padding: 5px;
-   font-size: 16px;
-   line-height: 1;
-   border: 0;
-   border-radius: 0;
-   height: 34px;
-   -webkit-appearance: none;
-}
-*/
-
 /*colorbox css*/
 /*
     Colorbox Core Style:
@@ -222,6 +191,7 @@ ul.mz-classRegistrants li {
   left: 0;
   z-index: 9999;
   overflow: hidden;
+  transform: translate3d(0, 0, 0);
   -webkit-transform: translate3d(0, 0, 0);
 }
 
@@ -476,44 +446,4 @@ ul.mz-classRegistrants li {
 .cboxIE #cboxMiddleLeft,
 .cboxIE #cboxMiddleRight {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#00FFFFFF, endColorstr=#00FFFFFF);
-}
-
-#mzStudioRegisterForm {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-#mzStudioRegisterForm label {
-  display: flex;
-  justify-content: space-around;
-  margin: 1em 0;
-}
-
-#mzStudioRegisterForm label span {
-  flex: 1;
-}
-
-#mzStudioRegisterForm input {
-  flex: 2;
-}
-
-#mzStudioRegisterForm fieldset {
-  margin: 1em;
-  max-width: 800px;
-  min-width: 400px;
-}
-
-#registerheading {
-  margin: 0 auto;
-  font-size: 1.5em;
-  text-align: center;
-}
-
-#registernotice {
-  margin: 0 auto;
-  font-size: 1.1em;
-  text-align: center;
-  padding: 1em;
-  border: 1px solid #ccc;
 }

@@ -69,10 +69,13 @@ You need to register a developer account with MindBody, which costs $11+ per web
 
 = v2.10.4 =
 Fix bug in get_registrants.
+Migrate some css to child plugin.
 
 = v2.10.3 =
 Tested up to 6.5.2
 bugfix: missing classId in retrieve registrants
+Clean out some old code.
+Remove some logging.
 
 = v2.10.2 =
 bugfix: show registrants hadn't been working because data-classid was missing.

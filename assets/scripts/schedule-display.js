@@ -136,15 +136,13 @@
          */
       $(document).on('click', "a[data-target=registrantModal]", function (e) {
             e.preventDefault();
-            var target = $(this).attr("href");
-            var classDescription = $(this).attr('data-classDescription');
-            var staffName = $(this).attr('data-staffName');
-            var staffImage = $(this).attr('data-staffImage');
-            var className = $(this).attr("data-className");
-            var classID = $(this).attr("data-classID");
-            var nonce = $(this).attr("data-nonce");
-            var popUpContent = '<div class="mz-classInfo">';
-            var subText = ($(this).attr("data-sub") !== undefined) ? '<span class="sub-text">' + mz_mindbody_schedule.sub_by_text + '</span>' + ' ' : ' ';
+            const target = $(this).attr("href");
+            const classDescription = $(this).attr('data-classDescription');
+            const staffName = $(this).attr('data-staffName');
+            const staffImage = $(this).attr('data-staffImage');
+            const className = $(this).attr("data-className");
+            const classID = $(this).attr("data-classID");
+            let popUpContent = '<div class="mz-classInfo">';
             popUpContent += '<h3>' + className + '</h3>';
             popUpContent += '<h4>' + mz_mindbody_schedule.with + ' ' + staffName + '</h4>';
 
@@ -169,7 +167,7 @@
                 type: "GET",
                 dataType: 'json',
                 url: mz_mindbody_schedule.ajaxurl,
-                data: {action: 'mz_mbo_get_registrants', nonce: nonce, classID: classID},
+                data: {action: 'mz_mbo_get_registrants', nonce: mz_mindbody_schedule.display_schedule_nonce, classID: classID},
                 success: function (json) {
                   if (json.type == "success") {
                         htmlRegistrants = '<ul class="mz-classRegistrants">';
