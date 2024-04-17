@@ -10,3 +10,4 @@ tests/Test_Options.php
 composer.lock
 .vscode
 
+package-lock.json

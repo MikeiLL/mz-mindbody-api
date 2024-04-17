@@ -92,9 +92,9 @@ echo "Checking version in main plugin file matches version in readme.txt file...
 echo
 
 # Check version in readme.txt is the same as plugin file after translating both to Unix line breaks to work around grep's failure to identify Mac line breaks
-PLUGINVERSION=$(grep -i "Version:" $PLUGINDIR/$MAINFILE | awk -F' ' '{print $NF}' | tr -d '\r')
+PLUGINVERSION=$(grep -i "Version:" "$PLUGINDIR/$MAINFILE" | awk -F' ' '{print $NF}' | tr -d '\r')
 echo "$MAINFILE version: $PLUGINVERSION"
-READMEVERSION=$(grep -i "Stable tag:" $PLUGINDIR/readme.txt | awk -F' ' '{print $NF}' | tr -d '\r')
+READMEVERSION=$(grep -i "Stable tag:" "$PLUGINDIR"/readme.txt | awk -F' ' '{print $NF}' | tr -d '\r')
 echo "readme.txt version: $READMEVERSION"
 
 if [ "$READMEVERSION" = "trunk" ]; then
@@ -159,7 +159,7 @@ echo
 echo
 
 echo "Changing to $PLUGINDIR"
-cd $PLUGINDIR
+cd "$PLUGINDIR"
 
 # Check for git tag (may need to allow for leading "v"?)
 # if git show-ref --tags --quiet --verify -- "refs/tags/$PLUGINVERSION"
@@ -255,7 +255,7 @@ if [ -s './composer.json' ]; then
     else
         rm -rf ./composer.json
     fi
-fi 
+fi
 # Add all new files that are not set to be ignored
 svn status | grep -v "^.[ \t]*\..*" | grep "^?" | awk '{print $2"@"}' | xargs svn add
 svn commit --username=$SVNUSER -m "Preparing for $PLUGINVERSION release"

@@ -18,7 +18,7 @@ use \WP_CLI_Command;;
  * @since 2.9.3
  */
 class WpCommands extends \WP_CLI_Command {
-	  /**
+      /**
    * Display version information.
    * ## OPTIONS
    *
@@ -36,31 +36,31 @@ class WpCommands extends \WP_CLI_Command {
 
   /**
    * Clear All saved Mindbody API transients.
-	 * @since 2.9.3
+     * @since 2.9.3
    */
   function clear_transients() {
-		$admin = new \MZoo\MzMindbody\Admin\Admin;
-		$message = $admin->clear_plugin_transients();
+        $admin = new \MZoo\MzMindbody\Admin\Admin;
+        $message = $admin->clear_plugin_transients();
     \WP_CLI::line( $message );
   }
 
   /**
    * Cancel API excess alert emails.
-	 * @since 2.9.3
+     * @since 2.9.3
    */
   function cancel_api_alerts() {
-		$admin = new \MZoo\MzMindbody\Admin\Admin;
-		$message = $admin->cancel_excess_api_alerts();
+        $admin = new \MZoo\MzMindbody\Admin\Admin;
+        $message = $admin->cancel_excess_api_alerts();
     \WP_CLI::line( $message );
   }
 
   /**
    * Fetch new MBO API token.
-	 * @since 2.9.3
+     * @since 2.9.3
    */
   function fetch_new_token() {
-		$admin = new \MZoo\MzMindbody\Admin\Admin;
-		$message = $admin->get_and_save_staff_token();
+        $admin = new \MZoo\MzMindbody\Admin\Admin;
+        $message = $admin->get_and_save_staff_token();
     \WP_CLI::line( $message );
   }
 

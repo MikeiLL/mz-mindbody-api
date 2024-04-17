@@ -136,10 +136,6 @@ td.hidden {
   }
 }
 
-ul.mz-classRegistrants li {
-  margin-left: 20%;
-}
-
 .mz_mbo_styled_select {
   display: inline-block;
 }
@@ -182,56 +178,6 @@ ul.mz-classRegistrants li {
   padding: 1em;
 }
 
-/**
- * Grid for our modal windows
- *
- */
-
-.modal__wrapper {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.modal__footer,
-.modal__header {
-  min-height: 40px;
-  overflow: auto;
-}
-
-.modal__content {
-  flex: 1;
-  padding: 0 1em;
-  overflow: auto;
-}
-
-.modal__footer {}
-
-/** Potentially nice select styling:
- Select Box Styles: bavotasan.com Method (with special adaptations by ericrasch.com) */
-/* -------------------- Source: http://bavotasan.com/2011/style-select-box-using-only-css/ */
-/* From http://codepen.io/ericrasch/pen/zjDBx
-.mz_mbo_styled_select {
-   width: 240px;
-   height: 34px;
-   overflow: hidden;
-   border: 1px solid #ccc;
-   background: hsla(40, 98%, 75%, 1);
-}
-
-.mz_mbo_styled_select select {
-   background: transparent;
-   width: 268px;
-   padding: 5px;
-   font-size: 16px;
-   line-height: 1;
-   border: 0;
-   border-radius: 0;
-   height: 34px;
-   -webkit-appearance: none;
-}
-*/
-
 /*colorbox css*/
 /*
     Colorbox Core Style:
@@ -245,6 +191,7 @@ ul.mz-classRegistrants li {
   left: 0;
   z-index: 9999;
   overflow: hidden;
+  transform: translate3d(0, 0, 0);
   -webkit-transform: translate3d(0, 0, 0);
 }
 

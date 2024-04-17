@@ -60,36 +60,36 @@
                 });
             }
             $.ajax({
-                type: "post",
-                dataType: "json",
-                context: this,
-                url: mz_mindbody_schedule.ajaxurl,
-                data: {action: 'mz_display_schedule', nonce: display_schedule_nonce, atts: atts},
-                success: function (json) {
-                    if (json.type == "success") {
-                        container.toggleClass('spinner-border');
-                        if (json.grid && json.horizontal) {
-                            document.getElementById("gridDisplay").innerHTML = json.grid;
-                            document.getElementById("horizontalDisplay").innerHTML = json.horizontal;
-                        } else if (json.grid) {
-                            document.getElementById("gridDisplay").innerHTML = json.grid;
-                        } else {
-                            document.getElementById("horizontalDisplay").innerHTML = json.horizontal;
-                        }
-                        stripe_and_filter();
-                    } else {
-                        mz_reset_navigation(this, buttons);
-                        container.toggleClass('spinner-border');
-                        container.html(json.message);
-                        stripe_and_filter();
-                    }
-                }
+              type: "post",
+              dataType: "json",
+              context: this,
+              url: mz_mindbody_schedule.ajaxurl,
+              data: {action: 'mz_display_schedule', nonce: display_schedule_nonce, atts: atts},
+              success: function (json) {
+                if (json.success) {
+                      container.toggleClass('spinner-border');
+                      if (json.data.grid && json.data.horizontal) {
+                          document.getElementById("gridDisplay").innerHTML = json.grid;
+                          document.getElementById("horizontalDisplay").innerHTML = json.horizontal;
+                      } else if (json.data.grid) {
+                          document.getElementById("gridDisplay").innerHTML = json.data.grid;
+                      } else {
+                          document.getElementById("horizontalDisplay").innerHTML = json.data.horizontal;
+                      }
+                      stripe_and_filter();
+                  } else {
+                      mz_reset_navigation(this, buttons);
+                      container.toggleClass('spinner-border');
+                      container.html(json.data);
+                      stripe_and_filter();
+                  }
+              }
             })
-                .fail(function (json) {
-                    mz_reset_navigation(this, buttons);
-                    container.toggleClass('spinner-border');
-                    container.html('Sorry but there was an error retrieving schedule.');
-                }); // End Ajax
+            .fail(function (json) {
+              mz_reset_navigation(this, buttons);
+              container.toggleClass('spinner-border');
+              container.html('Sorry but there was an error retrieving schedule.');
+            }); // End Ajax
         }); // End click navigation
 
         function mz_reset_navigation(el, buttons) {
@@ -134,17 +134,15 @@
          *
          *
          */
-        $(document).on('click', "a[data-target=registrantModal]", function (e) {
+      $(document).on('click', "a[data-target=registrantModal]", function (e) {
             e.preventDefault();
-            var target = $(this).attr("href");
-            var classDescription = $(this).attr('data-classDescription');
-            var staffName = $(this).attr('data-staffName');
-            var staffImage = $(this).attr('data-staffImage');
-            var className = $(this).attr("data-className");
-            var classID = $(this).attr("data-classid");
-            var nonce = $(this).attr("data-nonce");
-            var popUpContent = '<div class="mz-classInfo">';
-            var subText = ($(this).attr("data-sub") !== undefined) ? '<span class="sub-text">' + mz_mindbody_schedule.sub_by_text + '</span>' + ' ' : ' ';
+            const target = $(this).attr("href");
+            const classDescription = $(this).attr('data-classDescription');
+            const staffName = $(this).attr('data-staffName');
+            const staffImage = $(this).attr('data-staffImage');
+            const className = $(this).attr("data-className");
+            const classID = $(this).attr("data-classID");
+            let popUpContent = '<div class="mz-classInfo">';
             popUpContent += '<h3>' + className + '</h3>';
             popUpContent += '<h4>' + mz_mindbody_schedule.with + ' ' + staffName + '</h4>';
 
@@ -169,9 +167,9 @@
                 type: "GET",
                 dataType: 'json',
                 url: mz_mindbody_schedule.ajaxurl,
-                data: {action: 'mz_mbo_get_registrants', nonce: nonce, classID: classID},
+                data: {action: 'mz_mbo_get_registrants', nonce: mz_mindbody_schedule.display_schedule_nonce, classID: classID},
                 success: function (json) {
-                    if (json.type == "success") {
+                  if (json.type == "success") {
                         htmlRegistrants = '<ul class="mz-classRegistrants">';
                         if ($.isArray(json.message)) {
                             json.message.forEach(function (name) {

@@ -1,24 +1,18 @@
 === MZ Mindbody API ===
 Contributors: mikeill, rtzee, sunspotswifi
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A95ZEELLHGECE
-Tags: mindbody, schedule, calendar, yoga, MBO, mindbodyonline, gym, parkour, mbo, mindbodyonline.
+Tags: mindbody, schedule, MBO, mindbodyonline, gym.
 Requires at least: 5.3
-Tested up to: 6.2.2
-Stable tag: 2.10.1
+Tested up to: 6.5.2
+Stable tag: 2.10.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Display special events, class schedules and instructors from Mindbody.
 
-Light weight, fast loading.
+Light weight, fast.
 
-Configurable with template over-rides in your theme.
-
-Easy to extend, includes feature for displaying registrants.
-
-Schedule display can be vertical or horizontal. User can switch between both.
-
-Open Source on [GitHub](https://github.com/MikeiLL/mz-mindbody-api)
+Configurable with template over-rides.
 
 == Description ==
 
@@ -66,6 +60,24 @@ You need to register a developer account with MindBody, which costs $11+ per web
 5. Admin Page
 
 == Changelog ==
+
+= v2.10.5 =
+Abreviate short description and limit to five tags.
+
+= v2.10.4 =
+Fix bug in get_registrants.
+Migrate some css to child plugin.
+
+= v2.10.3 =
+Tested up to 6.5.2
+bugfix: missing classId in retrieve registrants
+Clean out some old code.
+Remove some logging.
+
+= v2.10.2 =
+bugfix: show registrants hadn't been working because data-classid was missing.
+some refactoring of MBO library.
+replace some implementations of ajax with wp_send_json methods.
 
 = v2.10.1 =
 Fix: dumb, wrong syntax for casting string to int.
