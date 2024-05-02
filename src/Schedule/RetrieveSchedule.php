@@ -30,9 +30,10 @@ class RetrieveSchedule extends Interfaces\RetrieveClasses {
      * Default time_frame is two dates, start of current week as set in WP, and seven days from "now."
      *
      * @param timestamp $timestamp Time to begin timeframe from.
+     * @param string    $duration  Strtotime format string for duration.
      * @return array of start and end dates as required for MBO API.
      */
-    public function time_frame( $timestamp = null ) {
+    public function time_frame( $timestamp = null, $duration = '+6 day' ) {
 
         // Since WP v5.3 current_time('timestamp') is depreciated.
         $today = strtotime( wp_date( 'Y-m-d H:i:s' ) );
@@ -41,14 +42,14 @@ class RetrieveSchedule extends Interfaces\RetrieveClasses {
         // Can override timestamp here for testing $timestamp = '2020-5-1'.
 
         $current_week     = $this->singleWeek( $timestamp );
-        $seven_days_later = $this->seven_days_later( $timestamp );
+        $end_timestamp = strtotime( $duration, $timestamp );
         if ( ( ! empty( $this->atts['type'] ) && ( 'day' === $this->atts['type'] ) ) ) :
             $start_time = new \Datetime( gmdate( 'Y-m-d', $today ) );
             $end_time   = new \Datetime( gmdate( 'Y-m-d', $today ) );
             // Can test with $end_time = new \DateTime('tomorrow').
         else :
             $start_time = new \Datetime( gmdate( 'Y-m-d', $current_week['start'] ) );
-            $end_time   = new \Datetime( gmdate( 'Y-m-d', $seven_days_later ) );
+            $end_time   = new \Datetime( gmdate( 'Y-m-d', $end_timestamp ) );
         endif;
         $current_day_offset = new \Datetime( gmdate( 'Y-m-d' ) );
         $current_week_end   = new \Datetime( gmdate( 'Y-m-d', $current_week['end'] ) );

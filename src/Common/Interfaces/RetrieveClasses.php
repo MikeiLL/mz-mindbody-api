@@ -203,7 +203,7 @@ abstract class RetrieveClasses extends Retrieve {
         else :
             $this->mbo_account = '-99';
         endif;
-        $this->time_frame           = $this->time_frame();
+        $this->time_frame           = $this->time_frame(null, isset($atts['duration']) ? $atts['duration'] : '+6 day' );
         $this->locations_dictionary = array();
 
         // Schedule types default to 'Class' (vs Enrollment).
@@ -310,6 +310,7 @@ abstract class RetrieveClasses extends Retrieve {
      * Return timestamp of seven days from now.
      *
      * @since 2.4.7
+     * @deprecated 2.6.4
      *
      * @param timestamp $timestamp of some "now".
      * @return timestamp $timestamp of seven days from param.
