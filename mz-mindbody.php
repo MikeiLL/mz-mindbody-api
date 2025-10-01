@@ -99,7 +99,7 @@ if ( version_compare( PHP_VERSION, MINIMUM_PHP_VERSION, '<' ) ) {
          * Run the plugin.
          */
 
-        add_action( 'plugins_loaded', __NAMESPACE__ . '\run_plugin', INIT_LEVEL );
+        add_action( 'init', __NAMESPACE__ . '\run_plugin', INIT_LEVEL );
 
     }
 }
