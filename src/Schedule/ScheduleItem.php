@@ -431,6 +431,13 @@ class ScheduleItem {
      */
     public $sign_up_link;
 
+    /** A bunch more that had been being dynamically created */
+    public $is_waitlist_available;
+    public $total_booked;
+    public $max_capacity;
+    public $staff_name_link;
+    public $grid_sign_up_link;
+
     /**
      * Shortcode attributes.
      *
