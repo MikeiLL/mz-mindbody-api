@@ -58,9 +58,36 @@ class MzMindbodyApi {
      *
      * @since  2.4.7
      * @access protected
-     * @var    string $plugin_base_name The string used to uniquely identify this plugin.
+     * @var    string $plugin_name The string used to uniquely identify this plugin.
+     */
+    protected $plugin_name;
+
+    /**
+     * The unique identifier of this plugin.
+     *
+     * @since  2.4.7
+     * @access protected
+     * @var    string $plugin_basename The file which is the entrypoint of this plugin.
      */
     protected $plugin_basename;
+
+    /**
+     * i18n.
+     *
+     * @since  2.4.7
+     * @access protected
+     * @var    string $i18n Common i18n strings.
+     */
+    public $i18n;
+
+    /**
+     * Helpers.
+     *
+     * @since  2.4.7
+     * @access protected
+     * @var    string $helpers Mostly print and logging features.
+     */
+    public $helpers;
 
     /**
      * The current version of the plugin.
