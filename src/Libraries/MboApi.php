@@ -301,6 +301,8 @@ class MboApi {
             )
         );
 
+        //#####NS\MZMBO()->helpers->print( $response );
+
         if ( is_wp_error( $response ) ) {
             $error_message = $response->get_error_message();
             return 'Something went wrong with token request: ' . $error_message;

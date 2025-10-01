@@ -140,7 +140,16 @@ class MboV6ApiMethods extends MboApi {
         if ( false !== $token && ctype_alnum( $token['AccessToken'] ) ) {
             $token = $token['AccessToken'];
         } else {
-            $token =  $this->token_request()->AccessToken;
+            if (class_exists("\MZoo\MzMindbody\MzMboApiCalls")){
+                // If MBO Access plugin is installed and active
+                $result = $this->token_request();
+                NS\MZMBO()->helpers->print( $result );
+                return;
+                if ($result['response']['code'] >= 400) {
+                    NS\MZMBO()->helpers->print( $result['response']['body'] );
+                }
+                $token =  $result->AccessToken;
+            }
         }
 
         self::$headers_authorized = array_merge(

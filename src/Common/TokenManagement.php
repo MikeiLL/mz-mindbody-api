@@ -83,7 +83,7 @@ class TokenManagement extends Interfaces\Retrieve {
         }
 
         $response = $mb->TokenIssue();
-        // NS\MZMBO()->helpers->log( print_r($response, true) );
+        // NS\MZMBO()->helpers->print( $response );
         // @codingStandardsIgnoreStart naming conventions
         if ( ! empty( $response->AccessToken ) ) {
             return $response->AccessToken;
@@ -92,7 +92,7 @@ class TokenManagement extends Interfaces\Retrieve {
             return $response->Error->Message;
         }
         // @codingStandardsIgnoreEnd
-        throw new \Exception( ' Error getting token from MBO.' );
+        throw new \Exception( ' Error getting token from MBO: ' . $response);
     }
 
 
