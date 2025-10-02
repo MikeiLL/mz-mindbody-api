@@ -96,6 +96,15 @@ abstract class RetrieveClasses extends Retrieve {
     public $classes;
 
     /**
+     * Source Credentials
+     *
+     * @since  2.10.6
+     * @access public
+     * @var array $source_credentials as set in database.
+     */
+    public $source_credentials;
+
+    /**
      * All locations included in current schedule
      *
      * Used to filter by location via jQuery in display, also to
