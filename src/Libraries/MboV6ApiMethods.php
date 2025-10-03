@@ -142,11 +142,14 @@ class MboV6ApiMethods extends MboApi {
         } else {
             if (class_exists("\MZoo\MzMindbody\MzMboApiCalls")){
                 // If MBO Access plugin is installed and active
-                $result = $this->token_request();
-                NS\MZMBO()->helpers->print( $result );
+                try {
+                    $result = $this->token_request();
+                } catch (Exception $e) {
+                    NS\MZMBO()->helpers->log( $e );
+                }
                 return;
                 if ($result['response']['code'] >= 400) {
-                    NS\MZMBO()->helpers->print( $result['response']['body'] );
+                    NS\MZMBO()->helpers->log( $result['response']['body'] );
                 }
                 $token =  $result->AccessToken;
             }
