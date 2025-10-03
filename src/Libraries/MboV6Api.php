@@ -31,6 +31,15 @@ class MboV6Api extends MboApi {
     protected $api_methods = array();
 
     /**
+     * Source Credentials
+     *
+     * @since  2.10.6
+     * @access public
+     * @var array $source_credentials as set in database.
+     */
+    public $source_credentials;
+
+    /**
      * Initialize the apiServices and api_methods arrays
      *
      * @param array $mbo_dev_credentials which are Core\MzMindbodyApi::$basic_options.

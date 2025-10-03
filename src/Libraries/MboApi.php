@@ -280,7 +280,6 @@ class MboApi {
      * @return array of WP option or MBO API Response with date and token string.
      */
     protected function token_request() {
-
         $this->token_request_tries--;
 
         $request_body = array(
@@ -301,15 +300,16 @@ class MboApi {
             )
         );
 
-        //#####NS\MZMBO()->helpers->print( $response );
+        //NS\MZMBO()->helpers->print( $response );
 
         if ( is_wp_error( $response ) ) {
             $error_message = $response->get_error_message();
             return 'Something went wrong with token request: ' . $error_message;
         } else {
             if ((int) $response['response']['code'] > 299) {
-                NS\MZMBO()->helpers->log(['RESPONSE ERROR', $response['response']]);
-                return 'Something went wrong with token request: ' . $response['response']['message'];
+                //NS\MZMBO()->helpers->log(['RESPONSE ERROR', $response['response']]);
+                // @TODO add admin message with $response['response']['message']
+                return false;
             }
             $response_body = json_decode( $response['body'] );
             // @codingStandardsIgnoreStart naming convensions 'Error'

@@ -75,7 +75,6 @@ class TokenManagement extends Interfaces\Retrieve {
      */
     public function get_mbo_results() {
         // NS\MZMBO()->helpers->log( 'Getting token from MBO.' );
-
         $mb = $this->instantiate_mbo_api();
 
         if ( ! $mb ) {
@@ -91,8 +90,9 @@ class TokenManagement extends Interfaces\Retrieve {
         if ( ! empty( $response->Error->Message ) ) {
             return $response->Error->Message;
         }
+        return $response;
         // @codingStandardsIgnoreEnd
-        throw new \Exception( ' Error getting token from MBO: ' . $response);
+        //throw new \Exception( ' Error getting token from MBO: ' . $response);
     }
 
 
@@ -109,7 +109,6 @@ class TokenManagement extends Interfaces\Retrieve {
      * @return AccessToken string as administered by MBO Api.
      */
     public function serve_token() {
-
         $stored_token = $this->get_stored_token();
 
         if ( empty($stored_token['AccessToken']) || empty( $stored_token ) ) {
@@ -172,10 +171,9 @@ class TokenManagement extends Interfaces\Retrieve {
      */
     public function get_and_save_staff_token() {
         // NS\MZMBO()->helpers->log( 'get_and_save_staff_token? ');
-
         $token = $this->get_mbo_results();
         // NS\MZMBO()->helpers->log( 'TOKEN? ' . print_r($token, true) );
-
+        if (!$token) return; // Maybe don't have credentials set.
         $current = new \DateTime();
         $current->format( 'Y-m-d H:i:s' );
 
