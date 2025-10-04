@@ -240,7 +240,7 @@ class MzMindbodyApi {
         self::$date_format             = empty( self::$advanced_options['date_format'] ) ? get_option( 'date_format' ) : self::$advanced_options['date_format'];
         self::$time_format             = empty( self::$advanced_options['time_format'] ) ? get_option( 'time_format' ) : self::$advanced_options['time_format'];
         self::$start_of_week           = get_option( 'start_of_week' );
-        //$this->session                 = (new Session\MzPhpSession)->init();
+        $this->session                 = $this->session_if_required();
 
         $this->load_dependencies();
         $this->set_locale();
@@ -249,6 +249,28 @@ class MzMindbodyApi {
         $this->register_shortcodes();
         $this->add_settings_page();
         $this->instantiate_wpcli();
+    }
+
+    /**
+     * Loads the following required dependencies for this plugin.
+     *
+     * @since 2.10.6
+     *
+     * At the moment only one dependency plugin requires this so
+     * check if it's option is set. Perhaps eventually require
+     * extension plugins which require this functionality
+     * to add an attribute to the wordpress config file. Perhaps
+     * move this functionality outside of this core altogether.
+     *
+     * - Session\MzPhpSession as "borrowed" from EDD
+     *
+     * @access private
+     */
+    private function session_if_required() {
+        $mzmbo_oauth_options = get_option('mzmbo_oauth_options');
+        if (isset($mzmbo_oauth_options)) {
+            (new Session\MzPhpSession)->init();
+        }
     }
 
     /**
