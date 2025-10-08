@@ -9,6 +9,7 @@
  */
 
 namespace MZoo\MzMindbody\Session;
+use MZoo\MzMindbody as NS;
 
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
@@ -58,6 +59,10 @@ class MzPhpSession {
     public function __construct() {
             // Use PHP SESSION (must be enabled via the MZMBO_USE_PHP_SESSIONS constant)
             add_action( 'init', array( $this, 'start_session' ), -2 );
+            if (session_status() !== PHP_SESSION_ACTIVE ) {
+                var_dump("session start");
+                session_start();
+            }
     }
 
     /**
@@ -106,7 +111,9 @@ class MzPhpSession {
      * @since 2.1.3
      */
     public function start_session() {
+        NS\MZMBO()->helpers->log("mzmbo maybe start_session");
         if (session_status() !== PHP_SESSION_ACTIVE ) {
+            NS\MZMBO()->helpers->log("mzmbo start_session");
             session_start();
         }
     }

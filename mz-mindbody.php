@@ -54,6 +54,8 @@ define( NS . 'MINIMUM_PHP_VERSION', 7.1 );
 
 define( NS . 'INIT_LEVEL', 10 );
 
+define( NS . 'MZMBO_USE_PHP_SESSIONS', true);
+
 /**
  * Check the minimum PHP version.
  */
