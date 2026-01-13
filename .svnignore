@@ -10,7 +10,6 @@ Makefile
 README.md
 _site
 bin
-composer.json
 composer.lock
 gulpfile.js
 node_modules
@@ -34,3 +33,10 @@ vendor/squizlabs
 webpack.config.js
 assets
 wpassets
+vendor/gamajo/template-loader/.editoconfig
+testDeploy.sh
+deploy.sh
+src/Common/Interfaces/.gitkeeep
+deployAssets.sh
+.editoconfig
+uru.sh
