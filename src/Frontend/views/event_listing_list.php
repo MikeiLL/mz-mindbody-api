@@ -61,7 +61,7 @@ if ( ( is_array( $data->events ) ) && ! empty( $data->events ) ) : ?>
 <?php elseif ( 0 === count( $data->events ) ) : ?>
     <h4><?php echo esc_html( $data->no_events ); ?></h4>
 <?php else : ?>
-    <div class="error"><?php esc_html_e( 'Error Retrieving Events', 'mz_mindbody_api' ); ?></div>
+    <div class="error"><?php esc_html_e( 'Error Retrieving Events', 'mz-mindbody-api' ); ?></div>
     <p><?php var_dump( $data->events ); ?></p>
 
 <?php endif; ?>

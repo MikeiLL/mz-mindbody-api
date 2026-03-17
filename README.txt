@@ -61,6 +61,10 @@ You need to register a developer account with MindBody, which costs $11+ per web
 
 == Changelog ==
 
+= v2.10.9 =
+Correct a few i18l domain misspellings.
+Exclude some more hidden and unnecessary files
+
 = v2.10.8 =
 Include composer.json file.
 Exclude some unnecessary files

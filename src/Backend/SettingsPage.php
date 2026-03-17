@@ -443,7 +443,7 @@ class SettingsPage {
     private function schedule_codes() {
         $return  = '';
         $return .= '<p>[mz-mindbody-show-schedule]</p>';
-        $return .= '<p>' . __( 'Attributes for schedule shortcodes. For boolean attributes use numeral 1 for true. Lists should be separated with commas', 'mz-miindbody-api' ) . '.</p>';
+        $return .= '<p>' . __( 'Attributes for schedule shortcodes. For boolean attributes use numeral 1 for true. Lists should be separated with commas', 'mz-mindbody-api' ) . '.</p>';
         $return .= '<ul>';
         $return .= '<li><strong>type</strong>: ' . __( "'week' or 'day'. Defaults to 'week'", 'mz-mindbody-api' ) . '</li>';
         $return .= '<li><strong>locations</strong>: ' . __( '(numeric) List of IDs of MBO locations to display', 'mz-mindbody-api' ) . '</li>';

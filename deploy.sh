@@ -177,7 +177,7 @@ svn checkout $SVNURL $SVNPATH --depth immediates
 svn update --quiet $SVNPATH/trunk --set-depth infinity
 svn update --quiet $SVNPATH/tags/$PLUGINVERSION --set-depth infinity
 
-echo "Ignoring GitHub specific files"
+echo "Ignoring Repository specific files"
 # Use local .svnignore if present
 if [ -f ".svnignore" ]; then
 	echo "Using local .svnignore"

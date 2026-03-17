@@ -12,8 +12,8 @@
  * @wordpress-plugin
  * Plugin Name:     mZoo Mindbody Interface - Schedule, Events, Staff Display
  * Description:     Display staff, events and class schedules from Mindbody Online. Customizable.
- * Version:         2.10.8
- * Stable tag:      2.10.8
+ * Version:         2.10.9
+ * Stable tag:      2.10.9
  * Tested up to:    6.9
  * Requires PHP:    7.1
  * Author:          mZoo.org
@@ -42,7 +42,7 @@ define( __NAMESPACE__ . '\NS', __NAMESPACE__ . '\\' );
 
 define( NS . 'PLUGIN_NAME', 'mz-mindbody-api' );
 
-define( NS . 'PLUGIN_VERSION', '2.10.5' );
+define( NS . 'PLUGIN_VERSION', '2.10.9' );
 
 define( NS . 'PLUGIN_NAME_DIR', plugin_dir_path( __FILE__ ) );
 
@@ -248,7 +248,7 @@ function deactivate_plugins() {
     if ( is_admin() && current_user_can( 'activate_plugins' ) ) {
         ?>
             <div class="notice notice-success is-dismissible"><p>
-                <?php esc_html_e( 'MZ Mindbody Api plugin has been deactivated.', 'mz-mbo-access' ); ?>
+                <?php esc_html_e( 'MZ Mindbody Api plugin has been deactivated.', 'mz-mindbody-api' ); ?>
             </p></div>
         <?php
     }
