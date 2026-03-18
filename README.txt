@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: mindbody, schedule, MBO, mindbodyonline, gym.
 Requires at least: 7
 Tested up to: 6.9
-Stable tag: 2.10.8
+Stable tag: 2.10.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
