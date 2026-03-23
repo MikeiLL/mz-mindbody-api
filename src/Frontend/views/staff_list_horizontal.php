@@ -7,6 +7,8 @@
  * @package MzMindbody
  */
 
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 ?>
 
 <?php foreach ( $data->staff as $staff ) : ?>

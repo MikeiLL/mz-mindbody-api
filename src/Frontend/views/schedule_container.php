@@ -10,6 +10,7 @@
 use MZoo\MzMindbody as NS;
 use MZoo\MzMindbody\Core as Core;
 
+if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * This file is the wrapper for Horizontal and/or Grid classes.
  */

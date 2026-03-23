@@ -9,6 +9,8 @@
 
 use MZoo\MzMindbody as NS;
 
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 ?>
 <div class="modal__footer btn-group" class="signupModalFooter">
     <a class="btn btn-primary" data-nonce="<?php echo $data->nonce; ?>" id="MBOSchedule" target="_blank"><?php esc_html_e( 'My Classes', 'mz-mindbody-api' ); ?></a>

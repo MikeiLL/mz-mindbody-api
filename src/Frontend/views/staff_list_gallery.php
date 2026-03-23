@@ -9,6 +9,8 @@
 
 use MZoo\MzMindbody as NS;
 
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 ?>
 <div class="container-fluid">
     <div class="row text-center">

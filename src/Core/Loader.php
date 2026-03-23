@@ -20,6 +20,8 @@ namespace MZoo\MzMindbody\Core;
  * @author Mike iLL/mZoo.org
  */
 
+ if ( ! defined( 'ABSPATH' ) ) exit;
+
 /**
  * Register all actions and filters for the plugin.
  *

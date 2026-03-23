@@ -34,6 +34,9 @@ use MZoo\MzMindbody\Session;
  *
  * @author Mike iLL/mZoo.org
  */
+
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 class MzMindbodyApi {
 
 

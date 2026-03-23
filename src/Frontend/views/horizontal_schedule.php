@@ -15,6 +15,8 @@ use MZoo\MzMindbody\Core;
 use MZoo\MzMindbody\Libraries as Libraries;
 use MZoo\MzMindbody as NS;
 
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 ?>
 <?php
 if ( empty( $data->horizontal_schedule ) ) {

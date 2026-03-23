@@ -9,6 +9,8 @@
 
 use MZoo\MzMindbody\Core as Core;
 
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 ?>
 
 <div style="display:none" id="mzLogInContainer">

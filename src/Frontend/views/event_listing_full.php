@@ -10,6 +10,8 @@
 use MZoo\MzMindbody as NS;
 use MZoo\MzMindbody\Core as Core;
 
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 if ( ( 1 === (int) $data->atts['location_filter'] ) &&
     ( 2 <= count( $data->locations_dictionary ) ) ) {
     // Print out Location Filter Buttons.

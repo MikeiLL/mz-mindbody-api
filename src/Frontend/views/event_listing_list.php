@@ -10,6 +10,8 @@
 use MZoo\MzMindbody as NS;
 use MZoo\MzMindbody\Core as Core;
 
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /* TODO: subclass maybe to DRY up btwn this and event_listing_full. */
 
 if ( ( is_array( $data->events ) ) && ! empty( $data->events ) ) : ?>

@@ -7,6 +7,8 @@
  * @package MzMindbody
  */
 
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 use MZoo\MzMindbody as NS;
 
 ?>

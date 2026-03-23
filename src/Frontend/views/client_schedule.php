@@ -9,6 +9,8 @@
 
 use MZoo\MzMindbody as NS;
 
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 // This is already in the modal content window.
 ?>
     <table class="client-schedule">
