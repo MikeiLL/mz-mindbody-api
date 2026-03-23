@@ -501,7 +501,7 @@ class Display extends Interfaces\ShortcodeScriptLoader {
 
         // Call the API and if fails, return error message.
         if ( false === $this->schedule_object->get_mbo_results() ) {
-            echo '<div>' . __( 'Error returning schedule from MBO for display.', 'mz-mindbody-api' ) . '</div>';
+            echo '<div>' . esc_html__( 'Error returning schedule from MBO for display.', 'mz-mindbody-api' ) . '</div>';
         }
 
         // Register attributes.

@@ -16,6 +16,8 @@ use MZoo\MzMindbody\Libraries as Libraries;
 use MZoo\MzMindbody\Schedule as Schedule;
 use MZoo\MzMindbody\Common\Interfaces as Interfaces;
 
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /**
  * Class that is extended for Schedule Display Ajax Retrieve Registrant(s).
  */
@@ -95,7 +97,7 @@ class RetrieveRegistrants extends Interfaces\Retrieve {
         if ( ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) &&
             'xmlhttprequest' === strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ) {
             $result = wp_json_encode( $result );
-            echo $result;
+            echo esc_html($result);
         } else {
             header( 'Location: ' . $_SERVER['HTTP_REFERER'] );
         }

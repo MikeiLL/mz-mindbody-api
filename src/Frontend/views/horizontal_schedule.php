@@ -20,18 +20,18 @@ use MZoo\MzMindbody as NS;
 if ( empty( $data->horizontal_schedule ) ) {
     echo sprintf(
         // translators: Give a start and end date range for displayed classes.
-        __( 'No Classes To Display (%1$s - %2$s)', 'mz-mindbody-api' ),
-        gmdate( $data->date_format, $data->start_date->getTimestamp() ),
-        gmdate( $data->date_format, $data->end_date->getTimestamp() )
+        esc_html( 'No Classes To Display (%1$s - %2$s)', 'mz-mindbody-api' ),
+        esc_html(gmdate( $data->date_format, $data->start_date->getTimestamp() ), 'mz-mindbody-api'),
+        esc_html(gmdate( $data->date_format, $data->end_date->getTimestamp() ), 'mz-mindbody-api')
     );
 }
 ?>
-<table id="mz_horizontal_schedule" class="<?php echo $data->table_class; ?>">
+<table id="mz_horizontal_schedule" class="<?php echo esc_html($data->table_class, 'mz-mindbody-api'); ?>">
     <?php foreach ( $data->horizontal_schedule as $day => $classes ) : ?>
         <thead>
             <tr class="header visible striped" style="display: table-row">
                 <th class="mz_date_display" scope="header">
-        <?php echo gmdate( $data->date_format, strtotime( $day ) ); ?>
+        <?php echo esc_html(gmdate( $data->date_format, strtotime( $day ) ), 'mz-mindbody-api'); ?>
                 </th>
                 <th class="mz_classDetails" scope="header">
         <?php esc_html_e( 'Class Name', 'mz-mindbody-api' ); ?>
@@ -51,12 +51,20 @@ if ( empty( $data->horizontal_schedule ) ) {
         <tbody>
         <?php if ( ! empty( $classes ) ) : ?>
             <?php foreach ( $classes as $k => $class ) : ?>
-            <tr class="mz_schedule_table mz_description_holder mz_location_<?php echo $class->studio_location_id . ' ' . $class->session_type_css . ' ' . $class->class_name_css; ?>">
-                <td class="mz_date_display" data-time="<?php echo $class->start_datetime; ?>">
-                <?php echo gmdate( $data->time_format, strtotime( $class->start_datetime ) ) . ' - ' . gmdate( $data->time_format, strtotime( $class->end_datetime ) ); ?><br />
-                    <span class="mz_hidden mz_time_of_day"><?php echo $class->part_of_day; ?></span>
+              <?php $location_string = $class->studio_location_id . ' ' . $class->session_type_css . ' ' . $class->class_name_css; ?>
+            <tr class="mz_schedule_table mz_description_holder mz_location_<?php echo esc_html($location_string, 'mz-mindbody-api'); ?>">
+                <td class="mz_date_display" data-time="<?php echo esc_html($class->start_datetime, 'mz-mindbody-api'); ?>">
+                <?php echo esc_html(gmdate( $data->time_format, strtotime( $class->start_datetime ) ) . ' - ' . gmdate( $data->time_format, strtotime( $class->end_datetime ) ), 'mz-mindbody-api'); ?><br />
+                    <span class="mz_hidden mz_time_of_day"><?php echo esc_html($class->part_of_day, 'mz-mindbody-api'); ?></span>
                 <?php if ( ! in_array( 'signup', $data->hide, true ) ) : ?>
-                    <?php $class->sign_up_link->output(); ?>
+                    <?php wp_kses($class->sign_up_link->output(), [
+                      'a'      => [
+                          'href'  => [],
+                          'title' => [],
+                          'class' => [],
+                          'id' => [],
+                      ],
+                  ]); ?>
                 <?php endif; ?>
                 </td>
                 <td class="mz_classDetails">
@@ -64,7 +72,7 @@ if ( empty( $data->horizontal_schedule ) ) {
                 <?php
                 $class->class_name_link->output();
                 ?>
-                <?php echo $class->display_cancelled; ?>
+                <?php echo esc_html($class->display_cancelled, 'mz-mindbody-api'); ?>
 
                 </td>
                 <?php if ( ! in_array( 'teacher', $data->hide, true ) ) : ?>
@@ -77,12 +85,19 @@ if ( empty( $data->horizontal_schedule ) ) {
                 <?php endif; ?>
                 <?php if ( ! in_array( 'session-type', $data->hide, true ) ) : ?>
                 <td class="mz_sessionTypeName">
-                    <?php echo $class->session_type_name; ?>
+                    <?php echo esc_html($class->session_type_name, 'mz-mindbody-api'); ?>
                     <?php
                     // Display location if showing schedule for more than one location.
                     if ( count( $data->locations_dictionary ) >= 2 ) :
                         esc_html_e( 'at', 'mz-mindbody-api' );
-                        echo ' ' . $data->locations_dictionary[ $class->studio_location_id ]['link'];
+                        echo ' ' . wp_kses($data->locations_dictionary[ $class->studio_location_id ]['link'], [
+                          'a'      => [
+                              'href'  => [],
+                              'title' => [],
+                              'class' => [],
+                              'id' => [],
+                          ],
+                      ]);
                     endif;
                     ?>
                 </td>
