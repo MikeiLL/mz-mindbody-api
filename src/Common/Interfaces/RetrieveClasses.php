@@ -633,7 +633,7 @@ abstract class RetrieveClasses extends Retrieve {
             $this->locations_dictionary[ $class['Location']['Id'] ] = array(
                 'name'  => $location_name,
                 'link'  => $location_name_display,
-                'class' => preg_replace( '/\W+/', '-', strtolower( strip_tags( $location_name ) ) ),
+                'class' => preg_replace( '/\W+/', '-', strtolower( wp_strip_all_tags( $location_name ) ) ),
             );
         endif;
     }

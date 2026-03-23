@@ -136,19 +136,19 @@ class RetrieveClassOwners extends Interfaces\RetrieveClasses {
 
             $image_path_array = explode( '?imageversion=', $class_image );
 
-            $class_description_substring = substr( strip_tags( $class['ClassDescription']['Description'] ), 0, 55 );
+            $class_description_substring = substr( wp_strip_all_tags( $class['ClassDescription']['Description'] ), 0, 55 );
 
             $staff_name = isset( $class['Staff']['Name'] ) ? $class['Staff']['Name'] : $class['Staff']['FirstName'] . ' ' . $class['Staff']['LastName'];
 
             $temp = array(
-                'class_name'        => strip_tags( $class['ClassDescription']['Name'] ),
+                'class_name'        => wp_strip_all_tags( $class['ClassDescription']['Name'] ),
                 'class_description' => $class_description_substring,
                 'image_url'         => array_shift( $image_path_array ),
                 'time'              => wp_date( 'g:ia', $class['StartDateTime'] ),
                 'location'          => $class['Location']['Id'],
                 'day'               => $day_of_class,
-                'class_owner'       => strip_tags( $staff_name ),
-                'class_owner_id'    => strip_tags( $class['Staff']['Id'] ),
+                'class_owner'       => wp_strip_all_tags( $staff_name ),
+                'class_owner_id'    => wp_strip_all_tags( $class['Staff']['Id'] ),
             );
 
             // Loop through the entire array, and sub-array and if there's already a match, do nothing.
@@ -198,17 +198,17 @@ class RetrieveClassOwners extends Interfaces\RetrieveClasses {
 
         $image_path_array = explode( '?imageversion=', $class_image );
 
-        $class_description_substring = substr( strip_tags( $class['ClassDescription']['Description'] ), 0, 55 );
+        $class_description_substring = substr( wp_strip_all_tags( $class['ClassDescription']['Description'] ), 0, 55 );
 
         $temp = array(
-            'class_name'        => strip_tags( $class['ClassDescription']['Name'] ),
+            'class_name'        => wp_strip_all_tags( $class['ClassDescription']['Name'] ),
             'class_description' => $class_description_substring,
             'image_url'         => array_shift( $image_path_array ),
             'time'              => wp_date( 'g:ia', $class['StartDateTime'] ),
             'location'          => $class['Location']['Id'],
             'day'               => $day_of_class,
-            'class_owner'       => strip_tags( $class['Staff']['Name'] ),
-            'class_owner_id'    => strip_tags( $class['Staff']['Id'] ),
+            'class_owner'       => wp_strip_all_tags( $class['Staff']['Name'] ),
+            'class_owner_id'    => wp_strip_all_tags( $class['Staff']['Id'] ),
         );
 
         // Fetch the Class_Owners transient and loop through it 'till we find a match.
