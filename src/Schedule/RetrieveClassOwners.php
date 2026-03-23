@@ -64,7 +64,7 @@ class RetrieveClassOwners extends Interfaces\RetrieveClasses {
         check_admin_referer( 'mz_deduce_class_owners', 'nonce' );
 
         if ( false === $this->get_mbo_results() ) {
-            echo '<div>' . __( 'Error deducing MBO class owners.', 'mz-mindbody-api' ) . '</div>';
+            echo '<div>' . esc_html__( 'Error deducing MBO class owners.', 'mz-mindbody-api' ) . '</div>';
         }
 
         ob_start();
@@ -79,7 +79,7 @@ class RetrieveClassOwners extends Interfaces\RetrieveClasses {
         if ( ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) &&
             'xmlhttprequest' === strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ) {
             $result = wp_json_encode( $result );
-            echo $result;
+            echo esc_html($result);
         } else {
             header( 'Location: ' . $_SERVER['HTTP_REFERER'] );
         }

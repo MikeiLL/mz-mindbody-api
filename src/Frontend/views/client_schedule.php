@@ -16,13 +16,13 @@ use MZoo\MzMindbody as NS;
             <?php foreach ( $classes as $class ) : ?>
                 <tr>
                     <td>
-                <?php echo wp_date( $data->date_format, strtotime( $date ) ); ?>
+                <?php echo esc_html(wp_date( $data->date_format, strtotime( $date ) ), 'mz-mindbody-api'); ?>
                     </td>
                     <td>
-                <?php echo wp_date( $data->time_format, strtotime( $class->start_datetime ) ) . ' - ' . wp_date( $data->time_format, strtotime( $class->end_datetime ) ); ?>
+                <?php echo esc_html(wp_date( $data->time_format, strtotime( $class->start_datetime ) ), 'mz-mindbody-api') . ' - ' . esc_html(wp_date( $data->time_format, strtotime( $class->end_datetime ) ), 'mz-mindbody-api'); ?>
                     </td>
                     <td>
-                <?php echo $class->class_name . ' with ' . $class->staff_name; ?>
+                <?php echo esc_html($class->class_name, 'mz-mindbody-api') . ' with ' . esc_html($class->staff_name, 'mz-mindbody-api'); ?>
                     </td>
                 </tr>
             <?php endforeach; ?>

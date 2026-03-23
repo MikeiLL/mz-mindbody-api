@@ -2,9 +2,9 @@
 Contributors: mikeill, rtzee, sunspotswifi
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A95ZEELLHGECE
 Tags: mindbody, schedule, MBO, mindbodyonline, gym.
-Requires at least: 5.3
-Tested up to: 6.5.2
-Stable tag: 2.10.6
+Requires at least: 7
+Tested up to: 6.9
+Stable tag: 2.10.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -61,8 +61,21 @@ You need to register a developer account with MindBody, which costs $11+ per web
 
 == Changelog ==
 
+<<<<<<< HEAD
 = v2.10.6 =
 Support specified schedule length in instance of RetrieveClasses.
+=======
+= v2.10.9 =
+Correct a few i18l domain misspellings.
+Exclude some more hidden and unnecessary files
+
+= v2.10.8 =
+Include composer.json file.
+Exclude some unnecessary files
+
+= v2.10.7 =
+Just confirm still working in current WP.
+>>>>>>> master
 
 = v2.10.5 =
 Abreviate short description and limit to five tags.
