@@ -338,7 +338,7 @@ class Admin {
             && 'xmlhttprequest' === strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] )
         ) {
             $result = wp_json_encode( $result );
-            echo $result;
+            echo esc_html($result, 'mz-mindbody-api');
         } else {
             header( 'Location: ' . $_SERVER['HTTP_REFERER'] );
         }
@@ -366,7 +366,7 @@ class Admin {
             && 'xmlhttprequest' === strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] )
         ) {
             $result = wp_json_encode( $result );
-            echo $result;
+            echo esc_html($result, 'mz-mindbody-api');
         } else {
             header( 'Location: ' . $_SERVER['HTTP_REFERER'] );
         }
@@ -383,7 +383,6 @@ class Admin {
      */
     public function ajax_get_and_save_staff_token() {
         // Generated in localize_script() above.
-        NS\MZMBO()->helpers->log( 'ajax_get_and_save_staff_token');
         check_admin_referer( 'mz_mbo_get_and_save_staff_token', 'nonce' );
 
         $result['type'] = 'success';
@@ -393,7 +392,7 @@ class Admin {
         if ( ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) &&
             'xmlhttprequest' === strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ) {
             $result = wp_json_encode( $result );
-            echo $result;
+            echo esc_html($result, 'mz-mindbody-api');
         } else {
             header( 'Location: ' . $_SERVER['HTTP_REFERER'] );
         }
@@ -512,7 +511,14 @@ class Admin {
         if ( ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) &&
             'xmlhttprequest' === strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ) {
             $result = wp_json_encode( $result );
-            echo $result;
+            echo wp_kses($result, [
+              "div" => ["id" => []],
+              "p" => [],
+              "textarea" => [
+                "rows" => [],
+                "cols" => [],
+              ]
+            ]);
         } else {
             header( 'Location: ' . $_SERVER['HTTP_REFERER'] );
         }
@@ -551,7 +557,7 @@ class Admin {
         if ( ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) &&
             'xmlhttprequest' === strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ) {
             $result = wp_json_encode( $result );
-            echo $result;
+            echo esc_html($result, 'mz-mindbody-api');
         } else {
             header( 'Location: ' . $_SERVER['HTTP_REFERER'] );
         }
