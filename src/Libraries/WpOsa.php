@@ -419,7 +419,7 @@ class WpOsa {
         $type = isset( $args['type'] ) ? $args['type'] : 'title';
 
         $html = '';
-        echo $html;
+        echo esc_html($html, "mz-mindbody-api");
     }
 
 
@@ -434,10 +434,17 @@ class WpOsa {
         $size  = isset( $args['size'] ) && ! is_null( $args['size'] ) ? $args['size'] : 'regular';
         $type  = isset( $args['type'] ) ? $args['type'] : 'text';
 
-        $html  = sprintf( '<input type="%1$s" class="%2$s-text" id="%3$s[%4$s]" name="%3$s[%4$s]" value="%5$s"placeholder="%6$s"/>', $type, $size, $args['section'], $args['id'], $value, $args['placeholder'] );
+        $html  = sprintf( '<input type="%1$s" class="%2$s-text" id="%3$s[%4$s]" name="%3$s[%4$s]" value="%5$s" placeholder="%6$s"/>', $type, $size, $args['section'], $args['id'], $value, $args['placeholder'] );
         $html .= $this->get_field_description( $args );
 
-        echo $html;
+        echo wp_kses($html, ["input" => [
+          "type" => [],
+          "class" => [],
+          "name" => [],
+          "id" => [],
+          "value" => [],
+          "placeholder" => [],
+        ]]);
     }
 
 
@@ -475,7 +482,14 @@ class WpOsa {
         $html .= sprintf( '%1$s</label>', $args['desc'] );
         $html .= '</fieldset>';
 
-        echo $html;
+        echo wp_kses($html, ["fieldset" => [],"label" => [],"input" => [
+          "type" => [],
+          "class" => [],
+          "name" => [],
+          "id" => [],
+          "value" => [],
+          "checked" => [],
+        ]]);
     }
 
     /**
@@ -496,7 +510,15 @@ class WpOsa {
         $html .= $this->get_field_description( $args );
         $html .= '</fieldset>';
 
-        echo $html;
+        echo wp_kses($html, ["fieldset" => [],"label" => [
+          "for" => [],
+        ],"input" => [
+            "type" => [],
+            "class" => [],
+            "name" => [],
+            "id" => [],
+            "value" => [],
+        ]]);
     }
 
     /**
@@ -517,7 +539,15 @@ class WpOsa {
         $html .= $this->get_field_description( $args );
         $html .= '</fieldset>';
 
-        echo $html;
+        echo wp_kses($html, ["fieldset" => [],"label" => [
+          "for" => [],
+        ],"input" => [
+            "type" => [],
+            "class" => [],
+            "name" => [],
+            "id" => [],
+            "value" => [],
+          ]]);
     }
 
     /**
@@ -537,7 +567,13 @@ class WpOsa {
         $html .= sprintf( '</select>' );
         $html .= $this->get_field_description( $args );
 
-        echo $html;
+        echo wp_kses($html, ["select" => [
+          "class" => [],
+          "name" => [],
+          "id" => [],
+        ], "option" => [
+          "value" => [],
+          ]]);
     }
 
     /**
@@ -553,7 +589,13 @@ class WpOsa {
         $html  = sprintf( '<textarea rows="5" cols="55" class="%1$s-text" id="%2$s[%3$s]" name="%2$s[%3$s]">%4$s</textarea>', $size, $args['section'], $args['id'], $value );
         $html .= $this->get_field_description( $args );
 
-        echo $html;
+        echo wp_kses($html, ["textarea" => [
+          "rows" => [],
+          "cols" => [],
+          "class" => [],
+          "id" => [],
+          "name" => [],
+        ]]);
     }
 
     /**
@@ -612,7 +654,13 @@ class WpOsa {
         $html .= '<input type="button" class="button wpsa-browse" value="' . $label . '" />';
         $html .= $this->get_field_description( $args );
 
-        echo $html;
+        echo wp_kses($html, ["input" => [
+          "type" => [],
+          "class" => [],
+          "name" => [],
+          "id" => [],
+          "value" => [],
+        ]]);
     }
 
     /**
@@ -634,7 +682,14 @@ class WpOsa {
         $html .= $this->get_field_description( $args );
         $html .= '<p class="wpsa-image-preview"><img src=""/></p>';
 
-        echo $html;
+        echo wp_kses($html, ["input" => [
+          "type" => [],
+          "class" => [],
+          "name" => [],
+          "id" => [],
+          "value" => [],
+        ],
+      "p" => ["class" => []]]);
     }
 
     /**
@@ -650,7 +705,13 @@ class WpOsa {
         $html  = sprintf( '<input type="password" class="%1$s-text" id="%2$s[%3$s]" name="%2$s[%3$s]" value="%4$s"/>', $size, $args['section'], $args['id'], $value );
         $html .= $this->get_field_description( $args );
 
-        echo $html;
+        echo wp_kses($html, ["input" => [
+          "type" => [],
+          "class" => [],
+          "name" => [],
+          "id" => [],
+          "value" => [],
+        ]]);
     }
 
     /**
@@ -666,7 +727,13 @@ class WpOsa {
         $html  = sprintf( '<input type="text" class="%1$s-text color-picker" id="%2$s[%3$s]" name="%2$s[%3$s]" value="%4$s" data-default-color="%5$s" placeholder="%6$s" />', $size, $args['section'], $args['id'], $value, $args['std'], $args['placeholder'] );
         $html .= $this->get_field_description( $args );
 
-        echo $html;
+        echo wp_kses($html, ["input" => [
+          "type" => [],
+          "class" => [],
+          "name" => [],
+          "id" => [],
+          "value" => [],
+        ]]);
     }
 
 
@@ -680,7 +747,7 @@ class WpOsa {
 
         $html  = '';
         $html .= '<div class="wpsa-settings-separator"></div>';
-        echo $html;
+        echo wp_kses($html, ["div" => ["class" => []]]);
     }
 
 
@@ -759,12 +826,17 @@ class WpOsa {
         $html = '<h2 class="nav-tab-wrapper">';
 
         foreach ( $this->sections_array as $tab ) {
-            $html .= sprintf( '<a href="#%1$s" class="nav-tab" id="%1$s-tab">%2$s</a>', $tab['id'], $tab['title'] );
+            $html .= sprintf( '<a href="#%1$s" class="nav-tab" id="%1$s-tab" title="%2$s">%2$s</a>', $tab['id'], $tab['title'] );
         }
 
         $html .= '</h2>';
 
-        echo $html;
+        echo wp_kses($html, ["h2" => ["class " => []], "a" => [
+          "href" => [],
+          "class" => [],
+          "id" => [],
+          "title" => [],
+        ]]);
     }
 
     /**
