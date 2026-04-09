@@ -58,7 +58,7 @@ class MzPhpSession {
      */
     public function __construct() {
             // Use PHP SESSION (must be enabled via the MZMBO_USE_PHP_SESSIONS constant)
-            add_action( 'init', array( $this, 'start_session' ), -2 );
+            add_action( 'plugins_loaded', array( $this, 'start_session' ), -2 );
             if (session_status() !== PHP_SESSION_ACTIVE ) {
                 var_dump("session start");
                 session_start();
