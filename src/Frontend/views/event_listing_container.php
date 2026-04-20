@@ -12,9 +12,9 @@
 <?php
 echo sprintf(
     // translators: start and end dates with "to" or "-" between them.
-    __( 'Displaying events from %1$s to %2$s.', 'mz-mindbody-api' ),
-    $data->display_time_frame['start']->format( 'F j' ),
-    $data->display_time_frame['end']->format( 'F j' )
+    esc_html( 'Displaying events from %1$s to %2$s.', 'mz-mindbody-api' ),
+    esc_html( $data->display_time_frame['start']->format( 'F j' ), 'mz-mindbody-api' ),
+    esc_html( $data->display_time_frame['end']->format( 'F j' ), 'mz-mindbody-api' ),
 );
 ?>
 </h3>
