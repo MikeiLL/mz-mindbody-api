@@ -9,6 +9,8 @@
 
 namespace MZoo\MzMindbody\Libraries;
 
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /**
  * HTML Element
  *
@@ -152,6 +154,55 @@ class HtmlElement {
      * @return void.
      */
     function output() {
-        echo $this->build();
+        echo wp_kses($this->build(), [
+          "div" => [
+            "div" => [
+                "class" => [],
+                "id" => [],
+                "title" => [],
+              ],
+              "a" => [
+                "class" => [],
+                "id" => [],
+                "title" => [],
+                "href" => [],
+                "target" => [],
+                "data-classid" => [],
+                "data-classname" => [],
+                "data-staffname" => [],
+                "data-time" => [],
+              ],
+              "span" => [
+                "class" => [],
+                "id" => [],
+                "title" => [],
+              ],
+              "p" => [
+                "class" => [],
+                "id" => [],
+                "title" => [],
+              ],
+              "h1" => [
+                "class" => [],
+                "id" => [],
+                "title" => [],
+              ],
+              "h2" => [
+                "class" => [],
+                "id" => [],
+                "title" => [],
+              ],
+              "h3" => [
+                "class" => [],
+                "id" => [],
+                "title" => [],
+              ],
+              "h4" => [
+                "class" => [],
+                "id" => [],
+                "title" => [],
+              ]
+          ]
+        ]);
     }
 }

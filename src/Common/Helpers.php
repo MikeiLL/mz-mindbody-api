@@ -10,6 +10,7 @@
 namespace MZoo\MzMindbody\Common;
 
 use MZoo\MzMindbody as NS;
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
  * Class Helpers
@@ -62,7 +63,7 @@ class Helpers {
         // Just keep up to seven days worth of data.
         if ( file_exists( $file_path ) ) {
             if ( time() - filemtime( $file_path ) >= 60 * 60 * 24 * 7 ) { // 7 days.
-                unlink( $file_path );
+              wp_delete_file( $file_path );
             }
         }
 
@@ -114,7 +115,7 @@ class Helpers {
         );
         foreach ( $files as $file ) {
             if ( file_exists( $file ) ) {
-                unlink( $file );
+              wp_delete_file( $file );
             }
         }
     }

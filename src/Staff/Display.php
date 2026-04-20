@@ -14,6 +14,8 @@ use MZoo\MzMindbody\Core as Core;
 use MZoo\MzMindbody\Common as Common;
 use MZoo\MzMindbody\Common\Interfaces as Interfaces;
 
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /**
  * Staff Display Shortcode class
  *

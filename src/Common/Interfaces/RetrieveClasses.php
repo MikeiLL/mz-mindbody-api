@@ -96,15 +96,6 @@ abstract class RetrieveClasses extends Retrieve {
     public $classes;
 
     /**
-     * Source Credentials
-     *
-     * @since  2.10.6
-     * @access public
-     * @var array $source_credentials as set in database.
-     */
-    public $source_credentials;
-
-    /**
      * All locations included in current schedule
      *
      * Used to filter by location via jQuery in display, also to
@@ -212,7 +203,7 @@ abstract class RetrieveClasses extends Retrieve {
         else :
             $this->mbo_account = '-99';
         endif;
-        $this->time_frame           = $this->time_frame(null, isset($atts['duration']) ? $atts['duration'] : '+6 day' );
+        $this->time_frame           = $this->time_frame();
         $this->locations_dictionary = array();
 
         // Schedule types default to 'Class' (vs Enrollment).
@@ -272,7 +263,6 @@ abstract class RetrieveClasses extends Retrieve {
             }
 
             if ( empty( $schedule_data ) || empty( $schedule_data['Classes'][0]['Id'] ) ) :
-                echo '<!-- ' . print_r( $schedule_data, true ) . ' --> ';
                 return false;
             endif;
             if ( 0 === (int) $schedule_data['PaginationResponse']['TotalResults'] ) {
@@ -319,7 +309,6 @@ abstract class RetrieveClasses extends Retrieve {
      * Return timestamp of seven days from now.
      *
      * @since 2.4.7
-     * @deprecated 2.6.4
      *
      * @param timestamp $timestamp of some "now".
      * @return timestamp $timestamp of seven days from param.

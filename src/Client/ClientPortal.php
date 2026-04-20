@@ -113,7 +113,7 @@ class ClientPortal extends RetrieveClient {
 
         if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
             $result = json_encode($result);
-            echo $result;
+            echo esc_html($result, 'mz-mindbody-api');
         } else {
             header("Location: " . $_SERVER["HTTP_REFERER"]);
         }
@@ -138,7 +138,7 @@ class ClientPortal extends RetrieveClient {
         // update class attribute to hold logged out status
         $this->client_logged_in = false;
 
-        _e('Logged Out', 'mz-mindbody-api');
+        esc_html_e('Logged Out', 'mz-mindbody-api');
 
         echo '<br/>';
 
@@ -146,7 +146,7 @@ class ClientPortal extends RetrieveClient {
 
         if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
             $result = json_encode($result);
-            echo $result;
+            echo esc_html($result, 'mz-mindbody-api');
         } else {
             header("Location: " . $_SERVER["HTTP_REFERER"]);
         }
@@ -278,7 +278,7 @@ class ClientPortal extends RetrieveClient {
 
         if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
             $result = json_encode($result);
-            echo $result;
+            echo esc_html($result, 'mz-mindbody-api');
         } else {
             header("Location: " . $_SERVER["HTTP_REFERER"]);
         }
@@ -312,7 +312,7 @@ class ClientPortal extends RetrieveClient {
         if(!empty($params['data']['Client'])) {
 
             if (isset($params['data']['Client']['BirthDate'])) {
-                $params['data']['Client']['BirthDate'] = date('c', strtotime($params['data']['Client']['BirthDate']));
+                $params['data']['Client']['BirthDate'] = gmdate('c', strtotime($params['data']['Client']['BirthDate']));
             }
 
             $signupData = $this->mb->AddClient($params['data']['Client']);
@@ -322,7 +322,9 @@ class ClientPortal extends RetrieveClient {
 
             if(array_key_exists('Client', $signupData)) {
 
-                echo '<h3>' . __('Congratulations. You are now logged in with your new Mindbody account.', 'mz-mindbody-api') . '</h3>';
+                echo wp_kses('<h3>' . __('Congratulations. You are now logged in with your new Mindbody account.', 'mz-mindbody-api') . '</h3>', [
+                  "h3" => []
+                ]);
 
                 /* $validateLogin = $this->mb->ValidateLogin(array(
                     'Username' => $params['data']['Client']['Username'],
@@ -343,12 +345,21 @@ class ClientPortal extends RetrieveClient {
 
             } else { /* if ($signupData['AddOrUpdateClientsResult']['Clients']['Client']['Action'] == 'Failed'){ */
 
-                echo '<h3>' . __('There was an error creating your account.', 'mz-mindbody-api') . '</h3>';
+                echo wp_kses('<h3>' . __('There was an error creating your account.', 'mz-mindbody-api') . '</h3>', [
+                  "h3" => []
+                ]);
                 echo "<pre>";
                 print_r($signupData);
                 echo "</pre>";
 
-                echo '<a id="createMBOAccount" href="#" data-nonce="' . $_REQUEST['nonce'] . '" class="btn btn-primary mz_add_to_class">' . __("Try Again", "mz-mindbody-api") . '</a>';
+                echo wp_kses('<a id="createMBOAccount" href="#" data-nonce="' . $_REQUEST['nonce'] . '" class="btn btn-primary mz_add_to_class">' . __("Try Again", "mz-mindbody-api") . '</a>',[
+                  'a' => [
+                    "class" => [],
+                    "href" => [],
+                    "id" => [],
+                    "data-nonce" => [],
+                  ]
+                ]);
             }
 
         }
@@ -357,7 +368,7 @@ class ClientPortal extends RetrieveClient {
 
         if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
             $result = json_encode($result);
-            echo $result;
+            echo esc_html($result, 'mz-mindbody-api');
         } else {
             header("Location: " . $_SERVER["HTTP_REFERER"]);
         }
@@ -423,7 +434,7 @@ class ClientPortal extends RetrieveClient {
 
         if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
             $result = json_encode($result);
-            echo $result;
+            echo esc_html($result, 'mz-mindbody-api');
         } else {
             header("Location: " . $_SERVER["HTTP_REFERER"]);
         }
@@ -507,7 +518,7 @@ class ClientPortal extends RetrieveClient {
 
         if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
             $result = json_encode($result);
-            echo $result;
+            echo esc_html($result, 'mz-mindbody-api');
         } else {
             header("Location: " . $_SERVER["HTTP_REFERER"]);
         }

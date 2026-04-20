@@ -11,7 +11,9 @@ namespace MZoo\MzMindbody\Cli;
 
 use MZoo\MzMindbody as NS;
 use MZoo\MzMindbody\Common\Interfaces as Interfaces;
-use \WP_CLI_Command;;
+use \WP_CLI_Command;
+
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
  * Interface with Mindbody plugin data.

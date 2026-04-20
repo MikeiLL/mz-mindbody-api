@@ -6,7 +6,7 @@
  *
  * @package MzMindbody
  */
-
+ if ( ! defined( 'ABSPATH' ) ) exit;
 ?>
 <h3 id="eventsDateRangeDisplay" >
 <?php

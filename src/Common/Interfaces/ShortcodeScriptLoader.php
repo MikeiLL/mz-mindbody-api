@@ -11,6 +11,8 @@
 namespace MZoo\MzMindbody\Common\Interfaces;
 use MZoo\MzMindbody\Core;
 
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /**
  * "WordPress Plugin Template" Copyright (C) 2018 Michael Simpson  (email : michael.d.simpson@gmail.com)
  * Adapted from this excellent article:

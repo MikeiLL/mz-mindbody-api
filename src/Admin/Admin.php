@@ -14,6 +14,8 @@ use MZoo\MzMindbody as NS;
 use MZoo\MzMindbody\Backend as Backend;
 use MZoo\MzMindbody\Common as Common;
 
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /**
  * The admin-specific functionality of the plugin.
  *
