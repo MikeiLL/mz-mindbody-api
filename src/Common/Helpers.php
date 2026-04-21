@@ -43,7 +43,7 @@ class Helpers {
         if ( ! empty( NS\Core\MzMindbodyApi::$advanced_options['log_api_calls_path'] ) ) {
             $path = NS\Core\MzMindbodyApi::$advanced_options['log_api_calls_path'];
         }
-        return is_dir( $path ) && is_writable( $path ) ? $path : WP_CONTENT_DIR;
+        return WP_Filesystem_Base::is_dir( $path ) && WP_Filesystem_Base::is_writable( $path ) ? $path : WP_CONTENT_DIR;
     }
 
     /**
