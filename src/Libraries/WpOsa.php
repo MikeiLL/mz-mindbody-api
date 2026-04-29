@@ -831,7 +831,7 @@ class WpOsa {
 
         $html .= '</h2>';
 
-        echo wp_kses($html, ["h2" => ["class " => []], "a" => [
+        echo wp_kses($html, ["h2" => ["class" => []], "a" => [
           "href" => [],
           "class" => [],
           "id" => [],
