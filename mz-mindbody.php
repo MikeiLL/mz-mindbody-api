@@ -12,10 +12,10 @@
  * @wordpress-plugin
  * Plugin Name:     mZoo Mindbody Interface - Schedule, Events, Staff Display
  * Description:     Display staff, events and class schedules from Mindbody Online. Customizable.
- * Version:         2.10.9
- * Stable tag:      2.10.9
- * Tested up to:    6.9
- * Requires PHP:    7.1
+ * Version:         2.10.10
+ * Stable tag:      2.10.10
+ * Tested up to:    6.9.4
+ * Requires PHP:    8
  * Author:          mZoo.org
  * Author URI:      http://www.mZoo.org/
  * Plugin URI:      http://www.mzoo.org/mz-mindbody-wp
@@ -42,11 +42,7 @@ define( __NAMESPACE__ . '\NS', __NAMESPACE__ . '\\' );
 
 define( NS . 'PLUGIN_NAME', 'mz-mindbody-api' );
 
-<<<<<<< HEAD
-define( NS . 'PLUGIN_VERSION', '2.10.6' );
-=======
-define( NS . 'PLUGIN_VERSION', '2.10.9' );
->>>>>>> master
+define( NS . 'PLUGIN_VERSION', '2.10.10' );
 
 define( NS . 'PLUGIN_NAME_DIR', plugin_dir_path( __FILE__ ) );
 
@@ -54,7 +50,7 @@ define( NS . 'PLUGIN_NAME_URL', plugin_dir_url( __FILE__ ) );
 
 define( NS . 'PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 
-define( NS . 'MINIMUM_PHP_VERSION', 7.1 );
+define( NS . 'MINIMUM_PHP_VERSION', 8 );
 
 define( NS . 'INIT_LEVEL', 10 );
 
@@ -159,7 +155,6 @@ class MzMindbody {
 
         self::$instance->i18n    = new Common\GlobalStrings();
         self::$instance->helpers = new Common\Helpers();
-        self::$instance->session = new Session\MzPhpSession();
 
         return self::$instance;
     }
