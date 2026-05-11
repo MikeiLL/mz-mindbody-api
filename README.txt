@@ -61,6 +61,9 @@ You need to register a developer account with MindBody, which costs $11+ per web
 
 == Changelog ==
 
+= v2.10.11 =
+Again, for now, remove more Session remnants.
+
 = v2.10.10 =
 Fix: handling of wp plugin repository errors.
 Remove at least for now support for Sessions.

@@ -22,7 +22,6 @@ use MZoo\MzMindbody\Staff;
 use MZoo\MzMindbody\Events;
 use MZoo\MzMindbody\Libraries;
 use MZoo\MzMindbody\Cli;
-use MZoo\MzMindbody\Session;
 
 
 /**
@@ -204,24 +203,6 @@ class MzMindbodyApi {
 
 
     /**
-     * Session object
-     *
-     * @since 2.9.9
-     * @var    $session MzPhpSession
-     * @access public
-     */
-    public $session;
-
-    /**
-     * Use Oauth
-     *
-     * @since 2.9.9
-     * @var    $client_portal ClientPortal
-     * @access public
-     */
-    public static $client_portal;
-
-    /**
      * Initialize and define the core functionality of the plugin.
      */
     public function __construct() {
@@ -243,7 +224,6 @@ class MzMindbodyApi {
         self::$date_format             = empty( self::$advanced_options['date_format'] ) ? get_option( 'date_format' ) : self::$advanced_options['date_format'];
         self::$time_format             = empty( self::$advanced_options['time_format'] ) ? get_option( 'time_format' ) : self::$advanced_options['time_format'];
         self::$start_of_week           = get_option( 'start_of_week' );
-        $this->session                 = $this->session_if_required();
 
         $this->load_dependencies();
         $this->set_locale();
@@ -252,28 +232,6 @@ class MzMindbodyApi {
         $this->register_shortcodes();
         $this->add_settings_page();
         $this->instantiate_wpcli();
-    }
-
-    /**
-     * Loads the following required dependencies for this plugin.
-     *
-     * @since 2.10.6
-     *
-     * At the moment only one dependency plugin requires this so
-     * check if it's option is set. Perhaps eventually require
-     * extension plugins which require this functionality
-     * to add an attribute to the wordpress config file. Perhaps
-     * move this functionality outside of this core altogether.
-     *
-     * - Session\MzPhpSession as "borrowed" from EDD
-     *
-     * @access private
-     */
-    private function session_if_required() {
-        $mzmbo_oauth_options = get_option('mzmbo_oauth_options');
-        if (isset($mzmbo_oauth_options)) {
-            (new Session\MzPhpSession)->init();
-        }
     }
 
     /**
@@ -345,7 +303,6 @@ class MzMindbodyApi {
         $schedule_object     = new Schedule\Display();
         $events_object       = new Events\Display();
         $registrant_object   = new Schedule\RetrieveRegistrants();
-        $client_portal         = new Client\ClientPortal();
         $class_owners_object = new Schedule\RetrieveClassOwners();
         $staff_object        = new Staff\Display();
         $token_object        = new Common\TokenManagement();
@@ -390,34 +347,6 @@ class MzMindbodyApi {
         $this->loader->add_action( 'wp_ajax_nopriv_mz_mbo_get_staff', $staff_object, 'get_staff_modal' );
         $this->loader->add_action( 'wp_ajax_mz_mbo_get_staff', $staff_object, 'get_staff_modal' );
 
-        // Start Ajax Client Check Logged
-        $this->loader->add_action('wp_ajax_nopriv_mz_add_client_to_class', $client_portal, 'ajax_add_client_to_class');
-        $this->loader->add_action('wp_ajax_mz_add_client_to_class', $client_portal, 'ajax_add_client_to_class');
-
-        // Start Ajax Client Create Account
-        $this->loader->add_action('wp_ajax_nopriv_mz_create_mbo_account', $client_portal, 'ajax_create_mbo_account');
-        $this->loader->add_action('wp_ajax_mz_create_mbo_account', $client_portal, 'ajax_create_mbo_account');
-
-        // Start Ajax Client Create Account
-        $this->loader->add_action('wp_ajax_nopriv_mz_generate_signup_form', $client_portal, 'ajax_generate_mbo_signup_form');
-        $this->loader->add_action('wp_ajax_mz_generate_signup_form', $client_portal, 'ajax_generate_mbo_signup_form');
-
-        // Start Ajax Client Log In
-        $this->loader->add_action('wp_ajax_nopriv_mz_client_login', $client_portal, 'ajax_client_login');
-        $this->loader->add_action('wp_ajax_mz_client_login', $client_portal, 'ajax_client_login');
-
-        // Start Ajax Client Log Out
-        $this->loader->add_action('wp_ajax_nopriv_mz_client_logout', $client_portal, 'ajax_client_logout');
-        $this->loader->add_action('wp_ajax_mz_client_logout', $client_portal, 'ajax_client_logout');
-
-        // Start Ajax Display Client Schedule
-        $this->loader->add_action('wp_ajax_nopriv_mz_display_client_schedule', $client_portal, 'ajax_display_client_schedule');
-        $this->loader->add_action('wp_ajax_mz_display_client_schedule', $client_portal, 'ajax_display_client_schedule');
-
-        // Start Ajax Check Client Logged Status
-        $this->loader->add_action('wp_ajax_nopriv_mz_check_client_logged', $client_portal, 'ajax_check_client_logged');
-        $this->loader->add_action('wp_ajax_mz_check_client_logged', $client_portal, 'ajax_check_client_logged');
-
         // Call api hourly to retrieve AccessToken.
         $this->loader->add_action( 'fetch_mbo_access_token', $token_object, 'get_and_save_staff_token', 10, 2 );
     }
@@ -458,15 +387,6 @@ class MzMindbodyApi {
     }
 
     /**
-     * Return our session instance
-     * @since 2.9.9
-     * TODO Redundant as also in Session class
-     */
-    public function get_session() {
-        return $this->session;
-    }
-
-    /**
      * Retrieve the text domain of the plugin.
      *
      * @since  1.0.0
@@ -500,35 +420,6 @@ class MzMindbodyApi {
         $staff_display->register( 'mz-mindbody-staff-list' );
         $events_display = new Events\Display();
         $events_display->register( 'mz-mindbody-show-events' );
-
-/*         add_shortcode('authenticate', function() {
-
-
-
-
-            $body = [
-                'client_id' => 'f89a95cc-d6d5-470a-825b-93f707b88139',
-                'response_type' => 'code',
-                'scope' => 'email profile openid offline_access Mindbody.Api.Public.v6 PG.ConsumerActivity.Api.Read',
-                'redirect_uri' => home_url() . '/mzmbo/authenticate',
-                'nonce' => wp_create_nonce( 'mz_mbo_authenticate_with_api' )
-            ];
-
-            ?>
-    <a href="https://signin.mindbodyonline.com/connect/authorize?<?php echo http_build_query($body) ?>"?>Sign In</a>
-            <?php
-
-
-
-            Array
-            (
-                [code] => 4E3C7757C61596DE4E4C0CA4DCCBDB5800CEAC42C38A92C5EAEC6636EEC5001B-1
-                [id_token] => eyJhbGciOiJSUzI1NiIsImtpZCI6IjlERkRDNzQwMUU5NTk2RTAxNTQxRkMyQTM1QUIzRkQ4NjhGRUIwMDYiLCJ4NXQiOiJuZjNIUUI2Vmx1QVZRZndxTmFzXzJHai1zQVkiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NpZ25pbi5taW5kYm9keW9ubGluZS5jb20iLCJuYmYiOjE2NjU1OTY2NjEsImlhdCI6MTY2NTU5NjY2MSwiZXhwIjoxNjY1NTk2OTYxLCJhdWQiOiJmODlhOTVjYy1kNmQ1LTQ3MGEtODI1Yi05M2Y3MDdiODgxMzkiLCJhbXIiOlsiZXh0ZXJuYWwiXSwibm9uY2UiOiI1ZTI2ZmVmNjAzIiwiY19oYXNoIjoieERiOTF0bWxpaUVsZnJ2Qnd4aVdSZyIsInNpZCI6IkIzNjZEN0FGQTJCODgwODlDOTM3NjhFMEQ5QjQ5ODA2Iiwic3ViIjoiNWY3ZjJlYTE5YjVlMzU2YWU0MzBlM2Q4IiwiYXV0aF90aW1lIjoxNjY1NTk1OTIyLCJpZHAiOiJGYWNlYm9vayJ9.sON1eNNaYX3Pnc9oNMLSVQxX8crNPlvXEE4cwV3vv7PDYp3zzaxcc-RC01P8nv1YdysjfUuLOX_DSZ3MRE4mHtOLcQxRM8PjGhSV9qwrVmleLoKRYm4GGExw0odJzH4cEWSkT8fcKiR_bL2pFBn4aPX4EA9AibMUEwhA3nUSI_-4ddxMzVcMg0CD5aPX5eh3A8UEvBwX5tkdzLgRRSTFtXv2_Lzj20RJNLVbuDRHrxSTGn_WTl4L8eH-MAUvN54HKtFaGk1F2NqhqCXqAhgPHrqxn-5T1y9fdldKp7uuhy6zFYJhwvysNYiEan8i9LPXI05s5-NMCp2nSDPvT5JgdX7jHrArGnwJk44XalFqZIqIlSp7VDDIvxwMenhMjxWbQ8QBQ1KJgqphN_pAAwRgX8657WnpxOGvPICsCjCisVT1ARJxUzO0R-5bFl3bbbCp3MsulQpmd9Mx5vhVUxYy_-kewW5C3J5FZPpeRv6_CsSuLTGS6AhwfxoPAg57a6-Bq0kJtbwoY9BG7Svq7JDWV8SIO9tSXW5_CEtQT2f3TTDu2FJOzvqHD1m0Vh_Y05-S4ximHWK8JqjW_kc-YcAlkcjEQXpFNO99AfQRMMzB2ArvqbjGkC1bHofV3xnwLQ_YkEOkEeOPM0iF-PjmtfEW_qBLg0TLCsF_8GtJ36rRCKM
-                [scope] => offline_access PG.ConsumerActivity.Api.Read PG.ConsumerActivity.Api.Write email openid
-                [session_state] => h4OfU5Yx2dWNBBwM6SZKR05XpRUtQC6mE0Ow2c4fTNk.45FEE050899FC84ABF1223F7DB58D272
-            )
-
-        }); // End of shortcode authenticate*/
     }
 
     /**

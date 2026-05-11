@@ -120,24 +120,6 @@ class Helpers {
         }
     }
 
-
-    /**
-     * Delete Old Sessions
-     *
-     * @since 2.5.8
-     * Sometimes, particularly in development, when creating and clearing
-     * sessions over and over again, the session class seems to get bogged
-     * down.
-     */
-    public function delete_old_sessions() {
-
-        $session_utils = new NS\Libraries\WP_Session\WP_Session_Utils();
-        $count         = $session_utils->count_sessions();
-        $session_utils->delete_old_sessions();
-        return 'Cleared ' . $count . 'sessions.';
-    }
-
-
     /**
      * Clean up staff biography
      *
