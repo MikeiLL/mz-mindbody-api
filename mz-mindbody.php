@@ -155,6 +155,7 @@ class MzMindbody {
 
         self::$instance->i18n    = new Common\GlobalStrings();
         self::$instance->helpers = new Common\Helpers();
+        self::$instance->session = new Session\MzPhpSession();
 
         return self::$instance;
     }
