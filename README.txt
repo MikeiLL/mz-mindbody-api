@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: mindbody, schedule, MBO, mindbodyonline, gym.
 Requires at least: 8
 Tested up to: 6.9.4
-Stable tag: 2.10.10
+Stable tag: 2.10.11
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -20,7 +20,7 @@ Display special events, class schedules and instructors from Mindbody.
 
 Configurable with template over-rides in your theme.
 
-Easy to extend, includes feature for displaying registrants.
+Easy to extend, for example to add a feature for displaying registrants.
 
 Schedule display can be vertical or horizontal. User can switch between both.
 
@@ -62,7 +62,7 @@ You need to register a developer account with MindBody, which costs $11+ per web
 == Changelog ==
 
 = v2.10.11 =
-Again, for now, remove more Session remnants.
+Again, for now, remove more Session remnants. Keep the plugin simple.
 
 = v2.10.10 =
 Fix: handling of wp plugin repository errors.
